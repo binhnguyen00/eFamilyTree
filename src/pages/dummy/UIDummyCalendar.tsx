@@ -1,7 +1,12 @@
 import React from "react";
+import { Calendar } from "zmp-ui"; 
 
 export function UIDummyCalendar() {
   return (
-    <div>Calendar</div>
+    <div className="page">
+      <Calendar
+        fullscreen
+      />
+    </div>
   )
 }
