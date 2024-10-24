@@ -1,5 +1,6 @@
 import React from "react";
 import { Page, Text, Box, ImageViewer } from "zmp-ui";
+import { renderHeader } from "../../utils/common";
 
 export function UIDummyAlbum() {
   const [visible, setVisible] = React.useState(false);
@@ -7,6 +8,7 @@ export function UIDummyAlbum() {
   
   return (
     <Page className='section-container'>
+      {renderHeader("Family Tree")}
       <Box mt={6}>
         <Box mt={2}>
           <Text size='xSmall' className='input-desc'>
