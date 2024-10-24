@@ -5,17 +5,14 @@ import {
   Text,
   Box,
   Page,
-  Button,
-  Icon,
   useNavigate,
 } from "zmp-ui";
 import { useRecoilValue } from "recoil";
 import { displayNameState, userState } from "state";
 
-const UserPage = () => {
+export function UIDummyUserForm() {
   const { userInfo: user } = useRecoilValue(userState);
   const displayName = useRecoilValue(displayNameState);
-  const navigate = useNavigate();
   return (
     <Page className="page">
       <Box
@@ -39,13 +36,6 @@ const UserPage = () => {
             <Text.Title>{displayName || user.name}</Text.Title>
           </Box>
           <Box ml={4}>
-            <Button
-              onClick={() => {
-                navigate("/form");
-              }}
-              size="small"
-              icon={<Icon icon="zi-edit" />}
-            />
           </Box>
         </Box>
       </Box>
@@ -62,4 +52,18 @@ const UserPage = () => {
   );
 };
 
-export default UserPage;
+export function UIDummyUser() {
+  const navigate = useNavigate();
+  const { userInfo: user } = useRecoilValue(userState);
+
+  return (
+    <div className="section-container flex-h clickable" onClick={() => navigate("/user")}>
+      <Avatar src={user.avatar.startsWith("http") ? user.avatar : undefined}>
+        {user.avatar}
+      </Avatar>
+      <Text bold>
+        {"Trịnh Đức Trọng"}
+      </Text>
+    </div>
+  );
+}

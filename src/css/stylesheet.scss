@@ -22,7 +22,7 @@
 .flex-h {
   display: flex;
   flex-direction: row !important;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 0.5em;
 }
 
@@ -48,4 +48,8 @@
   &.danger {
     color: #dc3545;  // Red
   }
+}
+
+.clickable {
+  cursor: pointer;
 }

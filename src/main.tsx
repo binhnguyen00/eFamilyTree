@@ -5,6 +5,7 @@ import { RecoilRoot } from "recoil";
 import { UIHomePage } from "./pages/home/UIHome";
 import { UIFamilyTree } from "./pages/family-tree/UIFamilyTree";
 import { UIAbout } from "./pages/about/UIAbout";
+import { UIDummyUserForm } from "./pages/dummy/UIDummyUser";
 
 export function Application() {
   return (
@@ -17,6 +18,7 @@ export function Application() {
                 <Route path="/" element={<UIHomePage/>}/>
                 <Route path="/family-tree" element={<UIFamilyTree/>}/>
                 <Route path="/about" element={<UIAbout/>}/>
+                <Route path="/user" element={<UIDummyUserForm/>}/>
               </AnimationRoutes>
             </ZMPRouter>
           </SnackbarProvider>

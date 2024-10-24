@@ -5,7 +5,7 @@ export const userState = selector({
   key: "user",
   get: () =>
     getUserInfo({
-      avatarType: "normal",
+      avatarType: "small",
     }),
 });
 

@@ -1,6 +1,8 @@
 import React from "react";
 import { Page, useNavigate, Grid } from "zmp-ui";
 
+import { UIDummyUser, UIDummyUserForm } from "../dummy/UIDummyUser";
+
 export function UIHomePage() {
   const navigate = useNavigate();
 
@@ -27,6 +29,7 @@ export function UIHomePage() {
 
   return (
     <Page className="page">
+      <UIDummyUser/>
       <Grid columnSpace="1rem" rowSpace="1rem" columnCount={2}>
         {renderFunctions()}
       </Grid>
