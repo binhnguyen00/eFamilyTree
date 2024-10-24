@@ -16,10 +16,12 @@ function renderTree(ancestor: IFamilyMember) {
   // Need to find total number of rows
 
   const handleShowMemberDetail = (memId: number) => {
+    // Get detail member info by id from server
+    // Update data
     setModalVisible(true);
   }
 
-  const numberOfChild = 100;
+  const numberOfChild = 200;
   for (let idx = 1; idx <= numberOfChild; idx++) {
     grid.push(
       <div key={idx} 
@@ -37,23 +39,14 @@ function renderTree(ancestor: IFamilyMember) {
 
       <Modal
         visible={modalVisible}
-        title="ZaUI 2.0 Modal"
+        title="Member Summary"
         coverSrc={"https://images.unsplash.com/photo-1561336313-0bd5e0b27ec8"}
-        onClose={() => {
-          setModalVisible(false);
-        }}
-        zIndex={1200}
+        onClose={() => setModalVisible(false)}
+        zIndex={1001}
         actions={[
-          {
-            text: "Button",
-          },
-          {
-            text: "Cancel",
-            close: true,
-            highLight: true,
-          },
+          { text: "Close", close: true },
         ]}
-        description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+        description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
       />
     </Grid>
   )
