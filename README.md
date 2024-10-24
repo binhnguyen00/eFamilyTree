@@ -1,4 +1,4 @@
-# zmp-blank-templates
+# An Zalo Mini App
 
 ## ZMP CLI Options
 
