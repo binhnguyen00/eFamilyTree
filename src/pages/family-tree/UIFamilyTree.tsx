@@ -12,6 +12,7 @@ interface IFamilyMember {
 
 function renderTree(ancestor: IFamilyMember) {
   let grid = [] as React.ReactNode[];
+  // Need to find total number of rows
 
   const numberOfChild = 100;
   for (let i = 1; i <= numberOfChild; i++) {
