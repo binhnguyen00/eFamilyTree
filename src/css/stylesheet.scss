@@ -1,0 +1,51 @@
+.page {
+  padding: 16px 16px 96px 16px;
+}
+
+.section-container {
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.zaui-list-item {
+  cursor: pointer;
+}
+
+.flex-v {
+  display: flex;
+  flex-direction: column !important;
+  flex-grow: 1;
+}
+
+.flex-h {
+  display: flex;
+  flex-direction: row !important;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+.border {
+  border: black;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.text {
+  &.success {
+    color: #28a745;  // Green
+  }
+
+  &.pending {
+    color: #ffc107;  // Yellow
+  }
+
+  &.warning {
+    color: #fd7e14;  // Orange
+  }
+
+  &.danger {
+    color: #dc3545;  // Red
+  }
+}

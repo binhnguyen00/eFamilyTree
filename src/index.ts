@@ -3,13 +3,11 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 
 // Tailwind stylesheet
-import "css/tailwind.scss";
+import "./css/tailwind.scss";
+import "./css/stylesheet.scss";
 
 // ZaUI stylesheet
 import "zmp-ui/zaui.css";
-
-// Your stylesheet
-import "css/app.scss";
 
 // Expose app configuration
 import appConfig from "../app-config.json";
@@ -18,6 +16,6 @@ if (!window.APP_CONFIG) {
 }
 
 // Mount the app
-import { MyApp } from "./main";
+import { Application } from "./main";
 const root = createRoot(document.getElementById("root")!);
-root.render(React.createElement(MyApp));
+root.render(React.createElement(Application));

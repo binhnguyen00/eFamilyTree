@@ -4,8 +4,9 @@ import { App, ZMPRouter, AnimationRoutes, SnackbarProvider } from "zmp-ui";
 import { RecoilRoot } from "recoil";
 import { UIHomePage } from "./pages/home/UIHome";
 import { UIFamilyTree } from "./pages/family-tree/UIFamilyTree";
+import { UIAbout } from "./pages/about/UIAbout";
 
-export function MyApp() {
+export function Application() {
   return (
     <StrictMode>
       <RecoilRoot>
@@ -14,7 +15,8 @@ export function MyApp() {
             <ZMPRouter>
               <AnimationRoutes>
                 <Route path="/" element={<UIHomePage/>}/>
-                <Route path="/ftree" element={<UIFamilyTree/>}/>
+                <Route path="/family-tree" element={<UIFamilyTree/>}/>
+                <Route path="/about" element={<UIAbout/>}/>
               </AnimationRoutes>
             </ZMPRouter>
           </SnackbarProvider>

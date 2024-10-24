@@ -8,9 +8,28 @@ export function UIHomePage() {
     navigate("/" + key);
   };
 
+  const renderFunctions = () => {
+    const functions = ["about", "family-tree", "todo"];
+    let html = [] as React.ReactNode[];
+    functions.forEach((key) => {
+      const element = (
+        <button 
+          className="flex-h section-container" style={{ height: 100 }} 
+          onClick={() => handleTabChange(key)}
+        > 
+          {key} 
+        </button>
+      )
+      html.push(element);
+    })
+    return html;
+  }
+
   return (
     <Page className="page">
-      
+      <Grid columnSpace="1rem" rowSpace="1rem" columnCount={2}>
+        {renderFunctions()}
+      </Grid>
     </Page>
   );
 };
