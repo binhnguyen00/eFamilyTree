@@ -2,10 +2,10 @@ import React, { StrictMode } from "react";
 import { Route } from "react-router-dom";
 import { App, ZMPRouter, AnimationRoutes, SnackbarProvider } from "zmp-ui";
 import { RecoilRoot } from "recoil";
-import { UIHomePage } from "./pages/home/UIHome";
-import { UIFamilyTree } from "./pages/family-tree/UIFamilyTree";
-import { UIAbout } from "./pages/about/UIAbout";
-import { UIDummyUserForm } from "./pages/dummy/UIDummyUser";
+import { UIHomePage } from "./home/UIHome";
+import { UIFamilyTree } from "./family-tree/UIFamilyTree";
+import { UIAbout } from "./about/UIAbout";
+import { UIDummyUserForm } from "./dummy/UIDummyUser";
 
 export function Application() {
   return (

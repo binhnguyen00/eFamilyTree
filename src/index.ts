@@ -16,6 +16,6 @@ if (!window.APP_CONFIG) {
 }
 
 // Mount the app
-import { Application } from "./main";
+import { Application } from "./pages/main";
 const root = createRoot(document.getElementById("root")!);
 root.render(React.createElement(Application));
