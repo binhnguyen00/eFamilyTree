@@ -1,19 +1,14 @@
 {
   "app": {
     "title": "eFamilyTree",
-    "headerTitle": "zmp-blank-templates",
     "headerColor": "#1843EF",
     "textColor": "white",
-    "textAlign": "left",
-    "statusBarColor": "#1843EF",
     "leftButton": "back",
     "statusBar": "normal",
-    "actionBarHidden": false,
-    "hideAndroidBottomNavigationBar": false,
+    "actionBarHidden": true,
+    "hideAndroidBottomNavigationBar": true,
     "hideIOSSafeAreaBottom": false
   },
-  "debug": false,
-  "pages": [],
   "listCSS": [],
   "listSyncJS": [],
   "listAsyncJS": []

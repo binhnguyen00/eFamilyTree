@@ -14,7 +14,7 @@ export function Application() {
   return (
     <StrictMode>
       <RecoilRoot>
-        <App>
+        <App theme="light">
           <SnackbarProvider>
             <ZMPRouter>
               <AnimationRoutes>
