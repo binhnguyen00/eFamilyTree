@@ -1,7 +1,6 @@
 import React from "react";
 import { Page, useNavigate, Grid } from "zmp-ui";
-
-import { UIDummyUser, UIDummyUserForm } from "../dummy/UIDummyUser";
+import { UIDummyUser } from "../dummy/UIDummyUser";
 
 export function UIHomePage() {
   const navigate = useNavigate();
@@ -16,6 +15,7 @@ export function UIHomePage() {
     functions.forEach((key) => {
       const element = (
         <button 
+          key={key}
           className="flex-h section-container" style={{ height: 100 }} 
           onClick={() => handleTabChange(key)}
         > 

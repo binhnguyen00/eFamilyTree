@@ -53,3 +53,11 @@
 .clickable {
   cursor: pointer;
 }
+
+.scrollable {
+  display: flex;
+  overflow: auto; // Enable both horizontal and vertical scrolling
+  width: 100vw;   // Full viewport width for horizontal scrolling
+  height: 100vh;  // Full viewport height for vertical scrolling
+  scroll-behavior: smooth; // Smooth scrolling effect (optional)
+}

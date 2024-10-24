@@ -62,7 +62,7 @@ export function UIDummyUser() {
         {user.avatar}
       </Avatar>
       <Text bold>
-        {"Trịnh Đức Trọng"}
+        {"Trịnh Trọng Đức"}
       </Text>
     </div>
   );
