@@ -1,6 +1,6 @@
 import React from "react";
 import familyMembers from './members.json'; // Import JSON
-import { Grid } from "zmp-ui";
+import { Grid, Modal } from "zmp-ui";
 
 interface IFamilyMember {
   id: number
@@ -11,14 +11,22 @@ interface IFamilyMember {
 }
 
 function renderTree(ancestor: IFamilyMember) {
+  let [ modalVisible, setModalVisible ] = React.useState(false);
   let grid = [] as React.ReactNode[];
   // Need to find total number of rows
 
+  const handleShowMemberDetail = (memId: number) => {
+    setModalVisible(true);
+  }
+
   const numberOfChild = 100;
-  for (let i = 1; i <= numberOfChild; i++) {
+  for (let idx = 1; idx <= numberOfChild; idx++) {
     grid.push(
-      <div key={i} className="section-container" style={{ height: 50 }}>
-        Cell
+      <div key={idx} 
+        className="section-container" style={{ height: "5em", width: "10em" }}
+        onClick={() => handleShowMemberDetail(idx)}
+      >
+        {`Mem ${idx}`}
       </div>
     )
   }
@@ -26,6 +34,27 @@ function renderTree(ancestor: IFamilyMember) {
   return (
     <Grid columnSpace="1rem" rowSpace="1rem" columnCount={20}>
       {grid}
+
+      <Modal
+        visible={modalVisible}
+        title="ZaUI 2.0 Modal"
+        coverSrc={"https://images.unsplash.com/photo-1561336313-0bd5e0b27ec8"}
+        onClose={() => {
+          setModalVisible(false);
+        }}
+        zIndex={1200}
+        actions={[
+          {
+            text: "Button",
+          },
+          {
+            text: "Cancel",
+            close: true,
+            highLight: true,
+          },
+        ]}
+        description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+      />
     </Grid>
   )
 }
