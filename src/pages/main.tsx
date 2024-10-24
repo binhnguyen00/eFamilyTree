@@ -6,6 +6,9 @@ import { UIHomePage } from "./home/UIHome";
 import { UIFamilyTree } from "./family-tree/UIFamilyTree";
 import { UIAbout } from "./about/UIAbout";
 import { UIDummyUserForm } from "./dummy/UIDummyUser";
+import { UIDummyAlbum } from "./dummy/UIDummyAlbum";
+import { UIDummyCalendar } from "./dummy/UIDummyCalendar";
+import { UIDummyUpcoming } from "./dummy/UIDummyUpcoming";
 
 export function Application() {
   return (
@@ -19,6 +22,9 @@ export function Application() {
                 <Route path="/family-tree" element={<UIFamilyTree/>}/>
                 <Route path="/about" element={<UIAbout/>}/>
                 <Route path="/user" element={<UIDummyUserForm/>}/>
+                <Route path="/album" element={<UIDummyAlbum/>}/>
+                <Route path="/calendar" element={<UIDummyCalendar/>}/>
+                <Route path="/upcoming" element={<UIDummyUpcoming/>}/>
               </AnimationRoutes>
             </ZMPRouter>
           </SnackbarProvider>

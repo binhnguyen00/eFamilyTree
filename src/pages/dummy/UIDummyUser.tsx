@@ -57,7 +57,7 @@ export function UIDummyUser() {
   const { userInfo: user } = useRecoilValue(userState);
 
   return (
-    <div className="section-container flex-h clickable" onClick={() => navigate("/user")}>
+    <div className="section-container flex-h" onClick={() => navigate("/user")}>
       <Avatar src={user.avatar.startsWith("http") ? user.avatar : undefined}>
         {user.avatar}
       </Avatar>

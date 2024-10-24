@@ -12,13 +12,13 @@ export function UIAbout() {
       <div className="section-container">
         <Text>
           <Text bold className="text"> Capabilities </Text>
-          <p> - View family tree                          <span className="text success"> [On Going] </span> </p>
-          <p> - View information of family tree members   <span className="text success"> [On Going] </span> </p>
-          <p> - View media articles                       <span className="text pending"> [Pending] </span> </p>
-          <p> - View photo albums                         <span className="text pending"> [Pending] </span> </p>
-          <p> - View event calendar                       <span className="text pending"> [Pending] </span> </p>
-          <p> - View income and expense fund information  <span className="text pending"> [Pending] </span></p>
-          <p> - View honor board                          <span className="text pending"> [Pending] </span> </p>
+          <p> - View Family tree structure                <span className="text success"> [On Going] </span> </p>
+          <p> - View Information of family tree members   <span className="text success"> [On Going] </span> </p>
+          <p> - View Media articles                       <span className="text pending"> [Pending] </span> </p>
+          <p> - View Photo Albums                         <span className="text pending"> [Pending] </span> </p>
+          <p> - View Event Calendar                       <span className="text pending"> [Pending] </span> </p>
+          <p> - View Income and Expense fund information  <span className="text pending"> [Pending] </span></p>
+          <p> - View Hall of Fame                         <span className="text pending"> [Pending] </span> </p>
         </Text>
       </div>
       <div>

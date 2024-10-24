@@ -10,7 +10,7 @@ export function UIHomePage() {
   };
 
   const renderFunctions = () => {
-    const functions = ["about", "family-tree", "todo"];
+    const functions = ["about", "family-tree", "album", "calendar", "upcoming"];
     let html = [] as React.ReactNode[];
     functions.forEach((key) => {
       const element = (
