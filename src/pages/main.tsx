@@ -1,6 +1,6 @@
 import React, { StrictMode } from "react";
 import { Route } from "react-router-dom";
-import { App, Header, ZMPRouter, AnimationRoutes, SnackbarProvider } from "zmp-ui";
+import { App, ZMPRouter, AnimationRoutes, SnackbarProvider } from "zmp-ui";
 import { RecoilRoot } from "recoil";
 import { UIHomePage } from "./home/UIHome";
 import { UIFamilyTree } from "./family-tree/UIFamilyTree";

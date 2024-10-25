@@ -17,5 +17,5 @@ if (!window.APP_CONFIG) {
 
 // Mount the app
 import { Application } from "./pages/main";
-const root = createRoot(document.getElementById("root")!);
+const root = createRoot(document.getElementById("app")!);
 root.render(React.createElement(Application));

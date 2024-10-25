@@ -55,8 +55,6 @@ function renderTree(ancestor: IFamilyMember) {
 
 export function UIFamilyTree() {
   const members: IFamilyMember = familyMembers;
-  console.log(members);
-
   return (
     <div>
       {CommonUtils.renderHeader("Family Tree")}
