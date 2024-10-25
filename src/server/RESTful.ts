@@ -1,5 +1,5 @@
 import { Api } from "./Api";
-import { Callback, HttpMethod } from "../utils/interface";
+import { Callback, HttpMethod } from "../utils/Interface";
 
 export class RESTful extends Api {
 

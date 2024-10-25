@@ -1,11 +1,11 @@
 import React from "react";
 import { Calendar } from "zmp-ui"; 
-import { CommonUtils } from "../../utils/common";
+import { CommonComponentUtils } from "../../utils/CommonComponent";
 
 export function UIDummyCalendar() {
   return (
     <div className="page">
-      {CommonUtils.renderHeader("Calendar")}
+      {CommonComponentUtils.renderHeader("Calendar")}
       <Calendar
         fullscreen
       />

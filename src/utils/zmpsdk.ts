@@ -1,5 +1,5 @@
 import { getSetting, getPhoneNumber } from "zmp-sdk";
-import { Callback } from "./interface";
+import { Callback } from "./Interface";
 import { ExternalRESTful } from "../server/ExternalRESTful";
 
 export class ZmpSDK {

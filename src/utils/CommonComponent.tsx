@@ -1,7 +1,7 @@
 import React from "react";
 import { Header } from "zmp-ui";
 
-export class CommonUtils {
+export class CommonComponentUtils {
   
   public static renderHeader(title: string, showBackIcon: boolean = true) {
     return (

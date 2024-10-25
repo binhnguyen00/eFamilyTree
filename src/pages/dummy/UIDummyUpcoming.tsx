@@ -1,10 +1,10 @@
 import React from "react";
-import { CommonUtils } from "../../utils/common";
+import { CommonComponentUtils } from "../../utils/CommonComponent";
 
 export function UIDummyUpcoming() {
   return (
     <div>
-      {CommonUtils.renderHeader("Upcoming")}
+      {CommonComponentUtils.renderHeader("Upcoming")}
       <p> Upcoming </p>
       <p> - News </p>
       <p> - Income and Expense fund </p>

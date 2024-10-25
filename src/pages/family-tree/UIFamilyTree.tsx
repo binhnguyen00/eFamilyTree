@@ -1,7 +1,7 @@
 import React from "react";
 import familyMembers from './members.json'; // Import JSON
 import { Grid, Modal } from "zmp-ui";
-import { CommonUtils } from "../../utils/common";
+import { CommonComponentUtils } from "../../utils/CommonComponent";
 
 interface IFamilyMember {
   id: number
@@ -57,7 +57,7 @@ export function UIFamilyTree() {
   const members: IFamilyMember = familyMembers;
   return (
     <div>
-      {CommonUtils.renderHeader("Family Tree")}
+      {CommonComponentUtils.renderHeader("Family Tree")}
       <div className="page scrollable">
         {renderTree(members)}
       </div>
