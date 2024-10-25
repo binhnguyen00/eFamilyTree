@@ -1,7 +1,7 @@
 import React from "react";
 import { Page, useNavigate, Grid } from "zmp-ui";
 import { UIDummyUser } from "../dummy/UIDummyUser";
-import { renderHeader } from "../../utils/common";
+import { CommonUtils } from "../../utils/common";
 
 export function UIHomePage() {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ export function UIHomePage() {
 
   return (
     <Page className="page">
-      {renderHeader("Home", false)}
+      {CommonUtils.renderHeader("Home", false)}
       <UIDummyUser/>
       <Grid columnSpace="1rem" rowSpace="1rem" columnCount={2}>
         {renderFunctions()}

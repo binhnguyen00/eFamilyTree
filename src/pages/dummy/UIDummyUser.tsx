@@ -9,14 +9,14 @@ import {
 } from "zmp-ui";
 import { useRecoilValue } from "recoil";
 import { displayNameState, userState } from "state";
-import { renderHeader } from "../../utils/common";
+import { CommonUtils } from "../../utils/common";
 
 export function UIDummyUserForm() {
   const { userInfo: user } = useRecoilValue(userState);
   const displayName = useRecoilValue(displayNameState);
   return (
     <Page className="page">
-      {renderHeader("User")}
+      {CommonUtils.renderHeader("User")}
       <Box
         flex
         flexDirection="column"
