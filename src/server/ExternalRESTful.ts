@@ -46,13 +46,13 @@ export class ExternalRESTful extends Api {
     });
   }
 
-  GET(path: string, header: any, pathVariables: any, successCB: Callback, failCB?: Callback): void {
+  public GET(path: string, header: any, pathVariables: any, successCB: Callback, failCB?: Callback) {
     var url: string = this.initialUrl(path, pathVariables);
     var requestInit: RequestInit = this.initRequest(HttpMethod.GET, header);
     this.doFetch(url, requestInit, successCB, failCB);
   }
 
-  POST(path: string, header: any, requestBody: any, successCB: Callback, failCB?: Callback): void {
+  public POST(path: string, header: any, requestBody: any, successCB: Callback, failCB?: Callback) {
     var url: string = this.initialUrl(path);
     var requestInit: RequestInit = this.initRequest(HttpMethod.POST, header, requestBody);
     this.doFetch(url, requestInit, successCB, failCB);

@@ -1,10 +1,10 @@
 {
-  "name": "eFamilyTree",
+  "name": "e-familytree",
   "private": true,
   "version": "1.0.0",
-  "description": "zmp-blank-templates",
+  "description": "An Zalo Mini App",
   "repository": "",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "browserslist": [
     "Android >= 5",
     "IOS >= 9.3",

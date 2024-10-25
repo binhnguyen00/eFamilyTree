@@ -4,10 +4,11 @@ import { UIDummyUser } from "../dummy/UIDummyUser";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 
 export function UIHomePage() {
-  const navigate = useNavigate();
+  let navigate = useNavigate();
 
   const handleTabChange = (key: string) => {
     navigate("/" + key);
+    navigate = undefined as any;
   };
 
   const renderFunctions = () => {
