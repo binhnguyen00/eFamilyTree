@@ -14,9 +14,9 @@ import { UIUserHome } from "./user/UIUser";
 
 export function Application() {
   // Get User's phone numb on init app. Get once, Zalo has cache.
-  // ZmpSDK.getPhoneNumber().then((result) => {
-  //   console.log("Phone Number:", result);
-  // });
+  ZmpSDK.getPhoneNumber().then((result) => {
+    console.log("Phone Number:", result);
+  });
 
   return (
     <RecoilRoot>
