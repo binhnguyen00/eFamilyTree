@@ -1,5 +1,5 @@
 import React from "react";
-import { Page, useNavigate, Grid } from "zmp-ui";
+import { Page, useNavigate, Grid, Button } from "zmp-ui";
 import { UIDummyUser } from "../dummy/UIDummyUser";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 
@@ -19,18 +19,18 @@ export function UIHomePage() {
       "album": "Album",
       "calendar": "Calendar",
       "upcoming": "Upcoming",
+      "playground": "Playground",
     }
     let html = [] as React.ReactNode[];
 
     Object.keys(funcKeyMap).forEach(key => {
       const element = (
-        <button 
-          key={key}
-          className="flex-h section-container box-shadow" style={{ height: 100 }} 
+        <Button 
+          key={key} variant="secondary" className="box-shadow" style={{ height: 150, borderRadius: 12 }} 
           onClick={() => handleTabChange(key)}
         > 
           {funcKeyMap[key]} 
-        </button>
+        </Button>
       )
       html.push(element);
     });
