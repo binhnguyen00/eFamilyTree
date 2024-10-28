@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
-import { Page, useNavigate, Grid, Button, Stack } from "zmp-ui";
+import { Page, useNavigate, Grid, Button, Stack, Text } from "zmp-ui";
+import { closeApp } from "zmp-sdk";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { UIUser } from "pages/user/UIUser";
 
@@ -50,6 +51,10 @@ export function UIHomePage() {
         <Grid columnSpace="1rem" rowSpace="1rem" columnCount={2}>
           {renderFunctions()}
         </Grid>
+
+        <Button type="danger" variant="secondary" onClick={() => closeApp()}>
+          {"Quit"}
+        </Button>
       </Stack>
     </Page>
   );

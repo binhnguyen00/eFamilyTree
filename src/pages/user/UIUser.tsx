@@ -1,6 +1,6 @@
 import React from "react";
 import { getUserInfo } from "zmp-sdk";
-import { Avatar, Button, Box, Page, Stack, Input, Text } from "zmp-ui";
+import { Avatar, Button, Box, Page, Stack, Input, Text, useNavigate } from "zmp-ui";
 import { selector, useRecoilValue } from "recoil";
 
 import { CommonComponentUtils } from "../../utils/CommonComponent";
@@ -24,12 +24,12 @@ export function UIUserHome() {
       <Stack space="1rem">
         <Box flex alignItems="center" flexDirection="column">
           <Avatar
-            size={96} online story="default"
+            size={96} online
             src={userInfo.avatar.startsWith("http") ? userInfo.avatar : undefined}
           >
             {userInfo.avatar}
           </Avatar>
-          <p>{userInfo.name}</p>
+          <Text.Title>{userInfo.name}</Text.Title>
         </Box>
         <Input.Password value={userInfo.id} label="ID"/>
         <Button> {"Logout"} </Button>
@@ -39,17 +39,27 @@ export function UIUserHome() {
 }
 
 export function UIUser() { 
+  let navigate = useNavigate();
   const { userInfo } = useRecoilValue(userState);
+
+  const navigateToUIUser = () => {
+    navigate("/user");
+    navigate = undefined as any;
+  }
 
   return (
     <Box flex flexDirection="column" alignItems="center">
       <Avatar
-        size={96} online story="default" className="button"
+        size={96} online className="button"
         src={userInfo.avatar.startsWith("http") ? userInfo.avatar : undefined}
+        onClick={navigateToUIUser}
       >
         {userInfo.avatar}
       </Avatar>
-      <Text.Title className="button"> {userInfo.name} </Text.Title>
+      <Text.Title 
+        className="button" 
+        onClick={() => navigateToUIUser()}
+      > {userInfo.name} </Text.Title>
     </Box>
   )
 }
