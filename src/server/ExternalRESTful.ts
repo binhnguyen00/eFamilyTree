@@ -23,9 +23,6 @@ export class ExternalRESTful extends Api {
     if (requestBody) body = JSON.stringify(requestBody);
 
     let requestInit: RequestInit = {
-      mode: 'cors',
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
       method: method,
       headers: headers,
       body: body,

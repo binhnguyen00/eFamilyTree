@@ -23,6 +23,25 @@ export class EFamilyTreeApi {
     this.server.POST("get/member", header, body, success, fail);
   }
 
+  public static getMemberInfo(phoneNumber: string, successCB: Callback, failCB?: Callback) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      phone: phoneNumber
+    });
+    const success = (response: any) => {
+      let result = this.getResponseResult(response);
+      successCB(result);
+    }
+    const fail = (response: any) => {
+      if (!failCB) failCB = (response: any) => {
+        console.log(response);
+      }
+      let result = this.getResponseResult(response);
+      failCB(result);
+    }
+    this.server.POST("get/info/member", header, body, success, fail);
+  }
+
   private static initBody(params: any): Record<string, any> { 
     return {
       params: params
@@ -32,8 +51,6 @@ export class EFamilyTreeApi {
   private static initHeader(): Record<string, any> {
     return {
       "Content-Type": "application/json; charset=UTF-8",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "Content-Type"
     }
   }
 
