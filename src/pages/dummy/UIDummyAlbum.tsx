@@ -8,7 +8,7 @@ export function UIDummyAlbum() {
   
   return (
     <Page className='section-container'>
-      {CommonComponentUtils.renderHeader("Family Tree")}
+      {CommonComponentUtils.renderHeader("Album")}
       <Box mt={6}>
         <Box mt={2}>
           <Text size='xSmall' className='input-desc'>

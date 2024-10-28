@@ -1,7 +1,7 @@
-import React from "react";
-import { Page, useNavigate, Grid, Button } from "zmp-ui";
-import { UIDummyUser } from "../dummy/UIDummyUser";
+import React, { Suspense } from "react";
+import { Page, useNavigate, Grid, Button, Stack } from "zmp-ui";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
+import { UIUser } from "pages/user/UIUser";
 
 export function UIHomePage() {
   let navigate = useNavigate();
@@ -41,10 +41,16 @@ export function UIHomePage() {
   return (
     <Page className="page">
       {CommonComponentUtils.renderHeader("Home", false)}
-      <UIDummyUser/>
-      <Grid columnSpace="1rem" rowSpace="1rem" columnCount={2}>
-        {renderFunctions()}
-      </Grid>
+
+      <Stack space="1rem">
+        <Suspense fallback={<div> Getting User's Info </div>}>
+          <UIUser/>
+        </Suspense>
+        
+        <Grid columnSpace="1rem" rowSpace="1rem" columnCount={2}>
+          {renderFunctions()}
+        </Grid>
+      </Stack>
     </Page>
   );
 };
