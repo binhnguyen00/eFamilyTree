@@ -1,7 +1,7 @@
 import React from "react";
-import familyMembers from './members.json'; // Import JSON
-import { Button, Grid, Modal } from "zmp-ui";
+import { Grid, Modal, Page } from "zmp-ui";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
+import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 
 interface IFamilyMember {
   id: number
@@ -11,7 +11,7 @@ interface IFamilyMember {
   children?: IFamilyMember[]
 }
 
-function renderTree(ancestor: IFamilyMember) {
+function renderTree(ancestor: IFamilyMember | undefined) {
   let [ modalVisible, setModalVisible ] = React.useState(false);
   let grid = [] as React.ReactNode[];
   // Need to find total number of rows
@@ -54,13 +54,19 @@ function renderTree(ancestor: IFamilyMember) {
 }
 
 export function UIFamilyTree() {
-  const members: IFamilyMember = familyMembers;
+  const successCB = (result: any) => {
+    console.log(result);
+  }
+  const failCB = (result: any) => {
+    console.log(result);
+  }
+  EFamilyTreeApi.getMembers("0942659016", successCB, failCB)
+  
   return (
-    <div>
+    <Page className="page">
       {CommonComponentUtils.renderHeader("Family Tree")}
-      <div className="page scrollable">
-        {renderTree(members)}
-      </div>
-    </div>
+
+      {renderTree(undefined)}
+    </Page>
   )
 }

@@ -4,25 +4,30 @@ import { Callback, HttpMethod } from "../utils/Interface";
 export class ExternalRESTful extends Api {
 
   /** @override */
-  initRequest(method: HttpMethod, requestHeader?: any, requestBody?: any): RequestInit {;
+  initRequest(method: HttpMethod, requestHeaders?: any, requestBody?: any): RequestInit {;
 
-    let header: any = null;
-    if (requestHeader) {
-      if (requestHeader['Content-Type']) header = requestHeader;
+    let headers: any = null;
+    if (requestHeaders) {
+      if (requestHeaders['Content-Type']) headers = requestHeaders;
       else {
-        header = {
+        headers = {
           'Content-Type': 'application/json; charset=UTF-8',
-          ...requestHeader
+          ...requestHeaders
         }
       }
+    } else headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
     }
 
     let body: any = null;
     if (requestBody) body = JSON.stringify(requestBody);
 
     let requestInit: RequestInit = {
+      mode: 'cors',
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
       method: method,
-      headers: header,
+      headers: headers,
       body: body,
     }
 
@@ -52,9 +57,9 @@ export class ExternalRESTful extends Api {
     this.doFetch(url, requestInit, successCB, failCB);
   }
 
-  public POST(path: string, header: any, requestBody: any, successCB: Callback, failCB?: Callback) {
+  public POST(path: string, header: any, body: any, successCB: Callback, failCB?: Callback) {
     var url: string = this.initialUrl(path);
-    var requestInit: RequestInit = this.initRequest(HttpMethod.POST, header, requestBody);
+    var requestInit: RequestInit = this.initRequest(HttpMethod.POST, header, body);
     this.doFetch(url, requestInit, successCB, failCB);
   }
 }
