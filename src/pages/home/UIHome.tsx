@@ -12,6 +12,7 @@ export function UIHomePage() {
   };
 
   const renderFunctions = () => {
+    // keys should be same as Route in ../main.tsx
     const funcKeyMap = {
       "about": "About",
       "family-tree": "Family Tree",
@@ -25,7 +26,7 @@ export function UIHomePage() {
       const element = (
         <button 
           key={key}
-          className="flex-h section-container" style={{ height: 100 }} 
+          className="flex-h section-container box-shadow" style={{ height: 100 }} 
           onClick={() => handleTabChange(key)}
         > 
           {funcKeyMap[key]} 

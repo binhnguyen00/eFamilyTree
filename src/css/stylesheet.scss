@@ -57,3 +57,14 @@
   height: 100vh;  // Full viewport height for vertical scrolling
   scroll-behavior: smooth; // Smooth scrolling effect (optional)
 }
+
+.box-shadow {
+  box-shadow: 0px 10px 24px rgba(20, 20, 21, 0.09);
+}
+
+button {
+  transition: transform 0.05s ease;
+  &:active {
+    transform: translateY(4px) scale(0.95); // Push down and shrink
+  }
+}
