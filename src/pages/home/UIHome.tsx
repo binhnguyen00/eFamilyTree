@@ -12,20 +12,28 @@ export function UIHomePage() {
   };
 
   const renderFunctions = () => {
-    const functions = ["about", "family-tree", "album", "calendar", "upcoming"];
+    const funcKeyMap = {
+      "about": "About",
+      "family-tree": "Family Tree",
+      "album": "Album",
+      "calendar": "Calendar",
+      "upcoming": "Upcoming",
+    }
     let html = [] as React.ReactNode[];
-    functions.forEach((key) => {
+
+    Object.keys(funcKeyMap).forEach(key => {
       const element = (
         <button 
           key={key}
           className="flex-h section-container" style={{ height: 100 }} 
           onClick={() => handleTabChange(key)}
         > 
-          {key} 
+          {funcKeyMap[key]} 
         </button>
       )
       html.push(element);
-    })
+    });
+
     return html;
   }
 
