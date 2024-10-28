@@ -17,7 +17,7 @@ export class ZmpSDK {
               reject(error);
             }
           } else {
-            // reject("No token provided.");
+            reject("No token provided.");
           }
         },
         fail: (error) => {
