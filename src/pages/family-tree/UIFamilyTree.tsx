@@ -1,6 +1,6 @@
 import React from "react";
 import familyMembers from './members.json'; // Import JSON
-import { Grid, Modal } from "zmp-ui";
+import { Button, Grid, Modal } from "zmp-ui";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 
 interface IFamilyMember {
@@ -26,7 +26,7 @@ function renderTree(ancestor: IFamilyMember) {
   for (let idx = 1; idx <= numberOfChild; idx++) {
     grid.push(
       <div key={idx} 
-        className="section-container" style={{ height: "5em", width: "10em" }}
+        className="button section-container" style={{ height: "5em", width: "10em" }}
         onClick={() => handleShowMemberDetail(idx)}
       >
         {`Mem ${idx}`}

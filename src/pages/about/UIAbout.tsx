@@ -1,4 +1,5 @@
 import React from "react";
+import { CommonComponentUtils } from "utils/CommonComponent";
 import { Sheet, Button, Page, Text, useNavigate } from "zmp-ui";
 
 export function UIAbout() {
@@ -6,6 +7,8 @@ export function UIAbout() {
   const navigate = useNavigate();
   return (
     <Page className="page">
+      {CommonComponentUtils.renderHeader("About")}
+
       <div className="section-container">
         <Text bold>Designed by MobiFone 5</Text>
       </div>
