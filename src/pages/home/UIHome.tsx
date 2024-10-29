@@ -21,6 +21,7 @@ export function UIHomePage() {
       "calendar": "Calendar",
       "upcoming": "Upcoming",
       "playground": "Playground",
+      "demo-tree": "Demo Tree",
     }
     let html = [] as React.ReactNode[];
 

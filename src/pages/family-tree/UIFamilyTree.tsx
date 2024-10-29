@@ -41,34 +41,15 @@ export function UIFamilyTreeView() {
   const renderTree = (member: IFamilyMember | null): JSX.Element => {
     if (!member) {
       return (
-        <Box flex alignItems="center" justifyContent="center">
+        <Box flex flexDirection="column" alignItems="center" justifyContent="center">
           <Text.Title> {"Found no members"} </Text.Title>
           <Button size="small" onClick={() => setReload(!reload)}> {"Retry"} </Button>
         </Box>
       );
     }
 
-    // Recursively render each family member and their children
-    const renderMember = (member: IFamilyMember): JSX.Element => (
-      <div
-        key={member.id}
-        className="family-member"
-        onClick={() => handleShowMemberDetail(member.id)}
-      >
-        <div>{member.name}</div>
-        {/* Render children if they exist */}
-        {member.children && member.children.length > 0 && (
-          <div className="children-container" style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
-            {member.children.map((child) => renderMember(child))}
-          </div>
-        )}
-      </div>
-    );
-
     return (
-      <div className="tree-container" style={{ display: 'flex', overflowX: 'auto', padding: '1rem' }}>
-        {renderMember(member)}
-      </div>
+      <></>
     );
   };
 

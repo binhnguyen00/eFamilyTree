@@ -32,6 +32,7 @@ export function Application() {
               <Route path="/calendar" element={<UIDummyCalendar/>}/>
               <Route path="/upcoming" element={<UIDummyUpcoming/>}/>
               <Route path="/playground" element={<UIPlayground/>}/>
+              <Route path="/demo-tree" element={<></>}/>
             </AnimationRoutes>
           </ZMPRouter>
         </SnackbarProvider>
