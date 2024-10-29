@@ -1,0 +1,297 @@
+{
+  "jsonrpc": "2.0",
+  "id": null,
+  "result": {
+    "employee_tree": {
+      "id": 1,
+      "name": "Phạm Khắc Hoàng",
+      "parent_id": false,
+      "gioi_tinh": "nam",
+      "children": [
+        {
+          "id": 21,
+          "name": "Phạm Hồng Hạnh",
+          "parent_id": [
+            1,
+            "Phạm Khắc Hoàng"
+          ],
+          "gioi_tinh": "nu",
+          "children": [],
+          "spouseData": null,
+          "vo_chong": false
+        },
+        {
+          "id": 2,
+          "name": "Phạm Khắc Khanh",
+          "parent_id": [
+            1,
+            "Phạm Khắc Hoàng"
+          ],
+          "gioi_tinh": "nam",
+          "children": [
+            {
+              "id": 8,
+              "name": "Phạm KHắc Phong",
+              "parent_id": [
+                2,
+                "Phạm Khắc Khanh"
+              ],
+              "gioi_tinh": "nam",
+              "children": [],
+              "spouseData": null,
+              "vo_chong": false
+            },
+            {
+              "id": 9,
+              "name": "Phạm Khắc Đoàn",
+              "parent_id": [
+                2,
+                "Phạm Khắc Khanh"
+              ],
+              "gioi_tinh": "nu",
+              "children": [],
+              "spouseData": null,
+              "vo_chong": false
+            },
+            {
+              "id": 7,
+              "name": "Phạm Thúy Diễm",
+              "parent_id": [
+                2,
+                "Phạm Khắc Khanh"
+              ],
+              "gioi_tinh": "nu",
+              "children": [],
+              "spouseData": null,
+              "vo_chong": false
+            },
+            {
+              "id": 6,
+              "name": "Phạm Thị Ngọc",
+              "parent_id": [
+                2,
+                "Phạm Khắc Khanh"
+              ],
+              "gioi_tinh": "nu",
+              "children": [],
+              "spouseData": null,
+              "vo_chong": false
+            }
+          ],
+          "spouseData": {
+            "id": 22,
+            "name": "Vũ Ngọc Châm",
+            "gioi_tinh": "nu"
+          },
+          "vo_chong": [
+            22,
+            "Vũ Ngọc Châm"
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Phạm Khắc Vinh",
+          "parent_id": [
+            1,
+            "Phạm Khắc Hoàng"
+          ],
+          "gioi_tinh": "nam",
+          "children": [
+            {
+              "id": 4,
+              "name": "Phạm Khắc Thê",
+              "parent_id": [
+                3,
+                "Phạm Khắc Vinh"
+              ],
+              "gioi_tinh": "nam",
+              "children": [
+                {
+                  "id": 10,
+                  "name": "Phạm Khắc Toàn",
+                  "parent_id": [
+                    4,
+                    "Phạm Khắc Thê"
+                  ],
+                  "gioi_tinh": "nam",
+                  "children": [
+                    {
+                      "id": 14,
+                      "name": "Phạm Hồng Hoa",
+                      "parent_id": [
+                        10,
+                        "Phạm Khắc Toàn"
+                      ],
+                      "gioi_tinh": "nu",
+                      "children": [],
+                      "spouseData": null,
+                      "vo_chong": false
+                    },
+                    {
+                      "id": 17,
+                      "name": "Phạm Thị Mai",
+                      "parent_id": [
+                        10,
+                        "Phạm Khắc Toàn"
+                      ],
+                      "gioi_tinh": "nu",
+                      "children": [],
+                      "spouseData": null,
+                      "vo_chong": false
+                    }
+                  ],
+                  "spouseData": {
+                    "id": 27,
+                    "name": "Trần Thị DIệu",
+                    "gioi_tinh": "nu"
+                  },
+                  "vo_chong": [
+                    27,
+                    "Trần Thị DIệu"
+                  ]
+                }
+              ],
+              "spouseData": {
+                "id": 24,
+                "name": "Trần Ngọc Diệp",
+                "gioi_tinh": "nu"
+              },
+              "vo_chong": [
+                24,
+                "Trần Ngọc Diệp"
+              ]
+            },
+            {
+              "id": 18,
+              "name": "Phạm Khắc Tiến",
+              "parent_id": [
+                3,
+                "Phạm Khắc Vinh"
+              ],
+              "gioi_tinh": "nam",
+              "children": [
+                {
+                  "id": 19,
+                  "name": "Phạm Khắc Phú",
+                  "parent_id": [
+                    18,
+                    "Phạm Khắc Tiến"
+                  ],
+                  "gioi_tinh": "nam",
+                  "children": [],
+                  "spouseData": null,
+                  "vo_chong": false
+                },
+                {
+                  "id": 20,
+                  "name": "Phạm Khắc Quang",
+                  "parent_id": [
+                    18,
+                    "Phạm Khắc Tiến"
+                  ],
+                  "gioi_tinh": "nam",
+                  "children": [],
+                  "spouseData": null,
+                  "vo_chong": false
+                }
+              ],
+              "spouseData": null,
+              "vo_chong": false
+            },
+            {
+              "id": 16,
+              "name": "Phạm Khắc Toán",
+              "parent_id": [
+                3,
+                "Phạm Khắc Vinh"
+              ],
+              "gioi_tinh": "nam",
+              "children": [],
+              "spouseData": null,
+              "vo_chong": false
+            },
+            {
+              "id": 15,
+              "name": "Phạm Ngọc Hoàn",
+              "parent_id": [
+                3,
+                "Phạm Khắc Vinh"
+              ],
+              "gioi_tinh": "nu",
+              "children": [],
+              "spouseData": null,
+              "vo_chong": false
+            }
+          ],
+          "spouseData": {
+            "id": 23,
+            "name": "Hoàng Thị Hoa",
+            "gioi_tinh": "nu"
+          },
+          "vo_chong": [
+            23,
+            "Hoàng Thị Hoa"
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Phạm Thị Xuân",
+          "parent_id": [
+            1,
+            "Phạm Khắc Hoàng"
+          ],
+          "gioi_tinh": "nu",
+          "children": [
+            {
+              "id": 12,
+              "name": "Phạm Khắc Hải",
+              "parent_id": [
+                5,
+                "Phạm Thị Xuân"
+              ],
+              "gioi_tinh": "nam",
+              "children": [],
+              "spouseData": null,
+              "vo_chong": false
+            },
+            {
+              "id": 13,
+              "name": "Phạm Thị Mơ",
+              "parent_id": [
+                5,
+                "Phạm Thị Xuân"
+              ],
+              "gioi_tinh": "nu",
+              "children": [],
+              "spouseData": null,
+              "vo_chong": false
+            },
+            {
+              "id": 11,
+              "name": "Phạm Xuân Diệu",
+              "parent_id": [
+                5,
+                "Phạm Thị Xuân"
+              ],
+              "gioi_tinh": "nu",
+              "children": [],
+              "spouseData": null,
+              "vo_chong": false
+            }
+          ],
+          "spouseData": null,
+          "vo_chong": false
+        }
+      ],
+      "spouseData": {
+        "id": 25,
+        "name": "Nguyễn Minh Tuyết",
+        "gioi_tinh": "nu"
+      },
+      "vo_chong": [
+        25,
+        "Nguyễn Minh Tuyết"
+      ]
+    }
+  }
+}
