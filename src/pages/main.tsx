@@ -11,6 +11,7 @@ import { UIDummyCalendar } from "./dummy/UIDummyCalendar";
 import { UIDummyUpcoming } from "./dummy/UIDummyUpcoming";
 import { UIPlayground } from "./dummy/UIPlayground";
 import { UIUserHome } from "./user/UIUser";
+import { UITree } from "./dummy/UITree";
 
 export function Application() {
   // Get User's phone numb on init app. Get once, Zalo has cache.
@@ -32,7 +33,7 @@ export function Application() {
               <Route path="/calendar" element={<UIDummyCalendar/>}/>
               <Route path="/upcoming" element={<UIDummyUpcoming/>}/>
               <Route path="/playground" element={<UIPlayground/>}/>
-              <Route path="/demo-tree" element={<></>}/>
+              <Route path="/demo-tree" element={<UITree/>}/>
             </AnimationRoutes>
           </ZMPRouter>
         </SnackbarProvider>
