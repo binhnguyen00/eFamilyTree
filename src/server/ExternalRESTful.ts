@@ -59,16 +59,4 @@ export class ExternalRESTful extends Api {
     var requestInit: RequestInit = this.initRequest(HttpMethod.POST, header, body);
     this.doFetch(url, requestInit, successCB, failCB);
   }
-
-  public async asyncPOST(path: string, header: any, body: any) {
-    var url: string = this.initialUrl(path);
-    var requestInit: RequestInit = this.initRequest(HttpMethod.POST, header, body);
-    return await fetch(url, requestInit).then((res: Response) => res.json());
-  }
-
-  public async asyncGET(path: string, header: any, pathVariables: any) {
-    var url: string = this.initialUrl(path, pathVariables);
-    var requestInit: RequestInit = this.initRequest(HttpMethod.GET, header);
-    return await fetch(url, requestInit).then((res: Response) => res.json());
-  }
 }

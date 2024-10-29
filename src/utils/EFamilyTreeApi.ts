@@ -1,8 +1,7 @@
-import { ExternalRESTful } from "server/ExternalRESTful";
-import { Callback } from "./Interface";
+import { OdooRESTful } from "server/OdooRESTful";
 
 export class EFamilyTreeApi {
-  private static server = new ExternalRESTful("https://giapha.mobifone5.vn");
+  private static server = new OdooRESTful("https://giapha.mobifone5.vn");
 
   public static getMembers(phoneNumber: string) {
     const header = this.initHeader();
