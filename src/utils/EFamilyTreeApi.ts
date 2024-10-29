@@ -4,50 +4,45 @@ import { Callback } from "./Interface";
 export class EFamilyTreeApi {
   private static server = new ExternalRESTful("https://giapha.mobifone5.vn");
 
-  public static getMembers(phoneNumber: string, successCB: Callback, failCB?: Callback) {
+  public static getMembers(phoneNumber: string) {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber
     });
-    const [ success, fail ] = this.createCallback(successCB, failCB);
-    this.server.POST("get/member", header, body, success, fail);
+    return this.server.asyncPOST("get/member", header, body);
   }
 
-  public static getMemberInfo(phoneNumber: string, memberId: number, successCB: Callback, failCB?: Callback) {
+  public static getMemberInfo(phoneNumber: string, memberId: number) {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber,
       thanh_vien_id: memberId
     });
-    const [ success, fail ] = this.createCallback(successCB, failCB);
-    this.server.POST("get/info/member", header, body, success, fail);
+    return this.server.asyncPOST("get/info/member", header, body);
   }
 
-  public static getMemberBlogs(phoneNumber: string, successCB: Callback, failCB?: Callback) { 
+  public static getMemberBlogs(phoneNumber: string) {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber
     });
-    const [ success, fail ] = this.createCallback(successCB, failCB);
-    this.server.POST("get/list/blog", header, body, success, fail);
+    return this.server.asyncPOST("get/list/blog", header, body);
   }
 
-  public static getMemberAlbum(phoneNumber: string, successCB: Callback, failCB?: Callback) {
+  public static getMemberAlbum(phoneNumber: string) {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber
     });
-    const [ success, fail ] = this.createCallback(successCB, failCB);
-    this.server.POST("get/album", header, body, success, fail);
+    return this.server.asyncPOST("get/album", header, body);
   }
 
-  public static getMemberUpcomingEvents(phoneNumber: string, successCB: Callback, failCB?: Callback) {
+  public static getMemberUpcomingEvents(phoneNumber: string) {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber
     });
-    const [ success, fail ] = this.createCallback(successCB, failCB);
-    this.server.POST("get/events", header, body, success, fail);
+    return this.server.asyncPOST("get/events", header, body);
   }
 
   private static initBody(params: any): Record<string, any> { 
@@ -76,17 +71,5 @@ export class EFamilyTreeApi {
       return response.result.error;
     } 
     return response.result as any;
-  }
-
-  private static createCallback(successCB: Callback, failCB?: Callback) {
-    const success = (response: any) => {
-      let result = this.getResponseResult(response);
-      successCB(result);
-    }
-    const fail = (response: any) => {
-      let result = this.getResponseResult(response);
-      if (failCB) failCB(result);
-    }
-    return [success, fail];
   }
 }

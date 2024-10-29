@@ -9,7 +9,7 @@ import { UIAbout } from "./about/UIAbout";
 import { UIDummyAlbum } from "./dummy/UIDummyAlbum";
 import { UIDummyCalendar } from "./dummy/UIDummyCalendar";
 import { UIDummyUpcoming } from "./dummy/UIDummyUpcoming";
-import { UIPlayground } from "./dummy/Playground";
+import { UIPlayground } from "./dummy/UIPlayground";
 import { UIUserHome } from "./user/UIUser";
 
 export function Application() {
