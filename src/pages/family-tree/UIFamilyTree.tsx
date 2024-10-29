@@ -59,9 +59,7 @@ export function UIFamilyTreeView() {
               key={node.id}
               node={node}
               isRoot={node.id === rootId}
-              isHover={node.id === hoverId}
               onClick={setSelectId}
-              // onSubClick={setRootId}
               style={getNodeStyle(node)}
             />
           )}

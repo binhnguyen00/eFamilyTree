@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from "react";
+import React, { useMemo, useState } from "react";
 import { Page } from "zmp-ui";
 import ReactFamilyTree from 'react-family-tree';
 import { ExtNode } from "relatives-tree/lib/types";
@@ -10,14 +10,10 @@ export const NODE_WIDTH = 70;
 export const NODE_HEIGHT = 80;
 
 export function UITree() {
-  const membs = members;
-  const [nodes, setNodes] = useState(membs);
-
+  const [nodes, setNodes] = useState(members);
   const firstNodeId = useMemo(() => nodes[0].id, [nodes]);
   const [rootId, setRootId] = useState(firstNodeId);
-
   const [selectId, setSelectId] = useState<string>();
-  const [hoverId, setHoverId] = useState<string>();
 
   return (
     <>
@@ -35,7 +31,6 @@ export function UITree() {
                 key={node.id}
                 node={node}
                 isRoot={node.id === rootId}
-                isHover={node.id === hoverId}
                 onClick={setSelectId}
                 style={getNodeStyle(node)}
               />
