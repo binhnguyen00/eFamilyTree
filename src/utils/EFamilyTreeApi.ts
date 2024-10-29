@@ -9,37 +9,45 @@ export class EFamilyTreeApi {
     const body = this.initBody({
       phone: phoneNumber
     });
-    const success = (response: any) => {
-      let result = this.getResponseResult(response);
-      successCB(result);
-    }
-    const fail = (response: any) => {
-      if (!failCB) failCB = (response: any) => {
-        console.log(response);
-      }
-      let result = this.getResponseResult(response);
-      failCB(result);
-    }
+    const [ success, fail ] = this.createCallback(successCB, failCB);
     this.server.POST("get/member", header, body, success, fail);
   }
 
-  public static getMemberInfo(phoneNumber: string, successCB: Callback, failCB?: Callback) {
+  public static getMemberInfo(phoneNumber: string, memberId: number, successCB: Callback, failCB?: Callback) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      phone: phoneNumber,
+      thanh_vien_id: memberId
+    });
+    const [ success, fail ] = this.createCallback(successCB, failCB);
+    this.server.POST("get/info/member", header, body, success, fail);
+  }
+
+  public static getMemberBlogs(phoneNumber: string, successCB: Callback, failCB?: Callback) { 
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber
     });
-    const success = (response: any) => {
-      let result = this.getResponseResult(response);
-      successCB(result);
-    }
-    const fail = (response: any) => {
-      if (!failCB) failCB = (response: any) => {
-        console.log(response);
-      }
-      let result = this.getResponseResult(response);
-      failCB(result);
-    }
-    this.server.POST("get/info/member", header, body, success, fail);
+    const [ success, fail ] = this.createCallback(successCB, failCB);
+    this.server.POST("get/list/blog", header, body, success, fail);
+  }
+
+  public static getMemberAlbum(phoneNumber: string, successCB: Callback, failCB?: Callback) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      phone: phoneNumber
+    });
+    const [ success, fail ] = this.createCallback(successCB, failCB);
+    this.server.POST("get/album", header, body, success, fail);
+  }
+
+  public static getMemberUpcomingEvents(phoneNumber: string, successCB: Callback, failCB?: Callback) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      phone: phoneNumber
+    });
+    const [ success, fail ] = this.createCallback(successCB, failCB);
+    this.server.POST("get/events", header, body, success, fail);
   }
 
   private static initBody(params: any): Record<string, any> { 
@@ -68,5 +76,17 @@ export class EFamilyTreeApi {
       return response.result.error;
     } 
     return response.result as any;
+  }
+
+  private static createCallback(successCB: Callback, failCB?: Callback) {
+    const success = (response: any) => {
+      let result = this.getResponseResult(response);
+      successCB(result);
+    }
+    const fail = (response: any) => {
+      let result = this.getResponseResult(response);
+      if (failCB) failCB(result);
+    }
+    return [success, fail];
   }
 }
