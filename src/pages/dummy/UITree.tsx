@@ -20,9 +20,9 @@ export function UITree() {
       {CommonComponentUtils.renderHeader("Demo Tree")}
 
       {nodes.length > 0 ? (
-        <div className="scrollable zoomable">
+        <div className="scrollable">
           <ReactFamilyTree
-            nodes={nodes as any}
+            nodes={members as any}
             rootId={rootId}
             width={NODE_WIDTH}
             height={NODE_HEIGHT}

@@ -5,69 +5,63 @@ import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import ReactFamilyTree from 'react-family-tree';
 import { ExtNode } from "relatives-tree/lib/types";
 import { Node } from "components/tree/node/Node";
+import { FamilyMember, processServerData } from "./FamilyTreeUtils";
+import nodes from "./demo-member.json";
 
 export const NODE_WIDTH = 70;
 export const NODE_HEIGHT = 80;
 
 export function UIFamilyTree() {
-  return (
-    <Page className="page">
-      {CommonComponentUtils.renderHeader("Family Tree")}
-
-      <UIFamilyTreeView/>
-    </Page>
-  )
-}
-
-interface IFamilyMember {
-  id: number;
-  name: string;
-  parentId: boolean | any[];
-  spouseData: null | { id: number, name: string, gioi_tinh: "nam" | "nu" }; // Dữ liệu vợ, chồng 
-  gioi_tinh: "nam" | "nu";
-  children?: IFamilyMember[];
-}
-
-export function UIFamilyTreeView() {
+  console.log(nodes);
+  
   const [ reload, setReload ] = React.useState(false);
-  const [ ancestor, setAncestor ] = React.useState<IFamilyMember | null>(null);
-  const [ rootId, setRootId ] = React.useState(null);
+  const [ familyMembers, setFamilyMembers ] = React.useState<any[]>(nodes);
+  const firstNodeId = React.useMemo(() => familyMembers[0].id, [familyMembers]);
+  const [ rootId, setRootId ] = React.useState<string>(firstNodeId);
   const [ selectId, setSelectId ] = React.useState<string>();
-  const [ hoverId, setHoverId ] = React.useState<string>();
 
   React.useEffect(() => {
     const success = (res: any) => {
       const data = res["employee_tree"];
       if (data) {
-        setAncestor(data);
+        setRootId(data.id);
+        const result = processServerData(data);
+        console.log("Members", result);
+        setFamilyMembers(result);
         setRootId(data.id);
       }
     }
-    EFamilyTreeApi.getMembers("0942659016", success);
+    EFamilyTreeApi.getMembers(import.meta.env.VITE_DEV_PHONE_NUMBER as string, success);
   }, [ reload ]);
 
   return (
-    <React.Fragment>
-      {ancestor ? (
-        <ReactFamilyTree
-          nodes={[]}
-          rootId=""
-          height={1000}
-          width={500}
-          renderNode={(node: Readonly<ExtNode>) => (
-            <Node
-              key={node.id}
-              node={node}
-              isRoot={node.id === rootId}
-              onClick={setSelectId}
-              style={getNodeStyle(node)}
+    <>
+      {CommonComponentUtils.renderHeader("Family Tree")}
+
+      <React.Fragment>
+        {familyMembers.length > 0 ? (
+          <div className="scrollable">
+            <ReactFamilyTree
+              nodes={nodes as any}
+              rootId={rootId}
+              height={NODE_HEIGHT}
+              width={NODE_WIDTH}
+              renderNode={(node: Readonly<ExtNode>) => (
+                <Node
+                  key={node.id}
+                  node={node}
+                  isRoot={node.id === rootId}
+                  onClick={setSelectId}
+                  style={getNodeStyle(node)}
+                />
+              )}
             />
-          )}
-        />
-      ): (
-        <div> Getting members... </div>
-      )}
-    </React.Fragment>
+          </div>
+        ) : (
+          <div> Getting members... </div>
+        )}
+      </React.Fragment>
+    </>
   )
 }
 
