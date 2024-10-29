@@ -24,21 +24,20 @@ export function UIFamilyTree() {
   )
 }
 
-export function UIFamilyTreeView() {
-
-  const ancestorSelector = selector({
-    key: "ancestor",
-    get: async () => {
-      try {
-        const result = await EFamilyTreeApi.getMembers("0942659016");
-        return result;
-      } catch (error) {
-        console.error("Failed to fetch members:", error);
-        return [];
-      }
+const ancestorSelector = selector({
+  key: "ancestor",
+  get: async () => {
+    try {
+      const result = await EFamilyTreeApi.getMembers("0942659016");
+      return result;
+    } catch (error) {
+      console.error("Failed to fetch members:", error);
+      return [];
     }
-  })
+  }
+})
 
+export function UIFamilyTreeView() {
   const ancestor = useRecoilValue(ancestorSelector);
 
   const renderTree = (ancestor: any) => {
