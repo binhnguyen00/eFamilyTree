@@ -6,7 +6,7 @@ import { BiHorizontalCenter } from "react-icons/bi";
 import { BottomNavigation, Modal, Page } from "zmp-ui";
 import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
 
-import { Node } from "../../components/tree/node/Node";
+import { Node } from "../../components/tree/Node";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { processServerData } from "../family-tree/FamilyTreeUtils";
 

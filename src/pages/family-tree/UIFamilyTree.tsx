@@ -6,11 +6,11 @@ import { BiHorizontalCenter } from "react-icons/bi";
 import { Box, Button, Modal, Page, Text, BottomNavigation } from "zmp-ui";
 import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
 
-import { Node } from "../../components/tree/node/Node";
+import { Node } from "../../components/tree/Node";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { FamilyMember, processServerData } from "./FamilyTreeUtils";
-import { NodeDetails } from "../../components/tree/node-details/NodeDetails";
+import { NodeDetails } from "../../components/tree/NodeDetails";
 
 const NODE_WIDTH = 180;
 const NODE_HEIGHT = 80;

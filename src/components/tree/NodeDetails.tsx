@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Input } from "zmp-ui";
 
-import { EFamilyTreeApi } from "../../../utils/EFamilyTreeApi";
+import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 
 interface NodeDetailsProps {
   nodeId?: string | number;
