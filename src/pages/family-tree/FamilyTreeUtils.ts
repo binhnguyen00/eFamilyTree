@@ -14,7 +14,9 @@ interface OdooNode {
 
 export interface FamilyMember {
   id: string;
+  name: string;
   gender: "male" | "female";
+  img?: string;
   parents: { id: string; type: "blood" }[];
   siblings: { id: string; type: "blood" }[];
   spouses: { id: string; type: "married" }[];
@@ -25,12 +27,13 @@ export function processServerData(node: OdooNode): FamilyMember[] {
   const result: FamilyMember[] = [];
 
   const processNode = (node: OdooNode, parentIds: string[] = []) => {
-    const id = `${node.id}-${node.name}`;
+    const id = `${node.id}`;
+    const name = node.name;
     const gender = node.gioi_tinh === "nam" ? "male" : "female";
 
-    // Initialize the primary person
     const person: FamilyMember = {
       id,
+      name,
       gender,
       parents: parentIds.map(parentId => ({ id: parentId, type: "blood" })),
       siblings: [],
@@ -41,18 +44,19 @@ export function processServerData(node: OdooNode): FamilyMember[] {
     // Add the primary person to the result list
     result.push(person);
 
-    // Initialize the spouse, but don't add them to the result list yet
     let spouse: FamilyMember | undefined;
     if (node.spouseData) {
-      const spouseId = `${node.spouseData.id}-${node.spouseData.name}`;
+      const spouseId = `${node.spouseData.id}`;
+      const spouseName = node.spouseData.name;
       const spouseGender = node.spouseData.gioi_tinh === "nam" ? "male" : "female";
       
       spouse = {
         id: spouseId,
+        name: spouseName,
         gender: spouseGender,
         parents: [],
         siblings: [],
-        spouses: [{ id, type: "married" }],  // Reference back to the main person as their spouse
+        spouses: [{ id, type: "married" }],
         children: [], // Children will be added after processing
       };
 
@@ -61,7 +65,7 @@ export function processServerData(node: OdooNode): FamilyMember[] {
 
     // Process each child, adding them to the main person's children list
     node.children.forEach((child) => {
-      const childId = `${child.id}-${child.name}`;
+      const childId = `${child.id}`;
       person.children.push({ id: childId, type: "blood" });
 
       // Recursively process the child node, passing down both parents' IDs
