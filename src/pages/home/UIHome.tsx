@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Page, useNavigate, Grid, Button, Stack, Text } from "zmp-ui";
+import { Page, useNavigate, Grid, Button, Stack, Text, Box } from "zmp-ui";
 import { closeApp } from "zmp-sdk";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { UIUser } from "pages/user/UIUser";
@@ -45,7 +45,11 @@ export function UIHomePage() {
       {CommonComponentUtils.renderHeader("Home", false)}
 
       <Stack space="1rem">
-        <Suspense fallback={<div> Getting User's Info </div>}>
+        <Suspense fallback={
+          <Box flex justifyContent='center'> 
+            <Text.Title>{"Getting User's Info..."}</Text.Title> 
+          </Box>
+        }>
           <UIUser/>
         </Suspense>
         
