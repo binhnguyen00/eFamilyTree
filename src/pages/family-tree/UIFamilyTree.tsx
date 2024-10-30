@@ -8,7 +8,7 @@ import { FamilyMember, processServerData } from "./FamilyTreeUtils";
 import { Box, Button, Modal, Page, Text } from "zmp-ui";
 import { NodeDetails } from "components/tree/node-details/NodeDetails";
 
-const NODE_WIDTH = 70;
+const NODE_WIDTH = 180;
 const NODE_HEIGHT = 80;
 
 export function UIFamilyTree() {
@@ -85,7 +85,7 @@ export function UIFamilyTree() {
   )
 }
 
-export function calculatePositionStyle({ left, top }: any): React.CSSProperties {
+function calculatePositionStyle({ left, top }: any): React.CSSProperties {
   return {
     width: NODE_WIDTH,
     height: NODE_HEIGHT,
