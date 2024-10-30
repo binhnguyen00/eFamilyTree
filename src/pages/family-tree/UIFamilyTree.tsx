@@ -5,7 +5,8 @@ import { Node } from "../../components/tree/node/Node";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { FamilyMember, processServerData } from "./FamilyTreeUtils";
-import { Modal } from "zmp-ui";
+import { Box, Modal, Text } from "zmp-ui";
+import { NodeDetails } from "components/tree/node-details/NodeDetails";
 
 const NODE_WIDTH = 70;
 const NODE_HEIGHT = 80;
@@ -45,33 +46,26 @@ export function UIFamilyTree() {
                   key={node.id}
                   node={node}
                   isRoot={node.id === rootId}
-                  onClick={setSelectId}
+                  onClick={(id) => { setSelectId(id) }}
                   style={getNodeStyle(node)}
                 />
               )}
             />
           </div>
 
-          <Modal
+          <Modal 
             visible={selectId !== ""}
-            title={"Test Modal"}
             onClose={() => { setSelectId(""); }}
-            actions={[
-              {
-                text: "Close",
-                close: true,
-                highLight: true,
-              },
-            ]}
+            actions={[ { text: "Close", close: true } ]}
           >
-            <div>
-              TESTTTTTT
-            </div>
+            <NodeDetails nodeId={selectId}/>
           </Modal>
 
         </React.Fragment>
       ) : (
-        <div> Getting members... </div>
+        <Box alignItems='center'> 
+          <Text.Title>{"Getting members..."}</Text.Title>
+        </Box>
       )}
     </React.Fragment>
   )

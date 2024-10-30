@@ -55,7 +55,7 @@ export function UIDummyTree() {
             ]}
           >
             <div>
-              TESTTTTTT
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, qui non ipsa a facilis et amet dolores vero consequuntur sequi.
             </div>
           </Modal>
         </React.Fragment>
