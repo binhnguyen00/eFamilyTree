@@ -1,11 +1,12 @@
 import React from "react";
 import ReactFamilyTree from 'react-family-tree';
+import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
 
 import { Node } from "../../components/tree/node/Node";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { FamilyMember, processServerData } from "./FamilyTreeUtils";
-import { Box, Button, Modal, Page, Text } from "zmp-ui";
+import { Box, Button, Modal, Page, Stack, Text } from "zmp-ui";
 import { NodeDetails } from "components/tree/node-details/NodeDetails";
 
 const NODE_WIDTH = 180;
@@ -35,28 +36,35 @@ export function UIFamilyTree() {
   }, [ reload, fetchError ]);
 
   return (
-    <React.Fragment>
+    <Page className="section-container">
       {CommonComponentUtils.renderHeader("Family Tree")}
 
       {familyMembers.length > 0 ? (
-        <React.Fragment>
-          <div className="scrollable">
-            <ReactFamilyTree
-              nodes={familyMembers as any}
-              rootId={rootId}
-              height={NODE_HEIGHT}
-              width={NODE_WIDTH}
-              renderNode={(node: any) => (
-                <Node
-                  key={node.id}
-                  node={node}
-                  isRoot={node.id === rootId}
-                  onClick={(id) => { setSelectId(id) }}
-                  style={calculatePositionStyle(node)}
-                />
-              )}
-            />
-          </div>
+        <div style={{ height: "100%" }}>
+          <TransformWrapper centerOnInit minScale={0.01}>
+            {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+              <Box flex flexDirection="column" justifyContent="space-between">
+                <TransformComponent>
+                  <ReactFamilyTree
+                    nodes={familyMembers as any}
+                    rootId={rootId}
+                    height={NODE_HEIGHT}
+                    width={NODE_WIDTH}
+                    renderNode={(node: any) => (
+                      <Node
+                        key={node.id}
+                        node={node}
+                        isRoot={node.id === rootId}
+                        onClick={(id) => { setSelectId(id) }}
+                        style={calculatePositionStyle(node)}
+                      />
+                    )}
+                  />
+                </TransformComponent>
+                <UITreeControl />
+              </Box>
+            )}
+          </TransformWrapper>
 
           <Modal 
             visible={selectId !== ""}
@@ -66,9 +74,9 @@ export function UIFamilyTree() {
             <NodeDetails nodeId={selectId}/>
           </Modal>
 
-        </React.Fragment>
+        </div>
       ) : (
-        <Page className={"page"}>
+        <React.Fragment>
             {fetchError ? (
               <Box flex flexDirection="column" justifyContent="center">
                 <Text.Title>{"Something went wrong"}</Text.Title> 
@@ -79,9 +87,30 @@ export function UIFamilyTree() {
                 <Text.Title>{"Getting members..."}</Text.Title> 
               </Box>
             )}
-        </Page>
+        </React.Fragment>
       )}
-    </React.Fragment>
+    </Page>
+  )
+}
+
+function UITreeControl() {
+  const { zoomIn, zoomOut, resetTransform, centerView } = useControls();
+
+  return (
+    <Box flex flexDirection="row" justifyContent="space-between">
+      <Button size="small" onClick={() => zoomIn()}>
+        {"+ Zoom"}
+      </Button>
+      <Button size="small" onClick={() => zoomOut()}>
+        {"- Zoom"}
+      </Button>
+      <Button size="small" onClick={() => { centerView()}}>
+        {"Center"}
+      </Button>
+      <Button size="small" onClick={() => { resetTransform()}}>
+        {"Reset"}
+      </Button>
+    </Box>
   )
 }
 

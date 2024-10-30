@@ -88,10 +88,6 @@ export function UIPlayground() {
         <Input.TextArea value={todoListValue}/>
       </Stack>
 
-      <div className="section-container">
-        <UIDummyTree/>
-      </div>
-
     </Page>
   )
 }
