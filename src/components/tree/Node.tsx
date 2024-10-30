@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Modal, Text } from "zmp-ui";
 
-import "../../../css/tree-node.scss"
+import "../../css/tree-node.scss"
 
 interface NodeProps {
   node: any;
