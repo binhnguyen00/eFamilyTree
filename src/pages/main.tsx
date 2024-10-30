@@ -2,7 +2,6 @@ import React from "react";
 import { Route } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { App, ZMPRouter, AnimationRoutes, SnackbarProvider } from "zmp-ui";
-import { ZmpSDK } from "../utils/ZmpSdk";
 import { UIHomePage } from "./home/UIHome";
 import { UIFamilyTree } from "./family-tree/UIFamilyTree";
 import { UIAbout } from "./about/UIAbout";
@@ -11,7 +10,7 @@ import { UIDummyCalendar } from "./dummy/UIDummyCalendar";
 import { UIDummyUpcoming } from "./dummy/UIDummyUpcoming";
 import { UIPlayground } from "./dummy/UIPlayground";
 import { UIUserHome } from "./user/UIUser";
-import { UITree } from "./dummy/UITree";
+import { ZmpSDK } from "../utils/ZmpSdk";
 
 export function Application() {
   // Get User's phone numb on init app. Get once, Zalo has cache.
@@ -33,7 +32,6 @@ export function Application() {
               <Route path="/calendar" element={<UIDummyCalendar/>}/>
               <Route path="/upcoming" element={<UIDummyUpcoming/>}/>
               <Route path="/playground" element={<UIPlayground/>}/>
-              <Route path="/demo-tree" element={<UITree/>}/>
             </AnimationRoutes>
           </ZMPRouter>
         </SnackbarProvider>

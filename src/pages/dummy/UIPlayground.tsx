@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Text, Page, Box, Input, Stack } from "zmp-ui";
 import { atom, selector, useRecoilValue, useRecoilState } from "recoil"
 import { CommonComponentUtils } from "utils/CommonComponent";
+import { UIDummyTree } from "./UIDummyTree";
 
 const numberState = atom({
   key: "number",
@@ -86,6 +87,10 @@ export function UIPlayground() {
         </Box>
         <Input.TextArea value={todoListValue}/>
       </Stack>
+
+      <div className="section-container">
+        <UIDummyTree/>
+      </div>
 
     </Page>
   )
