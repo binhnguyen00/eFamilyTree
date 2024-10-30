@@ -1,13 +1,16 @@
 import React from "react";
 import ReactFamilyTree from 'react-family-tree';
+import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
+import { CgUndo } from "react-icons/cg";
+import { BiHorizontalCenter } from "react-icons/bi";
+import { Box, Button, Modal, Page, Text, BottomNavigation } from "zmp-ui";
 import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
 
 import { Node } from "../../components/tree/node/Node";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { FamilyMember, processServerData } from "./FamilyTreeUtils";
-import { Box, Button, Modal, Page, Stack, Text } from "zmp-ui";
-import { NodeDetails } from "components/tree/node-details/NodeDetails";
+import { NodeDetails } from "../../components/tree/node-details/NodeDetails";
 
 const NODE_WIDTH = 180;
 const NODE_HEIGHT = 80;
@@ -40,10 +43,10 @@ export function UIFamilyTree() {
       {CommonComponentUtils.renderHeader("Family Tree")}
 
       {familyMembers.length > 0 ? (
-        <div style={{ height: "100%" }}>
+        <>
           <TransformWrapper centerOnInit minScale={0.01}>
             {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
-              <Box flex flexDirection="column" justifyContent="space-between">
+              <>
                 <TransformComponent>
                   <ReactFamilyTree
                     nodes={familyMembers as any}
@@ -62,7 +65,7 @@ export function UIFamilyTree() {
                   />
                 </TransformComponent>
                 <UITreeControl />
-              </Box>
+              </>
             )}
           </TransformWrapper>
 
@@ -74,7 +77,7 @@ export function UIFamilyTree() {
             <NodeDetails nodeId={selectId}/>
           </Modal>
 
-        </div>
+        </>
       ) : (
         <React.Fragment>
             {fetchError ? (
@@ -97,20 +100,34 @@ function UITreeControl() {
   const { zoomIn, zoomOut, resetTransform, centerView } = useControls();
 
   return (
-    <Box flex flexDirection="row" justifyContent="space-between">
-      <Button size="small" onClick={() => zoomIn()}>
-        {"+ Zoom"}
-      </Button>
-      <Button size="small" onClick={() => zoomOut()}>
-        {"- Zoom"}
-      </Button>
-      <Button size="small" onClick={() => { centerView()}}>
-        {"Center"}
-      </Button>
-      <Button size="small" onClick={() => { resetTransform()}}>
-        {"Reset"}
-      </Button>
-    </Box>
+    <BottomNavigation
+      fixed
+    >
+      <BottomNavigation.Item
+        key="zoomIn"
+        label={"+ Zoom"}
+        icon={<TiZoomInOutline/>}
+        onClick={() => zoomIn()}
+      />
+      <BottomNavigation.Item
+        key="zoomOut"
+        label={"- Zoom"}
+        icon={<TiZoomOutOutline />}
+        onClick={() => zoomOut()}
+      />
+      <BottomNavigation.Item
+        key="center"
+        label={"Center"}
+        icon={<BiHorizontalCenter/>}
+        onClick={() => centerView()}
+      />
+      <BottomNavigation.Item
+        key="reset"
+        label={"Reset"}
+        icon={<CgUndo/>}
+        onClick={() => resetTransform()}
+      />
+    </BottomNavigation>
   )
 }
 

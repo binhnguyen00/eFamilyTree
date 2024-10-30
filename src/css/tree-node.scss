@@ -11,7 +11,13 @@
   background: #ff4bab;
 }
 
+// override react-zoom-pan-pinch css
 .react-transform-wrapper {
-  height: unset !important;
+  height: inherit !important;
   width: unset !important;
+}
+
+// override react-zoom-pan-pinch css
+.react-transform-component {
+  height: inherit !important;
 }

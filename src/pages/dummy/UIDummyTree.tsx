@@ -3,7 +3,7 @@ import ReactFamilyTree from 'react-family-tree';
 import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { CgUndo } from "react-icons/cg";
 import { BiHorizontalCenter } from "react-icons/bi";
-import { BottomNavigation, Box, Button, Icon, Modal, Page } from "zmp-ui";
+import { BottomNavigation, Modal, Page } from "zmp-ui";
 import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
 
 import { Node } from "../../components/tree/node/Node";
@@ -22,7 +22,7 @@ export function UIDummyTree() {
   const [ selectId, setSelectId ] = React.useState<string>("");
 
   return (
-    <Page className="page section-container">
+    <Page className="page section-container" style={{ overflow: "hidden" }}>
       {CommonComponentUtils.renderHeader("Dummy Tree")}
 
       {nodes.length > 0 ? (
@@ -32,7 +32,7 @@ export function UIDummyTree() {
             minScale={0.01}
           >
             {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
-              <div>
+              <>
                 <TransformComponent>
                   <ReactFamilyTree
                     nodes={nodes as any}
@@ -45,13 +45,13 @@ export function UIDummyTree() {
                         node={node}
                         isRoot={node.id === rootId}
                         onClick={setSelectId}
-                        style={getNodeStyle(node)}
+                        style={calculatePositionStyle(node)}
                       />
                     )}
                   />
                 </TransformComponent>
                 <UITreeControl />
-              </div>
+              </>
             )}
           </TransformWrapper>
 
@@ -72,7 +72,7 @@ export function UIDummyTree() {
             </div>
           </Modal>
         </>
-      ): (
+      ) : (
         <div> Getting members... </div>
       )}
     </Page>
@@ -114,7 +114,7 @@ function UITreeControl() {
   )
 }
 
-export function getNodeStyle({ left, top }: Readonly<any>): React.CSSProperties {
+export function calculatePositionStyle({ left, top }: Readonly<any>): React.CSSProperties {
   return {
     width: NODE_WIDTH,
     height: NODE_HEIGHT,
