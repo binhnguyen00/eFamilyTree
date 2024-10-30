@@ -3,16 +3,15 @@ import ReactFamilyTree from 'react-family-tree';
 
 import { Node } from "../../components/tree/node/Node";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
-import { testProcessServerData, processServerData } from "../family-tree/FamilyTreeUtils";
+import { processServerData } from "../family-tree/FamilyTreeUtils";
 
 import rootNode from "../family-tree/member.json";
 import { Modal } from "zmp-ui";
 
-export const NODE_WIDTH = 70;
-export const NODE_HEIGHT = 80;
+const NODE_WIDTH = 220;
+const NODE_HEIGHT = 100;
 
 export function UIDummyTree() {
-  testProcessServerData(rootNode["employee_tree"] as any);
   const members = processServerData(rootNode["employee_tree"] as any);
   const [nodes, setNodes] = React.useState(members);
   const [rootId, setRootId] = React.useState(nodes[0].id);
@@ -45,7 +44,7 @@ export function UIDummyTree() {
           <Modal
             visible={selectId !== ""}
             title={"Test Modal"}
-            onClose={() => { setSelectId(""); }}
+            onClose={() => { setSelectId("") }}
             actions={[
               {
                 text: "Close",

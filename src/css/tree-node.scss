@@ -1,17 +1,6 @@
-.tree-node-root {
+.tree-node {
   position: absolute;
-  display: flex;
-  padding: 10px;
-}
-
-.tree-node-inner {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid black;
-  overflow: hidden;
-  cursor: pointer;
+  padding: 15px;
 }
 
 .tree-node-male {

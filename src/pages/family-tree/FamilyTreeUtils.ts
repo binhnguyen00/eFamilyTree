@@ -83,8 +83,3 @@ export function processServerData(node: OdooNode): FamilyMember[] {
   
   return result;
 }
-
-export function testProcessServerData(rootNode: OdooNode) {
-  const result = processServerData(rootNode);
-  console.log(result);
-}

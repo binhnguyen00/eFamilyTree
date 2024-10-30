@@ -5,7 +5,7 @@ import { Node } from "../../components/tree/node/Node";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { FamilyMember, processServerData } from "./FamilyTreeUtils";
-import { Box, Modal, Text } from "zmp-ui";
+import { Box, Button, Modal, Page, Text } from "zmp-ui";
 import { NodeDetails } from "components/tree/node-details/NodeDetails";
 
 const NODE_WIDTH = 70;
@@ -16,6 +16,7 @@ export function UIFamilyTree() {
   const [ familyMembers, setFamilyMembers ] = React.useState<any[]>([]);
   const [ rootId, setRootId ] = React.useState<string>("");
   const [ selectId, setSelectId ] = React.useState<string>("");
+  const [ fetchError, setFetchError ] = React.useState(false);
 
   React.useEffect(() => {
     const success = (res: any) => {
@@ -26,8 +27,12 @@ export function UIFamilyTree() {
         setRootId(`${data.id}`);
       }
     }
-    EFamilyTreeApi.getMembers(import.meta.env.VITE_DEV_PHONE_NUMBER as string, success);
-  }, [ reload ]);
+    const fail = (error: any) => {
+      setFetchError(!fetchError);
+    }
+    // TODO: Replace with actual phone number. Use Provider.
+    EFamilyTreeApi.getMembers(import.meta.env.VITE_DEV_PHONE_NUMBER as string, success, fail);
+  }, [ reload, fetchError ]);
 
   return (
     <React.Fragment>
@@ -47,7 +52,7 @@ export function UIFamilyTree() {
                   node={node}
                   isRoot={node.id === rootId}
                   onClick={(id) => { setSelectId(id) }}
-                  style={getNodeStyle(node)}
+                  style={calculatePositionStyle(node)}
                 />
               )}
             />
@@ -63,15 +68,24 @@ export function UIFamilyTree() {
 
         </React.Fragment>
       ) : (
-        <Box alignItems='center'> 
-          <Text.Title>{"Getting members..."}</Text.Title>
-        </Box>
+        <Page className={"page"}>
+            {fetchError ? (
+              <Box flex flexDirection="column" justifyContent="center">
+                <Text.Title>{"Something went wrong"}</Text.Title> 
+                <Button onClick={() => setReload(!reload)}>{"Retry"}</Button>
+              </Box>
+            ) : (
+              <Box flex justifyContent='center'> 
+                <Text.Title>{"Getting members..."}</Text.Title> 
+              </Box>
+            )}
+        </Page>
       )}
     </React.Fragment>
   )
 }
 
-export function getNodeStyle({ left, top }: any): React.CSSProperties {
+export function calculatePositionStyle({ left, top }: any): React.CSSProperties {
   return {
     width: NODE_WIDTH,
     height: NODE_HEIGHT,

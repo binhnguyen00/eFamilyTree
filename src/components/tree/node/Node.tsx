@@ -17,11 +17,12 @@ export function Node({node, isRoot, onClick, style}: NodeProps) {
   }
 
   return (
-    <div className='tree-node-root' style={style}>
+    <div className='tree-node' style={style}>
       <Box 
         flex justifyContent='center' alignItems='center'
         className={`tree-node-${node.gender}`}
         onClick={showDetails}
+        style={{ width: "100%", height: "100%", border: "1px solid black" }}
       >
         <Text.Title size='small'> {node.name} </Text.Title>
       </Box>
