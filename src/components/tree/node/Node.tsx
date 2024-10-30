@@ -1,5 +1,6 @@
 import React from 'react';
-import {  } from "zmp-ui";
+import { Box, Modal, Text } from "zmp-ui";
+
 import "../../../css/tree-node.scss"
 
 interface NodeProps {
@@ -12,16 +13,18 @@ interface NodeProps {
 export function Node({node, isRoot, onClick, style}: NodeProps) {
   const showDetails = () => {
     console.log(node);
+    onClick(node.id);
   }
 
   return (
     <div className='tree-node-root' style={style}>
-      <div
-        className={`tree-node-inner tree-node-${node.gender}`}
+      <Box 
+        flex justifyContent='center' alignItems='center'
+        className={`tree-node-${node.gender}`}
         onClick={showDetails}
       >
-        <div className='tree-node-id'> {node.id} </div>
-      </div>
+        <Text.Title size='small'> {node.name} </Text.Title>
+      </Box>
     </div>
   )
 }

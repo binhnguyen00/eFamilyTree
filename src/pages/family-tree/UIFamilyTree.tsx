@@ -5,6 +5,7 @@ import { Node } from "../../components/tree/node/Node";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { FamilyMember, processServerData } from "./FamilyTreeUtils";
+import { Modal } from "zmp-ui";
 
 const NODE_WIDTH = 70;
 const NODE_HEIGHT = 80;
@@ -13,7 +14,7 @@ export function UIFamilyTree() {
   const [ reload, setReload ] = React.useState(false);
   const [ familyMembers, setFamilyMembers ] = React.useState<any[]>([]);
   const [ rootId, setRootId ] = React.useState<string>("");
-  const [ selectId, setSelectId ] = React.useState<string>(rootId);
+  const [ selectId, setSelectId ] = React.useState<string>("");
 
   React.useEffect(() => {
     const success = (res: any) => {
@@ -21,18 +22,18 @@ export function UIFamilyTree() {
       if (data) {
         let result: FamilyMember[] = processServerData(data);
         setFamilyMembers(result);
-        setRootId(`${data.id}-${data.name}`);
+        setRootId(`${data.id}`);
       }
     }
     EFamilyTreeApi.getMembers(import.meta.env.VITE_DEV_PHONE_NUMBER as string, success);
   }, [ reload ]);
 
   return (
-    <>
+    <React.Fragment>
       {CommonComponentUtils.renderHeader("Family Tree")}
 
-      <React.Fragment>
-        {familyMembers.length > 0 ? (
+      {familyMembers.length > 0 ? (
+        <React.Fragment>
           <div className="scrollable">
             <ReactFamilyTree
               nodes={familyMembers as any}
@@ -50,11 +51,29 @@ export function UIFamilyTree() {
               )}
             />
           </div>
-        ) : (
-          <div> Getting members... </div>
-        )}
-      </React.Fragment>
-    </>
+
+          <Modal
+            visible={selectId !== ""}
+            title={"Test Modal"}
+            onClose={() => { setSelectId(""); }}
+            actions={[
+              {
+                text: "Close",
+                close: true,
+                highLight: true,
+              },
+            ]}
+          >
+            <div>
+              TESTTTTTT
+            </div>
+          </Modal>
+
+        </React.Fragment>
+      ) : (
+        <div> Getting members... </div>
+      )}
+    </React.Fragment>
   )
 }
 
