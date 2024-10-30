@@ -1,19 +1,21 @@
-import React, { useMemo, useState } from "react";
-import { Page } from "zmp-ui";
+import React from "react";
 import ReactFamilyTree from 'react-family-tree';
-import { ExtNode } from "relatives-tree/lib/types";
-import { Node } from "components/tree/node/Node";
-import members from "../family-tree/demo-member.json";
-import { CommonComponentUtils } from "utils/CommonComponent";
+
+import { Node } from "../../components/tree/node/Node";
+import { CommonComponentUtils } from "../../utils/CommonComponent";
+import { testProcessServerData, processServerData } from "../family-tree/FamilyTreeUtils";
+
+import rootNode from "../family-tree/member.json";
 
 export const NODE_WIDTH = 70;
 export const NODE_HEIGHT = 80;
 
 export function UITree() {
-  const [nodes, setNodes] = useState(members);
-  const firstNodeId = useMemo(() => nodes[0].id, [nodes]);
-  const [rootId, setRootId] = useState(firstNodeId);
-  const [selectId, setSelectId] = useState<string>();
+  testProcessServerData(rootNode["employee_tree"] as any);
+  const members = processServerData(rootNode["employee_tree"] as any);
+  const [nodes, setNodes] = React.useState(members);
+  const [rootId, setRootId] = React.useState(nodes[0].id);
+  const [selectId, setSelectId] = React.useState<string>();
 
   return (
     <>
@@ -22,11 +24,11 @@ export function UITree() {
       {nodes.length > 0 ? (
         <div className="scrollable">
           <ReactFamilyTree
-            nodes={members as any}
+            nodes={nodes as any}
             rootId={rootId}
             width={NODE_WIDTH}
             height={NODE_HEIGHT}
-            renderNode={(node: Readonly<ExtNode>) => (
+            renderNode={(node: Readonly<any>) => (
               <Node
                 key={node.id}
                 node={node}
@@ -44,7 +46,7 @@ export function UITree() {
   );
 }
 
-export function getNodeStyle({ left, top }: Readonly<ExtNode>): React.CSSProperties {
+export function getNodeStyle({ left, top }: Readonly<any>): React.CSSProperties {
   return {
     width: NODE_WIDTH,
     height: NODE_HEIGHT,

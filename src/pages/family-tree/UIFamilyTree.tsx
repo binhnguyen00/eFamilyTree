@@ -1,34 +1,27 @@
 import React from "react";
-import { Box, Button, Grid, Modal, Page, Text } from "zmp-ui";
-import { CommonComponentUtils } from "../../utils/CommonComponent";
-import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import ReactFamilyTree from 'react-family-tree';
-import { ExtNode } from "relatives-tree/lib/types";
-import { Node } from "components/tree/node/Node";
-import { FamilyMember, processServerData } from "./FamilyTreeUtils";
-import nodes from "./demo-member.json";
 
-export const NODE_WIDTH = 70;
-export const NODE_HEIGHT = 80;
+import { Node } from "../../components/tree/node/Node";
+import { CommonComponentUtils } from "../../utils/CommonComponent";
+import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
+import { FamilyMember, processServerData } from "./FamilyTreeUtils";
+
+const NODE_WIDTH = 70;
+const NODE_HEIGHT = 80;
 
 export function UIFamilyTree() {
-  console.log(nodes);
-  
   const [ reload, setReload ] = React.useState(false);
-  const [ familyMembers, setFamilyMembers ] = React.useState<any[]>(nodes);
-  const firstNodeId = React.useMemo(() => familyMembers[0].id, [familyMembers]);
-  const [ rootId, setRootId ] = React.useState<string>(firstNodeId);
-  const [ selectId, setSelectId ] = React.useState<string>();
+  const [ familyMembers, setFamilyMembers ] = React.useState<any[]>([]);
+  const [ rootId, setRootId ] = React.useState<string>("");
+  const [ selectId, setSelectId ] = React.useState<string>(rootId);
 
   React.useEffect(() => {
     const success = (res: any) => {
       const data = res["employee_tree"];
       if (data) {
-        setRootId(data.id);
-        const result = processServerData(data);
-        console.log("Members", result);
+        let result: FamilyMember[] = processServerData(data);
         setFamilyMembers(result);
-        setRootId(data.id);
+        setRootId(`${data.id}-${data.name}`);
       }
     }
     EFamilyTreeApi.getMembers(import.meta.env.VITE_DEV_PHONE_NUMBER as string, success);
@@ -42,11 +35,11 @@ export function UIFamilyTree() {
         {familyMembers.length > 0 ? (
           <div className="scrollable">
             <ReactFamilyTree
-              nodes={nodes as any}
+              nodes={familyMembers as any}
               rootId={rootId}
               height={NODE_HEIGHT}
               width={NODE_WIDTH}
-              renderNode={(node: Readonly<ExtNode>) => (
+              renderNode={(node: any) => (
                 <Node
                   key={node.id}
                   node={node}
@@ -65,7 +58,7 @@ export function UIFamilyTree() {
   )
 }
 
-export function getNodeStyle({ left, top }: Readonly<ExtNode>): React.CSSProperties {
+export function getNodeStyle({ left, top }: any): React.CSSProperties {
   return {
     width: NODE_WIDTH,
     height: NODE_HEIGHT,

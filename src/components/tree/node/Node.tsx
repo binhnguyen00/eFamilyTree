@@ -1,10 +1,9 @@
 import React from 'react';
-import type { ExtNode } from 'relatives-tree/lib/types';
-
+import {  } from "zmp-ui";
 import "../../../css/tree-node.scss"
 
 interface NodeProps {
-  node: ExtNode;
+  node: any;
   isRoot: boolean;
   onClick: (id: string) => void;
   style?: React.CSSProperties;
