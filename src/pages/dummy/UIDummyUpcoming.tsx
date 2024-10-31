@@ -4,7 +4,7 @@ import { Page } from "zmp-ui";
 
 export function UIDummyUpcoming() {
   return (
-    <Page className='page'>
+    <Page>
       {CommonComponentUtils.renderHeader("Upcoming")}
       <div className="container">
         <p> Upcoming </p>

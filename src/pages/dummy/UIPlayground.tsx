@@ -54,7 +54,7 @@ export function UIPlayground() {
   const todoListValue = useRecoilValue(todoSelector);
 
   return (
-    <Page className="page">
+    <Page>
       {CommonComponentUtils.renderHeader("Playground")}
 
       <div className="container">

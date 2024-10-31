@@ -8,13 +8,13 @@ import blogs from "./blogs.json";
 
 export function UIBlog() {
   return (
-    <Stack space="2rem">
+    <Page>
       {CommonComponentUtils.renderHeader("Blog List")}
 
-      <Page className="page">
+      <div className="container">
         <UIBlogList />
-      </Page>
-    </Stack>
+      </div>
+    </Page>
   )
 }
 

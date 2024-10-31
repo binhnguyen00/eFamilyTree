@@ -18,7 +18,7 @@ export function UIUserHome() {
   const { userInfo } = useRecoilValue(userState);
 
   return (
-    <Page className="page">
+    <Page>
       {CommonComponentUtils.renderHeader("User")}
       
       <div className="container">

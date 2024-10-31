@@ -7,49 +7,45 @@ export function UIDummyAlbum() {
   const [activeIndex, setActiveIndex] = React.useState(0);
   
   return (
-    <Page className='page'>
+    <Page>
       {CommonComponentUtils.renderHeader("Album")}
 
-      <Box className="container">
-        <Box mt={2}>
-          <Text size='xSmall' className='input-desc'>
-            {"Ảnh Gia Đình"}
-          </Text>
-        </Box>
-        <Box mt={2}>
-          <Box flex flexDirection='row' flexWrap>
-            {images.map((img, index) => (
-              <Box
-                mr={1}
-                key={img.key}
-                style={{
-                  width: "68px",
-                  height: "69px",
-                  borderRadius: "8px",
-                  overflow: "hidden"
+      <div className="container">
+        <Text size='xSmall' className='input-desc'>
+          {"Ảnh Gia Đình"}
+        </Text>
+        <Box flex flexDirection='row' flexWrap>
+          {images.map((img, index) => (
+            <Box
+              mr={1}
+              key={img.key}
+              style={{
+                width: "68px",
+                height: "69px",
+                borderRadius: "8px",
+                overflow: "hidden"
+              }}
+            >
+              <img
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                role='presentation'
+                onClick={() => {
+                  setActiveIndex(index);
+                  setVisible(true);
                 }}
-              >
-                <img
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                  role='presentation'
-                  onClick={() => {
-                    setActiveIndex(index);
-                    setVisible(true);
-                  }}
-                  src={img.src}
-                  alt={img.alt}
-                />
-              </Box>
-            ))}
-          </Box>
-          <ImageViewer
-            onClose={() => setVisible(false)}
-            activeIndex={activeIndex}
-            images={images}
-            visible={visible}
-          />
+                src={img.src}
+                alt={img.alt}
+              />
+            </Box>
+          ))}
         </Box>
-      </Box>
+        <ImageViewer
+          onClose={() => setVisible(false)}
+          activeIndex={activeIndex}
+          images={images}
+          visible={visible}
+        />
+      </div>
     </Page>
   );
 }
