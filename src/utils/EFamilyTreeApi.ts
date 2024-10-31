@@ -8,7 +8,7 @@ export class EFamilyTreeApi {
     return this.server.serverUrl;
   }
 
-  public static getMembers(phoneNumber: string, successCB: Callback, failCB?: Callback) {
+  public static getMembers(phoneNumber, successCB: Callback, failCB?: Callback) {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber
@@ -17,7 +17,7 @@ export class EFamilyTreeApi {
     this.server.POST("get/member", header, body, success, fail);
   }
 
-  public static getMemberInfo(phoneNumber: string, memberId: number, successCB: Callback, failCB?: Callback) {
+  public static getMemberInfo(phoneNumber, memberId: number, successCB: Callback, failCB?: Callback) {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber,
@@ -27,7 +27,7 @@ export class EFamilyTreeApi {
     return this.server.POST("get/info/member", header, body, success, fail);
   }
 
-  public static getMemberBlogs(phoneNumber: string, successCB: Callback, failCB?: Callback) {
+  public static getMemberBlogs(phoneNumber, successCB: Callback, failCB?: Callback) {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber
@@ -36,7 +36,7 @@ export class EFamilyTreeApi {
     return this.server.POST("get/list/blog", header, body, success, fail);
   }
 
-  public static getMemberAlbum(phoneNumber: string, successCB: Callback, failCB?: Callback) {
+  public static getMemberAlbum(phoneNumber, successCB: Callback, failCB?: Callback) {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber
@@ -45,7 +45,7 @@ export class EFamilyTreeApi {
     return this.server.POST("get/album", header, body, success, fail);
   }
 
-  public static getMemberUpcomingEvents(phoneNumber: string, successCB: Callback, failCB?: Callback) {
+  public static getMemberUpcomingEvents(phoneNumber, successCB: Callback, failCB?: Callback) {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber

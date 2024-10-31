@@ -3,13 +3,12 @@ import { Box, Stack, Text, Button, Page } from "zmp-ui";
 
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
-
-import blogs from "./blogs.json";
+import { PhoneNumberContext } from "../../pages/main";
 
 export function UIBlog() {
   return (
     <Page>
-      {CommonComponentUtils.renderHeader("Blog List")}
+      {CommonComponentUtils.renderHeader("Your Blogs")}
 
       <div className="container">
         <UIBlogList />
@@ -19,26 +18,42 @@ export function UIBlog() {
 }
 
 export function UIBlogList() {
-  const [ data, setData ] = React.useState<any[]>(blogs.blogs);
+  const phoneNumber = React.useContext(PhoneNumberContext);
+  const [ data, setData ] = React.useState<any[]>([]);
   const [ fetchError, setFetchError ] = React.useState(false);
+  const [ loading, setLoading ] = React.useState(true);
   const [ reload, setReload ] = React.useState(false);
 
   React.useEffect(() => {
-    const success = (result: any[]) => {
+
+    const success = (result: any[] | string) => {
       /** Element in Result[]
        * id: number
        * name: string
        * cover_properties: string   <- should use JSON.parse(cover_properties)
        * content: string            <- should use JSON.parse(content)
        */
-      setData(result);
+      setLoading(false);
+      if (typeof result === 'string') {
+        setFetchError(true);
+      } else {
+        setData(result);
+      }
     }
+
     const fail = (error: any) => {
-      setFetchError(!fetchError);
+      setLoading(false);
+      setFetchError(true);
     }
-    // TODO: Replace with actual phone number. Use Provider.
-    EFamilyTreeApi.getMemberBlogs(import.meta.env.VITE_DEV_PHONE_NUMBER as string, success, fail);
-  }, [ reload ]);
+
+    const fetchData = () => {
+      setLoading(true);
+      setFetchError(false);
+      EFamilyTreeApi.getMemberBlogs(phoneNumber, success, fail);
+    };
+
+    fetchData();
+  }, [ reload, phoneNumber ]);
 
   const renderBlogs = (items: any[]) => {
     let html = [] as React.ReactNode[];
@@ -47,13 +62,12 @@ export function UIBlogList() {
     items.map((item, index) => {
       const coverProperties = JSON.parse(item["cover_properties"]);
       const imageUrl = coverProperties["background-image"] as string;
-      // const imgSrc = `${EFamilyTreeApi.getServerBaseUrl()}${imageUrl.replace(/url\(['"]?(.*?)['"]?\)/, '$1')}`
+      const imgSrc = `${EFamilyTreeApi.getServerBaseUrl()}${imageUrl.replace(/url\(['"]?(.*?)['"]?\)/, '$1')}`
       html.push(
         <Box key={index} flex flexDirection="column">
           <Text.Title size="normal">{item["name"]}</Text.Title>
           <Text size="small">{item["post_date"]}</Text>
-          {/* <img src={imgSrc} alt=""/> */}
-          <img src={imageUrl} alt=""/>
+          <img src={imgSrc} alt=""/>
         </Box>
       )
     })
@@ -63,26 +77,29 @@ export function UIBlogList() {
 
   return (
     <>
-      {
-        data.length > 0 ? (
-          <Stack className="flex-v" space="1rem">
-            {renderBlogs(data)}
-          </Stack>
-        ) : (
-          !reload ? (
-            <Box flex flexDirection="column" alignItems="center">
-              <Text.Title size="small">{"Loading..."}</Text.Title>
-            </Box>
-          ) : (
-            <Box flex flexDirection="column" justifyContent="center" alignItems="center">
-              <Text.Title size="small">{"No Blogs available"}</Text.Title>
-              <Button size="small" onClick={() => setReload(!reload)}>
-                {"Retry"}
-              </Button>
-            </Box>
-          )
-        )
-      }
+      {loading ? (
+        <Box flex flexDirection="column" alignItems="center">
+          <Text.Title size="small">{"Loading..."}</Text.Title>
+        </Box>
+      ) : fetchError ? (
+        <Stack space="1rem">
+          <Text.Title size="small">{"Something went wrong. Please try again."}</Text.Title>
+          <Button size="small" onClick={() => setReload((prev) => !prev)}>
+            {"Retry"}
+          </Button>
+        </Stack>
+      ) : data.length > 0 ? (
+        <Stack className="flex-v" space="1rem">
+          {renderBlogs(data)}
+        </Stack>
+      ) : (
+        <Box flex flexDirection="column" justifyContent="center" alignItems="center">
+          <Text.Title size="small">{"No Blogs available"}</Text.Title>
+          <Button size="small" onClick={() => setReload((prev) => !prev)}>
+            {"Retry"}
+          </Button>
+        </Box>
+      )}
     </>
-  )
+  );
 }

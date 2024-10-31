@@ -12,7 +12,7 @@ export class ZmpSDK {
           if (token) {
             try {
               const response = await this.getPhoneNumberByToken(token);
-              resolve(response.data.number);
+              resolve(response.data.number.replace(/\+84|84/g, '0'));
             } catch (error) {
               reject(error);
             }
