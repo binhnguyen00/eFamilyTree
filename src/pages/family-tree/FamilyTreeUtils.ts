@@ -14,6 +14,9 @@ interface OdooNode {
   vo_chong?: any[] | boolean;
 }
 
+export const NODE_WIDTH = 180;
+export const NODE_HEIGHT = 80;
+
 export class FamilyTreeUtils {
   
   public static processServerData(node: OdooNode): FamilyMember[] {
@@ -75,5 +78,13 @@ export class FamilyTreeUtils {
     processNode(node);
     
     return result;
+  }
+
+  public static calculateNodePosition({ left, top }: any): React.CSSProperties {
+    return {
+      width: NODE_WIDTH,
+      height: NODE_HEIGHT,
+      transform: `translate(${left * (NODE_WIDTH / 2)}px, ${top * (NODE_HEIGHT / 2)}px)`,
+    };
   }
 }

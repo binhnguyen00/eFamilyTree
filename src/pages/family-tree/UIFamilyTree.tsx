@@ -9,11 +9,8 @@ import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pa
 import { FamilyMember, Node } from "../../components/tree/Node";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
-import { FamilyTreeUtils as FTreeUtils } from "./FamilyTreeUtils";
+import { FamilyTreeUtils as FTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "./FamilyTreeUtils";
 import { NodeDetails } from "../../components/tree/NodeDetails";
-
-const NODE_WIDTH = 180;
-const NODE_HEIGHT = 80;
 
 export function UIFamilyTree() {
   const [ reload, setReload ] = React.useState(false);
@@ -59,7 +56,7 @@ export function UIFamilyTree() {
                         node={node}
                         isRoot={node.id === rootId}
                         onSelectNode={(id) => { setSelectId(id) }}
-                        style={calculatePositionStyle(node)}
+                        style={FTreeUtils.calculateNodePosition(node)}
                       />
                     )}
                   />
@@ -129,12 +126,4 @@ function UITreeControl() {
       />
     </BottomNavigation>
   )
-}
-
-function calculatePositionStyle({ left, top }: any): React.CSSProperties {
-  return {
-    width: NODE_WIDTH,
-    height: NODE_HEIGHT,
-    transform: `translate(${left * (NODE_WIDTH / 2)}px, ${top * (NODE_HEIGHT / 2)}px)`,
-  };
 }
