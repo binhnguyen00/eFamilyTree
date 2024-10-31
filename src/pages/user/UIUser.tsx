@@ -18,7 +18,7 @@ export function UIUserHome() {
   const { userInfo } = useRecoilValue(userState);
 
   return (
-    <Page className="page" style={{ marginTop: 44 }}>
+    <Page className="page">
       {CommonComponentUtils.renderHeader("User")}
       
       <Stack space="1rem">

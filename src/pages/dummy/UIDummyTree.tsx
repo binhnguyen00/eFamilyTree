@@ -22,7 +22,7 @@ export function UIDummyTree() {
   const [ selectId, setSelectId ] = React.useState<string>("");
 
   return (
-    <Page style={{ marginTop: 44 }}>
+    <Page>
       {CommonComponentUtils.renderHeader("Dummy Tree")}
 
       {nodes.length > 0 ? (

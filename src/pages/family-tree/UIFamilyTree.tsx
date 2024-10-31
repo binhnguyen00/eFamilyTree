@@ -36,7 +36,7 @@ export function UIFamilyTree() {
   }, [ reload, fetchError ]);
 
   return (
-    <Page style={{ marginTop: 44 }}>
+    <Page>
       {CommonComponentUtils.renderHeader("Family Tree")}
 
       {familyMembers.length > 0 ? (

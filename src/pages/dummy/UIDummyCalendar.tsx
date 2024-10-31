@@ -4,11 +4,11 @@ import { CommonComponentUtils } from "../../utils/CommonComponent";
 
 export function UIDummyCalendar() {
   return (
-    <Page className='page' style={{ marginTop: 44 }}>
+    <div className="container">
       {CommonComponentUtils.renderHeader("Calendar")}
       <Calendar
         fullscreen
       />
-    </Page>
+    </div>
   )
 }

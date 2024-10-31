@@ -7,7 +7,7 @@ import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 
 export function UIBlog() {
   return (
-    <Page className="page" style={{ marginTop: 44 }}>
+    <Page className="page">
       {CommonComponentUtils.renderHeader("Blog List")}
 
       <UIBlogList />

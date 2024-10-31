@@ -6,7 +6,7 @@ export function UIAbout() {
   const [actionSheetOpened, setActionSheetOpened] = React.useState(false);
   const navigate = useNavigate();
   return (
-    <Page className="page" style={{ marginTop: 44 }}>
+    <Page className="page">
       {CommonComponentUtils.renderHeader("About")}
 
       <div>
