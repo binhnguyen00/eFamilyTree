@@ -1,3 +1,5 @@
+import { FamilyMember } from "../../components/tree/Node";
+
 interface OdooNode {
   id: number;
   name: string;
@@ -10,17 +12,6 @@ interface OdooNode {
     gioi_tinh: "nam" | "nu";
   };
   vo_chong?: any[] | boolean;
-}
-
-export interface FamilyMember {
-  id: string;
-  name: string;
-  gender: "male" | "female";
-  img?: string;
-  parents: { id: string; type: "blood" }[];
-  siblings: { id: string; type: "blood" }[];
-  spouses: { id: string; type: "married" }[];
-  children: { id: string; type: "blood" }[];
 }
 
 export function processServerData(node: OdooNode): FamilyMember[] {

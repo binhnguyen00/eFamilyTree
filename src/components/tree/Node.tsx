@@ -1,19 +1,31 @@
 import React from 'react';
-import { Box, Modal, Text } from "zmp-ui";
+import { PiTreeBold } from "react-icons/pi";
+import { Box, Text } from "zmp-ui";
 
 import "../../css/tree-node.scss"
 
+export interface FamilyMember {
+  id: string;
+  name: string;
+  gender: "male" | "female";
+  img?: string;
+  parents: { id: string; type: "blood" }[];
+  siblings: { id: string; type: "blood" }[];
+  spouses: { id: string; type: "married" }[];
+  children: { id: string; type: "blood" }[];
+}
+
 interface NodeProps {
-  node: any;
+  node: FamilyMember;
   isRoot: boolean;
-  onClick: (id: string) => void;
+  onSelectNode: (id: string) => void;
   style?: React.CSSProperties;
 }
 
-export function Node({node, isRoot, onClick, style}: NodeProps) {
+export function Node({node, isRoot, onSelectNode, style}: NodeProps) {
   const showDetails = () => {
     console.log(node);
-    onClick(node.id);
+    onSelectNode(node.id);
   }
 
   return (
@@ -24,7 +36,8 @@ export function Node({node, isRoot, onClick, style}: NodeProps) {
         onClick={showDetails}
         style={{ width: "100%", height: "100%", border: "1px solid black" }}
       >
-        <Text.Title size='small'> {node.name} </Text.Title>
+        {isRoot && <PiTreeBold size={"1em"}/>}
+        <Text.Title size='small' style={{ color: "white" }}> {node.name} </Text.Title>
       </Box>
     </div>
   )

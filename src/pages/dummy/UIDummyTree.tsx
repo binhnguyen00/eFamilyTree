@@ -44,7 +44,7 @@ export function UIDummyTree() {
                         key={node.id}
                         node={node}
                         isRoot={node.id === rootId}
-                        onClick={setSelectId}
+                        onSelectNode={setSelectId}
                         style={calculatePositionStyle(node)}
                       />
                     )}

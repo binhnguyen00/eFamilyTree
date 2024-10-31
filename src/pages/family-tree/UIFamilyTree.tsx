@@ -6,10 +6,10 @@ import { BiHorizontalCenter } from "react-icons/bi";
 import { Box, Button, Modal, Page, Text, BottomNavigation } from "zmp-ui";
 import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
 
-import { Node } from "../../components/tree/Node";
+import { FamilyMember, Node } from "../../components/tree/Node";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
-import { FamilyMember, processServerData } from "./FamilyTreeUtils";
+import { processServerData } from "./FamilyTreeUtils";
 import { NodeDetails } from "../../components/tree/NodeDetails";
 
 const NODE_WIDTH = 180;
@@ -58,7 +58,7 @@ export function UIFamilyTree() {
                         key={node.id}
                         node={node}
                         isRoot={node.id === rootId}
-                        onClick={(id) => { setSelectId(id) }}
+                        onSelectNode={(id) => { setSelectId(id) }}
                         style={calculatePositionStyle(node)}
                       />
                     )}
