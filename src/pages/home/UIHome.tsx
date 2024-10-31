@@ -1,14 +1,15 @@
 import React, { Suspense } from "react";
 import { Page, useNavigate, Grid, Button, Stack, Text, Box } from "zmp-ui";
 import { closeApp } from "zmp-sdk";
+
+import { UIUser } from "../../pages/user/UIUser";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
-import { UIUser } from "pages/user/UIUser";
 
 export function UIHomePage() {
   let navigate = useNavigate();
 
-  const handleTabChange = (key: string) => {
-    navigate("/" + key);
+  const navigatePage = (pageKey: string) => {
+    navigate(`/${pageKey}`);
     navigate = undefined as any;
   };
 
@@ -19,6 +20,7 @@ export function UIHomePage() {
       "family-tree": "Family Tree",
       "album": "Album",
       "calendar": "Calendar",
+      "blog": "Blog",
       "upcoming": "Upcoming",
       "playground": "Playground",
       "demo-tree": "Dummy Tree",
@@ -29,7 +31,7 @@ export function UIHomePage() {
       const element = (
         <Button 
           key={key} variant="secondary" className="box-shadow" style={{ height: 150, borderRadius: 12 }} 
-          onClick={() => handleTabChange(key)}
+          onClick={() => navigatePage(key)}
         > 
           {funcKeyMap[key]} 
         </Button>

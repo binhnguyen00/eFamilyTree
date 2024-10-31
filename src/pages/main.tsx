@@ -12,6 +12,7 @@ import { UIPlayground } from "./dummy/UIPlayground";
 import { UIUserHome } from "./user/UIUser";
 import { ZmpSDK } from "../utils/ZmpSdk";
 import { UIDummyTree } from "./dummy/UIDummyTree";
+import { UIBlog } from "./blog/UIBlog";
 
 export function Application() {
   // Get User's phone numb on init app. Get once, Zalo has cache.
@@ -34,6 +35,7 @@ export function Application() {
               <Route path="/upcoming" element={<UIDummyUpcoming/>}/>
               <Route path="/playground" element={<UIPlayground/>}/>
               <Route path="/demo-tree" element={<UIDummyTree/>}/>
+              <Route path="/blog" element={<UIBlog/>}/>
             </AnimationRoutes>
           </ZMPRouter>
         </SnackbarProvider>
