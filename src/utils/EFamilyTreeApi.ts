@@ -4,6 +4,10 @@ import { ExternalRESTful } from "server/ExternalRESTful";
 export class EFamilyTreeApi {
   private static server = new ExternalRESTful("https://giapha.mobifone5.vn");
 
+  public static getServerBaseUrl() {
+    return this.server.serverUrl;
+  }
+
   public static getMembers(phoneNumber: string, successCB: Callback, failCB?: Callback) {
     const header = this.initHeader();
     const body = this.initBody({

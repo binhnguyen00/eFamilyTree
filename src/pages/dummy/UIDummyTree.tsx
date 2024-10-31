@@ -22,7 +22,7 @@ export function UIDummyTree() {
   const [ selectId, setSelectId ] = React.useState<string>("");
 
   return (
-    <Page className="page section-container" style={{ overflow: "hidden" }}>
+    <Page style={{ marginTop: 44 }}>
       {CommonComponentUtils.renderHeader("Dummy Tree")}
 
       {nodes.length > 0 ? (
@@ -85,6 +85,7 @@ function UITreeControl() {
   return (
     <BottomNavigation
       fixed
+      activeKey=""
     >
       <BottomNavigation.Item
         key="zoomIn"

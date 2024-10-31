@@ -43,7 +43,7 @@ export function UIHomePage() {
   }
 
   return (
-    <Page className="page">
+    <div className="container" style={{ marginTop: 44 }}>
       {CommonComponentUtils.renderHeader("Home", false)}
 
       <Stack space="1rem">
@@ -63,6 +63,6 @@ export function UIHomePage() {
           {"Quit"}
         </Button>
       </Stack>
-    </Page>
+    </div>
   );
 };

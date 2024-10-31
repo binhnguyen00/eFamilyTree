@@ -18,7 +18,7 @@ export function UIUserHome() {
   const { userInfo } = useRecoilValue(userState);
 
   return (
-    <Page className="page">
+    <div className="container" style={{ marginTop: 44 }}>
       {CommonComponentUtils.renderHeader("User")}
       
       <Stack space="1rem">
@@ -34,7 +34,7 @@ export function UIUserHome() {
         <Input.Password value={userInfo.id} label="ID"/>
         <Button> {"Logout"} </Button>
       </Stack>
-    </Page>
+    </div>
   );
 }
 

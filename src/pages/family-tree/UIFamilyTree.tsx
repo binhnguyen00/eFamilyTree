@@ -36,7 +36,7 @@ export function UIFamilyTree() {
   }, [ reload, fetchError ]);
 
   return (
-    <Page className="section-container">
+    <div className="container" style={{ marginTop: 44 }}>
       {CommonComponentUtils.renderHeader("Family Tree")}
 
       {familyMembers.length > 0 ? (
@@ -89,7 +89,7 @@ export function UIFamilyTree() {
             )}
         </React.Fragment>
       )}
-    </Page>
+    </div>
   )
 }
 

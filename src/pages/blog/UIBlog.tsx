@@ -3,20 +3,20 @@ import { Page, Box, Stack, Text, Button } from "zmp-ui";
 
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
-
+import blogs from "./blogs.json";
 
 export function UIBlog() {
   return (
-    <Page className="page">
+    <div className="container" style={{ marginTop: 44 }}>
       {CommonComponentUtils.renderHeader("Blog List")}
 
       <UIBlogList />
-    </Page>
+    </div>
   )
 }
 
 export function UIBlogList() {
-  const [ data, setData ] = React.useState<any[]>([]);
+  const [ data, setData ] = React.useState<any[]>(blogs.blogs);
   const [ fetchError, setFetchError ] = React.useState(false);
   const [ reload, setReload ] = React.useState(false);
 
@@ -42,9 +42,15 @@ export function UIBlogList() {
     if (items.length === 0) return html;
 
     items.map((item, index) => {
+      const coverProperties = JSON.parse(item["cover_properties"]);
+      const imageUrl = coverProperties["background-image"] as string;
+      // const imgSrc = `${EFamilyTreeApi.getServerBaseUrl()}${imageUrl.replace(/url\(['"]?(.*?)['"]?\)/, '$1')}`
       html.push(
         <Box key={index} flex flexDirection="column">
-          <Text.Title size="small">{item["name"]}</Text.Title>
+          <Text.Title size="normal">{item["name"]}</Text.Title>
+          <Text size="small">{item["post_date"]}</Text>
+          {/* <img src={imgSrc} alt=""/> */}
+          <img src={imageUrl} alt=""/>
         </Box>
       )
     })
@@ -53,23 +59,38 @@ export function UIBlogList() {
   }
 
   return (
-    data.length > 0 ? (
-      <Stack space="1rem">
-        {renderBlogs(data)}
-      </Stack>
-    ) : (
-      !reload ? (
-        <Box flex flexDirection="column" alignItems="center">
-          <Text.Title size="small">{"Loading..."}</Text.Title>
-        </Box>
-      ) : (
-        <Box flex flexDirection="column" justifyContent="center" alignItems="center">
-          <Text.Title size="small">{"No Blogs available"}</Text.Title>
-          <Button size="small" onClick={() => setReload(!reload)}>
-            {"Retry"}
-          </Button>
-        </Box>
-      )
-    )
+    <div>
+      {
+        data.length > 0 ? (
+          <>
+            <Stack space="1rem">
+              {renderBlogs(data)}
+            </Stack>
+            <div style={{ position: "sticky", bottom: 0, zIndex: 1000 }}>
+              {CommonComponentUtils.renderSearchBar({
+                show: true,
+                onSearch: (text: string, event: any) => {
+                  console.log(text);
+                },
+                placeholder: "Search Blogs..."
+              })}
+            </div>
+          </>
+        ) : (
+          !reload ? (
+            <Box flex flexDirection="column" alignItems="center">
+              <Text.Title size="small">{"Loading..."}</Text.Title>
+            </Box>
+          ) : (
+            <Box flex flexDirection="column" justifyContent="center" alignItems="center">
+              <Text.Title size="small">{"No Blogs available"}</Text.Title>
+              <Button size="small" onClick={() => setReload(!reload)}>
+                {"Retry"}
+              </Button>
+            </Box>
+          )
+        )
+      }
+    </div>
   )
 }
