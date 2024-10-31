@@ -7,7 +7,7 @@ export function UIDummyAlbum() {
   const [activeIndex, setActiveIndex] = React.useState(0);
   
   return (
-    <Page className='section-container'>
+    <Page className='page' style={{ marginTop: 44 }}>
       {CommonComponentUtils.renderHeader("Album")}
       <Box mt={6}>
         <Box mt={2}>
