@@ -14,63 +14,66 @@ interface OdooNode {
   vo_chong?: any[] | boolean;
 }
 
-export function processServerData(node: OdooNode): FamilyMember[] {
-  const result: FamilyMember[] = [];
+export class FamilyTreeUtils {
+  
+  public static processServerData(node: OdooNode): FamilyMember[] {
+    const result: FamilyMember[] = [];
 
-  const processNode = (node: OdooNode, parentIds: string[] = []) => {
-    const id = `${node.id}`;
-    const name = node.name;
-    const gender = node.gioi_tinh === "nam" ? "male" : "female";
+    const processNode = (node: OdooNode, parentIds: string[] = []) => {
+      const id = `${node.id}`;
+      const name = node.name;
+      const gender = node.gioi_tinh === "nam" ? "male" : "female";
 
-    const person: FamilyMember = {
-      id,
-      name,
-      gender,
-      parents: parentIds.map(parentId => ({ id: parentId, type: "blood" })),
-      siblings: [],
-      spouses: [],
-      children: [],
-    };
-
-    // Add the primary person to the result list
-    result.push(person);
-
-    let spouse: FamilyMember | undefined;
-    if (node.spouseData) {
-      const spouseId = `${node.spouseData.id}`;
-      const spouseName = node.spouseData.name;
-      const spouseGender = node.spouseData.gioi_tinh === "nam" ? "male" : "female";
-      
-      spouse = {
-        id: spouseId,
-        name: spouseName,
-        gender: spouseGender,
-        parents: [],
+      const person: FamilyMember = {
+        id,
+        name,
+        gender,
+        parents: parentIds.map(parentId => ({ id: parentId, type: "blood" })),
         siblings: [],
-        spouses: [{ id, type: "married" }],
-        children: [], // Children will be added after processing
+        spouses: [],
+        children: [],
       };
 
-      person.spouses.push({ id: spouseId, type: "married" });
-    }
+      // Add the primary person to the result list
+      result.push(person);
 
-    // Process each child, adding them to the main person's children list
-    node.children.forEach((child) => {
-      const childId = `${child.id}`;
-      person.children.push({ id: childId, type: "blood" });
+      let spouse: FamilyMember | undefined;
+      if (node.spouseData) {
+        const spouseId = `${node.spouseData.id}`;
+        const spouseName = node.spouseData.name;
+        const spouseGender = node.spouseData.gioi_tinh === "nam" ? "male" : "female";
+        
+        spouse = {
+          id: spouseId,
+          name: spouseName,
+          gender: spouseGender,
+          parents: [],
+          siblings: [],
+          spouses: [{ id, type: "married" }],
+          children: [], // Children will be added after processing
+        };
 
-      // Recursively process the child node, passing down both parents' IDs
-      processNode(child, [...parentIds, id]);
-    });
+        person.spouses.push({ id: spouseId, type: "married" });
+      }
 
-    // Now that all children are added to the main person, copy them to the spouse’s children list
-    if (spouse) {
-      spouse.children = [...person.children];
-      result.push(spouse); // Add the spouse to the result list only now
-    }
-  };
+      // Process each child, adding them to the main person's children list
+      node.children.forEach((child) => {
+        const childId = `${child.id}`;
+        person.children.push({ id: childId, type: "blood" });
 
-  processNode(node);
-  
-  return result;
+        // Recursively process the child node, passing down both parents' IDs
+        processNode(child, [...parentIds, id]);
+      });
+
+      // Now that all children are added to the main person, copy them to the spouse’s children list
+      if (spouse) {
+        spouse.children = [...person.children];
+        result.push(spouse); // Add the spouse to the result list only now
+      }
+    };
+
+    processNode(node);
+    
+    return result;
+  }
 }

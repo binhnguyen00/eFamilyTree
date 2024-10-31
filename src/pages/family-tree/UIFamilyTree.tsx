@@ -9,7 +9,7 @@ import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pa
 import { FamilyMember, Node } from "../../components/tree/Node";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
-import { processServerData } from "./FamilyTreeUtils";
+import { FamilyTreeUtils as FTreeUtils } from "./FamilyTreeUtils";
 import { NodeDetails } from "../../components/tree/NodeDetails";
 
 const NODE_WIDTH = 180;
@@ -26,7 +26,7 @@ export function UIFamilyTree() {
     const success = (res: any) => {
       const data = res["employee_tree"];
       if (data) {
-        let result: FamilyMember[] = processServerData(data);
+        let result: FamilyMember[] = FTreeUtils.processServerData(data);
         setFamilyMembers(result);
         setRootId(`${data.id}`);
       }

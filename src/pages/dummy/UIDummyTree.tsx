@@ -8,7 +8,7 @@ import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pa
 
 import { Node } from "../../components/tree/Node";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
-import { processServerData } from "../family-tree/FamilyTreeUtils";
+import { FamilyTreeUtils as FTreeUtils } from "../family-tree/FamilyTreeUtils";
 
 import rootNode from "../family-tree/member.json";
 
@@ -16,7 +16,7 @@ const NODE_WIDTH = 200;
 const NODE_HEIGHT = 80;
 
 export function UIDummyTree() {
-  const members = processServerData(rootNode["employee_tree"] as any);
+  const members = FTreeUtils.processServerData(rootNode["employee_tree"] as any);
   const [ nodes, setNodes ] = React.useState(members);
   const [ rootId, setRootId ] = React.useState(nodes[0].id);
   const [ selectId, setSelectId ] = React.useState<string>("");
@@ -39,7 +39,7 @@ export function UIDummyTree() {
                     rootId={rootId}
                     width={NODE_WIDTH}
                     height={NODE_HEIGHT}
-                    renderNode={(node: Readonly<any>) => (
+                    renderNode={(node: any) => (
                       <Node
                         key={node.id}
                         node={node}
