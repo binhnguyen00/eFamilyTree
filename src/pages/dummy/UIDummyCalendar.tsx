@@ -4,11 +4,12 @@ import { CommonComponentUtils } from "../../utils/CommonComponent";
 
 export function UIDummyCalendar() {
   return (
-    <div className="container">
+    <Page>
       {CommonComponentUtils.renderHeader("Calendar")}
-      <Calendar
+      <Calendar 
+        className="container"
         fullscreen
       />
-    </div>
+    </Page>
   )
 }

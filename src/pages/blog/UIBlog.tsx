@@ -3,20 +3,23 @@ import { Box, Stack, Text, Button, Page } from "zmp-ui";
 
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
-// import blogs from "./blogs.json";
+
+import blogs from "./blogs.json";
 
 export function UIBlog() {
   return (
-    <Page className="page">
+    <Stack space="2rem">
       {CommonComponentUtils.renderHeader("Blog List")}
 
-      <UIBlogList />
-    </Page>
+      <Page className="page">
+        <UIBlogList />
+      </Page>
+    </Stack>
   )
 }
 
 export function UIBlogList() {
-  const [ data, setData ] = React.useState<any[]>([]);
+  const [ data, setData ] = React.useState<any[]>(blogs.blogs);
   const [ fetchError, setFetchError ] = React.useState(false);
   const [ reload, setReload ] = React.useState(false);
 

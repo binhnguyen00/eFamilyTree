@@ -57,36 +57,38 @@ export function UIPlayground() {
     <Page className="page">
       {CommonComponentUtils.renderHeader("Playground")}
 
-      <Stack className="section-container" space="1rem">
-        <Box flex justifyContent="space-between">
-          <Button onClick={() => setState(number + 1)} size="small">
-            + Add
-          </Button>
-          <Button onClick={() => setState(number - 1)} size="small">
-            - Remove
-          </Button>
-          <Button onClick={() => setState(0)} size="small">
-            Reset
-          </Button>
-        </Box>
-        <Input value={numberValue}/>
-      </Stack>
+      <div className="container">
+        <Stack className="section-container" space="1rem">
+          <Box flex justifyContent="space-between">
+            <Button onClick={() => setState(number + 1)} size="small">
+              + Add
+            </Button>
+            <Button onClick={() => setState(number - 1)} size="small">
+              - Remove
+            </Button>
+            <Button onClick={() => setState(0)} size="small">
+              Reset
+            </Button>
+          </Box>
+          <Input value={numberValue}/>
+        </Stack>
 
-      <Stack className="section-container" space="1rem">
-        <Input
-          value={text} placeholder="Input"
-          onChange={(e) => setText(e.target.value)}/>
-        <Input 
-          value={textValue} placeholder="Output"/>
-        <Box flex justifyContent="space-evenly">
-          <Button size="small" onClick={() => {
-            setTodoList([...todoList, text]) 
-            setText("")
-          }}> + Add </Button>
-          <Button size="small" onClick={() => { setTodoList([]) }}> Reset </Button>
-        </Box>
-        <Input.TextArea value={todoListValue}/>
-      </Stack>
+        <Stack className="section-container" space="1rem">
+          <Input
+            value={text} placeholder="Input"
+            onChange={(e) => setText(e.target.value)}/>
+          <Input 
+            value={textValue} placeholder="Output"/>
+          <Box flex justifyContent="space-evenly">
+            <Button size="small" onClick={() => {
+              setTodoList([...todoList, text]) 
+              setText("")
+            }}> + Add </Button>
+            <Button size="small" onClick={() => { setTodoList([]) }}> Reset </Button>
+          </Box>
+          <Input.TextArea value={todoListValue}/>
+        </Stack>
+      </div>
 
     </Page>
   )

@@ -43,26 +43,29 @@ export function UIHomePage() {
   }
 
   return (
-    <Page className="page">
+    <Stack space="2rem">
       {CommonComponentUtils.renderHeader("Home", false)}
 
-      <Stack space="1rem">
-        <Suspense fallback={
-          <Box flex justifyContent='center'> 
-            <Text.Title>{"Getting User's Info..."}</Text.Title> 
-          </Box>
-        }>
-          <UIUser/>
-        </Suspense>
-        
-        <Grid columnSpace="1rem" rowSpace="1rem" columnCount={2}>
-          {renderFunctions()}
-        </Grid>
+      <Page className="page">
 
-        <Button type="danger" variant="secondary" onClick={() => closeApp()}>
-          {"Quit"}
-        </Button>
-      </Stack>
-    </Page>
+        <Stack space="1rem">
+          <Suspense fallback={
+            <Box flex justifyContent='center'> 
+              <Text.Title>{"Getting User's Info..."}</Text.Title> 
+            </Box>
+          }>
+            <UIUser/>
+          </Suspense>
+          
+          <Grid columnSpace="1rem" rowSpace="1rem" columnCount={2}>
+            {renderFunctions()}
+          </Grid>
+
+          <Button type="danger" variant="secondary" onClick={() => closeApp()}>
+            {"Quit"}
+          </Button>
+        </Stack>
+      </Page>
+    </Stack>
   );
 };

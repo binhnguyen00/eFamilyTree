@@ -6,10 +6,12 @@ export function UIDummyUpcoming() {
   return (
     <Page className='page'>
       {CommonComponentUtils.renderHeader("Upcoming")}
-      <p> Upcoming </p>
-      <p> - News </p>
-      <p> - Income and Expense fund </p>
-      <p> - Hall of Fame </p>
+      <div className="container">
+        <p> Upcoming </p>
+        <p> - News </p>
+        <p> - Income and Expense fund </p>
+        <p> - Hall of Fame </p>
+      </div>
     </Page>
   )
 }

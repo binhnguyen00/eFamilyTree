@@ -40,7 +40,7 @@ export function UIFamilyTree() {
       {CommonComponentUtils.renderHeader("Family Tree")}
 
       {familyMembers.length > 0 ? (
-        <>
+        <div className="container">
           <TransformWrapper centerOnInit minScale={0.01}>
             {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
               <>
@@ -74,7 +74,7 @@ export function UIFamilyTree() {
             <NodeDetails nodeId={selectId}/>
           </Modal>
 
-        </>
+        </div>
       ) : (
         <React.Fragment>
             {fetchError ? (

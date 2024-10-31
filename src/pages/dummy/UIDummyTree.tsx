@@ -26,7 +26,7 @@ export function UIDummyTree() {
       {CommonComponentUtils.renderHeader("Dummy Tree")}
 
       {nodes.length > 0 ? (
-        <>
+        <div className="container">
           <TransformWrapper
             centerOnInit
             minScale={0.01}
@@ -71,7 +71,7 @@ export function UIDummyTree() {
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, qui non ipsa a facilis et amet dolores vero consequuntur sequi.
             </div>
           </Modal>
-        </>
+        </div>
       ) : (
         <div> Getting members... </div>
       )}

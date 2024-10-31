@@ -1,15 +1,15 @@
 import React from "react";
 import { CommonComponentUtils } from "utils/CommonComponent";
-import { Sheet, Button, Text, useNavigate, Page } from "zmp-ui";
+import { Sheet, Button, Text, useNavigate, Page, Stack, Box } from "zmp-ui";
 
 export function UIAbout() {
   const [actionSheetOpened, setActionSheetOpened] = React.useState(false);
   const navigate = useNavigate();
   return (
-    <Page className="page">
+    <Page>
       {CommonComponentUtils.renderHeader("About")}
 
-      <div>
+      <div className="container">
         <Text bold>Designed by MobiFone 5</Text>
         <Text bold className="text"> Capabilities </Text>
         <Text>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Page, Text, Box, ImageViewer } from "zmp-ui";
+import { Page, Text, Box, ImageViewer, Stack } from "zmp-ui";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 
 export function UIDummyAlbum() {
@@ -9,7 +9,8 @@ export function UIDummyAlbum() {
   return (
     <Page className='page'>
       {CommonComponentUtils.renderHeader("Album")}
-      <Box mt={6}>
+
+      <Box className="container">
         <Box mt={2}>
           <Text size='xSmall' className='input-desc'>
             {"Ảnh Gia Đình"}
