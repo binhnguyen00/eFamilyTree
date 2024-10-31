@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation } from 'react-router-dom';
 import { Page, Stack, Text } from "zmp-ui";
 import DOMPurify from "dompurify";
@@ -7,6 +8,7 @@ import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 
 export function UIBlogDetail() {
+  const { t } = useTranslation();
   const location = useLocation();
   const { blog } = location.state || {};
   console.log(blog);
@@ -26,7 +28,7 @@ export function UIBlogDetail() {
 
   return (
     <Page>
-      {CommonComponentUtils.renderHeader("Blog Detail")}
+      {CommonComponentUtils.renderHeader(t("detail_blog"))}
 
       <Stack space="1rem" className="container">
         <Text.Title size="xLarge">

@@ -1,14 +1,17 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Box, Stack, Text, Button, Page, useNavigate } from "zmp-ui"; 
 
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { PhoneNumberContext } from "../../pages/main";
 
+
 export function UIBlog() {
+  const { t } = useTranslation();
   return (
     <Page>
-      {CommonComponentUtils.renderHeader("Your Blogs")}
+      {CommonComponentUtils.renderHeader(t("blogs"))}
 
       <div className="container">
         <UIBlogList />
@@ -18,6 +21,7 @@ export function UIBlog() {
 }
 
 export function UIBlogList() {
+  const { t } = useTranslation();
   let navigate = useNavigate();
   const phoneNumber = React.useContext(PhoneNumberContext);
   const [ data, setData ] = React.useState<any[]>([]);
@@ -99,13 +103,13 @@ export function UIBlogList() {
     <>
       {loading ? (
         <Box flex flexDirection="column" alignItems="center">
-          <Text.Title size="small">{"Loading..."}</Text.Title>
+          <Text.Title size="small">{t("loading_blogs")}</Text.Title>
         </Box>
       ) : fetchError ? (
         <Stack space="1rem">
-          <Text.Title size="small">{"Something went wrong. Please try again."}</Text.Title>
+          <Text.Title size="small">{t("server_error")}</Text.Title>
           <Button size="small" onClick={() => setReload((prev) => !prev)}>
-            {"Retry"}
+            {t("retry")}
           </Button>
         </Stack>
       ) : data.length > 0 ? (
@@ -114,9 +118,9 @@ export function UIBlogList() {
         </Stack>
       ) : (
         <Box flex flexDirection="column" justifyContent="center" alignItems="center">
-          <Text.Title size="small">{"No Blogs available"}</Text.Title>
+          <Text.Title size="small">{t("no_blogs")}</Text.Title>
           <Button size="small" onClick={() => setReload((prev) => !prev)}>
-            {"Retry"}
+            {t("retry")}
           </Button>
         </Box>
       )}

@@ -10,7 +10,7 @@ i18n
       en: { translation: en },
       vi: { translation: vi },
     },
-    lng: 'en',            // default language
+    lng: 'vi',            // default language
     fallbackLng: 'en',    // fallback language if translation is missing
     interpolation: {
       escapeValue: false, // react already safes from xss

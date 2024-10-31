@@ -1,9 +1,24 @@
 {
   "welcome_message": "Wellcome",
-  "login_button": "Login",
-  "logout_button": "Logout",
-  "quit_button": "Quit",
+  "login": "Login",
+  "logout": "Logout",
   "playground_translate": "This is a translated text",
   "vietnamese": "Vietnamese",
-  "english": "English"
+  "english": "English",
+
+  "quit": "Quit",
+  "about": "About",
+  "album": "Album",
+  "blogs": "Blogs",
+  "calendar": "Calendar",
+  "upcoming": "Upcoming",
+  "family_tree": "Family Tree",
+  "demo_tree": "Demo Family Tree",
+  "playground": "Playground",
+  "retry": "Retry",
+  "server_error": "Something went wrong. Please try again.",
+
+  "loading_blog": "Loading Blogs...",
+  "no_blogs": "No Blogs available",
+  "detail_blog": "Detail Blog"
 }

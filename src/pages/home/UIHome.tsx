@@ -1,4 +1,5 @@
 import React, { Suspense } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate, Grid, Button, Stack, Text, Box, Page } from "zmp-ui";
 import { closeApp } from "zmp-sdk";
 
@@ -6,6 +7,7 @@ import { UIUser } from "../../pages/user/UIUser";
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 
 export function UIHomePage() {
+  const { t } = useTranslation();
   let navigate = useNavigate();
 
   const navigatePage = (pageKey: string) => {
@@ -16,14 +18,14 @@ export function UIHomePage() {
   const renderFunctions = () => {
     // keys should be same as Route in ../main.tsx
     const funcKeyMap = {
-      "about": "About",
-      "family-tree": "Family Tree",
-      "album": "Album",
-      "calendar": "Calendar",
-      "blogs": "Blogs",
-      "upcoming": "Upcoming",
-      "playground": "Playground",
-      "demo-tree": "Dummy Tree",
+      "about": t("about"),
+      "family-tree": t("family_tree"),
+      "album": t("album"),
+      "calendar": t("calendar"),
+      "blogs": t("blogs"),
+      "upcoming": t("upcoming"),
+      "playground": t("playground"),
+      "demo-tree": t("demo_tree"),
     }
     let html = [] as React.ReactNode[];
 
@@ -60,7 +62,7 @@ export function UIHomePage() {
         </Grid>
 
         <Button type="danger" variant="secondary" onClick={() => closeApp()}>
-          {"Quit"}
+          {t("quit")}
         </Button>
       </Stack>
     </Page>

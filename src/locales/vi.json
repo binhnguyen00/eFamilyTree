@@ -1,9 +1,24 @@
 {
   "welcome_message": "Chào mừng đến với ứng dụng của chúng tôi!",
-  "login_button": "Đăng nhập",
-  "logout_button": "Đăng Xuất",
-  "quit_button": "Thoát",
+  "login": "Đăng nhập",
+  "logout": "Đăng Xuất",
   "playground_translate": "Đây là đoạn chữ được dịch",
   "vietnamese": "Tiếng Việt",
-  "english": "Tiếng Anh"
+  "english": "Tiếng Anh",
+
+  "quit": "Thoát",
+  "about": "Giới Thiệu",
+  "album": "Album Ảnh",
+  "blogs": "Bài Đăng",
+  "calendar": "Sự Kiện sắp tới",
+  "upcoming": "Sắp ra mắt",
+  "family_tree": "Cây Gia Phả",
+  "demo_tree": "Cây Gia Phả Mô Hình",
+  "playground": "Nhà Phát Triển",
+  "retry": "Thử lại",
+  "server_error": "Server gặp lỗi! Xin vui lòng thử lại",
+
+  "loading_blogs": "Đang tải bài đăng...",
+  "no_blogs": "Chưa có bài đăng nào",
+  "detail_blog": "Chi tiết bài đăng"
 }
