@@ -27,7 +27,6 @@ export class CommonComponentUtils {
       <>
         <Box flex flexDirection="row" justifyContent="flex-start">
           <Box 
-            style={{ marginBottom: "2.5rem" }}
             className="zaui-header"
             flex flexDirection="row" justifyContent="flex-start" alignContent="center" alignItems="center"
           >

@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Stack, Text, Button, Page } from "zmp-ui"; 
+import { Box, Stack, Text, Button, Page, useNavigate } from "zmp-ui"; 
 
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
@@ -18,6 +18,7 @@ export function UIBlog() {
 }
 
 export function UIBlogList() {
+  let navigate = useNavigate();
   const phoneNumber = React.useContext(PhoneNumberContext);
   const [ data, setData ] = React.useState<any[]>([]);
   const [ fetchError, setFetchError ] = React.useState(false);
@@ -55,6 +56,11 @@ export function UIBlogList() {
     fetchData();
   }, [ reload, phoneNumber ]);
 
+  const renderBlog = (content: any) => {
+    navigate("/blog-detail", { state: { content } });
+    navigate = undefined as any;
+  }
+
   const renderBlogs = (items: any[]) => {
     let html = [] as React.ReactNode[];
     if (items.length === 0) return html;
@@ -63,11 +69,18 @@ export function UIBlogList() {
       const coverProperties = JSON.parse(item["cover_properties"]);
       const imageUrl = coverProperties["background-image"] as string;
       const imgSrc = `${EFamilyTreeApi.getServerBaseUrl()}${imageUrl.replace(/url\(['"]?(.*?)['"]?\)/, '$1')}`
+      const content = item["content"];
+
       html.push(
         <Box key={index} flex flexDirection="column">
-          <Text.Title size="normal">{item["name"]}</Text.Title>
-          <Text size="small">{item["post_date"]}</Text>
-          <img src={imgSrc} alt=""/>
+          <Text.Title 
+            size="normal" className="button"
+            onClick={() => renderBlog(content)}
+          > 
+            {item["name"]} 
+          </Text.Title>
+          <Text size="small"> {item["post_date"]} </Text>
+          <img className="button" src={imgSrc} onClick={() => renderBlog(content)}/>
         </Box>
       )
     })

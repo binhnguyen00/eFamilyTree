@@ -32,7 +32,7 @@ export function Node({node, isRoot, onSelectNode, style}: NodeProps) {
     <div className='tree-node' style={style}>
       <Box 
         flex justifyContent='center' alignItems='center'
-        className={`tree-node-${node.gender}`}
+        className={`tree-node-${node.gender} button`}
         onClick={showDetails}
         style={{ width: "100%", height: "100%", border: "1px solid black" }}
       >

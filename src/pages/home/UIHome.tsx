@@ -20,7 +20,7 @@ export function UIHomePage() {
       "family-tree": "Family Tree",
       "album": "Album",
       "calendar": "Calendar",
-      "blog": "Blog",
+      "blogs": "Blogs",
       "upcoming": "Upcoming",
       "playground": "Playground",
       "demo-tree": "Dummy Tree",

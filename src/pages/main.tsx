@@ -13,6 +13,7 @@ import { UIUserHome } from "./user/UIUser";
 import { ZmpSDK } from "../utils/ZmpSdk";
 import { UIDummyTree } from "./dummy/UIDummyTree";
 import { UIBlog } from "./blog/UIBlog";
+import { UIBlogDetail } from "./blog/UIBlogDetail";
 
 export const PhoneNumberContext = React.createContext(null);
 
@@ -51,7 +52,8 @@ export function Application() {
                 <Route path="/upcoming" element={<UIDummyUpcoming/>}/>
                 <Route path="/playground" element={<UIPlayground/>}/>
                 <Route path="/demo-tree" element={<UIDummyTree/>}/>
-                <Route path="/blog" element={<UIBlog/>}/>
+                <Route path="/blogs" element={<UIBlog/>}/>
+                <Route path="/blog-detail" element={<UIBlogDetail/>}/>
               </AnimationRoutes>
             </ZMPRouter>
           </SnackbarProvider>

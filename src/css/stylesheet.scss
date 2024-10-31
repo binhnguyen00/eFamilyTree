@@ -1,3 +1,6 @@
+#app {
+  background-color: white;
+}
 .page {
   padding: 16px 16px 96px 16px;
 }
@@ -58,28 +61,14 @@
   scroll-behavior: smooth; // Smooth scrolling effect (optional)
 }
 
-.zoomable {
-  transform: scale(1);      // Initial zoom level
-  transform-origin: center; // Zoom from the center (can change to 'top left' if needed)
-
-  // Zoom in and out modifiers
-  &.zoom-in {
-    transform: scale(1.2);  // Increase scale factor for zooming in
-  }
-
-  &.zoom-out {
-    transform: scale(0.8);  // Decrease scale factor for zooming out
-  }
-}
-
 .box-shadow {
   box-shadow: 0px 10px 24px rgba(20, 20, 21, 0.09) !important;
 }
 
 button, .button {
-  transition: transform 0.05s ease;
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1); /* Slightly faster */
   &:active {
-    transform: scale(0.93); // Push down and shrink
+    transform: scale(0.95); /* Subtle shrink effect */
   }
 }
 
@@ -88,8 +77,4 @@ button, .button {
   padding-left: 10px;
   padding-right: 10px;
   height: 100vh;
-}
-
-#app {
-  background-color: white;
 }

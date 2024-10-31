@@ -3,7 +3,7 @@ import ReactFamilyTree from 'react-family-tree';
 import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { CgUndo } from "react-icons/cg";
 import { BiHorizontalCenter } from "react-icons/bi";
-import { Box, Button, Modal, Text, BottomNavigation, Page } from "zmp-ui";
+import { Box, Button, Modal, Text, BottomNavigation, Page, Stack } from "zmp-ui";
 import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
 
 import { FamilyMember, Node } from "../../components/tree/Node";
@@ -11,35 +11,64 @@ import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { FamilyTreeUtils as FTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "./FamilyTreeUtils";
 import { NodeDetails } from "../../components/tree/NodeDetails";
+import { PhoneNumberContext } from "../../pages/main";
 
 export function UIFamilyTree() {
-  const [ reload, setReload ] = React.useState(false);
+  const phoneNumber = React.useContext(PhoneNumberContext);
+
   const [ familyMembers, setFamilyMembers ] = React.useState<any[]>([]);
   const [ rootId, setRootId ] = React.useState<string>("");
   const [ selectId, setSelectId ] = React.useState<string>("");
   const [ fetchError, setFetchError ] = React.useState(false);
+  const [ loading, setLoading ] = React.useState(true);
+  const [ reload, setReload ] = React.useState(false);
 
   React.useEffect(() => {
+    
     const success = (res: any) => {
-      const data = res["employee_tree"];
-      if (data) {
-        let result: FamilyMember[] = FTreeUtils.processServerData(data);
-        setFamilyMembers(result);
-        setRootId(`${data.id}`);
+      setLoading(false);
+      if (typeof res === 'string') {
+        setFetchError(true);
+      } else {
+        const data = res["employee_tree"];
+        if (data) {
+          let result: FamilyMember[] = FTreeUtils.processServerData(data);
+          setFamilyMembers(result);
+          setRootId(`${data.id}`);
+        }
       }
     }
+
     const fail = (error: any) => {
-      setFetchError(!fetchError);
+      setLoading(false);
+      setFetchError(true);
     }
-    // TODO: Replace with actual phone number. Use Provider.
-    EFamilyTreeApi.getMembers(import.meta.env.VITE_DEV_PHONE_NUMBER as string, success, fail);
-  }, [ reload, fetchError ]);
+
+    const fetchData = () => {
+      setLoading(true);
+      setFetchError(false);
+      EFamilyTreeApi.getMembers(phoneNumber, success, fail);
+    }
+
+    fetchData();
+  }, [ reload, phoneNumber ]);
 
   return (
     <Page>
       {CommonComponentUtils.renderHeader("Family Tree")}
 
-      {familyMembers.length > 0 ? (
+      {loading ? (
+        <Box flex flexDirection="column" alignItems="center">
+          <Text.Title size="small">{"Loading..."}</Text.Title>
+        </Box>
+      ) : fetchError ? (
+        <Stack space="1rem">
+          <Text.Title size="small">{"Something went wrong. Please try again."}</Text.Title>
+          <Button size="small" onClick={() => setReload((prev) => !prev)}>
+            {"Retry"}
+          </Button>
+        </Stack>
+      ) : familyMembers.length > 0 ? (
         <div className="container">
           <TransformWrapper centerOnInit minScale={0.01}>
             {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
@@ -73,21 +102,14 @@ export function UIFamilyTree() {
           >
             <NodeDetails nodeId={selectId}/>
           </Modal>
-
         </div>
       ) : (
-        <React.Fragment>
-            {fetchError ? (
-              <Box flex flexDirection="column" justifyContent="center">
-                <Text.Title>{"Something went wrong"}</Text.Title> 
-                <Button onClick={() => setReload(!reload)}>{"Retry"}</Button>
-              </Box>
-            ) : (
-              <Box flex justifyContent='center'> 
-                <Text.Title>{"Getting members..."}</Text.Title> 
-              </Box>
-            )}
-        </React.Fragment>
+        <Box flex flexDirection="column" justifyContent="center" alignItems="center">
+          <Text.Title size="small">{"Data is not available. Please try again."}</Text.Title>
+          <Button size="small" onClick={() => setReload((prev) => !prev)}>
+            {"Retry"}
+          </Button>
+        </Box>
       )}
     </Page>
   )
