@@ -1,13 +1,14 @@
 import React from "react";
-import { CommonComponentUtils } from "utils/CommonComponent";
-import { Sheet, Button, Text, useNavigate, Page, Stack, Box } from "zmp-ui";
+import { useTranslation } from "react-i18next";
+import { Text, Page } from "zmp-ui";
+
+import { CommonComponentUtils } from "../../utils/CommonComponent";
 
 export function UIAbout() {
-  const [actionSheetOpened, setActionSheetOpened] = React.useState(false);
-  const navigate = useNavigate();
+  const { t } = useTranslation();
   return (
     <Page>
-      {CommonComponentUtils.renderHeader("About")}
+      {CommonComponentUtils.renderHeader(t("about"))}
 
       <div className="container">
         <Text bold>Designed by MobiFone 5</Text>
@@ -21,39 +22,6 @@ export function UIAbout() {
           <p> - View Income and Expense fund information  <span className="text pending"> [Pending] </span></p>
           <p> - View Hall of Fame                         <span className="text pending"> [Pending] </span> </p>
         </Text>
-        <div>
-          <Button variant="secondary" fullWidth onClick={() => setActionSheetOpened(true)}>
-            {"Actions"}
-          </Button>
-        </div>
-        <Sheet.Actions
-          visible={actionSheetOpened}
-          onClose={() => setActionSheetOpened(false)}
-          actions={[
-            [
-              {
-                text: "Go back",
-                onClick: () => {
-                  navigate(-1);
-                },
-              },
-              {
-                text: "Action 1",
-                close: true,
-              },
-              {
-                text: "Action 2",
-                close: true,
-              },
-            ],
-            [
-              {
-                text: "Close",
-                close: true,
-                danger: true,
-              },
-            ],
-          ]}/>
       </div>
     </Page>
   );
