@@ -3,7 +3,7 @@ import { Box, Stack, Text, Button, Page } from "zmp-ui";
 
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
-import blogs from "./blogs.json";
+// import blogs from "./blogs.json";
 
 export function UIBlog() {
   return (
@@ -16,7 +16,7 @@ export function UIBlog() {
 }
 
 export function UIBlogList() {
-  const [ data, setData ] = React.useState<any[]>(blogs.blogs);
+  const [ data, setData ] = React.useState<any[]>([]);
   const [ fetchError, setFetchError ] = React.useState(false);
   const [ reload, setReload ] = React.useState(false);
 
