@@ -6,6 +6,7 @@
   "vietnamese": "Vietnamese",
   "english": "English",
 
+  "loading": "Loading...",
   "quit": "Quit",
   "about": "About",
   "album": "Album",
@@ -17,10 +18,15 @@
   "playground": "Playground",
   "retry": "Retry",
   "server_error": "Something went wrong. Please try again.",
+  "close": "Close",
+  "center_view": "Center View",
 
   "loading_blog": "Loading Blogs...",
   "no_blogs": "No Blogs available",
   "detail_blog": "Detail Blog",
+
+  "loading_family_tree": "Loading Family Tree...",
+  "no_family_tree": "No Family Tree available",
 
   "user": "User"
 }

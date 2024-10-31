@@ -1,5 +1,6 @@
 import React from "react";
 import ReactFamilyTree from 'react-family-tree';
+import { useTranslation } from "react-i18next";
 import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { CgUndo } from "react-icons/cg";
 import { BiHorizontalCenter } from "react-icons/bi";
@@ -12,8 +13,10 @@ import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { FamilyTreeUtils as FTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "./FamilyTreeUtils";
 import { NodeDetails } from "../../components/tree/NodeDetails";
 import { PhoneNumberContext } from "../../pages/main";
+import { t } from "i18next";
 
 export function UIFamilyTree() {
+  const { t } = useTranslation();
   const phoneNumber = React.useContext(PhoneNumberContext);
 
   const [ familyMembers, setFamilyMembers ] = React.useState<any[]>([]);
@@ -55,17 +58,17 @@ export function UIFamilyTree() {
 
   return (
     <Page>
-      {CommonComponentUtils.renderHeader("Family Tree")}
+      {CommonComponentUtils.renderHeader(t("family_tree"))}
 
       {loading ? (
         <Box flex flexDirection="column" alignItems="center">
-          <Text.Title size="small">{"Loading..."}</Text.Title>
+          <Text.Title size="small">{t("loading_family_tree")}</Text.Title>
         </Box>
       ) : fetchError ? (
         <Stack space="1rem">
-          <Text.Title size="small">{"Something went wrong. Please try again."}</Text.Title>
+          <Text.Title size="small">{t("server_error")}</Text.Title>
           <Button size="small" onClick={() => setReload((prev) => !prev)}>
-            {"Retry"}
+            {t("retry")}
           </Button>
         </Stack>
       ) : familyMembers.length > 0 ? (
@@ -98,16 +101,16 @@ export function UIFamilyTree() {
           <Modal 
             visible={selectId !== ""}
             onClose={() => { setSelectId(""); }}
-            actions={[ { text: "Close", close: true } ]}
+            actions={[ { text: t("close"), close: true } ]}
           >
             <NodeDetails nodeId={selectId}/>
           </Modal>
         </div>
       ) : (
         <Box flex flexDirection="column" justifyContent="center" alignItems="center">
-          <Text.Title size="small">{"Data is not available. Please try again."}</Text.Title>
+          <Text.Title size="small">{t("no_family_tree")}</Text.Title>
           <Button size="small" onClick={() => setReload((prev) => !prev)}>
-            {"Retry"}
+            {t("retry")}
           </Button>
         </Box>
       )}
@@ -136,7 +139,7 @@ function UITreeControl() {
       />
       <BottomNavigation.Item
         key="center"
-        label={"Center"}
+        label={t("center_view")}
         icon={<BiHorizontalCenter/>}
         onClick={() => centerView()}
       />
