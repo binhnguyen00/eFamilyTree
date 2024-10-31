@@ -1,6 +1,6 @@
 import React from "react";
 import { getUserInfo } from "zmp-sdk";
-import { Avatar, Button, Box, Page, Stack, Input, Text, useNavigate } from "zmp-ui";
+import { Avatar, Button, Box, Stack, Input, Text, useNavigate, Page } from "zmp-ui";
 import { selector, useRecoilValue } from "recoil";
 
 import { CommonComponentUtils } from "../../utils/CommonComponent";
@@ -18,7 +18,7 @@ export function UIUserHome() {
   const { userInfo } = useRecoilValue(userState);
 
   return (
-    <div className="container" style={{ marginTop: 44 }}>
+    <Page className="page" style={{ marginTop: 44 }}>
       {CommonComponentUtils.renderHeader("User")}
       
       <Stack space="1rem">
@@ -34,7 +34,7 @@ export function UIUserHome() {
         <Input.Password value={userInfo.id} label="ID"/>
         <Button> {"Logout"} </Button>
       </Stack>
-    </div>
+    </Page>
   );
 }
 

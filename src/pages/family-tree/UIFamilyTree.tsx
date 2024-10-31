@@ -3,7 +3,7 @@ import ReactFamilyTree from 'react-family-tree';
 import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { CgUndo } from "react-icons/cg";
 import { BiHorizontalCenter } from "react-icons/bi";
-import { Box, Button, Modal, Page, Text, BottomNavigation } from "zmp-ui";
+import { Box, Button, Modal, Text, BottomNavigation, Page } from "zmp-ui";
 import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
 
 import { FamilyMember, Node } from "../../components/tree/Node";
@@ -36,7 +36,7 @@ export function UIFamilyTree() {
   }, [ reload, fetchError ]);
 
   return (
-    <div className="container" style={{ marginTop: 44 }}>
+    <Page className="page" style={{ marginTop: 44 }}>
       {CommonComponentUtils.renderHeader("Family Tree")}
 
       {familyMembers.length > 0 ? (
@@ -89,7 +89,7 @@ export function UIFamilyTree() {
             )}
         </React.Fragment>
       )}
-    </div>
+    </Page>
   )
 }
 

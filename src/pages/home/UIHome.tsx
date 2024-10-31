@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Page, useNavigate, Grid, Button, Stack, Text, Box } from "zmp-ui";
+import { useNavigate, Grid, Button, Stack, Text, Box, Page } from "zmp-ui";
 import { closeApp } from "zmp-sdk";
 
 import { UIUser } from "../../pages/user/UIUser";
@@ -43,7 +43,7 @@ export function UIHomePage() {
   }
 
   return (
-    <div className="container" style={{ marginTop: 44 }}>
+    <Page className="page" style={{ marginTop: 44 }}>
       {CommonComponentUtils.renderHeader("Home", false)}
 
       <Stack space="1rem">
@@ -63,6 +63,6 @@ export function UIHomePage() {
           {"Quit"}
         </Button>
       </Stack>
-    </div>
+    </Page>
   );
 };

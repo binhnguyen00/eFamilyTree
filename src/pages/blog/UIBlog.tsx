@@ -1,5 +1,5 @@
 import React from "react";
-import { Page, Box, Stack, Text, Button } from "zmp-ui"; 
+import { Box, Stack, Text, Button, Page } from "zmp-ui"; 
 
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
@@ -7,11 +7,11 @@ import blogs from "./blogs.json";
 
 export function UIBlog() {
   return (
-    <div className="container" style={{ marginTop: 44 }}>
+    <Page className="page" style={{ marginTop: 44 }}>
       {CommonComponentUtils.renderHeader("Blog List")}
 
       <UIBlogList />
-    </div>
+    </Page>
   )
 }
 
@@ -59,23 +59,12 @@ export function UIBlogList() {
   }
 
   return (
-    <div>
+    <>
       {
         data.length > 0 ? (
-          <>
-            <Stack space="1rem">
-              {renderBlogs(data)}
-            </Stack>
-            <div style={{ position: "sticky", bottom: 0, zIndex: 1000 }}>
-              {CommonComponentUtils.renderSearchBar({
-                show: true,
-                onSearch: (text: string, event: any) => {
-                  console.log(text);
-                },
-                placeholder: "Search Blogs..."
-              })}
-            </div>
-          </>
+          <Stack className="flex-v" space="1rem">
+            {renderBlogs(data)}
+          </Stack>
         ) : (
           !reload ? (
             <Box flex flexDirection="column" alignItems="center">
@@ -91,6 +80,6 @@ export function UIBlogList() {
           )
         )
       }
-    </div>
+    </>
   )
 }

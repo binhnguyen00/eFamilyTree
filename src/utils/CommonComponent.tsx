@@ -43,9 +43,6 @@ export class CommonComponentUtils {
             <Text.Title>{title}</Text.Title>
           </Box>
         </Box>
-        {/* Break bcuz of the Header is overlaping with content */}
-        {/* <br />
-        <br /> */}
       </>
     )
   }

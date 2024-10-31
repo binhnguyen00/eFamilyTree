@@ -1,12 +1,12 @@
 import React from "react";
 import { CommonComponentUtils } from "utils/CommonComponent";
-import { Sheet, Button, Page, Text, useNavigate } from "zmp-ui";
+import { Sheet, Button, Text, useNavigate, Page } from "zmp-ui";
 
 export function UIAbout() {
   const [actionSheetOpened, setActionSheetOpened] = React.useState(false);
   const navigate = useNavigate();
   return (
-    <div className="container" style={{ marginTop: 44 }}>
+    <Page className="page" style={{ marginTop: 44 }}>
       {CommonComponentUtils.renderHeader("About")}
 
       <div>
@@ -55,6 +55,6 @@ export function UIAbout() {
             ],
           ]}/>
       </div>
-    </div>
+    </Page>
   );
 };
