@@ -20,5 +20,7 @@
 
   "loading_blogs": "Đang tải bài đăng...",
   "no_blogs": "Chưa có bài đăng nào",
-  "detail_blog": "Chi tiết bài đăng"
+  "detail_blog": "Chi tiết bài đăng",
+
+  "user": "Thông tin của bạn"
 }

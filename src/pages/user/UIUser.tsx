@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { getUserInfo } from "zmp-sdk";
 import { Avatar, Button, Box, Stack, Input, Text, useNavigate, Page } from "zmp-ui";
 import { selector, useRecoilValue } from "recoil";
@@ -15,11 +16,12 @@ export const userState = selector({
 });
 
 export function UIUserHome() {
+  const { t } = useTranslation();
   const { userInfo } = useRecoilValue(userState);
 
   return (
     <Page>
-      {CommonComponentUtils.renderHeader("User")}
+      {CommonComponentUtils.renderHeader(t("user"))}
       
       <div className="container">
         <Stack space="1rem">
@@ -33,7 +35,7 @@ export function UIUserHome() {
             <Text.Title>{userInfo.name}</Text.Title>
           </Box>
           <Input.Password value={userInfo.id} label="ID"/>
-          <Button> {"Logout"} </Button>
+          <Button> {t("logout")} </Button>
         </Stack>
       </div>
     </Page>

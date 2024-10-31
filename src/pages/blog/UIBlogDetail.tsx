@@ -11,7 +11,6 @@ export function UIBlogDetail() {
   const { t } = useTranslation();
   const location = useLocation();
   const { blog } = location.state || {};
-  console.log(blog);
   
   const purifiedContent = DOMPurify.sanitize(blog["content"]);
   

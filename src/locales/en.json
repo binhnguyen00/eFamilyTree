@@ -20,5 +20,7 @@
 
   "loading_blog": "Loading Blogs...",
   "no_blogs": "No Blogs available",
-  "detail_blog": "Detail Blog"
+  "detail_blog": "Detail Blog",
+
+  "user": "User"
 }
