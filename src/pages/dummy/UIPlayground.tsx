@@ -1,8 +1,8 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
 import { Button, Text, Page, Box, Input, Stack } from "zmp-ui";
 import { atom, selector, useRecoilValue, useRecoilState } from "recoil"
 import { CommonComponentUtils } from "utils/CommonComponent";
+import { T, transtateTo } from "../../utils/Translator";
 
 const numberState = atom({
   key: "number",
@@ -44,8 +44,6 @@ const todoSelector = selector({
 })
 
 export function UIPlayground() {
-  const { t, i18n } = useTranslation();
-
   const [ number, setState ] = useRecoilState(numberState);
   const numberValue = useRecoilValue(numberSelector);
 
@@ -92,12 +90,12 @@ export function UIPlayground() {
         </Stack>
 
         <Stack className="section-container" space="1rem">
-          <Text.Title size="large"> {t("playground_translate")} </Text.Title>
-          <Button onClick={() => i18n.changeLanguage("vi")}>
-            {t("vietnamese")}
+          <Text.Title size="large"> {T("playground_translate")} </Text.Title>
+          <Button onClick={() => transtateTo("vi")}>
+            {T("vietnamese")}
           </Button>
-          <Button onClick={() => i18n.changeLanguage("en")}>
-            {t("english")}
+          <Button onClick={() => transtateTo("en")}>
+            {T("english")}
           </Button>
         </Stack>
       </div>
