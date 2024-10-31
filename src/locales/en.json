@@ -1,0 +1,9 @@
+{
+  "welcome_message": "Wellcome",
+  "login_button": "Login",
+  "logout_button": "Logout",
+  "quit_button": "Quit",
+  "playground_translate": "This is a translated text",
+  "vietnamese": "Vietnamese",
+  "english": "English"
+}

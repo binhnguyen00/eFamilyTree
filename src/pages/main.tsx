@@ -14,6 +14,7 @@ import { ZmpSDK } from "../utils/ZmpSdk";
 import { UIDummyTree } from "./dummy/UIDummyTree";
 import { UIBlog } from "./blog/UIBlog";
 import { UIBlogDetail } from "./blog/UIBlogDetail";
+import "../i18n";
 
 export const PhoneNumberContext = React.createContext(null);
 

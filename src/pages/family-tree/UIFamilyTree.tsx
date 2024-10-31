@@ -120,7 +120,7 @@ function UITreeControl() {
 
   return (
     <BottomNavigation
-      fixed
+      fixed activeKey=""
     >
       <BottomNavigation.Item
         key="zoomIn"
