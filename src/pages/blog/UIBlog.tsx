@@ -56,8 +56,12 @@ export function UIBlogList() {
     fetchData();
   }, [ reload, phoneNumber ]);
 
-  const renderBlog = (content: any) => {
-    navigate("/blog-detail", { state: { content } });
+  const renderBlog = (title: string, content: string) => {
+    const blog = {
+      title: title,
+      content: content
+    }
+    navigate("/blog-detail", { state: { blog } });
     navigate = undefined as any;
   }
 
@@ -75,12 +79,15 @@ export function UIBlogList() {
         <Box key={index} flex flexDirection="column">
           <Text.Title 
             size="normal" className="button"
-            onClick={() => renderBlog(content)}
+            onClick={() => renderBlog(item["name"], content)}
           > 
             {item["name"]} 
           </Text.Title>
           <Text size="small"> {item["post_date"]} </Text>
-          <img className="button" src={imgSrc} onClick={() => renderBlog(content)}/>
+          <img 
+            className="button"
+            src={imgSrc} 
+            onClick={() => renderBlog(item["name"], content)}/>
         </Box>
       )
     })
