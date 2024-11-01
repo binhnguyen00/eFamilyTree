@@ -1,6 +1,7 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { Box, Input, Text, useNavigate } from "zmp-ui";
+import { Box, Input, Spinner, Text, useNavigate, Stack, Button } from "zmp-ui";
 
 interface SearchBar {
   show: boolean;
@@ -58,6 +59,31 @@ export class CommonComponentUtils {
         placeholder={searchBar.placeholder || "..."}
         onSearch={searchBar.onSearch}
       />
+    )
+  }
+
+  public static renderLoading() {
+    const { t } = useTranslation();
+
+    return (
+      <Box flex flexDirection="column" justifyContent="center" alignItems="center">
+        <Spinner visible/>
+        <Text.Title size="small"> {t("loading_calendar")} </Text.Title>
+      </Box>
+    )
+  }
+
+  public static renderError(message?: string, onRetry?: () => void) {
+    const { t } = useTranslation();
+    if (!message) message = t("server_error");
+    else message = t(message);
+    return (
+      <Stack space="1rem">
+        <Text.Title size="small"> {message} </Text.Title>
+        {onRetry && (
+          <Button onClick={onRetry}> {t("retry")} </Button>
+        )}
+      </Stack>
     )
   }
 }
