@@ -1,5 +1,5 @@
 import React from "react";
-import { CommonComponentUtils } from "../../utils/CommonComponent";
+import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 import { Page } from "zmp-ui";
 
 export function UIDummyUpcoming() {

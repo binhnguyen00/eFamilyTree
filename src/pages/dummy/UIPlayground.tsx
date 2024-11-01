@@ -2,7 +2,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Text, Page, Box, Input, Stack } from "zmp-ui";
 import { atom, selector, useRecoilValue, useRecoilState } from "recoil"
-import { CommonComponentUtils } from "utils/CommonComponent";
+import { CommonComponentUtils } from "utils/CommonComponentUtils";
+import { UIDummyCalendar } from "./UIDummyCalendar";
 
 const numberState = atom({
   key: "number",
@@ -55,52 +56,52 @@ export function UIPlayground() {
   const todoListValue = useRecoilValue(todoSelector);
 
   return (
-    <Page>
+    <div className="container">
       {CommonComponentUtils.renderHeader("Playground")}
 
-      <div className="container">
-        <Stack className="section-container" space="1rem">
-          <Box flex justifyContent="space-between">
-            <Button onClick={() => setState(number + 1)} size="small">
-              + Add
-            </Button>
-            <Button onClick={() => setState(number - 1)} size="small">
-              - Remove
-            </Button>
-            <Button onClick={() => setState(0)} size="small">
-              Reset
-            </Button>
-          </Box>
-          <Input value={numberValue}/>
-        </Stack>
-
-        <Stack className="section-container" space="1rem">
-          <Input
-            value={text} placeholder="Input"
-            onChange={(e) => setText(e.target.value)}/>
-          <Input 
-            value={textValue} placeholder="Output"/>
-          <Box flex justifyContent="space-evenly">
-            <Button size="small" onClick={() => {
-              setTodoList([...todoList, text]) 
-              setText("")
-            }}> + Add </Button>
-            <Button size="small" onClick={() => { setTodoList([]) }}> Reset </Button>
-          </Box>
-          <Input.TextArea value={todoListValue}/>
-        </Stack>
-
-        <Stack className="section-container" space="1rem">
-          <Text.Title size="large"> {t("playground_translate")} </Text.Title>
-          <Button onClick={() => i18n.changeLanguage("vi")}>
-            {t("vietnamese")}
+      <Stack className="section-container" space="1rem">
+        <Box flex justifyContent="space-between">
+          <Button onClick={() => setState(number + 1)} size="small">
+            + Add
           </Button>
-          <Button onClick={() => i18n.changeLanguage("en")}>
-            {t("english")}
+          <Button onClick={() => setState(number - 1)} size="small">
+            - Remove
           </Button>
-        </Stack>
-      </div>
+          <Button onClick={() => setState(0)} size="small">
+            Reset
+          </Button>
+        </Box>
+        <Input value={numberValue}/>
+      </Stack>
 
-    </Page>
+      <Stack className="section-container" space="1rem">
+        <Input
+          value={text} placeholder="Input"
+          onChange={(e) => setText(e.target.value)}/>
+        <Input 
+          value={textValue} placeholder="Output"/>
+        <Box flex justifyContent="space-evenly">
+          <Button size="small" onClick={() => {
+            setTodoList([...todoList, text]) 
+            setText("")
+          }}> + Add </Button>
+          <Button size="small" onClick={() => { setTodoList([]) }}> Reset </Button>
+        </Box>
+        <Input.TextArea value={todoListValue}/>
+      </Stack>
+
+      <Stack className="section-container" space="1rem">
+        <Text.Title size="large"> {t("playground_translate")} </Text.Title>
+        <Button onClick={() => i18n.changeLanguage("vi")}>
+          {t("vietnamese")}
+        </Button>
+        <Button onClick={() => i18n.changeLanguage("en")}>
+          {t("english")}
+        </Button>
+      </Stack>
+
+      <UIDummyCalendar/>
+
+    </div>
   )
 }

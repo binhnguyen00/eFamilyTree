@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Box, Text, useNavigate } from "zmp-ui"; 
 
-import { CommonComponentUtils } from "../../utils/CommonComponent";
+import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { PhoneNumberContext } from "../../pages/main";
 

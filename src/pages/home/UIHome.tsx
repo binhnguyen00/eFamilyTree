@@ -4,7 +4,7 @@ import { useNavigate, Grid, Button, Stack, Text, Box, Page } from "zmp-ui";
 import { closeApp } from "zmp-sdk";
 
 import { UIUser } from "../../pages/user/UIUser";
-import { CommonComponentUtils } from "../../utils/CommonComponent";
+import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 
 export function UIHomePage() {
   const { t } = useTranslation();
@@ -25,6 +25,7 @@ export function UIHomePage() {
       "upcoming": t("upcoming"),
       "playground": t("playground"),
       "demo-tree": t("demo_tree"),
+      "demo-calendar": t("Demo Calendar"),
     }
     let html = [] as React.ReactNode[];
 

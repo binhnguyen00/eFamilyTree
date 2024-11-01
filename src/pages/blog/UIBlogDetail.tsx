@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { Page, Stack, Text } from "zmp-ui";
 import DOMPurify from "dompurify";
 
-import { CommonComponentUtils } from "../../utils/CommonComponent";
+import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 
 export function UIBlogDetail() {

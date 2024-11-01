@@ -8,7 +8,7 @@ import { Modal, BottomNavigation } from "zmp-ui";
 import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
 
 import { FamilyMember, Node } from "../../components/tree/Node";
-import { CommonComponentUtils } from "../../utils/CommonComponent";
+import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { FamilyTreeUtils as FTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "./FamilyTreeUtils";
 import { NodeDetails } from "../../components/tree/NodeDetails";

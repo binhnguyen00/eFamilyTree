@@ -4,7 +4,7 @@ import { getUserInfo } from "zmp-sdk";
 import { Avatar, Button, Box, Stack, Input, Text, useNavigate, Page } from "zmp-ui";
 import { selector, useRecoilValue } from "recoil";
 
-import { CommonComponentUtils } from "../../utils/CommonComponent";
+import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 
 export const userState = selector({
   key: "user",

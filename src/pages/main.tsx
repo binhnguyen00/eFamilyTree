@@ -14,6 +14,7 @@ import { UIDummyTree } from "./dummy/UIDummyTree";
 import { UIBlog } from "./blog/UIBlog";
 import { UIBlogDetail } from "./blog/UIBlogDetail";
 import { UICalendar } from "./calendar/UICalendar";
+import { UIDummyCalendar } from "./dummy/UIDummyCalendar";
 
 import "../i18n";
 
@@ -56,6 +57,7 @@ export function Application() {
                 <Route path="/demo-tree" element={<UIDummyTree/>}/>
                 <Route path="/blogs" element={<UIBlog/>}/>
                 <Route path="/blog-detail" element={<UIBlogDetail/>}/>
+                <Route path="/demo-calendar" element={<UIDummyCalendar/>}/>
               </AnimationRoutes>
             </ZMPRouter>
           </SnackbarProvider>
