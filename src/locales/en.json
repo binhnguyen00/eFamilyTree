@@ -20,6 +20,7 @@
   "server_error": "Something went wrong. Please try again.",
   "close": "Close",
   "center_view": "Center View",
+  "user": "User",
 
   "loading_blog": "Loading Blogs...",
   "no_blogs": "No Blogs available",
@@ -28,5 +29,6 @@
   "loading_family_tree": "Loading Family Tree...",
   "no_family_tree": "No Family Tree available",
 
-  "user": "User"
+  "loading_calendar": "Loading events...",
+  "no_calendar": "No events available"
 }

@@ -6,7 +6,6 @@ import { UIHomePage } from "./home/UIHome";
 import { UIFamilyTree } from "./family-tree/UIFamilyTree";
 import { UIAbout } from "./about/UIAbout";
 import { UIDummyAlbum } from "./dummy/UIDummyAlbum";
-import { UIDummyCalendar } from "./dummy/UIDummyCalendar";
 import { UIDummyUpcoming } from "./dummy/UIDummyUpcoming";
 import { UIPlayground } from "./dummy/UIPlayground";
 import { UIUserHome } from "./user/UIUser";
@@ -14,6 +13,8 @@ import { ZmpSDK } from "../utils/ZmpSdk";
 import { UIDummyTree } from "./dummy/UIDummyTree";
 import { UIBlog } from "./blog/UIBlog";
 import { UIBlogDetail } from "./blog/UIBlogDetail";
+import { UICalendar } from "./calendar/UICalendar";
+
 import "../i18n";
 
 export const PhoneNumberContext = React.createContext(null);
@@ -49,7 +50,7 @@ export function Application() {
                 <Route path="/about" element={<UIAbout/>}/>
                 <Route path="/user" element={<UIUserHome/>}/>
                 <Route path="/album" element={<UIDummyAlbum/>}/>
-                <Route path="/calendar" element={<UIDummyCalendar/>}/>
+                <Route path="/calendar" element={<UICalendar/>}/>
                 <Route path="/upcoming" element={<UIDummyUpcoming/>}/>
                 <Route path="/playground" element={<UIPlayground/>}/>
                 <Route path="/demo-tree" element={<UIDummyTree/>}/>
