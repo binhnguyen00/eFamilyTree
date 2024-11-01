@@ -22,12 +22,7 @@ export function UIBlogList() {
   const { t } = useTranslation();
   let navigate = useNavigate();
   const phoneNumber = React.useContext(PhoneNumberContext);
-  const [ data, setData ] = React.useState<any[]>([{
-    id: 0,
-    name: "Test Blog",
-    cover_properties: "",
-    content: ""
-  }]);
+  const [ data, setData ] = React.useState<any[]>([]);
   const [ fetchError, setFetchError ] = React.useState(false);
   const [ loading, setLoading ] = React.useState(true);
   const [ reload, setReload ] = React.useState(false);
@@ -50,8 +45,6 @@ export function UIBlogList() {
     }
 
     const fail = (error: any) => {
-      console.log("Fail CB", error);
-      
       setLoading(false);
       setFetchError(true);
     }
@@ -75,9 +68,6 @@ export function UIBlogList() {
   }
 
   const renderBlogs = (items: any[]) => {
-    console.log(items);
-    return [] as React.ReactNode[];
-
     let html = [] as React.ReactNode[];
     if (items.length === 0) return html;
 

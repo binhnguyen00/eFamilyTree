@@ -18,10 +18,9 @@ export function UICalendar() {
   const [ reload, setReload ] = React.useState(false);
 
   React.useEffect(() => {
-    const success = (result: any) => {
+    const success = (result: any[] | string) => {
       setLoading(false);
       if (typeof result === 'string') {
-        console.log(result);
         setFetchError(true);
       } else {
         setData(result);
@@ -33,24 +32,29 @@ export function UICalendar() {
       setFetchError(true);
     } 
 
-    EFamilyTreeApi.getMemberUpcomingEvents(phoneNumber, success, fail);
-  }, [reload])
+    const fetchData = () => {
+      setLoading(true);
+      setFetchError(false);
+      EFamilyTreeApi.getMemberUpcomingEvents(phoneNumber, success, fail);
+    };
+
+    fetchData();
+  }, [ reload, phoneNumber ]);
 
   const renderCalendar = () => {
     if (loading) {
       return CommonComponentUtils.renderLoading();
     } else if (fetchError) {
-      const onRetry = () => {
-        setReload((prev) => !prev);
-      };
-      return CommonComponentUtils.renderError("server_error", onRetry);
+      return CommonComponentUtils.renderError("server_error", () => setReload((prev) => !prev));
     } else {
-      return (
-        <Calendar 
-          locale={currentLocale}
-          fullscreen
-        />
-      )
+      if (data.length > 0) {
+        return (
+          <Calendar 
+            locale={currentLocale}
+            fullscreen
+          />
+        )
+      } else return CommonComponentUtils.renderError("no_calendar", () => setReload((prev) => !prev));
     }
   }
 
