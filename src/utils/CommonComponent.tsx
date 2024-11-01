@@ -86,4 +86,19 @@ export class CommonComponentUtils {
       </Stack>
     )
   }
+
+  public static renderRety(message?: string, onRetry?: () => void) {
+    const { t } = useTranslation();
+    if (!message) message = t("server_error");
+    else message = t(message);
+
+    return (
+      <Stack space="1rem">
+        <Text.Title size="small"> {message} </Text.Title>
+        {onRetry && (
+          <Button onClick={onRetry}> {t("retry")} </Button>
+        )}
+      </Stack>
+    )
+  }
 }

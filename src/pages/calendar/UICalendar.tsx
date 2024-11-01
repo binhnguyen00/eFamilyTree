@@ -41,7 +41,7 @@ export function UICalendar() {
       return CommonComponentUtils.renderLoading();
     } else if (fetchError) {
       const onRetry = () => {
-        setReload(!reload);
+        setReload((prev) => !prev);
       };
       return CommonComponentUtils.renderError("server_error", onRetry);
     } else {

@@ -145,7 +145,7 @@ function UITreeControl() {
       />
       <BottomNavigation.Item
         key="reset"
-        label={"Reset"}
+        label={t("reset")}
         icon={<CgUndo/>}
         onClick={() => resetTransform()}
       />

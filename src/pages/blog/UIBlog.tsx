@@ -102,27 +102,15 @@ export function UIBlogList() {
   return (
     <>
       {loading ? (
-        <Box flex flexDirection="column" alignItems="center">
-          <Text.Title size="small">{t("loading_blogs")}</Text.Title>
-        </Box>
+        CommonComponentUtils.renderLoading()
       ) : fetchError ? (
-        <Stack space="1rem">
-          <Text.Title size="small">{t("server_error")}</Text.Title>
-          <Button size="small" onClick={() => setReload((prev) => !prev)}>
-            {t("retry")}
-          </Button>
-        </Stack>
+        CommonComponentUtils.renderError("server_error", () => setReload((prev) => !prev))
       ) : data.length > 0 ? (
         <Stack className="flex-v" space="1rem">
           {renderBlogs(data)}
         </Stack>
       ) : (
-        <Box flex flexDirection="column" justifyContent="center" alignItems="center">
-          <Text.Title size="small">{t("no_blogs")}</Text.Title>
-          <Button size="small" onClick={() => setReload((prev) => !prev)}>
-            {t("retry")}
-          </Button>
-        </Box>
+        CommonComponentUtils.renderRety("no_blogs", () => setReload((prev) => !prev))
       )}
     </>
   );
