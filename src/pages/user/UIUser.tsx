@@ -48,7 +48,6 @@ export function UIUser() {
 
   const navigateToUIUser = () => {
     navigate("/user");
-    navigate = undefined as any;
   }
 
   return (

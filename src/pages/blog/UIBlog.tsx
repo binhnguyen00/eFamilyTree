@@ -19,35 +19,26 @@ export function UIBlog() {
 }
 
 export function UIBlogList() {
-  const { t } = useTranslation();
   let navigate = useNavigate();
+  const { t } = useTranslation();
   const phoneNumber = React.useContext(PhoneNumberContext);
-  const [ data, setData ] = React.useState<any[]>([]);
-  const [ fetchError, setFetchError ] = React.useState(false);
-  const [ loading, setLoading ] = React.useState(true);
-  const [ reload, setReload ] = React.useState(false);
+  const [data, setData] = React.useState<any[]>([]);
+  const [fetchError, setFetchError] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
+  const [reload, setReload] = React.useState(false);
 
   React.useEffect(() => {
-
-    const success = (result: any[] | string) => {
-      /** Element in Result[]
-       * id: number
-       * name: string
-       * cover_properties: string   <- should use JSON.parse(cover_properties)
-       * content: string            <- should use JSON.parse(content)
-       */
+    const success = (result: any[]) => {
+      console.log("Blogs", result);
       setLoading(false);
-      if (typeof result === 'string') {
-        setFetchError(true);
-      } else {
-        setData(result);
-      }
-    }
+      setData(result);
+    };
 
     const fail = (error: any) => {
+      console.log("Error", error);
       setLoading(false);
       setFetchError(true);
-    }
+    };
 
     const fetchData = () => {
       setLoading(true);
@@ -56,25 +47,27 @@ export function UIBlogList() {
     };
 
     fetchData();
-  }, [ reload, phoneNumber ]);
+  }, [reload, phoneNumber]);
 
   const navigateToBlog = (title: string, content: string) => {
-    const blog = {
-      title: title,
-      content: content
-    }
+    const blog = { title, content };
     navigate("/blog-detail", { state: { blog } });
-    navigate = undefined as any;
-  }
+  };
 
   const renderBlogs = (items: any[]) => {
     let html = [] as React.ReactNode[];
-    if (items.length === 0) return html;
+
+    if (items.length === 0) return <></>;
 
     items.map((item, index) => {
-      const coverProperties = JSON.parse(item["cover_properties"]);
+      let coverProperties;
+      try {
+        coverProperties = JSON.parse(item["cover_properties"]);
+      } catch (error) {
+        console.log(error);
+      }
       const imageUrl = coverProperties["background-image"] as string;
-      const imgSrc = `${EFamilyTreeApi.getServerBaseUrl()}${imageUrl.replace(/url\(['"]?(.*?)['"]?\)/, '$1')}`
+      const imgSrc = `${EFamilyTreeApi.getServerBaseUrl()}${imageUrl.replace(/url\(['"]?(.*?)['"]?\)/, '$1')}`;
       const content = item["content"];
 
       html.push(
@@ -89,18 +82,24 @@ export function UIBlogList() {
           <img 
             className="button"
             src={imgSrc} 
-            onClick={() => navigateToBlog(item["name"], content)}/>
+            onClick={() => navigateToBlog(item["name"], content)}
+          />
         </Box>
-      )
-    })
+      );
+    });
 
-    return html;
-  }
+    return <>{html}</>;
+  };
 
-  if (loading) return CommonComponentUtils.renderLoading();
-  else if (fetchError) return CommonComponentUtils.renderError("server_error", () => setReload((prev) => !prev));
-  else {
-    if (data.length > 0) return renderBlogs(data);
-    else return CommonComponentUtils.renderRety("no_blogs", () => setReload((prev) => !prev));
-  }
+  return (
+    loading ? (
+      CommonComponentUtils.renderLoading(t("loading_blogs"))
+    ) : fetchError ? (
+      CommonComponentUtils.renderError(t("server_error"), () => setReload((prev) => !prev))
+    ) : data.length > 0 ? (
+      renderBlogs(data)
+    ) : (
+      CommonComponentUtils.renderRety(t("no_blogs"), () => setReload((prev) => !prev))
+    )
+  );
 }

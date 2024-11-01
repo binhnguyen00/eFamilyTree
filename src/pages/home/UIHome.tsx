@@ -12,7 +12,6 @@ export function UIHomePage() {
 
   const navigatePage = (pageKey: string) => {
     navigate(`/${pageKey}`);
-    navigate = undefined as any;
   };
 
   const renderFunctions = () => {

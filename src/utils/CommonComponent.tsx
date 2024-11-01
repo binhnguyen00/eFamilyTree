@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { Box, Input, Spinner, Text, useNavigate, Stack, Button } from "zmp-ui";
 
@@ -16,7 +16,6 @@ interface SearchBar {
 }
 
 export class CommonComponentUtils {
-  
   public static renderHeader(title: string, showBackIcon: boolean = true) {
     /** About Zalo Header
      * height: 44px
@@ -36,7 +35,6 @@ export class CommonComponentUtils {
                 className="button" size={"1.5rem"} 
                 onClick={() => {
                   navigate(-1);
-                  navigate = undefined as any;
                 }}
               />
             )}
@@ -62,10 +60,7 @@ export class CommonComponentUtils {
     )
   }
 
-  public static renderLoading(message?: string) {
-    const { t } = useTranslation();
-    if (!message) message = t("loading");
-    else message = t(message);
+  public static renderLoading(message: string) {
     return (
       <Box flex flexDirection="column" justifyContent="center" alignItems="center">
         <Spinner visible/>
@@ -74,10 +69,7 @@ export class CommonComponentUtils {
     )
   }
 
-  public static renderError(message?: string, onRetry?: () => void) {
-    const { t } = useTranslation();
-    if (!message) message = t("server_error");
-    else message = t(message);
+  public static renderError(message: string, onRetry?: () => void) {
     return (
       <Stack className="flex-v center" space="0.5rem">
         <Text.Title size="normal"> {message} </Text.Title>
@@ -91,11 +83,7 @@ export class CommonComponentUtils {
     )
   }
 
-  public static renderRety(message?: string, onRetry?: () => void) {
-    const { t } = useTranslation();
-    if (!message) message = t("server_error");
-    else message = t(message);
-
+  public static renderRety(message: string, onRetry?: () => void) {
     return (
       <Stack className="flex-v center" space="0.5rem">
         <Text.Title size="normal"> {message} </Text.Title>

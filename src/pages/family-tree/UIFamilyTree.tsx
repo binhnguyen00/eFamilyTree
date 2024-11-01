@@ -1,6 +1,6 @@
 import React from "react";
 import ReactFamilyTree from 'react-family-tree';
-import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { CgUndo } from "react-icons/cg";
 import { BiHorizontalCenter } from "react-icons/bi";
@@ -13,10 +13,8 @@ import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { FamilyTreeUtils as FTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "./FamilyTreeUtils";
 import { NodeDetails } from "../../components/tree/NodeDetails";
 import { PhoneNumberContext } from "../../pages/main";
-import { t } from "i18next";
 
 export function UIFamilyTree() {
-  const { t } = useTranslation();
   const phoneNumber = React.useContext(PhoneNumberContext);
 
   const [ familyMembers, setFamilyMembers ] = React.useState<any[]>([]);
@@ -57,10 +55,11 @@ export function UIFamilyTree() {
   }, [ reload, phoneNumber ]);
 
   const renderTree = () => {
-    if (loading) return CommonComponentUtils.renderLoading("loading_family_tree");
-    else if (fetchError) return CommonComponentUtils.renderError("server_error", () => setReload((prev) => !prev));
+    if (loading) return CommonComponentUtils.renderLoading(t("loading_family_tree"));
+    else if (fetchError) return CommonComponentUtils.renderError(t("server_error"), () => setReload((prev) => !prev));
     else {
       if (familyMembers.length > 0) {
+        console.log(familyMembers);
         return (
           <>
             <TransformWrapper centerOnInit minScale={0.01}>
@@ -97,7 +96,7 @@ export function UIFamilyTree() {
             </Modal>
           </>
         );
-      } else return CommonComponentUtils.renderError("no_family_tree", () => setReload((prev) => !prev));
+      } else return CommonComponentUtils.renderError(t("no_family_tree"), () => setReload((prev) => !prev));
     }
   }
 
