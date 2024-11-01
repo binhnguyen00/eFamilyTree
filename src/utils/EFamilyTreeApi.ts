@@ -76,9 +76,8 @@ export class EFamilyTreeApi {
       }
     } */
     if (!response) return "No Response from Server!";
-    if (response.result.error) {
-      return response.result.error;
-    } 
+    if (response.error) return response;
+    if (response.result.error) return response.result;
     return response.result as any;
   }
 
