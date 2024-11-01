@@ -78,10 +78,13 @@ export class CommonComponentUtils {
     if (!message) message = t("server_error");
     else message = t(message);
     return (
-      <Stack space="1rem">
-        <Text.Title size="small"> {message} </Text.Title>
+      <Stack className="flex-v center" space="0.5rem">
+        <Text.Title size="normal"> {message} </Text.Title>
         {onRetry && (
-          <Button onClick={onRetry}> {t("retry")} </Button>
+          <Button 
+            style={{ width: "10%" }}
+            size="small" onClick={onRetry}
+          > {t("retry")} </Button>
         )}
       </Stack>
     )
@@ -93,10 +96,13 @@ export class CommonComponentUtils {
     else message = t(message);
 
     return (
-      <Stack space="1rem">
-        <Text.Title size="small"> {message} </Text.Title>
+      <Stack className="flex-v center" space="0.5rem">
+        <Text.Title size="normal"> {message} </Text.Title>
         {onRetry && (
-          <Button onClick={onRetry}> {t("retry")} </Button>
+          <Button 
+            style={{ width: "10%" }}
+            size="small" onClick={onRetry}
+          > {t("retry")} </Button>
         )}
       </Stack>
     )

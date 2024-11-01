@@ -10,13 +10,11 @@ import { PhoneNumberContext } from "../../pages/main";
 export function UIBlog() {
   const { t } = useTranslation();
   return (
-    <Page>
+    <div className="container">
       {CommonComponentUtils.renderHeader(t("blogs"))}
 
-      <div className="container">
-        <UIBlogList />
-      </div>
-    </Page>
+      <UIBlogList />
+    </div>
   )
 }
 
@@ -24,7 +22,12 @@ export function UIBlogList() {
   const { t } = useTranslation();
   let navigate = useNavigate();
   const phoneNumber = React.useContext(PhoneNumberContext);
-  const [ data, setData ] = React.useState<any[]>([]);
+  const [ data, setData ] = React.useState<any[]>([{
+    id: 0,
+    name: "Test Blog",
+    cover_properties: "",
+    content: ""
+  }]);
   const [ fetchError, setFetchError ] = React.useState(false);
   const [ loading, setLoading ] = React.useState(true);
   const [ reload, setReload ] = React.useState(false);
@@ -47,6 +50,8 @@ export function UIBlogList() {
     }
 
     const fail = (error: any) => {
+      console.log("Fail CB", error);
+      
       setLoading(false);
       setFetchError(true);
     }
@@ -60,7 +65,7 @@ export function UIBlogList() {
     fetchData();
   }, [ reload, phoneNumber ]);
 
-  const renderBlog = (title: string, content: string) => {
+  const navigateToBlog = (title: string, content: string) => {
     const blog = {
       title: title,
       content: content
@@ -70,6 +75,9 @@ export function UIBlogList() {
   }
 
   const renderBlogs = (items: any[]) => {
+    console.log(items);
+    return [] as React.ReactNode[];
+
     let html = [] as React.ReactNode[];
     if (items.length === 0) return html;
 
@@ -83,7 +91,7 @@ export function UIBlogList() {
         <Box key={index} flex flexDirection="column">
           <Text.Title 
             size="normal" className="button"
-            onClick={() => renderBlog(item["name"], content)}
+            onClick={() => navigateToBlog(item["name"], content)}
           > 
             {item["name"]} 
           </Text.Title>
@@ -91,7 +99,7 @@ export function UIBlogList() {
           <img 
             className="button"
             src={imgSrc} 
-            onClick={() => renderBlog(item["name"], content)}/>
+            onClick={() => navigateToBlog(item["name"], content)}/>
         </Box>
       )
     })
@@ -99,19 +107,10 @@ export function UIBlogList() {
     return html;
   }
 
-  return (
-    <>
-      {loading ? (
-        CommonComponentUtils.renderLoading()
-      ) : fetchError ? (
-        CommonComponentUtils.renderError("server_error", () => setReload((prev) => !prev))
-      ) : data.length > 0 ? (
-        <Stack className="flex-v" space="1rem">
-          {renderBlogs(data)}
-        </Stack>
-      ) : (
-        CommonComponentUtils.renderRety("no_blogs", () => setReload((prev) => !prev))
-      )}
-    </>
-  );
+  if (loading) return CommonComponentUtils.renderLoading();
+  else if (fetchError) return CommonComponentUtils.renderError("server_error", () => setReload((prev) => !prev));
+  else {
+    if (data.length > 0) return renderBlogs(data);
+    else return CommonComponentUtils.renderRety("no_blogs", () => setReload((prev) => !prev));
+  }
 }

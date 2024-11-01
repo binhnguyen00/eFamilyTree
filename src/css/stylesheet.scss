@@ -29,6 +29,12 @@
   gap: 0.5em;
 }
 
+.center {
+  justify-content: "center";
+  align-items: center;
+  align-content: center;
+}
+
 .border {
   border: black;
   border-style: solid;
