@@ -18,7 +18,19 @@ export function UICalendar() {
   const [ reload, setReload ] = React.useState(false);
 
   React.useEffect(() => {
+
     const success = (result: any[] | string) => {
+      /** Success Result
+        [{
+          "name": "Giỗ tổ họ Nguyễn",
+          "dong_ho": "Nguyễn Văn",
+          "id": 12,
+          "date_begin": "22/12/2024 07:00:00",
+          "date_end": "22/12/2024 13:00:00",
+          "address_id": "Nhà tổ",
+          "note": ""
+        }]
+       */
       setLoading(false);
       if (typeof result === 'string') {
         setFetchError(true);

@@ -48,7 +48,7 @@ export class ExternalRESTful extends Api {
       failCB({
         error: true,
         message: error.message,
-        stack: error.stack
+        stackTrace: error.stack
       });
     });
   }
