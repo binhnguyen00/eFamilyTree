@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Box, Stack, Text, Button, Page, useNavigate } from "zmp-ui"; 
+import { Box, Text, useNavigate } from "zmp-ui"; 
 
 import { CommonComponentUtils } from "../../utils/CommonComponent";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";

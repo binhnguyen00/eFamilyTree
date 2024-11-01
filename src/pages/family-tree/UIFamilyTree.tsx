@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { CgUndo } from "react-icons/cg";
 import { BiHorizontalCenter } from "react-icons/bi";
-import { Box, Button, Modal, Text, BottomNavigation, Page, Stack } from "zmp-ui";
+import { Modal, BottomNavigation } from "zmp-ui";
 import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
 
 import { FamilyMember, Node } from "../../components/tree/Node";
@@ -56,65 +56,57 @@ export function UIFamilyTree() {
     fetchData();
   }, [ reload, phoneNumber ]);
 
+  const renderTree = () => {
+    if (loading) return CommonComponentUtils.renderLoading("loading_family_tree");
+    else if (fetchError) return CommonComponentUtils.renderError("server_error", () => setReload((prev) => !prev));
+    else {
+      if (familyMembers.length > 0) {
+        return (
+          <>
+            <TransformWrapper centerOnInit minScale={0.01}>
+              {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+                <>
+                  <TransformComponent>
+                    <ReactFamilyTree
+                      nodes={familyMembers as any}
+                      rootId={rootId}
+                      height={NODE_HEIGHT}
+                      width={NODE_WIDTH}
+                      renderNode={(node: any) => (
+                        <Node
+                          key={node.id}
+                          node={node}
+                          isRoot={node.id === rootId}
+                          onSelectNode={(id) => { setSelectId(id) }}
+                          style={FTreeUtils.calculateNodePosition(node)}
+                        />
+                      )}
+                    />
+                  </TransformComponent>
+                  <UITreeControl />
+                </>
+              )}
+            </TransformWrapper>
+
+            <Modal 
+              visible={selectId !== ""}
+              onClose={() => { setSelectId(""); }}
+              actions={[ { text: t("close"), close: true } ]}
+            >
+              <NodeDetails nodeId={selectId}/>
+            </Modal>
+          </>
+        );
+      } else return CommonComponentUtils.renderError("no_family_tree", () => setReload((prev) => !prev));
+    }
+  }
+
   return (
-    <Page>
+    <div className="container">
       {CommonComponentUtils.renderHeader(t("family_tree"))}
 
-      {loading ? (
-        <Box flex flexDirection="column" alignItems="center">
-          <Text.Title size="small">{t("loading_family_tree")}</Text.Title>
-        </Box>
-      ) : fetchError ? (
-        <Stack space="1rem">
-          <Text.Title size="small">{t("server_error")}</Text.Title>
-          <Button size="small" onClick={() => setReload((prev) => !prev)}>
-            {t("retry")}
-          </Button>
-        </Stack>
-      ) : familyMembers.length > 0 ? (
-        <div className="container">
-          <TransformWrapper centerOnInit minScale={0.01}>
-            {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
-              <>
-                <TransformComponent>
-                  <ReactFamilyTree
-                    nodes={familyMembers as any}
-                    rootId={rootId}
-                    height={NODE_HEIGHT}
-                    width={NODE_WIDTH}
-                    renderNode={(node: any) => (
-                      <Node
-                        key={node.id}
-                        node={node}
-                        isRoot={node.id === rootId}
-                        onSelectNode={(id) => { setSelectId(id) }}
-                        style={FTreeUtils.calculateNodePosition(node)}
-                      />
-                    )}
-                  />
-                </TransformComponent>
-                <UITreeControl />
-              </>
-            )}
-          </TransformWrapper>
-
-          <Modal 
-            visible={selectId !== ""}
-            onClose={() => { setSelectId(""); }}
-            actions={[ { text: t("close"), close: true } ]}
-          >
-            <NodeDetails nodeId={selectId}/>
-          </Modal>
-        </div>
-      ) : (
-        <Box flex flexDirection="column" justifyContent="center" alignItems="center">
-          <Text.Title size="small">{t("no_family_tree")}</Text.Title>
-          <Button size="small" onClick={() => setReload((prev) => !prev)}>
-            {t("retry")}
-          </Button>
-        </Box>
-      )}
-    </Page>
+      {renderTree()}
+    </div>
   )
 }
 

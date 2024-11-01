@@ -62,13 +62,14 @@ export class CommonComponentUtils {
     )
   }
 
-  public static renderLoading() {
+  public static renderLoading(message?: string) {
     const { t } = useTranslation();
-
+    if (!message) message = t("loading");
+    else message = t(message);
     return (
       <Box flex flexDirection="column" justifyContent="center" alignItems="center">
         <Spinner visible/>
-        <Text.Title size="small"> {t("loading_calendar")} </Text.Title>
+        <Text.Title size="small"> {message} </Text.Title>
       </Box>
     )
   }
