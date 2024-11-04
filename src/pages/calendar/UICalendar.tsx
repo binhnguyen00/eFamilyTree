@@ -1,19 +1,28 @@
 import React from "react";
-import moment from "moment";
-import { useTranslation } from "react-i18next";
-import { Box, Calendar, Text } from "zmp-ui";
+import { t } from "i18next";
+import { Box, Calendar, Stack, Text } from "zmp-ui";
 
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 import { DateTimeUtils } from "../../utils/DateTimeUtils";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { PhoneNumberContext } from "../../pages/main";
 
+interface Event {
+  name: string;
+  dong_ho: string;
+  id: number;
+  date_begin: string;
+  date_end: string;
+  dia_diem: string;
+  note: string;
+}
+
 export function UICalendar() {
-  const { t } = useTranslation();
   const phoneNumber = React.useContext(PhoneNumberContext);
 
   // states
   const [ data, setData ] = React.useState<any[]>([]);
+  const [ events, setEvents ] = React.useState<Event[]>([]);
   const [ fetchError, setFetchError ] = React.useState(false);
   const [ loading, setLoading ] = React.useState(true);
   const [ reload, setReload ] = React.useState(false);
@@ -21,17 +30,6 @@ export function UICalendar() {
   React.useEffect(() => {
 
     const success = (result: any[] | string) => {
-      /** Success Result
-        [{
-          "name": "Giỗ tổ họ Nguyễn",
-          "dong_ho": "Nguyễn Văn",
-          "id": 12,
-          "date_begin": "22/12/2024 07:00:00",
-          "date_end": "22/12/2024 13:00:00",
-          "address_id": "Nhà tổ",
-          "note": ""
-        }]
-       */
       setLoading(false);
       if (typeof result === 'string') {
         setFetchError(true);
@@ -54,6 +52,54 @@ export function UICalendar() {
     fetchData();
   }, [ reload, phoneNumber ]);
 
+  const handleDateSelect = (selectedDate: Date) => {
+    let eventsOnDate: any[] = [];
+    const date = DateTimeUtils.formatFromDate(selectedDate, "DD/MM/YYYY HH:mm:ss");
+
+    data.forEach((event) => {
+      const eventStart = DateTimeUtils.formatFromString(event.date_begin, "DD/MM/YYYY HH:mm:ss");
+      const eventEnd = DateTimeUtils.formatFromString(event.date_end, "DD/MM/YYYY HH:mm:ss");
+      if (date >= eventStart && date <= eventEnd) {
+        eventsOnDate.push(event);
+      }
+    });
+
+    const e = eventsOnDate.filter((event) => {
+      const eventStart = DateTimeUtils.formatFromString(event.date_begin, "DD/MM/YYYY HH:mm:ss");
+      const eventEnd = DateTimeUtils.formatFromString(event.date_end, "DD/MM/YYYY HH:mm:ss");
+      if (date >= eventStart && date <= eventEnd) return event;
+    });
+
+    setEvents(e);
+  };
+
+  const renderCell = (dateInCell: Date) => {
+    const date = DateTimeUtils.currentTime(dateInCell);
+    
+    let eventsOnDate: any[] = [];
+    data.forEach((event) => {
+      const eventStart = DateTimeUtils.formatFromString(event.date_begin, "DD/MM/YYYY HH:mm:ss");
+      const eventEnd = DateTimeUtils.formatFromString(event.date_end, "DD/MM/YYYY HH:mm:ss");
+      if (date >= eventStart && date <= eventEnd) eventsOnDate.push(event);
+    });
+
+    return (
+      <Box>
+        {eventsOnDate.length > 0 && (
+          <Box
+            style={{
+              width: "5px",
+              height: "5px",
+              borderRadius: "50%",
+              backgroundColor: "#ff5c5c", // Dot color for events
+              margin: "4px auto 0", // Center dot below date
+            }}
+          />
+        )}
+      </Box>
+    );
+  };
+
   const renderCalendar = () => {
     if (loading) {
       return CommonComponentUtils.renderLoading(t("loading_calendar"));
@@ -61,10 +107,44 @@ export function UICalendar() {
       return CommonComponentUtils.renderError(t("server_error"), () => setReload((prev) => !prev));
     } else {
       if (data.length > 0) {
-        return <UICalendarDetails data={data}/>
-      } else return CommonComponentUtils.renderError(t("no_calendar"), () => setReload((prev) => !prev));
+        return (
+          <div className="flex-v">
+            <Calendar 
+              cellRender={renderCell} 
+              onSelect={handleDateSelect} 
+            />
+            {/* 
+            250px : height of Zalo calendar
+            44px  : height of header 
+            */}
+            <div style={{ paddingLeft: 15, paddingRight: 15, height: `calc(100vh - 250px - 44px)`, overflowY: "auto" }}>
+              {renderDetails(events)}
+            </div>
+          </div>
+        )
+      } else return CommonComponentUtils.renderError(t("no_calendar_events"), () => setReload((prev) => !prev));
     }
   }
+
+  const renderDetails = (events: Event[]) => {
+    if (!events.length) return <Text>{t("no_calendar_events")}</Text>;
+
+    return (
+      <Stack space=""> 
+        {events.map((event) => (
+          <Box key={event.id} flex flexDirection="column" flexWrap style={{ paddingTop: 10, paddingBottom: 10 }}>
+            <Text>{event.name}</Text>
+            <Text size="small">
+              Địa điểm: {event.dia_diem}
+            </Text>
+            <Text size="small">
+              Thời gian: {event.date_begin} - {event.date_end}
+            </Text>
+          </Box>
+        ))}
+      </Stack>
+    );
+  };
 
   return (
     <div className="container">
@@ -72,45 +152,5 @@ export function UICalendar() {
 
       {renderCalendar()}
     </div>
-  )
-}
-
-function UICalendarDetails({data}: {data: any[]}) {
-  const { i18n } = useTranslation();
-  const currentLocale = i18n.language; // vi / en
-
-  // States
-  const [ showDetails, setShowDetails ] = React.useState(false);
-
-  const cellRender = (dateType: any) => {
-    const today = new Date();
-    const strToday = DateTimeUtils.formatToDate(today);
-    const date = new Date(dateType);
-    const strDate = DateTimeUtils.formatToDate(date);
-    
-    return (
-      <Box 
-        style={{
-          padding: "8px",
-          borderRadius: "8px",
-        }}
-      >
-        test
-      </Box>
-    );
-  };
-  
-
-
-  return (
-    <>
-      <Calendar 
-        locale={currentLocale}
-        fullscreen
-        cellRender={cellRender}
-        onSelect={() => setShowDetails((prev) => !prev)}
-      />
-      {showDetails && <Box>test</Box>}
-    </>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { t } from "i18next";
 import { Calendar, Text, Box, Stack } from "zmp-ui";
 import { DateTimeUtils } from "utils/DateTimeUtils";
@@ -27,22 +27,23 @@ interface Event {
 }
 
 export function UIDummyCalendar() {
-  const [selectedInfo, setSelectedInfo] = useState<Event[]>([]);
+  const [selectedInfo, setSelectedInfo] = React.useState<Event[]>([]);
 
-  const handleDateSelect = (date: Date) => {
+  const handleDateSelect = (selectedDate: Date) => {
     let eventsOnDate: any[] = [];
+    const date = DateTimeUtils.formatFromDate(selectedDate, "DD/MM/YYYY HH:mm:ss");
+
     data.forEach((event) => {
-      const eventStart = DateTimeUtils.formatFromString(event.date_begin.substring(0, 10), "DD/MM/YYYY");
-      const eventEnd = DateTimeUtils.formatFromString(event.date_end.substring(0, 10), "DD/MM/YYYY");
+      const eventStart = DateTimeUtils.formatFromString(event.date_begin, "DD/MM/YYYY HH:mm:ss");
+      const eventEnd = DateTimeUtils.formatFromString(event.date_end, "DD/MM/YYYY HH:mm:ss");
       if (date >= eventStart && date <= eventEnd) {
         eventsOnDate.push(event);
       }
     });
-    console.log(eventsOnDate);
 
     const e = eventsOnDate.filter((event) => {
-      const eventStart = DateTimeUtils.formatFromString(event.date_begin.substring(0, 10), "DD/MM/YYYY");
-      const eventEnd = DateTimeUtils.formatFromString(event.date_end.substring(0, 10), "DD/MM/YYYY");
+      const eventStart = DateTimeUtils.formatFromString(event.date_begin, "DD/MM/YYYY HH:mm:ss");
+      const eventEnd = DateTimeUtils.formatFromString(event.date_end, "DD/MM/YYYY HH:mm:ss");
       if (date >= eventStart && date <= eventEnd) return event;
     });
 
@@ -50,20 +51,13 @@ export function UIDummyCalendar() {
   };
 
   const renderCell = (dateInCell: Date) => {
-    const date = new Date(dateInCell);
+    const date = DateTimeUtils.currentTime(dateInCell);
     
-    // TODO: Check if that day has events
     let eventsOnDate: any[] = [];
     data.forEach((event) => {
-      const eventStart = DateTimeUtils.formatFromString(event.date_begin.substring(0, 10), "DD/MM/YYYY");
-      const eventEnd = DateTimeUtils.formatFromString(event.date_end.substring(0, 10), "DD/MM/YYYY");
-      if (date >= eventStart && date <= eventEnd) {
-        let diffInTime = eventEnd.getTime() - eventStart.getTime();
-        let diffInDays = Math.round(diffInTime / (1000 * 3600 * 24));
-        for (let i = 0; i < diffInDays; i++) {
-          eventsOnDate.push(event);
-        }
-      }
+      const eventStart = DateTimeUtils.formatFromString(event.date_begin, "DD/MM/YYYY HH:mm:ss");
+      const eventEnd = DateTimeUtils.formatFromString(event.date_end, "DD/MM/YYYY HH:mm:ss");
+      if (date >= eventStart && date <= eventEnd) eventsOnDate.push(event);
     });
 
     return (
@@ -84,17 +78,17 @@ export function UIDummyCalendar() {
   };
 
   const renderDetails = (events: Event[]) => {
-    if (!events.length) return <Text>{t("no_events")}</Text>;
+    if (!events.length) return <Text>{t("no_calendar_events")}</Text>;
 
     return (
       <Stack space=""> 
         {events.map((event) => (
           <Box key={event.id} flex flexDirection="column" flexWrap style={{ paddingTop: 10, paddingBottom: 10 }}>
             <Text>{event.name}</Text>
-            <Text size="small" color="gray">
+            <Text size="small">
               Địa điểm: {event.dia_diem}
             </Text>
-            <Text size="small" color="gray">
+            <Text size="small">
               Thời gian: {event.date_begin} - {event.date_end}
             </Text>
           </Box>
@@ -105,7 +99,7 @@ export function UIDummyCalendar() {
 
   return (
     <div className="container">
-      {CommonComponentUtils.renderHeader("Calendar")}
+      {CommonComponentUtils.renderHeader(t("calendar"))}
 
       <div className="flex-v">
         <Calendar 

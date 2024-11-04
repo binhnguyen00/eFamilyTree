@@ -22,9 +22,24 @@ export class DateTimeUtils {
 
   public static formatFromString(dateTimeStr: string, format: "DD/MM/YYYY" | "DD/MM/YYYY HH:mm:ss") {
     const parsedMoment = moment(dateTimeStr, format, true);
-    if (parsedMoment.isValid()) {
-      return parsedMoment.toDate();
-    }
-    throw new Error("Invalid date time string format. Expected format: DD/MM/YYYY HH:mm:ss");
+    if (parsedMoment.isValid()) return parsedMoment.toDate();
+    else throw new Error("DateTimeUtils: Format Date from String failed");
+  }
+
+  public static formatFromDate(date: Date, format: "DD/MM/YYYY" | "DD/MM/YYYY HH:mm:ss") {
+    const parsedMoment = moment(date, format, true);
+    if (parsedMoment.isValid()) return parsedMoment.toDate();
+    else throw new Error("DateTimeUtils: Format Date failed");
+  }
+
+  public static currentTime(date?: Date) {
+    const now = moment();
+    if (!date) date = new Date();
+    return moment(date)
+      .hour(now.hour())
+      .minute(now.minute())
+      .second(now.second())
+      .millisecond(now.millisecond())
+      .toDate();
   }
 }
