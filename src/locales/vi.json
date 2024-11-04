@@ -23,6 +23,10 @@
   "close": "Đóng",
   "center_view": "Vào Giữa",
   "user": "Thông tin của bạn",
+  "data_source": "Dữ liệu mẫu",
+  "average": "Bình thường",
+  "several_sprouses": "Nhiều đời vợ/chồng",
+  "divorced": "Ly dị",
 
   "loading_blogs": "Đang tải bài đăng...",
   "no_blogs": "Chưa có bài đăng nào",
@@ -30,6 +34,7 @@
 
   "loading_family_tree": "Đang tải cây gia phả...",
   "no_family_tree": "Chưa có cây gia phả nào",
+  "dummy_tree": "Cây Gia Phả",
 
   "loading_calendar": "Đang tải sự kiện...",
   "no_calendar_events": "Chưa có sự kiện nào"

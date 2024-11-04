@@ -7,11 +7,11 @@ import { BiHorizontalCenter } from "react-icons/bi";
 import { Modal, BottomNavigation } from "zmp-ui";
 import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
 
-import { FamilyMember, Node } from "../../components/tree/Node";
+import { FamilyMember, Node } from "../../components/node/Node";
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { FamilyTreeUtils as FTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "./FamilyTreeUtils";
-import { NodeDetails } from "../../components/tree/NodeDetails";
+import { NodeDetails } from "../../components/node/NodeDetails";
 import { PhoneNumberContext } from "../../pages/main";
 
 export function UIFamilyTree() {
