@@ -6,6 +6,7 @@
   "vietnamese": "Tiếng Việt",
   "english": "Tiếng Anh",
 
+  "loading_user_info": "Đang tải thông tin cá nhân...",
   "loading": "Đang tải...",
   "quit": "Thoát",
   "about": "Giới Thiệu",
@@ -14,7 +15,7 @@
   "calendar": "Sự Kiện sắp tới",
   "upcoming": "Sắp ra mắt",
   "family_tree": "Cây Gia Phả",
-  "demo_tree": "Cây Gia Phả Mô Hình",
+  "demo_tree": "Demo Cây Gia Phả",
   "playground": "Nhà Phát Triển",
   "retry": "Thử lại",
   "reset": "Đặt lại",

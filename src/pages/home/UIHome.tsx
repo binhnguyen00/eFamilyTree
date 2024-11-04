@@ -25,7 +25,8 @@ export function UIHomePage() {
       "upcoming": t("upcoming"),
       "playground": t("playground"),
       "demo-tree": t("demo_tree"),
-      "demo-calendar": t("Demo Calendar"),
+      "demo-calendar": t("Demo Sự Kiện"),
+      "demo-blogs": t("Demo Bài Truyền Thông"),
     }
     let html = [] as React.ReactNode[];
 
@@ -51,7 +52,7 @@ export function UIHomePage() {
       <Stack space="1rem" className="container">
         <Suspense fallback={
           <Box flex justifyContent='center'> 
-            <Text.Title>{"Getting User's Info..."}</Text.Title> 
+            <Text.Title>{t("loading_user_info")}</Text.Title> 
           </Box>
         }>
           <UIUser/>

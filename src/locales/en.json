@@ -6,6 +6,7 @@
   "vietnamese": "Vietnamese",
   "english": "English",
 
+  "loading_user_info": "Getting User's Info...",
   "loading": "Loading...",
   "quit": "Quit",
   "about": "About",

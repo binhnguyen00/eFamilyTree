@@ -17,6 +17,7 @@ import { UICalendar } from "./calendar/UICalendar";
 import { UIDummyCalendar } from "./dummy/UIDummyCalendar";
 
 import "../i18n";
+import { UIDemoBlog } from "./blog/UIDemoBlog";
 
 export const PhoneNumberContext = React.createContext(null);
 
@@ -58,6 +59,7 @@ export function Application() {
                 <Route path="/blogs" element={<UIBlog/>}/>
                 <Route path="/blog-detail" element={<UIBlogDetail/>}/>
                 <Route path="/demo-calendar" element={<UIDummyCalendar/>}/>
+                <Route path="/demo-blogs" element={<UIDemoBlog/>}/>
               </AnimationRoutes>
             </ZMPRouter>
           </SnackbarProvider>
