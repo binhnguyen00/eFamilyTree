@@ -1,81 +1,26 @@
 import React from "react";
 import { t } from "i18next";
 import { Calendar, Text, Box, Stack } from "zmp-ui";
-import { DateTimeUtils } from "utils/DateTimeUtils";
-import { CommonComponentUtils } from "utils/CommonComponentUtils";
+import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+import { CalendarUtils, Event } from "../../utils/CalendarUtils";
 
-const data = [
-  {
-    name: "Giỗ tổ họ Nguyễn",
-    dong_ho: "Nguyễn Văn",
-    id: 1,
-    date_begin: "04/11/2024 07:00:00",
-    date_end: "10/11/2024 13:00:00",
-    dia_diem: "Nhà tổ",
-    note: "....",
-  },
-  {
-    name: "Giỗ tổ họ Hoàng",
-    dong_ho: "Nguyễn Văn",
-    id: 2,
-    date_begin: "03/11/2024 07:00:00",
-    date_end: "07/11/2024 13:00:00",
-    dia_diem: "Nhà tổ",
-    note: "....",
-  },
-];
-
-interface Event {
-  name: string;
-  dong_ho: string;
-  id: number;
-  date_begin: string;
-  date_end: string;
-  dia_diem: string;
-  note: string;
-}
+import data from "../../pages/calendar/sample/events.json";
 
 export function UIDummyCalendar() {
   const [selectedInfo, setSelectedInfo] = React.useState<Event[]>([]);
 
   const handleDateSelect = (selectedDate: Date) => {
-    let eventsOnDate: any[] = [];
-    selectedDate = DateTimeUtils.setToMidnight(selectedDate);
-
-    data.forEach((event) => {
-      const eventStart = DateTimeUtils.formatFromString(event.date_begin.substring(0, 10), "DD/MM/YYYY");
-      const eventEnd = DateTimeUtils.formatFromString(event.date_end.substring(0, 10), "DD/MM/YYYY");
-      if (selectedDate >= eventStart && selectedDate <= eventEnd) eventsOnDate.push(event);
-    });
-
-    const e = eventsOnDate.filter((event) => {
-      const eventStart = DateTimeUtils.formatFromString(event.date_begin.substring(0, 10), "DD/MM/YYYY");
-      const eventEnd = DateTimeUtils.formatFromString(event.date_end.substring(0, 10), "DD/MM/YYYY");
-      if (selectedDate >= eventStart && selectedDate <= eventEnd) return event;
-    });
-
-    setSelectedInfo(e);
+    let eventsOnDate: any[] = CalendarUtils.filterEventsByDate(data, selectedDate);
+    setSelectedInfo(eventsOnDate);
   };
 
   React.useEffect(() => {
-    const today = DateTimeUtils.setToMidnight(new Date());
-
-    const todayEvents = data.filter((event) => {
-      const eventStart = DateTimeUtils.formatFromString(event.date_begin.substring(0, 10), "DD/MM/YYYY");
-      const eventEnd = DateTimeUtils.formatFromString(event.date_end.substring(0, 10), "DD/MM/YYYY");
-      return today >= eventStart && today <= eventEnd;
-    });
-
+    const todayEvents = CalendarUtils.filterEventsByDate(data, new Date());
     setSelectedInfo(todayEvents);
   }, []);
 
   const renderCell = (dateInCell: Date) => {
-    let eventsOnDate: any[] = [];
-    data.forEach((event) => {
-      const eventStart = DateTimeUtils.formatFromString(event.date_begin.substring(0, 10), "DD/MM/YYYY");
-      const eventEnd = DateTimeUtils.formatFromString(event.date_end.substring(0, 10), "DD/MM/YYYY");
-      if (dateInCell >= eventStart && dateInCell <= eventEnd) eventsOnDate.push(event);
-    });
+    let eventsOnDate: any[] = CalendarUtils.filterEventsByDate(data, dateInCell);
 
     return (
       <Box>
