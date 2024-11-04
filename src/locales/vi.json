@@ -31,11 +31,13 @@
   "loading_blogs": "Đang tải bài đăng...",
   "no_blogs": "Chưa có bài đăng nào",
   "detail_blog": "Chi tiết bài đăng",
+  "demo_blogs": "Demo Bài Đăng",
 
   "loading_family_tree": "Đang tải cây gia phả...",
   "no_family_tree": "Chưa có cây gia phả nào",
   "dummy_tree": "Cây Gia Phả",
 
   "loading_calendar": "Đang tải sự kiện...",
-  "no_calendar_events": "Chưa có sự kiện nào"
+  "no_calendar_events": "Chưa có sự kiện nào",
+  "demo_calendar": "Demo Sự Kiện"
 }

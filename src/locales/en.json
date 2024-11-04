@@ -28,6 +28,7 @@
   "loading_blog": "Loading Blogs...",
   "no_blogs": "No Blogs available",
   "detail_blog": "Detail Blog",
+  "demo_blogs": "Demo Blogs",
 
   "loading_family_tree": "Loading Family Tree...",
   "no_family_tree": "No Family Tree available",
@@ -37,5 +38,6 @@
   "divorced": "Divorced",
 
   "loading_calendar": "Loading events...",
-  "no_calendar": "No events available"
+  "no_calendar": "No events available",
+  "demo_calendar": "Demo Calendar"
 }

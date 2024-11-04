@@ -25,8 +25,8 @@ export function UIHomePage() {
       "upcoming": t("upcoming"),
       "playground": t("playground"),
       "demo-tree": t("demo_tree"),
-      "demo-calendar": t("Demo Sự Kiện"),
-      "demo-blogs": t("Demo Bài Đăng"),
+      "demo-calendar": t("demo_calendar"),
+      "demo-blogs": t("demo_blogs"),
     }
     let html = [] as React.ReactNode[];
 

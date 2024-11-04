@@ -24,7 +24,6 @@ interface NodeProps {
 
 export function Node({node, isRoot, onSelectNode, style}: NodeProps) {
   const showDetails = () => {
-    console.log(node);
     onSelectNode(node.id);
   }
 
@@ -37,7 +36,7 @@ export function Node({node, isRoot, onSelectNode, style}: NodeProps) {
         style={{ width: "100%", height: "100%", border: "1px solid black" }}
       >
         {isRoot && <PiTreeBold size={"1em"}/>}
-        <Text.Title size='small' style={{ color: "white" }}> {node.name} </Text.Title>
+        <Text.Title size='small' style={{ color: "white" }}> {node.id || node.name} </Text.Title>
       </Box>
     </div>
   )
