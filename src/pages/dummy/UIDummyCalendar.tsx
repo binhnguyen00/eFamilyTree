@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { t } from "i18next";
 import { Calendar, Text, Box, Stack } from "zmp-ui";
 import { DateTimeUtils } from "utils/DateTimeUtils";
 import { CommonComponentUtils } from "utils/CommonComponentUtils";
@@ -83,18 +84,18 @@ export function UIDummyCalendar() {
   };
 
   const renderDetails = (events: Event[]) => {
-    if (!events.length) return <Text>No Event</Text>;
+    if (!events.length) return <Text>{t("no_events")}</Text>;
 
     return (
       <Stack space=""> 
         {events.map((event) => (
-          <Box key={event.id} flex flexWrap style={{ paddingTop: 10, paddingBottom: 10 }}>
+          <Box key={event.id} flex flexDirection="column" flexWrap style={{ paddingTop: 10, paddingBottom: 10 }}>
             <Text>{event.name}</Text>
             <Text size="small" color="gray">
-              Location: {event.dia_diem}
+              Địa điểm: {event.dia_diem}
             </Text>
             <Text size="small" color="gray">
-              Time: {event.date_begin} - {event.date_end}
+              Thời gian: {event.date_begin} - {event.date_end}
             </Text>
           </Box>
         ))}
