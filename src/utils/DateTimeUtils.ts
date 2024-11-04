@@ -21,9 +21,15 @@ export class DateTimeUtils {
   }
 
   public static formatFromString(dateTimeStr: string, format: "DD/MM/YYYY" | "DD/MM/YYYY HH:mm:ss") {
-    const parsedMoment = moment(dateTimeStr, format, true);
-    if (parsedMoment.isValid()) return parsedMoment.toDate();
-    else throw new Error("DateTimeUtils: Format Date from String failed");
+    let parsedMoment = moment(dateTimeStr, format, true);
+    if (!parsedMoment.isValid() && format === "DD/MM/YYYY") {
+      parsedMoment = moment(dateTimeStr, "DD/MM/YYYY HH:mm:ss", true);
+    }
+    if (parsedMoment.isValid()) {
+      return parsedMoment.toDate();
+    } else {
+      throw new Error("DateTimeUtils: Format Date from String failed");
+    }
   }
 
   public static formatFromDate(date: Date, format: "DD/MM/YYYY" | "DD/MM/YYYY HH:mm:ss") {
@@ -41,5 +47,9 @@ export class DateTimeUtils {
       .second(now.second())
       .millisecond(now.millisecond())
       .toDate();
+  }
+
+  public static setToMidnight(date: Date) {
+    return moment(date).startOf('day').toDate();
   }
 }

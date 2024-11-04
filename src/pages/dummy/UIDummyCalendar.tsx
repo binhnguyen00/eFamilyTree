@@ -14,6 +14,15 @@ const data = [
     dia_diem: "Nhà tổ",
     note: "....",
   },
+  {
+    name: "Giỗ tổ họ Hoàng",
+    dong_ho: "Nguyễn Văn",
+    id: 2,
+    date_begin: "03/11/2024 07:00:00",
+    date_end: "07/11/2024 13:00:00",
+    dia_diem: "Nhà tổ",
+    note: "....",
+  },
 ];
 
 interface Event {
@@ -31,33 +40,41 @@ export function UIDummyCalendar() {
 
   const handleDateSelect = (selectedDate: Date) => {
     let eventsOnDate: any[] = [];
-    const date = DateTimeUtils.formatFromDate(selectedDate, "DD/MM/YYYY HH:mm:ss");
+    selectedDate = DateTimeUtils.setToMidnight(selectedDate);
 
     data.forEach((event) => {
-      const eventStart = DateTimeUtils.formatFromString(event.date_begin, "DD/MM/YYYY HH:mm:ss");
-      const eventEnd = DateTimeUtils.formatFromString(event.date_end, "DD/MM/YYYY HH:mm:ss");
-      if (date >= eventStart && date <= eventEnd) {
-        eventsOnDate.push(event);
-      }
+      const eventStart = DateTimeUtils.formatFromString(event.date_begin.substring(0, 10), "DD/MM/YYYY");
+      const eventEnd = DateTimeUtils.formatFromString(event.date_end.substring(0, 10), "DD/MM/YYYY");
+      if (selectedDate >= eventStart && selectedDate <= eventEnd) eventsOnDate.push(event);
     });
 
     const e = eventsOnDate.filter((event) => {
-      const eventStart = DateTimeUtils.formatFromString(event.date_begin, "DD/MM/YYYY HH:mm:ss");
-      const eventEnd = DateTimeUtils.formatFromString(event.date_end, "DD/MM/YYYY HH:mm:ss");
-      if (date >= eventStart && date <= eventEnd) return event;
+      const eventStart = DateTimeUtils.formatFromString(event.date_begin.substring(0, 10), "DD/MM/YYYY");
+      const eventEnd = DateTimeUtils.formatFromString(event.date_end.substring(0, 10), "DD/MM/YYYY");
+      if (selectedDate >= eventStart && selectedDate <= eventEnd) return event;
     });
 
     setSelectedInfo(e);
   };
 
+  React.useEffect(() => {
+    const today = DateTimeUtils.setToMidnight(new Date());
+
+    const todayEvents = data.filter((event) => {
+      const eventStart = DateTimeUtils.formatFromString(event.date_begin.substring(0, 10), "DD/MM/YYYY");
+      const eventEnd = DateTimeUtils.formatFromString(event.date_end.substring(0, 10), "DD/MM/YYYY");
+      return today >= eventStart && today <= eventEnd;
+    });
+
+    setSelectedInfo(todayEvents);
+  }, []);
+
   const renderCell = (dateInCell: Date) => {
-    const date = DateTimeUtils.currentTime(dateInCell);
-    
     let eventsOnDate: any[] = [];
     data.forEach((event) => {
-      const eventStart = DateTimeUtils.formatFromString(event.date_begin, "DD/MM/YYYY HH:mm:ss");
-      const eventEnd = DateTimeUtils.formatFromString(event.date_end, "DD/MM/YYYY HH:mm:ss");
-      if (date >= eventStart && date <= eventEnd) eventsOnDate.push(event);
+      const eventStart = DateTimeUtils.formatFromString(event.date_begin.substring(0, 10), "DD/MM/YYYY");
+      const eventEnd = DateTimeUtils.formatFromString(event.date_end.substring(0, 10), "DD/MM/YYYY");
+      if (dateInCell >= eventStart && dateInCell <= eventEnd) eventsOnDate.push(event);
     });
 
     return (
