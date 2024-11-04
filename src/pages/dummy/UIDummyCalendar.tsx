@@ -8,8 +8,8 @@ const data = [
     name: "Giỗ tổ họ Nguyễn",
     dong_ho: "Nguyễn Văn",
     id: 1,
-    date_begin: "01/11/2024 07:00:00",
-    date_end: "04/11/2024 13:00:00",
+    date_begin: "04/11/2024 07:00:00",
+    date_end: "10/11/2024 13:00:00",
     dia_diem: "Nhà tổ",
     note: "....",
   },
@@ -29,16 +29,29 @@ export function UIDummyCalendar() {
   const [selectedInfo, setSelectedInfo] = useState<Event[]>([]);
 
   const handleDateSelect = (date: Date) => {
-    const strDate = DateTimeUtils.formatToDate(date);
-    const eventsOnDate = data.filter((event) =>
-      event.date_begin.startsWith(strDate)
-    );
-    setSelectedInfo(eventsOnDate);
+    let eventsOnDate: any[] = [];
+    data.forEach((event) => {
+      const eventStart = DateTimeUtils.formatFromString(event.date_begin.substring(0, 10), "DD/MM/YYYY");
+      const eventEnd = DateTimeUtils.formatFromString(event.date_end.substring(0, 10), "DD/MM/YYYY");
+      if (date >= eventStart && date <= eventEnd) {
+        eventsOnDate.push(event);
+      }
+    });
+    console.log(eventsOnDate);
+
+    const e = eventsOnDate.filter((event) => {
+      const eventStart = DateTimeUtils.formatFromString(event.date_begin.substring(0, 10), "DD/MM/YYYY");
+      const eventEnd = DateTimeUtils.formatFromString(event.date_end.substring(0, 10), "DD/MM/YYYY");
+      if (date >= eventStart && date <= eventEnd) return event;
+    });
+
+    setSelectedInfo(e);
   };
 
   const renderCell = (dateInCell: Date) => {
     const date = new Date(dateInCell);
     
+    // TODO: Check if that day has events
     let eventsOnDate: any[] = [];
     data.forEach((event) => {
       const eventStart = DateTimeUtils.formatFromString(event.date_begin.substring(0, 10), "DD/MM/YYYY");
@@ -46,15 +59,11 @@ export function UIDummyCalendar() {
       if (date >= eventStart && date <= eventEnd) {
         let diffInTime = eventEnd.getTime() - eventStart.getTime();
         let diffInDays = Math.round(diffInTime / (1000 * 3600 * 24));
-        
-        console.log(diffInDays);
-        
         for (let i = 0; i < diffInDays; i++) {
           eventsOnDate.push(event);
         }
       }
     });
-    console.log(eventsOnDate);
 
     return (
       <Box>
