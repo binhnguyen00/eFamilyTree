@@ -6,13 +6,14 @@ import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 import { DateTimeUtils } from "../../utils/DateTimeUtils";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { PhoneNumberContext } from "../../pages/main";
+import { CalendarUtils } from "../../utils/CalendarUtils";
 
 interface Event {
   name: string;
   dong_ho: string;
   id: number;
-  date_begin: string;
-  date_end: string;
+  date_begin: string; // format: DD/MM/YYYY HH:mm:ss
+  date_end: string; // format: DD/MM/YYYY HH:mm:ss
   dia_diem: string;
   note: string;
 }
@@ -35,6 +36,8 @@ export function UICalendar() {
         setFetchError(true);
       } else {
         setData(result);
+        const todayEvents = CalendarUtils.filterEventsByDate(data, new Date());
+        setEvents(todayEvents);
       }
     }
 
@@ -53,35 +56,12 @@ export function UICalendar() {
   }, [ reload, phoneNumber ]);
 
   const handleDateSelect = (selectedDate: Date) => {
-    let eventsOnDate: any[] = [];
-    const date = DateTimeUtils.formatFromDate(selectedDate, "DD/MM/YYYY HH:mm:ss");
-
-    data.forEach((event) => {
-      const eventStart = DateTimeUtils.formatFromString(event.date_begin, "DD/MM/YYYY HH:mm:ss");
-      const eventEnd = DateTimeUtils.formatFromString(event.date_end, "DD/MM/YYYY HH:mm:ss");
-      if (date >= eventStart && date <= eventEnd) {
-        eventsOnDate.push(event);
-      }
-    });
-
-    const e = eventsOnDate.filter((event) => {
-      const eventStart = DateTimeUtils.formatFromString(event.date_begin, "DD/MM/YYYY HH:mm:ss");
-      const eventEnd = DateTimeUtils.formatFromString(event.date_end, "DD/MM/YYYY HH:mm:ss");
-      if (date >= eventStart && date <= eventEnd) return event;
-    });
-
-    setEvents(e);
+    let eventsOnDate: any[] = CalendarUtils.filterEventsByDate(data, selectedDate);
+    setEvents(eventsOnDate);
   };
 
   const renderCell = (dateInCell: Date) => {
-    const date = DateTimeUtils.currentTime(dateInCell);
-    
-    let eventsOnDate: any[] = [];
-    data.forEach((event) => {
-      const eventStart = DateTimeUtils.formatFromString(event.date_begin, "DD/MM/YYYY HH:mm:ss");
-      const eventEnd = DateTimeUtils.formatFromString(event.date_end, "DD/MM/YYYY HH:mm:ss");
-      if (date >= eventStart && date <= eventEnd) eventsOnDate.push(event);
-    });
+    let eventsOnDate: any[] = CalendarUtils.filterEventsByDate(data, dateInCell);
 
     return (
       <Box>
