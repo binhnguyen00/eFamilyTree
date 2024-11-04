@@ -43,7 +43,7 @@ export function UIDummyCalendar() {
     if (!events.length) return <Text>{t("no_calendar_events")}</Text>;
 
     return (
-      <Stack space=""> 
+      <Stack> 
         {events.map((event) => (
           <Box key={event.id} flex flexDirection="column" flexWrap style={{ paddingTop: 10, paddingBottom: 10 }}>
             <Text>{event.name}</Text>

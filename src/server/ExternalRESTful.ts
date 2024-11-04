@@ -49,7 +49,7 @@ export class ExternalRESTful extends Api {
       failCB({
         error: true,
         message: error.message,
-        stackTrace: error.stack
+        stackTrace: JSON.stringify(error.stack || "")
       });
     });
   }

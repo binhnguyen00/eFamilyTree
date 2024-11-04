@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 import { getUserInfo } from "zmp-sdk";
 import { Avatar, Button, Box, Stack, Input, Text, useNavigate, Page } from "zmp-ui";
 import { selector, useRecoilValue } from "recoil";
@@ -15,8 +15,7 @@ export const userState = selector({
   }
 });
 
-export function UIUserHome() {
-  const { t } = useTranslation();
+export function UIUserDetail() {
   const { userInfo } = useRecoilValue(userState);
 
   return (

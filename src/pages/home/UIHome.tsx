@@ -46,17 +46,17 @@ export function UIHomePage() {
   }
 
   return (
-    <Page>
-      {CommonComponentUtils.renderHeader("Home", false)}
+    <div className="container">
+      {CommonComponentUtils.renderHeader(t("home"), false)}
 
-      <Stack space="1rem" className="container">
-        <Suspense fallback={
+      <Stack space="1rem">
+        {/* <Suspense fallback={
           <Box flex justifyContent='center'> 
             <Text.Title>{t("loading_user_info")}</Text.Title> 
           </Box>
         }>
-          <UIUser/>
-        </Suspense>
+        </Suspense> */}
+        <UIUser/>
         
         <Grid columnSpace="1rem" rowSpace="1rem" columnCount={2}>
           {renderFunctions()}
@@ -66,6 +66,6 @@ export function UIHomePage() {
           {t("quit")}
         </Button>
       </Stack>
-    </Page>
+    </div>
   );
 };
