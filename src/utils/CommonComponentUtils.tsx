@@ -83,7 +83,7 @@ export class CommonComponentUtils {
     )
   }
 
-  public static renderRety(message: string, onRetry?: () => void) {
+  public static renderRetry(message: string, onRetry?: () => void) {
     return (
       <Stack className="flex-v center" space="0.5rem">
         <Text.Title size="normal"> {message} </Text.Title>

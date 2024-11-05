@@ -54,6 +54,15 @@ export class EFamilyTreeApi {
     return this.server.POST("get/events", header, body, success, fail);
   }
 
+  public static getFunds(phoneNumber, successCB: Callback, failCB?: Callback) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      phone: phoneNumber
+    });
+    const [ success, fail ] = this.createCallback(successCB, failCB);
+    return this.server.POST("get/fund", header, body, success, fail);
+  }
+
   private static initBody(params: any): Record<string, any> { 
     return {
       params: params

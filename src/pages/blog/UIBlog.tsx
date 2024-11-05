@@ -97,7 +97,7 @@ export function UIBlogList() {
     ) : data.length > 0 ? (
       renderBlogs(data)
     ) : (
-      CommonComponentUtils.renderRety(t("no_blogs"), () => setReload((prev) => !prev))
+      CommonComponentUtils.renderRetry(t("no_blogs"), () => setReload((prev) => !prev))
     )
   );
 }
