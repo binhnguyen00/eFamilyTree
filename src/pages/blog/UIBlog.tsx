@@ -29,13 +29,11 @@ export function UIBlogList() {
 
   React.useEffect(() => {
     const success = (result: any[]) => {
-      console.log("Blogs", result);
       setLoading(false);
       setData(result);
     };
 
     const fail = (error: any) => {
-      console.log("Error", error);
       setLoading(false);
       setFetchError(true);
     };

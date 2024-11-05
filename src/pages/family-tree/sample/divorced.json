@@ -1,5 +1,31 @@
 [
   {
+    "id": "user5",
+    "gender": "male",
+    "parents": [],
+    "siblings": [],
+    "spouses": [
+      {
+        "id": "user6",
+        "type": "divorced"
+      },
+      {
+        "id": "user2",
+        "type": "married"
+      }
+    ],
+    "children": [
+      {
+        "id": "user1",
+        "type": "blood"
+      },
+      {
+        "id": "user4",
+        "type": "blood"
+      }
+    ]
+  },
+  {
     "id": "user1",
     "gender": "male",
     "parents": [
@@ -73,32 +99,6 @@
     ],
     "spouses": [],
     "children": []
-  },
-  {
-    "id": "user5",
-    "gender": "male",
-    "parents": [],
-    "siblings": [],
-    "spouses": [
-      {
-        "id": "user6",
-        "type": "divorced"
-      },
-      {
-        "id": "user2",
-        "type": "married"
-      }
-    ],
-    "children": [
-      {
-        "id": "user1",
-        "type": "blood"
-      },
-      {
-        "id": "user4",
-        "type": "blood"
-      }
-    ]
   },
   {
     "id": "user6",
