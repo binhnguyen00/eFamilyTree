@@ -22,8 +22,10 @@ export function UIHomePage() {
       "album": t("album"),
       "calendar": t("calendar"),
       "blogs": t("blogs"),
+      "funds": t("funds"),
       "upcoming": t("upcoming"),
       "playground": t("playground"),
+      "demo-funds": t("demo_funds"),
       "demo-tree": t("demo_tree"),
       "demo-calendar": t("demo_calendar"),
       "demo-blogs": t("demo_blogs"),
@@ -50,13 +52,14 @@ export function UIHomePage() {
       {CommonComponentUtils.renderHeader(t("home"), false)}
 
       <Stack space="1rem">
-        {/* <Suspense fallback={
+        
+        <Suspense fallback={
           <Box flex justifyContent='center'> 
             <Text.Title>{t("loading_user_info")}</Text.Title> 
           </Box>
         }>
-        </Suspense> */}
-        <UIUser/>
+          <UIUser/>
+        </Suspense>
         
         <Grid columnSpace="1rem" rowSpace="1rem" columnCount={2}>
           {renderFunctions()}

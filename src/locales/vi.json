@@ -28,7 +28,8 @@
   "average": "Bình thường",
   "several_sprouses": "Nhiều đời vợ/chồng",
   "divorced": "Ly dị",
-  "funds": "Quỹ",
+  "undefinded": "Không xác định",
+  "search": "Tìm kiếm",
 
   "loading_blogs": "Đang tải bài đăng...",
   "no_blogs": "Chưa có bài đăng nào",
@@ -41,5 +42,11 @@
 
   "loading_calendar": "Đang tải sự kiện...",
   "no_calendar_events": "Chưa có sự kiện nào",
-  "demo_calendar": "Demo Sự Kiện"
+  "demo_calendar": "Demo Sự Kiện",
+
+  "funds": "Quỹ",
+  "loading_funds": "Đang tải quỹ...",
+  "no_funds": "Chưa có Quỹ",
+  "demo_funds": "Demo Quỹ",
+  "search_funds": "Tìm kiêm quỹ"
 }

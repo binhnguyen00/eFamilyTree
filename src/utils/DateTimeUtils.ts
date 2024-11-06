@@ -52,4 +52,13 @@ export class DateTimeUtils {
   public static setToMidnight(date: Date) {
     return moment(date).startOf('day').toDate();
   }
+
+  public static sortByDate(array: any[], dateField: string, reverse: boolean = false) {
+    if (array.length === 0) return [] as any[];
+    array.sort((a, b) => {
+      return moment(b[dateField]).diff(moment(a[dateField]));
+    })
+    if (reverse) return array.reverse();
+    else return array;
+  }
 }

@@ -1,14 +1,14 @@
 import React from "react";
+import { IoIosArrowForward } from "react-icons/io";
 
 import { t } from "i18next";
-import { List, useNavigate } from "zmp-ui";
+import { List } from "zmp-ui";
 
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 import { PhoneNumberContext } from "../../pages/main";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 
 export function UIFund() {
-  let navigate = useNavigate();
   const phoneNumber = React.useContext(PhoneNumberContext);
   const [data, setData] = React.useState<any[]>([]);
   const [fetchError, setFetchError] = React.useState(false);
@@ -17,6 +17,32 @@ export function UIFund() {
 
   React.useEffect(() => {
     const success = (result: any[]) => {
+      /** Results
+       * [{
+       *    name: "Quỹ giỗ tổ",
+       *    dong_ho: "Nguyễn Văn",
+       *    total_amount: 1000000,
+       *    income_ids: [
+       *      {
+       *        id: 6,
+       *        nguoi_nop: [
+       *          23, "Hoàng Thị Hoa"
+       *        ],
+       *        amount: 5555.0,
+       *        date: "2024-10-29",
+       *        note: false
+       *      }
+       *    ],
+       *    expends_ids: [
+       *      {
+       *        id: 6,
+       *        amount: 5555.0,
+       *        date: "2024-10-31",
+       *        note: false
+       *      }
+       *    ]
+       * }]
+       */
       setLoading(false);
       const funds = result["fund_data"];
       setData(funds);
@@ -43,8 +69,10 @@ export function UIFund() {
       html.push(
         <List.Item
           key={index}
-          title=""
-        />
+          title={item["total_amount"]}
+          subTitle={item["name"]}
+          suffix={<IoIosArrowForward size={12}/>}
+        ></List.Item>
       )
     })
 

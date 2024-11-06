@@ -25,7 +25,11 @@
   "center_view": "Center View",
   "user": "User",
   "data_source": "Data Source",
-  "funds": "Quỹ",
+  "average": "Average",
+  "several_spouses": "Several Spouses",
+  "divorced": "Divorced",
+  "undefinded": "Undefinded",
+  "search": "Search",
 
   "loading_blog": "Loading Blogs...",
   "no_blogs": "No Blogs available",
@@ -35,11 +39,14 @@
   "loading_family_tree": "Loading Family Tree...",
   "no_family_tree": "No Family Tree available",
   "dummy_tree": "Dummy Family Tree",
-  "average": "Average",
-  "several_spouses": "Several Spouses",
-  "divorced": "Divorced",
 
   "loading_calendar": "Loading events...",
   "no_calendar": "No events available",
-  "demo_calendar": "Demo Calendar"
+  "demo_calendar": "Demo Calendar",
+
+  "funds": "Funds",
+  "loading_funds": "Loading Funds...",
+  "no_funds": "No Funds available",
+  "demo_funds": "Demo Funds",
+  "search_funds": "Search Funds"
 }
