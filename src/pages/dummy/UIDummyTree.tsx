@@ -4,7 +4,7 @@ import FamilyTree from "../../components/tree/FamilyTree";
 import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { CgUndo } from "react-icons/cg";
 import { BiHorizontalCenter } from "react-icons/bi";
-import { BottomNavigation, Modal, Select } from "zmp-ui";
+import { BottomNavigation, Box, Modal, Select } from "zmp-ui";
 import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
 
 import { Node } from "../../components/node/Node";
@@ -32,7 +32,7 @@ export function UIDummyTree() {
       {CommonComponentUtils.renderHeader(t("dummy_tree"))}
 
       {nodes.length > 0 ? (
-        <div style={{ height: "100%" }}>
+        <div style={{ height: "90%" }}>
           <Select
             label={t("data_source")}
             defaultValue="1"
