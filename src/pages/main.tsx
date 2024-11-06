@@ -1,6 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import { RecoilRoot } from "recoil";
+import { atom, RecoilRoot, selector } from "recoil";
 import { App, ZMPRouter, AnimationRoutes, SnackbarProvider } from "zmp-ui";
 import { UIHomePage } from "./home/UIHome";
 import { UIFamilyTree } from "./family-tree/UIFamilyTree";
@@ -9,7 +9,6 @@ import { UIDummyAlbum } from "./dummy/UIDummyAlbum";
 import { UIDummyUpcoming } from "./dummy/UIDummyUpcoming";
 import { UIPlayground } from "./dummy/UIPlayground";
 import { UIUserDetail } from "./user/UIUser";
-import { ZmpSDK } from "../utils/ZmpSdk";
 import { UIDummyTree } from "./dummy/UIDummyTree";
 import { UIBlog } from "./blog/UIBlog";
 import { UIBlogDetail } from "./blog/UIBlogDetail";
@@ -20,6 +19,7 @@ import { UIFund, UIFundDetail } from "./fund/UIFund";
 import { UIDummyFund, UIDummyFundDetail } from "./dummy/UIDummyFund";
 
 import "../i18n";
+import { getPhoneNumber } from "zmp-sdk";
 
 export const PhoneNumberContext = React.createContext(null);
 
