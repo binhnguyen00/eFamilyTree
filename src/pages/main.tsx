@@ -26,12 +26,11 @@ export const PhoneNumberContext = React.createContext(null);
 const UIProvider = ({ children }) => {
   const [phoneNumber, setPhoneNumber] = React.useState(null);
 
-  React.useEffect(() => {
-    // Get User's phone numb on init app. Get once, Zalo has cache.
+  const requestPhoneNumber = () => {
     ZmpSDK.getPhoneNumber().then((result) => {
       setPhoneNumber(result);
     });
-  }, []);
+  };
 
   return (
     <PhoneNumberContext.Provider value={phoneNumber}>
@@ -48,7 +47,8 @@ export function Application() {
           <SnackbarProvider>
             <ZMPRouter>
               <AnimationRoutes>
-                <Route path="/" element={<UIHomePage/>}/>
+                <Route path="/" element={<div> Wellcome </div>}/>
+                <Route path="/home" element={<UIHomePage/>}/>
                 <Route path="/family-tree" element={<UIFamilyTree/>}/>
                 <Route path="/about" element={<UIAbout/>}/>
                 <Route path="/user" element={<UIUserDetail/>}/>
