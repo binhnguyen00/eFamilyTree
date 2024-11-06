@@ -23,52 +23,34 @@ import "../i18n";
 
 export const PhoneNumberContext = React.createContext(null);
 
-const UIProvider = ({ children }) => {
-  const [phoneNumber, setPhoneNumber] = React.useState(null);
-
-  const requestPhoneNumber = () => {
-    ZmpSDK.getPhoneNumber().then((result) => {
-      setPhoneNumber(result);
-    });
-  };
-
-  return (
-    <PhoneNumberContext.Provider value={phoneNumber}>
-      {children}
-    </PhoneNumberContext.Provider>
-  );
-};
-
 export function Application() {
   return (
     <RecoilRoot>
       <App theme="light">
-        <UIProvider>
-          <SnackbarProvider>
-            <ZMPRouter>
-              <AnimationRoutes>
-                <Route path="/" element={<div> Wellcome </div>}/>
-                <Route path="/home" element={<UIHomePage/>}/>
-                <Route path="/family-tree" element={<UIFamilyTree/>}/>
-                <Route path="/about" element={<UIAbout/>}/>
-                <Route path="/user" element={<UIUserDetail/>}/>
-                <Route path="/album" element={<UIDummyAlbum/>}/>
-                <Route path="/calendar" element={<UICalendar/>}/>
-                <Route path="/upcoming" element={<UIDummyUpcoming/>}/>
-                <Route path="/playground" element={<UIPlayground/>}/>
-                <Route path="/blogs" element={<UIBlog/>}/>
-                <Route path="/funds" element={<UIFund/>}/>
-                <Route path="/fund-detail" element={<UIFundDetail/>}/>
-                <Route path="/blog-detail" element={<UIBlogDetail/>}/>
-                <Route path="/demo-funds" element={<UIDummyFund/>}/>
-                <Route path="/demo-fund-detail" element={<UIDummyFundDetail/>}/>
-                <Route path="/demo-tree" element={<UIDummyTree/>}/>
-                <Route path="/demo-calendar" element={<UIDummyCalendar/>}/>
-                <Route path="/demo-blogs" element={<UIDummyBlog/>}/>
-              </AnimationRoutes>
-            </ZMPRouter>
-          </SnackbarProvider>
-        </UIProvider>
+        <SnackbarProvider>
+          <ZMPRouter>
+            <AnimationRoutes>
+              <Route path="/" element={<div> Wellcome </div>}/>
+              <Route path="/home" element={<UIHomePage/>}/>
+              <Route path="/family-tree" element={<UIFamilyTree/>}/>
+              <Route path="/about" element={<UIAbout/>}/>
+              <Route path="/user" element={<UIUserDetail/>}/>
+              <Route path="/album" element={<UIDummyAlbum/>}/>
+              <Route path="/calendar" element={<UICalendar/>}/>
+              <Route path="/upcoming" element={<UIDummyUpcoming/>}/>
+              <Route path="/playground" element={<UIPlayground/>}/>
+              <Route path="/blogs" element={<UIBlog/>}/>
+              <Route path="/funds" element={<UIFund/>}/>
+              <Route path="/fund-detail" element={<UIFundDetail/>}/>
+              <Route path="/blog-detail" element={<UIBlogDetail/>}/>
+              <Route path="/demo-funds" element={<UIDummyFund/>}/>
+              <Route path="/demo-fund-detail" element={<UIDummyFundDetail/>}/>
+              <Route path="/demo-tree" element={<UIDummyTree/>}/>
+              <Route path="/demo-calendar" element={<UIDummyCalendar/>}/>
+              <Route path="/demo-blogs" element={<UIDummyBlog/>}/>
+            </AnimationRoutes>
+          </ZMPRouter>
+        </SnackbarProvider>
       </App>
     </RecoilRoot>
   );
