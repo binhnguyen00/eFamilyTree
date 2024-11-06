@@ -16,7 +16,7 @@ import { UIBlogDetail } from "./blog/UIBlogDetail";
 import { UICalendar } from "./calendar/UICalendar";
 import { UIDummyCalendar } from "./dummy/UIDummyCalendar";
 import { UIDummyBlog } from "./dummy/UIDummyBlog";
-import { UIFund } from "./fund/UIFund";
+import { UIFund, UIFundDetail } from "./fund/UIFund";
 
 import "../i18n";
 import { UIDummyFund, UIDummyFundDetail } from "./dummy/UIDummyFund";
@@ -58,9 +58,10 @@ export function Application() {
                 <Route path="/playground" element={<UIPlayground/>}/>
                 <Route path="/blogs" element={<UIBlog/>}/>
                 <Route path="/funds" element={<UIFund/>}/>
-                <Route path="/fund-detail" element={<UIDummyFundDetail/>}/>
+                <Route path="/fund-detail" element={<UIFundDetail/>}/>
                 <Route path="/blog-detail" element={<UIBlogDetail/>}/>
                 <Route path="/demo-funds" element={<UIDummyFund/>}/>
+                <Route path="/demo-fund-detail" element={<UIDummyFundDetail/>}/>
                 <Route path="/demo-tree" element={<UIDummyTree/>}/>
                 <Route path="/demo-calendar" element={<UIDummyCalendar/>}/>
                 <Route path="/demo-blogs" element={<UIDummyBlog/>}/>

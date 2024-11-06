@@ -105,7 +105,7 @@ export function UIDummyFund() {
 
   const navigateToFundDetail = (fund: any = null) => {
     if (!fund) return;
-    navigate("/fund-detail", { state: { fund } });
+    navigate("/demo-fund-detail", { state: { fund } });
   }
 
   const renderFunds = () => {
