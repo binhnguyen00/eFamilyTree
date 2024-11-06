@@ -9,14 +9,11 @@ import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pa
 
 import { Node } from "../../components/node/Node";
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
-import { FamilyTreeUtils } from "../../pages/family-tree/FamilyTreeUtils";
+import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "../../pages/family-tree/FamilyTreeUtils";
 
 import average from "../family-tree/sample/average.json";
 import divorced from "../family-tree/sample/divorced.json";
 import severalSprouses from "../family-tree/sample/several-sprouses.json";
-
-const NODE_WIDTH = 200;
-const NODE_HEIGHT = 80;
 
 export function UIDummyTree() {
   const dataSrcKey = {
