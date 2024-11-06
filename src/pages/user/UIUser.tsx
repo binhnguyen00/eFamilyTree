@@ -19,7 +19,7 @@ export function UIUserDetail() {
   const { userInfo } = useRecoilValue(userState);
 
   return (
-    <Page>
+    <div className="container">
       {CommonComponentUtils.renderHeader(t("user"))}
       
       <div className="container">
@@ -37,7 +37,7 @@ export function UIUserDetail() {
           <Button> {t("logout")} </Button>
         </Stack>
       </div>
-    </Page>
+    </div>
   );
 }
 

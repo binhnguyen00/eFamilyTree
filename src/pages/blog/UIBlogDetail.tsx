@@ -26,7 +26,7 @@ export function UIBlogDetail() {
   console.log(updatedContent);
 
   return (
-    <Page>
+    <div className="container">
       {CommonComponentUtils.renderHeader(t("detail_blog"))}
 
       <Stack space="1rem" className="container">
@@ -35,6 +35,6 @@ export function UIBlogDetail() {
         </Text.Title>
         <div dangerouslySetInnerHTML={{ __html: updatedContent }} />
       </Stack>
-    </Page>
+    </div>
   )
 }

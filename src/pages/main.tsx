@@ -17,9 +17,9 @@ import { UICalendar } from "./calendar/UICalendar";
 import { UIDummyCalendar } from "./dummy/UIDummyCalendar";
 import { UIDummyBlog } from "./dummy/UIDummyBlog";
 import { UIFund, UIFundDetail } from "./fund/UIFund";
+import { UIDummyFund, UIDummyFundDetail } from "./dummy/UIDummyFund";
 
 import "../i18n";
-import { UIDummyFund, UIDummyFundDetail } from "./dummy/UIDummyFund";
 
 export const PhoneNumberContext = React.createContext(null);
 
