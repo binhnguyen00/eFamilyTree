@@ -107,7 +107,12 @@ export function UIFund() {
             CommonComponentUtils.renderError(t("server_error"), () => setReload((prev) => !prev))
           ) : funds.length > 0 ? (
             <>
-              <Input.Search placeholder={t("search_funds")}/>
+              {CommonComponentUtils.renderSearchBar({
+                placeholder: t("search_funds"),
+                onSearch(text, event) {
+                  console.log(text);
+                },
+              })}
               {renderFunds()}
             </>
           ) : (
@@ -183,9 +188,12 @@ export function UIFundDetail() {
     <div className="container">
       {CommonComponentUtils.renderHeader(fund["name"])}
 
-      <Input.Search 
-        placeholder={t("search_funds")}
-      />
+      {CommonComponentUtils.renderSearchBar({
+        placeholder: t("search_funds"),
+        onSearch(text, event) {
+          console.log(text);
+        },
+      })}
 
       {renderIOComes()}
     </div>

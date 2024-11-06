@@ -4,7 +4,6 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { Box, Input, Spinner, Text, useNavigate, Stack, Button } from "zmp-ui";
 
 interface SearchBar {
-  show: boolean;
   placeholder?: string;
   onSearch?: (
     text: string, 
@@ -48,7 +47,6 @@ export class CommonComponentUtils {
   public static renderSearchBar(searchBar: SearchBar) {
     const isEmpty = (obj: SearchBar) => Object.keys(obj).length === 0;
     if (isEmpty(searchBar)) return <></>;
-    if (!searchBar.show) return <></>;
     if (!searchBar.onSearch) {
       searchBar.onSearch = (text: string) => console.log(text);
     }

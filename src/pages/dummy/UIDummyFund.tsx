@@ -137,9 +137,12 @@ export function UIDummyFund() {
     <div className="container">
       {CommonComponentUtils.renderHeader(t("funds"))}
 
-      <Input.Search 
-        placeholder={t("search_funds")}
-      />
+      {CommonComponentUtils.renderSearchBar({
+        placeholder: t("search_funds"),
+        onSearch(text, event) {
+          console.log(text);
+        },
+      })}
 
       {renderFunds()}
     </div>
@@ -210,9 +213,12 @@ export function UIDummyFundDetail() {
     <div className="container">
       {CommonComponentUtils.renderHeader(fund["name"])}
 
-      <Input.Search 
-        placeholder={t("search_funds")}
-      />
+      {CommonComponentUtils.renderSearchBar({
+        placeholder: t("search_funds"),
+        onSearch(text, event) {
+          console.log(text);
+        },
+      })}
 
       {renderIOComes()}
     </div>
