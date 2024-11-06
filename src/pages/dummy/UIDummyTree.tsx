@@ -4,11 +4,12 @@ import FamilyTree from "../../components/tree/FamilyTree";
 import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { CgUndo } from "react-icons/cg";
 import { BiHorizontalCenter } from "react-icons/bi";
-import { BottomNavigation, Box, Modal, Select } from "zmp-ui";
+import { BottomNavigation, Modal, Select } from "zmp-ui";
 import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
 
 import { Node } from "../../components/node/Node";
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+import { FamilyTreeUtils } from "../../pages/family-tree/FamilyTreeUtils";
 
 import average from "../family-tree/sample/average.json";
 import divorced from "../family-tree/sample/divorced.json";
@@ -48,10 +49,7 @@ export function UIDummyTree() {
             <Select.Option value="3" title={t("divorced")} />
           </Select>
 
-          <TransformWrapper
-            centerOnInit
-            minScale={0.01}
-          >
+          <TransformWrapper centerOnInit minScale={0.01}>
             {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
               <>
                 <TransformComponent>
@@ -66,7 +64,7 @@ export function UIDummyTree() {
                         node={node}
                         isRoot={node.id === rootId}
                         onSelectNode={setSelectId}
-                        style={calculatePositionStyle(node)}
+                        style={FamilyTreeUtils.calculateNodePosition(node)}
                       />
                     )}
                   />

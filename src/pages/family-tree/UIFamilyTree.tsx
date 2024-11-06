@@ -59,9 +59,8 @@ export function UIFamilyTree() {
     else if (fetchError) return CommonComponentUtils.renderError(t("server_error"), () => setReload((prev) => !prev));
     else {
       if (familyMembers.length > 0) {
-        console.log(familyMembers);
         return (
-          <>
+          <div style={{ height: "90%" }}>
             <TransformWrapper centerOnInit minScale={0.01}>
               {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
                 <>
@@ -94,7 +93,7 @@ export function UIFamilyTree() {
             >
               <NodeDetails nodeId={selectId}/>
             </Modal>
-          </>
+          </div>
         );
       } else return CommonComponentUtils.renderError(t("no_family_tree"), () => setReload((prev) => !prev));
     }
