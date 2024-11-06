@@ -65,10 +65,12 @@ export function UIHomePage() {
           {renderFunctions()}
         </Grid>
 
-        <Button type="danger" variant="secondary" onClick={() => closeApp()}>
+        <Button style={{ marginBottom: 10 }} type="danger" variant="secondary" onClick={() => closeApp()}>
           {t("quit")}
         </Button>
+
       </Stack>
+
     </div>
   );
 };
