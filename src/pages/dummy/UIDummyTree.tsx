@@ -42,7 +42,7 @@ export function UIDummyTree() {
             closeOnSelect
           >
             <Select.Option value="1" title={t("average")} />
-            <Select.Option value="2" title={t("several_sprouses")} />
+            <Select.Option value="2" title={t("several_spouses")} />
             <Select.Option value="3" title={t("divorced")} />
           </Select>
 

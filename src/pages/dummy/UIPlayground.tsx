@@ -100,8 +100,6 @@ export function UIPlayground() {
         </Button>
       </Stack>
 
-      <UIDummyCalendar/>
-
     </div>
   )
 }
