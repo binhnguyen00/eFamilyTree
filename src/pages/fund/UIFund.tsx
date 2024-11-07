@@ -10,6 +10,7 @@ import { Box, List, Text, useNavigate } from "zmp-ui";
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { DateTimeUtils } from "../../utils/DateTimeUtils";
+import { FailResponse } from "../../utils/Interface";
 
 export function UIFund() {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ export function UIFund() {
       }
     };
 
-    const fail = (error: any) => {
+    const fail = (error: FailResponse) => {
       setFetchError(true);
       console.error(error.stackTrace);
     };

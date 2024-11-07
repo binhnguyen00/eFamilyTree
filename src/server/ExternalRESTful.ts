@@ -1,5 +1,5 @@
 import { Api } from "./Api";
-import { Callback, HttpMethod } from "../utils/Interface";
+import { Callback, FailResponse, HttpMethod } from "../utils/Interface";
 
 export class ExternalRESTful extends Api {
 
@@ -49,8 +49,8 @@ export class ExternalRESTful extends Api {
       failCB({
         error: true,
         message: error.message,
-        stackTrace: JSON.stringify(error.stack || "")
-      });
+        stackTrace: error.stack || ""
+      } as FailResponse);
     });
   }
 

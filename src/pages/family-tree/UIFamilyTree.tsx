@@ -10,9 +10,10 @@ import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
 import FamilyTree from "../../components/tree/FamilyTree";
-import { FamilyMember, Node } from "../../components/node/Node";
-import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+import { FailResponse } from "../../utils/Interface";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
+import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+import { FamilyMember, Node } from "../../components/node/Node";
 import { NodeDetails } from "../../components/node/NodeDetails";
 import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "./FamilyTreeUtils";
 
@@ -39,7 +40,7 @@ export function UIFamilyTree() {
         setRootId(`${data.id}`);
       }
     }
-    const fail = (error: any) => {
+    const fail = (error: FailResponse) => {
       setFetchError(true);
       console.error(error.stackTrace);
     } 

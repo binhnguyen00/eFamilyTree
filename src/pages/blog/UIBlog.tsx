@@ -7,6 +7,7 @@ import { useRecoilValue } from "recoil";
 
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+import { FailResponse } from "../../utils/Interface";
 
 export function UIBlog() {
   return (
@@ -37,7 +38,7 @@ export function UIBlogList() {
       }
     };
 
-    const fail = (error: any) => {
+    const fail = (error: FailResponse) => {
       console.error(error.stackTrace);
       setFetchError(true);
     };

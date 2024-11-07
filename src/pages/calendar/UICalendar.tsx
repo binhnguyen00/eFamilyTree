@@ -8,6 +8,7 @@ import { useRecoilValue } from "recoil";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { CalendarUtils } from "../../utils/CalendarUtils";
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+import { FailResponse } from "../../utils/Interface";
 
 interface Event {
   name: string;
@@ -39,7 +40,7 @@ export function UICalendar() {
       }
     }
 
-    const fail = (error: any) => {
+    const fail = (error: FailResponse) => {
       console.error(error.stackTrace);
       setFetchError(true);
     } 
