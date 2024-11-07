@@ -17,12 +17,13 @@ export interface FamilyMember {
 
 interface NodeProps {
   node: FamilyMember;
+  displayField: string;
   isRoot: boolean;
   onSelectNode: (id: string) => void;
   style?: React.CSSProperties;
 }
 
-export function Node({node, isRoot, onSelectNode, style}: NodeProps) {
+export function Node({node, displayField, isRoot, onSelectNode, style}: NodeProps) {
   const showDetails = () => {
     onSelectNode(node.id);
   }
@@ -36,7 +37,7 @@ export function Node({node, isRoot, onSelectNode, style}: NodeProps) {
         style={{ width: "100%", height: "100%", border: "1px solid black" }}
       >
         {isRoot && <PiTreeBold size={"1em"}/>}
-        <Text.Title size='small' style={{ color: "white" }}> {node.id || node.name} </Text.Title>
+        <Text.Title size='small' style={{ color: "white" }}> {node[displayField]} </Text.Title>
       </Box>
     </div>
   )

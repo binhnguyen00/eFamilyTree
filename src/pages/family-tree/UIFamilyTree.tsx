@@ -16,6 +16,7 @@ import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 import { FamilyMember, Node } from "../../components/node/Node";
 import { NodeDetails } from "../../components/node/NodeDetails";
 import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "./FamilyTreeUtils";
+import { UIFamilyMember } from "./UIFamilyMember";
 
 export function UIFamilyTree() {
   const phoneNumber = useRecoilValue(phoneState);
@@ -65,6 +66,7 @@ export function UIFamilyTree() {
                       <Node
                         key={node.id}
                         node={node}
+                        displayField="name"
                         isRoot={node.id === rootId}
                         onSelectNode={(id) => { setSelectId(id) }}
                         style={FamilyTreeUtils.calculateNodePosition(node)}
@@ -79,10 +81,14 @@ export function UIFamilyTree() {
 
           <Modal 
             visible={selectId !== ""}
-            onClose={() => { setSelectId(""); }}
+            onClose={() => { setSelectId("") }}
             actions={[ { text: t("close"), close: true } ]}
           >
-            <NodeDetails nodeId={selectId}/>
+            <React.Suspense
+              fallback={CommonComponentUtils.renderLoading(t("loading_family_member"))}
+            >
+              <UIFamilyMember memberId={selectId} phoneNumber={phoneNumber}/>
+            </React.Suspense>
           </Modal>
         </div>
       );
