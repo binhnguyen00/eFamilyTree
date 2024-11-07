@@ -10,7 +10,7 @@ export function UIDummyAlbum() {
     <div className="container">
       {CommonComponentUtils.renderHeader("Album")}
 
-      <div className="container">
+      <Stack>
         <Text size='xSmall' className='input-desc'>
           {"Ảnh Gia Đình"}
         </Text>
@@ -45,7 +45,7 @@ export function UIDummyAlbum() {
           images={images}
           visible={visible}
         />
-      </div>
+      </Stack>
     </div>
   );
 }

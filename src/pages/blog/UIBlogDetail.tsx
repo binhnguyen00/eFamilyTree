@@ -1,16 +1,18 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation } from 'react-router-dom';
-import { Page, Stack, Text } from "zmp-ui";
 import DOMPurify from "dompurify";
+import { t } from "i18next";
+import { useLocation } from 'react-router-dom';
+import { Stack, Text } from "zmp-ui";
 
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 
 export function UIBlogDetail() {
-  const { t } = useTranslation();
   const location = useLocation();
-  const { blog } = location.state || {};
+  const { blog } = location.state || {
+    title: "",
+    content: "",
+  };
   
   const purifiedContent = DOMPurify.sanitize(blog["content"]);
   
@@ -23,16 +25,13 @@ export function UIBlogDetail() {
   };
 
   const updatedContent = addDomainToImageSrc(purifiedContent);
-  console.log(updatedContent);
 
   return (
     <div className="container">
       {CommonComponentUtils.renderHeader(t("detail_blog"))}
 
-      <Stack space="1rem" className="container">
-        <Text.Title size="xLarge">
-          {blog["title"]}
-        </Text.Title>
+      <Stack space="1rem">
+        <Text.Title size="xLarge"> {blog["title"]} </Text.Title>
         <div dangerouslySetInnerHTML={{ __html: updatedContent }} />
       </Stack>
     </div>

@@ -45,7 +45,7 @@ export class ExternalRESTful extends Api {
       if (res) successCB(res);
       else failCB(res);
     }).catch((error: Error) => {
-      console.log(`Mini App UI error: \n\t${error}`);
+      console.error(`Mini App UI error: \n\t${error.message}`);
       failCB({
         error: true,
         message: error.message,
