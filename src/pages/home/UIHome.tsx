@@ -48,7 +48,7 @@ export function UIHomePage() {
             {renderIcon(key)}
           </Button>
 
-          <Text.Title key={`title-${key}`} size="small" style={{ textAlign: "center" }}>
+          <Text.Title key={`title-${key}`} size="small" style={{ textAlign: "center", textTransform: "capitalize" }}>
             {label}
           </Text.Title>
           
