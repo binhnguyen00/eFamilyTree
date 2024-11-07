@@ -91,7 +91,7 @@ export function UIBlogList() {
     return renderBlogList(blogs);
   } else { 
     if (fetchError) {
-      return CommonComponentUtils.renderError(t("server_error"), () => setFetchError(true));
+      return CommonComponentUtils.renderError(t("server_error"), () => setReload(!reload));
     } else {
       return CommonComponentUtils.renderLoading(t("loading_blogs"));
     }
