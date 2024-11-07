@@ -23,7 +23,6 @@ export function UIFamilyTree() {
   const [ rootId, setRootId ] = React.useState<string>("");
   const [ selectId, setSelectId ] = React.useState<string>("");
   const [ fetchError, setFetchError ] = React.useState(false);
-  const [ reload, setReload ] = React.useState(false);
 
   React.useEffect(() => {
     const success = (res: any) => {
@@ -41,7 +40,7 @@ export function UIFamilyTree() {
     } 
 
     EFamilyTreeApi.getMembers(phoneNumber, success, fail);
-  }, [ reload ])
+  }, [ fetchError ])
 
   const renderTree = () => {
     if (familyMembers.length > 0) {
@@ -83,7 +82,7 @@ export function UIFamilyTree() {
       );
     } else {
       if (fetchError) {
-        return CommonComponentUtils.renderError(t("server_error"), () => setReload((prev) => !prev));
+        return CommonComponentUtils.renderError(t("server_error"), () => setFetchError(true));
       } else {
         return CommonComponentUtils.renderLoading(t("loading_family_tree"));
       }

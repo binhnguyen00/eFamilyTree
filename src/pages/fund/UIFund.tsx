@@ -3,19 +3,20 @@ import { useLocation } from 'react-router-dom';
 import { IoIosArrowForward } from "react-icons/io";
 
 import { t } from "i18next";
-import { Box, Input, List, Text, useNavigate } from "zmp-ui";
+import { phoneState } from "states";
+import { useRecoilValue } from "recoil";
+import { Box, List, Text, useNavigate } from "zmp-ui";
 
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
-import { DateTimeUtils } from "utils/DateTimeUtils";
+import { DateTimeUtils } from "../../utils/DateTimeUtils";
 
 export function UIFund() {
   const navigate = useNavigate();
-  const phoneNumber = "";
+  const phoneNumber = useRecoilValue(phoneState);
+
   const [ funds, setFunds ] = React.useState<any[]>([]);
   const [ fetchError, setFetchError ] = React.useState(false);
-  const [ loading, setLoading ] = React.useState(true);
-  const [ reload, setReload ] = React.useState(false);
 
   React.useEffect(() => {
     const success = (result: any[]) => {
@@ -45,31 +46,24 @@ export function UIFund() {
        *    ]
        * }]
        */
-      setLoading(false);
       const data = result["fund_data"] || [];
       setFunds(data);
     };
 
     const fail = (error: any) => {
-      setLoading(false);
       setFetchError(true);
+      console.error(error.stackTrace);
     };
 
-    const fetchData = () => {
-      setLoading(true);
-      setFetchError(false);
-      EFamilyTreeApi.getFunds(phoneNumber, success, fail);
-    };
-
-    fetchData();
-  }, [ reload, phoneNumber ]);
+    EFamilyTreeApi.getFunds(phoneNumber, success, fail);
+  }, [ fetchError ]);
 
   const navigateToFundDetail = (fund: any = null) => {
     if (!fund) return;
     navigate("/fund-detail", { state: { fund } });
   }
 
-  const renderFunds = () => {
+  const renderFundList = () => {
     let html = [] as React.ReactNode[];
 
     funds.map((item, index) => {
@@ -94,31 +88,33 @@ export function UIFund() {
     )
   }
 
+  const renderFundContainer = () => {
+    if (funds.length > 0) {
+      return (
+        <>
+          {CommonComponentUtils.renderSearchBar({
+            placeholder: t("search_funds"),
+            onSearch(text, event) {
+              console.log(text);
+            },
+          })}
+          {renderFundList()}
+        </>
+      )
+    } else {
+      if (fetchError) {
+        return CommonComponentUtils.renderError(t("server_error"), () => setFetchError(true));
+      } else {
+        return CommonComponentUtils.renderLoading(t("loading_funds"));
+      }
+    }
+  }
+
   return (
     <div className="container">
       {CommonComponentUtils.renderHeader(t("funds"))}
 
-      <div className="flex-v">
-        {loading ? (
-          CommonComponentUtils.renderLoading(t("loading_funds"))
-        ) : (
-          fetchError ? (
-            CommonComponentUtils.renderError(t("server_error"), () => setReload((prev) => !prev))
-          ) : funds.length > 0 ? (
-            <>
-              {CommonComponentUtils.renderSearchBar({
-                placeholder: t("search_funds"),
-                onSearch(text, event) {
-                  console.log(text);
-                },
-              })}
-              {renderFunds()}
-            </>
-          ) : (
-            CommonComponentUtils.renderRetry(t("no_funds"), () => setReload((prev) => !prev))
-          )
-        )}
-      </div>
+      {renderFundContainer()}
     </div>
   )
 }
