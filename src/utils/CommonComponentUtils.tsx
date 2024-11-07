@@ -40,7 +40,9 @@ export class CommonComponentUtils {
             <Box flex flexDirection="row" justifyContent="flex-start">
               {logo && (logo)}
               <Stack>
-                <Text.Title>{title}</Text.Title>
+                <Text.Title style={{ textTransform: "capitalize" }}>
+                  {title}
+                </Text.Title>
                 <Text size="xSmall">{subtitle}</Text>
               </Stack>
             </Box>
