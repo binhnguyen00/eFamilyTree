@@ -14,7 +14,7 @@ export function UIDummyUpcoming() {
       <Grid style={{ padding: "0 1rem" }} columnSpace="1rem" rowSpace="1rem" columnCount={2}>
         <Stack space="0.5rem">
           <Button
-            variant="secondary" 
+            variant="tertiary" 
             className="box-shadow"
             style={{
               height: 120,
@@ -24,8 +24,7 @@ export function UIDummyUpcoming() {
             <FcRating size={"3rem"}/>
           </Button>
           <Text.Title 
-            size="small" 
-            style={{ textAlign: "center", textTransform: "capitalize" }}
+            style={{ fontWeight: "bold", textAlign: "center", textTransform: "capitalize" }}
           > 
             {t("feature_hall_of_fame")} 
           </Text.Title>
