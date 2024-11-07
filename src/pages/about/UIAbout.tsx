@@ -49,6 +49,9 @@ export function UIAbout() {
           <Text> {"Dựa trên nền tảng cây gia phả, ứng dụng giúp kết nối các thành viên trong dòng họ, hỗ trợ anh em, họ hàng duy trì tình cảm gắn bó, chia sẻ và giúp đỡ lẫn nhau."} </Text>
         </Stack>
 
+        <br />
+        <br />
+
         <Grid columnCount={3}>
           <Stack className="center">
             <img 
@@ -58,8 +61,8 @@ export function UIAbout() {
                 width: "50%",
               }}
             />
-            <Text.Title> {"23"} </Text.Title>
-            <Text.Title> {"Dòng Họ"} </Text.Title>
+            <Text.Title size="large"> {"23"} </Text.Title>
+            <Text.Title size="large"> {"Dòng Họ"} </Text.Title>
           </Stack>
           <Stack className="center">
             <img 
@@ -69,8 +72,8 @@ export function UIAbout() {
                 width: "50%",
               }}
             />
-            <Text.Title> {"1856"} </Text.Title>
-            <Text.Title> {"Người dùng"} </Text.Title>
+            <Text.Title size="large"> {"1856"} </Text.Title>
+            <Text.Title size="large"> {"Người dùng"} </Text.Title>
           </Stack>
           <Stack className="center">
             <img 
@@ -80,8 +83,8 @@ export function UIAbout() {
                 width: "50%",
               }}
             />
-            <Text.Title> {"15"} </Text.Title>
-            <Text.Title> {"Tỉnh Thành"} </Text.Title>
+            <Text.Title size="large"> {"15"} </Text.Title>
+            <Text.Title size="large"> {"Tỉnh Thành"} </Text.Title>
           </Stack>
         </Grid>
 
