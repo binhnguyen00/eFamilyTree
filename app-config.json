@@ -1,6 +1,7 @@
 {
   "app": {
-    "title": "eFamilyTree",
+    "title": "Cây Gia Phả",
+    "headerTitle": "Cây Gia Phả",
     "headerColor": "#1843EF",
     "textColor": "white",
     "leftButton": "back",

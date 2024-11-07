@@ -28,7 +28,7 @@ export function UIDeveloper() {
         <Stack key={`dev-stack-${key}`} space="0.5rem">
 
           <Button 
-            key={`dev-btn-${key}`} variant="secondary" className="box-shadow" 
+            key={`dev-btn-${key}`} variant="tertiary" className="box-shadow" 
             style={{ 
               height: 120, 
               borderRadius: 30, 
@@ -38,7 +38,10 @@ export function UIDeveloper() {
             {renderIcon(key)}
           </Button>
 
-          <Text.Title key={`dev-title-${key}`} size="small" style={{ textAlign: "center", textTransform: "capitalize" }}>
+          <Text.Title 
+            key={`dev-title-${key}`} 
+            style={{ fontWeight: "bold", textAlign: "center", textTransform: "capitalize" }}
+          >
             {funcKeyMap[key]}
           </Text.Title>
         </Stack>

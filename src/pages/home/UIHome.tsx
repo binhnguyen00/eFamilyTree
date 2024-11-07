@@ -8,7 +8,7 @@ import logo from "../../assets/img/eFamilyTree.png";
 
 // icons
 import { 
-  FcAbout, FcCalendar, FcGenealogy, FcStackOfPhotos,
+  FcInfo, FcCalendar, FcGenealogy, FcStackOfPhotos,
   FcTemplate, FcMoneyTransfer, FcCommandLine, FcPlanner, FcApproval
 } from "react-icons/fc";
 
@@ -39,7 +39,7 @@ export function UIHomePage() {
         <Stack space="0.5rem" key={`stack-${key}`}>
 
           <Button 
-            key={`btn-${key}`} variant="secondary" className="box-shadow" 
+            key={`btn-${key}`} variant="tertiary" className="box-shadow" 
             style={{ 
               height: 120, 
               borderRadius: 30, 
@@ -49,7 +49,11 @@ export function UIHomePage() {
             {renderIcon(key)}
           </Button>
 
-          <Text.Title key={`title-${key}`} size="small" style={{ textAlign: "center", textTransform: "capitalize" }}>
+          <Text.Title 
+            key={`title-${key}`} 
+            size="normal" 
+            style={{ fontWeight: "bold", textAlign: "center", textTransform: "capitalize" }}
+          >
             {label}
           </Text.Title>
           
@@ -92,22 +96,22 @@ export function UIHomePage() {
 function renderIcon(iconKey: string) { 
   switch (iconKey) {
     case "about":
-      return <FcAbout key={`ico-${iconKey}`} size={"3rem"}/>
+      return <FcInfo key={`ico-${iconKey}`} size={"4.5rem"}/>
     case "family-tree":
-      return <FcGenealogy key={`ico-${iconKey}`} size={"3rem"}/>
+      return <FcGenealogy key={`ico-${iconKey}`} size={"4.5rem"}/>
     case "album":
-      return <FcStackOfPhotos key={`ico-${iconKey}`} size={"3rem"}/>
+      return <FcStackOfPhotos key={`ico-${iconKey}`} size={"4.5rem"}/>
     case "calendar":
-      return <FcCalendar key={`ico-${iconKey}`} size={"3rem"}/>
+      return <FcCalendar key={`ico-${iconKey}`} size={"4.5rem"}/>
     case "blogs":
-      return <FcTemplate key={`ico-${iconKey}`} size={"3rem"}/>
+      return <FcTemplate key={`ico-${iconKey}`} size={"4.5rem"}/>
     case "funds":
-      return <FcMoneyTransfer key={`ico-${iconKey}`} size={"3rem"}/>
+      return <FcMoneyTransfer key={`ico-${iconKey}`} size={"4.5rem"}/>
     case "upcoming":
-      return <FcPlanner key={`ico-${iconKey}`} size={"3rem"}/>
+      return <FcPlanner key={`ico-${iconKey}`} size={"4.5rem"}/>
     case "developer":
-      return <FcCommandLine key={`ico-${iconKey}`} size={"3rem"}/>
+      return <FcCommandLine key={`ico-${iconKey}`} size={"4.5rem"}/>
     default: 
-      return <FcApproval key={`ico-${iconKey}`} size={"3rem"}/>
+      return <FcApproval key={`ico-${iconKey}`} size={"4.5rem"}/>
   }
 }
