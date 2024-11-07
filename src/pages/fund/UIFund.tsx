@@ -16,10 +16,11 @@ export function UIFund() {
   const phoneNumber = useRecoilValue(phoneState);
 
   const [ funds, setFunds ] = React.useState<any[]>([]);
+  const [ reload, setReload ] = React.useState(false);
   const [ fetchError, setFetchError ] = React.useState(false);
 
   React.useEffect(() => {
-    const success = (result: any[]) => {
+    const success = (result: any[] | string) => {
       /** Results
        * [{
        *    name: "Quỹ giỗ tổ",
@@ -46,8 +47,13 @@ export function UIFund() {
        *    ]
        * }]
        */
-      const data = result["fund_data"] || [];
-      setFunds(data);
+      if (typeof result === "string") {
+        setFetchError(true);
+        console.warn(result);
+      } else {
+        setFetchError(false);
+        setFunds(result["fund_data"] || []);
+      }
     };
 
     const fail = (error: any) => {
@@ -56,7 +62,7 @@ export function UIFund() {
     };
 
     EFamilyTreeApi.getFunds(phoneNumber, success, fail);
-  }, [ fetchError ]);
+  }, [ reload ]);
 
   const navigateToFundDetail = (fund: any = null) => {
     if (!fund) return;
@@ -103,7 +109,7 @@ export function UIFund() {
       )
     } else {
       if (fetchError) {
-        return CommonComponentUtils.renderError(t("server_error"), () => setFetchError(true));
+        return CommonComponentUtils.renderError(t("server_error"), () => setReload(!reload));
       } else {
         return CommonComponentUtils.renderLoading(t("loading_funds"));
       }

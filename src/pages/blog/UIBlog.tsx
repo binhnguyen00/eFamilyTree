@@ -23,12 +23,18 @@ export function UIBlogList() {
   const phoneNumber = useRecoilValue(phoneState);
 
   const [ blogs, setBlogs ] = React.useState<any[]>([]);
+  const [ reload, setReload ] = React.useState(false);
   const [ fetchError, setFetchError ] = React.useState(false);
 
   React.useEffect(() => {
-    const success = (result: any[]) => {
-      setFetchError(false);
-      setBlogs(result);
+    const success = (result: any[] | string) => {
+      if (typeof result === 'string') {
+        setFetchError(true);
+        console.warn(result);
+      } else {
+        setFetchError(false);
+        setBlogs(result || []);
+      }
     };
 
     const fail = (error: any) => {
@@ -37,7 +43,7 @@ export function UIBlogList() {
     };
 
     EFamilyTreeApi.getMemberBlogs(phoneNumber, success, fail);
-  }, [ fetchError ]);
+  }, [ reload ]);
 
   const navigateToBlog = (title: string, content: string) => {
     const blog = { title, content };

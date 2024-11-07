@@ -22,15 +22,20 @@ export function UIFamilyTree() {
   const [ familyMembers, setFamilyMembers ] = React.useState<any[]>([]);
   const [ rootId, setRootId ] = React.useState<string>("");
   const [ selectId, setSelectId ] = React.useState<string>("");
+
+  const [ reload, setReload ] = React.useState(false);
   const [ fetchError, setFetchError ] = React.useState(false);
 
   React.useEffect(() => {
-    const success = (res: any) => {
-      const data = res["employee_tree"];
-      if (data) {
+    const success = (result: any[] | string) => {
+      if (typeof result === 'string') {
+        setFetchError(true);
+        console.warn(result);
+      } else {
         setFetchError(false);
-        let result: FamilyMember[] = FamilyTreeUtils.remapServerData(data);
-        setFamilyMembers(result);
+        const data = result["employee_tree"] || [];
+        const mems: FamilyMember[] = FamilyTreeUtils.remapServerData(data);
+        setFamilyMembers(mems);
         setRootId(`${data.id}`);
       }
     }
@@ -40,7 +45,7 @@ export function UIFamilyTree() {
     } 
 
     EFamilyTreeApi.getMembers(phoneNumber, success, fail);
-  }, [ fetchError ])
+  }, [ reload ])
 
   const renderTree = () => {
     if (familyMembers.length > 0) {
@@ -82,7 +87,7 @@ export function UIFamilyTree() {
       );
     } else {
       if (fetchError) {
-        return CommonComponentUtils.renderError(t("server_error"), () => setFetchError(true));
+        return CommonComponentUtils.renderError(t("server_error"), () => setReload(!reload));
       } else {
         return CommonComponentUtils.renderLoading(t("loading_family_tree"));
       }

@@ -2,9 +2,12 @@ import React from "react";
 import { t } from "i18next";
 import { Box, Calendar, Stack, Text } from "zmp-ui";
 
-import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+import { phoneState } from "states";
+import { useRecoilValue } from "recoil";
+
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { CalendarUtils } from "../../utils/CalendarUtils";
+import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 
 interface Event {
   name: string;
@@ -17,49 +20,40 @@ interface Event {
 }
 
 export function UICalendar() {
-  const phoneNumber = "";
+  const phoneNumber = useRecoilValue(phoneState);
 
-  // states
-  const [ data, setData ] = React.useState<any[]>([]);
   const [ events, setEvents ] = React.useState<Event[]>([]);
-  const [ fetchError, setFetchError ] = React.useState(false);
-  const [ loading, setLoading ] = React.useState(true);
   const [ reload, setReload ] = React.useState(false);
+  const [ fetchError, setFetchError ] = React.useState(false);
 
   React.useEffect(() => {
 
     const success = (result: any[] | string) => {
-      setLoading(false);
       if (typeof result === 'string') {
         setFetchError(true);
+        console.warn(result);
       } else {
-        setData(result);
-        const todayEvents = CalendarUtils.filterEventsByDate(data, new Date());
+        setFetchError(false);
+        const todayEvents = CalendarUtils.filterEventsByDate(result, new Date());
         setEvents(todayEvents);
       }
     }
 
     const fail = (error: any) => {
-      setLoading(false);
+      console.error(error.stackTrace);
       setFetchError(true);
     } 
 
-    const fetchData = () => {
-      setLoading(true);
-      setFetchError(false);
-      EFamilyTreeApi.getMemberUpcomingEvents(phoneNumber, success, fail);
-    };
-
-    fetchData();
-  }, [ reload, phoneNumber ]);
+    EFamilyTreeApi.getMemberUpcomingEvents(phoneNumber, success, fail);
+  }, [ reload ]);
 
   const handleDateSelect = (selectedDate: Date) => {
-    let eventsOnDate: any[] = CalendarUtils.filterEventsByDate(data, selectedDate);
+    let eventsOnDate: any[] = CalendarUtils.filterEventsByDate(events, selectedDate);
     setEvents(eventsOnDate);
   };
 
   const renderCell = (dateInCell: Date) => {
-    let eventsOnDate: any[] = CalendarUtils.filterEventsByDate(data, dateInCell);
+    let eventsOnDate: any[] = CalendarUtils.filterEventsByDate(events, dateInCell);
 
     return (
       <Box>
@@ -79,28 +73,26 @@ export function UICalendar() {
   };
 
   const renderCalendar = () => {
-    if (loading) {
-      return CommonComponentUtils.renderLoading(t("loading_calendar"));
-    } else if (fetchError) {
-      return CommonComponentUtils.renderError(t("server_error"), () => setReload((prev) => !prev));
-    } else {
-      if (data.length > 0) {
-        return (
-          <div className="flex-v">
-            <Calendar 
-              cellRender={renderCell} 
-              onSelect={handleDateSelect} 
-            />
-            {/* 
-            250px : height of Zalo calendar
-            44px  : height of header 
-            */}
-            <div style={{ paddingLeft: 15, paddingRight: 15, height: `calc(100vh - 250px - 44px)`, overflowY: "auto" }}>
-              {renderDetails(events)}
-            </div>
+    if (events.length > 0) {
+      return (
+        <div className="flex-v">
+          <Calendar 
+            cellRender={renderCell} 
+            onSelect={handleDateSelect} 
+          />
+          {/* 
+          250px : height of Zalo calendar
+          44px  : height of header 
+          */}
+          <div style={{ paddingLeft: 15, paddingRight: 15, height: `calc(100vh - 250px - 44px)`, overflowY: "auto" }}>
+            {renderDetails(events)}
           </div>
-        )
-      } else return CommonComponentUtils.renderError(t("no_calendar_events"), () => setReload((prev) => !prev));
+        </div>
+      )
+    } else {
+      if (fetchError) {
+        return CommonComponentUtils.renderError(t("server_error"), () => setReload(!reload));
+      } else return CommonComponentUtils.renderLoading(t("no_calendar_events"));
     }
   }
 
@@ -108,7 +100,7 @@ export function UICalendar() {
     if (!events.length) return <Text>{t("no_calendar_events")}</Text>;
 
     return (
-      <Stack space=""> 
+      <Stack> 
         {events.map((event) => (
           <Box key={event.id} flex flexDirection="column" flexWrap style={{ paddingTop: 10, paddingBottom: 10 }}>
             <Text>{event.name}</Text>
