@@ -10,14 +10,13 @@ export const requestPhoneTriesState = atom({
 export const phoneState = selector<string | boolean>({
   key: "phone",
   get: async ({ get }) => {
-    const requested = get(requestPhoneTriesState);
-    if (requested > 0) {
+    try {
       const phoneNumber = await ZmpSDK.getPhoneNumber();
-      if (phoneNumber) return phoneNumber;
-      console.warn("Giả lập số điện thoại mặc định: 0337076898");
-      return "0337076898";
+      return phoneNumber || false;
+    } catch (error) {
+      console.error("Error fetching phone number:", error);
+      return false;
     }
-    return false;
   },
 });
 

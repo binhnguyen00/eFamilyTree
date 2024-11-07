@@ -19,7 +19,7 @@ export const NODE_HEIGHT = 80;
 
 export class FamilyTreeUtils {
   
-  public static processServerData(node: OdooNode): FamilyMember[] {
+  public static remapServerData(node: OdooNode): FamilyMember[] {
     const result: FamilyMember[] = [];
 
     const processNode = (node: OdooNode, parentIds: string[] = []) => {

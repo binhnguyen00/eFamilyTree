@@ -1,6 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import { atom, RecoilRoot, selector } from "recoil";
+import { RecoilRoot } from "recoil";
 import { App, ZMPRouter, AnimationRoutes, SnackbarProvider } from "zmp-ui";
 import { UIHomePage } from "./home/UIHome";
 import { UIFamilyTree } from "./family-tree/UIFamilyTree";
@@ -17,8 +17,10 @@ import { UIDummyCalendar } from "./dummy/UIDummyCalendar";
 import { UIDummyBlog } from "./dummy/UIDummyBlog";
 import { UIFund, UIFundDetail } from "./fund/UIFund";
 import { UIDummyFund, UIDummyFundDetail } from "./dummy/UIDummyFund";
+import { CommonComponentUtils } from "utils/CommonComponentUtils";
 
 import "../i18n";
+import { t } from "i18next";
 
 export function Application() {
   return (
@@ -28,17 +30,59 @@ export function Application() {
           <ZMPRouter>
             <AnimationRoutes>
               <Route path="/" element={<UIHomePage/>}/>
-              <Route path="/family-tree" element={<UIFamilyTree/>}/>
+
+              <Route path="/family-tree" element={
+                <React.Suspense fallback={
+                  <div style={{ height: "100vh" }}> 
+                    {CommonComponentUtils.renderLoading(t("loading_family_tree"))} 
+                  </div>
+                }>
+                  <UIFamilyTree/>
+                </React.Suspense>
+              }/>
+              
               <Route path="/about" element={<UIAbout/>}/>
+
               <Route path="/user" element={<UIUserDetail/>}/>
+
               <Route path="/album" element={<UIDummyAlbum/>}/>
-              <Route path="/calendar" element={<UICalendar/>}/>
+
+              <Route path="/calendar" element={
+                <React.Suspense fallback={
+                  <div style={{ height: "100vh" }}>
+                    {CommonComponentUtils.renderLoading(t("loading_calendar"))}
+                  </div>
+                }>
+                  <UICalendar/>
+                </React.Suspense>
+              }/>
+
               <Route path="/upcoming" element={<UIDummyUpcoming/>}/>
+
               <Route path="/playground" element={<UIPlayground/>}/>
-              <Route path="/blogs" element={<UIBlog/>}/>
-              <Route path="/funds" element={<UIFund/>}/>
-              <Route path="/fund-detail" element={<UIFundDetail/>}/>
+
+              <Route path="/blogs" element={
+                <React.Suspense fallback={
+                  <div style={{ height: "100vh" }}>
+                    {CommonComponentUtils.renderLoading(t("loading_blogs"))}
+                  </div>
+                }>
+                  <UIBlog/>
+                </React.Suspense>
+              }/>
               <Route path="/blog-detail" element={<UIBlogDetail/>}/>
+
+              <Route path="/funds" element={
+                <React.Suspense fallback={
+                  <div style={{ height: "100vh" }}>
+                    {CommonComponentUtils.renderLoading(t("loading_funds"))}
+                  </div>
+                }>
+                  <UIFund/>
+                </React.Suspense>
+              }/>
+              <Route path="/fund-detail" element={<UIFundDetail/>}/>
+
               <Route path="/demo-funds" element={<UIDummyFund/>}/>
               <Route path="/demo-fund-detail" element={<UIDummyFundDetail/>}/>
               <Route path="/demo-tree" element={<UIDummyTree/>}/>

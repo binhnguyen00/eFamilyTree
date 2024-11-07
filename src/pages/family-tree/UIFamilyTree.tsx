@@ -1,100 +1,92 @@
 import React from "react";
-import ReactFamilyTree from 'react-family-tree';
 import { t } from "i18next";
-import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { CgUndo } from "react-icons/cg";
 import { BiHorizontalCenter } from "react-icons/bi";
-import { Modal, BottomNavigation } from "zmp-ui";
+import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
+import { Modal, BottomNavigation } from "zmp-ui";
 
+import { phoneState } from "states";
+import { useRecoilValue } from "recoil";
+
+import FamilyTree from "../../components/tree/FamilyTree";
 import { FamilyMember, Node } from "../../components/node/Node";
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
-import { FamilyTreeUtils as FTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "./FamilyTreeUtils";
 import { NodeDetails } from "../../components/node/NodeDetails";
+import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "./FamilyTreeUtils";
 
 export function UIFamilyTree() {
-  const phoneNumber = "";
+  const phoneNumber = useRecoilValue(phoneState);
 
   const [ familyMembers, setFamilyMembers ] = React.useState<any[]>([]);
   const [ rootId, setRootId ] = React.useState<string>("");
   const [ selectId, setSelectId ] = React.useState<string>("");
   const [ fetchError, setFetchError ] = React.useState(false);
-  const [ loading, setLoading ] = React.useState(true);
   const [ reload, setReload ] = React.useState(false);
 
   React.useEffect(() => {
-    
     const success = (res: any) => {
-      setLoading(false);
-      if (typeof res === 'string') {
-        setFetchError(true);
-      } else {
-        const data = res["employee_tree"];
-        if (data) {
-          let result: FamilyMember[] = FTreeUtils.processServerData(data);
-          setFamilyMembers(result);
-          setRootId(`${data.id}`);
-        }
+      const data = res["employee_tree"];
+      if (data) {
+        setFetchError(false);
+        let result: FamilyMember[] = FamilyTreeUtils.remapServerData(data);
+        setFamilyMembers(result);
+        setRootId(`${data.id}`);
       }
     }
-
     const fail = (error: any) => {
-      setLoading(false);
       setFetchError(true);
-    }
+      console.error(error.stackTrace);
+    } 
 
-    const fetchData = () => {
-      setLoading(true);
-      setFetchError(false);
-      EFamilyTreeApi.getMembers(phoneNumber, success, fail);
-    }
-
-    fetchData();
-  }, [ reload, phoneNumber ]);
+    EFamilyTreeApi.getMembers(phoneNumber, success, fail);
+  }, [ reload ])
 
   const renderTree = () => {
-    if (loading) return CommonComponentUtils.renderLoading(t("loading_family_tree"));
-    else if (fetchError) return CommonComponentUtils.renderError(t("server_error"), () => setReload((prev) => !prev));
-    else {
-      if (familyMembers.length > 0) {
-        return (
-          <div style={{ height: "90%" }}>
-            <TransformWrapper centerOnInit minScale={0.01}>
-              {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
-                <>
-                  <TransformComponent>
-                    <ReactFamilyTree
-                      nodes={familyMembers as any}
-                      rootId={rootId}
-                      height={NODE_HEIGHT}
-                      width={NODE_WIDTH}
-                      renderNode={(node: any) => (
-                        <Node
-                          key={node.id}
-                          node={node}
-                          isRoot={node.id === rootId}
-                          onSelectNode={(id) => { setSelectId(id) }}
-                          style={FTreeUtils.calculateNodePosition(node)}
-                        />
-                      )}
-                    />
-                  </TransformComponent>
-                  <UITreeControl />
-                </>
-              )}
-            </TransformWrapper>
+    if (familyMembers.length > 0) {
+      return (
+        <div style={{ height: "95%" }}>
+          <TransformWrapper centerOnInit minScale={0.01}>
+            {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+              <>
+                <TransformComponent>
+                  <FamilyTree
+                    nodes={familyMembers as any}
+                    rootId={rootId}
+                    height={NODE_HEIGHT}
+                    width={NODE_WIDTH}
+                    renderNode={(node: any) => (
+                      <Node
+                        key={node.id}
+                        node={node}
+                        isRoot={node.id === rootId}
+                        onSelectNode={(id) => { setSelectId(id) }}
+                        style={FamilyTreeUtils.calculateNodePosition(node)}
+                      />
+                    )}
+                  />
+                </TransformComponent>
+                <UITreeControl />
+              </>
+            )}
+          </TransformWrapper>
 
-            <Modal 
-              visible={selectId !== ""}
-              onClose={() => { setSelectId(""); }}
-              actions={[ { text: t("close"), close: true } ]}
-            >
-              <NodeDetails nodeId={selectId}/>
-            </Modal>
-          </div>
-        );
-      } else return CommonComponentUtils.renderError(t("no_family_tree"), () => setReload((prev) => !prev));
+          <Modal 
+            visible={selectId !== ""}
+            onClose={() => { setSelectId(""); }}
+            actions={[ { text: t("close"), close: true } ]}
+          >
+            <NodeDetails nodeId={selectId}/>
+          </Modal>
+        </div>
+      );
+    } else {
+      if (fetchError) {
+        return CommonComponentUtils.renderError(t("server_error"), () => setReload((prev) => !prev));
+      } else {
+        return CommonComponentUtils.renderLoading(t("loading_family_tree"));
+      }
     }
   }
 
