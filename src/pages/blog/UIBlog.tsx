@@ -1,12 +1,14 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 import { Box, Text, useNavigate } from "zmp-ui"; 
 
-import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+import { phoneState } from "states";
+import { useRecoilValue } from "recoil";
+
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
+import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 
 export function UIBlog() {
-  const { t } = useTranslation();
   return (
     <div className="container">
       {CommonComponentUtils.renderHeader(t("blogs"))}
@@ -17,40 +19,32 @@ export function UIBlog() {
 }
 
 export function UIBlogList() {
-  let navigate = useNavigate();
-  const { t } = useTranslation();
-  const phoneNumber = "";
-  const [data, setData] = React.useState<any[]>([]);
-  const [fetchError, setFetchError] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
-  const [reload, setReload] = React.useState(false);
+  const navigate = useNavigate();
+  const phoneNumber = useRecoilValue(phoneState);
+
+  const [ blogs, setBlogs ] = React.useState<any[]>([]);
+  const [ fetchError, setFetchError ] = React.useState(false);
 
   React.useEffect(() => {
     const success = (result: any[]) => {
-      setLoading(false);
-      setData(result);
+      setFetchError(false);
+      setBlogs(result);
     };
 
     const fail = (error: any) => {
-      setLoading(false);
+      console.error(error.stackTrace);
       setFetchError(true);
     };
 
-    const fetchData = () => {
-      setLoading(true);
-      setFetchError(false);
-      EFamilyTreeApi.getMemberBlogs(phoneNumber, success, fail);
-    };
-
-    fetchData();
-  }, [reload, phoneNumber]);
+    EFamilyTreeApi.getMemberBlogs(phoneNumber, success, fail);
+  }, [ fetchError ]);
 
   const navigateToBlog = (title: string, content: string) => {
     const blog = { title, content };
     navigate("/blog-detail", { state: { blog } });
   };
 
-  const renderBlogs = (items: any[]) => {
+  const renderBlogList = (items: any[]) => {
     let html = [] as React.ReactNode[];
 
     if (items.length === 0) return <></>;
@@ -87,15 +81,13 @@ export function UIBlogList() {
     return <>{html}</>;
   };
 
-  return (
-    loading ? (
-      CommonComponentUtils.renderLoading(t("loading_blogs"))
-    ) : fetchError ? (
-      CommonComponentUtils.renderError(t("server_error"), () => setReload((prev) => !prev))
-    ) : data.length > 0 ? (
-      renderBlogs(data)
-    ) : (
-      CommonComponentUtils.renderRetry(t("no_blogs"), () => setReload((prev) => !prev))
-    )
-  );
+  if (blogs.length > 0) {
+    return renderBlogList(blogs);
+  } else { 
+    if (fetchError) {
+      return CommonComponentUtils.renderError(t("server_error"), () => setFetchError(true));
+    } else {
+      return CommonComponentUtils.renderLoading(t("loading_blogs"));
+    }
+  }
 }
