@@ -38,7 +38,7 @@ export class CommonComponentUtils {
               />
             )}
             <Box flex flexDirection="row" justifyContent="flex-start">
-              {logo}
+              {logo && (logo)}
               <Stack>
                 <Text.Title>{title}</Text.Title>
                 <Text size="xSmall">{subtitle}</Text>

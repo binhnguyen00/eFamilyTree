@@ -1,6 +1,22 @@
 #app {
   background-color: white;
 }
+
+#home::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("../assets/img/background-1.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.5; /* Adjust opacity here */
+  z-index: -1; /* Places background behind content */
+}
+
 .page {
   padding: 16px 16px 96px 16px;
 }
