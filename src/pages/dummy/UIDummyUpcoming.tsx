@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Grid, Stack, Text } from "zmp-ui";
 
-import { FcRating } from "react-icons/fc";
+import { FcRating, FcStackOfPhotos } from "react-icons/fc";
 
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 
@@ -26,7 +26,25 @@ export function UIDummyUpcoming() {
           <Text.Title 
             style={{ fontWeight: "bold", textAlign: "center", textTransform: "capitalize" }}
           > 
-            {t("feature_hall_of_fame")} 
+            {t("hall_of_fame")} 
+          </Text.Title>
+        </Stack>
+
+        <Stack space="0.5rem">
+          <Button
+            variant="tertiary" 
+            className="box-shadow"
+            style={{
+              height: 120,
+              borderRadius: 30,
+            }}
+          >
+            <FcStackOfPhotos size={"3rem"}/>
+          </Button>
+          <Text.Title 
+            style={{ fontWeight: "bold", textAlign: "center", textTransform: "capitalize" }}
+          > 
+            {t("album")} 
           </Text.Title>
         </Stack>
       </Grid>
