@@ -14,7 +14,6 @@ import { FailResponse } from "../../utils/Interface";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 import { FamilyMember, Node } from "../../components/node/Node";
-import { NodeDetails } from "../../components/node/NodeDetails";
 import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "./FamilyTreeUtils";
 import { UIFamilyMember } from "./UIFamilyMember";
 

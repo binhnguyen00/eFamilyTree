@@ -12,26 +12,32 @@ interface UIFamilyMemberProps {
 }
 export function UIFamilyMember(props: UIFamilyMemberProps) {
   const { memberId, phoneNumber } = props;
+  
+  console.log(memberId);
+  console.log(phoneNumber);
+
   const [ info, setInfo ] = React.useState<any>(null)
   const [ reload, setReload ] = React.useState(false);
   const [ fetchError, setFetchError ] = React.useState(false);
 
-  const success = (result: any) => {
-    if (result.error) {
-      setFetchError(true);
-      console.warn(result.error);
-    } else {
-      setFetchError(false);
-      setInfo(result.info || null);
+  React.useEffect(() => {
+    const success = (result: any) => {
+      if (result.error) {
+        setFetchError(true);
+        console.warn(result.error);
+      } else {
+        setFetchError(false);
+        setInfo(result.info || null);
+      }
     }
-  }
 
-  const fail = (error: FailResponse) => {
-    setFetchError(true);
-    console.error(error.stackTrace);
-  }
+    const fail = (error: FailResponse) => {
+      setFetchError(true);
+      console.error(error.stackTrace);
+    }
 
-  EFamilyTreeApi.getMemberInfo(phoneNumber, memberId as number, success, fail);
+    EFamilyTreeApi.getMemberInfo(phoneNumber, memberId as number, success, fail);
+  }, [ reload, memberId ])
 
   if (info) {
     return (
