@@ -1,16 +1,15 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
-import { Text } from "zmp-ui";
+import { t } from "i18next";
+import { Stack, Text } from "zmp-ui";
 
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 
 export function UIAbout() {
-  const { t } = useTranslation();
   return (
     <div className="container">
       {CommonComponentUtils.renderHeader(t("about"))}
 
-      <div className="container">
+      <Stack>
         <Text bold>Designed by MobiFone 5</Text>
         <Text bold className="text"> Capabilities </Text>
         <Text>
@@ -22,7 +21,7 @@ export function UIAbout() {
           <p> - View Income and Expense fund information  <span className="text pending"> [Pending] </span></p>
           <p> - View Hall of Fame                         <span className="text pending"> [Pending] </span> </p>
         </Text>
-      </div>
+      </Stack>
     </div>
   );
 };

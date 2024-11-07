@@ -6,7 +6,8 @@
   "vietnamese": "Vietnamese",
   "english": "English",
 
-  "home": "EFamilyTree",
+  "home": "Family Tree",
+  "home_subtitle": "Preserving Your Heritage",
   "loading_user_info": "Getting User's Info...",
   "loading": "Loading...",
   "quit": "Quit",

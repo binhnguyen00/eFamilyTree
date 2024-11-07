@@ -42,19 +42,17 @@ export function UIUser() {
 
   return (
     <Box flex flexDirection="column" alignItems="center">
-      <Stack space="1rem">
-        <Avatar
-          size={96} online className="button"
-          src={userInfo.avatar.startsWith("http") ? userInfo.avatar : undefined}
-          onClick={navigateToUIUser}
-        >
-          {userInfo.avatar}
-        </Avatar>
-        <Text.Title 
-          className="button" 
-          onClick={() => navigateToUIUser()}
-        > {userInfo.name} </Text.Title>
-      </Stack>
+      <Avatar
+        size={60} online className="button"
+        src={userInfo.avatar.startsWith("http") ? userInfo.avatar : undefined}
+        onClick={navigateToUIUser}
+      >
+        {userInfo.avatar}
+      </Avatar>
+      <Text.Title 
+        className="button" 
+        onClick={() => navigateToUIUser()}
+      > {userInfo.name} </Text.Title>
     </Box>
   )
 }

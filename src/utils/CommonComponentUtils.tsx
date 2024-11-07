@@ -15,7 +15,7 @@ interface SearchBar {
 }
 
 export class CommonComponentUtils {
-  public static renderHeader(title: string, showBackIcon: boolean = true) {
+  public static renderHeader(title: string, subtitle?: string, logo?: React.ReactNode, showBackIcon: boolean = true) {
     /** About Zalo Header
      * height: 44px
      */
@@ -37,7 +37,13 @@ export class CommonComponentUtils {
                 }}
               />
             )}
-            <Text.Title>{title}</Text.Title>
+            <Box flex flexDirection="row" justifyContent="flex-start">
+              {logo}
+              <Stack>
+                <Text.Title>{title}</Text.Title>
+                <Text size="xSmall">{subtitle}</Text>
+              </Stack>
+            </Box>
           </Box>
         </Box>
       </>
