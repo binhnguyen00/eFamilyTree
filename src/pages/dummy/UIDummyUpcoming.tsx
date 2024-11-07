@@ -4,7 +4,7 @@ import { Page } from "zmp-ui";
 
 export function UIDummyUpcoming() {
   return (
-    <Page>
+    <div className="container">
       {CommonComponentUtils.renderHeader("Upcoming")}
       <div className="container">
         <p> Upcoming </p>
@@ -12,6 +12,6 @@ export function UIDummyUpcoming() {
         <p> - Income and Expense fund </p>
         <p> - Hall of Fame </p>
       </div>
-    </Page>
+    </div>
   )
 }

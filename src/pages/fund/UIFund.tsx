@@ -6,13 +6,12 @@ import { t } from "i18next";
 import { Box, Input, List, Text, useNavigate } from "zmp-ui";
 
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
-import { PhoneNumberContext } from "../../pages/main";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { DateTimeUtils } from "utils/DateTimeUtils";
 
 export function UIFund() {
   const navigate = useNavigate();
-  const phoneNumber = React.useContext(PhoneNumberContext);
+  const phoneNumber = "";
   const [ funds, setFunds ] = React.useState<any[]>([]);
   const [ fetchError, setFetchError ] = React.useState(false);
   const [ loading, setLoading ] = React.useState(true);

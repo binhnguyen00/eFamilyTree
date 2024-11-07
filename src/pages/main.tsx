@@ -19,9 +19,6 @@ import { UIFund, UIFundDetail } from "./fund/UIFund";
 import { UIDummyFund, UIDummyFundDetail } from "./dummy/UIDummyFund";
 
 import "../i18n";
-import { getPhoneNumber } from "zmp-sdk";
-
-export const PhoneNumberContext = React.createContext(null);
 
 export function Application() {
   return (
@@ -30,8 +27,7 @@ export function Application() {
         <SnackbarProvider>
           <ZMPRouter>
             <AnimationRoutes>
-              <Route path="/" element={<div> Wellcome </div>}/>
-              <Route path="/home" element={<UIHomePage/>}/>
+              <Route path="/" element={<UIHomePage/>}/>
               <Route path="/family-tree" element={<UIFamilyTree/>}/>
               <Route path="/about" element={<UIAbout/>}/>
               <Route path="/user" element={<UIUserDetail/>}/>

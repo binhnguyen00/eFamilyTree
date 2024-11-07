@@ -4,8 +4,6 @@ import { Box, Text, useNavigate } from "zmp-ui";
 
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
-import { PhoneNumberContext } from "../../pages/main";
-
 
 export function UIBlog() {
   const { t } = useTranslation();
@@ -21,7 +19,7 @@ export function UIBlog() {
 export function UIBlogList() {
   let navigate = useNavigate();
   const { t } = useTranslation();
-  const phoneNumber = React.useContext(PhoneNumberContext);
+  const phoneNumber = "";
   const [data, setData] = React.useState<any[]>([]);
   const [fetchError, setFetchError] = React.useState(false);
   const [loading, setLoading] = React.useState(true);

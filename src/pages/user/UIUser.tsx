@@ -1,22 +1,13 @@
 import React from "react";
 import { t } from "i18next";
-import { getUserInfo } from "zmp-sdk";
 import { Avatar, Button, Box, Stack, Input, Text, useNavigate, Page } from "zmp-ui";
-import { selector, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
-
-export const userState = selector({
-  key: "user",
-  get: () => {
-    return getUserInfo({
-      avatarType: "small",
-    })
-  }
-});
+import { userState } from "states";
 
 export function UIUserDetail() {
-  const { userInfo } = useRecoilValue(userState);
+  const userInfo = useRecoilValue(userState);
 
   return (
     <div className="container">
@@ -43,7 +34,7 @@ export function UIUserDetail() {
 
 export function UIUser() { 
   let navigate = useNavigate();
-  const { userInfo } = useRecoilValue(userState);
+  const userInfo = useRecoilValue(userState);
 
   const navigateToUIUser = () => {
     navigate("/user");

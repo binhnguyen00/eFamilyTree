@@ -4,7 +4,6 @@ import { Box, Calendar, Stack, Text } from "zmp-ui";
 
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
-import { PhoneNumberContext } from "../../pages/main";
 import { CalendarUtils } from "../../utils/CalendarUtils";
 
 interface Event {
@@ -18,7 +17,7 @@ interface Event {
 }
 
 export function UICalendar() {
-  const phoneNumber = React.useContext(PhoneNumberContext);
+  const phoneNumber = "";
 
   // states
   const [ data, setData ] = React.useState<any[]>([]);

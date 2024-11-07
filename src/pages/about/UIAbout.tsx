@@ -1,13 +1,13 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Text, Page } from "zmp-ui";
+import { Text } from "zmp-ui";
 
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 
 export function UIAbout() {
   const { t } = useTranslation();
   return (
-    <Page>
+    <div className="container">
       {CommonComponentUtils.renderHeader(t("about"))}
 
       <div className="container">
@@ -23,6 +23,6 @@ export function UIAbout() {
           <p> - View Hall of Fame                         <span className="text pending"> [Pending] </span> </p>
         </Text>
       </div>
-    </Page>
+    </div>
   );
 };

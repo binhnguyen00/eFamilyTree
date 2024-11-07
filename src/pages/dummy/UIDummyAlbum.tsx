@@ -7,7 +7,7 @@ export function UIDummyAlbum() {
   const [activeIndex, setActiveIndex] = React.useState(0);
   
   return (
-    <Page>
+    <div className="container">
       {CommonComponentUtils.renderHeader("Album")}
 
       <div className="container">
@@ -46,7 +46,7 @@ export function UIDummyAlbum() {
           visible={visible}
         />
       </div>
-    </Page>
+    </div>
   );
 }
 

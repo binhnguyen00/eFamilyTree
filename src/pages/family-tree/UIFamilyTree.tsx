@@ -12,10 +12,9 @@ import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { FamilyTreeUtils as FTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "./FamilyTreeUtils";
 import { NodeDetails } from "../../components/node/NodeDetails";
-import { PhoneNumberContext } from "../../pages/main";
 
 export function UIFamilyTree() {
-  const phoneNumber = React.useContext(PhoneNumberContext);
+  const phoneNumber = "";
 
   const [ familyMembers, setFamilyMembers ] = React.useState<any[]>([]);
   const [ rootId, setRootId ] = React.useState<string>("");
