@@ -1,9 +1,8 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Text, Page, Box, Input, Stack } from "zmp-ui";
+import { Button, Text, Box, Input, Stack } from "zmp-ui";
 import { atom, selector, useRecoilValue, useRecoilState } from "recoil"
-import { CommonComponentUtils } from "utils/CommonComponentUtils";
-import { UIDummyCalendar } from "./UIDummyCalendar";
+import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
 
 const numberState = atom({
   key: "number",

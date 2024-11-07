@@ -21,6 +21,7 @@ import { CommonComponentUtils } from "utils/CommonComponentUtils";
 
 import "../i18n";
 import { t } from "i18next";
+import { UIDeveloper } from "./dummy/UIDeveloper";
 
 export function Application() {
   return (
@@ -59,7 +60,7 @@ export function Application() {
 
               <Route path="/upcoming" element={<UIDummyUpcoming/>}/>
 
-              <Route path="/playground" element={<UIPlayground/>}/>
+              <Route path="/developer" element={<UIDeveloper/>}/>
 
               <Route path="/blogs" element={
                 <React.Suspense fallback={
@@ -88,6 +89,8 @@ export function Application() {
               <Route path="/demo-tree" element={<UIDummyTree/>}/>
               <Route path="/demo-calendar" element={<UIDummyCalendar/>}/>
               <Route path="/demo-blogs" element={<UIDummyBlog/>}/>
+
+              <Route path="/playground" element={<UIPlayground/>}/>
             </AnimationRoutes>
           </ZMPRouter>
         </SnackbarProvider>

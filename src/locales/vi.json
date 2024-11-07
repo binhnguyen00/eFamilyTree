@@ -18,7 +18,7 @@
   "upcoming": "Sắp ra mắt",
   "family_tree": "Cây Gia Phả",
   "demo_tree": "Demo Cây Gia Phả",
-  "playground": "Nhà Phát Triển",
+  "playground": "Thí Nghiệm",
   "retry": "Thử lại",
   "reset": "Đặt lại",
   "server_error": "Server gặp lỗi! Xin vui lòng thử lại",
@@ -31,6 +31,7 @@
   "divorced": "Ly dị",
   "undefinded": "Không xác định",
   "search": "Tìm kiếm",
+  "developer": "Nhà phát triển",
 
   "loading_blogs": "Đang tải bài đăng...",
   "no_blogs": "Chưa có bài đăng nào",

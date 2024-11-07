@@ -11,24 +11,19 @@ import {
   FcTemplate, FcMoneyTransfer, FcCommandLine, FcPlanner, FcApproval
 } from "react-icons/fc";
 
-// keys should be same as Route in ../main.tsx
-const funcKeyMap = {
-  "about": t("about"),
-  "family-tree": t("family_tree"),
-  "album": t("album"),
-  "calendar": t("calendar"),
-  "blogs": t("blogs"),
-  "funds": t("funds"),
-  "upcoming": t("upcoming"),
-  "playground": t("playground"),
-
-  "demo-funds": t("demo_funds"),
-  "demo-tree": t("demo_tree"),
-  "demo-calendar": t("demo_calendar"),
-  "demo-blogs": t("demo_blogs"),
-}
-
 export function UIHomePage() {
+  // keys should be same as Route in ../main.tsx
+  const funcKeyMap = {
+    "about": t("about"),
+    "family-tree": t("family_tree"),
+    "album": t("album"),
+    "calendar": t("calendar"),
+    "blogs": t("blogs"),
+    "funds": t("funds"),
+    "upcoming": t("upcoming"),
+    "developer": t("developer"),
+  }
+
   const navigate = useNavigate();
 
   const navigatePage = (pageKey: string) => {
@@ -36,15 +31,14 @@ export function UIHomePage() {
   };
 
   const renderFunctions = () => {
-
     let html = [] as React.ReactNode[];
-
     Object.keys(funcKeyMap).forEach(key => {
-      const element = (
-        <Stack space="0.5rem">
+      const label = funcKeyMap[key] as string;
+      html.push(
+        <Stack space="0.5rem" key={`stack-${key}`}>
 
           <Button 
-            key={key} variant="secondary" className="box-shadow" 
+            key={`btn-${key}`} variant="secondary" className="box-shadow" 
             style={{ 
               height: 120, 
               borderRadius: 30, 
@@ -54,13 +48,12 @@ export function UIHomePage() {
             {renderIcon(key)}
           </Button>
 
-          <Text.Title size="small" style={{ textAlign: "center" }}>
-            {funcKeyMap[key]}
+          <Text.Title key={`title-${key}`} size="small" style={{ textAlign: "center" }}>
+            {label}
           </Text.Title>
+          
         </Stack>
       )
-
-      html.push(element);
     });
 
     return html
@@ -94,22 +87,22 @@ export function UIHomePage() {
 function renderIcon(iconKey: string) { 
   switch (iconKey) {
     case "about":
-      return <FcAbout size={"3rem"}/>
+      return <FcAbout key={`ico-${iconKey}`} size={"3rem"}/>
     case "family-tree":
-      return <FcGenealogy size={"3rem"}/>
+      return <FcGenealogy key={`ico-${iconKey}`} size={"3rem"}/>
     case "album":
-      return <FcStackOfPhotos size={"3rem"}/>
+      return <FcStackOfPhotos key={`ico-${iconKey}`} size={"3rem"}/>
     case "calendar":
-      return <FcCalendar size={"3rem"}/>
+      return <FcCalendar key={`ico-${iconKey}`} size={"3rem"}/>
     case "blogs":
-      return <FcTemplate size={"3rem"}/>
+      return <FcTemplate key={`ico-${iconKey}`} size={"3rem"}/>
     case "funds":
-      return <FcMoneyTransfer size={"3rem"}/>
+      return <FcMoneyTransfer key={`ico-${iconKey}`} size={"3rem"}/>
     case "upcoming":
-      return <FcPlanner size={"3rem"}/>
-    case "playground":
-      return <FcCommandLine size={"3rem"}/>
+      return <FcPlanner key={`ico-${iconKey}`} size={"3rem"}/>
+    case "developer":
+      return <FcCommandLine key={`ico-${iconKey}`} size={"3rem"}/>
     default: 
-      return <FcApproval size={"3rem"}/>
+      return <FcApproval key={`ico-${iconKey}`} size={"3rem"}/>
   }
 }
