@@ -1,26 +1,90 @@
 import React from "react";
 import { t } from "i18next";
-import { Stack, Text } from "zmp-ui";
+import { Center, Stack, Text, Swiper, Grid } from "zmp-ui";
 
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+
+import slide_01 from "../../assets/img/about-swiper-1.jpg";
+import slide_02 from "../../assets/img/about-swiper-2.jpg";
+import people from "../../assets/img/people.png";
+import scroll from "../../assets/img/scroll.png";
+import vietnam from "../../assets/img/vietnam.png";
 
 export function UIAbout() {
   return (
     <div className="container">
       {CommonComponentUtils.renderHeader(t("about"))}
 
-      <Stack>
-        <Text bold>Designed by MobiFone 5</Text>
-        <Text bold className="text"> Capabilities </Text>
-        <Text>
-          <p> - View Family tree structure                <span className="text success"> [Working on] </span> </p>
-          <p> - View Information of family tree members   <span className="text success"> [Working on] </span> </p>
-          <p> - View Media articles                       <span className="text pending"> [Pending] </span> </p>
-          <p> - View Photo Albums                         <span className="text pending"> [Pending] </span> </p>
-          <p> - View Event Calendar                       <span className="text pending"> [Pending] </span> </p>
-          <p> - View Income and Expense fund information  <span className="text pending"> [Pending] </span></p>
-          <p> - View Hall of Fame                         <span className="text pending"> [Pending] </span> </p>
-        </Text>
+      <Stack space="1rem">
+
+        <Swiper loop>
+          <Swiper.Slide>
+            <img
+              className="slide-img"
+              src={slide_01}
+              alt="slide-1"
+            />
+          </Swiper.Slide>
+          <Swiper.Slide>
+            <img
+              className="slide-img"
+              src={slide_02}
+              alt="slide-2"
+            />
+          </Swiper.Slide>
+        </Swiper>
+        
+        <Stack space="1rem">
+          <Text.Title> {"Gìn Giữ Giá Trị Gia Tộc"} </Text.Title>
+          <Text> {"Ứng dụng kết nối dòng họ Việt Nam, với sứ mệnh gìn giữ và bảo tồn nét văn hóa dòng họ truyền thống."} </Text>
+        </Stack>
+
+        <Stack space="1rem">
+          <Text.Title> {"Công Nghệ Lưu Giữ Giá Trị Truyền Thống"} </Text.Title>
+          <Text> {"Ra đời với mong muốn áp dụng công nghệ hiện đại vào việc bảo tồn giá trị truyền thống quý báu, mang lại lợi ích thiết thực cho các dòng họ Việt."} </Text>
+        </Stack>
+
+        <Stack space="1rem">
+          <Text.Title> {"Kết Nối Dòng Họ Từ Cây Gia Phả"} </Text.Title>
+          <Text> {"Dựa trên nền tảng cây gia phả, ứng dụng giúp kết nối các thành viên trong dòng họ, hỗ trợ anh em, họ hàng duy trì tình cảm gắn bó, chia sẻ và giúp đỡ lẫn nhau."} </Text>
+        </Stack>
+
+        <Grid columnCount={3}>
+          <Stack className="center">
+            <img 
+              src={scroll} alt="dòng họ"
+              style={{
+                height: "50%",
+                width: "50%",
+              }}
+            />
+            <Text.Title> {"23"} </Text.Title>
+            <Text.Title> {"Dòng Họ"} </Text.Title>
+          </Stack>
+          <Stack className="center">
+            <img 
+              src={people} alt="người dùng"
+              style={{
+                height: "50%",
+                width: "50%",
+              }}
+            />
+            <Text.Title> {"1856"} </Text.Title>
+            <Text.Title> {"Người dùng"} </Text.Title>
+          </Stack>
+          <Stack className="center">
+            <img 
+              src={vietnam} alt="Việt Nam"
+              style={{
+                height: "50%",
+                width: "50%",
+              }}
+            />
+            <Text.Title> {"15"} </Text.Title>
+            <Text.Title> {"Tỉnh Thành"} </Text.Title>
+          </Stack>
+        </Grid>
+
       </Stack>
     </div>
   );
