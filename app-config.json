@@ -2,10 +2,9 @@
   "app": {
     "title": "Cây Gia Phả",
     "headerTitle": "Cây Gia Phả",
-    "headerColor": "#1843EF",
     "textColor": "white",
     "leftButton": "back",
-    "statusBar": "normal",
+    "statusBar": "transparent",
     "actionBarHidden": true,
     "hideAndroidBottomNavigationBar": true,
     "hideIOSSafeAreaBottom": true
@@ -13,5 +12,7 @@
   "pages": [],
   "listCSS": [],
   "listSyncJS": [],
-  "listAsyncJS": []
+  "listAsyncJS": [],
+  "template": {
+  }
 }

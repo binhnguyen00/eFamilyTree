@@ -69,16 +69,16 @@ export function UIDeveloper() {
 function renderIcon(iconKey: string) { 
   switch (iconKey) {
     case "playground":
-      return <FcBiotech size={"3rem"}/>
+      return <FcBiotech size={"4.5rem"}/>
     case "demo-tree":
-      return <FcGenealogy size={"3rem"}/>
+      return <FcGenealogy size={"4.5rem"}/>
     case "demo-funds":
-      return <FcMoneyTransfer size={"3rem"}/>
+      return <FcMoneyTransfer size={"4.5rem"}/>
     case "demo-calendar":
-      return <FcCalendar size={"3rem"}/>
+      return <FcCalendar size={"4.5rem"}/>
     case "demo-blogs":
-      return <FcTemplate size={"3rem"}/>
+      return <FcTemplate size={"4.5rem"}/>
     default: 
-      return <FcApproval size={"3rem"}/>
+      return <FcApproval size={"4.5rem"}/>
   }
 }

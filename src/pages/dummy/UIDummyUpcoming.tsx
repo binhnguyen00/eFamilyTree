@@ -21,7 +21,7 @@ export function UIDummyUpcoming() {
               borderRadius: 30,
             }}
           >
-            <FcRating size={"3rem"}/>
+            <FcRating size={"4.5rem"}/>
           </Button>
           <Text.Title 
             style={{ fontWeight: "bold", textAlign: "center", textTransform: "capitalize" }}
@@ -39,7 +39,7 @@ export function UIDummyUpcoming() {
               borderRadius: 30,
             }}
           >
-            <FcStackOfPhotos size={"3rem"}/>
+            <FcStackOfPhotos size={"4.5rem"}/>
           </Button>
           <Text.Title 
             style={{ fontWeight: "bold", textAlign: "center", textTransform: "capitalize" }}
