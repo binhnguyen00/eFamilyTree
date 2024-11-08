@@ -12,9 +12,6 @@ interface UIFamilyMemberProps {
 }
 export function UIFamilyMember(props: UIFamilyMemberProps) {
   const { memberId, phoneNumber } = props;
-  
-  console.log(memberId);
-  console.log(phoneNumber);
 
   const [ info, setInfo ] = React.useState<any>(null)
   const [ reload, setReload ] = React.useState(false);
@@ -42,8 +39,11 @@ export function UIFamilyMember(props: UIFamilyMemberProps) {
   if (info) {
     return (
       <div>
-        <Input label={"Name"} value={info["name"] || ""} />
-        <Input label={"Phone"} value={info["phone"] || ""} />
+        <Input label={"Họ Tên"} value={info["name"] || ""} />
+        <Input label={"Điện thoại"} value={info["phone"] || ""} />
+        <Input label={"Bố"} value={info["bo"] || ""} />
+        <Input label={"Mẹ"} value={info["me"] || ""} />
+        <Input label={"Ngành/Chi"} value={info["nganh_chi"] || ""} />
       </div>
     )
   } else {
