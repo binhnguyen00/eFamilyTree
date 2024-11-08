@@ -1,438 +1,472 @@
 {
-    "members": {
-        "id": 1,
-        "name": "Phạm Khắc Hoàng",
-        "parents": [],
-        "gioi_tinh": "nam",
-        "children": [
-            {
-                "id": 21,
-                "name": "Phạm Hồng Hạnh",
-                "parents": [
-                    {
-                        "id": 1,
-                        "name": "Phạm Khắc Hoàng",
-                        "gioi_tinh": "nam"
-                    },
-                    {
-                        "id": 31,
-                        "name": "Vợ ông Hoàng",
-                        "gioi_tinh": "nu"
-                    }
-                ],
-                "gioi_tinh": "nu",
-                "children": [],
-                "spouseData": []
-            },
-            {
-                "id": 2,
-                "name": "Phạm Khắc Khanh",
-                "parents": [
-                    {
-                        "id": 1,
-                        "name": "Phạm Khắc Hoàng",
-                        "gioi_tinh": "nam"
-                    },
-                    {
-                        "id": 31,
-                        "name": "Vợ ông Hoàng",
-                        "gioi_tinh": "nu"
-                    }
-                ],
-                "gioi_tinh": "nam",
-                "children": [
-                    {
-                        "id": 8,
-                        "name": "Phạm KHắc Phong",
-                        "parents": [
-                            {
-                                "id": 2,
-                                "name": "Phạm Khắc Khanh",
-                                "gioi_tinh": "nam"
-                            },
-                            {
-                                "id": 30,
-                                "name": "Vợ ông Khanh",
-                                "gioi_tinh": "nu"
-                            }
-                        ],
-                        "gioi_tinh": "nam",
-                        "children": [],
-                        "spouseData": [
-                            {
-                                "id": 28,
-                                "name": "vợ 1",
-                                "gioi_tinh": "nu"
-                            },
-                            {
-                                "id": 29,
-                                "name": "vợ 2",
-                                "gioi_tinh": "nu"
-                            }
-                        ]
-                    },
-                    {
-                        "id": 9,
-                        "name": "Phạm Khắc Đoàn",
-                        "parents": [
-                            {
-                                "id": 2,
-                                "name": "Phạm Khắc Khanh",
-                                "gioi_tinh": "nam"
-                            },
-                            {
-                                "id": 30,
-                                "name": "Vợ ông Khanh",
-                                "gioi_tinh": "nu"
-                            }
-                        ],
-                        "gioi_tinh": "nu",
-                        "children": [],
-                        "spouseData": []
-                    },
-                    {
-                        "id": 7,
-                        "name": "Phạm Thúy Diễm",
-                        "parents": [
-                            {
-                                "id": 2,
-                                "name": "Phạm Khắc Khanh",
-                                "gioi_tinh": "nam"
-                            },
-                            {
-                                "id": 30,
-                                "name": "Vợ ông Khanh",
-                                "gioi_tinh": "nu"
-                            }
-                        ],
-                        "gioi_tinh": "nu",
-                        "children": [],
-                        "spouseData": []
-                    },
-                    {
-                        "id": 6,
-                        "name": "Phạm Thị Ngọc",
-                        "parents": [
-                            {
-                                "id": 2,
-                                "name": "Phạm Khắc Khanh",
-                                "gioi_tinh": "nam"
-                            },
-                            {
-                                "id": 30,
-                                "name": "Vợ ông Khanh",
-                                "gioi_tinh": "nu"
-                            }
-                        ],
-                        "gioi_tinh": "nu",
-                        "children": [],
-                        "spouseData": []
-                    }
-                ],
-                "spouseData": [
-                    {
-                        "id": 30,
-                        "name": "Vợ ông Khanh",
-                        "gioi_tinh": "nu"
-                    }
-                ]
-            },
-            {
-                "id": 3,
-                "name": "Phạm Khắc Vinh",
-                "parents": [
-                    {
-                        "id": 1,
-                        "name": "Phạm Khắc Hoàng",
-                        "gioi_tinh": "nam"
-                    },
-                    {
-                        "id": 31,
-                        "name": "Vợ ông Hoàng",
-                        "gioi_tinh": "nu"
-                    }
-                ],
-                "gioi_tinh": "nam",
-                "children": [
-                    {
-                        "id": 4,
-                        "name": "Phạm Khắc Thê",
-                        "parents": [
-                            {
-                                "id": 3,
-                                "name": "Phạm Khắc Vinh",
-                                "gioi_tinh": "nam"
-                            },
-                            {
-                                "id": 32,
-                                "name": "vợ ông Vinh",
-                                "gioi_tinh": "nu"
-                            }
-                        ],
-                        "gioi_tinh": "nam",
-                        "children": [
-                            {
-                                "id": 10,
-                                "name": "Phạm Khắc Toàn",
-                                "parents": [
-                                    {
-                                        "id": 4,
-                                        "name": "Phạm Khắc Thê",
-                                        "gioi_tinh": "nam"
-                                    },
-                                    {
-                                        "id": 33,
-                                        "name": "Vợ ông thê",
-                                        "gioi_tinh": "nu"
-                                    }
-                                ],
-                                "gioi_tinh": "nam",
-                                "children": [
-                                    {
-                                        "id": 14,
-                                        "name": "Phạm Hồng Hoa",
-                                        "parents": [
-                                            {
-                                                "id": 10,
-                                                "name": "Phạm Khắc Toàn",
-                                                "gioi_tinh": "nam"
-                                            },
-                                            {
-                                                "id": 34,
-                                                "name": "vợ ông Toàn",
-                                                "gioi_tinh": "nu"
-                                            }
-                                        ],
-                                        "gioi_tinh": "nu",
-                                        "children": [],
-                                        "spouseData": []
-                                    },
-                                    {
-                                        "id": 17,
-                                        "name": "Phạm Thị Mai",
-                                        "parents": [
-                                            {
-                                                "id": 10,
-                                                "name": "Phạm Khắc Toàn",
-                                                "gioi_tinh": "nam"
-                                            },
-                                            {
-                                                "id": 34,
-                                                "name": "vợ ông Toàn",
-                                                "gioi_tinh": "nu"
-                                            }
-                                        ],
-                                        "gioi_tinh": "nu",
-                                        "children": [],
-                                        "spouseData": []
-                                    }
-                                ],
-                                "spouseData": [
-                                    {
-                                        "id": 34,
-                                        "name": "vợ ông Toàn",
-                                        "gioi_tinh": "nu"
-                                    }
-                                ]
-                            }
-                        ],
-                        "spouseData": [
-                            {
-                                "id": 33,
-                                "name": "Vợ ông thê",
-                                "gioi_tinh": "nu"
-                            }
-                        ]
-                    },
-                    {
-                        "id": 18,
-                        "name": "Phạm Khắc Tiến",
-                        "parents": [
-                            {
-                                "id": 3,
-                                "name": "Phạm Khắc Vinh",
-                                "gioi_tinh": "nam"
-                            },
-                            {
-                                "id": 32,
-                                "name": "vợ ông Vinh",
-                                "gioi_tinh": "nu"
-                            }
-                        ],
-                        "gioi_tinh": "nam",
-                        "children": [
-                            {
-                                "id": 19,
-                                "name": "Phạm Khắc Phú",
-                                "parents": [
-                                    {
-                                        "id": 18,
-                                        "name": "Phạm Khắc Tiến",
-                                        "gioi_tinh": "nam"
-                                    },
-                                    {
-                                        "id": 35,
-                                        "name": "vợ ông Tiến",
-                                        "gioi_tinh": "nu"
-                                    }
-                                ],
-                                "gioi_tinh": "nam",
-                                "children": [],
-                                "spouseData": []
-                            },
-                            {
-                                "id": 20,
-                                "name": "Phạm Khắc Quang",
-                                "parents": [
-                                    {
-                                        "id": 18,
-                                        "name": "Phạm Khắc Tiến",
-                                        "gioi_tinh": "nam"
-                                    },
-                                    {
-                                        "id": 35,
-                                        "name": "vợ ông Tiến",
-                                        "gioi_tinh": "nu"
-                                    }
-                                ],
-                                "gioi_tinh": "nam",
-                                "children": [],
-                                "spouseData": []
-                            }
-                        ],
-                        "spouseData": [
-                            {
-                                "id": 35,
-                                "name": "vợ ông Tiến",
-                                "gioi_tinh": "nu"
-                            }
-                        ]
-                    },
-                    {
-                        "id": 16,
-                        "name": "Phạm Khắc Toán",
-                        "parents": [
-                            {
-                                "id": 3,
-                                "name": "Phạm Khắc Vinh",
-                                "gioi_tinh": "nam"
-                            },
-                            {
-                                "id": 32,
-                                "name": "vợ ông Vinh",
-                                "gioi_tinh": "nu"
-                            }
-                        ],
-                        "gioi_tinh": "nam",
-                        "children": [],
-                        "spouseData": []
-                    },
-                    {
-                        "id": 15,
-                        "name": "Phạm Ngọc Hoàn",
-                        "parents": [
-                            {
-                                "id": 3,
-                                "name": "Phạm Khắc Vinh",
-                                "gioi_tinh": "nam"
-                            },
-                            {
-                                "id": 32,
-                                "name": "vợ ông Vinh",
-                                "gioi_tinh": "nu"
-                            }
-                        ],
-                        "gioi_tinh": "nu",
-                        "children": [],
-                        "spouseData": []
-                    }
-                ],
-                "spouseData": []
-            },
-            {
-                "id": 5,
-                "name": "Phạm Thị Xuân",
-                "parents": [
-                    {
-                        "id": 1,
-                        "name": "Phạm Khắc Hoàng",
-                        "gioi_tinh": "nam"
-                    },
-                    {
-                        "id": 31,
-                        "name": "Vợ ông Hoàng",
-                        "gioi_tinh": "nu"
-                    }
-                ],
-                "gioi_tinh": "nu",
-                "children": [
-                    {
-                        "id": 12,
-                        "name": "Phạm Khắc Hải",
-                        "parents": [
-                            {
-                                "id": 5,
-                                "name": "Phạm Thị Xuân",
-                                "gioi_tinh": "nu"
-                            },
-                            {
-                                "id": null,
-                                "name": null,
-                                "gioi_tinh": null
-                            }
-                        ],
-                        "gioi_tinh": "nam",
-                        "children": [],
-                        "spouseData": []
-                    },
-                    {
-                        "id": 13,
-                        "name": "Phạm Thị Mơ",
-                        "parents": [
-                            {
-                                "id": 5,
-                                "name": "Phạm Thị Xuân",
-                                "gioi_tinh": "nu"
-                            },
-                            {
-                                "id": 5,
-                                "name": "Phạm Thị Xuân",
-                                "gioi_tinh": "nu"
-                            }
-                        ],
-                        "gioi_tinh": "nu",
-                        "children": [],
-                        "spouseData": []
-                    },
-                    {
-                        "id": 11,
-                        "name": "Phạm Xuân Diệu",
-                        "parents": [
-                            {
-                                "id": 5,
-                                "name": "Phạm Thị Xuân",
-                                "gioi_tinh": "nu"
-                            },
-                            {
-                                "id": 5,
-                                "name": "Phạm Thị Xuân",
-                                "gioi_tinh": "nu"
-                            }
-                        ],
-                        "gioi_tinh": "nu",
-                        "children": [],
-                        "spouseData": []
-                    }
-                ],
-                "spouseData": []
-            }
-        ],
-        "spouseData": [
-            {
-                "id": 31,
-                "name": "Vợ ông Hoàng",
-                "gioi_tinh": "nu"
-            }
-        ]
-    }
+  "members": {
+    "id": 1,
+    "name": "Phạm Khắc Hoàng",
+    "parents": [],
+    "gioi_tinh": "nam",
+    "children": [
+        {
+            "id": 21,
+            "name": "Phạm Hồng Hạnh",
+            "parents": [
+                {
+                    "id": 1,
+                    "name": "Phạm Khắc Hoàng",
+                    "gioi_tinh": "nam"
+                },
+                {
+                    "id": 31,
+                    "name": "Vợ ông Hoàng",
+                    "gioi_tinh": "nu"
+                }
+            ],
+            "gioi_tinh": "nu",
+            "children": [
+                {
+                    "id": 12,
+                    "name": "Phạm Khắc Hải",
+                    "parents": [
+                        {
+                            "id": 21,
+                            "name": "Phạm Hồng Hạnh",
+                            "gioi_tinh": "nu"
+                        },
+                        {
+                            "id": 21,
+                            "name": "Phạm Hồng Hạnh",
+                            "gioi_tinh": "nu"
+                        }
+                    ],
+                    "gioi_tinh": "nam",
+                    "children": [],
+                    "spouseData": []
+                },
+                {
+                    "id": 13,
+                    "name": "Phạm Thị Mơ",
+                    "parents": [
+                        {
+                            "id": 21,
+                            "name": "Phạm Hồng Hạnh",
+                            "gioi_tinh": "nu"
+                        },
+                        {
+                            "id": 5,
+                            "name": "Phạm Thị Xuân",
+                            "gioi_tinh": "nu"
+                        }
+                    ],
+                    "gioi_tinh": "nu",
+                    "children": [],
+                    "spouseData": []
+                },
+                {
+                    "id": 11,
+                    "name": "Phạm Xuân Diệu",
+                    "parents": [
+                        {
+                            "id": 21,
+                            "name": "Phạm Hồng Hạnh",
+                            "gioi_tinh": "nu"
+                        },
+                        {
+                            "id": 5,
+                            "name": "Phạm Thị Xuân",
+                            "gioi_tinh": "nu"
+                        }
+                    ],
+                    "gioi_tinh": "nu",
+                    "children": [],
+                    "spouseData": []
+                }
+            ],
+            "spouseData": []
+        },
+        {
+            "id": 2,
+            "name": "Phạm Khắc Khanh",
+            "parents": [
+                {
+                    "id": 1,
+                    "name": "Phạm Khắc Hoàng",
+                    "gioi_tinh": "nam"
+                },
+                {
+                    "id": 31,
+                    "name": "Vợ ông Hoàng",
+                    "gioi_tinh": "nu"
+                }
+            ],
+            "gioi_tinh": "nam",
+            "children": [
+                {
+                    "id": 8,
+                    "name": "Phạm KHắc Phong",
+                    "parents": [
+                        {
+                            "id": 2,
+                            "name": "Phạm Khắc Khanh",
+                            "gioi_tinh": "nam"
+                        },
+                        {
+                            "id": 30,
+                            "name": "Vợ ông Khanh",
+                            "gioi_tinh": "nu"
+                        }
+                    ],
+                    "gioi_tinh": "nam",
+                    "children": [
+                        {
+                            "id": 36,
+                            "name": "Con vợ 1 ông Phong",
+                            "parents": [
+                                {
+                                    "id": 8,
+                                    "name": "Phạm KHắc Phong",
+                                    "gioi_tinh": "nam"
+                                },
+                                {
+                                    "id": 28,
+                                    "name": "vợ 1",
+                                    "gioi_tinh": "nu"
+                                }
+                            ],
+                            "gioi_tinh": "nam",
+                            "children": [],
+                            "spouseData": []
+                        },
+                        {
+                            "id": 37,
+                            "name": "con vợ 2 ông Phong",
+                            "parents": [
+                                {
+                                    "id": 8,
+                                    "name": "Phạm KHắc Phong",
+                                    "gioi_tinh": "nam"
+                                },
+                                {
+                                    "id": 29,
+                                    "name": "vợ 2",
+                                    "gioi_tinh": "nu"
+                                }
+                            ],
+                            "gioi_tinh": "nam",
+                            "children": [],
+                            "spouseData": []
+                        }
+                    ],
+                    "spouseData": [
+                        {
+                            "id": 28,
+                            "name": "vợ 1",
+                            "gioi_tinh": "nu"
+                        },
+                        {
+                            "id": 29,
+                            "name": "vợ 2",
+                            "gioi_tinh": "nu"
+                        }
+                    ]
+                },
+                {
+                    "id": 7,
+                    "name": "Phạm Thúy Diễm",
+                    "parents": [
+                        {
+                            "id": 2,
+                            "name": "Phạm Khắc Khanh",
+                            "gioi_tinh": "nam"
+                        },
+                        {
+                            "id": 30,
+                            "name": "Vợ ông Khanh",
+                            "gioi_tinh": "nu"
+                        }
+                    ],
+                    "gioi_tinh": "nu",
+                    "children": [],
+                    "spouseData": []
+                },
+                {
+                    "id": 6,
+                    "name": "Phạm Thị Ngọc",
+                    "parents": [
+                        {
+                            "id": 2,
+                            "name": "Phạm Khắc Khanh",
+                            "gioi_tinh": "nam"
+                        },
+                        {
+                            "id": 30,
+                            "name": "Vợ ông Khanh",
+                            "gioi_tinh": "nu"
+                        }
+                    ],
+                    "gioi_tinh": "nu",
+                    "children": [],
+                    "spouseData": []
+                }
+            ],
+            "spouseData": [
+                {
+                    "id": 30,
+                    "name": "Vợ ông Khanh",
+                    "gioi_tinh": "nu"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Phạm Khắc Vinh",
+            "parents": [
+                {
+                    "id": 1,
+                    "name": "Phạm Khắc Hoàng",
+                    "gioi_tinh": "nam"
+                },
+                {
+                    "id": 31,
+                    "name": "Vợ ông Hoàng",
+                    "gioi_tinh": "nu"
+                }
+            ],
+            "gioi_tinh": "nam",
+            "children": [
+                {
+                    "id": 4,
+                    "name": "Phạm Khắc Thê",
+                    "parents": [
+                        {
+                            "id": 3,
+                            "name": "Phạm Khắc Vinh",
+                            "gioi_tinh": "nam"
+                        },
+                        {
+                            "id": 32,
+                            "name": "vợ ông Vinh",
+                            "gioi_tinh": "nu"
+                        }
+                    ],
+                    "gioi_tinh": "nam",
+                    "children": [
+                        {
+                            "id": 10,
+                            "name": "Phạm Khắc Toàn",
+                            "parents": [
+                                {
+                                    "id": 4,
+                                    "name": "Phạm Khắc Thê",
+                                    "gioi_tinh": "nam"
+                                },
+                                {
+                                    "id": 33,
+                                    "name": "Vợ ông thê",
+                                    "gioi_tinh": "nu"
+                                }
+                            ],
+                            "gioi_tinh": "nam",
+                            "children": [
+                                {
+                                    "id": 14,
+                                    "name": "Phạm Hồng Hoa",
+                                    "parents": [
+                                        {
+                                            "id": 10,
+                                            "name": "Phạm Khắc Toàn",
+                                            "gioi_tinh": "nam"
+                                        },
+                                        {
+                                            "id": 34,
+                                            "name": "vợ ông Toàn",
+                                            "gioi_tinh": "nu"
+                                        }
+                                    ],
+                                    "gioi_tinh": "nu",
+                                    "children": [],
+                                    "spouseData": []
+                                },
+                                {
+                                    "id": 17,
+                                    "name": "Phạm Thị Mai",
+                                    "parents": [
+                                        {
+                                            "id": 10,
+                                            "name": "Phạm Khắc Toàn",
+                                            "gioi_tinh": "nam"
+                                        },
+                                        {
+                                            "id": 34,
+                                            "name": "vợ ông Toàn",
+                                            "gioi_tinh": "nu"
+                                        }
+                                    ],
+                                    "gioi_tinh": "nu",
+                                    "children": [],
+                                    "spouseData": []
+                                }
+                            ],
+                            "spouseData": [
+                                {
+                                    "id": 34,
+                                    "name": "vợ ông Toàn",
+                                    "gioi_tinh": "nu"
+                                }
+                            ]
+                        }
+                    ],
+                    "spouseData": [
+                        {
+                            "id": 33,
+                            "name": "Vợ ông thê",
+                            "gioi_tinh": "nu"
+                        }
+                    ]
+                },
+                {
+                    "id": 18,
+                    "name": "Phạm Khắc Tiến",
+                    "parents": [
+                        {
+                            "id": 3,
+                            "name": "Phạm Khắc Vinh",
+                            "gioi_tinh": "nam"
+                        },
+                        {
+                            "id": 32,
+                            "name": "vợ ông Vinh",
+                            "gioi_tinh": "nu"
+                        }
+                    ],
+                    "gioi_tinh": "nam",
+                    "children": [
+                        {
+                            "id": 19,
+                            "name": "Phạm Khắc Phú",
+                            "parents": [
+                                {
+                                    "id": 18,
+                                    "name": "Phạm Khắc Tiến",
+                                    "gioi_tinh": "nam"
+                                },
+                                {
+                                    "id": 35,
+                                    "name": "vợ ông Tiến",
+                                    "gioi_tinh": "nu"
+                                }
+                            ],
+                            "gioi_tinh": "nam",
+                            "children": [],
+                            "spouseData": []
+                        },
+                        {
+                            "id": 20,
+                            "name": "Phạm Khắc Quang",
+                            "parents": [
+                                {
+                                    "id": 18,
+                                    "name": "Phạm Khắc Tiến",
+                                    "gioi_tinh": "nam"
+                                },
+                                {
+                                    "id": 35,
+                                    "name": "vợ ông Tiến",
+                                    "gioi_tinh": "nu"
+                                }
+                            ],
+                            "gioi_tinh": "nam",
+                            "children": [],
+                            "spouseData": []
+                        }
+                    ],
+                    "spouseData": [
+                        {
+                            "id": 35,
+                            "name": "vợ ông Tiến",
+                            "gioi_tinh": "nu"
+                        }
+                    ]
+                },
+                {
+                    "id": 16,
+                    "name": "Phạm Khắc Toán",
+                    "parents": [
+                        {
+                            "id": 3,
+                            "name": "Phạm Khắc Vinh",
+                            "gioi_tinh": "nam"
+                        },
+                        {
+                            "id": 32,
+                            "name": "vợ ông Vinh",
+                            "gioi_tinh": "nu"
+                        }
+                    ],
+                    "gioi_tinh": "nam",
+                    "children": [],
+                    "spouseData": []
+                },
+                {
+                    "id": 15,
+                    "name": "Phạm Ngọc Hoàn",
+                    "parents": [
+                        {
+                            "id": 3,
+                            "name": "Phạm Khắc Vinh",
+                            "gioi_tinh": "nam"
+                        },
+                        {
+                            "id": 32,
+                            "name": "vợ ông Vinh",
+                            "gioi_tinh": "nu"
+                        }
+                    ],
+                    "gioi_tinh": "nu",
+                    "children": [],
+                    "spouseData": []
+                }
+            ],
+            "spouseData": []
+        },
+        {
+            "id": 9,
+            "name": "Phạm Khắc Đoàn",
+            "parents": [
+                {
+                    "id": 1,
+                    "name": "Phạm Khắc Hoàng",
+                    "gioi_tinh": "nam"
+                },
+                {
+                    "id": 30,
+                    "name": "Vợ ông Khanh",
+                    "gioi_tinh": "nu"
+                }
+            ],
+            "gioi_tinh": "nu",
+            "children": [
+                {
+                    "id": 5,
+                    "name": "Phạm Thị Xuân",
+                    "parents": [
+                        {
+                            "id": 9,
+                            "name": "Phạm Khắc Đoàn",
+                            "gioi_tinh": "nu"
+                        },
+                        {
+                            "id": 31,
+                            "name": "Vợ ông Hoàng",
+                            "gioi_tinh": "nu"
+                        }
+                    ],
+                    "gioi_tinh": "nu",
+                    "children": [],
+                    "spouseData": []
+                }
+            ],
+            "spouseData": []
+        }
+    ],
+    "spouseData": []
+}
 }

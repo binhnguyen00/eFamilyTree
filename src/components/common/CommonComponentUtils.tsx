@@ -71,14 +71,18 @@ export class CommonComponentUtils {
     return (
       <Box flex flexDirection="column" justifyContent="center" alignItems="center">
         <Spinner visible/>
-        <Text.Title size="small"> {message} </Text.Title>
+        <Text.Title style={{
+          textTransform: "capitalize",
+        }} size="small"> {message} </Text.Title>
       </Box>
     )
   }
 
   public static renderError(message: string, onRetry?: () => void) {
     return (
-      <Stack className="center" space="0.5rem">
+      <Stack className="center" space="0.5rem" style={{
+        textTransform: "capitalize"
+      }}>
         <Text.Title size="normal"> {message} </Text.Title>
         {onRetry && (
           <Button 
@@ -92,7 +96,9 @@ export class CommonComponentUtils {
 
   public static renderRetry(message: string, onRetry?: () => void) {
     return (
-      <Stack className="center" space="0.5rem">
+      <Stack className="center" space="0.5rem" style={{
+        textTransform: "capitalize"
+      }}>
         <Text.Title size="normal"> {message} </Text.Title>
         {onRetry && (
           <Button 

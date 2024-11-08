@@ -24,16 +24,12 @@ interface NodeProps {
 }
 
 export function Node({node, displayField, isRoot, onSelectNode, style}: NodeProps) {
-  const showDetails = () => {
-    onSelectNode(node.id);
-  }
-
   return (
     <div className='tree-node' style={style}>
       <Box 
         flex justifyContent='center' alignItems='center'
         className={`tree-node-${node.gender} button`}
-        onClick={showDetails}
+        onClick={() => onSelectNode(node.id)}
         style={{ width: "100%", height: "100%", border: "1px solid black" }}
       >
         {isRoot && <PiTreeBold size={"1em"}/>}

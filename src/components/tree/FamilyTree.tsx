@@ -1,7 +1,7 @@
 import React from 'react';
 import calcTree from 'relatives-tree';
 import Connector from './Connector';
-import { Node, ExtNode } from 'relatives-tree/lib/types';
+import { Node } from 'relatives-tree/lib/types';
 
 interface Props {
   nodes: ReadonlyArray<Node>;
@@ -10,7 +10,7 @@ interface Props {
   height: number;
   placeholders?: boolean;
   className?: string;
-  renderNode: (node: ExtNode) => React.ReactNode;
+  renderNode: (node: any) => React.ReactNode;
 }
 
 export default React.memo<Props>(function FamilyTree(props) {

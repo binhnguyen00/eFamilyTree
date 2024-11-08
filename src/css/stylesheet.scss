@@ -36,6 +36,7 @@
   justify-content: "center";
   align-items: center;
   align-content: center;
+  text-align: center;
 }
 
 .border {
@@ -79,6 +80,7 @@ button, .button {
   &:active {
     transform: scale(0.95); /* Subtle shrink effect */
   }
+  text-transform: capitalize;
 }
 
 .button-bounce {

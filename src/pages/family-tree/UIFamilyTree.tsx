@@ -4,7 +4,7 @@ import { CgUndo } from "react-icons/cg";
 import { BiHorizontalCenter } from "react-icons/bi";
 import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
-import { Modal, BottomNavigation } from "zmp-ui";
+import { BottomNavigation, Sheet, Grid, Button, Text, ZBox, useNavigate } from "zmp-ui";
 
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
@@ -15,20 +15,39 @@ import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 import { FamilyMember, Node } from "../../components/node/Node";
 import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "../../utils/FamilyTreeUtils";
-import { UIFamilyMember } from "./UIFamilyMember";
 
 export function UIFamilyTree() {
   const phoneNumber = useRecoilValue(phoneState);
+  const navigate = useNavigate();
 
   const [ familyMembers, setFamilyMembers ] = React.useState<any[]>([]);
   const [ rootId, setRootId ] = React.useState<string>("");
   const [ selectId, setSelectId ] = React.useState<string>("");
+  const [ resetBtn, setResetBtn ] = React.useState<boolean>(false);
 
   const [ reload, setReload ] = React.useState(false);
   const [ fetchError, setFetchError ] = React.useState(false);
 
+  const showMemberDetail = () => {
+    setSelectId("");
+    const data = {
+      memberId: selectId,
+      phoneNumber: phoneNumber,
+    }
+    navigate("/family-member-info", { state: { data } });
+  }
+
+  const renderTreeBranch = () => {
+    setSelectId("");
+    const treeBranch = FamilyTreeUtils.getTreeBranch(selectId, familyMembers);
+    setRootId(selectId);
+    setFamilyMembers(treeBranch);
+    setResetBtn(true);
+  }
+
   React.useEffect(() => {
     const success = (result: any[] | string) => {
+      setResetBtn(false);
       if (typeof result === 'string') {
         setFetchError(true);
         console.warn(result);
@@ -78,17 +97,28 @@ export function UIFamilyTree() {
             )}
           </TransformWrapper>
 
-          <Modal 
+          <Sheet
             visible={selectId !== ""}
             onClose={() => { setSelectId("") }}
-            actions={[ { text: t("close"), close: true } ]}
+            autoHeight
+            mask
+            handler
+            swipeToClose
           >
-            <React.Suspense
-              fallback={CommonComponentUtils.renderLoading(t("loading_family_member"))}
-            >
-              <UIFamilyMember memberId={selectId} phoneNumber={phoneNumber}/>
-            </React.Suspense>
-          </Modal>
+            <Text size="large" className="center"> {
+              FamilyTreeUtils.getMemberById(selectId, familyMembers)?.name || ""
+            } </Text>
+            <ZBox padding="1rem">
+              <Grid columnCount={2} columnSpace="0.2rem">
+                <Button onClick={showMemberDetail}>
+                  {t("btn_tree_member_info")}
+                </Button>
+                <Button onClick={renderTreeBranch}>
+                  {t("btn_tree_member_detail")}
+                </Button>
+              </Grid>
+            </ZBox>
+          </Sheet>
         </div>
       );
     } else {
@@ -100,16 +130,31 @@ export function UIFamilyTree() {
     }
   }
 
+  const renderResetTree = () => {
+    if (resetBtn) {
+      return (
+        <Button size="small" onClick={() => {
+          setFamilyMembers([]);
+          setRootId("");
+          setReload(!reload)}
+        }>
+          {t("reset")}
+        </Button>
+      )
+    } else return <></>
+  }
+
   return (
     <div className="container">
       {CommonComponentUtils.renderHeader(t("family_tree"))}
 
+      {renderResetTree()}
       {renderTree()}
     </div>
   )
 }
 
-function UITreeControl() {
+export function UITreeControl() {
   const { zoomIn, zoomOut, resetTransform, centerView } = useControls();
 
   return (

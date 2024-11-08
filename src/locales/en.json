@@ -17,6 +17,9 @@
   "calendar": "Calendar",
   "upcoming": "Upcoming",
   "family_tree": "Family Tree",
+  "family_member": "tree member",
+  "member_info": "member info",
+
   "demo_tree": "Demo Family Tree",
   "playground": "Playground",
   "retry": "Retry",
@@ -51,5 +54,8 @@
   "loading_funds": "Loading Funds...",
   "no_funds": "No Funds available",
   "demo_funds": "Demo Funds",
-  "search_funds": "Search Funds"
+  "search_funds": "Search Funds",
+    
+  "btn_tree_member_info": "member info",
+  "btn_tree_member_detail": "tree branch"
 }

@@ -17,7 +17,9 @@
   "calendar": "Sự Kiện sắp tới",
   "upcoming": "Sắp ra mắt",
   "family_tree": "Cây Gia Tộc",
-  "demo_tree": "Demo Cây Gia Phả",
+  "family_member": "thành viên",
+  "member_info": "thông tin thành viên",
+  "demo_tree": "Demo Cây Gia Tộc",
   "playground": "Thí Nghiệm",
   "retry": "Thử lại",
   "reset": "Đặt lại",
@@ -39,9 +41,9 @@
   "detail_blog": "Chi tiết bài đăng",
   "demo_blogs": "Demo Bài Đăng",
 
-  "loading_family_tree": "Đang tải cây gia phả...",
-  "no_family_tree": "Chưa có cây gia phả nào",
-  "dummy_tree": "Cây Gia Phả",
+  "loading_family_tree": "đang tải cây gia tộc...",
+  "no_family_tree": "chưa có cây gia tộc nào",
+  "dummy_tree": "cây gia tộc",
 
   "loading_calendar": "Đang tải sự kiện...",
   "no_calendar_events": "Chưa có sự kiện nào",
@@ -51,5 +53,8 @@
   "loading_funds": "Đang tải quỹ...",
   "no_funds": "Chưa có Quỹ",
   "demo_funds": "Demo Quỹ",
-  "search_funds": "Tìm kiêm quỹ"
+  "search_funds": "Tìm kiêm quỹ",
+
+  "btn_tree_member_info": "thông tin",
+  "btn_tree_member_detail": "nhánh thành viên"
 }

@@ -7,7 +7,7 @@
     "spouses": [
       {
         "id": "user6",
-        "type": "divorced"
+        "type": "married"
       },
       {
         "id": "user2",
@@ -21,6 +21,10 @@
       },
       {
         "id": "user4",
+        "type": "blood"
+      },
+      {
+        "id": "user7",
         "type": "blood"
       }
     ]
@@ -63,7 +67,12 @@
         "type": "married"
       }
     ],
-    "children": []
+    "children": [
+      {
+        "id": "user7",
+        "type": "blood"
+      }
+    ]
   },
   {
     "id": "user3",
@@ -121,5 +130,22 @@
         "type": "blood"
       }
     ]
+  },
+  {
+    "id": "user7",
+    "gender": "female",
+    "parents": [
+      {
+        "id": "user5",
+        "type": "blood"
+      },
+      {
+        "id": "user2",
+        "type": "blood"
+      }
+    ],
+    "siblings": [],
+    "spouses": [],
+    "children": []
   }
 ]

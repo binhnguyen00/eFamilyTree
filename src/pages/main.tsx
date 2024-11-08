@@ -22,13 +22,15 @@ import { UIDeveloper } from "./dummy/UIDeveloper";
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 
 import "../i18n";
+import { UIDummyNavigate } from "./dummy/UIDummyNavigate";
+import { UIFamilyMember } from "./family-tree/UIFamilyMember";
 
 export function Application() {
   return (
     <RecoilRoot>
       <App theme="light">
         <SnackbarProvider>
-          <ZMPRouter memoryRouter>
+          <ZMPRouter>
             <AnimationRoutes>
               <Route path="/" element={<UIHomePage/>}/>
 
@@ -41,6 +43,15 @@ export function Application() {
                   <UIFamilyTree/>
                 </React.Suspense>
               }/>
+              <Route path="/family-member-info" element={
+                <React.Suspense fallback={
+                  <div style={{ height: "100vh" }}> 
+                    {CommonComponentUtils.renderLoading(t("loading"))} 
+                  </div>
+                }> 
+                  <UIFamilyMember /> 
+                </React.Suspense>}
+              />
               
               <Route path="/about" element={<UIAbout/>}/>
 
@@ -91,6 +102,8 @@ export function Application() {
               <Route path="/demo-blogs" element={<UIDummyBlog/>}/>
 
               <Route path="/playground" element={<UIPlayground/>}/>
+              <Route path="/dummy-detail" element={<UIDummyNavigate/>}/>
+
             </AnimationRoutes>
           </ZMPRouter>
         </SnackbarProvider>

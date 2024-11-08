@@ -103,4 +103,54 @@ export class FamilyTreeUtils {
       transform: `translate(${left * (NODE_WIDTH / 2)}px, ${top * (NODE_HEIGHT / 2)}px)`,
     };
   }
+
+  public static getMemberById(id: string, members: FamilyMember[]): FamilyMember | undefined {
+    return members.find((m) => m.id === id);
+  }
+
+  public static getTreeBranch(memberId: string, members: FamilyMember[]): FamilyMember[] {
+    const filteredMembers: FamilyMember[] = [];
+    const visited = new Set<string>();
+
+    const addMemberAndRelatives = (id: string, parentIds: string[] = []) => {
+      // If the member has already been processed, skip it
+      if (visited.has(id)) return;
+      visited.add(id);
+
+      // Find the member in the original list
+      const member = members.find((m) => m.id === id);
+      if (!member) return;
+
+      // Create a copy of the member, removing its parents and siblings if it's the root
+      const standaloneMember: FamilyMember = {
+        ...member,
+        parents: parentIds.length === 0 ? [] : parentIds.map(pid => ({ id: pid, type: "blood" })),
+        siblings: [],
+        spouses: [...member.spouses],
+        children: [],
+      };
+
+      // Add the member to the filtered list
+      filteredMembers.push(standaloneMember);
+
+      // Collect the parent's IDs for children processing
+      const currentParentIds = [id, ...standaloneMember.spouses.map(s => s.id)];
+
+      // Recursively add children with the current member as a parent
+      member.children.forEach((child) => {
+        if (child && child.id) {
+          addMemberAndRelatives(child.id, currentParentIds);
+          standaloneMember.children.push({ id: child.id, type: "blood" });
+        }
+      });
+
+      // Recursively add spouses
+      standaloneMember.spouses.forEach((spouse) => addMemberAndRelatives(spouse.id));
+    };
+
+    // Start filtering from the given root memberId
+    addMemberAndRelatives(memberId);
+
+    return filteredMembers;
+  }
 }
