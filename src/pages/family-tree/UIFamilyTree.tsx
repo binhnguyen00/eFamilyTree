@@ -55,7 +55,7 @@ export function UIFamilyTree() {
         setFetchError(false);
         const data = result["members"] || [];
         const mems: FamilyMember[] = FamilyTreeUtils.remapServerData(data);
-        setFamilyMembers(mems);
+        setFamilyMembers(FamilyTreeUtils.removeDuplicates(mems));
         setRootId(`${data.id}`);
       }
     }
