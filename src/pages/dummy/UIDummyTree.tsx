@@ -14,16 +14,19 @@ import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "../../pages/family-tre
 import average from "../family-tree/sample/average.json";
 import divorced from "../family-tree/sample/divorced.json";
 import severalSprouses from "../family-tree/sample/several-sprouses.json";
+import odooSample from "../family-tree/sample/odoo-sample.json";
 
 export function UIDummyTree() {
   const dataSrcKey = {
     1: average,
     2: severalSprouses,
-    3: divorced
+    3: divorced,
+    4: odooSample
   }
   const [ nodes, setNodes ] = React.useState<any[]>(average);
   const [ rootId, setRootId ] = React.useState(nodes[0].id);
   const [ selectId, setSelectId ] = React.useState<string>("");
+  const [ selectNameField, setSelectNameField ] = React.useState<string>("id");
 
   return (
     <div className="container">
@@ -33,17 +36,28 @@ export function UIDummyTree() {
         <div style={{ height: "90%" }}>
           <Select
             label={t("data_source")}
-            defaultValue="1"
+            defaultValue={4}
             onChange={(val) => {
-              const members = dataSrcKey[Number(val)];
-              setNodes(members);
-              setRootId(members[0].id); 
+              if (val === 4) {
+                const odooSample = dataSrcKey[Number(val)];
+                const odooMems = odooSample["members"] || null as any;
+                const members = FamilyTreeUtils.remapServerData(odooMems);
+                setNodes(members);
+                setRootId(members[0].id);
+                setSelectNameField("name");
+              } else {
+                const members = dataSrcKey[Number(val)];
+                setNodes(members);
+                setRootId(members[0].id); 
+                setSelectNameField("id");
+              } 
             }}
             closeOnSelect
           >
-            <Select.Option value="1" title={t("average")} />
-            <Select.Option value="2" title={t("several_spouses")} />
-            <Select.Option value="3" title={t("divorced")} />
+            <Select.Option value={1} title={t("average")} />
+            <Select.Option value={2} title={t("several_spouses")} />
+            <Select.Option value={3} title={t("divorced")} />
+            <Select.Option value={4} title={t("Odoo")} />
           </Select>
 
           <TransformWrapper centerOnInit minScale={0.01}>
@@ -59,7 +73,7 @@ export function UIDummyTree() {
                       <Node
                         key={node.id}
                         node={node}
-                        displayField="id"
+                        displayField={selectNameField}
                         isRoot={node.id === rootId}
                         onSelectNode={setSelectId}
                         style={FamilyTreeUtils.calculateNodePosition(node)}
@@ -130,12 +144,4 @@ function UITreeControl() {
       />
     </BottomNavigation>
   )
-}
-
-export function calculatePositionStyle({ left, top }: Readonly<any>): React.CSSProperties {
-  return {
-    width: NODE_WIDTH,
-    height: NODE_HEIGHT,
-    transform: `translate(${left * (NODE_WIDTH / 2)}px, ${top * (NODE_HEIGHT / 2)}px)`,
-  };
 }

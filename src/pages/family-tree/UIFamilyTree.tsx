@@ -34,7 +34,7 @@ export function UIFamilyTree() {
         console.warn(result);
       } else {
         setFetchError(false);
-        const data = result["employee_tree"] || [];
+        const data = result["members"] || [];
         const mems: FamilyMember[] = FamilyTreeUtils.remapServerData(data);
         setFamilyMembers(mems);
         setRootId(`${data.id}`);

@@ -1,4 +1,4 @@
-import { Callback } from "./Interface";
+import { Callback, FailResponse } from "./Interface";
 import { ExternalRESTful } from "server/ExternalRESTful";
 
 export class EFamilyTreeApi {
@@ -84,7 +84,10 @@ export class EFamilyTreeApi {
         "error": "Bạn không thuộc cây gia phả nào"
       }
     } */
-    if (!response) return "No Response from Server!";
+    if (!response) return {
+      error: true,
+      message: "No Response from Server!"
+    } as FailResponse;
     if (response.error) return response;
     if (response.result.error) return response.result;
     return response.result as any;
