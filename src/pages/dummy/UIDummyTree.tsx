@@ -36,7 +36,7 @@ export function UIDummyTree() {
         <div style={{ height: "90%" }}>
           <Select
             label={t("data_source")}
-            defaultValue={4}
+            defaultValue={1}
             onChange={(val) => {
               if (val === 4) {
                 const odooSample = dataSrcKey[Number(val)];

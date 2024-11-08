@@ -1,7 +1,7 @@
 import React from "react";
 import { t } from "i18next";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { Box, Input, Spinner, Text, useNavigate, Stack, Button } from "zmp-ui";
+import { Box, Input, Spinner, Text, useNavigate, Stack, Button, Header } from "zmp-ui";
 
 interface SearchBar {
   placeholder?: string;
