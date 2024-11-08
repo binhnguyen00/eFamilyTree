@@ -55,7 +55,10 @@ export function UIDummyTree() {
                 const odooSample = dataSrcKey[Number(val)];
                 const odooMems = odooSample["members"] || null as any;
                 const members = FamilyTreeUtils.remapServerData(odooMems);
-                setNodes(members);
+                const final = FamilyTreeUtils.removeDuplicates(members);
+                console.log(members);
+                
+                setNodes(final);
                 setRootId(members[0].id);
                 setSelectNameField("name");
               } else {

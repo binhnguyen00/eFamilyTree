@@ -19,6 +19,7 @@ export const NODE_WIDTH = 180;
 export const NODE_HEIGHT = 80;
 
 export class FamilyTreeUtils {
+  
   public static remapServerData(node: OdooNode): FamilyMember[] {
     const result: FamilyMember[] = [];
 
@@ -27,7 +28,7 @@ export class FamilyTreeUtils {
       const name = node.name;
       const gender = node.gioi_tinh === "nam" ? "male" : "female";
 
-      // Create the primary person
+      // Create the main person
       const person: FamilyMember = {
         id,
         name,
@@ -41,50 +42,63 @@ export class FamilyTreeUtils {
       // Add the person to the result list
       result.push(person);
 
-      // Handle spouses (spouseData is an array)
+      // Handle spouses
+      const spouseMap: { [key: string]: FamilyMember } = {};
       if (Array.isArray(node.spouseData) && node.spouseData.length > 0) {
         node.spouseData.forEach((spouseInfo) => {
-          if (spouseInfo && spouseInfo.id && spouseInfo.name) {
-            const spouseId = `${spouseInfo.id}`;
-            const spouseName = spouseInfo.name;
-            const spouseGender = spouseInfo.gioi_tinh === "nam" ? "male" : "female";
+          const spouseId = `${spouseInfo.id}`;
+          const spouseName = spouseInfo.name;
+          const spouseGender = spouseInfo.gioi_tinh === "nam" ? "male" : "female";
 
-            const spouse: FamilyMember = {
-              id: spouseId,
-              name: spouseName,
-              gender: spouseGender,
-              parents: [],
-              siblings: [],
-              spouses: [{ id, type: "married" }],
-              children: [], // Children will be added later
-            };
+          const spouse: FamilyMember = {
+            id: spouseId,
+            name: spouseName,
+            gender: spouseGender,
+            parents: [],
+            siblings: [],
+            spouses: [{ id, type: "married" }],
+            children: [],
+          };
 
-            person.spouses.push({ id: spouseId, type: "married" });
-            result.push(spouse);
-          }
+          person.spouses.push({ id: spouseId, type: "married" });
+          result.push(spouse);
+          spouseMap[spouseId] = spouse;
         });
       }
 
-      // Process children and assign to the current person
+      // Process children
       if (Array.isArray(node.children) && node.children.length > 0) {
         node.children.forEach((child) => {
-          if (child && child.id) {
-            const childId = `${child.id}`;
+          const childId = `${child.id}`;
+          const childName = child.name;
+          const childGender = child.gioi_tinh === "nam" ? "male" : "female";
+          const childParents = child.parents?.map(p => `${p.id}`) || [];
+
+          const childPerson: FamilyMember = {
+            id: childId,
+            name: childName,
+            gender: childGender,
+            parents: childParents.map(parentId => ({ id: parentId, type: "blood" })),
+            siblings: [],
+            spouses: [],
+            children: [],
+          };
+
+          // Assign the child to the main person's children list
+          if (childParents.includes(id)) {
             person.children.push({ id: childId, type: "blood" });
-
-            // Recursively process the child node
-            processNode(child, [...parentIds, id]);
           }
-        });
-      }
 
-      // After processing all children, update each spouse's children list
-      if (Array.isArray(node.spouseData) && node.spouseData.length > 0) {
-        node.spouseData.forEach((spouseInfo) => {
-          const spouse = result.find((s) => s.id === `${spouseInfo.id}`);
-          if (spouse) {
-            spouse.children = [...person.children];
-          }
+          // Assign the child to the correct spouse's children list
+          childParents.forEach(parentId => {
+            if (spouseMap[parentId]) {
+              spouseMap[parentId].children.push({ id: childId, type: "blood" });
+            }
+          });
+
+          // Recursively process the child
+          processNode(child, childParents);
+          result.push(childPerson);
         });
       }
     };
@@ -95,7 +109,15 @@ export class FamilyTreeUtils {
     return result;
   }
 
-  // Calculate node position based on provided coordinates
+  public static removeDuplicates(arr: any[]) {
+    const map = new Map();
+    return arr.filter(item => {
+      if (map.has(item.id)) return false;
+      map.set(item.id, true);
+      return true;
+    });
+  };
+
   public static calculateNodePosition({ left, top }: any): React.CSSProperties {
     return {
       width: NODE_WIDTH,
