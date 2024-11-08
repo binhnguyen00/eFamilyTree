@@ -22,8 +22,6 @@ export default React.memo<Props>(function FamilyTree(props) {
     }
   );
 
-  console.log("Data", data);
-
   const width = props.width / 2;
   const height = props.height / 2;
 
