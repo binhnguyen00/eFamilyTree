@@ -28,7 +28,7 @@ export function Application() {
     <RecoilRoot>
       <App theme="light">
         <SnackbarProvider>
-          <ZMPRouter>
+          <ZMPRouter memoryRouter>
             <AnimationRoutes>
               <Route path="/" element={<UIHomePage/>}/>
 

@@ -14,6 +14,7 @@ interface SearchBar {
   ) => void;
 }
 
+// TODO: Clean code, turn function into React Function
 export class CommonComponentUtils {
   public static renderHeader(title: string, subtitle?: string, logo?: React.ReactNode, showBackIcon: boolean = true) {
     /** About Zalo Header

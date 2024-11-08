@@ -2,13 +2,6 @@
   background-color: white;
 }
 
-.section-container {
-  padding: 16px;
-  background: #ffffff;
-  border-radius: 8px;
-  margin-bottom: 24px;
-}
-
 .flex-v {
   display: flex;
   flex-direction: column !important;
@@ -100,6 +93,7 @@ button, .button {
   padding-left: 10px;
   padding-right: 10px;
   height: 100vh;
+
 
   @media (min-width: 640px) {
     max-width: 100%;

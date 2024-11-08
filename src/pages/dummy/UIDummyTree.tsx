@@ -9,7 +9,7 @@ import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pa
 
 import { Node } from "../../components/node/Node";
 import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
-import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "../../pages/family-tree/FamilyTreeUtils";
+import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "../../utils/FamilyTreeUtils";
 
 import average from "../family-tree/sample/average.json";
 import divorced from "../family-tree/sample/divorced.json";

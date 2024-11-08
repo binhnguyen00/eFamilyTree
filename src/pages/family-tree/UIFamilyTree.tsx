@@ -14,7 +14,7 @@ import { FailResponse } from "../../utils/Interface";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 import { FamilyMember, Node } from "../../components/node/Node";
-import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "./FamilyTreeUtils";
+import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "../../utils/FamilyTreeUtils";
 import { UIFamilyMember } from "./UIFamilyMember";
 
 export function UIFamilyTree() {
