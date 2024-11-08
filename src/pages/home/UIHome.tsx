@@ -4,6 +4,7 @@ import { useNavigate, Button, Stack, Text, Box, Grid } from "zmp-ui";
 
 import { UIUser } from "../../pages/user/UIUser";
 import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+
 import logo from "../../assets/img/eFamilyTree.png";
 
 // icons
@@ -66,12 +67,7 @@ export function UIHomePage() {
 
   return (
     <div className="container" id="home">
-      {CommonComponentUtils.renderHeader(
-        t("home").toUpperCase(), 
-        t("home_subtitle"), 
-        <img src={logo} alt="logo"/>, 
-        false
-      )}
+      {CommonComponentUtils.renderHeader("", "", <img src={logo} alt="logo"/>, false)}
 
       <Stack space="1rem">
         <React.Suspense fallback={

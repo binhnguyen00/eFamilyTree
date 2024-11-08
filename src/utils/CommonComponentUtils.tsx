@@ -77,7 +77,7 @@ export class CommonComponentUtils {
 
   public static renderError(message: string, onRetry?: () => void) {
     return (
-      <Stack className="flex-v center" space="0.5rem">
+      <Stack className="center" space="0.5rem">
         <Text.Title size="normal"> {message} </Text.Title>
         {onRetry && (
           <Button 
@@ -91,7 +91,7 @@ export class CommonComponentUtils {
 
   public static renderRetry(message: string, onRetry?: () => void) {
     return (
-      <Stack className="flex-v center" space="0.5rem">
+      <Stack className="center" space="0.5rem">
         <Text.Title size="normal"> {message} </Text.Title>
         {onRetry && (
           <Button 
