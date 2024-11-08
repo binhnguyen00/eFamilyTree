@@ -7,7 +7,7 @@ import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 import { Box, List, Text, useNavigate } from "zmp-ui";
 
-import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { DateTimeUtils } from "../../utils/DateTimeUtils";
 import { FailResponse } from "../../utils/Interface";

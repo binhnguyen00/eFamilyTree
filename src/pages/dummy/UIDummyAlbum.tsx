@@ -1,6 +1,6 @@
 import React from "react";
 import { Page, Text, Box, ImageViewer, Stack } from "zmp-ui";
-import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 
 export function UIDummyAlbum() {
   const [visible, setVisible] = React.useState(false);

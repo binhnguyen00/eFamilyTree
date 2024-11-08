@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { useNavigate, Button, Stack, Text, Box, Grid } from "zmp-ui";
 
 import { UIUser } from "../../pages/user/UIUser";
-import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 
 import logo from "../../assets/img/eFamilyTree.png";
 

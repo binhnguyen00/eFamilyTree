@@ -4,7 +4,7 @@ import { Button, Grid, Stack, Text } from "zmp-ui";
 
 import { FcRating, FcStackOfPhotos } from "react-icons/fc";
 
-import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 
 export function UIDummyUpcoming() {
   return (

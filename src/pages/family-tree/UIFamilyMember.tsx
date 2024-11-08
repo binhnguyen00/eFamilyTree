@@ -4,7 +4,7 @@ import { Button, Input, Stack, Text } from "zmp-ui";
 
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
-import { CommonComponentUtils } from "utils/CommonComponentUtils";
+import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 
 interface UIFamilyMemberProps {
   memberId: number | string;

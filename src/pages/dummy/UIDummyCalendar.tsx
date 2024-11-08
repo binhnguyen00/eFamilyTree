@@ -1,7 +1,7 @@
 import React from "react";
 import { t } from "i18next";
 import { Calendar, Text, Box, Stack } from "zmp-ui";
-import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 import { CalendarUtils, Event } from "../../utils/CalendarUtils";
 
 import data from "../../pages/calendar/sample/events.json";

@@ -5,7 +5,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { t } from "i18next";
 import { Box, Input, List, Text, useNavigate } from "zmp-ui";
 
-import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 import { DateTimeUtils } from "utils/DateTimeUtils";
 
 const data = [

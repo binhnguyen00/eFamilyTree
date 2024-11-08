@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 import { Stack, Text, Swiper, Grid } from "zmp-ui";
 
-import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 
 import slide_01 from "../../assets/img/about-swiper-1.jpg";
 import slide_02 from "../../assets/img/about-swiper-2.jpg";

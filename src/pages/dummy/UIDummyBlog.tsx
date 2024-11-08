@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next"; 
 import { Box, Text, useNavigate } from "zmp-ui"; 
 
-import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 
 const data = [

@@ -1,7 +1,7 @@
 import React from "react";
 import { t } from "i18next";
 import { Button, Grid, Stack, Text, useNavigate } from "zmp-ui";
-import { CommonComponentUtils } from "utils/CommonComponentUtils";
+import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 import { FcApproval, FcCalendar, FcGenealogy, FcMoneyTransfer, FcTemplate, FcBiotech } from "react-icons/fc";
 
 

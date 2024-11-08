@@ -4,7 +4,7 @@ import { t } from "i18next";
 import { useLocation } from 'react-router-dom';
 import { Stack, Text } from "zmp-ui";
 
-import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 
 export function UIBlogDetail() {

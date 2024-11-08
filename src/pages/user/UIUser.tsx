@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { Avatar, Button, Box, Stack, Input, Text, useNavigate } from "zmp-ui";
 import { useRecoilValue } from "recoil";
 
-import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 import { userState } from "states";
 
 export function UIUserDetail() {

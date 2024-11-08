@@ -8,7 +8,7 @@ import { BottomNavigation, Modal, Select } from "zmp-ui";
 import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
 
 import { Node } from "../../components/node/Node";
-import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "../../pages/family-tree/FamilyTreeUtils";
 
 import average from "../family-tree/sample/average.json";

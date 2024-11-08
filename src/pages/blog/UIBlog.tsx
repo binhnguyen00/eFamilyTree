@@ -6,7 +6,7 @@ import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
-import { CommonComponentUtils } from "../../utils/CommonComponentUtils";
+import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 import { FailResponse } from "../../utils/Interface";
 
 export function UIBlog() {

@@ -19,7 +19,7 @@ import { UIDummyBlog } from "./dummy/UIDummyBlog";
 import { UIFund, UIFundDetail } from "./fund/UIFund";
 import { UIDummyFund, UIDummyFundDetail } from "./dummy/UIDummyFund";
 import { UIDeveloper } from "./dummy/UIDeveloper";
-import { CommonComponentUtils } from "utils/CommonComponentUtils";
+import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 
 import "../i18n";
 
