@@ -59,6 +59,7 @@ export function UIDummyTree() {
                       <Node
                         key={node.id}
                         node={node}
+                        displayField="id"
                         isRoot={node.id === rootId}
                         onSelectNode={setSelectId}
                         style={FamilyTreeUtils.calculateNodePosition(node)}
