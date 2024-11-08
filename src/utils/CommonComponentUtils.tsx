@@ -1,7 +1,7 @@
 import React from "react";
 import { t } from "i18next";
-import { IoMdArrowRoundBack } from "react-icons/io";
-import { Box, Input, Spinner, Text, useNavigate, Stack, Button, Header } from "zmp-ui";
+import { IoIosArrowBack } from "react-icons/io";
+import { Box, Input, Spinner, Text, useNavigate, Stack, Button } from "zmp-ui";
 
 interface SearchBar {
   placeholder?: string;
@@ -30,8 +30,8 @@ export class CommonComponentUtils {
             flex flexDirection="row" justifyContent="flex-start" alignContent="center" alignItems="center"
           >
             {showBackIcon && (
-              <IoMdArrowRoundBack 
-                className="button" size={"1.5rem"} 
+              <IoIosArrowBack 
+                className="button-bounce" size={"1.5rem"} 
                 onClick={() => {
                   navigate(-1);
                 }}

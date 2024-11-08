@@ -88,6 +88,13 @@ button, .button {
   }
 }
 
+.button-bounce {
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1); /* Slightly faster */
+  &:active {
+    transform: scale(0.5); /* Subtle shrink effect */
+  }
+}
+
 .container {
   padding-top: 95px;
   padding-left: 10px;

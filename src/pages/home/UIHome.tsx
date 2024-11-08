@@ -37,8 +37,8 @@ export function UIHomePage() {
   const renderFunctions = () => {
     let html = [] as React.ReactNode[];
     Object.keys(funcKeyMap).forEach(key => {
-      if (key === "developer" && !isDevEnv) return;
-      
+      // if (key === "developer" && !isDevEnv) return;
+
       const label = funcKeyMap[key] as string;
       html.push(
         <Stack space="0.5rem" key={`stack-${key}`}>
