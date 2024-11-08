@@ -80,7 +80,7 @@ export class CommonComponentUtils {
 
   public static renderError(message: string, onRetry?: () => void) {
     return (
-      <Stack className="center" space="0.5rem" style={{
+      <Stack space="0.5rem" style={{
         textTransform: "capitalize"
       }}>
         <Text.Title size="normal"> {message} </Text.Title>
@@ -96,7 +96,7 @@ export class CommonComponentUtils {
 
   public static renderRetry(message: string, onRetry?: () => void) {
     return (
-      <Stack className="center" space="0.5rem" style={{
+      <Stack space="0.5rem" style={{
         textTransform: "capitalize"
       }}>
         <Text.Title size="normal"> {message} </Text.Title>
