@@ -1,6 +1,6 @@
 import React from "react";
 import { RecoilRoot } from "recoil";
-import { App, ZMPRouter, SnackbarProvider, AnimationRoutes } from "zmp-ui";
+import { App, ZMPRouter, SnackbarProvider } from "zmp-ui";
 
 import UILayout from "./layout";
 
@@ -11,9 +11,9 @@ function Application() {
     <RecoilRoot>
       <App theme="light">
         <SnackbarProvider>
-            <ZMPRouter memoryRouter>
-              <UILayout/>
-            </ZMPRouter>
+          <ZMPRouter memoryRouter>
+            <UILayout/>
+          </ZMPRouter>
         </SnackbarProvider>
       </App>
     </RecoilRoot>

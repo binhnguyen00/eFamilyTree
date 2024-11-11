@@ -15,11 +15,11 @@ interface MenuItem {
 function UINavigation() {
 
   const tabs: Record<string, MenuItem> = {
-    "/home": {
+    "/": {
       label: t("home"),
       icon: <FcHome />,
     },
-    "/": {
+    "/family-tree-home": {
       label: t("family_tree"),
       icon: <FcGenealogy />,
     },

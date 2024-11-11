@@ -6,7 +6,8 @@ import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 import UINavigation from "components/common/UINavigation";
 
 // Lazy load components
-const UIHomePage = lazy(() => import("pages/home/UIHome"));
+const UIHome = lazy(() => import("pages/home/UIHome"));
+const UIFamilyTreeHome = lazy(() => import("pages/family-tree/UIFamilyTreeHome"));
 const UIUserDetail = lazy(() => import("pages/user/UIUserDetail"));
 const UIFamilyTree = lazy(() => import("pages/family-tree/UIFamilyTree"));
 const UIAbout = lazy(() => import("pages/about/UIAbout"));
@@ -41,7 +42,8 @@ const renderLoading = (message) => (
 function MainRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<UIHomePage />} />
+      <Route path="/" element={<UIHome />} />
+      <Route path="/family-tree-home" element={<UIFamilyTreeHome />} />
       <Route path="/family-tree" element={
         <Suspense fallback={renderLoading(t("loading_family_tree"))}>
           <UIFamilyTree />
