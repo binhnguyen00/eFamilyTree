@@ -51,7 +51,7 @@ export function UIDummyTree() {
       {nodes.length > 0 ? (
         <div style={{ height: "90%" }}>
           <Select
-            label={t("data_source")}
+            label={<p className="text-capitalize"> {t("data_source")} </p>}
             defaultValue={1}
             onChange={(val) => {
               if (val === 4) {
