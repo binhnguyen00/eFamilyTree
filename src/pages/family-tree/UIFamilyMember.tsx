@@ -7,7 +7,7 @@ import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 
-export function UIFamilyMember() {
+function UIFamilyMember() {
   const location = useLocation();
 
   const { data } = location.state || null;
@@ -72,3 +72,5 @@ export function UIFamilyMember() {
     </div>
   )
 }
+
+export default UIFamilyMember;

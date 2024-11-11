@@ -10,7 +10,7 @@ import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 
-export function UIAlbum() {
+function UIAlbum() {
   return (
     <div className="container">
       {CommonComponentUtils.renderHeader(t("album"))}
@@ -88,3 +88,5 @@ function UIImageList() {
     </Grid>
   )
 }
+
+export default UIAlbum;

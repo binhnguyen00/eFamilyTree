@@ -9,7 +9,7 @@ import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 import { FailResponse } from "../../utils/Interface";
 
-export function UIBlog() {
+function UIBlog() {
   return (
     <div className="container">
       {CommonComponentUtils.renderHeader(t("blogs"))}
@@ -19,7 +19,7 @@ export function UIBlog() {
   )
 }
 
-export function UIBlogList() {
+function UIBlogList() {
   const navigate = useNavigate();
   const phoneNumber = useRecoilValue(phoneState);
 
@@ -98,3 +98,5 @@ export function UIBlogList() {
     }
   }
 }
+
+export default UIBlog;

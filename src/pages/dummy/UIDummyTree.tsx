@@ -17,7 +17,7 @@ import odooSample from "pages/family-tree/sample/odoo-sample.json";
 // icons
 import { FcInfo, FcGenealogy } from "react-icons/fc";
 
-export function UIDummyTree() {
+export default function UIDummyTree() {
   const dataSrcKey = {
     1: average,
     2: severalSprouses,

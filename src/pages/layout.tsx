@@ -1,123 +1,121 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { Box } from "zmp-ui";
 import { Route, Routes } from "react-router-dom";
-import { UIBlogDetail } from "./blog/UIBlogDetail";
-import { UIDeveloper } from "./dummy/UIDeveloper";
-import { UIDummyUpcoming } from "./dummy/UIDummyUpcoming";
-import { UICalendar } from "./calendar/UICalendar";
-import { UIFund, UIFundDetail } from "./fund/UIFund";
-import { UIDummyFund, UIDummyFundDetail } from "./dummy/UIDummyFund";
-import { UIDummyTree } from "./dummy/UIDummyTree";
-import { UIDummyCalendar } from "./dummy/UIDummyCalendar";
-import { UIDummyBlog } from "./dummy/UIDummyBlog";
-import { UIDummyAlbum } from "./dummy/UIDummyAlbum";
-import { UIPlayground } from "./dummy/UIPlayground";
-import { UIDummyNavigate } from "./dummy/UIDummyNavigate";
-import { UIFamilyMember } from "./family-tree/UIFamilyMember";
-import { UIAbout } from "./about/UIAbout";
-import { UIAlbum } from "./album/UIAlbum";
-import { UIBlog } from "./blog/UIBlog";
-
 import { t } from "i18next";
-
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
-
-import UIHomePage from "pages/home/UIHome";
-import UIUserDetail from "pages/user/UIUser";
-import UIFamilyTree from "pages/family-tree/UIFamilyTree";
 import UINavigation from "components/common/UINavigation";
 
-function UILayout() { 
+// Lazy load components
+const UIHomePage = lazy(() => import("pages/home/UIHome"));
+const UIUserDetail = lazy(() => import("pages/user/UIUserDetail"));
+const UIFamilyTree = lazy(() => import("pages/family-tree/UIFamilyTree"));
+const UIAbout = lazy(() => import("pages/about/UIAbout"));
+const UIBlog = lazy(() => import("./blog/UIBlog"));
+const UIBlogDetail = lazy(() => import("./blog/UIBlogDetail"));
+const UIFund = lazy(() => import("./fund/UIFund"));
+const UIFundDetail = lazy(() => import("./fund/UIFund"));
+const UICalendar = lazy(() => import("./calendar/UICalendar"));
+const UIAlbum = lazy(() => import("./album/UIAlbum"));
+const UIPlayground = lazy(() => import("./dummy/UIPlayground"));
+const UIDeveloper = lazy(() => import("./dummy/UIDeveloper"));
+const UIDummyUpcoming = lazy(() => import("./dummy/UIDummyUpcoming"));
+const UIFamilyMember = lazy(() => import("./family-tree/UIFamilyMember"));
+
+// Demo components (lazy loaded)
+const UIDummyFund = lazy(() => import("./dummy/UIDummyFund"));
+const UIDummyFundDetail = lazy(() => import("./dummy/UIDummyFundDetail"));
+const UIDummyTree = lazy(() => import("./dummy/UIDummyTree"));
+const UIDummyCalendar = lazy(() => import("./dummy/UIDummyCalendar"));
+const UIDummyBlog = lazy(() => import("./dummy/UIDummyBlog"));
+const UIDummyAlbum = lazy(() => import("./dummy/UIDummyAlbum"));
+const UIDummyNavigate = lazy(() => import("./dummy/UIDummyNavigate"));
+
+// Helper function for rendering fallback loading UI
+const renderLoading = (message) => (
+  <div style={{ height: "100vh" }}>
+    {CommonComponentUtils.renderLoading(message)}
+  </div>
+);
+
+// Component for Main Routes
+function MainRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<UIHomePage />} />
+      <Route path="/family-tree" element={
+        <Suspense fallback={renderLoading(t("loading_family_tree"))}>
+          <UIFamilyTree />
+        </Suspense>
+      } />
+      <Route path="/family-member-info" element={
+        <Suspense fallback={renderLoading(t("loading"))}>
+          <UIFamilyMember />
+        </Suspense>
+      } />
+      <Route path="/about" element={<UIAbout />} />
+      <Route path="/user" element={<UIUserDetail />} />
+      <Route path="/album" element={
+        <Suspense fallback={renderLoading(t("loading_album"))}>
+          <UIAlbum />
+        </Suspense>
+      } />
+      <Route path="/calendar" element={
+        <Suspense fallback={renderLoading(t("loading_calendar"))}>
+          <UICalendar />
+        </Suspense>
+      } />
+      <Route path="/upcoming" element={<UIDummyUpcoming />} />
+      <Route path="/developer" element={<UIDeveloper />} />
+      <Route path="/blogs" element={
+        <Suspense fallback={renderLoading(t("loading_blogs"))}>
+          <UIBlog />
+        </Suspense>
+      } />
+      <Route path="/blog-detail" element={<UIBlogDetail />} />
+      <Route path="/funds" element={
+        <Suspense fallback={renderLoading(t("loading_funds"))}>
+          <UIFund />
+        </Suspense>
+      } />
+      <Route path="/fund-detail" element={<UIFundDetail />} />
+      <Route path="/playground" element={<UIPlayground />} />
+    </Routes>
+  );
+}
+
+// Component for Demo Routes
+function DemoRoutes() {
+  return (
+    <Routes>
+      <Route path="/demo-funds" element={<UIDummyFund />} />
+      <Route path="/demo-fund-detail" element={<UIDummyFundDetail />} />
+      <Route path="/demo-tree" element={<UIDummyTree />} />
+      <Route path="/demo-calendar" element={<UIDummyCalendar />} />
+      <Route path="/demo-blogs" element={<UIDummyBlog />} />
+      <Route path="/demo-album" element={<UIDummyAlbum />} />
+      <Route path="/dummy-detail" element={<UIDummyNavigate />} />
+    </Routes>
+  );
+}
+
+function UILayout() {
   return (
     <Box flex flexDirection="column">
-      <Box className="flex-1 flex flex-col overflow-hidden">
-        <Routes>
-          <Route path="/" element={<UIHomePage/>}/>
+      <Box flex flexDirection="column">
+        {/* Render Main Routes */}
+        <Suspense>
+          <MainRoutes />
+        </Suspense>
 
-          <Route path="/family-tree" element={
-            <React.Suspense fallback={
-              <div style={{ height: "100vh" }}> 
-                {CommonComponentUtils.renderLoading(t("loading_family_tree"))} 
-              </div>
-            }>
-              <UIFamilyTree/>
-            </React.Suspense>
-          }/>
-          <Route path="/family-member-info" element={
-            <React.Suspense fallback={
-              <div style={{ height: "100vh" }}> 
-                {CommonComponentUtils.renderLoading(t("loading"))} 
-              </div>
-            }> 
-              <UIFamilyMember /> 
-            </React.Suspense>}
-          />
-          
-          <Route path="/about" element={<UIAbout/>}/>
-
-          <Route path="/user" element={<UIUserDetail/>}/>
-
-          <Route path="/album" element={
-            <React.Suspense fallback={
-              <div style={{ height: "100vh" }}>
-                {CommonComponentUtils.renderLoading(t("loading_album"))}
-              </div>
-            }>
-              <UIAlbum/>
-            </React.Suspense>
-          }/>
-
-          <Route path="/calendar" element={
-            <React.Suspense fallback={
-              <div style={{ height: "100vh" }}>
-                {CommonComponentUtils.renderLoading(t("loading_calendar"))}
-              </div>
-            }>
-              <UICalendar/>
-            </React.Suspense>
-          }/>
-
-          <Route path="/upcoming" element={<UIDummyUpcoming/>}/>
-
-          <Route path="/developer" element={<UIDeveloper/>}/>
-
-          <Route path="/blogs" element={
-            <React.Suspense fallback={
-              <div style={{ height: "100vh" }}>
-                {CommonComponentUtils.renderLoading(t("loading_blogs"))}
-              </div>
-            }>
-              <UIBlog/>
-            </React.Suspense>
-          }/>
-          <Route path="/blog-detail" element={<UIBlogDetail/>}/>
-
-          <Route path="/funds" element={
-            <React.Suspense fallback={
-              <div style={{ height: "100vh" }}>
-                {CommonComponentUtils.renderLoading(t("loading_funds"))}
-              </div>
-            }>
-              <UIFund/>
-            </React.Suspense>
-          }/>
-          <Route path="/fund-detail" element={<UIFundDetail/>}/>
-
-          <Route path="/demo-funds" element={<UIDummyFund/>}/>
-          <Route path="/demo-fund-detail" element={<UIDummyFundDetail/>}/>
-          <Route path="/demo-tree" element={<UIDummyTree/>}/>
-          <Route path="/demo-calendar" element={<UIDummyCalendar/>}/>
-          <Route path="/demo-blogs" element={<UIDummyBlog/>}/>
-          <Route path="/demo-album" element={<UIDummyAlbum/>}/>
-
-          <Route path="/playground" element={<UIPlayground/>}/>
-          <Route path="/dummy-detail" element={<UIDummyNavigate/>}/>
-        </Routes>
+        {/* Render Demo Routes */}
+        <Suspense fallback={renderLoading(t("loading"))}>
+          <DemoRoutes />
+        </Suspense>
       </Box>
-
-      <UINavigation/>
+      
+      <UINavigation />
     </Box>
-  )
+  );
 }
 
 export default UILayout;

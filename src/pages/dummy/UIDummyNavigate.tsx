@@ -5,17 +5,17 @@ import { t } from "i18next";
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 import { Box } from "zmp-ui";
 
-export function UIDummyNavigate() {
+export default function UIDummyNavigate() {
   const location = useLocation();
   const { data } = location.state || null;
 
   return (
-    <div className="container">
+    <>
       {CommonComponentUtils.renderHeader(t("dummy_detail"))}
 
-      <Box>
+      <Box className="container">
         {JSON.stringify(data, null, 2)}
       </Box>
-    </div>
+    </>
   )
 }

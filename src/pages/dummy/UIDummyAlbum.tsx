@@ -1,16 +1,16 @@
 import React from "react";
-import { Page, Text, Box, ImageViewer, Stack } from "zmp-ui";
+import { Text, Box, ImageViewer, Stack } from "zmp-ui";
 import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 
-export function UIDummyAlbum() {
+export default function UIDummyAlbum() {
   const [visible, setVisible] = React.useState(false);
   const [activeIndex, setActiveIndex] = React.useState(0);
   
   return (
-    <div className="container">
+    <>
       {CommonComponentUtils.renderHeader("Album")}
 
-      <Stack>
+      <Stack className="container">
         <Text size='xSmall' className='input-desc'>
           {"Ảnh Gia Đình"}
         </Text>
@@ -46,7 +46,7 @@ export function UIDummyAlbum() {
           visible={visible}
         />
       </Stack>
-    </div>
+    </>
   );
 }
 

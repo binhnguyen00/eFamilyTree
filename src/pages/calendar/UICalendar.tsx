@@ -20,7 +20,7 @@ interface Event {
   note: string;
 }
 
-export function UICalendar() {
+function UICalendar() {
   const phoneNumber = useRecoilValue(phoneState);
 
   const [ events, setEvents ] = React.useState<Event[]>([]);
@@ -125,3 +125,5 @@ export function UICalendar() {
     </div>
   )
 }
+
+export default UICalendar;

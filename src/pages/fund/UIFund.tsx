@@ -12,7 +12,7 @@ import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { DateTimeUtils } from "../../utils/DateTimeUtils";
 import { FailResponse } from "../../utils/Interface";
 
-export function UIFund() {
+function UIFund() {
   const navigate = useNavigate();
   const phoneNumber = useRecoilValue(phoneState);
 
@@ -201,3 +201,5 @@ export function UIFundDetail() {
     </div>
   )
 }
+
+export default UIFund;

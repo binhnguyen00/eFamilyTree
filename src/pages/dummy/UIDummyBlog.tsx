@@ -16,7 +16,7 @@ const data = [
   }
 ]
 
-export function UIDummyBlog() {
+export default function UIDummyBlog() {
   return (
     <div className="container">
       {CommonComponentUtils.renderHeader(t("blogs"))}

@@ -7,7 +7,7 @@ import { Stack, Text } from "zmp-ui";
 import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 
-export function UIBlogDetail() {
+function UIBlogDetail() {
   const location = useLocation();
   const { blog } = location.state || {
     title: "",
@@ -37,3 +37,5 @@ export function UIBlogDetail() {
     </div>
   )
 }
+
+export default UIBlogDetail

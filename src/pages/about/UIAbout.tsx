@@ -10,7 +10,7 @@ import people from "../../assets/img/people.png";
 import scroll from "../../assets/img/scroll.png";
 import vietnam from "../../assets/img/vietnam.png";
 
-export function UIAbout() {
+function UIAbout() {
   return (
     <>
       {CommonComponentUtils.renderHeader(t("about"), undefined, undefined, false)}
@@ -94,3 +94,5 @@ export function UIAbout() {
     </>
   );
 };
+
+export default UIAbout;

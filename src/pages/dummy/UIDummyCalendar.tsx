@@ -6,7 +6,7 @@ import { CalendarUtils, Event } from "../../utils/CalendarUtils";
 
 import data from "../../pages/calendar/sample/events.json";
 
-export function UIDummyCalendar() {
+export default function UIDummyCalendar() {
   const [selectedInfo, setSelectedInfo] = React.useState<Event[]>([]);
 
   const handleDateSelect = (selectedDate: Date) => {
