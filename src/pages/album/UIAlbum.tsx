@@ -6,6 +6,7 @@ import { useRecoilValue } from "recoil";
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
+import { Grid } from "zmp-ui";
 
 export function UIAlbum() {
   return (
@@ -46,11 +47,22 @@ function UIImageList() {
 
   }, [ reload ]);
 
+  const renderImages = () => {
+    if (!images) return;
+    return images.map((image, index) => {
+      return (
+        <div key={index}>
+          <img src={image.url} />
+        </div>
+      )
+    })
+  }
+
   if (images.length > 0) {
     return (
-      <div>
-
-      </div>
+      <Grid columnCount={4} columnSpace="0.5rem">
+        {renderImages()}
+      </Grid>
     )
   } else {
     if (fetchError) {
