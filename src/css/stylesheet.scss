@@ -1,5 +1,5 @@
-#app {
-  background-color: white;
+body {
+  background-color: white !important;
 }
 
 .flex-v {
@@ -102,13 +102,18 @@ button, .button {
 }
 
 .container {
-  padding-top: 95px;
+  padding-top: 95px !important;
   padding-left: 10px;
   padding-right: 10px;
-  height: 100vh;
-
+  padding-bottom: 100px !important;
+  // height: 100vh;
 
   @media (min-width: 640px) {
     max-width: 100%;
   }
+}
+
+.page-content {
+  padding-top: var(--zaui-safe-area-inset-top, 16px);
+  padding-bottom: var(--zaui-safe-area-inset-bottom, 16px);
 }

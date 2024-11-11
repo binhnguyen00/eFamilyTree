@@ -9,16 +9,15 @@ import logo from "../../assets/img/eFamilyTree.png";
 
 // icons
 import { 
-  FcInfo, FcCalendar, FcGenealogy, FcStackOfPhotos,
+  FcCalendar, FcGenealogy, FcStackOfPhotos,
   FcTemplate, FcMoneyTransfer, FcCommandLine, FcPlanner, FcApproval
 } from "react-icons/fc";
 
-export function UIHomePage() {
+function UIHomePage() {
   const isDevEnv = import.meta.env.DEV;
 
   // keys should be same as Route in ../main.tsx
   const funcKeyMap = {
-    "about": t("about"),
     "family-tree": t("family_tree"),
     "album": t("album"),
     "calendar": t("calendar"),
@@ -70,33 +69,30 @@ export function UIHomePage() {
   }
 
   return (
-    <div className="container" id="home">
+    <>
       {CommonComponentUtils.renderHeader("", "", <img src={logo} alt="logo"/>, false)}
-
-      <Stack space="1rem">
-        <React.Suspense fallback={
-          <Box flex justifyContent='center'> 
-            <Text.Title>{t("loading_user_info")}</Text.Title> 
-          </Box>
-        }>
-          <UIUser/>
-        </React.Suspense>
-        
-        <Grid style={{ padding: "0 1rem" }} columnSpace="1rem" rowSpace="1rem" columnCount={2}>
-          {renderFunctions()}
-        </Grid>
-
-      </Stack>
-      <br />
-
-    </div>
+      
+      <div>
+        <Stack>
+          <React.Suspense fallback={
+            <Box flex justifyContent='center'> 
+              <Text.Title>{t("loading_user_info")}</Text.Title> 
+            </Box>
+          }>
+            <UIUser/>
+          </React.Suspense>
+          
+          <Grid style={{ padding: "0 1rem" }} columnSpace="1rem" rowSpace="1rem" columnCount={2}>
+            {renderFunctions()}
+          </Grid>
+        </Stack>
+      </div>
+    </>
   );
 };
 
 function renderIcon(iconKey: string) { 
   switch (iconKey) {
-    case "about":
-      return <FcInfo key={`ico-${iconKey}`} size={"4.5rem"}/>
     case "family-tree":
       return <FcGenealogy key={`ico-${iconKey}`} size={"4.5rem"}/>
     case "album":
@@ -115,3 +111,5 @@ function renderIcon(iconKey: string) {
       return <FcApproval key={`ico-${iconKey}`} size={"4.5rem"}/>
   }
 }
+
+export default UIHomePage;
