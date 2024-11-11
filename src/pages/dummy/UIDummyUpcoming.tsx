@@ -29,24 +29,6 @@ export function UIDummyUpcoming() {
             {t("hall_of_fame")} 
           </Text.Title>
         </Stack>
-
-        <Stack space="0.5rem">
-          <Button
-            variant="tertiary" 
-            className="box-shadow"
-            style={{
-              height: 120,
-              borderRadius: 30,
-            }}
-          >
-            <FcStackOfPhotos size={"4.5rem"}/>
-          </Button>
-          <Text.Title 
-            style={{ fontWeight: "bold", textAlign: "center", textTransform: "capitalize" }}
-          > 
-            {t("album")} 
-          </Text.Title>
-        </Stack>
       </Grid>
     </div>
   )
