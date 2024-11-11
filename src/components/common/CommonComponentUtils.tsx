@@ -82,11 +82,10 @@ export class CommonComponentUtils {
     return (
       <Stack space="0.5rem" style={{
         textTransform: "capitalize"
-      }}>
+      }} className="center">
         <Text.Title size="normal"> {message} </Text.Title>
         {onRetry && (
           <Button 
-            style={{ width: "10%" }}
             size="small" onClick={onRetry}
           > {t("retry")} </Button>
         )}
@@ -102,7 +101,6 @@ export class CommonComponentUtils {
         <Text.Title size="normal"> {message} </Text.Title>
         {onRetry && (
           <Button 
-            style={{ width: "10%" }}
             size="small" onClick={onRetry}
           > {t("retry")} </Button>
         )}
