@@ -71,7 +71,9 @@ function UIFamilyTree() {
   const renderTree = () => {
     if (familyMembers.length > 0) {
       return (
-        <div style={{ height: "95%" }}>
+        <div className="container max-h">
+          {renderResetTree()}
+
           <TransformWrapper centerOnInit minScale={0.01}>
             {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
               <>
@@ -93,6 +95,7 @@ function UIFamilyTree() {
                     )}
                   />
                 </TransformComponent>
+                
                 <UITreeControl />
               </>
             )}
@@ -145,12 +148,11 @@ function UIFamilyTree() {
   }
 
   return (
-    <div className="container">
+    <>
       {CommonComponentUtils.renderHeader(t("family_tree"))}
 
-      {renderResetTree()}
       {renderTree()}
-    </div>
+    </>
   )
 }
 
