@@ -1,7 +1,6 @@
 import React from "react";
 import { Box } from "zmp-ui";
 import { Route, Routes } from "react-router-dom";
-import { getSystemInfo } from "zmp-sdk/apis";
 import { UIBlogDetail } from "./blog/UIBlogDetail";
 import { UIDeveloper } from "./dummy/UIDeveloper";
 import { UIDummyUpcoming } from "./dummy/UIDummyUpcoming";
@@ -14,10 +13,8 @@ import { UIDummyBlog } from "./dummy/UIDummyBlog";
 import { UIDummyAlbum } from "./dummy/UIDummyAlbum";
 import { UIPlayground } from "./dummy/UIPlayground";
 import { UIDummyNavigate } from "./dummy/UIDummyNavigate";
-import { UIFamilyTree } from "./family-tree/UIFamilyTree";
 import { UIFamilyMember } from "./family-tree/UIFamilyMember";
 import { UIAbout } from "./about/UIAbout";
-import { UIUserDetail } from "./user/UIUser";
 import { UIAlbum } from "./album/UIAlbum";
 import { UIBlog } from "./blog/UIBlog";
 
@@ -25,7 +22,9 @@ import { t } from "i18next";
 
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 
-import UIHomePage from "./home/UIHome";
+import UIHomePage from "pages/home/UIHome";
+import UIUserDetail from "pages/user/UIUser";
+import UIFamilyTree from "pages/family-tree/UIFamilyTree";
 import UINavigation from "components/common/UINavigation";
 
 function UILayout() { 

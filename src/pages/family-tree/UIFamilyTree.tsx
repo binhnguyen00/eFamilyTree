@@ -9,15 +9,15 @@ import { BottomNavigation, Sheet, Grid, Button, Text, ZBox, useNavigate } from "
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
-import FamilyTree from "../../components/tree/FamilyTree";
-import { FailResponse } from "../../utils/Interface";
-import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
-import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
-import { FamilyMember, Node } from "../../components/node/Node";
-import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "../../utils/FamilyTreeUtils";
+import FamilyTree from "components/tree/FamilyTree";
+import Node, { FamilyMember } from "components/node/Node";
+import { CommonComponentUtils } from "components/common/CommonComponentUtils";
+import { FailResponse } from "utils/Interface";
+import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
+import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "utils/FamilyTreeUtils";
 import { FcGenealogy, FcInfo } from "react-icons/fc";
 
-export function UIFamilyTree() {
+function UIFamilyTree() {
   const phoneNumber = useRecoilValue(phoneState);
   const navigate = useNavigate();
 
@@ -188,3 +188,5 @@ export function UITreeControl() {
     </BottomNavigation>
   )
 }
+
+export default UIFamilyTree;

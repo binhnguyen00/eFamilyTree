@@ -2,10 +2,10 @@ import React from "react";
 import { t } from "i18next";
 import { useNavigate, Button, Stack, Text, Box, Grid } from "zmp-ui";
 
-import { UIUser } from "../../pages/user/UIUser";
-import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
+import UIUser from "pages/user/UIUser";
+import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 
-import logo from "../../assets/img/eFamilyTree.png";
+import logo from "assets/img/eFamilyTree.png";
 
 // icons
 import { 
@@ -72,21 +72,19 @@ function UIHomePage() {
     <>
       {CommonComponentUtils.renderHeader("", "", <img src={logo} alt="logo"/>, false)}
       
-      <div>
-        <Stack>
-          <React.Suspense fallback={
-            <Box flex justifyContent='center'> 
-              <Text.Title>{t("loading_user_info")}</Text.Title> 
-            </Box>
-          }>
-            <UIUser/>
-          </React.Suspense>
-          
-          <Grid style={{ padding: "0 1rem" }} columnSpace="1rem" rowSpace="1rem" columnCount={2}>
-            {renderFunctions()}
-          </Grid>
-        </Stack>
-      </div>
+      <Stack className="container" space="1rem">
+        <React.Suspense fallback={
+          <Box flex justifyContent='center'> 
+            <Text.Title>{t("loading_user_info")}</Text.Title> 
+          </Box>
+        }>
+          <UIUser/>
+        </React.Suspense>
+        
+        <Grid style={{ padding: "0 1rem" }} columnSpace="1rem" rowSpace="1rem" columnCount={2}>
+          {renderFunctions()}
+        </Grid>
+      </Stack>
     </>
   );
 };

@@ -23,7 +23,7 @@ interface NodeProps {
   style?: React.CSSProperties;
 }
 
-export function Node({node, displayField, isRoot, onSelectNode, style}: NodeProps) {
+function Node({node, displayField, isRoot, onSelectNode, style}: NodeProps) {
   return (
     <div className='tree-node' style={style}>
       <Box 
@@ -38,3 +38,5 @@ export function Node({node, displayField, isRoot, onSelectNode, style}: NodeProp
     </div>
   )
 }
+
+export default Node;

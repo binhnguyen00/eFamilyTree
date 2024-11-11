@@ -12,37 +12,44 @@ interface MenuItem {
   activeIcon?: React.ReactNode;
 }
 
-const tabs: Record<string, MenuItem> = {
-  "/home": {
-    label: t("home"),
-    icon: <FcHome />,
-  },
-  "/": {
-    label: t("family_tree"),
-    icon: <FcGenealogy />,
-  },
-  "/about": {
-    label: t("about"),
-    icon: <FcInfo />,
-  },
-};
-
-export type TabKeys = keyof typeof tabs;
-
 function UINavigation() {
+
+  const tabs: Record<string, MenuItem> = {
+    "/home": {
+      label: t("home"),
+      icon: <FcHome />,
+    },
+    "/": {
+      label: t("family_tree"),
+      icon: <FcGenealogy />,
+    },
+    "/about": {
+      label: t("about"),
+      icon: <FcInfo />,
+    },
+  };
+  type TabKeys = keyof typeof tabs;
+
   const navigate = useNavigate();
   const location = useLocation();
+
+  const NO_BOTTOM_NAVIGATION_PAGES = ["/family-tree", "/demo-tree"];
+
+  const noBottomNav = React.useMemo(() => {
+    return NO_BOTTOM_NAVIGATION_PAGES.includes(location.pathname);
+  }, [location]);
+
+  if (noBottomNav) return <></>;
 
   return (
     <BottomNavigation
       fixed
-      id="footer"
       activeKey={location.pathname}
       onChange={navigate}
-      className="z-50"
     >
       {Object.keys(tabs).map((path: TabKeys) => (
         <BottomNavigation.Item
+          className="button"
           key={path}
           label={tabs[path].label}
           icon={tabs[path].icon}

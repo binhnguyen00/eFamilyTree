@@ -106,14 +106,12 @@ button, .button {
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 100px !important;
-  // height: 100vh;
 
   @media (min-width: 640px) {
     max-width: 100%;
   }
 }
 
-.page-content {
-  padding-top: var(--zaui-safe-area-inset-top, 16px);
-  padding-bottom: var(--zaui-safe-area-inset-bottom, 16px);
+.max-h {
+  height: 100vh;
 }

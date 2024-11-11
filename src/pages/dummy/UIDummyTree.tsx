@@ -1,18 +1,18 @@
 import React from "react";
 import { t } from "i18next";
-import FamilyTree from "../../components/tree/FamilyTree";
 import { Button, Grid, Select, Sheet, Text, useNavigate, ZBox } from "zmp-ui";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
-import { Node } from "../../components/node/Node";
-import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
+import FamilyTree from "components/tree/FamilyTree";
+import Node from "components/node/Node";
+import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 import { UITreeControl } from "pages/family-tree/UIFamilyTree";
-import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "../../utils/FamilyTreeUtils";
+import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "utils/FamilyTreeUtils";
 
-import average from "../family-tree/sample/average.json";
-import divorced from "../family-tree/sample/divorced.json";
-import severalSprouses from "../family-tree/sample/several-sprouses.json";
-import odooSample from "../family-tree/sample/odoo-sample.json";
+import average from "pages/family-tree/sample/average.json";
+import divorced from "pages/family-tree/sample/divorced.json";
+import severalSprouses from "pages/family-tree/sample/several-sprouses.json";
+import odooSample from "pages/family-tree/sample/odoo-sample.json";
 
 // icons
 import { FcInfo, FcGenealogy } from "react-icons/fc";
@@ -45,11 +45,11 @@ export function UIDummyTree() {
   }
 
   return (
-    <div className="container">
+    <>
       {CommonComponentUtils.renderHeader(t("dummy_tree"))}
 
       {nodes.length > 0 ? (
-        <div style={{ height: "90%" }}>
+        <div className="container max-h">
           <Select
             label={<p className="text-capitalize"> {t("data_source")} </p>}
             defaultValue={1}
@@ -79,7 +79,7 @@ export function UIDummyTree() {
             <Select.Option value={4} title={t("Odoo")} />
           </Select>
 
-          <TransformWrapper centerOnInit minScale={0.01}>
+          <TransformWrapper centerOnInit minScale={0.01} smooth>
             {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
               <>
                 <TransformComponent>
@@ -130,6 +130,6 @@ export function UIDummyTree() {
       ) : (
         <div> Getting members... </div>
       )}
-    </div>
+    </>
   );
 }

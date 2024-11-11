@@ -1,5 +1,5 @@
 import { atom, selector } from "recoil";
-import { ZmpSDK } from "./utils/ZmpSdk";
+import { ZmpSDK } from "./utils/ZmpSDK";
 import { getUserInfo } from "zmp-sdk";
 
 export const requestPhoneTriesState = atom({

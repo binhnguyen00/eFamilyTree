@@ -15,7 +15,7 @@ export function UIAbout() {
     <>
       {CommonComponentUtils.renderHeader(t("about"), undefined, undefined, false)}
 
-      <div className="page-content">
+      <div className="container">
         <Stack space="1rem">
 
           <Swiper loop>
