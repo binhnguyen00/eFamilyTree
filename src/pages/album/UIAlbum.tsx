@@ -25,8 +25,9 @@ function UIImageList() {
   const [ images, setImages ] = React.useState<any[]>([]);
 
   React.useEffect(() => {
-    
+
     const success = (result: any[] | string) => {
+      // result should be a list of image urls
       if (typeof result === 'string') {
         setFetchError(true);
         console.warn(result);
@@ -48,7 +49,7 @@ function UIImageList() {
   if (images.length > 0) {
     return (
       <div>
-        
+
       </div>
     )
   } else {

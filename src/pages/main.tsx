@@ -6,7 +6,6 @@ import { App, ZMPRouter, AnimationRoutes, SnackbarProvider } from "zmp-ui";
 import { UIHomePage } from "./home/UIHome";
 import { UIFamilyTree } from "./family-tree/UIFamilyTree";
 import { UIAbout } from "./about/UIAbout";
-import { UIDummyAlbum } from "./dummy/UIDummyAlbum";
 import { UIDummyUpcoming } from "./dummy/UIDummyUpcoming";
 import { UIPlayground } from "./dummy/UIPlayground";
 import { UIUserDetail } from "./user/UIUser";
@@ -24,6 +23,7 @@ import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 import "../i18n";
 import { UIDummyNavigate } from "./dummy/UIDummyNavigate";
 import { UIFamilyMember } from "./family-tree/UIFamilyMember";
+import { UIAlbum } from "./album/UIAlbum";
 
 export function Application() {
   return (
@@ -57,7 +57,15 @@ export function Application() {
 
               <Route path="/user" element={<UIUserDetail/>}/>
 
-              <Route path="/album" element={<UIDummyAlbum/>}/>
+              <Route path="/album" element={
+                <React.Suspense fallback={
+                  <div style={{ height: "100vh" }}>
+                    {CommonComponentUtils.renderLoading(t("loading_album"))}
+                  </div>
+                }>
+                  <UIAlbum/>
+                </React.Suspense>
+              }/>
 
               <Route path="/calendar" element={
                 <React.Suspense fallback={

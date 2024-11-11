@@ -20,7 +20,7 @@ export function UIHomePage() {
   const funcKeyMap = {
     "about": t("about"),
     "family-tree": t("family_tree"),
-    // "album": t("album"),
+    "album": t("album"),
     "calendar": t("calendar"),
     "blogs": t("blogs"),
     "funds": t("funds"),
