@@ -19,11 +19,12 @@ import { UIFund, UIFundDetail } from "./fund/UIFund";
 import { UIDummyFund, UIDummyFundDetail } from "./dummy/UIDummyFund";
 import { UIDeveloper } from "./dummy/UIDeveloper";
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
-
-import "../i18n";
 import { UIDummyNavigate } from "./dummy/UIDummyNavigate";
 import { UIFamilyMember } from "./family-tree/UIFamilyMember";
 import { UIAlbum } from "./album/UIAlbum";
+import { UIDummyAlbum } from "./dummy/UIDummyAlbum";
+
+import "../i18n";
 
 export function Application() {
   return (
@@ -108,6 +109,7 @@ export function Application() {
               <Route path="/demo-tree" element={<UIDummyTree/>}/>
               <Route path="/demo-calendar" element={<UIDummyCalendar/>}/>
               <Route path="/demo-blogs" element={<UIDummyBlog/>}/>
+              <Route path="/demo-album" element={<UIDummyAlbum/>}/>
 
               <Route path="/playground" element={<UIPlayground/>}/>
               <Route path="/dummy-detail" element={<UIDummyNavigate/>}/>

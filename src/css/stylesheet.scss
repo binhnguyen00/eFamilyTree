@@ -33,10 +33,21 @@
 }
 
 .center {
+  display: flex;
   justify-content: "center";
   align-items: center;
   align-content: center;
   text-align: center;
+}
+
+.squared {
+  display: flex;               // Center content
+  align-items: center;         // Vertically center content
+  justify-content: center;     // Horizontally center content
+  aspect-ratio: 1;             // Makes it a square
+  border: 1px solid #333;      // Adds a border
+  border-radius: 8px;          // Soft rounded corners
+  padding: 10px;               // Optional: Adds some internal padding
 }
 
 .border {

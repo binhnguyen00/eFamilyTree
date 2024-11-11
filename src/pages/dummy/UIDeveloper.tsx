@@ -2,13 +2,14 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Grid, Stack, Text, useNavigate } from "zmp-ui";
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
-import { FcApproval, FcCalendar, FcGenealogy, FcMoneyTransfer, FcTemplate, FcBiotech } from "react-icons/fc";
+import { FcApproval, FcCalendar, FcGenealogy, FcMoneyTransfer, FcTemplate, FcBiotech, FcStackOfPhotos } from "react-icons/fc";
 
 
 export function UIDeveloper() {
   // keys should be same as Route in ../main.tsx
   const funcKeyMap = {
     "playground": t("playground"),
+    "demo-album": t("album"),
     "demo-funds": t("demo_funds"),
     "demo-tree": t("demo_tree"),
     "demo-calendar": t("demo_calendar"),
@@ -78,6 +79,8 @@ function renderIcon(iconKey: string) {
       return <FcCalendar size={"4.5rem"}/>
     case "demo-blogs":
       return <FcTemplate size={"4.5rem"}/>
+    case "demo-album":
+      return <FcStackOfPhotos size={"4.5rem"}/>
     default: 
       return <FcApproval size={"4.5rem"}/>
   }

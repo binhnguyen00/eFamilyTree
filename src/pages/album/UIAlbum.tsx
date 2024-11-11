@@ -1,12 +1,14 @@
 import React from "react";
+import { FcAddImage } from "react-icons/fc";
 import { t } from "i18next";
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
+import { Grid } from "zmp-ui";
+import { openMediaPicker } from "zmp-sdk/apis";
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
-import { Grid } from "zmp-ui";
 
 export function UIAlbum() {
   return (
@@ -22,7 +24,6 @@ function UIImageList() {
 
   const phoneNumber = useRecoilValue(phoneState);
   const [ reload, setReload ] = React.useState(false);
-  const [ fetchError, setFetchError ] = React.useState(false);
   const [ images, setImages ] = React.useState<any[]>([]);
 
   React.useEffect(() => {
@@ -30,16 +31,13 @@ function UIImageList() {
     const success = (result: any[] | string) => {
       // result should be a list of image urls
       if (typeof result === 'string') {
-        setFetchError(true);
         console.warn(result);
       } else {
-        setFetchError(false);
-        setImages(result || []);
+        setImages(result || [] as any[]);
       }
     }
 
     const fail = (error: FailResponse) => {
-      setFetchError(true);
       console.error(error.stackTrace);
     }
 
@@ -49,24 +47,44 @@ function UIImageList() {
 
   const renderImages = () => {
     if (!images) return;
-    return images.map((image, index) => {
-      return (
+    let html = [] as React.ReactNode[];
+    images.map((image, index) => {
+      html.push(
         <div key={index}>
           <img src={image.url} />
         </div>
       )
     })
+    html.push(renderAddButton());
+    return html;
   }
 
-  if (images.length > 0) {
+  const renderAddButton = () => {
+    const addImage = () => {
+      openMediaPicker({
+        serverUploadUrl: "",
+        type: "photo",
+          success: (res) => {
+            const { data } = res;
+            const result = JSON.parse(data);
+            console.log(result);
+          },
+          fail: (error) => {
+            console.log(error);
+          },
+      })
+    }
+
     return (
-      <Grid columnCount={4} columnSpace="0.5rem">
-        {renderImages()}
-      </Grid>
+      <div className="button squared">
+        <FcAddImage size={"4.5em"} onClick={addImage} />
+      </div>
     )
-  } else {
-    if (fetchError) {
-      return CommonComponentUtils.renderError(t("server_error"), () => setReload(!reload));
-    } else return CommonComponentUtils.renderLoading(t("no_album"));
   }
+
+  return (
+    <Grid columnCount={4} columnSpace="0.5rem" rowSpace="0.5rem">
+      {images.length > 0 ? renderImages() : renderAddButton()}
+    </Grid>
+  )
 }
