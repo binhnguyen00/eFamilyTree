@@ -35,6 +35,7 @@
   "search": "Tìm kiếm",
   "developer": "Nhà phát triển",
   "hall_of_fame": "vinh danh",
+  "dummy_detail": "Chi tiết",
 
   "loading_blogs": "Đang tải bài đăng...",
   "no_blogs": "Chưa có bài đăng nào",
@@ -56,5 +57,5 @@
   "search_funds": "Tìm kiêm quỹ",
 
   "btn_tree_member_info": "thông tin",
-  "btn_tree_member_detail": "nhánh thành viên"
+  "btn_tree_member_detail": "nhánh"
 }

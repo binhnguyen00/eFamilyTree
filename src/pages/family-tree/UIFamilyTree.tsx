@@ -15,6 +15,7 @@ import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 import { FamilyMember, Node } from "../../components/node/Node";
 import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "../../utils/FamilyTreeUtils";
+import { FcGenealogy, FcInfo } from "react-icons/fc";
 
 export function UIFamilyTree() {
   const phoneNumber = useRecoilValue(phoneState);
@@ -101,7 +102,6 @@ export function UIFamilyTree() {
             visible={selectId !== ""}
             onClose={() => { setSelectId("") }}
             autoHeight
-            mask
             handler
             swipeToClose
           >
@@ -110,10 +110,10 @@ export function UIFamilyTree() {
             } </Text>
             <ZBox padding="1rem">
               <Grid columnCount={2} columnSpace="0.2rem">
-                <Button onClick={showMemberDetail}>
+                <Button variant="secondary" onClick={showMemberDetail} prefixIcon={<FcInfo size={24}/>}>
                   {t("btn_tree_member_info")}
                 </Button>
-                <Button onClick={renderTreeBranch}>
+                <Button variant="secondary" onClick={renderTreeBranch} prefixIcon={<FcGenealogy size={24}/>}>
                   {t("btn_tree_member_detail")}
                 </Button>
               </Grid>

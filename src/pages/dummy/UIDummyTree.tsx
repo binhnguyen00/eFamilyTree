@@ -6,13 +6,16 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import { Node } from "../../components/node/Node";
 import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
+import { UITreeControl } from "pages/family-tree/UIFamilyTree";
 import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "../../utils/FamilyTreeUtils";
 
 import average from "../family-tree/sample/average.json";
 import divorced from "../family-tree/sample/divorced.json";
 import severalSprouses from "../family-tree/sample/several-sprouses.json";
 import odooSample from "../family-tree/sample/odoo-sample.json";
-import { UITreeControl } from "pages/family-tree/UIFamilyTree";
+
+// icons
+import { FcInfo, FcGenealogy } from "react-icons/fc";
 
 export function UIDummyTree() {
   const dataSrcKey = {
@@ -109,15 +112,16 @@ export function UIDummyTree() {
             mask
             handler
             swipeToClose
+            title="Thành Viên"
           >
             <Text className="center"> {selectId} </Text>
             <ZBox padding="1rem">
               <Grid columnCount={2} columnSpace="1rem" rowSpace="1rem">
-                <Button onClick={showMemberDetail}>
-                  {t("tree_member_info")}
+                <Button variant="secondary" onClick={showMemberDetail} prefixIcon={<FcInfo size={24}/>}>
+                  {t("btn_tree_member_info")}
                 </Button>
-                <Button onClick={renderTreeBranch}>
-                  {t("tree_member_detail")}
+                <Button variant="secondary" onClick={renderTreeBranch} prefixIcon={<FcGenealogy size={24}/>}>
+                  {t("btn_tree_member_detail")}
                 </Button>
               </Grid>
             </ZBox>
