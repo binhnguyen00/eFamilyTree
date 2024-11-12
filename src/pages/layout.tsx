@@ -16,7 +16,7 @@ const UIAbout = lazy(() => import("pages/about/UIAbout"));
 const UIBlog = lazy(() => import("./blog/UIBlog"));
 const UIBlogDetail = lazy(() => import("./blog/UIBlogDetail"));
 const UIFund = lazy(() => import("./fund/UIFund"));
-const UIFundDetail = lazy(() => import("./fund/UIFund"));
+const UIFundDetail = lazy(() => import("./fund/UIFundDetail"));
 const UICalendar = lazy(() => import("./calendar/UICalendar"));
 const UIAlbum = lazy(() => import("./album/UIAlbum"));
 const UIPlayground = lazy(() => import("./dummy/UIPlayground"));

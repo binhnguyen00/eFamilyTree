@@ -14,7 +14,7 @@ import UIHeader from "components/common/UIHeader";
 function UIBlog() {
   return (
     <div className="container">
-      <UIHeader title={t("blog")}/>
+      <UIHeader title={t("blogs")}/>
 
       <UIBlogList />
     </div>
