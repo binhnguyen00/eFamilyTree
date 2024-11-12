@@ -48,13 +48,12 @@ body {
   aspect-ratio: 1;             // Makes it a square
   border: 1px solid #333;      // Adds a border
   border-radius: 8px;          // Soft rounded corners
-  padding: 10px;               // Optional: Adds some internal padding
 }
 
 .border {
   border: black;
   border-style: solid;
-  border-width: 1px;
+  border-width: 0.5px;
 }
 
 .text {
@@ -115,4 +114,8 @@ button, .button {
 
 .max-h {
   height: 100vh;
+}
+
+.rounded {
+  border-radius: 10px;
 }

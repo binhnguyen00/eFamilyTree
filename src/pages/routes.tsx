@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { AnimationRoutes, Box } from "zmp-ui";
 import { t } from "i18next";
 
@@ -9,6 +9,7 @@ import UINavigation from "components/common/UINavigation";
 import UIHome from "pages/home/UIHome";
 import UIAbout from "pages/about/UIAbout";
 import UIFamilyTreeHome from "pages/family-tree/UIFamilyTreeHome";
+import UIImageList from "./album/UIImageList";
 
 // Lazy load components
 const UIUserDetail = lazy(() => import("pages/user/UIUserDetail"));
@@ -54,6 +55,11 @@ function MainRoutes() {
       <Route path="/album" element={
         <Suspense fallback={CommonComponentUtils.renderLoading(t("loading_album"))}>
           <UIAlbum />
+        </Suspense>
+      } />
+      <Route path="/album/image-list" element={
+        <Suspense fallback={CommonComponentUtils.renderLoading(t("loading_album"))}>
+          <UIImageList />
         </Suspense>
       } />
       <Route path="/calendar" element={

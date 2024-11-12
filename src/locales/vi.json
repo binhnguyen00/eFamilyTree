@@ -12,7 +12,7 @@
   "loading": "Đang tải...",
   "quit": "Thoát",
   "about": "Giới Thiệu",
-  "album": "Album Ảnh",
+  "album": "album",
   "blogs": "Bài Đăng",
   "calendar": "Sự Kiện sắp tới",
   "upcoming": "Sắp ra mắt",
@@ -36,6 +36,10 @@
   "developer": "Nhà phát triển",
   "hall_of_fame": "vinh danh",
   "dummy_detail": "Chi tiết",
+
+  "loading_album": "Đang tải album...",
+  "no_album": "Chưa có album nào",
+  "image_list": "ảnh",
 
   "loading_blogs": "Đang tải bài đăng...",
   "no_blogs": "Chưa có bài đăng nào",

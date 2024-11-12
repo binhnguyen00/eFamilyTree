@@ -38,6 +38,10 @@
   "hall_of_fame": "Hall of Fame",
   "dummy_detail": "Dummy Detail",
 
+  "loading_album": "loading album...",
+  "no_album": "no album",
+  "image_list": "Images",
+
   "loading_blog": "Loading Blogs...",
   "no_blogs": "No Blogs available",
   "detail_blog": "Detail Blog",
