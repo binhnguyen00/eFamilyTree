@@ -25,6 +25,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.23.0",
+    "react-swipeable": "^7.0.2",
     "recoil": "^0.7.7",
     "zmp-sdk": "^2.41.0",
     "zmp-ui": "^1.11.5",
@@ -58,6 +59,7 @@
     "dompurify": "^3.1.7",
     "react-icons": "^5.2.1",
     "react-zoom-pan-pinch": "^3.6.1",
-    "relatives-tree": "^3.2.1"
+    "relatives-tree": "^3.2.1",
+    "react-swipeable": "^7.0.2"
   }
 }
