@@ -1,8 +1,10 @@
 import React, { lazy, Suspense } from "react";
 import { Box } from "zmp-ui";
-import { Route, Routes } from "react-router-dom";
 import { t } from "i18next";
+import { AnimationRoutes } from "zmp-ui";
+import { Route, Routes } from "react-router-dom";
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
+
 import UINavigation from "components/common/UINavigation";
 
 // Lazy load components
@@ -41,7 +43,7 @@ const renderLoading = (message) => (
 // Component for Main Routes
 function MainRoutes() {
   return (
-    <Routes>
+    <AnimationRoutes>
       <Route path="/" element={<UIHome />} />
       <Route path="/family-tree-home" element={<UIFamilyTreeHome />} />
       <Route path="/family-tree" element={
@@ -81,14 +83,14 @@ function MainRoutes() {
       } />
       <Route path="/fund-detail" element={<UIFundDetail />} />
       <Route path="/playground" element={<UIPlayground />} />
-    </Routes>
+    </AnimationRoutes>
   );
 }
 
 // Component for Demo Routes
 function DemoRoutes() {
   return (
-    <Routes>
+    <AnimationRoutes>
       <Route path="/demo-funds" element={<UIDummyFund />} />
       <Route path="/demo-fund-detail" element={<UIDummyFundDetail />} />
       <Route path="/demo-tree" element={<UIDummyTree />} />
@@ -96,13 +98,14 @@ function DemoRoutes() {
       <Route path="/demo-blogs" element={<UIDummyBlog />} />
       <Route path="/demo-album" element={<UIDummyAlbum />} />
       <Route path="/dummy-detail" element={<UIDummyNavigate />} />
-    </Routes>
+    </AnimationRoutes>
   );
 }
 
 function UILayout() {
   return (
     <Box flex flexDirection="column">
+
       <Box flex flexDirection="column">
         {/* Render Main Routes */}
         <Suspense>

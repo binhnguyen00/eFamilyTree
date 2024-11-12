@@ -9,9 +9,9 @@ import "../i18n";
 function Application() {
   return (
     <RecoilRoot>
-      <App theme="light">
+      <App>
         <SnackbarProvider>
-          <ZMPRouter memoryRouter>
+          <ZMPRouter>
             <UILayout/>
           </ZMPRouter>
         </SnackbarProvider>

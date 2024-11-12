@@ -12,7 +12,7 @@ interface HeaderProps {
 export default function UIHeader(props: HeaderProps) {
   const navigate = useNavigate();
   let { title, subtitle, showBackIcon, logo } = props;
-  if (!showBackIcon) showBackIcon = true;
+  if (showBackIcon === undefined || showBackIcon === null) showBackIcon = true;
 
   return (
     <Box flex flexDirection="row" justifyContent="flex-start">
