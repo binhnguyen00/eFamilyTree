@@ -5,7 +5,7 @@ import { requestPhoneTriesState } from "states";
 
 import { Button } from "zmp-ui";
 
-export function UIRequestLogin() {
+export function UILoginButton() {
   const retry = useSetRecoilState(requestPhoneTriesState);
   return (
     <Button size="small" onClick={() => retry(r => r + 1)}>

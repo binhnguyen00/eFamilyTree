@@ -4,14 +4,14 @@ import { phoneState, userState } from "states";
 
 import UIHeader from "components/common/UIHeader";
 import { Avatar, Box, Text, useNavigate } from "zmp-ui";
-import { UIRequestLogin } from "./UIRequestLogin";
+import { UILoginButton } from "./UILoginButton";
 
 export function UIHeaderUser() {
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
   const phone = useRecoilValue(phoneState);
 
-  if (!phone) return <UIRequestLogin/>
+  if (!phone) return <UILoginButton/>
   else {
     const UIUserInfo = () => {
       return (
