@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Grid, Select, Sheet, Text, useNavigate, ZBox } from "zmp-ui";
+import { Box, Button, Grid, Select, Sheet, Text, useNavigate, ZBox } from "zmp-ui";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import FamilyTree from "components/tree/FamilyTree";
@@ -46,12 +46,10 @@ export default function UIDummyTree() {
     setNodes(treeBranch);
   }
 
-  return (
-    <div className="container">
-      <UIHeader title={t("dummy_tree")}/>
-
-      {nodes.length > 0 ? (
-        <div className="container max-h">
+  const renderTree = () => {
+    if (nodes.length > 0) {
+      return (
+        <div className="max-h">
           <Select
             label={<p className="text-capitalize"> {t("data_source")} </p>}
             defaultValue={1}
@@ -102,6 +100,7 @@ export default function UIDummyTree() {
                     )}
                   />
                 </TransformComponent>
+                
                 <UITreeControl />
               </>
             )}
@@ -128,10 +127,19 @@ export default function UIDummyTree() {
               </Grid>
             </ZBox>
           </Sheet>
+
         </div>
-      ) : (
-        <div> Getting members... </div>
-      )}
+      )
+    } else return (
+      CommonComponentUtils.renderLoading(t("loading"))
+    )
+  }
+
+  return (
+    <div className="container">
+      <UIHeader title={t("dummy_tree")}/>
+
+      {renderTree()}
     </div>
-  );
+  )
 }

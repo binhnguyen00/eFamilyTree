@@ -2,9 +2,6 @@ import React from "react";
 import { t } from "i18next";
 import { useNavigate, Button, Stack, Text, Box, Grid } from "zmp-ui";
 
-import { CommonComponentUtils } from "components/common/CommonComponentUtils";
-
-import UIUser from "pages/user/UIUser";
 import logo from "assets/img/eFamilyTree.png";
 
 // icons
@@ -13,6 +10,8 @@ import {
   FcTemplate, FcMoneyTransfer, FcCommandLine, FcPlanner, FcApproval
 } from "react-icons/fc";
 import UIHeader from "components/common/UIHeader";
+
+import UIUser from "pages/user/UIUser";
 
 function UIFamilyTreeHome() {
   const isDevEnv = import.meta.env.DEV;
