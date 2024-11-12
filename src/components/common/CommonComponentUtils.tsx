@@ -47,20 +47,6 @@ export class CommonComponentUtils {
     )
   }
 
-  public static renderSearchBar(searchBar: SearchBar) {
-    const isEmpty = (obj: SearchBar) => Object.keys(obj).length === 0;
-    if (isEmpty(searchBar)) return <></>;
-    if (!searchBar.onSearch) {
-      searchBar.onSearch = (text: string) => console.log(text);
-    }
-    return (
-      <Input.Search
-        placeholder={searchBar.placeholder || "..."}
-        onSearch={searchBar.onSearch}
-      />
-    )
-  }
-
   public static renderLoading(message: string) {
     return (
       <Box flex flexDirection="column" justifyContent="center" alignItems="center">

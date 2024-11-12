@@ -7,6 +7,7 @@ import { Box, List, Text, useNavigate } from "zmp-ui";
 
 import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 import { DateTimeUtils } from "utils/DateTimeUtils";
+import UISearchBar from "components/common/UISearchBar";
 
 const data = [
   {
@@ -138,12 +139,10 @@ export default function UIDummyFund() {
       {CommonComponentUtils.renderHeader(t("funds"))}
 
       <div className="container">
-        {CommonComponentUtils.renderSearchBar({
-          placeholder: t("search_funds"),
-          onSearch(text, event) {
-            console.log(text);
-          },
-        })}
+        <UISearchBar 
+          placeholder={t("search_funds")}
+          onSearch={(text, event) => console.log(text)}
+        />
 
         {renderFunds()}
       </div>

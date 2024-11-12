@@ -11,6 +11,7 @@ import { CommonComponentUtils } from "../../components/common/CommonComponentUti
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 import { DateTimeUtils } from "../../utils/DateTimeUtils";
 import { FailResponse } from "../../utils/Interface";
+import UISearchBar from "components/common/UISearchBar";
 
 function UIFund() {
   const navigate = useNavigate();
@@ -99,12 +100,10 @@ function UIFund() {
     if (funds.length > 0) {
       return (
         <>
-          {CommonComponentUtils.renderSearchBar({
-            placeholder: t("search_funds"),
-            onSearch(text, event) {
-              console.log(text);
-            },
-          })}
+          <UISearchBar 
+            placeholder={t("search_funds")}
+            onSearch={(text, event) => console.log(text)}
+          />
           {renderFundList()}
         </>
       )
@@ -190,12 +189,10 @@ export function UIFundDetail() {
     <div className="container">
       {CommonComponentUtils.renderHeader(fund["name"])}
 
-      {CommonComponentUtils.renderSearchBar({
-        placeholder: t("search_funds"),
-        onSearch(text, event) {
-          console.log(text);
-        },
-      })}
+      <UISearchBar 
+        placeholder={t("search_funds")}
+        onSearch={(text, event) => console.log(text)}
+      />
 
       {renderIOComes()}
     </div>
