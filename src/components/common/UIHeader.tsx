@@ -3,15 +3,16 @@ import { IoIosArrowBack } from "react-icons/io";
 import { Box, Stack, Text, useNavigate } from "zmp-ui";
 
 interface HeaderProps {
-  title: string;
+  title?: string;
   subtitle?: string;
   logo?: React.ReactNode;
   showBackIcon?: boolean;
+  customRender?: React.ReactNode;
 }
 
 export default function UIHeader(props: HeaderProps) {
   const navigate = useNavigate();
-  let { title, subtitle, showBackIcon, logo } = props;
+  let { title, subtitle, showBackIcon, logo, customRender } = props;
   if (showBackIcon === undefined || showBackIcon === null) showBackIcon = true;
 
   return (
@@ -28,15 +29,17 @@ export default function UIHeader(props: HeaderProps) {
             }}
           />
         )}
-        <Box flex flexDirection="row" justifyContent="flex-start">
-          {logo && (logo)}
-          <Stack>
-            <Text.Title style={{ textTransform: "capitalize" }}>
-              {title}
-            </Text.Title>
-            <Text size="xSmall">{subtitle}</Text>
-          </Stack>
-        </Box>
+        {customRender ? customRender : (
+          <Box flex flexDirection="row" justifyContent="flex-start">
+            {logo && (logo)}
+            <Stack>
+              <Text.Title style={{ textTransform: "capitalize" }}>
+                {title}
+              </Text.Title>
+              <Text size="xSmall">{subtitle}</Text>
+            </Stack>
+          </Box>
+        )}
       </Box>
     </Box>
   )

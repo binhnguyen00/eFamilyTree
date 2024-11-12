@@ -8,6 +8,7 @@ import "./css/stylesheet.scss";
 import "./css/album.scss";
 import "./css/font.scss";
 import "./css/tree-node.scss";
+import "./css/bootstrap.scss";
 
 // ZaUI stylesheet
 import "zmp-ui/zaui.css";
