@@ -1,5 +1,6 @@
 import React from "react";
 
+import { t } from "i18next";
 import { Stack, Swiper, Text } from "zmp-ui";
 
 import slide_01 from "assets/img/about-swiper-1.jpg";
@@ -8,7 +9,7 @@ import slide_02 from "assets/img/about-swiper-2.jpg";
 export function UIHomeSlider() {
   return (
     <Stack space="0.5rem">
-      <Text.Title> {"Giới Thiệu"} </Text.Title>
+      <Text.Title> {t("family_tree")} </Text.Title>
       <Swiper loop>
         <Swiper.Slide>
           <img

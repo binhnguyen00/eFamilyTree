@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Box, Button, Stack, Text, useNavigate, ZBox } from "zmp-ui";
+import { Button, Grid, Stack, Text, useNavigate } from "zmp-ui";
 import { FcApproval, FcCalendar, FcCommandLine, FcGenealogy, FcMoneyTransfer, FcPlanner, FcStackOfPhotos, FcTemplate } from "react-icons/fc";
 
 export function UIAppList() {
@@ -19,7 +19,7 @@ export function UIAppList() {
     let html = [] as React.ReactNode[];
     Object.keys(funcKeyMap).forEach(key => {
       const label = funcKeyMap[key] as string;
-      html.push(<AppButton appKey={key} label={label}/>)
+      html.push(<AppButton key={key} appKey={key} label={label}/>)
     });
 
     return html
@@ -28,9 +28,9 @@ export function UIAppList() {
   return (
     <Stack space="0.5rem">
       <Text.Title> {"Tiện Ích"} </Text.Title>
-      <Box flex flexDirection='row' className="scrollable">
+      <Grid columnCount={4}>
         {renderApps()}
-      </Box>
+      </Grid>
     </Stack>
   )
 }
@@ -42,16 +42,16 @@ function AppButton({appKey, label}: { appKey: string; label: string; }) {
   };
 
   return (
-    <Stack space="1rem">
+    <Stack space="1rem" className="button">
       <Button key={`app-${appKey}`} variant="tertiary" onClick={() => navigatePage(appKey)}> 
-        <AppIcon key={`icon-${appKey}`} iconKey={appKey}/> 
+        <AppIcon key={`ico-${appKey}`} iconKey={appKey}/> 
       </Button>
-      <Text.Title 
+      <Text
         key={`title-${appKey}`} size="small" 
-        style={{ fontWeight: "bold", textTransform: "capitalize", textAlign: "center" }}
+        style={{ textTransform: "capitalize", textAlign: "center" }}
       >
         {label}
-      </Text.Title>
+      </Text>
     </Stack>
   )
 }
