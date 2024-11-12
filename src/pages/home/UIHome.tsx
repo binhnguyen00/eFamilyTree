@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 
 import { t } from 'i18next';
 
-import { CommonComponentUtils } from 'components/common/CommonComponentUtils';
 import { Box, Stack } from 'zmp-ui';
+
+import UIHeader from 'components/common/UIHeader';
 
 const UIHome = () => {
   const [posts] = useState([
@@ -24,46 +25,44 @@ const UIHome = () => {
   ]);
 
   return (
-    <>
-      {CommonComponentUtils.renderHeader(t("home"), undefined, undefined, false)}
+    <div className='container'>
+      <UIHeader title={t("home")} showBackIcon={false}/>
       
-      <div className="container">
-        {/* <section style={{ overflowX: 'auto', whiteSpace: 'nowrap', padding: '10px 0' }}>
-          {stories.map((story) => (
-            <div key={story.id} style={{ display: 'inline-block', marginRight: '10px' }}>
-              <div style={{ width: '100px', height: '150px', backgroundColor: '#1877f2', borderRadius: '10px', color: 'white', display: 'flex', alignItems: 'flex-end', padding: '10px', boxSizing: 'border-box' }}>
-                <span>{story.user}</span>
-              </div>
+      {/* <section style={{ overflowX: 'auto', whiteSpace: 'nowrap', padding: '10px 0' }}>
+        {stories.map((story) => (
+          <div key={story.id} style={{ display: 'inline-block', marginRight: '10px' }}>
+            <div style={{ width: '100px', height: '150px', backgroundColor: '#1877f2', borderRadius: '10px', color: 'white', display: 'flex', alignItems: 'flex-end', padding: '10px', boxSizing: 'border-box' }}>
+              <span>{story.user}</span>
             </div>
-          ))}
-        </section> */}
+          </div>
+        ))}
+      </section> */}
 
-        <Stack space='1rem' aria-label="News Feed">
-          {posts.map((post) => (
-            <div key={post.id} className='box-shadow' style={{ padding: 10 }}>
-              <div>
-                <Box flex flexDirection='row' alignContent='center'>
-                  <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: '#ccc', marginRight: '10px' }}></div>
-                  <h3 style={{ margin: 0 }}>{post.user}</h3>
-                </Box>
-                  <span style={{ color: '#65676b', fontSize: '12px' }}>2 giờ trước</span>
-              </div>
-
-              <p>{post.content}</p>
-              <br />
-
-              <img src={post.img}/>
-
-              <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid #ccc', paddingTop: '10px' }}>
-                <button style={actionButtonStyle}>Thích ({post.likes})</button>
-                <button style={actionButtonStyle}>Bình Luận</button>
-                <button style={actionButtonStyle}>Chia Sẻ</button>
-              </div>
+      <Stack space='1rem' aria-label="News Feed">
+        {posts.map((post) => (
+          <div key={post.id} className='box-shadow' style={{ padding: 10 }}>
+            <div>
+              <Box flex flexDirection='row' alignContent='center'>
+                <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: '#ccc', marginRight: '10px' }}></div>
+                <h3 style={{ margin: 0 }}>{post.user}</h3>
+              </Box>
+                <span style={{ color: '#65676b', fontSize: '12px' }}>2 giờ trước</span>
             </div>
-          ))}
-        </Stack>
-      </div>
-    </>
+
+            <p>{post.content}</p>
+            <br />
+
+            <img src={post.img}/>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid #ccc', paddingTop: '10px' }}>
+              <button style={actionButtonStyle}>Thích ({post.likes})</button>
+              <button style={actionButtonStyle}>Bình Luận</button>
+              <button style={actionButtonStyle}>Chia Sẻ</button>
+            </div>
+          </div>
+        ))}
+      </Stack>
+    </div>
   );
 };
 
