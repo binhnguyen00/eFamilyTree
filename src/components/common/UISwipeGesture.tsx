@@ -12,6 +12,7 @@ const UISwipeGesture = ({ children }) => {
         navigate(-1);
       }
     },
+    preventScrollOnSwipe: true,
     trackTouch: true,
   });
 

@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import { Box } from "zmp-ui";
+import { AnimationRoutes, Box } from "zmp-ui";
 import { t } from "i18next";
 
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
@@ -36,7 +36,7 @@ const UIDummyNavigate = lazy(() => import("./dummy/UIDummyNavigate"));
 // Component for Main Routes
 function MainRoutes() {
   return (
-    <Routes>
+    <AnimationRoutes>
       <Route path="/" element={<UIHome />} />
       <Route path="/family-tree-home" element={<UIFamilyTreeHome />} />
       <Route path="/family-tree" element={
@@ -76,7 +76,7 @@ function MainRoutes() {
       } />
       <Route path="/fund-detail" element={<UIFundDetail />} />
       <Route path="/playground" element={<UIPlayground />} />
-    </Routes>
+    </AnimationRoutes>
   );
 }
 

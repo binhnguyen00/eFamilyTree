@@ -12,9 +12,7 @@ function Application() {
       <App>
         <SnackbarProvider>
           <ZMPRouter>
-            <UISwipeGesture>
-              <UILayout/>
-            </UISwipeGesture>
+            <UILayout/>
           </ZMPRouter>
         </SnackbarProvider>
       </App>
