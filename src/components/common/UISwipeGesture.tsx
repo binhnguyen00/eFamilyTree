@@ -7,11 +7,12 @@ const UISwipeGesture = ({ children }) => {
   const location = useLocation();
 
   const handlers = useSwipeable({
-    onSwipedRight: () => {
+    onSwipedRight: (eventData) => {
       if (location.pathname !== '/') {
         navigate(-1);
       }
     },
+    onTouchStartOrOnMouseDown: (({ event }) => event.preventDefault()),
     preventScrollOnSwipe: true,
     trackTouch: true,
   });

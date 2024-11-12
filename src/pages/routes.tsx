@@ -83,7 +83,7 @@ function MainRoutes() {
 // Component for Demo Routes
 function DemoRoutes() {
   return (
-    <Routes>
+    <AnimationRoutes>
       <Route path="/demo-funds" element={<UIDummyFund />} />
       <Route path="/demo-fund-detail" element={<UIDummyFundDetail />} />
       <Route path="/demo-tree" element={<UIDummyTree />} />
@@ -91,11 +91,11 @@ function DemoRoutes() {
       <Route path="/demo-blogs" element={<UIDummyBlog />} />
       <Route path="/demo-album" element={<UIDummyAlbum />} />
       <Route path="/dummy-detail" element={<UIDummyNavigate />} />
-    </Routes>
+    </AnimationRoutes>
   );
 }
 
-function UILayout() {
+function UIRoutes() {
   return (
     <Box flex flexDirection="column">
 
@@ -116,4 +116,4 @@ function UILayout() {
   );
 }
 
-export default UILayout;
+export default UIRoutes;
