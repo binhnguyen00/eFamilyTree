@@ -5,10 +5,22 @@ import { requestPhoneTriesState } from "states";
 
 import { Button } from "zmp-ui";
 
-export function UILoginButton() {
+interface UILoginButtonProps {
+  size?: "small" | "medium" | "large";
+  onClickCallBack?: () => void;
+}
+export function UILoginButton(props: UILoginButtonProps) {
+  let { onClickCallBack, size } = props;
+  if (!size) size = "small";
+  if (!onClickCallBack) onClickCallBack = () => {};
+
   const retry = useSetRecoilState(requestPhoneTriesState);
+  
   return (
-    <Button size="small" onClick={() => retry(r => r + 1)}>
+    <Button size={size} onClick={() => {
+      retry(r => r + 1);
+      onClickCallBack();
+    }}>
       {t("login")}
     </Button>
   )

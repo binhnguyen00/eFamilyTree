@@ -1,58 +1,88 @@
 import React from "react";
+import { Box, Button, Grid, Sheet, Stack, Text, useNavigate } from "zmp-ui";
+import { 
+  FcApproval, FcCalendar, FcCommandLine, FcGenealogy, 
+  FcMoneyTransfer, FcPlanner, FcStackOfPhotos, FcTemplate 
+} from "react-icons/fc";
+import { FaPhoneAlt } from "react-icons/fa";
 import { t } from "i18next";
-import { Button, Grid, Stack, Text, useNavigate } from "zmp-ui";
-import { FcApproval, FcCalendar, FcCommandLine, FcGenealogy, FcMoneyTransfer, FcPlanner, FcStackOfPhotos, FcTemplate } from "react-icons/fc";
+import { useRecoilValue } from "recoil";
+import { logedInState } from "states";
+import { UILoginButton } from "components/login/UILoginButton";
 
+interface App {
+  key: string;
+  label: string;
+  requirePhone: boolean;
+}
 export function UIAppList() {
 
-  const funcKeyMap = {
-    "family-tree": t("family_tree"),
-    "album": t("album"),
-    "calendar": t("calendar"),
-    "blogs": t("blogs"),
-    "funds": t("funds"),
-    "upcoming": t("upcoming"),
-    "developer": t("developer"),
+  const apps: App[] = [
+    { key: "family-tree", label: t("family_tree"), requirePhone: true },
+    { key: "album", label: t("album"), requirePhone: true },
+    { key: "calendar", label: t("calendar"), requirePhone: true },
+    { key: "blogs", label: t("blogs"), requirePhone: true },
+    { key: "funds", label: t("funds"), requirePhone: true },
+    { key: "upcoming", label: t("upcoming"), requirePhone: false },
+    { key: "developer", label: t("developer"), requirePhone: false }
+  ];
+
+  const navigate = useNavigate();
+  const logedIn = useRecoilValue(logedInState);
+  const [ sheetVisible, setSheetVisible ] = React.useState(false); 
+
+  const handleUserSelectApp = (appKey: string, requirePhone: boolean) => {
+    if (requirePhone && !logedIn) {
+      setSheetVisible(true);
+    } else {
+      navigate(`/${appKey}`)
+      return;
+    }
   }
 
   const renderApps = () => {
     let html = [] as React.ReactNode[];
-    Object.keys(funcKeyMap).forEach(key => {
-      const label = funcKeyMap[key] as string;
-      html.push(<AppButton key={key} appKey={key} label={label}/>)
-    });
-
-    return html
+    apps.map((app, index) => {
+      html.push(
+        <AppButton 
+          key={app.key} 
+          appKey={app.key} 
+          label={app.label} 
+          onClick={() => handleUserSelectApp(app.key, app.requirePhone)}
+        />
+      )
+    })
+    return html;
   }
 
   return (
     <Stack space="0.5rem">
-      <Text.Title> {"Tiện Ích"} </Text.Title>
+      <Text.Title className="text-capitalize"> {t("utilities")} </Text.Title>
       <Grid columnCount={4}>
         {renderApps()}
       </Grid>
+      <RequestPhone visible={sheetVisible} closeSheet={() => setSheetVisible(false)}/>
     </Stack>
   )
 }
 
-function AppButton({appKey, label}: { appKey: string; label: string; }) {
-  const navigate = useNavigate();
-  const navigatePage = (pageKey: string) => {
-    navigate(`/${pageKey}`);
-  };
-
+function AppButton(props: { appKey: string; label: string; onClick: () => void }) {
+  const { appKey, label, onClick } = props;
+  
   return (
-    <Stack space="1rem" className="button">
-      <Button key={`app-${appKey}`} variant="tertiary" onClick={() => navigatePage(appKey)}> 
+    <div onClick={onClick} className="button">
+      <Stack space="0.5rem" className="center">
         <AppIcon key={`ico-${appKey}`} iconKey={appKey}/> 
-      </Button>
-      <Text
-        key={`title-${appKey}`} size="small" 
-        style={{ textTransform: "capitalize", textAlign: "center" }}
-      >
-        {label}
-      </Text>
-    </Stack>
+        <Text
+          key={`title-${appKey}`} 
+          size="small" 
+          className="mt-2"
+          style={{ textTransform: "capitalize", textAlign: "center" }}
+        >
+          {label}
+        </Text>
+      </Stack>
+    </div>
   )
 }
 
@@ -75,4 +105,34 @@ function AppIcon({ iconKey }: { iconKey: string }) {
     default: 
       return <FcApproval key={`ico-${iconKey}`} size={"3rem"}/>
   }
+}
+
+function RequestPhone(props: { visible: boolean, closeSheet: () => void }) {
+  const { visible, closeSheet } = props;
+  return (
+    <Sheet
+      visible={visible}
+      autoHeight
+      mask
+      handler
+      swipeToClose
+      onClose={closeSheet}
+      title={t("need_login")}
+      className="text-capitalize"
+    >
+      <Stack space="1rem" className="p-3">
+        <Box flex flexDirection="row" alignItems="center">
+          <FaPhoneAlt size={16}/>
+          <Text className="ml-2"> {t("phone_requirement")} </Text>
+        </Box>
+        <Text> {t("login_requirement")} </Text>
+        <Stack>
+          <UILoginButton size="medium" onClickCallBack={closeSheet}/>
+          <Button variant="tertiary" onClick={closeSheet}>
+            <Text style={{ color: "red" }}> {t("decline")} </Text>
+          </Button>
+        </Stack>
+      </Stack>
+    </Sheet>
+  )
 }

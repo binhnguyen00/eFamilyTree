@@ -36,6 +36,12 @@
   "developer": "Nhà phát triển",
   "hall_of_fame": "vinh danh",
   "dummy_detail": "Chi tiết",
+  "you_need_phone_in_order_to_process": "bạn cần số điện thoại để tiếp tục",
+  "utilities": "tiện ích",
+  "need_login": "yêu cầu đăng nhập",
+  "login_requirement": "Vui lòng Đăng nhập và Đồng ý chia sẻ Số điện thoại để liên kết với tài khoản của bạn trên Hệ thống của chúng tôi",
+  "decline": "từ chối",
+  "phone_requirement": "chia sẻ số điện thoại",
 
   "loading_album": "Đang tải album...",
   "no_album": "Chưa có album nào",

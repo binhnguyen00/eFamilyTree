@@ -10,9 +10,8 @@ export const logedInState = selector({
       try {
         const settings = await ZmpSDK.getSetting();
         if (settings) {
-          console.log(settings.authSettings);
-          
-          return true;
+          const { authSetting } = settings;
+          return authSetting["scope.userPhonenumber"];
         } else return false
       } catch (error) {
         console.error("Error fetching settings:", error);

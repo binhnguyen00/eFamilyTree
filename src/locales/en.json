@@ -37,7 +37,13 @@
   "developer": "Developer",
   "hall_of_fame": "Hall of Fame",
   "dummy_detail": "Dummy Detail",
-
+  "you_need_phone_in_order_to_process": "you need phone number in order to process",
+  "utilities": "utilities",
+  "need_login": "Login Required",
+  "login_requirement": "Please Login and Allow us to access your Phone number in order to link your account to our system",
+  "decline": "decline",
+  "phone_requirement": "phone requirement",
+  
   "loading_album": "loading album...",
   "no_album": "no album",
   "image_list": "Images",
