@@ -1,8 +1,10 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Grid, Stack, Text, useNavigate } from "zmp-ui";
-import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 import { FcApproval, FcCalendar, FcGenealogy, FcMoneyTransfer, FcTemplate, FcBiotech, FcStackOfPhotos } from "react-icons/fc";
+
+import { Button, Grid, Stack, Text, useNavigate } from "zmp-ui";
+
+import UIHeader from "components/common/UIHeader";
 
 function UIDeveloper() {
   // keys should be same as Route in ../main.tsx
@@ -55,7 +57,7 @@ function UIDeveloper() {
 
   return (
     <div className="container">
-      {CommonComponentUtils.renderHeader(t("developer"))}
+      <UIHeader title={t("developer")}/>
 
       <Grid style={{ padding: "0 1rem" }} columnSpace="1rem" rowSpace="1rem" columnCount={2}>
         {renderFunctions()}

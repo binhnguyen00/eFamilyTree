@@ -6,6 +6,7 @@ import { Box, Button, Input, Stack, Text } from "zmp-ui";
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
+import UIHeader from "components/common/UIHeader";
 
 function UIFamilyMember() {
   const location = useLocation();
@@ -66,7 +67,7 @@ function UIFamilyMember() {
 
   return (
     <div className="container">
-      {CommonComponentUtils.renderHeader(t("member_info"))}
+      <UIHeader title={t("member_info")}/>
 
       {renderContainer()}
     </div>

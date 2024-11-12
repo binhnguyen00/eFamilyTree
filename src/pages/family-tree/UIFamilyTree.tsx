@@ -16,6 +16,7 @@ import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "utils/FamilyTreeUtils";
 import { FcGenealogy, FcInfo } from "react-icons/fc";
+import UIHeader from "components/common/UIHeader";
 
 function UIFamilyTree() {
   const phoneNumber = useRecoilValue(phoneState);
@@ -71,7 +72,7 @@ function UIFamilyTree() {
   const renderTree = () => {
     if (familyMembers.length > 0) {
       return (
-        <div className="container max-h">
+        <div className="max-h">
           {renderResetTree()}
 
           <TransformWrapper centerOnInit minScale={0.01}>
@@ -148,11 +149,11 @@ function UIFamilyTree() {
   }
 
   return (
-    <>
-      {CommonComponentUtils.renderHeader(t("family_tree"))}
+    <div className="container">
+      <UIHeader title={t("family_tree")}/>
 
       {renderTree()}
-    </>
+    </div>
   )
 }
 

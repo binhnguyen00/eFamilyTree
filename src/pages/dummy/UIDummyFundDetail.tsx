@@ -4,9 +4,10 @@ import { useLocation } from 'react-router-dom';
 import { t } from "i18next";
 import { Box, List, Text } from "zmp-ui";
 
-import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 import { DateTimeUtils } from "utils/DateTimeUtils";
+
 import UISearchBar from "components/common/UISearchBar";
+import UIHeader from "components/common/UIHeader";
 
 export default function UIDummyFundDetail() {
   const location = useLocation();
@@ -69,17 +70,15 @@ export default function UIDummyFundDetail() {
   }
 
   return (
-    <>
-      {CommonComponentUtils.renderHeader(fund["name"])}
+    <div className="container">
+      <UIHeader title={fund["name"]}/>
         
-      <div className="container">
-        <UISearchBar 
-          placeholder={t("search_funds")}
-          onSearch={(text, event) => console.log(text)}
-        />
+      <UISearchBar 
+        placeholder={t("search_funds")}
+        onSearch={(text, event) => console.log(text)}
+      />
 
-        {renderIOComes()}
-      </div>
-    </>
+      {renderIOComes()}
+    </div>
   )
 }

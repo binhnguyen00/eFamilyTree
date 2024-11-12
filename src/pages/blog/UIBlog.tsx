@@ -5,14 +5,16 @@ import { Box, Text, useNavigate } from "zmp-ui";
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
-import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
-import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
-import { FailResponse } from "../../utils/Interface";
+import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
+import { FailResponse } from "utils/Interface";
+import { CommonComponentUtils } from "components/common/CommonComponentUtils";
+
+import UIHeader from "components/common/UIHeader";
 
 function UIBlog() {
   return (
     <div className="container">
-      {CommonComponentUtils.renderHeader(t("blogs"))}
+      <UIHeader title={t("blog")}/>
 
       <UIBlogList />
     </div>

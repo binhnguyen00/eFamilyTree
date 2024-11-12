@@ -4,8 +4,9 @@ import { t } from "i18next";
 import { useLocation } from 'react-router-dom';
 import { Stack, Text } from "zmp-ui";
 
-import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
+
+import UIHeader from "components/common/UIHeader";
 
 function UIBlogDetail() {
   const location = useLocation();
@@ -28,7 +29,7 @@ function UIBlogDetail() {
 
   return (
     <div className="container">
-      {CommonComponentUtils.renderHeader(t("detail_blog"))}
+      <UIHeader title={t("detail_blog")}/>
 
       <Stack space="1rem">
         <Text.Title size="xLarge"> {blog["title"]} </Text.Title>

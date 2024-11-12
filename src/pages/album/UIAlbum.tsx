@@ -6,15 +6,16 @@ import { useRecoilValue } from "recoil";
 
 import { Grid } from "zmp-ui";
 import { openMediaPicker } from "zmp-sdk/apis";
-import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
+
+import UIHeader from "components/common/UIHeader";
 
 function UIAlbum() {
   return (
     <div className="container">
-      {CommonComponentUtils.renderHeader(t("album"))}
-
+      <UIHeader title={t("album")}/>
+      
       <UIImageList />
     </div>
   )

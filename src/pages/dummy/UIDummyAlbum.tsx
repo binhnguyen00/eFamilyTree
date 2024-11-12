@@ -1,6 +1,8 @@
 import React from "react";
+import { t } from "i18next";
 import { Text, Box, ImageViewer, Stack } from "zmp-ui";
-import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
+
+import UIHeader from "components/common/UIHeader";
 
 export default function UIDummyAlbum() {
   const [visible, setVisible] = React.useState(false);
@@ -8,7 +10,7 @@ export default function UIDummyAlbum() {
   
   return (
     <>
-      {CommonComponentUtils.renderHeader("Album")}
+      <UIHeader title={t("album")} />
 
       <Stack className="container">
         <Text size='xSmall' className='input-desc'>

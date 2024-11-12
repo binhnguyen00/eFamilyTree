@@ -1,10 +1,12 @@
 import React from "react";
 import { t } from "i18next";
 import { Calendar, Text, Box, Stack } from "zmp-ui";
-import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
-import { CalendarUtils, Event } from "../../utils/CalendarUtils";
 
-import data from "../../pages/calendar/sample/events.json";
+import { CalendarUtils, Event } from "utils/CalendarUtils";
+
+import UIHeader from "components/common/UIHeader";
+
+import data from "pages/calendar/sample/events.json";
 
 export default function UIDummyCalendar() {
   const [selectedInfo, setSelectedInfo] = React.useState<Event[]>([]);
@@ -61,7 +63,7 @@ export default function UIDummyCalendar() {
 
   return (
     <div className="container">
-      {CommonComponentUtils.renderHeader(t("calendar"))}
+      <UIHeader  title={t("calendar")}/>
 
       <div className="flex-v">
         <Calendar 

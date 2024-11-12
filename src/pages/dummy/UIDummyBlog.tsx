@@ -2,8 +2,8 @@ import React from "react";
 import { t } from "i18next"; 
 import { Box, Text, useNavigate } from "zmp-ui"; 
 
-import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
-import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
+import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
+import UIHeader from "components/common/UIHeader";
 
 const data = [
   {
@@ -19,7 +19,7 @@ const data = [
 export default function UIDummyBlog() {
   return (
     <div className="container">
-      {CommonComponentUtils.renderHeader(t("blogs"))}
+      <UIHeader title={t("blogs")}/>
 
       <UIBlogList />
     </div>

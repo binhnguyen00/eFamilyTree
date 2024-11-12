@@ -1,13 +1,11 @@
 import React from "react";
-import { useLocation } from 'react-router-dom';
 import { IoIosArrowForward } from "react-icons/io";
 
 import { t } from "i18next";
-import { Box, List, Text, useNavigate } from "zmp-ui";
+import { List, Text, useNavigate } from "zmp-ui";
 
-import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
-import { DateTimeUtils } from "utils/DateTimeUtils";
 import UISearchBar from "components/common/UISearchBar";
+import UIHeader from "components/common/UIHeader";
 
 const data = [
   {
@@ -135,17 +133,15 @@ export default function UIDummyFund() {
   }
 
   return (
-    <>
-      {CommonComponentUtils.renderHeader(t("funds"))}
+    <div className="container">
+      <UIHeader title={t("funds")}/>
 
-      <div className="container">
-        <UISearchBar 
-          placeholder={t("search_funds")}
-          onSearch={(text, event) => console.log(text)}
-        />
+      <UISearchBar 
+        placeholder={t("search_funds")}
+        onSearch={(text, event) => console.log(text)}
+      />
 
-        {renderFunds()}
-      </div>
-    </>
+      {renderFunds()}
+    </div>
   )
 }

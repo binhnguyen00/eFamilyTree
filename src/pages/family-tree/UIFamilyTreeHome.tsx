@@ -12,6 +12,7 @@ import {
   FcCalendar, FcGenealogy, FcStackOfPhotos,
   FcTemplate, FcMoneyTransfer, FcCommandLine, FcPlanner, FcApproval
 } from "react-icons/fc";
+import UIHeader from "components/common/UIHeader";
 
 function UIFamilyTreeHome() {
   const isDevEnv = import.meta.env.DEV;
@@ -69,10 +70,15 @@ function UIFamilyTreeHome() {
   }
 
   return (
-    <>
-      {CommonComponentUtils.renderHeader("", "", <img src={logo} alt="logo"/>, false)}
+    <div className="container">
+      <UIHeader 
+        title="" 
+        subtitle="" 
+        logo={<img src={logo} alt="logo"/>} 
+        showBackIcon={false}
+      />
       
-      <Stack className="container" space="1rem">
+      <Stack space="1rem">
         <React.Suspense fallback={
           <Box flex justifyContent='center'> 
             <Text.Title>{t("loading_user_info")}</Text.Title> 
@@ -85,7 +91,7 @@ function UIFamilyTreeHome() {
           {renderFunctions()}
         </Grid>
       </Stack>
-    </>
+    </div>
   );
 };
 

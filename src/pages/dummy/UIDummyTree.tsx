@@ -5,6 +5,7 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import FamilyTree from "components/tree/FamilyTree";
 import Node from "components/node/Node";
+
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 import { UITreeControl } from "pages/family-tree/UIFamilyTree";
 import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "utils/FamilyTreeUtils";
@@ -16,6 +17,7 @@ import odooSample from "pages/family-tree/sample/odoo-sample.json";
 
 // icons
 import { FcInfo, FcGenealogy } from "react-icons/fc";
+import UIHeader from "components/common/UIHeader";
 
 export default function UIDummyTree() {
   const dataSrcKey = {
@@ -45,8 +47,8 @@ export default function UIDummyTree() {
   }
 
   return (
-    <>
-      {CommonComponentUtils.renderHeader(t("dummy_tree"))}
+    <div className="container">
+      <UIHeader title={t("dummy_tree")}/>
 
       {nodes.length > 0 ? (
         <div className="container max-h">
@@ -130,6 +132,6 @@ export default function UIDummyTree() {
       ) : (
         <div> Getting members... </div>
       )}
-    </>
+    </div>
   );
 }

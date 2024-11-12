@@ -5,10 +5,12 @@ import { Box, Calendar, Stack, Text } from "zmp-ui";
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
-import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
-import { CalendarUtils } from "../../utils/CalendarUtils";
-import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
-import { FailResponse } from "../../utils/Interface";
+import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
+import { CalendarUtils } from "utils/CalendarUtils";
+import { FailResponse } from "utils/Interface";
+import { CommonComponentUtils } from "components/common/CommonComponentUtils";
+
+import UIHeader from "components/common/UIHeader";
 
 interface Event {
   name: string;
@@ -119,7 +121,7 @@ function UICalendar() {
 
   return (
     <div className="container">
-      {CommonComponentUtils.renderHeader(t("calendar"))}
+      <UIHeader title={t("calendar")}/>
 
       {renderCalendar()}
     </div>

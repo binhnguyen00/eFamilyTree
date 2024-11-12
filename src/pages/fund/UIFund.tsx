@@ -7,11 +7,13 @@ import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 import { Box, List, Text, useNavigate } from "zmp-ui";
 
-import { CommonComponentUtils } from "../../components/common/CommonComponentUtils";
-import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
-import { DateTimeUtils } from "../../utils/DateTimeUtils";
-import { FailResponse } from "../../utils/Interface";
+import { CommonComponentUtils } from "components/common/CommonComponentUtils";
+import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
+import { DateTimeUtils } from "utils/DateTimeUtils";
+import { FailResponse } from "utils/Interface";
+
 import UISearchBar from "components/common/UISearchBar";
+import UIHeader from "components/common/UIHeader";
 
 function UIFund() {
   const navigate = useNavigate();
@@ -118,7 +120,7 @@ function UIFund() {
 
   return (
     <div className="container">
-      {CommonComponentUtils.renderHeader(t("funds"))}
+      <UIHeader title={t("funds")}/>
 
       {renderFundContainer()}
     </div>
@@ -187,7 +189,6 @@ export function UIFundDetail() {
 
   return (
     <div className="container">
-      {CommonComponentUtils.renderHeader(fund["name"])}
 
       <UISearchBar 
         placeholder={t("search_funds")}
