@@ -43,15 +43,11 @@ function AppButton({appKey, label}: { appKey: string; label: string; }) {
 
   return (
     <Stack space="1rem">
-      <Button
-        key={`app-${appKey}`} variant="tertiary"
-        onClick={() => navigatePage(appKey)}
-      >
-        <AppIcon key={`icon-${appKey}`} iconKey={appKey}/>
+      <Button key={`app-${appKey}`} variant="tertiary" onClick={() => navigatePage(appKey)}> 
+        <AppIcon key={`icon-${appKey}`} iconKey={appKey}/> 
       </Button>
       <Text.Title 
-        key={`title-${appKey}`} 
-        size="small" 
+        key={`title-${appKey}`} size="small" 
         style={{ fontWeight: "bold", textTransform: "capitalize", textAlign: "center" }}
       >
         {label}

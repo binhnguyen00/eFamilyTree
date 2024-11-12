@@ -8,7 +8,7 @@ import slide_02 from "assets/img/about-swiper-2.jpg";
 export function UIHomeSlider() {
   return (
     <Stack space="0.5rem">
-      <Text.Title> {"Album"} </Text.Title>
+      <Text.Title> {"Giới Thiệu"} </Text.Title>
       <Swiper loop>
         <Swiper.Slide>
           <img

@@ -19,7 +19,7 @@ function UINavigation() {
       label: t("home"),
       icon: <FcHome />,
     },
-    "/family-tree-home": {
+    "/family-tree": {
       label: t("family_tree"),
       icon: <FcGenealogy />,
     },
