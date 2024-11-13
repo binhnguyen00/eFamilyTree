@@ -13,7 +13,7 @@ import UIHomeAlbum from './UIHomeAlbum';
 import UIHomeBlog from './UIHomeBlog';
 import UIDivider from 'components/common/UIDivider';
 
-export function UIHomeLayout() {
+export default function UIHomeLayout() {
 
   return (
     <div className='container'>

@@ -5,9 +5,8 @@ import { t } from "i18next";
 
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 
-import { UIHomeLayout } from "pages/home/UIHomeLayout";
+import UIHomeLayout from "pages/home/UIHomeLayout";
 import UIAbout from "pages/about/UIAbout";
-import UIFamilyTreeHome from "pages/family-tree/UIFamilyTreeHome";
 import UIImageList from "./album/UIImageList";
 import UINavigation from "components/common/UINavigation";
 
