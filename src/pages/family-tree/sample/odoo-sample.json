@@ -3,7 +3,7 @@
     "id": 1,
     "name": "Phạm Khắc Hoàng",
     "parents": [],
-    "gioi_tinh": "nam",
+    "gender": "male",
     "children": [
         {
             "id": 21,
@@ -12,15 +12,15 @@
                 {
                     "id": 1,
                     "name": "Phạm Khắc Hoàng",
-                    "gioi_tinh": "nam"
+                    "gender": "male"
                 },
                 {
                     "id": 31,
                     "name": "Vợ ông Hoàng",
-                    "gioi_tinh": "nu"
+                    "gender": "female"
                 }
             ],
-            "gioi_tinh": "nu",
+            "gender": "female",
             "children": [
                 {
                     "id": 12,
@@ -29,17 +29,17 @@
                         {
                             "id": 21,
                             "name": "Phạm Hồng Hạnh",
-                            "gioi_tinh": "nu"
+                            "gender": "female"
                         },
                         {
                             "id": 21,
                             "name": "Phạm Hồng Hạnh",
-                            "gioi_tinh": "nu"
+                            "gender": "female"
                         }
                     ],
-                    "gioi_tinh": "nam",
+                    "gender": "male",
                     "children": [],
-                    "spouseData": []
+                    "spouses": []
                 },
                 {
                     "id": 13,
@@ -48,17 +48,17 @@
                         {
                             "id": 21,
                             "name": "Phạm Hồng Hạnh",
-                            "gioi_tinh": "nu"
+                            "gender": "female"
                         },
                         {
                             "id": 5,
                             "name": "Phạm Thị Xuân",
-                            "gioi_tinh": "nu"
+                            "gender": "female"
                         }
                     ],
-                    "gioi_tinh": "nu",
+                    "gender": "female",
                     "children": [],
-                    "spouseData": []
+                    "spouses": []
                 },
                 {
                     "id": 11,
@@ -67,20 +67,20 @@
                         {
                             "id": 21,
                             "name": "Phạm Hồng Hạnh",
-                            "gioi_tinh": "nu"
+                            "gender": "female"
                         },
                         {
                             "id": 5,
                             "name": "Phạm Thị Xuân",
-                            "gioi_tinh": "nu"
+                            "gender": "female"
                         }
                     ],
-                    "gioi_tinh": "nu",
+                    "gender": "female",
                     "children": [],
-                    "spouseData": []
+                    "spouses": []
                 }
             ],
-            "spouseData": []
+            "spouses": []
         },
         {
             "id": 2,
@@ -89,15 +89,15 @@
                 {
                     "id": 1,
                     "name": "Phạm Khắc Hoàng",
-                    "gioi_tinh": "nam"
+                    "gender": "male"
                 },
                 {
                     "id": 31,
                     "name": "Vợ ông Hoàng",
-                    "gioi_tinh": "nu"
+                    "gender": "female"
                 }
             ],
-            "gioi_tinh": "nam",
+            "gender": "male",
             "children": [
                 {
                     "id": 8,
@@ -106,15 +106,15 @@
                         {
                             "id": 2,
                             "name": "Phạm Khắc Khanh",
-                            "gioi_tinh": "nam"
+                            "gender": "male"
                         },
                         {
                             "id": 30,
                             "name": "Vợ ông Khanh",
-                            "gioi_tinh": "nu"
+                            "gender": "female"
                         }
                     ],
-                    "gioi_tinh": "nam",
+                    "gender": "male",
                     "children": [
                         {
                             "id": 36,
@@ -123,17 +123,17 @@
                                 {
                                     "id": 8,
                                     "name": "Phạm KHắc Phong",
-                                    "gioi_tinh": "nam"
+                                    "gender": "male"
                                 },
                                 {
                                     "id": 28,
                                     "name": "vợ 1",
-                                    "gioi_tinh": "nu"
+                                    "gender": "female"
                                 }
                             ],
-                            "gioi_tinh": "nam",
+                            "gender": "male",
                             "children": [],
-                            "spouseData": []
+                            "spouses": []
                         },
                         {
                             "id": 37,
@@ -142,29 +142,29 @@
                                 {
                                     "id": 8,
                                     "name": "Phạm KHắc Phong",
-                                    "gioi_tinh": "nam"
+                                    "gender": "male"
                                 },
                                 {
                                     "id": 29,
                                     "name": "vợ 2",
-                                    "gioi_tinh": "nu"
+                                    "gender": "female"
                                 }
                             ],
-                            "gioi_tinh": "nam",
+                            "gender": "male",
                             "children": [],
-                            "spouseData": []
+                            "spouses": []
                         }
                     ],
-                    "spouseData": [
+                    "spouses": [
                         {
                             "id": 28,
                             "name": "vợ 1",
-                            "gioi_tinh": "nu"
+                            "gender": "female"
                         },
                         {
                             "id": 29,
                             "name": "vợ 2",
-                            "gioi_tinh": "nu"
+                            "gender": "female"
                         }
                     ]
                 },
@@ -175,17 +175,17 @@
                         {
                             "id": 2,
                             "name": "Phạm Khắc Khanh",
-                            "gioi_tinh": "nam"
+                            "gender": "male"
                         },
                         {
                             "id": 30,
                             "name": "Vợ ông Khanh",
-                            "gioi_tinh": "nu"
+                            "gender": "female"
                         }
                     ],
-                    "gioi_tinh": "nu",
+                    "gender": "female",
                     "children": [],
-                    "spouseData": []
+                    "spouses": []
                 },
                 {
                     "id": 6,
@@ -194,24 +194,24 @@
                         {
                             "id": 2,
                             "name": "Phạm Khắc Khanh",
-                            "gioi_tinh": "nam"
+                            "gender": "male"
                         },
                         {
                             "id": 30,
                             "name": "Vợ ông Khanh",
-                            "gioi_tinh": "nu"
+                            "gender": "female"
                         }
                     ],
-                    "gioi_tinh": "nu",
+                    "gender": "female",
                     "children": [],
-                    "spouseData": []
+                    "spouses": []
                 }
             ],
-            "spouseData": [
+            "spouses": [
                 {
                     "id": 30,
                     "name": "Vợ ông Khanh",
-                    "gioi_tinh": "nu"
+                    "gender": "female"
                 }
             ]
         },
@@ -222,15 +222,15 @@
                 {
                     "id": 1,
                     "name": "Phạm Khắc Hoàng",
-                    "gioi_tinh": "nam"
+                    "gender": "male"
                 },
                 {
                     "id": 31,
                     "name": "Vợ ông Hoàng",
-                    "gioi_tinh": "nu"
+                    "gender": "female"
                 }
             ],
-            "gioi_tinh": "nam",
+            "gender": "male",
             "children": [
                 {
                     "id": 4,
@@ -239,15 +239,15 @@
                         {
                             "id": 3,
                             "name": "Phạm Khắc Vinh",
-                            "gioi_tinh": "nam"
+                            "gender": "male"
                         },
                         {
                             "id": 32,
                             "name": "vợ ông Vinh",
-                            "gioi_tinh": "nu"
+                            "gender": "female"
                         }
                     ],
-                    "gioi_tinh": "nam",
+                    "gender": "male",
                     "children": [
                         {
                             "id": 10,
@@ -256,15 +256,15 @@
                                 {
                                     "id": 4,
                                     "name": "Phạm Khắc Thê",
-                                    "gioi_tinh": "nam"
+                                    "gender": "male"
                                 },
                                 {
                                     "id": 33,
                                     "name": "Vợ ông thê",
-                                    "gioi_tinh": "nu"
+                                    "gender": "female"
                                 }
                             ],
-                            "gioi_tinh": "nam",
+                            "gender": "male",
                             "children": [
                                 {
                                     "id": 14,
@@ -273,17 +273,17 @@
                                         {
                                             "id": 10,
                                             "name": "Phạm Khắc Toàn",
-                                            "gioi_tinh": "nam"
+                                            "gender": "male"
                                         },
                                         {
                                             "id": 34,
                                             "name": "vợ ông Toàn",
-                                            "gioi_tinh": "nu"
+                                            "gender": "female"
                                         }
                                     ],
-                                    "gioi_tinh": "nu",
+                                    "gender": "female",
                                     "children": [],
-                                    "spouseData": []
+                                    "spouses": []
                                 },
                                 {
                                     "id": 17,
@@ -292,33 +292,33 @@
                                         {
                                             "id": 10,
                                             "name": "Phạm Khắc Toàn",
-                                            "gioi_tinh": "nam"
+                                            "gender": "male"
                                         },
                                         {
                                             "id": 34,
                                             "name": "vợ ông Toàn",
-                                            "gioi_tinh": "nu"
+                                            "gender": "female"
                                         }
                                     ],
-                                    "gioi_tinh": "nu",
+                                    "gender": "female",
                                     "children": [],
-                                    "spouseData": []
+                                    "spouses": []
                                 }
                             ],
-                            "spouseData": [
+                            "spouses": [
                                 {
                                     "id": 34,
                                     "name": "vợ ông Toàn",
-                                    "gioi_tinh": "nu"
+                                    "gender": "female"
                                 }
                             ]
                         }
                     ],
-                    "spouseData": [
+                    "spouses": [
                         {
                             "id": 33,
                             "name": "Vợ ông thê",
-                            "gioi_tinh": "nu"
+                            "gender": "female"
                         }
                     ]
                 },
@@ -329,15 +329,15 @@
                         {
                             "id": 3,
                             "name": "Phạm Khắc Vinh",
-                            "gioi_tinh": "nam"
+                            "gender": "male"
                         },
                         {
                             "id": 32,
                             "name": "vợ ông Vinh",
-                            "gioi_tinh": "nu"
+                            "gender": "female"
                         }
                     ],
-                    "gioi_tinh": "nam",
+                    "gender": "male",
                     "children": [
                         {
                             "id": 19,
@@ -346,17 +346,17 @@
                                 {
                                     "id": 18,
                                     "name": "Phạm Khắc Tiến",
-                                    "gioi_tinh": "nam"
+                                    "gender": "male"
                                 },
                                 {
                                     "id": 35,
                                     "name": "vợ ông Tiến",
-                                    "gioi_tinh": "nu"
+                                    "gender": "female"
                                 }
                             ],
-                            "gioi_tinh": "nam",
+                            "gender": "male",
                             "children": [],
-                            "spouseData": []
+                            "spouses": []
                         },
                         {
                             "id": 20,
@@ -365,24 +365,24 @@
                                 {
                                     "id": 18,
                                     "name": "Phạm Khắc Tiến",
-                                    "gioi_tinh": "nam"
+                                    "gender": "male"
                                 },
                                 {
                                     "id": 35,
                                     "name": "vợ ông Tiến",
-                                    "gioi_tinh": "nu"
+                                    "gender": "female"
                                 }
                             ],
-                            "gioi_tinh": "nam",
+                            "gender": "male",
                             "children": [],
-                            "spouseData": []
+                            "spouses": []
                         }
                     ],
-                    "spouseData": [
+                    "spouses": [
                         {
                             "id": 35,
                             "name": "vợ ông Tiến",
-                            "gioi_tinh": "nu"
+                            "gender": "female"
                         }
                     ]
                 },
@@ -393,17 +393,17 @@
                         {
                             "id": 3,
                             "name": "Phạm Khắc Vinh",
-                            "gioi_tinh": "nam"
+                            "gender": "male"
                         },
                         {
                             "id": 32,
                             "name": "vợ ông Vinh",
-                            "gioi_tinh": "nu"
+                            "gender": "female"
                         }
                     ],
-                    "gioi_tinh": "nam",
+                    "gender": "male",
                     "children": [],
-                    "spouseData": []
+                    "spouses": []
                 },
                 {
                     "id": 15,
@@ -412,20 +412,20 @@
                         {
                             "id": 3,
                             "name": "Phạm Khắc Vinh",
-                            "gioi_tinh": "nam"
+                            "gender": "male"
                         },
                         {
                             "id": 32,
                             "name": "vợ ông Vinh",
-                            "gioi_tinh": "nu"
+                            "gender": "female"
                         }
                     ],
-                    "gioi_tinh": "nu",
+                    "gender": "female",
                     "children": [],
-                    "spouseData": []
+                    "spouses": []
                 }
             ],
-            "spouseData": []
+            "spouses": []
         },
         {
             "id": 9,
@@ -434,15 +434,15 @@
                 {
                     "id": 1,
                     "name": "Phạm Khắc Hoàng",
-                    "gioi_tinh": "nam"
+                    "gender": "male"
                 },
                 {
                     "id": 30,
                     "name": "Vợ ông Khanh",
-                    "gioi_tinh": "nu"
+                    "gender": "female"
                 }
             ],
-            "gioi_tinh": "nu",
+            "gender": "female",
             "children": [
                 {
                     "id": 5,
@@ -451,22 +451,22 @@
                         {
                             "id": 9,
                             "name": "Phạm Khắc Đoàn",
-                            "gioi_tinh": "nu"
+                            "gender": "female"
                         },
                         {
                             "id": 31,
                             "name": "Vợ ông Hoàng",
-                            "gioi_tinh": "nu"
+                            "gender": "female"
                         }
                     ],
-                    "gioi_tinh": "nu",
+                    "gender": "female",
                     "children": [],
-                    "spouseData": []
+                    "spouses": []
                 }
             ],
-            "spouseData": []
+            "spouses": []
         }
     ],
-    "spouseData": []
+    "spouses": []
 }
 }

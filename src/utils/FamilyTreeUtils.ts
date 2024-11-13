@@ -3,16 +3,18 @@ import { FamilyMember } from "../components/node/TreeNode";
 interface OdooPerson {
   id: number;
   name: string;
-  gioi_tinh: "nam" | "nu";
+  avatar: string;
+  gender: "male" | "female";
 }
 
 interface OdooNode {
   id: number;
   name: string;
-  gioi_tinh: "nam" | "nu";
+  gender: "male" | "female";
+  avatar: string;
   children: OdooNode[];
   parents: OdooPerson[];
-  spouseData: OdooPerson[];
+  spouses: OdooPerson[];
 }
 
 export const NODE_WIDTH = 150;
@@ -26,13 +28,15 @@ export class FamilyTreeUtils {
     const processNode = (node: OdooNode, parentIds: string[] = []) => {
       const id = `${node.id}`;
       const name = node.name;
-      const gender = node.gioi_tinh === "nam" ? "male" : "female";
+      const gender = node.gender;
+      const avatar = node.avatar;
 
       // Create the main person
       const person: FamilyMember = {
         id,
         name,
         gender,
+        avatar,
         parents: parentIds.map((parentId) => ({ id: parentId, type: "blood" })),
         siblings: [],
         spouses: [],
@@ -44,16 +48,18 @@ export class FamilyTreeUtils {
 
       // Handle spouses
       const spouseMap: { [key: string]: FamilyMember } = {};
-      if (Array.isArray(node.spouseData) && node.spouseData.length > 0) {
-        node.spouseData.forEach((spouseInfo) => {
+      if (Array.isArray(node.spouses) && node.spouses.length > 0) {
+        node.spouses.forEach((spouseInfo) => {
           const spouseId = `${spouseInfo.id}`;
           const spouseName = spouseInfo.name;
-          const spouseGender = spouseInfo.gioi_tinh === "nam" ? "male" : "female";
+          const spouseGender = spouseInfo.gender;
+          const spouseAvatar = spouseInfo.avatar;
 
           const spouse: FamilyMember = {
             id: spouseId,
             name: spouseName,
             gender: spouseGender,
+            avatar: spouseAvatar,
             parents: [],
             siblings: [],
             spouses: [{ id, type: "married" }],
@@ -71,13 +77,15 @@ export class FamilyTreeUtils {
         node.children.forEach((child) => {
           const childId = `${child.id}`;
           const childName = child.name;
-          const childGender = child.gioi_tinh === "nam" ? "male" : "female";
+          const childGender = child.gender;
+          const childAvatar = child.avatar;
           const childParents = child.parents?.map(p => `${p.id}`) || [];
 
           const childPerson: FamilyMember = {
             id: childId,
             name: childName,
             gender: childGender,
+            avatar: childAvatar,
             parents: childParents.map(parentId => ({ id: parentId, type: "blood" })),
             siblings: [],
             spouses: [],
@@ -116,7 +124,7 @@ export class FamilyTreeUtils {
       map.set(item.id, true);
       return true;
     });
-  };
+  }
 
   public static calculateNodePosition({ left, top }: any): React.CSSProperties {
     return {
@@ -135,15 +143,12 @@ export class FamilyTreeUtils {
     const visited = new Set<string>();
 
     const addMemberAndRelatives = (id: string, parentIds: string[] = []) => {
-      // If the member has already been processed, skip it
       if (visited.has(id)) return;
       visited.add(id);
 
-      // Find the member in the original list
       const member = members.find((m) => m.id === id);
       if (!member) return;
 
-      // Create a copy of the member, removing its parents and siblings if it's the root
       const standaloneMember: FamilyMember = {
         ...member,
         parents: parentIds.length === 0 ? [] : parentIds.map(pid => ({ id: pid, type: "blood" })),
@@ -152,13 +157,10 @@ export class FamilyTreeUtils {
         children: [],
       };
 
-      // Add the member to the filtered list
       filteredMembers.push(standaloneMember);
 
-      // Collect the parent's IDs for children processing
       const currentParentIds = [id, ...standaloneMember.spouses.map(s => s.id)];
 
-      // Recursively add children with the current member as a parent
       member.children.forEach((child) => {
         if (child && child.id) {
           addMemberAndRelatives(child.id, currentParentIds);
@@ -166,11 +168,9 @@ export class FamilyTreeUtils {
         }
       });
 
-      // Recursively add spouses
       standaloneMember.spouses.forEach((spouse) => addMemberAndRelatives(spouse.id));
     };
 
-    // Start filtering from the given root memberId
     addMemberAndRelatives(memberId);
 
     return filteredMembers;

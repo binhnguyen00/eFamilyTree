@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Box, Text } from "zmp-ui";
+import { Avatar, Box, Stack, Text } from "zmp-ui";
 
 import "css/tree-node.scss"
 
@@ -26,24 +26,18 @@ function TreeNode({node, displayField, isRoot, onSelectNode, style}: TreeNodePro
   const nodeStyle = { 
     width: "100%", 
     height: "100%", 
-    border: "1px solid black" 
   };
   return (
-    <div className='tree-node' style={style}>
-      <Box
-        flex 
-        flexDirection='column'
-        alignItems='center'
-        justifyContent='flex-start'
-        className={`tree-node-${node.gender} button p-1`}
+    <div className='tree-node' style={style} onClick={() => onSelectNode(node.id)}>
+      <Stack
+        className={`tree-node-${node.gender} button p-1 border center`}
         style={nodeStyle}
-        onClick={() => onSelectNode(node.id)}
       >
         <Avatar size={60} src={node.avatar || undefined} className='m-2'/>
         <Text.Title size='small' style={{ color: "white", textAlign: "center" }}> 
           {node[displayField]} 
         </Text.Title>
-      </Box>
+      </Stack>
     </div>
   )
 }
