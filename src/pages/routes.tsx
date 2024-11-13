@@ -11,7 +11,7 @@ import UIImageList from "./album/UIImageList";
 import UINavigation from "components/common/UINavigation";
 
 // Lazy load components
-const UIUserDetail = lazy(() => import("pages/user/UIUserDetail"));
+const UIUser = lazy(() => import("pages/user/UIUser"));
 const UIFamilyTree = lazy(() => import("pages/family-tree/UIFamilyTree"));
 const UIBlog = lazy(() => import("./blog/UIBlog"));
 const UIBlogDetail = lazy(() => import("./blog/UIBlogDetail"));
@@ -49,7 +49,7 @@ function MainRoutes() {
         </Suspense>
       } />
       <Route path="/about" element={<UIAbout />} />
-      <Route path="/user" element={<UIUserDetail />} />
+      <Route path="/user" element={<UIUser />} />
       <Route path="/album" element={
         <Suspense fallback={CommonComponentUtils.renderLoading(t("loading_album"))}>
           <UIAlbum />

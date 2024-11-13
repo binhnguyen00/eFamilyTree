@@ -1,32 +1,29 @@
 import React from "react";
-import { Avatar, Box, Text, useNavigate } from "zmp-ui";
+import { t } from "i18next";
 import { useRecoilValue } from "recoil";
+import { logedInState, phoneState, userState } from "states";
 
-import { userState } from "states";
+import { useNavigate } from "zmp-ui";
 
-function UIUser() { 
-  let navigate = useNavigate();
+import UIHeader from "components/common/UIHeader";
+import UISignInUser from "./UISignInUser";
+import UISignedInUser from "./UISignedInUser";
+
+export default function UIUser() { 
+  const navigate = useNavigate();
+  const loginedIn = useRecoilValue(logedInState);
   const userInfo = useRecoilValue(userState);
 
-  const navigateToUIUser = () => {
-    navigate("/user");
-  }
-
   return (
-    <Box flex flexDirection="column" alignItems="center">
-      <Avatar
-        size={60} online className="button"
-        src={userInfo.avatar.startsWith("http") ? userInfo.avatar : undefined}
-        onClick={navigateToUIUser}
-      >
-        {userInfo.avatar}
-      </Avatar>
-      <Text.Title 
-        className="button" 
-        onClick={() => navigateToUIUser()}
-      > {userInfo.name} </Text.Title>
-    </Box>
+    <div className="container">
+      <UIHeader title={t("account")} showBackIcon={false}/>
+
+      {loginedIn ? (
+        <UISignedInUser userInfo={userInfo} />
+      ) : (
+        <UISignInUser/>
+      )}
+    </div>
   )
 }
 
-export default UIUser; 

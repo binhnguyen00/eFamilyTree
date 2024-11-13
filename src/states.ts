@@ -1,6 +1,7 @@
 import { atom, selector } from "recoil";
 import { ZmpSDK } from "./utils/ZmpSDK";
 import { getUserInfo } from "zmp-sdk";
+import { t } from "i18next";
 
 export const logedInState = selector({
   key: "logedInState",
@@ -46,16 +47,21 @@ export const phoneState = selector<string | boolean>({
 
 export const userState = selector({
   key: "user",
-  get: async () => {
-    try {
-      const { userInfo } = await getUserInfo({ autoRequestPermission: true });
-      return userInfo;
-    } catch (error) {
-      return {
-        id: "",
-        avatar: "",
-        name: "Người dùng Zalo",
-      };
+  get: async ({ get }) => {
+    const requested = get(requestPhoneTriesState);
+    const defaultUser = {
+      id: "",
+      avatar: "",
+      name: t("zalo_user"),
     }
+    if (requested) {
+      try {
+        const { userInfo } = await getUserInfo({ autoRequestPermission: true });
+        return userInfo;
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+        return defaultUser;
+      }
+    } else return defaultUser;
   },
 });
