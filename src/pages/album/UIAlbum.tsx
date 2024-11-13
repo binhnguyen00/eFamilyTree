@@ -83,24 +83,6 @@ function UIAlbumList() {
       )
     })
 
-    html.push(
-      <Box 
-        className="button rounded border" 
-        flex flexDirection="row" 
-        onClick={() => goToImageList(null)}
-      >
-        <div className="album-left">
-          <img 
-            src={`https://giapha.mobifone5.vn/web/content/1232`} 
-            className="button rounded"
-          />
-        </div>
-        <Stack className="album-right">
-          <Text.Title> Demo </Text.Title>
-        </Stack>
-      </Box>
-    )
-
     html.push(renderAddButton());
 
     return html;

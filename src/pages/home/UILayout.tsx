@@ -7,6 +7,9 @@ import UIHomeBanner from './UIHomeBanner';
 import UIHomeAppList from './UIHomeAppList';
 import UIHeader from 'components/common/UIHeader';
 import UIHeaderUser from 'components/login/UIHeaderUser';
+import UIHomeAlbum from './UIHomeAlbum';
+
+import { CommonComponentUtils } from 'components/common/CommonComponentUtils';
 
 export function UILayout() {
 
@@ -19,8 +22,21 @@ export function UILayout() {
       }/>
 
       <Stack space='1rem'>
-        <UIHomeBanner/>
-        <UIHomeAppList/>
+        <React.Suspense fallback={
+          CommonComponentUtils.renderLoading(t("loading"))
+        }>
+          <UIHomeBanner/>
+        </React.Suspense>
+        <React.Suspense fallback={
+          CommonComponentUtils.renderLoading(t("loading"))
+        }>
+          <UIHomeAppList/>
+        </React.Suspense>
+        <React.Suspense fallback={
+          CommonComponentUtils.renderLoading(t("loading"))
+        }>
+          <UIHomeAlbum/>
+        </React.Suspense>
       </Stack>
     </div>
   )

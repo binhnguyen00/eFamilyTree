@@ -11,14 +11,13 @@ import { useRecoilValue } from "recoil";
 import FamilyTree from "components/tree/FamilyTree";
 import UIHeader from "components/common/UIHeader";
 import TreeNode, { FamilyMember } from "components/node/TreeNode";
+import CommonIcons from "components/icon/common";
 
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "utils/FamilyTreeUtils";
 import { FcGenealogy, FcInfo } from "react-icons/fc";
-import { CommonIcons } from "components/icon/common";
-
 
 function UIFamilyTree() {
   const phoneNumber = useRecoilValue(phoneState);
