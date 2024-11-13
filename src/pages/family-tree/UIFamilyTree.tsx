@@ -19,7 +19,7 @@ import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "utils/FamilyTreeUtils";
 import { FcGenealogy, FcInfo } from "react-icons/fc";
 
-function UIFamilyTree() {
+export default function UIFamilyTree() {
   const phoneNumber = useRecoilValue(phoneState);
   const navigate = useNavigate();
 
@@ -72,7 +72,7 @@ function UIFamilyTree() {
   const renderTree = () => {
     if (!loading) {
       return (
-        <>
+        <div style={{ width: "100vw", height: "100vh", position: "fixed" }}>
           {renderResetTree()}
 
           <TransformWrapper 
@@ -81,7 +81,7 @@ function UIFamilyTree() {
             centerZoomedOut
           >
             {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
-              <div style={{ width: "100%", height: "100%", position: "fixed" }}>
+              <>
                 <TransformComponent>
                   <FamilyTree
                     nodes={familyMembers as any}
@@ -102,7 +102,7 @@ function UIFamilyTree() {
                 </TransformComponent>
                 
                 <UITreeControl />
-              </div>
+              </>
             )}
           </TransformWrapper>
 
@@ -127,7 +127,7 @@ function UIFamilyTree() {
               </Grid>
             </ZBox>
           </Sheet>
-        </>
+        </div>
       );
     } else {
       return CommonComponentUtils.renderLoading(t("loading_family_tree"));
@@ -191,5 +191,3 @@ export function UITreeControl() {
     </BottomNavigation>
   )
 }
-
-export default UIFamilyTree;

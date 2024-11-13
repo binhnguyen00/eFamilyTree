@@ -16,7 +16,6 @@ interface MenuItem {
 }
 
 export default function UINavigation() {
-  const logedIn = useRecoilValue(logedInState);
   const [ sheetVisible, setSheetVisible ] = React.useState(false); 
 
   const tabs: Record<string, MenuItem> = {
@@ -42,16 +41,6 @@ export default function UINavigation() {
   const location = useLocation();
   const NO_BOTTOM_NAVIGATION_PAGES = ["/family-tree", "/demo-tree"];
 
-  const handleUserSelectApp = (appKey: string) => {
-    const app = tabs[appKey];
-    if (app.requirePhone && !logedIn) {
-      setSheetVisible(true);
-      return;
-    } else {
-      navigate(appKey);
-    }
-  }
-
   const noBottomNav = React.useMemo(() => {
     return NO_BOTTOM_NAVIGATION_PAGES.includes(location.pathname);
   }, [location]);
@@ -63,7 +52,7 @@ export default function UINavigation() {
       <BottomNavigation
         fixed
         activeKey={location.pathname}
-        onChange={(activeKey: string) => handleUserSelectApp(activeKey)}
+        onChange={navigate}
       >
         {Object.keys(tabs).map((path: TabKeys) => (
           <BottomNavigation.Item
