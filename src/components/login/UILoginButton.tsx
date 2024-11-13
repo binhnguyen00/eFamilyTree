@@ -9,7 +9,7 @@ interface UILoginButtonProps {
   size?: "small" | "medium" | "large";
   onClickCallBack?: () => void;
 }
-export function UILoginButton(props: UILoginButtonProps) {
+export default function UILoginButton(props: UILoginButtonProps) {
   let { onClickCallBack, size } = props;
   if (!size) size = "small";
   if (!onClickCallBack) onClickCallBack = () => {};

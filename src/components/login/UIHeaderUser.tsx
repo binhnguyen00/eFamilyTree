@@ -1,12 +1,12 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
 import { phoneState, userState } from "states";
+import { Avatar, Box, Text, useNavigate } from "zmp-ui";
 
 import UIHeader from "components/common/UIHeader";
-import { Avatar, Box, Text, useNavigate } from "zmp-ui";
-import { UILoginButton } from "./UILoginButton";
+import UILoginButton from "./UILoginButton";
 
-export function UIHeaderUser() {
+export default function UIHeaderUser() {
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
   const phone = useRecoilValue(phoneState);
