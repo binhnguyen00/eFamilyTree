@@ -51,6 +51,8 @@
   "create": "create",
   "add": "add",
   "unknown": "unknown",
+  "register": "register",
+  "register_clan": "register clan",
   
   "loading_album": "loading album...",
   "no_album": "no album",

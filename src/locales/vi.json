@@ -50,6 +50,8 @@
   "create": "tạo",
   "add": "thêm",
   "unknown": "không xác định",
+  "register": "đăng ký",
+  "register_clan": "đăng ký dòng họ",
 
   "loading_album": "Đang tải album...",
   "no_album": "Chưa có album",

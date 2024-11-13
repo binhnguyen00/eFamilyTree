@@ -13,7 +13,7 @@ export default function UIHomeBanner() {
   return (
     <Stack space="0.5rem">
       <ZText.Title> {t("family_tree")} </ZText.Title>
-      <Swiper loop>
+      <Swiper loop autoplay>
         <Swiper.Slide>
           <React.Suspense>
             <UIImageWithText 

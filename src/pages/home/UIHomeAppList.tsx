@@ -3,8 +3,8 @@ import { Box, Button, Grid, Sheet, Stack, Text, useNavigate } from "zmp-ui";
 
 import { FaPhoneAlt } from "react-icons/fa";
 import { t } from "i18next";
-import { useRecoilValue } from "recoil";
-import { logedInState } from "states";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { logedInState, requestPhoneTriesState } from "states";
 
 import AppIcons from "components/icon/app";
 import UIRequestLoginButton from "components/header/UIRequestLoginButton";
@@ -111,6 +111,8 @@ function AppSymbol({ iconKey }: { iconKey: string }) {
 
 function RequestPhone(props: { visible: boolean, closeSheet: () => void }) {
   const { visible, closeSheet } = props;
+  const retry = useSetRecoilState(requestPhoneTriesState);
+
   return (
     <Sheet
       visible={visible}
@@ -129,7 +131,12 @@ function RequestPhone(props: { visible: boolean, closeSheet: () => void }) {
         </Box>
         <Text> {t("login_requirement")} </Text>
         <Stack>
-          <UIRequestLoginButton size="medium" onClickCallBack={closeSheet}/>
+          <Button size="small" onClick={() => {
+            retry(r => r + 1);
+            closeSheet();
+          }}>
+            {t("login")}
+          </Button>
           <Button variant="tertiary" onClick={closeSheet}>
             <Text style={{ color: "red" }}> {t("decline")} </Text>
           </Button>

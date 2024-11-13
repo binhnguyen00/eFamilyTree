@@ -1,7 +1,7 @@
 import React from "react";
 import { t } from "i18next";
 import { useRecoilValue } from "recoil";
-import { logedInState, phoneState, userState } from "states";
+import { logedInState, userState } from "states";
 
 import { useNavigate } from "zmp-ui";
 
