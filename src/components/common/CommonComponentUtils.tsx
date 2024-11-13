@@ -3,9 +3,14 @@ import { t } from "i18next";
 import { Box, Spinner, Text, Stack, Button } from "zmp-ui";
 
 export class CommonComponentUtils {
-  public static renderLoading(message: string) {
+  public static renderLoading(message: string, size?: "small" | "normal" | "large") {
+    let width = 0;
+    if (!size) size = "normal";
+    if (size === "small") width = 50;
+    if (size === "normal") width = 100;
+    if (size === "large") width = 150; 
     return (
-      <Box flex flexDirection="column" justifyContent="center" alignItems="center">
+      <Box flex flexDirection="column" justifyContent="center" alignItems="center" style={{ width: `${width}px` }}>
         <Spinner visible/>
         <Text.Title style={{
           textTransform: "capitalize",

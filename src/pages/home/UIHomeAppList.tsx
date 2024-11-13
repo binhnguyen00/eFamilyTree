@@ -58,7 +58,7 @@ export default function UIHomeAppList() {
   return (
     <Stack space="0.5rem">
       <Text.Title className="text-capitalize"> {t("utilities")} </Text.Title>
-      <Grid columnCount={4}>
+      <Grid columnCount={4} rowSpace="0.5rem">
         {renderApps()}
       </Grid>
       <RequestPhone visible={sheetVisible} closeSheet={() => setSheetVisible(false)}/>
