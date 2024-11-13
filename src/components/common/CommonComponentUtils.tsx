@@ -10,8 +10,11 @@ export class CommonComponentUtils {
     if (size === "normal") width = 100;
     if (size === "large") width = 150; 
     return (
-      <Box flex flexDirection="column" justifyContent="center" alignItems="center" style={{ width: `${width}px` }}>
-        <Spinner visible/>
+      <Box flex flexDirection="column" justifyContent="center" alignItems="center">
+        {/* TODO: implement size */}
+        <div>
+          <Spinner visible/>
+        </div>
         <Text.Title style={{
           textTransform: "capitalize",
         }} size="small"> {message} </Text.Title>

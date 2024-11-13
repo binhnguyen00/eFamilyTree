@@ -32,11 +32,7 @@ export default function UIHomeLayout() {
 
         <UIDivider/>
 
-        <React.Suspense fallback={
-          CommonComponentUtils.renderLoading(t("loading"), 'small')
-        }>
-          <UIHomeAppList/>
-        </React.Suspense>
+        <UIHomeAppList/>
 
         <UIDivider/>
 
