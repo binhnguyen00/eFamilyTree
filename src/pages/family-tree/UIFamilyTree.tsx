@@ -29,7 +29,7 @@ function UIFamilyTree() {
   const [ resetBtn, setResetBtn ] = React.useState<boolean>(false);
 
   const [ reload, setReload ] = React.useState(false);
-  const [ fetchError, setFetchError ] = React.useState(false);
+  const [ loading, setLoading ] = React.useState(true);
 
   const showMemberDetail = () => {
     setSelectId("");
@@ -50,20 +50,19 @@ function UIFamilyTree() {
 
   React.useEffect(() => {
     const success = (result: any[] | string) => {
+      setLoading(false);
       setResetBtn(false);
       if (typeof result === 'string') {
-        setFetchError(true);
         console.warn(result);
       } else {
-        setFetchError(false);
-        const data = result["members"] || [];
+        const data = result["members"] || null;
         const mems: FamilyMember[] = FamilyTreeUtils.remapServerData(data);
         setFamilyMembers(FamilyTreeUtils.removeDuplicates(mems));
         setRootId(`${data.id}`);
       }
     }
     const fail = (error: FailResponse) => {
-      setFetchError(true);
+      setLoading(false);
       console.error(error.stackTrace);
     } 
 
@@ -71,14 +70,18 @@ function UIFamilyTree() {
   }, [ reload ])
 
   const renderTree = () => {
-    if (familyMembers.length > 0) {
+    if (!loading) {
       return (
-        <div className="max-h">
+        <>
           {renderResetTree()}
 
-          <TransformWrapper centerOnInit minScale={0.01}>
+          <TransformWrapper 
+            minScale={0.1} 
+            centerOnInit 
+            centerZoomedOut
+          >
             {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
-              <>
+              <div style={{ width: "100%", height: "100%", position: "fixed" }}>
                 <TransformComponent>
                   <FamilyTree
                     nodes={familyMembers as any}
@@ -99,7 +102,7 @@ function UIFamilyTree() {
                 </TransformComponent>
                 
                 <UITreeControl />
-              </>
+              </div>
             )}
           </TransformWrapper>
 
@@ -124,14 +127,10 @@ function UIFamilyTree() {
               </Grid>
             </ZBox>
           </Sheet>
-        </div>
+        </>
       );
     } else {
-      if (fetchError) {
-        return CommonComponentUtils.renderError(t("server_error"), () => setReload(!reload));
-      } else {
-        return CommonComponentUtils.renderLoading(t("loading_family_tree"));
-      }
+      return CommonComponentUtils.renderLoading(t("loading_family_tree"));
     }
   }
 

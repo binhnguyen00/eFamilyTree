@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Box, Button, Grid, Select, Sheet, Text, useNavigate, ZBox } from "zmp-ui";
+import { Button, Grid, Select, Sheet, Text, useNavigate, ZBox } from "zmp-ui";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import FamilyTree from "components/tree/FamilyTree";
@@ -49,7 +49,7 @@ export default function UIDummyTree() {
   const renderTree = () => {
     if (nodes.length > 0) {
       return (
-        <div className="max-h">
+        <>
           <Select
             label={<p className="text-capitalize"> {t("data_source")} </p>}
             defaultValue={1}
@@ -79,9 +79,13 @@ export default function UIDummyTree() {
             <Select.Option value={4} title={t("Odoo")} />
           </Select>
 
-          <TransformWrapper centerOnInit minScale={0.01} smooth>
+          <TransformWrapper 
+            minScale={0.1} 
+            centerOnInit 
+            centerZoomedOut
+          >
             {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
-              <>
+              <div style={{ width: "100%", height: "100%", position: "fixed" }}>
                 <TransformComponent>
                   <FamilyTree
                     nodes={nodes as any}
@@ -100,9 +104,8 @@ export default function UIDummyTree() {
                     )}
                   />
                 </TransformComponent>
-                
                 <UITreeControl />
-              </>
+              </div>
             )}
           </TransformWrapper>
 
@@ -127,8 +130,7 @@ export default function UIDummyTree() {
               </Grid>
             </ZBox>
           </Sheet>
-
-        </div>
+        </>
       )
     } else return (
       CommonComponentUtils.renderLoading(t("loading"))
