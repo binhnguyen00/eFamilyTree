@@ -22,16 +22,19 @@ export default function UINavigation() {
     "/": {
       label: t("home"),
       icon: <CommonIcons.Home/>,
+      activeIcon: <CommonIcons.Home className="text-tertiary"/>,
       requirePhone: false
     },
     "/family-tree": {
       label: t("family_tree"),
       icon: <CommonIcons.Tree/>,
+      activeIcon: <CommonIcons.Tree className="text-tertiary"/>,
       requirePhone: true
     },
     "/user": {
       label: t("account"),
       icon: <CommonIcons.User/>,
+      activeIcon: <CommonIcons.User className="text-tertiary"/>,
       requirePhone: false
     },
   };
@@ -56,7 +59,7 @@ export default function UINavigation() {
       >
         {Object.keys(tabs).map((path: TabKeys) => (
           <BottomNavigation.Item
-            className="button"
+            className="button bg-secondary text-secondary bold"
             key={path}
             label={tabs[path].label}
             icon={tabs[path].icon}

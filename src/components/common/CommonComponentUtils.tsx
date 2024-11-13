@@ -29,7 +29,7 @@ export class CommonComponentUtils {
       }} className="center">
         <Text.Title size="normal"> {message} </Text.Title>
         {onRetry && (
-          <Button 
+          <Button
             size="small" onClick={onRetry}
           > {t("retry")} </Button>
         )}

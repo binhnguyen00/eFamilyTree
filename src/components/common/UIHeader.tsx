@@ -19,7 +19,8 @@ export default function UIHeader(props: HeaderProps) {
   return (
     <Box flex flexDirection="row" justifyContent="flex-start">
       <Box
-        className="zaui-header"
+        style={{ zIndex: 999 }}
+        className="zaui-header bg-primary"
         flex flexDirection="row" justifyContent="flex-start" alignContent="center" alignItems="center"
       >
         {showBackIcon && (

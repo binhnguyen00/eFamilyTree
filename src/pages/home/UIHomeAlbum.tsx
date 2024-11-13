@@ -89,7 +89,7 @@ export default function UIHomeAlbum() {
     <Stack space="0.5rem">
 
       <Box flex flexDirection="row" justifyContent="space-between" >
-        <Text.Title className="text-capitalize"> {t("album")} </Text.Title>
+        <Text.Title className="text-capitalize text-primary"> {t("album")} </Text.Title>
         {albums.length ? (
           <Box flex flexDirection="row" alignItems="center" className="button" onClick={goToAlbumList}>
             <Text size="small"> {t("more")} </Text>

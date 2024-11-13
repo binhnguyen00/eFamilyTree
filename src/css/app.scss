@@ -1,0 +1,39 @@
+body {
+  background-color: #9e1c1e !important;
+  color: white !important;
+  background: url("../assets/img/background/bg-grid.png") no-repeat 100%;
+}
+
+.text-primary {
+  color: #ffbc58 !important;
+}
+
+.text-secondary {
+  color: #9e1c1e !important;
+}
+
+.text-tertiary {
+  color: whitesmoke !important;
+}
+
+.bg-primary {
+  background: url("../assets/img/background/bg-grid.png") no-repeat 100% !important;
+  background-color: #9e1c1e !important;
+}
+
+.bg-secondary {
+  background-color: #ffb342 !important;
+}
+
+.bg-tertiary {
+  background-color: whitesmoke !important;
+}
+
+.zaui-header::after {
+  height: 0 !important;
+  box-shadow: 2px 10px 30px 3px #ffb342 !important;
+}
+
+.zaui-bottom-navigation-content {
+  height: 100% !important;
+}
