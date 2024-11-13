@@ -39,7 +39,6 @@ function MainRoutes() {
   return (
     <AnimationRoutes>
       <Route path="/" element={<UILayout />} />
-      <Route path="/family-tree-home" element={<UIFamilyTreeHome />} />
       <Route path="/family-tree" element={
         <Suspense fallback={CommonComponentUtils.renderLoading(t("loading_family_tree"))}>
           <UIFamilyTree />
