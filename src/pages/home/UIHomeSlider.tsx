@@ -16,7 +16,12 @@ export function UIHomeSlider() {
       <Swiper loop>
         <Swiper.Slide>
           <UIImageWithText 
-            text="Gìn Giữ Giá Trị Gia Tộc"
+            text={
+              <Stack space="1rem">
+                <p>{"Gìn Giữ Giá Trị"}</p>
+                <p>{"Gia Tộc"}</p>
+              </Stack>
+            }
             textStyle={{ fontSize: "2rem" }}
             src={banner_01}
             height={150}
