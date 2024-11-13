@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Box, Grid, Stack, Text, useNavigate } from "zmp-ui";
+import { Box, Button, Grid, Stack, Text, useNavigate } from "zmp-ui";
 import { logedInState, phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
@@ -38,7 +38,13 @@ export default function UIHomeAlbum() {
   const renderAlbums = () => {
     if (!albums.length) {
       return (
-        <Text size="small">{ t("no_album") }</Text>
+        <>
+          <Text size="small">{ t("no_album") }</Text>
+          <Box flex flexDirection="row" alignItems="center" justifyContent="center" className="button">
+            <CommonIcons.AddPhoto size={"1rem"}/>
+            <Text size="small" className="ml-1"> {t("create")} </Text>
+          </Box>
+        </>
       )
     } else {
       let html = [] as React.ReactNode[];

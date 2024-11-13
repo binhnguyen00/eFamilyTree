@@ -7,6 +7,7 @@ import { FaInfoCircle } from "react-icons/fa";
 import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { TbPhotoPlus } from "react-icons/tb";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import { IoMdAdd } from "react-icons/io";
 
 const CommonIcons = {
   Home: GoHomeFill,
@@ -20,6 +21,7 @@ const CommonIcons = {
   ZoomOut: TiZoomOutOutline,
   ChevonRight: IoIosArrowForward,
   ChevonLeft: IoIosArrowBack,
+  Plus: IoMdAdd
 };
 
 export default CommonIcons;

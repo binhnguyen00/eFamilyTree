@@ -38,7 +38,13 @@ export default function UIHomeBlog() {
   const renderBlogs = () => {
     if (!blogs.length) {
       return (
-        <Text size="small">{ t("no_blogs") }</Text>
+        <>
+          <Text size="small">{ t("no_blogs") }</Text>
+          <Box flex flexDirection="row" alignItems="center" justifyContent="center" className="button">
+            <CommonIcons.Plus size={"1rem"}/>
+            <Text size="small" className="ml-1"> {t("create")} </Text>
+          </Box>
+        </>
       )
     } else {
       let html = [] as React.ReactNode[];
@@ -75,7 +81,11 @@ export default function UIHomeBlog() {
           </Stack>
         );
       }
-      return html
+      return (
+        <div className="scroll-h flex-h">
+          {html}
+        </div>
+      )
     }
   }
 
@@ -92,9 +102,7 @@ export default function UIHomeBlog() {
         ) : null}
       </Box>
 
-      <div className="scroll-h flex-h">
-        {renderBlogs()}
-      </div>
+      {renderBlogs()}
 
     </Stack>
   )
