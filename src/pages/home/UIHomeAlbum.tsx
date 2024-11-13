@@ -7,7 +7,6 @@ import { useRecoilValue } from "recoil";
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 
-import CommonIcons from "components/icon/common";
 import UIDivider from "components/common/UIDivider";
 
 export default function UIHomeAlbum() {
@@ -35,9 +34,7 @@ export default function UIHomeAlbum() {
 
   const renderAlbums = () => {
     if (!albums.length) {
-      return (
-        <Text size="small">{ t("no_album") }</Text>
-      )
+      return <Text size="small">{ t("no_album") }</Text>
     } else {
       let html = [] as React.ReactNode[];
       for (let i = 1; i <= albums.length; i++) {

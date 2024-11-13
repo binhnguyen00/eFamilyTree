@@ -3,13 +3,14 @@ import React from 'react';
 import { Stack } from 'zmp-ui';
 import { t } from 'i18next';
 
-import UIHomeBanner from './UIHomeBanner';
-import UIHomeAppList from './UIHomeAppList';
+import { CommonComponentUtils } from 'components/common/CommonComponentUtils';
+
 import UIHeader from 'components/common/UIHeader';
 import UIHeaderUser from 'components/login/UIHeaderUser';
+import UIHomeBanner from './UIHomeBanner';
+import UIHomeAppList from './UIHomeAppList';
 import UIHomeAlbum from './UIHomeAlbum';
-
-import { CommonComponentUtils } from 'components/common/CommonComponentUtils';
+import UIHomeBlog from './UIHomeBlog';
 
 export function UILayout() {
 
@@ -36,6 +37,11 @@ export function UILayout() {
           CommonComponentUtils.renderLoading(t("loading"))
         }>
           <UIHomeAlbum/>
+        </React.Suspense>
+        <React.Suspense fallback={
+          CommonComponentUtils.renderLoading(t("loading"))
+        }>
+          <UIHomeBlog/>
         </React.Suspense>
       </Stack>
     </div>

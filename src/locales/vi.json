@@ -48,16 +48,16 @@
   "image_list": "ảnh",
 
   "loading_blogs": "Đang tải bài đăng...",
-  "no_blogs": "Chưa có bài đăng nào",
+  "no_blogs": "Chưa có bài đăng",
   "detail_blog": "Chi tiết bài đăng",
   "demo_blogs": "Demo Bài Đăng",
 
   "loading_family_tree": "đang tải cây gia tộc...",
-  "no_family_tree": "chưa có cây gia tộc nào",
+  "no_family_tree": "chưa có cây gia tộc",
   "dummy_tree": "cây gia tộc",
 
   "loading_calendar": "Đang tải sự kiện...",
-  "no_calendar_events": "Chưa có sự kiện nào",
+  "no_calendar_events": "Chưa có sự kiện",
   "demo_calendar": "Demo Sự Kiện",
 
   "funds": "Quỹ Gia Tộc",
