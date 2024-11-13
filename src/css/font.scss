@@ -13,3 +13,17 @@
 .text-capitalize {
   text-transform: capitalize;
 }
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.text-wrap {
+  white-space: normal; /* Allows text to wrap */
+  word-wrap: break-word; /* Breaks long words if needed */
+  overflow-wrap: break-word; /* Ensures text breaks when necessary */
+}
+
+.text-center {
+  text-align: center;
+}
