@@ -52,12 +52,13 @@ export const userState = selector({
     const defaultUser = {
       id: "",
       avatar: "",
-      name: t("zalo_user"),
+      name: t("account"),
     }
     if (requested) {
       try {
         const { userInfo } = await getUserInfo({ autoRequestPermission: true });
-        return userInfo;
+        if (userInfo.id) return userInfo;
+        else return defaultUser;
       } catch (error) {
         console.error("Error fetching user info:", error);
         return defaultUser;

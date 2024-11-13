@@ -7,7 +7,7 @@ import { useRecoilValue } from "recoil";
 import { logedInState } from "states";
 
 import AppIcons from "components/icon/app";
-import UILoginButton from "components/login/UILoginButton";
+import UIRequestLoginButton from "components/login/UIRequestLoginButton";
 
 interface App {
   key: string;
@@ -129,7 +129,7 @@ function RequestPhone(props: { visible: boolean, closeSheet: () => void }) {
         </Box>
         <Text> {t("login_requirement")} </Text>
         <Stack>
-          <UILoginButton size="medium" onClickCallBack={closeSheet}/>
+          <UIRequestLoginButton size="medium" onClickCallBack={closeSheet}/>
           <Button variant="tertiary" onClick={closeSheet}>
             <Text style={{ color: "red" }}> {t("decline")} </Text>
           </Button>

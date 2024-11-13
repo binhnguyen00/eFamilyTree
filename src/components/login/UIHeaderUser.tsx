@@ -4,14 +4,14 @@ import { phoneState, userState } from "states";
 import { Avatar, Box, Text, useNavigate } from "zmp-ui";
 
 import UIHeader from "components/common/UIHeader";
-import UILoginButton from "./UILoginButton";
+import UIRequestLoginButton from "./UIRequestLoginButton";
 
 export default function UIHeaderUser() {
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
   const phone = useRecoilValue(phoneState);
 
-  if (!phone) return <UILoginButton/>
+  if (!phone) return <UIRequestLoginButton/>
   else {
     const UIUserInfo = () => {
       return (
@@ -21,7 +21,7 @@ export default function UIHeaderUser() {
             src={user.avatar.startsWith("http") ? user.avatar : undefined}
             onClick={() => navigate("/user")}
           />
-          <Text size="large" className="button" onClick={() => navigate("/user")}> 
+          <Text size="small" className="button" onClick={() => navigate("/user")}> 
             {user.name} 
           </Text>
         </Box>
