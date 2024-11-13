@@ -22,9 +22,9 @@ export default function UINavigation() {
       label: t("family_tree"),
       icon: <CommonIcons.Tree/>,
     },
-    "/about": {
-      label: t("about"),
-      icon: <CommonIcons.Info/>,
+    "/user": {
+      label: t("account"),
+      icon: <CommonIcons.User/>,
     },
   };
   type TabKeys = keyof typeof tabs;

@@ -5,7 +5,7 @@ import { t } from "i18next";
 
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 
-import { UILayout } from "pages/home/UILayout";
+import { UIHomeLayout } from "pages/home/UIHomeLayout";
 import UIAbout from "pages/about/UIAbout";
 import UIFamilyTreeHome from "pages/family-tree/UIFamilyTreeHome";
 import UIImageList from "./album/UIImageList";
@@ -38,7 +38,7 @@ const UIDummyNavigate = lazy(() => import("./dummy/UIDummyNavigate"));
 function MainRoutes() {
   return (
     <AnimationRoutes>
-      <Route path="/" element={<UILayout />} />
+      <Route path="/" element={<UIHomeLayout />} />
       <Route path="/family-tree" element={
         <Suspense fallback={CommonComponentUtils.renderLoading(t("loading_family_tree"))}>
           <UIFamilyTree />

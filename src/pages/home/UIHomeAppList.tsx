@@ -7,7 +7,6 @@ import { useRecoilValue } from "recoil";
 import { logedInState } from "states";
 
 import AppIcons from "components/icon/app";
-import UIDivider from "components/common/UIDivider";
 import UILoginButton from "components/login/UILoginButton";
 
 interface App {
@@ -24,6 +23,7 @@ export default function UIHomeAppList() {
     { key: "blogs", label: t("blogs"), requirePhone: true },
     { key: "funds", label: t("funds"), requirePhone: true },
     { key: "upcoming", label: t("upcoming"), requirePhone: false },
+    { key: "about", label: t("about"), requirePhone: false },
     { key: "developer", label: t("developer"), requirePhone: false }
   ];
 
@@ -100,6 +100,8 @@ function AppSymbol({ iconKey }: { iconKey: string }) {
       return <AppIcons.Funds key={`ico-${iconKey}`} size={"3rem"}/>
     case "upcoming":
       return <AppIcons.Upcoming key={`ico-${iconKey}`} size={"3rem"}/>
+    case "about":
+      return <AppIcons.Info key={`ico-${iconKey}`} size={"3rem"}/>
     case "developer":
       return <AppIcons.CommandLine key={`ico-${iconKey}`} size={"3rem"}/>
     default: 

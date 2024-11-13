@@ -13,7 +13,7 @@ import UIHomeAlbum from './UIHomeAlbum';
 import UIHomeBlog from './UIHomeBlog';
 import UIDivider from 'components/common/UIDivider';
 
-export function UILayout() {
+export function UIHomeLayout() {
 
   return (
     <div className='container'>
@@ -23,7 +23,7 @@ export function UILayout() {
         </React.Suspense>
       }/>
 
-      <Stack space='1.5rem'>
+      <Stack space='1.2rem'>
         <React.Suspense fallback={
           CommonComponentUtils.renderLoading(t("loading"))
         }>
