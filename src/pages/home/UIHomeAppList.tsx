@@ -5,10 +5,10 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { t } from "i18next";
 import { useRecoilValue } from "recoil";
 import { logedInState } from "states";
-import { UILoginButton } from "components/login/UILoginButton";
 
-import { AppIcons } from "components/icon/app";
+import AppIcons from "components/icon/app";
 import UIDivider from "components/common/UIDivider";
+import UILoginButton from "components/login/UILoginButton";
 
 interface App {
   key: string;

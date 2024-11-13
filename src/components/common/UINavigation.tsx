@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { BottomNavigation } from "zmp-ui";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { CommonIcons } from "components/icon/common";
+import CommonIcons from "components/icon/common";
 
 interface MenuItem {
   label: string;

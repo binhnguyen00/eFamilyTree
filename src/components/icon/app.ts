@@ -14,4 +14,4 @@ const AppIcons = {
   Blogs: FcTemplate
 };
 
-export { AppIcons };
+export default AppIcons;

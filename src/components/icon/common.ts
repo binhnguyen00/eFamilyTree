@@ -17,4 +17,4 @@ const CommonIcons = {
   ZoomOut: TiZoomOutOutline
 };
 
-export { CommonIcons }
+export default CommonIcons;
