@@ -77,8 +77,16 @@ body {
 .scrollable {
   display: flex;
   overflow: auto;
-  width: 100vw;
+  width: 100vh;
   scroll-behavior: smooth;
+}
+
+.scroll-h {
+  display: flex;
+  overflow-x: auto; /* Enable horizontal scrolling only */
+  width: 100%;
+  scroll-behavior: smooth;
+  gap: 1rem; /* Optional: Adds space between items */
 }
 
 .box-shadow {

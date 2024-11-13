@@ -7,25 +7,25 @@ import { useRecoilValue } from "recoil";
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 
-import UIDivider from "components/common/UIDivider";
+import blog from "pages/blog/sample/blogs.json";
 
 export default function UIHomeBlog() {
-  const [ blogs, setBlogs ] = React.useState<any[]>([]);
+  const [ blogs, setBlogs ] = React.useState<any[]>(blog);
 
   const navigate = useNavigate();
   const loginedIn = useRecoilValue(logedInState);
   const phoneNumber = useRecoilValue(phoneState);
 
-  React.useEffect(() => {
-    if (loginedIn) {
-      const success = (result: any[] | string) => {
-        if (typeof result === 'string') console.warn(result);
-        else setBlogs(result || []);
-      };
-      const fail = (error: FailResponse) => console.error(error.stackTrace);
-      EFamilyTreeApi.getMemberBlogs(phoneNumber, success, fail);
-    }
-  }, [loginedIn, phoneNumber]);
+  // React.useEffect(() => {
+  //   if (loginedIn) {
+  //     const success = (result: any[] | string) => {
+  //       if (typeof result === 'string') console.warn(result);
+  //       else setBlogs(result || []);
+  //     };
+  //     const fail = (error: FailResponse) => console.error(error.stackTrace);
+  //     EFamilyTreeApi.getMemberBlogs(phoneNumber, success, fail);
+  //   }
+  // }, [loginedIn, phoneNumber]);
 
   const navigateToBlog = (title: string, content: string) => {
     const blog = { title, content };
@@ -34,7 +34,9 @@ export default function UIHomeBlog() {
 
   const renderBlogs = () => {
     if (!blogs.length) {
-      return <Text size="small">{ t("no_blogs") }</Text>
+      return (
+        <Text size="small">{ t("no_blogs") }</Text>
+      )
     } else {
       let html = [] as React.ReactNode[];
       for (let i = 1; i <= blogs.length; i++) {
@@ -49,12 +51,13 @@ export default function UIHomeBlog() {
 
         const imageUrl = coverProperties["background-image"] as string;
         const imgSrc = `${EFamilyTreeApi.getServerBaseUrl()}${imageUrl.replace(/url\(['"]?(.*?)['"]?\)/, '$1')}`;
+        const imgStyle = { width: 300, height: 180, objectFit: 'cover', maxWidth: "unset" } as React.CSSProperties;
         const content = post["content"];
 
         html.push(
-          <Box key={`blog-${i}`} flex flexDirection="column">
+          <Stack key={`blog-${i}`} space="0.5rem">
             <Text.Title 
-              size="normal" className="button"
+              size="small" className="button"
               onClick={() => navigateToBlog(post["name"], content)}
             > 
               {post["name"]} 
@@ -62,17 +65,14 @@ export default function UIHomeBlog() {
             <Text size="small"> {post["post_date"]} </Text>
             <img 
               className="button"
-              src={imgSrc} 
+              src={imgSrc || undefined} 
+              style={imgStyle}
               onClick={() => navigateToBlog(post["name"], content)}
             />
-          </Box>
+          </Stack>
         );
       }
-      return (
-        <Box flex flexDirection="row" justifyContent="center" alignItems="center">
-          {html}
-        </Box>
-      )
+      return html
     }
   }
 
@@ -80,9 +80,11 @@ export default function UIHomeBlog() {
     <Stack space="0.5rem">
       <Box flex flexDirection="row" justifyContent="space-between">
         <Text.Title className="text-capitalize"> {t("blogs")} </Text.Title>
+        {/* Add Show more */}
       </Box>
-      <UIDivider/>
-      {renderBlogs()}
+      <div className="scroll-h flex-h">
+        {renderBlogs()}
+      </div>
     </Stack>
   )
 }

@@ -7,8 +7,6 @@ import { useRecoilValue } from "recoil";
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 
-import UIDivider from "components/common/UIDivider";
-
 export default function UIHomeAlbum() {
   const [albums, setAlbums] = React.useState<any[]>([]);
 
@@ -34,7 +32,9 @@ export default function UIHomeAlbum() {
 
   const renderAlbums = () => {
     if (!albums.length) {
-      return <Text size="small">{ t("no_album") }</Text>
+      return (
+        <Text size="small">{ t("no_album") }</Text>
+      )
     } else {
       let html = [] as React.ReactNode[];
       for (let i = 1; i <= albums.length; i++) {
@@ -55,7 +55,7 @@ export default function UIHomeAlbum() {
               />
             </div>
             <Stack className="album-right">
-              <Text.Title>{album.name}</Text.Title>
+              <Text.Title size="small">{album.name}</Text.Title>
               <Text>{album.file_anh.length || 0}</Text>
               <Text>{album.thoi_gian}</Text>
               <Text>{album.dia_diem}</Text>
@@ -76,9 +76,7 @@ export default function UIHomeAlbum() {
     <Stack space="0.5rem">
       <Box flex flexDirection="row" justifyContent="space-between">
         <Text.Title className="text-capitalize"> {t("album")} </Text.Title>
-        
       </Box>
-      <UIDivider />
       {renderAlbums()}
     </Stack>
   );

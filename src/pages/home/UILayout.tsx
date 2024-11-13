@@ -11,6 +11,7 @@ import UIHomeBanner from './UIHomeBanner';
 import UIHomeAppList from './UIHomeAppList';
 import UIHomeAlbum from './UIHomeAlbum';
 import UIHomeBlog from './UIHomeBlog';
+import UIDivider from 'components/common/UIDivider';
 
 export function UILayout() {
 
@@ -22,27 +23,39 @@ export function UILayout() {
         </React.Suspense>
       }/>
 
-      <Stack space='1rem'>
+      <Stack space='1.5rem'>
         <React.Suspense fallback={
           CommonComponentUtils.renderLoading(t("loading"))
         }>
           <UIHomeBanner/>
         </React.Suspense>
+
+        <UIDivider/>
+
         <React.Suspense fallback={
           CommonComponentUtils.renderLoading(t("loading"))
         }>
           <UIHomeAppList/>
         </React.Suspense>
+
+        <UIDivider/>
+
         <React.Suspense fallback={
           CommonComponentUtils.renderLoading(t("loading"))
         }>
           <UIHomeAlbum/>
         </React.Suspense>
+
+        <UIDivider/>
+
         <React.Suspense fallback={
           CommonComponentUtils.renderLoading(t("loading"))
         }>
           <UIHomeBlog/>
         </React.Suspense>
+
+        <UIDivider/>
+
       </Stack>
     </div>
   )
