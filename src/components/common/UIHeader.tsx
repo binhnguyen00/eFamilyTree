@@ -1,6 +1,7 @@
 import React from "react";
-import { IoIosArrowBack } from "react-icons/io";
 import { Box, Stack, Text, useNavigate } from "zmp-ui";
+
+import CommonIcons from "components/icon/common";
 
 interface HeaderProps {
   title?: string;
@@ -22,7 +23,7 @@ export default function UIHeader(props: HeaderProps) {
         flex flexDirection="row" justifyContent="flex-start" alignContent="center" alignItems="center"
       >
         {showBackIcon && (
-          <IoIosArrowBack 
+          <CommonIcons.ChevonLeft
             className="button-bounce" size={"1.5rem"} 
             onClick={() => {
               navigate(-1);

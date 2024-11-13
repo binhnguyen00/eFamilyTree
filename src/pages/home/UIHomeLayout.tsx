@@ -25,7 +25,7 @@ export default function UIHomeLayout() {
 
       <Stack space='1.2rem'>
         <React.Suspense fallback={
-          CommonComponentUtils.renderLoading(t("loading"))
+          CommonComponentUtils.renderLoading(t("loading"), 'small')
         }>
           <UIHomeBanner/>
         </React.Suspense>
@@ -33,7 +33,7 @@ export default function UIHomeLayout() {
         <UIDivider/>
 
         <React.Suspense fallback={
-          CommonComponentUtils.renderLoading(t("loading"))
+          CommonComponentUtils.renderLoading(t("loading"), 'small')
         }>
           <UIHomeAppList/>
         </React.Suspense>
@@ -41,7 +41,7 @@ export default function UIHomeLayout() {
         <UIDivider/>
 
         <React.Suspense fallback={
-          CommonComponentUtils.renderLoading(t("loading"))
+          CommonComponentUtils.renderLoading(t("loading"), 'small')
         }>
           <UIHomeAlbum/>
         </React.Suspense>
@@ -49,7 +49,7 @@ export default function UIHomeLayout() {
         <UIDivider/>
 
         <React.Suspense fallback={
-          CommonComponentUtils.renderLoading(t("loading"))
+          CommonComponentUtils.renderLoading(t("loading"), 'small')
         }>
           <UIHomeBlog/>
         </React.Suspense>

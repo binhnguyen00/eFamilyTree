@@ -6,6 +6,7 @@ import { useRecoilValue } from "recoil";
 
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
+import CommonIcons from "components/icon/common";
 
 export default function UIHomeBlog() {
   const [ blogs, setBlogs ] = React.useState<any[]>([]);
@@ -25,10 +26,14 @@ export default function UIHomeBlog() {
     }
   }, [loginedIn, phoneNumber]);
 
-  const navigateToBlog = (title: string, content: string) => {
+  const goToBlogDetail = (title: string, content: string) => {
     const blog = { title, content };
     navigate("/blog-detail", { state: { blog } });
   };
+
+  const goToBlogs = () => {
+    navigate("/blogs");
+  }
 
   const renderBlogs = () => {
     if (!blogs.length) {
@@ -56,7 +61,7 @@ export default function UIHomeBlog() {
           <Stack key={`blog-${i}`} space="0.5rem">
             <Text.Title 
               size="small" className="button"
-              onClick={() => navigateToBlog(post["name"], content)}
+              onClick={() => goToBlogDetail(post["name"], content)}
             > 
               {post["name"]} 
             </Text.Title>
@@ -65,7 +70,7 @@ export default function UIHomeBlog() {
               className="button"
               src={imgSrc || undefined} 
               style={imgStyle}
-              onClick={() => navigateToBlog(post["name"], content)}
+              onClick={() => goToBlogDetail(post["name"], content)}
             />
           </Stack>
         );
@@ -76,13 +81,21 @@ export default function UIHomeBlog() {
 
   return (
     <Stack space="0.5rem">
+
       <Box flex flexDirection="row" justifyContent="space-between">
         <Text.Title className="text-capitalize"> {t("blogs")} </Text.Title>
-        {/* Add Show more */}
+        {blogs.length ? (
+          <Box flex flexDirection="row" alignItems="center" className="button" onClick={goToBlogs}>
+            <Text size="small"> {t("more")} </Text>
+            <CommonIcons.ChevonRight size={"1rem"}/>
+          </Box>
+        ) : null}
       </Box>
+
       <div className="scroll-h flex-h">
         {renderBlogs()}
       </div>
+
     </Stack>
   )
 }

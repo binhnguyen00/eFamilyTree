@@ -6,6 +6,7 @@ import { useRecoilValue } from "recoil";
 
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
+import CommonIcons from "components/icon/common";
 
 export default function UIHomeAlbum() {
   const [albums, setAlbums] = React.useState<any[]>([]);
@@ -28,6 +29,10 @@ export default function UIHomeAlbum() {
   const goToImageList = (album: any) => {
     const images = album?.file_anh || [] as any[];
     navigate("/album/image-list", { state: { images } });
+  }
+
+  const goToAlbumList = () => {
+    navigate("/album");
   }
 
   const renderAlbums = () => {
@@ -72,12 +77,23 @@ export default function UIHomeAlbum() {
     }
   };
 
+
+
   return (
     <Stack space="0.5rem">
-      <Box flex flexDirection="row" justifyContent="space-between">
+
+      <Box flex flexDirection="row" justifyContent="space-between" >
         <Text.Title className="text-capitalize"> {t("album")} </Text.Title>
+        {albums.length ? (
+          <Box flex flexDirection="row" alignItems="center" className="button" onClick={goToAlbumList}>
+            <Text size="small"> {t("more")} </Text>
+            <CommonIcons.ChevonRight size={"1rem"}/>
+          </Box>
+        ) : null}
       </Box>
+
       {renderAlbums()}
+
     </Stack>
   );
 }

@@ -6,6 +6,7 @@ import { PiTreeFill } from "react-icons/pi";
 import { FaInfoCircle } from "react-icons/fa";
 import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { TbPhotoPlus } from "react-icons/tb";
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
 const CommonIcons = {
   Home: GoHomeFill,
@@ -16,7 +17,9 @@ const CommonIcons = {
   Tree: PiTreeFill,
   Info: FaInfoCircle,
   ZoomIn: TiZoomInOutline,
-  ZoomOut: TiZoomOutOutline
+  ZoomOut: TiZoomOutOutline,
+  ChevonRight: IoIosArrowForward,
+  ChevonLeft: IoIosArrowBack,
 };
 
 export default CommonIcons;
