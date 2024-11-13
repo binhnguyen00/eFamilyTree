@@ -7,25 +7,23 @@ import { useRecoilValue } from "recoil";
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 
-import blog from "pages/blog/sample/blogs.json";
-
 export default function UIHomeBlog() {
-  const [ blogs, setBlogs ] = React.useState<any[]>(blog);
+  const [ blogs, setBlogs ] = React.useState<any[]>([]);
 
   const navigate = useNavigate();
   const loginedIn = useRecoilValue(logedInState);
   const phoneNumber = useRecoilValue(phoneState);
 
-  // React.useEffect(() => {
-  //   if (loginedIn) {
-  //     const success = (result: any[] | string) => {
-  //       if (typeof result === 'string') console.warn(result);
-  //       else setBlogs(result || []);
-  //     };
-  //     const fail = (error: FailResponse) => console.error(error.stackTrace);
-  //     EFamilyTreeApi.getMemberBlogs(phoneNumber, success, fail);
-  //   }
-  // }, [loginedIn, phoneNumber]);
+  React.useEffect(() => {
+    if (loginedIn) {
+      const success = (result: any[] | string) => {
+        if (typeof result === 'string') console.warn(result);
+        else setBlogs(result || []);
+      };
+      const fail = (error: FailResponse) => console.error(error.stackTrace);
+      EFamilyTreeApi.getMemberBlogs(phoneNumber, success, fail);
+    }
+  }, [loginedIn, phoneNumber]);
 
   const navigateToBlog = (title: string, content: string) => {
     const blog = { title, content };
