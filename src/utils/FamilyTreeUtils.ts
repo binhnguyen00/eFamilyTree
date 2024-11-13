@@ -1,4 +1,4 @@
-import { FamilyMember } from "../components/node/Node";
+import { FamilyMember } from "../components/node/TreeNode";
 
 interface OdooPerson {
   id: number;
@@ -15,8 +15,8 @@ interface OdooNode {
   spouseData: OdooPerson[];
 }
 
-export const NODE_WIDTH = 180;
-export const NODE_HEIGHT = 80;
+export const NODE_WIDTH = 150;
+export const NODE_HEIGHT = 200;
 
 export class FamilyTreeUtils {
   

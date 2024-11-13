@@ -10,7 +10,7 @@ import { useRecoilValue } from "recoil";
 
 import FamilyTree from "components/tree/FamilyTree";
 import UIHeader from "components/common/UIHeader";
-import Node, { FamilyMember } from "components/node/Node";
+import TreeNode, { FamilyMember } from "components/node/TreeNode";
 
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 import { FailResponse } from "utils/Interface";
@@ -87,7 +87,7 @@ function UIFamilyTree() {
                     height={NODE_HEIGHT}
                     width={NODE_WIDTH}
                     renderNode={(node: any) => (
-                      <Node
+                      <TreeNode
                         key={node.id}
                         node={node}
                         displayField="name"

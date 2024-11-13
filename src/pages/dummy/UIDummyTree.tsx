@@ -4,7 +4,7 @@ import { Box, Button, Grid, Select, Sheet, Text, useNavigate, ZBox } from "zmp-u
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import FamilyTree from "components/tree/FamilyTree";
-import Node from "components/node/Node";
+import TreeNode from "components/node/TreeNode";
 
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 import { UITreeControl } from "pages/family-tree/UIFamilyTree";
@@ -89,7 +89,7 @@ export default function UIDummyTree() {
                     width={NODE_WIDTH}
                     height={NODE_HEIGHT}
                     renderNode={(node: any) => (
-                      <Node
+                      <TreeNode
                         key={node.id}
                         node={node}
                         displayField={selectNameField}
