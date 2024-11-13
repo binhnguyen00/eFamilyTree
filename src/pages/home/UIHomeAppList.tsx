@@ -1,12 +1,12 @@
 import React from "react";
-import { Box, Button, Grid, Sheet, Stack, Text, useNavigate } from "zmp-ui";
+import { Grid, Stack, Text, useNavigate } from "zmp-ui";
 
-import { FaPhoneAlt } from "react-icons/fa";
 import { t } from "i18next";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { logedInState, requestPhoneTriesState } from "states";
+import { useRecoilValue } from "recoil";
+import { logedInState } from "states";
 
 import AppIcons from "components/icon/app";
+import UIRequestPhone from "components/common/UIRequestPhone";
 
 interface App {
   key: string;
@@ -60,7 +60,7 @@ export default function UIHomeAppList() {
       <Grid columnCount={4} rowSpace="0.5rem">
         {renderApps()}
       </Grid>
-      <RequestPhone visible={sheetVisible} closeSheet={() => setSheetVisible(false)}/>
+      <UIRequestPhone visible={sheetVisible} closeSheet={() => setSheetVisible(false)}/>
     </Stack>
   )
 }
@@ -106,41 +106,4 @@ function AppSymbol({ iconKey }: { iconKey: string }) {
     default: 
       return <AppIcons.Approval key={`ico-${iconKey}`} size={"3rem"}/>
   }
-}
-
-function RequestPhone(props: { visible: boolean, closeSheet: () => void }) {
-  const { visible, closeSheet } = props;
-  const retry = useSetRecoilState(requestPhoneTriesState);
-
-  return (
-    <Sheet
-      visible={visible}
-      autoHeight
-      mask
-      handler
-      swipeToClose
-      onClose={closeSheet}
-      title={t("need_login")}
-      className="text-capitalize"
-    >
-      <Stack space="1rem" className="p-3">
-        <Box flex flexDirection="row" alignItems="center">
-          <FaPhoneAlt size={16}/>
-          <Text className="ml-2"> {t("phone_requirement")} </Text>
-        </Box>
-        <Text> {t("login_requirement")} </Text>
-        <Stack>
-          <Button size="small" onClick={() => {
-            retry(r => r + 1);
-            closeSheet();
-          }}>
-            {t("login")}
-          </Button>
-          <Button variant="tertiary" onClick={closeSheet}>
-            <Text style={{ color: "red" }}> {t("decline")} </Text>
-          </Button>
-        </Stack>
-      </Stack>
-    </Sheet>
-  )
 }
