@@ -2,11 +2,12 @@ import React from "react";
 import { t } from "i18next";
 import { Stack, Text, Swiper, Grid } from "zmp-ui";
 
-import slide_01 from "../../assets/img/about-swiper-1.jpg";
-import slide_02 from "../../assets/img/about-swiper-2.jpg";
-import people from "../../assets/img/people.png";
-import scroll from "../../assets/img/scroll.png";
-import vietnam from "../../assets/img/vietnam.png";
+import slide_01 from "assets/img/about/about-swiper-1.jpg";
+import slide_02 from "assets/img/about/about-swiper-2.jpg";
+import people from "assets/img/about/people.png";
+import scroll from "assets/img/about/scroll.png";
+import vietnam from "assets/img/about/vietnam.png";
+
 import UIHeader from "components/common/UIHeader";
 
 function UIAbout() {

@@ -4,7 +4,6 @@ import { Stack } from 'zmp-ui';
 import { t } from 'i18next';
 
 import UIHeader from 'components/common/UIHeader';
-import UINavigation from 'components/common/UINavigation';
 
 import { UIHomeSlider } from './UIHomeSlider';
 import { UIAppList } from './UIAppList';
