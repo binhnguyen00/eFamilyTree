@@ -4,6 +4,7 @@ import { IoPersonCircle } from "react-icons/io5";
 import { IoNotifications } from "react-icons/io5";
 import { PiTreeFill } from "react-icons/pi";
 import { FaInfoCircle } from "react-icons/fa";
+import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 
 const CommonIcons = {
   Home: GoHomeFill,
@@ -11,7 +12,9 @@ const CommonIcons = {
   User: IoPersonCircle,
   Notification: IoNotifications,
   Tree: PiTreeFill,
-  Info: FaInfoCircle
+  Info: FaInfoCircle,
+  ZoomIn: TiZoomInOutline,
+  ZoomOut: TiZoomOutOutline
 };
 
 export { CommonIcons }

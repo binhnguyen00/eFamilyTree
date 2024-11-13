@@ -2,7 +2,6 @@ import React from "react";
 import { t } from "i18next";
 import { CgUndo } from "react-icons/cg";
 import { BiHorizontalCenter } from "react-icons/bi";
-import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
 import { BottomNavigation, Sheet, Grid, Button, Text, ZBox, useNavigate } from "zmp-ui";
 
@@ -10,13 +9,16 @@ import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
 import FamilyTree from "components/tree/FamilyTree";
+import UIHeader from "components/common/UIHeader";
 import Node, { FamilyMember } from "components/node/Node";
+
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "utils/FamilyTreeUtils";
 import { FcGenealogy, FcInfo } from "react-icons/fc";
-import UIHeader from "components/common/UIHeader";
+import { CommonIcons } from "components/icon/common";
+
 
 function UIFamilyTree() {
   const phoneNumber = useRecoilValue(phoneState);
@@ -167,13 +169,13 @@ export function UITreeControl() {
       <BottomNavigation.Item
         key="zoomIn"
         label={"+ Zoom"}
-        icon={<TiZoomInOutline/>}
+        icon={<CommonIcons.ZoomIn/>}
         onClick={() => zoomIn()}
       />
       <BottomNavigation.Item
         key="zoomOut"
         label={"- Zoom"}
-        icon={<TiZoomOutOutline />}
+        icon={<CommonIcons.ZoomOut/>}
         onClick={() => zoomOut()}
       />
       <BottomNavigation.Item
