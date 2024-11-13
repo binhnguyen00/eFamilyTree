@@ -1,10 +1,9 @@
 import React from "react";
-
 import { t } from "i18next";
-
-import { FcGenealogy, FcHome, FcInfo } from "react-icons/fc";
 import { BottomNavigation } from "zmp-ui";
 import { useLocation, useNavigate } from "react-router-dom";
+
+import { CommonIcons } from "components/icon/common";
 
 interface MenuItem {
   label: string;
@@ -12,20 +11,20 @@ interface MenuItem {
   activeIcon?: React.ReactNode;
 }
 
-function UINavigation() {
+export default function UINavigation() {
 
   const tabs: Record<string, MenuItem> = {
     "/": {
       label: t("home"),
-      icon: <FcHome />,
+      icon: <CommonIcons.Home/>,
     },
     "/family-tree": {
       label: t("family_tree"),
-      icon: <FcGenealogy />,
+      icon: <CommonIcons.Tree/>,
     },
     "/about": {
       label: t("about"),
-      icon: <FcInfo />,
+      icon: <CommonIcons.Info/>,
     },
   };
   type TabKeys = keyof typeof tabs;
@@ -59,5 +58,3 @@ function UINavigation() {
     </BottomNavigation>
   );
 }  
-
-export default UINavigation;

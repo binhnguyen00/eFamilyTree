@@ -1,13 +1,14 @@
 import React from 'react';
 
 import { Stack } from 'zmp-ui';
+import { t } from 'i18next';
 
 import UIHeader from 'components/common/UIHeader';
+import UINavigation from 'components/common/UINavigation';
 
 import { UIHomeSlider } from './UIHomeSlider';
 import { UIAppList } from './UIAppList';
 import { UIHeaderUser } from 'components/login/UIHeaderUser';
-import { t } from 'i18next';
 
 export function UILayout() {
 

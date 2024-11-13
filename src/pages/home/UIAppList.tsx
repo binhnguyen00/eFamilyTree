@@ -1,14 +1,13 @@
 import React from "react";
 import { Box, Button, Grid, Sheet, Stack, Text, useNavigate } from "zmp-ui";
-import { 
-  FcApproval, FcCalendar, FcCommandLine, FcGenealogy, 
-  FcMoneyTransfer, FcPlanner, FcStackOfPhotos, FcTemplate 
-} from "react-icons/fc";
+
 import { FaPhoneAlt } from "react-icons/fa";
 import { t } from "i18next";
 import { useRecoilValue } from "recoil";
 import { logedInState } from "states";
 import { UILoginButton } from "components/login/UILoginButton";
+
+import { AppIcons } from "components/icon/app";
 
 interface App {
   key: string;
@@ -72,7 +71,7 @@ function AppButton(props: { appKey: string; label: string; onClick: () => void }
   return (
     <div onClick={onClick} className="button">
       <Stack space="0.5rem" className="center">
-        <AppIcon key={`ico-${appKey}`} iconKey={appKey}/> 
+        <AppSymbol key={`ico-${appKey}`} iconKey={appKey}/> 
         <Text
           key={`title-${appKey}`} 
           size="small" 
@@ -86,24 +85,24 @@ function AppButton(props: { appKey: string; label: string; onClick: () => void }
   )
 }
 
-function AppIcon({ iconKey }: { iconKey: string }) {
+function AppSymbol({ iconKey }: { iconKey: string }) {
   switch (iconKey) {
     case "family-tree":
-      return <FcGenealogy key={`ico-${iconKey}`} size={"3rem"}/>
+      return <AppIcons.FamilyTree key={`ico-${iconKey}`} size={"3rem"}/>
     case "album":
-      return <FcStackOfPhotos key={`ico-${iconKey}`} size={"3rem"}/>
+      return <AppIcons.Album key={`ico-${iconKey}`} size={"3rem"}/>
     case "calendar":
-      return <FcCalendar key={`ico-${iconKey}`} size={"3rem"}/>
+      return <AppIcons.Calendar key={`ico-${iconKey}`} size={"3rem"}/>
     case "blogs":
-      return <FcTemplate key={`ico-${iconKey}`} size={"3rem"}/>
+      return <AppIcons.Blogs key={`ico-${iconKey}`} size={"3rem"}/>
     case "funds":
-      return <FcMoneyTransfer key={`ico-${iconKey}`} size={"3rem"}/>
+      return <AppIcons.Funds key={`ico-${iconKey}`} size={"3rem"}/>
     case "upcoming":
-      return <FcPlanner key={`ico-${iconKey}`} size={"3rem"}/>
+      return <AppIcons.Upcoming key={`ico-${iconKey}`} size={"3rem"}/>
     case "developer":
-      return <FcCommandLine key={`ico-${iconKey}`} size={"3rem"}/>
+      return <AppIcons.CommandLine key={`ico-${iconKey}`} size={"3rem"}/>
     default: 
-      return <FcApproval key={`ico-${iconKey}`} size={"3rem"}/>
+      return <AppIcons.Approval key={`ico-${iconKey}`} size={"3rem"}/>
   }
 }
 

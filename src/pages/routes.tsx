@@ -5,11 +5,11 @@ import { t } from "i18next";
 
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 
-import UINavigation from "components/common/UINavigation";
 import { UILayout } from "pages/home/UILayout";
 import UIAbout from "pages/about/UIAbout";
 import UIFamilyTreeHome from "pages/family-tree/UIFamilyTreeHome";
 import UIImageList from "./album/UIImageList";
+import UINavigation from "components/common/UINavigation";
 
 // Lazy load components
 const UIUserDetail = lazy(() => import("pages/user/UIUserDetail"));
@@ -104,20 +104,17 @@ function DemoRoutes() {
 function UIRoutes() {
   return (
     <Box flex flexDirection="column">
+      {/* Render Main Routes */}
+      <Suspense>
+        <MainRoutes />
+      </Suspense>
 
-      <Box flex flexDirection="column">
-        {/* Render Main Routes */}
-        <Suspense>
-          <MainRoutes />
-        </Suspense>
+      {/* Render Demo Routes */}
+      <Suspense>
+        <DemoRoutes />
+      </Suspense>
 
-        {/* Render Demo Routes */}
-        <Suspense>
-          <DemoRoutes />
-        </Suspense>
-      </Box>
-      
-      <UINavigation />
+      <UINavigation/>
     </Box>
   );
 }
