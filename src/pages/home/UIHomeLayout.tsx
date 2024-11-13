@@ -6,7 +6,7 @@ import { t } from 'i18next';
 import { CommonComponentUtils } from 'components/common/CommonComponentUtils';
 
 import UIHeader from 'components/common/UIHeader';
-import UIHeaderUser from 'components/login/UIHeaderUser';
+import UIHeaderUser from 'components/header/UIHeaderUser';
 import UIHomeBanner from './UIHomeBanner';
 import UIHomeAppList from './UIHomeAppList';
 import UIHomeAlbum from './UIHomeAlbum';

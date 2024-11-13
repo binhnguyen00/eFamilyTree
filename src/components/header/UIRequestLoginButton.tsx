@@ -13,7 +13,7 @@ export default function UIRequestLoginButton() {
   return (
     <Box flex flexDirection="row" alignItems="center" justifyContent="space-between" className="button">
       <Avatar
-        size={30} online className="button mr-2"
+        size={30} className="button mr-2"
         src={user.avatar.startsWith("http") ? user.avatar : undefined}
         onClick={() => {
           navigate("/user")

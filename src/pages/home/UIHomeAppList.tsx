@@ -7,7 +7,7 @@ import { useRecoilValue } from "recoil";
 import { logedInState } from "states";
 
 import AppIcons from "components/icon/app";
-import UIRequestLoginButton from "components/login/UIRequestLoginButton";
+import UIRequestLoginButton from "components/header/UIRequestLoginButton";
 
 interface App {
   key: string;
