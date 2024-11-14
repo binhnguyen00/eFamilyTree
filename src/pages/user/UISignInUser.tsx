@@ -1,26 +1,30 @@
 import React from "react";
 import { t } from "i18next";
-import { useSetRecoilState } from "recoil";
-import { requestPhoneTriesState } from "states";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { logedInState, requestPhoneTriesState } from "states";
 
-import { Button, Stack } from "zmp-ui";
+import { Button, Stack, Switch } from "zmp-ui";
 
 export default function UISignInUser() {
   const retry = useSetRecoilState(requestPhoneTriesState);
+  const login = useRecoilValue(logedInState);
+  
   return (
     <Stack space="1rem">
-      <Button onClick={() => retry(r => r + 1)}>
-        {t("login")}
-      </Button>
-      <Button>
-        {t("register")}
-      </Button>
-      <Button>
+      {!login && (
+        <Button variant="secondary" onClick={() => retry(r => r + 1)}>
+          {t("login")}
+        </Button>
+      )}
+      {!login && (
+        <Button variant="secondary">
+          {t("register")}
+        </Button>
+      )}
+      <Button variant="secondary">
         {t("register_clan")}
       </Button>
-      <Button variant="tertiary" size="small" onClick={() => retry(0)}>
-        {t("logout")}
-      </Button>
+      <Switch label={t("vietnamese")} />
     </Stack>
   )
 }

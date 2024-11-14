@@ -55,7 +55,7 @@ export default function UIHomeAppList() {
 
   return (
     <Stack space="0.5rem">
-      <Text.Title className="text-capitalize"> {t("utilities")} </Text.Title>
+      <Text.Title size="xLarge" className="text-capitalize"> {t("utilities")} </Text.Title>
       <Grid columnCount={4} rowSpace="0.5rem">
         {renderApps()}
       </Grid>

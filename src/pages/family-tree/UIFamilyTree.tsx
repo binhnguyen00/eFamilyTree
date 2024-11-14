@@ -118,10 +118,10 @@ export default function UIFamilyTree() {
             } </Text>
             <ZBox padding="1rem">
               <Grid columnCount={2} columnSpace="0.2rem">
-                <Button variant="secondary" onClick={showMemberDetail} prefixIcon={<FcInfo size={24}/>}>
+                <Button variant="secondary" onClick={showMemberDetail} prefixIcon={<CommonIcons.User size={"1.5rem"}/>}>
                   {t("btn_tree_member_info")}
                 </Button>
-                <Button variant="secondary" onClick={renderTreeBranch} prefixIcon={<FcGenealogy size={24}/>}>
+                <Button variant="secondary" onClick={renderTreeBranch} prefixIcon={<CommonIcons.Tree size={"1.5rem"}/>}>
                   {t("btn_tree_member_detail")}
                 </Button>
               </Grid>

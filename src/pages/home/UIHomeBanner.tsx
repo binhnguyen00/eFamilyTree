@@ -12,7 +12,7 @@ export default function UIHomeBanner() {
 
   return (
     <Stack space="0.5rem">
-      <ZText.Title> {t("family_tree")} </ZText.Title>
+      <ZText.Title size="xLarge"> {t("family_tree")} </ZText.Title>
       <Swiper loop autoplay>
         <Swiper.Slide>
           <React.Suspense>
@@ -47,7 +47,7 @@ export default function UIHomeBanner() {
         <Swiper.Slide>
           <React.Suspense>
             <UIImageWithText 
-              text="Kết Nối Dòng Họ"
+              text={<p> {"Kết Nối Dòng Họ"} </p>}
               textStyle={{ fontSize: "2rem" }}
               src={banner_03}
               height={150}

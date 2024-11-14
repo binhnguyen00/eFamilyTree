@@ -93,7 +93,7 @@ export default function UIHomeBlog() {
     <Stack space="0.5rem">
 
       <Box flex flexDirection="row" justifyContent="space-between">
-        <Text.Title className="text-capitalize"> {t("blogs")} </Text.Title>
+        <Text.Title size="xLarge" className="text-capitalize"> {t("blogs")} </Text.Title>
         {blogs.length ? (
           <Box flex flexDirection="row" alignItems="center" className="button" onClick={goToBlogs}>
             <Text size="small"> {t("more")} </Text>

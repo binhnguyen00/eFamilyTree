@@ -28,11 +28,11 @@ function TreeNode({node, displayField, isRoot, onSelectNode, style}: TreeNodePro
   return (
     <div className='tree-node' style={style} onClick={() => onSelectNode(node.id)}>
       <Stack
-        className={`tree-node-${node.gender} button p-2 border center`}
+        className={`tree-node-${node.gender} p-2 border center`}
         style={nodeStyle}
       >
         <Avatar size={60} src={node.avatar ? `http://${node.avatar}` : undefined} className='m-2'/>
-        <Text.Title size='xLarge' style={{ color: "white" }} classID='text-uppercase text-center text-warp'> 
+        <Text.Title size='xLarge' classID='text-uppercase text-center text-warp'> 
           {node[displayField]} 
         </Text.Title>
       </Stack>

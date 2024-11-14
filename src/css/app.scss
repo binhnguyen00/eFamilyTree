@@ -12,10 +12,10 @@ body {
 }
 
 .container {
-  padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + ($header-height + 5px)) !important;
+  padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + ($header-height + 10px)) !important;
   padding-left: 10px;
   padding-right: 10px;
-  padding-bottom: calc(var(--zaui-safe-area-inset-bottom, 0px) + ($footer-height + 5px)) !important;
+  padding-bottom: calc(var(--zaui-safe-area-inset-bottom, 0px) + ($footer-height + 10px)) !important;
   @extend .text-base;
 
   @media (min-width: 640px) {
@@ -86,13 +86,13 @@ body {
 
 // button
 .zaui-btn-primary {
-  background-color: $secondary-color !important;
-  color: $primary-color !important;
+  background-color: $primary-color !important;
+  color: $secondary-color !important;
 }
 
 .zaui-btn-secondary {
-  background-color: $primary-color !important;
-  color: $secondary-color !important;
+  background-color: $secondary-color !important;
+  color: $primary-color !important;
 }
 
 .zaui-btn-tertiary {
@@ -122,7 +122,8 @@ button, .button {
 
 // sheet
 .zaui-sheet-content {
-  background-color: $primary-color !important;
+  @extend .text-primary;
+  background-color: $secondary-color !important;
   background-image: url("../assets/img/background/bg-grid.png") !important;
 }
 

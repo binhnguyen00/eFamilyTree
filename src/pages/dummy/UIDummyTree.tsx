@@ -18,6 +18,7 @@ import odooSample from "pages/family-tree/sample/odoo-sample.json";
 // icons
 import { FcInfo, FcGenealogy } from "react-icons/fc";
 import UIHeader from "components/common/UIHeader";
+import CommonIcons from "components/icon/common";
 
 export default function UIDummyTree() {
   const dataSrcKey = {
@@ -112,8 +113,8 @@ export default function UIDummyTree() {
           <Sheet
             visible={selectId !== ""}
             onClose={() => { setSelectId("") }}
-            autoHeight
             mask
+            autoHeight
             handler
             swipeToClose
             title="Thành Viên"
@@ -121,10 +122,10 @@ export default function UIDummyTree() {
             <Text className="center"> {selectId} </Text>
             <ZBox padding="1rem">
               <Grid columnCount={2} columnSpace="1rem" rowSpace="1rem">
-                <Button variant="secondary" onClick={showMemberDetail} prefixIcon={<FcInfo size={24}/>}>
+                <Button className="" onClick={showMemberDetail} prefixIcon={<CommonIcons.User size={"1.5rem"}/>}>
                   {t("btn_tree_member_info")}
                 </Button>
-                <Button variant="secondary" onClick={renderTreeBranch} prefixIcon={<FcGenealogy size={24}/>}>
+                <Button onClick={renderTreeBranch} prefixIcon={<CommonIcons.Tree size={"1.5rem"}/>}>
                   {t("btn_tree_member_detail")}
                 </Button>
               </Grid>
