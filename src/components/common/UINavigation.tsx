@@ -11,8 +11,8 @@ import UIRequestPhone from "./UIRequestPhone";
 interface MenuItem {
   label: string;
   icon: React.ReactNode;
-  activeIcon?: React.ReactNode;
   requirePhone: boolean;
+  activeIcon?: React.ReactNode;
 }
 
 export default function UINavigation() {
@@ -27,7 +27,7 @@ export default function UINavigation() {
     },
     "/family-tree": {
       label: t("family_tree"),
-      icon: <CommonIcons.Tree/>,
+      icon: <CommonIcons.Tree size={"2rem"}/>,
       activeIcon: <CommonIcons.Tree className="text-tertiary"/>,
       requirePhone: true
     },

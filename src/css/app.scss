@@ -2,11 +2,13 @@ $primary-color: #ab2f31;
 $secondary-color: #ffbc58;
 $tertiary-color: white;
 $header-height: 55px;
+$footer-height: 55px;
 
 body {
   background-color: $primary-color !important;
   color: $tertiary-color !important;
-  background: url("../assets/img/background/bg-grid.png") no-repeat 100%;
+
+  background: url("../assets/img/background/bg-grid.png") no-repeat center center;
 }
 
 .container {
@@ -67,7 +69,7 @@ body {
 
 .zaui-header {
   height: calc(var(--zaui-safe-area-inset-top, 0px) + $header-height) !important;
-  background: url("../assets/img/background/bg-grid.png") no-repeat 100% !important;
+  background: url("../assets/img/background/bg-grid.png") no-repeat center center !important;
   background-color: $primary-color !important;
   color: $secondary-color !important;
 }
@@ -123,7 +125,18 @@ button, .button {
   color: rgb(245, 235, 217) !important;
 }
 
+.zaui-bottom-navigation-item .zaui-bottom-navigation-item-icon {
+  font-size: 24px;
+  width: unset !important;
+  height: unset !important;
+}
+
 .zaui-bottom-navigation-content {
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
+  height: calc(var(--zaui-safe-area-inset-bottom) + $footer-height) !important;
+
+  &::after {
+    height: 0 !important;
+  }
 }
