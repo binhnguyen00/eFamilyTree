@@ -47,27 +47,7 @@
 }
 
 .border {
-  border: black;
-  border-style: solid;
-  border-width: 0.5px;
-}
-
-.text {
-  &.success {
-    color: #28a745;  // Green
-  }
-
-  &.pending {
-    color: #ffc107;  // Yellow
-  }
-
-  &.warning {
-    color: #fd7e14;  // Orange
-  }
-
-  &.danger {
-    color: #dc3545;  // Red
-  }
+  border: white solid 0.5px;
 }
 
 .scrollable {
@@ -87,17 +67,6 @@
 
 .box-shadow {
   box-shadow: 0px 10px 24px rgba(10, 10, 5, 0.16) !important;
-}
-
-.container {
-  padding-top: 95px !important;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 100px !important;
-
-  @media (min-width: 640px) {
-    max-width: 100%;
-  }
 }
 
 .max-h {

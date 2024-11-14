@@ -59,7 +59,7 @@ export default function UINavigation() {
       >
         {Object.keys(tabs).map((path: TabKeys) => (
           <BottomNavigation.Item
-            className="button text-secondary bold"
+            className="button text-primary bold"
             key={path}
             label={tabs[path].label}
             icon={tabs[path].icon}

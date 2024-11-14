@@ -165,25 +165,25 @@ export function UITreeControl() {
       fixed activeKey=""
     >
       <BottomNavigation.Item
-        key="zoomIn"
+        key="zoomIn" className="text-primary"
         label={"+ Zoom"}
         icon={<CommonIcons.ZoomIn/>}
         onClick={() => zoomIn()}
       />
       <BottomNavigation.Item
-        key="zoomOut"
+        key="zoomOut" className="text-primary"
         label={"- Zoom"}
         icon={<CommonIcons.ZoomOut/>}
         onClick={() => zoomOut()}
       />
       <BottomNavigation.Item
-        key="center"
+        key="center" className="text-primary"
         label={t("center_view")}
         icon={<BiHorizontalCenter/>}
         onClick={() => centerView()}
       />
       <BottomNavigation.Item
-        key="reset"
+        key="reset" className="text-primary"
         label={t("reset")}
         icon={<CgUndo/>}
         onClick={() => resetTransform()}

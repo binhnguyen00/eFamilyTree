@@ -40,7 +40,7 @@ export default function UIHomeAlbum() {
       return (
         <>
           <Text size="small">{ t("no_album") }</Text>
-          <Box flex flexDirection="row" alignItems="center" justifyContent="center" className="button">
+          <Box flex flexDirection="row" alignItems="center" justifyContent="center" className="button-link">
             <CommonIcons.AddPhoto size={"1rem"}/>
             <Text size="small" className="ml-1"> {t("create")} </Text>
           </Box>
@@ -54,7 +54,7 @@ export default function UIHomeAlbum() {
         html.push(
           <Box 
             key={`album-${i}`} 
-            className="button rounded border" 
+            className="button rounded border bg-blur" 
             flex flexDirection="row" 
             onClick={() => goToImageList(album)}
           >
@@ -89,7 +89,7 @@ export default function UIHomeAlbum() {
     <Stack space="0.5rem">
 
       <Box flex flexDirection="row" justifyContent="space-between" >
-        <Text.Title className="text-capitalize text-primary"> {t("album")} </Text.Title>
+        <Text.Title className="text-capitalize text-secondary"> {t("album")} </Text.Title>
         {albums.length ? (
           <Box flex flexDirection="row" alignItems="center" className="button" onClick={goToAlbumList}>
             <Text size="small"> {t("more")} </Text>

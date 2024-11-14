@@ -40,7 +40,7 @@ export default function UIHomeBlog() {
       return (
         <>
           <Text size="small">{ t("no_blogs") }</Text>
-          <Box flex flexDirection="row" alignItems="center" justifyContent="center" className="button">
+          <Box flex flexDirection="row" alignItems="center" justifyContent="center" className="button-link">
             <CommonIcons.Plus size={"1rem"}/>
             <Text size="small" className="ml-1"> {t("create")} </Text>
           </Box>
@@ -93,7 +93,7 @@ export default function UIHomeBlog() {
     <Stack space="0.5rem">
 
       <Box flex flexDirection="row" justifyContent="space-between">
-        <Text.Title className="text-capitalize text-primary"> {t("blogs")} </Text.Title>
+        <Text.Title className="text-capitalize text-secondary"> {t("blogs")} </Text.Title>
         {blogs.length ? (
           <Box flex flexDirection="row" alignItems="center" className="button" onClick={goToBlogs}>
             <Text size="small"> {t("more")} </Text>
