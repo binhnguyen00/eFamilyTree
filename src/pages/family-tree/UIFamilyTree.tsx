@@ -145,7 +145,7 @@ export default function UIFamilyTree() {
           {t("reset")}
         </Button>
       )
-    } else return <></>
+    } else return null;
   }
 
   return (

@@ -5,6 +5,12 @@ import { t } from "i18next";
 import { useRecoilValue } from "recoil";
 import { logedInState } from "states";
 
+import APP_FAMILY_TREE from "assets/img/app/app-family-tree.jpeg";
+import APP_ALBUM from "assets/img/app/app-album.jpeg";
+import APP_CALENDAR from "assets/img/app/app-calendar.jpeg";
+import APP_BLOGS from "assets/img/app/app-post.jpeg";
+import APP_FUNDS from "assets/img/app/app-fund.jpeg";
+
 import AppIcons from "components/icon/app";
 import UIRequestPhone from "components/common/UIRequestPhone";
 
@@ -88,19 +94,17 @@ function AppButton(props: { appKey: string; label: string; onClick: () => void }
 function AppSymbol({ iconKey }: { iconKey: string }) {
   switch (iconKey) {
     case "family-tree":
-      return <AppIcons.FamilyTree key={`ico-${iconKey}`} size={"3rem"}/>
+      return <img key={`ico-${iconKey}`} src={APP_FAMILY_TREE} alt="family tree" className="app-logo"/>
     case "album":
-      return <AppIcons.Album key={`ico-${iconKey}`} size={"3rem"}/>
+      return <img key={`ico-${iconKey}`} src={APP_ALBUM} alt="album" className="app-logo" />
     case "calendar":
-      return <AppIcons.Calendar key={`ico-${iconKey}`} size={"3rem"}/>
+      return <img key={`ico-${iconKey}`} src={APP_CALENDAR} alt="calendar" className="app-logo"/>
     case "blogs":
-      return <AppIcons.Blogs key={`ico-${iconKey}`} size={"3rem"}/>
+      return <img key={`ico-${iconKey}`} src={APP_BLOGS} alt="blogs" className="app-logo"/>
     case "funds":
-      return <AppIcons.Funds key={`ico-${iconKey}`} size={"3rem"}/>
+      return <img key={`ico-${iconKey}`} src={APP_FUNDS} alt="funds" className="app-logo"/>
     case "upcoming":
       return <AppIcons.Upcoming key={`ico-${iconKey}`} size={"3rem"}/>
-    case "about":
-      return <AppIcons.Info key={`ico-${iconKey}`} size={"3rem"}/>
     case "developer":
       return <AppIcons.CommandLine key={`ico-${iconKey}`} size={"3rem"}/>
     default: 
