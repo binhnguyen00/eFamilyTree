@@ -1,9 +1,7 @@
 import React from "react";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 import { BottomNavigation } from "zmp-ui";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { logedInState } from "states";
 
 import CommonIcons from "components/icon/common";
 import UIRequestPhone from "./UIRequestPhone";
@@ -16,6 +14,7 @@ interface MenuItem {
 }
 
 export default function UINavigation() {
+  const { t } = useTranslation();
   const [ sheetVisible, setSheetVisible ] = React.useState(false); 
 
   const tabs: Record<string, MenuItem> = {

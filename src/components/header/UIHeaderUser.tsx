@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useRecoilValue } from "recoil";
 import { phoneState, userState } from "states";
 import { Avatar, Box, Text, useNavigate } from "zmp-ui";
@@ -9,6 +10,7 @@ import UIHeader from "components/common/UIHeader";
 import UIHeaderLoginButton from "./UIHeaderLoginButton";
 
 export default function UIHeaderUser() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
   const phone = useRecoilValue(phoneState);
@@ -24,7 +26,7 @@ export default function UIHeaderUser() {
             onClick={() => navigate("/user")}
           />
           <Text size="small" className="button" onClick={() => navigate("/user")}> 
-            {user.name} 
+            {t(user.name)} 
           </Text>
         </Box>
       )

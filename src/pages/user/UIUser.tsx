@@ -1,16 +1,16 @@
 import React from "react";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 import { useRecoilValue } from "recoil";
 import { logedInState, userState } from "states";
 
-import { useNavigate } from "zmp-ui";
+import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 
 import UIHeader from "components/common/UIHeader";
 import UISignInUser from "./UISignInUser";
 import UISignedInUser from "./UISignedInUser";
 
 export default function UIUser() { 
-  const navigate = useNavigate();
+  const { t } = useTranslation();
   const loginedIn = useRecoilValue(logedInState);
   const userInfo = useRecoilValue(userState);
 
@@ -18,11 +18,13 @@ export default function UIUser() {
     <div className="container">
       <UIHeader title={t("account")} showBackIcon={false}/>
 
-      {loginedIn ? (
-        <UISignedInUser userInfo={userInfo} />
-      ) : (
-        <UISignInUser/>
-      )}
+      <React.Suspense fallback={CommonComponentUtils.renderLoading(t("loading"))}>
+        {loginedIn ? (
+          <UISignedInUser userInfo={userInfo} />
+        ) : (
+          <UISignInUser/>
+        )}
+      </React.Suspense>
     </div>
   )
 }

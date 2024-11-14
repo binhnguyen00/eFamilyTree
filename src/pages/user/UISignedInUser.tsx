@@ -29,7 +29,13 @@ export default function UISignedInUser({ userInfo }: UISignedInUserProps) {
         {t("register_clan")}
       </Button>
 
-      <Switch label={t("vietnamese")} />
+      <Switch label={t("vietnamese")} checked onChange={() => {
+        console.log("checked");
+      }}/>
+
+      <Button variant="tertiary">
+        {t("logout")}
+      </Button>
 
     </Stack>
   )

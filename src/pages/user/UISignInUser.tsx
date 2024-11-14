@@ -1,13 +1,25 @@
 import React from "react";
+import i18n from "i18n";
 import { t } from "i18next";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { logedInState, requestPhoneTriesState } from "states";
+import { languageState, logedInState, requestPhoneTriesState } from "states";
 
 import { Button, Stack, Switch } from "zmp-ui";
 
 export default function UISignInUser() {
   const retry = useSetRecoilState(requestPhoneTriesState);
   const login = useRecoilValue(logedInState);
+  const currentLanguage = useRecoilValue(languageState);
+  const setLanguage = useSetRecoilState(languageState);
+
+  const [viLang, setViLang] = React.useState(currentLanguage === "vi");
+
+  const handleLanguageChange = () => {
+    const newLang = viLang ? "en" : "vi";
+    setViLang(!viLang);
+    setLanguage(newLang);
+    i18n.changeLanguage(newLang);
+  };
   
   return (
     <Stack space="1rem">
@@ -24,7 +36,12 @@ export default function UISignInUser() {
       <Button variant="secondary">
         {t("register_clan")}
       </Button>
-      <Switch label={t("vietnamese")} />
+
+      <Switch 
+        label={t("vietnamese")} 
+        checked={viLang}
+        onChange={handleLanguageChange}
+      />
     </Stack>
   )
 }

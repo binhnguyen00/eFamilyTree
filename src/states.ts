@@ -1,7 +1,6 @@
 import { atom, selector } from "recoil";
 import { ZmpSDK } from "./utils/ZmpSDK";
 import { getUserInfo } from "zmp-sdk";
-import { t } from "i18next";
 
 export const logedInState = selector({
   key: "logedInState",
@@ -52,7 +51,7 @@ export const userState = selector({
     const defaultUser = {
       id: "",
       avatar: "",
-      name: t("account"),
+      name: "account",
     }
     if (requested) {
       try {
@@ -66,3 +65,8 @@ export const userState = selector({
     } else return defaultUser;
   },
 });
+
+export const languageState = atom({
+  key: "language",
+  default: "vi",
+})
