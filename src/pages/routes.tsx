@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react";
-import { Route } from "react-router-dom";
-import { AnimationRoutes, Box } from "zmp-ui";
+import { Route, Routes } from "react-router-dom";
+import { Box } from "zmp-ui";
 import { t } from "i18next";
 
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
@@ -36,7 +36,7 @@ const UIDummyNavigate = lazy(() => import("./dummy/UIDummyNavigate"));
 // Component for Main Routes
 function MainRoutes() {
   return (
-    <AnimationRoutes>
+    <Routes>
       <Route path="/" element={<UIHomeLayout />} />
       <Route path="/family-tree" element={
         <Suspense fallback={CommonComponentUtils.renderLoading(t("loading_family_tree"))}>
@@ -80,14 +80,14 @@ function MainRoutes() {
       } />
       <Route path="/fund-detail" element={<UIFundDetail />} />
       <Route path="/playground" element={<UIPlayground />} />
-    </AnimationRoutes>
+    </Routes>
   );
 }
 
 // Component for Demo Routes
 function DemoRoutes() {
   return (
-    <AnimationRoutes>
+    <Routes>
       <Route path="/demo-funds" element={<UIDummyFund />} />
       <Route path="/demo-fund-detail" element={<UIDummyFundDetail />} />
       <Route path="/demo-tree" element={<UIDummyTree />} />
@@ -95,7 +95,7 @@ function DemoRoutes() {
       <Route path="/demo-blogs" element={<UIDummyBlog />} />
       <Route path="/demo-album" element={<UIDummyAlbum />} />
       <Route path="/dummy-detail" element={<UIDummyNavigate />} />
-    </AnimationRoutes>
+    </Routes>
   );
 }
 

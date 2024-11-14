@@ -27,14 +27,14 @@ export default function UIRequestPhone(props: { visible: boolean, closeSheet: ()
         </Box>
         <Text> {t("login_requirement")} </Text>
         <Stack>
-          <Button size="small" onClick={() => {
+          <Button size="medium" onClick={() => {
             retry(r => r + 1);
             closeSheet();
           }}>
             {t("login")}
           </Button>
           <Button variant="tertiary" onClick={closeSheet}>
-            <Text style={{ color: "red" }}> {t("decline")} </Text>
+            <Text> {t("decline")} </Text>
           </Button>
         </Stack>
       </Stack>

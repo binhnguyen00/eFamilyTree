@@ -11,6 +11,7 @@ body {
   height: 50px;
 }
 
+// text
 .text-primary {
   color: #ffbc58 !important;
 }
@@ -23,6 +24,7 @@ body {
   color: whitesmoke !important;
 }
 
+// background
 .bg-primary {
   background: url("../assets/img/background/bg-grid.png") no-repeat 100% !important;
   background-color: #9e1c1e !important;
@@ -50,5 +52,41 @@ body {
 
 // footer
 .zaui-bottom-navigation-content {
-  background-color: #ffb342 !important;
+  background-color: #febe5d !important;
+}
+
+// button
+.zaui-btn-primary {
+  background-color: #ffbc58 !important;
+  color: #9e1c1e !important;
+}
+
+.zaui-btn-secondary {
+  background-color: #9e1c1e !important;
+  color: #ffbc58 !important;
+}
+
+.zaui-btn-tertiary {
+  color: #ffbc58 !important;
+}
+
+button, .button {
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1); /* Slightly faster */
+  &:active {
+    transform: scale(0.95); /* Subtle shrink effect */
+  }
+  text-transform: capitalize;
+}
+
+.button-bounce {
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1); /* Slightly faster */
+  &:active {
+    transform: scale(0.5); /* Subtle shrink effect */
+  }
+}
+
+// sheet
+.zaui-sheet-content {
+  background-color: #9e1c1e !important;
+  background-image: url("../assets/img/background/bg-grid.png") !important;
 }

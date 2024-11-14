@@ -1,18 +1,23 @@
 import { 
-  FcApproval, FcCalendar, FcCommandLine, FcGenealogy, 
-  FcMoneyTransfer, FcPlanner, FcStackOfPhotos, FcTemplate, FcInfo 
+  FcApproval, FcCommandLine, FcPlanner, FcInfo 
 } from "react-icons/fc";
 
-const AppIcons = {
+import APP_FAMILY_TREE from "assets/img/app/app-family-tree.jpeg";
+import APP_ALBUM from "assets/img/app/app-album.jpeg";
+import APP_CALENDAR from "assets/img/app/app-calendar.jpeg";
+import APP_BLOGS from "assets/img/app/app-post.jpeg";
+import APP_FUNDS from "assets/img/app/app-fund.jpeg";
+
+const AppLogo = {
   Info: FcInfo,
   Approval: FcApproval,
-  Calendar: FcCalendar,
   CommandLine: FcCommandLine,
-  FamilyTree: FcGenealogy,
-  Funds: FcMoneyTransfer,
   Upcoming: FcPlanner,
-  Album: FcStackOfPhotos,
-  Blogs: FcTemplate
+  FamilyTree: APP_FAMILY_TREE,
+  Calendar: APP_CALENDAR,
+  Funds: APP_FUNDS,
+  Album: APP_ALBUM,
+  Blogs: APP_BLOGS,
 };
 
-export default AppIcons;
+export default AppLogo;

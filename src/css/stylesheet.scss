@@ -89,21 +89,6 @@
   box-shadow: 0px 10px 24px rgba(10, 10, 5, 0.16) !important;
 }
 
-button, .button {
-  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1); /* Slightly faster */
-  &:active {
-    transform: scale(0.95); /* Subtle shrink effect */
-  }
-  text-transform: capitalize;
-}
-
-.button-bounce {
-  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1); /* Slightly faster */
-  &:active {
-    transform: scale(0.5); /* Subtle shrink effect */
-  }
-}
-
 .container {
   padding-top: 95px !important;
   padding-left: 10px;

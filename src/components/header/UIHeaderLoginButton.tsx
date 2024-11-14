@@ -5,7 +5,9 @@ import { userState } from "states";
 
 import { Avatar, Box, Text, useNavigate } from "zmp-ui";
 
-export default function UIRequestLoginButton() {
+import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
+
+export default function UIHeaderLoginButton() {
 
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
@@ -14,7 +16,7 @@ export default function UIRequestLoginButton() {
     <Box flex flexDirection="row" alignItems="center" justifyContent="space-between" className="button">
       <Avatar
         size={30} className="button mr-2"
-        src={user.avatar.startsWith("http") ? user.avatar : undefined}
+        src={UNKNOWN_AVATAR}
         onClick={() => {
           navigate("/user")
         }}
