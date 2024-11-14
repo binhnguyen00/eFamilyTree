@@ -1,13 +1,10 @@
 import { GoHomeFill } from "react-icons/go";
-import { TbPhoto } from "react-icons/tb";
-import { IoPersonCircle } from "react-icons/io5";
-import { IoNotifications } from "react-icons/io5";
+import { TbPhotoPlus, TbPhoto, TbLogout } from "react-icons/tb";
+import { IoPersonCircle, IoNotifications } from "react-icons/io5";
 import { PiTreeFill } from "react-icons/pi";
 import { FaInfoCircle } from "react-icons/fa";
 import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
-import { TbPhotoPlus } from "react-icons/tb";
-import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
-import { IoMdAdd } from "react-icons/io";
+import { IoMdLogIn, IoMdAdd, IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
 const CommonIcons = {
   Home: GoHomeFill,
@@ -21,7 +18,9 @@ const CommonIcons = {
   ZoomOut: TiZoomOutOutline,
   ChevonRight: IoIosArrowForward,
   ChevonLeft: IoIosArrowBack,
-  Plus: IoMdAdd
+  Plus: IoMdAdd,
+  Login: IoMdLogIn,
+  Logout: TbLogout
 };
 
 export default CommonIcons;

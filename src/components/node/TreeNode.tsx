@@ -1,7 +1,5 @@
 import React from 'react';
-import { Avatar, Box, Stack, Text } from "zmp-ui";
-
-import "css/tree-node.scss"
+import { Avatar, Stack, Text } from "zmp-ui";
 
 export interface FamilyMember {
   id: string;

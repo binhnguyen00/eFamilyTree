@@ -16,7 +16,7 @@ import UIDivider from 'components/common/UIDivider';
 export default function UIHomeLayout() {
 
   return (
-    <div className='container'>
+    <div className='container text-base'>
       <UIHeader showBackIcon={false} customRender={
         <React.Suspense fallback={t("loading")}>
           <UIHeaderUser/>

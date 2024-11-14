@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Box, Text, useNavigate } from "zmp-ui"; 
+import { Box, Stack, Text, useNavigate } from "zmp-ui"; 
 
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
@@ -87,7 +87,7 @@ function UIBlogList() {
       );
     });
 
-    return <>{html}</>;
+    return <Stack space="1rem">{html}</Stack>;
   };
 
   if (blogs.length > 0) {

@@ -18,7 +18,7 @@ export default function UISignInUser() {
       <Button>
         {t("register_clan")}
       </Button>
-      <Button variant="tertiary" onClick={() => retry(0)}>
+      <Button variant="tertiary" size="small" onClick={() => retry(0)}>
         {t("logout")}
       </Button>
     </Stack>

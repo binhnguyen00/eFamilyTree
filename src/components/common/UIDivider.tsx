@@ -16,7 +16,7 @@ export default function UIDivider(props: UIDividerProps) {
         opacity: 0.5,
       }}
       {...props}
-      className="bg-secondary"
+      className="bg-tertiary"
     />
   )
 }
