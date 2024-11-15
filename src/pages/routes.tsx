@@ -11,6 +11,7 @@ import UIHomeLayout from "pages/home/UIHomeLayout";
 import UIAbout from "pages/about/UIAbout";
 import UIImageList from "./album/UIImageList";
 import UINavigation from "components/common/UINavigation";
+import UIRegisterClan from "./user/UIRegisterClan";
 
 // Lazy load components
 const UIBlog = lazy(() => import("./blog/UIBlog"));
@@ -56,6 +57,7 @@ function MainRoutes() {
 function AnimatedRoutes() {
   return (
     <AnimationRoutes>
+
       <Route path="/family-member-info" element={
         <Suspense fallback={CommonComponentUtils.renderLoading(t("loading"))}>
           <UIFamilyMember />
@@ -90,6 +92,9 @@ function AnimatedRoutes() {
           <UIFund />
         </Suspense>
       } />
+      <Route path="/register-clan" element={<UIRegisterClan />} />
+
+      {/* DEMO ROUTES */}
       <Route path="/fund-detail" element={<UIFundDetail />} />
       <Route path="/playground" element={<UIPlayground />} />
       <Route path="/demo-funds" element={<UIDummyFund />} />
@@ -99,19 +104,18 @@ function AnimatedRoutes() {
       <Route path="/demo-blogs" element={<UIDummyBlog />} />
       <Route path="/demo-album" element={<UIDummyAlbum />} />
       <Route path="/dummy-detail" element={<UIDummyNavigate />} />
+
     </AnimationRoutes>
   );
 }
 
-function UIRoutes() {
+export default function UIRoutes() {
   return (
     <Box flex flexDirection="column">
-      {/* Render Main Routes */}
       <Suspense>
         <MainRoutes />
       </Suspense>
 
-      {/* Render Demo Routes */}
       <Suspense>
         <AnimatedRoutes />
       </Suspense>
@@ -120,5 +124,3 @@ function UIRoutes() {
     </Box>
   );
 }
-
-export default UIRoutes;

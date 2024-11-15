@@ -155,3 +155,9 @@ button, .button {
     height: 0 !important;
   }
 }
+
+// input
+.zaui-input-label {
+  color: $secondary-color !important;
+  text-transform: capitalize;
+}
