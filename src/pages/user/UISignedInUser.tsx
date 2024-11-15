@@ -25,12 +25,12 @@ export default function UISignedInUser({ userInfo }: UISignedInUserProps) {
         <Text.Title> {userInfo.name} </Text.Title>
       </Box>
 
-      <Button variant="secondary" onClick={() => navigate("/about")}>
-        {t("about")}
-      </Button>
-
       <Button variant="secondary" onClick={() => navigate("/register-clan")}>
         {t("register_clan")}
+      </Button>
+
+      <Button variant="secondary" onClick={() => navigate("/about")}>
+        {t("about")}
       </Button>
 
       <button onClick={() => retry(0)}>

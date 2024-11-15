@@ -26,8 +26,8 @@ export default React.memo<Props>(function FamilyTree(props) {
       isRoot={true} 
       onSelectNode={() => {}} 
       style={{
-        width: NODE_WIDTH,
-        height: NODE_HEIGHT
+        width: (NODE_WIDTH),
+        height: (NODE_HEIGHT)
       }}
     />
   );

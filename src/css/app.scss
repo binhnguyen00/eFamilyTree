@@ -1,9 +1,4 @@
-$primary-color: #bd2a2d;
-$secondary-color: #FEF3E2;
-$tertiary-color: #FAB12F;
-$header-color: #a50003;
-$header-height: 55px;
-$footer-height: 80px;
+@use "./variables" as *;
 
 body {
   background-color: $primary-color !important;
@@ -17,6 +12,21 @@ body {
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: calc(var(--zaui-safe-area-inset-bottom, 0px) + ($footer-height + 10px)) !important;
+
+  @extend .text-base;
+
+  @media (min-width: 640px) {
+    max-width: 100%;
+  }
+}
+
+.tree-container {
+  padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + $header-height) !important;
+  padding-left: unset !important;
+  padding-right: unset !important;
+  padding-bottom: calc(var(--zaui-safe-area-inset-bottom, 0px) + ($footer-height + 10px)) !important;
+  background-color: white !important;
+
   @extend .text-base;
 
   @media (min-width: 640px) {

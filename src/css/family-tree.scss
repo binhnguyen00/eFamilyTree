@@ -1,9 +1,10 @@
-$male-color: #00aeff;
-$female-color: #ffa5d5;
+@use "./variables" as *;
 
 .tree-node {
   position: absolute;
   padding: 15px;
+  overflow-wrap: break-word !important;
+  border-radius: $node-border-radius;
 }
 
 .tree-node-root {
@@ -11,9 +12,11 @@ $female-color: #ffa5d5;
 }
 
 .tree-node-male {
-  background: linear-gradient(to bottom, $male-color 15%, #fef3e2 15%);
+  background: linear-gradient(to bottom, $node-male-color 25%, #fef3e2 25%);
+  border: 1px solid $node-border-color;
   position: relative;
-  color: $male-color !important;
+  color: $node-male-color !important;
+  border-radius: $node-border-radius;
 
   &::before {
     content: '';         
@@ -21,15 +24,19 @@ $female-color: #ffa5d5;
     top: 0;              
     left: 0;
     width: 100%;         
-    height: 15%;         
-    background: $male-color;
+    height: 25%;         
+    background: $node-male-color;
+    border-radius: $node-border-radius;
   }
 }
 
 .tree-node-female {
-  background: linear-gradient(to bottom, $female-color 15%, #fef3e2 15%);
+  background: linear-gradient(to bottom, $node-female-color 25%, #fef3e2 25%);
   position: relative;
-  color: $female-color !important;
+  color: $node-female-color !important;
+  border: 1px solid $node-border-color;
+  border-radius: $node-border-radius;
+  text-wrap: wrap;
 
   &::before {
     content: '';         
@@ -37,8 +44,9 @@ $female-color: #ffa5d5;
     top: 0;              
     left: 0;
     width: 100%;         
-    height: 15%;         
-    background: $female-color;
+    height: 25%;         
+    background: $node-female-color;
+    border-radius: $node-border-radius;
   }
 }
 

@@ -71,7 +71,7 @@ export default function UIFamilyTree() {
   const renderTree = () => {
     if (!loading) {
       return (
-        <div style={{ width: "100vw", height: "100vh", position: "fixed" }}>
+        <div className="tree-container" style={{ width: "100vw", height: "100vh", position: "fixed" }}>
           {renderResetTree()}
 
           <TransformWrapper 
@@ -150,7 +150,7 @@ export default function UIFamilyTree() {
   }
 
   return (
-    <div className="container">
+    <div>
       <UIHeader title={t("family_tree")}/>
 
       {renderTree()}

@@ -49,7 +49,7 @@ export default function UIDummyTree() {
   const renderTree = () => {
     if (nodes.length > 0) {
       return (
-        <>
+        <div className="tree-container" style={{ width: "100vw", height: "100vh", position: "fixed" }}>
           <Select
             label={<p className="text-capitalize"> {t("data_source")} </p>}
             defaultValue={1}
@@ -85,7 +85,7 @@ export default function UIDummyTree() {
             centerZoomedOut
           >
             {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
-              <div style={{ width: "100%", height: "100%", position: "fixed" }}>
+              <>
                 <TransformComponent>
                   <FamilyTree
                     nodes={nodes as any}
@@ -104,8 +104,9 @@ export default function UIDummyTree() {
                     )}
                   />
                 </TransformComponent>
+
                 <UITreeControl />
-              </div>
+              </>
             )}
           </TransformWrapper>
 
@@ -130,7 +131,7 @@ export default function UIDummyTree() {
               </Grid>
             </ZBox>
           </Sheet>
-        </>
+        </div>
       )
     } else return (
       CommonComponentUtils.renderLoading(t("loading"))
@@ -138,9 +139,9 @@ export default function UIDummyTree() {
   }
 
   return (
-    <div className="container">
+    <div>
       <UIHeader title={t("dummy_tree")}/>
-
+      
       {renderTree()}
     </div>
   )
