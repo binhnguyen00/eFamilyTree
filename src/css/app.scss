@@ -68,11 +68,6 @@ body {
 }
 
 // header
-.zaui-header::after {
-  height: 0 !important;
-  box-shadow: 2px 10px 30px 3px $secondary-color !important;
-}
-
 .zaui-header {
   height: calc(var(--zaui-safe-area-inset-top, 0px) + $header-height) !important;
   background: url("../assets/img/background/bg-grid.png") no-repeat center center !important;
@@ -80,6 +75,12 @@ body {
   color: $tertiary-color !important;
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
+  border-bottom: $secondary-color solid 1.5px;
+}
+
+.zaui-header::after {
+  height: 0 !important;
+  box-shadow: 10px 10px 40px 15px $secondary-color !important;
 }
 
 // footer
