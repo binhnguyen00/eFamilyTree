@@ -25,6 +25,11 @@
   "input_required": "vui lòng nhập đủ thông tin",
   "notice": "lưu ý",
   "register_notice": "Thông tin bắt buộc phải nhập sẽ được dùng cho các dịch vụ sau này như Thông bao, In cây Gia tộc, Gửi sản phẩm về tận nhà. Chúng tôi cam kết sẽ không sử dụng thông tin của bạn cho bất kì mục đích gì khác",
+  "register_clan_success": "Đã tiếp nhận yêu cầu. Chúng tôi sẽ sớm liên lạc tới bạn. Hãy nhớ để ý điện thoại nhé!",
+  "notification": "thông báo",
+  "success": "thành công",
+  "error": "lỗi",
+  "fail": "thất bại",
 
   "home": "Trang Chủ",
   "home_subtitle": "Gìn Giữ Nguồn Cội",

@@ -29,7 +29,7 @@ export default function UISignedInUser({ userInfo }: UISignedInUserProps) {
         {t("about")}
       </Button>
 
-      <Button variant="secondary">
+      <Button variant="secondary" onClick={() => navigate("/register-clan")}>
         {t("register_clan")}
       </Button>
 

@@ -1,20 +1,9 @@
 import React from "react";
 import { t } from "i18next";
 
-import { Box, Button, Input, Stack, Text } from "zmp-ui";
+import { Box, Button, Input, Stack, Text, Sheet } from "zmp-ui";
 
 import { UIHeader } from "components/common/UIHeader";
-
-export default function UIRegisterClan() {
-
-  return (
-    <div className="container">
-      <UIHeader title={t("register_clan")}/>
-
-      <UIRegisterClanForm/>
-    </div>
-  )
-}
 
 type RegisterForm = {
   clanName: string;
@@ -29,18 +18,57 @@ type RegisterForm = {
   rollInClan: string;
 }
 
-function UIRegisterClanForm() {
-  const [ step, setStep ] = React.useState(1);
+export default function UIRegisterClan() {
+  const [ sheetVisible, setSheetVisible ] = React.useState(false);
   const [ formData, setFormData ] = React.useState({} as RegisterForm);
 
+  const submit = (e: any) => {
+    setSheetVisible(true);
+    console.log(formData);
+    console.log("Now clear the form data");
+    setFormData({ clanName: '', country: '', city: '', district: '', subDistrict: '', address: '', name: '', mobile: '', email: '', rollInClan: '' });
+  };
+
+  return (
+    <div className="container">
+      <UIHeader title={t("register_clan")}/>
+
+      <UIRegisterClanForm formData={formData} setFormData={setFormData} submit={submit}/>
+
+      <Sheet
+        visible={sheetVisible}
+        autoHeight
+        mask
+        handler
+        swipeToClose
+        onClose={() => setSheetVisible(false)}
+        title={t("register_clan")}
+        className="text-capitalize"
+      >
+        <Stack space="1rem" className="p-3">
+          <Text style={{ color: "#3cb371" }}>{`${t("submit")} ${t("success")}`}</Text>
+          <p>{t("register_clan_success")}</p>
+        </Stack>
+      </Sheet>
+    </div>
+  )
+}
+
+
+function UIRegisterClanForm({ formData, setFormData, submit }: { 
+  formData: RegisterForm, 
+  setFormData: React.Dispatch<React.SetStateAction<RegisterForm>> 
+  submit: (e: any) => void
+}) {
+
+  const [ step, setStep ] = React.useState(1);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = (e) => {
-    // TODO
-    console.log(formData);
+    submit(e);
   };
 
   const nextStep = () => setStep((prevStep) => prevStep + 1);
