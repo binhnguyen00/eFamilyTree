@@ -1,6 +1,7 @@
 $primary-color: #bd2a2d;
 $secondary-color: #FEF3E2;
 $tertiary-color: #FAB12F;
+$header-color: #a50003;
 $header-height: 55px;
 $footer-height: 80px;
 
@@ -8,7 +9,7 @@ body {
   background-color: $primary-color !important;
   color: $tertiary-color !important;
 
-  background: url("../assets/img/background/bg-grid.png") no-repeat center center;
+  background: url("../assets/img/background/bg-grid.png") repeat center center;
 }
 
 .container {
@@ -75,8 +76,10 @@ body {
 .zaui-header {
   height: calc(var(--zaui-safe-area-inset-top, 0px) + $header-height) !important;
   background: url("../assets/img/background/bg-grid.png") no-repeat center center !important;
-  background-color: $primary-color !important;
-  color: $secondary-color !important;
+  background-color: $header-color !important;
+  color: $tertiary-color !important;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
 }
 
 // footer
