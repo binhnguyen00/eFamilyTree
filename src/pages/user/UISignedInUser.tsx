@@ -3,12 +3,13 @@ import { t } from "i18next";
 import { useSetRecoilState } from "recoil";
 import { requestPhoneTriesState } from "states";
 
-import { Avatar, Box, Button, Stack, Text } from "zmp-ui";
+import { Avatar, Box, Button, Stack, Text, useNavigate } from "zmp-ui";
 
 interface UISignedInUserProps {
   userInfo: any;
 }
 export default function UISignedInUser({ userInfo }: UISignedInUserProps) {
+  const navigate = useNavigate();
   const retry = useSetRecoilState(requestPhoneTriesState);
 
   return (
@@ -24,7 +25,7 @@ export default function UISignedInUser({ userInfo }: UISignedInUserProps) {
         <Text.Title> {userInfo.name} </Text.Title>
       </Box>
 
-      <Button variant="secondary">
+      <Button variant="secondary" onClick={() => navigate("/about")}>
         {t("about")}
       </Button>
 

@@ -149,7 +149,7 @@ export default function UIFamilyTree() {
 
   return (
     <div className="container">
-      <UIHeader title={t("family_tree")} showBackIcon={false}/>
+      <UIHeader title={t("family_tree")}/>
 
       {renderTree()}
     </div>
