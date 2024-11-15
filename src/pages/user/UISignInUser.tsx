@@ -31,7 +31,7 @@ export default function UISignInUser() {
         </Button>
       )}
       {!login && (
-        <Button variant="secondary">
+        <Button variant="secondary" onClick={() => navigate("/register") }>
           {t("register")}
         </Button>
       )}

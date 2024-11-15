@@ -247,7 +247,7 @@ function UIRegisterNotice() {
         {t("notice")}
       </Text.Title>
       <Text size="xxSmall">
-        {t("register_notice")}
+        {t("register_clan_notice")}
       </Text>
     </Stack>
   )

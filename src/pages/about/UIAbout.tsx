@@ -13,7 +13,7 @@ import { UIHeader } from "components/common/UIHeader";
 function UIAbout() {
   return (
     <div className="container">
-      <UIHeader title={t("about")} showBackIcon={false}/>
+      <UIHeader title={t("about")}/>
 
       <Stack space="1rem">
 
