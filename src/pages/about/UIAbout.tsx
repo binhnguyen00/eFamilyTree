@@ -35,17 +35,17 @@ function UIAbout() {
         </Swiper>
         
         <Stack space="1rem">
-          <Text.Title size="large" className="charmonman-regular"> {"Gìn Giữ Giá Trị Gia Tộc"} </Text.Title>
+          <Text.Title size="xLarge" className="charmonman-regular text-tertiary"> {"Gìn Giữ Giá Trị Gia Tộc"} </Text.Title>
           <Text> {"Ứng dụng kết nối dòng họ Việt Nam, với sứ mệnh gìn giữ và bảo tồn nét văn hóa dòng họ truyền thống."} </Text>
         </Stack>
 
         <Stack space="1rem">
-          <Text.Title size="large" className="charmonman-regular"> {"Công Nghệ Lưu Giữ Giá Trị Truyền Thống"} </Text.Title>
+          <Text.Title size="xLarge" className="charmonman-regular text-tertiary"> {"Công Nghệ Lưu Giữ Giá Trị Truyền Thống"} </Text.Title>
           <Text> {"Ra đời với mong muốn áp dụng công nghệ hiện đại vào việc bảo tồn giá trị truyền thống quý báu, mang lại lợi ích thiết thực cho các dòng họ Việt."} </Text>
         </Stack>
 
         <Stack space="1rem">
-          <Text.Title size="large" className="charmonman-regular"> {"Kết Nối Dòng Họ Từ Cây Gia Phả"} </Text.Title>
+          <Text.Title size="xLarge" className="charmonman-regular text-tertiary"> {"Kết Nối Dòng Họ Từ Cây Gia Phả"} </Text.Title>
           <Text> {"Dựa trên nền tảng cây gia phả, ứng dụng giúp kết nối các thành viên trong dòng họ, hỗ trợ anh em, họ hàng duy trì tình cảm gắn bó, chia sẻ và giúp đỡ lẫn nhau."} </Text>
         </Stack>
 
