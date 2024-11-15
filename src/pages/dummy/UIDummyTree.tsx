@@ -83,6 +83,7 @@ export default function UIDummyTree() {
             minScale={0.1} 
             centerOnInit 
             centerZoomedOut
+            initialScale={0.5}
           >
             {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
               <>
