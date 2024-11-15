@@ -2,7 +2,7 @@
   "app": {
     "title": "Cây Gia Phả",
     "headerTitle": "Cây Gia Phả",
-    "textColor": "black",
+    "textColor": "white",
     "leftButton": "back",
     "statusBar": "transparent",
     "actionBarHidden": true,

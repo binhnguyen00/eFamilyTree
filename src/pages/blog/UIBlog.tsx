@@ -9,7 +9,7 @@ import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { FailResponse } from "utils/Interface";
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 
-import UIHeader from "components/common/UIHeader";
+import { UIHeader } from "components/common/UIHeader";
 
 function UIBlog() {
   return (

@@ -1,18 +1,18 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import { Box } from "zmp-ui";
+import { AnimationRoutes, Box } from "zmp-ui";
 import { t } from "i18next";
 
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 
+import UIUser from "pages/user/UIUser";
+import UIFamilyTree from "pages/family-tree/UIFamilyTree";
 import UIHomeLayout from "pages/home/UIHomeLayout";
 import UIAbout from "pages/about/UIAbout";
 import UIImageList from "./album/UIImageList";
 import UINavigation from "components/common/UINavigation";
 
 // Lazy load components
-const UIUser = lazy(() => import("pages/user/UIUser"));
-const UIFamilyTree = lazy(() => import("pages/family-tree/UIFamilyTree"));
 const UIBlog = lazy(() => import("./blog/UIBlog"));
 const UIBlogDetail = lazy(() => import("./blog/UIBlogDetail"));
 const UIFund = lazy(() => import("./fund/UIFund"));
@@ -39,17 +39,29 @@ function MainRoutes() {
     <Routes>
       <Route path="/" element={<UIHomeLayout />} />
       <Route path="/family-tree" element={
-        <Suspense fallback={CommonComponentUtils.renderLoading(t("loading_family_tree"))}>
+        <Suspense fallback={<div className="container"> {CommonComponentUtils.renderLoading(t("loading_family_tree"))} </div>}>
           <UIFamilyTree />
         </Suspense>
       } />
+      <Route path="/user" element={
+        <Suspense fallback={<div className="container"> {CommonComponentUtils.renderLoading(t("loading"))}</div>}>
+          <UIUser/>
+        </Suspense>
+      } />
+    </Routes>
+  );
+}
+
+// animated routes
+function AnimatedRoutes() {
+  return (
+    <AnimationRoutes>
       <Route path="/family-member-info" element={
         <Suspense fallback={CommonComponentUtils.renderLoading(t("loading"))}>
           <UIFamilyMember />
         </Suspense>
       } />
       <Route path="/about" element={<UIAbout />} />
-      <Route path="/user" element={<UIUser />} />
       <Route path="/album" element={
         <Suspense fallback={CommonComponentUtils.renderLoading(t("loading_album"))}>
           <UIAlbum />
@@ -80,14 +92,6 @@ function MainRoutes() {
       } />
       <Route path="/fund-detail" element={<UIFundDetail />} />
       <Route path="/playground" element={<UIPlayground />} />
-    </Routes>
-  );
-}
-
-// Component for Demo Routes
-function DemoRoutes() {
-  return (
-    <Routes>
       <Route path="/demo-funds" element={<UIDummyFund />} />
       <Route path="/demo-fund-detail" element={<UIDummyFundDetail />} />
       <Route path="/demo-tree" element={<UIDummyTree />} />
@@ -95,7 +99,7 @@ function DemoRoutes() {
       <Route path="/demo-blogs" element={<UIDummyBlog />} />
       <Route path="/demo-album" element={<UIDummyAlbum />} />
       <Route path="/dummy-detail" element={<UIDummyNavigate />} />
-    </Routes>
+    </AnimationRoutes>
   );
 }
 
@@ -109,7 +113,7 @@ function UIRoutes() {
 
       {/* Render Demo Routes */}
       <Suspense>
-        <DemoRoutes />
+        <AnimatedRoutes />
       </Suspense>
 
       <UINavigation/>

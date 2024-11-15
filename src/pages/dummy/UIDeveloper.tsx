@@ -4,7 +4,7 @@ import { FcApproval, FcCalendar, FcGenealogy, FcMoneyTransfer, FcTemplate, FcBio
 
 import { Button, Grid, Stack, Text, useNavigate } from "zmp-ui";
 
-import UIHeader from "components/common/UIHeader";
+import {UIHeader} from "components/common/UIHeader";
 
 function UIDeveloper() {
   // keys should be same as Route in ../main.tsx

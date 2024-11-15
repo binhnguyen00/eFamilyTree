@@ -2,9 +2,9 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import { t } from "i18next";
 
-import { Box, Grid, ImageViewer, Text } from "zmp-ui";
+import { Box, Grid, ImageViewer } from "zmp-ui";
 
-import UIHeader from "components/common/UIHeader";
+import { UIHeader } from "components/common/UIHeader";
 import { openMediaPicker } from "zmp-sdk/apis";
 import { FcAddImage } from "react-icons/fc";
 

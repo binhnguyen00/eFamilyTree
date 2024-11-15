@@ -4,7 +4,7 @@ import { Calendar, Text, Box, Stack } from "zmp-ui";
 
 import { CalendarUtils, Event } from "utils/CalendarUtils";
 
-import UIHeader from "components/common/UIHeader";
+import {UIHeader} from "components/common/UIHeader";
 
 import data from "pages/calendar/sample/events.json";
 

@@ -4,7 +4,7 @@ import { t } from "i18next";
 
 import { Box } from "zmp-ui";
 
-import UIHeader from "components/common/UIHeader";
+import {UIHeader} from "components/common/UIHeader";
 
 export default function UIDummyNavigate() {
   const location = useLocation();

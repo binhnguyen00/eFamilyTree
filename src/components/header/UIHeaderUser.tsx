@@ -6,7 +6,7 @@ import { Avatar, Box, Text, useNavigate } from "zmp-ui";
 
 import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
 
-import UIHeader from "components/common/UIHeader";
+import {UIHeader} from "components/common/UIHeader";
 import UIHeaderLoginButton from "./UIHeaderLoginButton";
 
 export default function UIHeaderUser() {

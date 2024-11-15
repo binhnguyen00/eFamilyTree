@@ -4,8 +4,8 @@ import { IoIosArrowForward } from "react-icons/io";
 import { t } from "i18next";
 import { List, Text, useNavigate } from "zmp-ui";
 
+import {UIHeader} from "components/common/UIHeader";
 import UISearchBar from "components/common/UISearchBar";
-import UIHeader from "components/common/UIHeader";
 
 const data = [
   {

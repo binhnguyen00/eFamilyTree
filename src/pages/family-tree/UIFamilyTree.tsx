@@ -9,15 +9,14 @@ import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
 import FamilyTree from "components/tree/FamilyTree";
-import UIHeader from "components/common/UIHeader";
 import TreeNode, { FamilyMember } from "components/node/TreeNode";
 import CommonIcons from "components/icon/common";
 
+import { UIHeader } from "components/common/UIHeader";
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "utils/FamilyTreeUtils";
-import { FcGenealogy, FcInfo } from "react-icons/fc";
 
 export default function UIFamilyTree() {
   const phoneNumber = useRecoilValue(phoneState);
@@ -150,7 +149,7 @@ export default function UIFamilyTree() {
 
   return (
     <div className="container">
-      <UIHeader title={t("family_tree")}/>
+      <UIHeader title={t("family_tree")} showBackIcon={false}/>
 
       {renderTree()}
     </div>

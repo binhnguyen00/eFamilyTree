@@ -8,7 +8,7 @@ import people from "assets/img/about/people.png";
 import scroll from "assets/img/about/scroll.png";
 import vietnam from "assets/img/about/vietnam.png";
 
-import UIHeader from "components/common/UIHeader";
+import { UIHeader } from "components/common/UIHeader";
 
 function UIAbout() {
   return (

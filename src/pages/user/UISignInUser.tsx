@@ -37,11 +37,13 @@ export default function UISignInUser() {
         {t("register_clan")}
       </Button>
 
+      {/* TODO: Future
       <Switch 
         label={t("vietnamese")} 
         checked={viLang}
         onChange={handleLanguageChange}
-      />
+      /> */}
+
     </Stack>
   )
 }

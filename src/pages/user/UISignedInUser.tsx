@@ -1,12 +1,15 @@
-import { t } from "i18next";
 import React from "react";
+import { t } from "i18next";
+import { useSetRecoilState } from "recoil";
+import { requestPhoneTriesState } from "states";
 
-import { Avatar, Box, Button, Stack, Switch, Text } from "zmp-ui";
+import { Avatar, Box, Button, Stack, Text } from "zmp-ui";
 
 interface UISignedInUserProps {
   userInfo: any;
 }
 export default function UISignedInUser({ userInfo }: UISignedInUserProps) {
+  const retry = useSetRecoilState(requestPhoneTriesState);
 
   return (
     <Stack space="1rem">
@@ -29,13 +32,9 @@ export default function UISignedInUser({ userInfo }: UISignedInUserProps) {
         {t("register_clan")}
       </Button>
 
-      <Switch label={t("vietnamese")} checked onChange={() => {
-        console.log("checked");
-      }}/>
-
-      <Button variant="tertiary">
+      <button onClick={() => retry(0)}>
         {t("logout")}
-      </Button>
+      </button>
 
     </Stack>
   )

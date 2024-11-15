@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Box, Spinner, Text, Stack, Button } from "zmp-ui";
+import { Spinner, Text, Stack, Button } from "zmp-ui";
 
 export class CommonComponentUtils {
   public static renderLoading(message: string, size?: "small" | "normal" | "large") {
@@ -10,7 +10,7 @@ export class CommonComponentUtils {
     if (size === "normal") width = 100;
     if (size === "large") width = 150; 
     return (
-      <Box flex flexDirection="column" justifyContent="center" alignItems="center">
+      <div style={{ display: "grid", placeItems: "center" }}>
         {/* TODO: implement size */}
         <div>
           <Spinner visible/>
@@ -18,7 +18,7 @@ export class CommonComponentUtils {
         <Text.Title style={{
           textTransform: "capitalize",
         }} size="small"> {message} </Text.Title>
-      </Box>
+      </div>
     )
   }
 

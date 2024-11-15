@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Box, Button, Grid, Stack, Text, useNavigate } from "zmp-ui";
+import { Box, Grid, Stack, Text, useNavigate } from "zmp-ui";
 import { logedInState, phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
