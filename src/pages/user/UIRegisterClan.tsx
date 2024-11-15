@@ -46,8 +46,8 @@ export default function UIRegisterClan() {
         className="text-capitalize"
       >
         <Stack space="1rem" className="p-3">
-          <Text style={{ color: "#3cb371" }}>{`${t("submit")} ${t("success")}`}</Text>
-          <p>{t("register_clan_success")}</p>
+          <Text size="large" style={{ color: "#3cb371" }} className="center">{`${t("submit")} ${t("success")}`}</Text>
+          <p style={{ textTransform: "none" }}>{t("register_clan_success")}</p>
         </Stack>
       </Sheet>
     </div>
