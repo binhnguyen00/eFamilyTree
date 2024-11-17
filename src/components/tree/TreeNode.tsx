@@ -1,9 +1,9 @@
 import React from 'react';
 import { Avatar, Stack, Text } from "zmp-ui";
-import { FamilyMember } from './type';
+import { Node } from 'components/tree-relatives/types';
 
 interface TreeNodeProps {
-  node: FamilyMember;
+  node: Node;
   displayField: string;
   isRoot: boolean;
   onSelectNode: (id: string) => void;

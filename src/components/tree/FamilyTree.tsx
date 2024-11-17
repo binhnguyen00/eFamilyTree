@@ -1,10 +1,10 @@
 import React from 'react';
 
-import calcTree from 'relatives-tree';
-import { Node } from 'relatives-tree/lib/types';
+import { TreeNode, TreeConfig } from 'components';
+import calcTree from 'components/tree-relatives';
+import { Gender, Node } from 'components/tree-relatives/types';
 
 import Connector from './Connector';
-import { TreeNode, TreeConfig } from 'components';
 
 interface Props {
   nodes: ReadonlyArray<Node>;
@@ -20,7 +20,7 @@ export default React.memo<Props>(function FamilyTree(props) {
   if (props.nodes.length === 0) return (
     <TreeNode 
       node={{
-        name: "text", id: "", gender: "male", avatar: "",
+        name: "text", id: "", gender: Gender.male, avatar: "",
         parents: [], siblings: [], spouses: [], children: []
       }} 
       displayField="" 

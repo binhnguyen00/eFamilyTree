@@ -9,7 +9,8 @@ import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
 import { FailResponse, FamilyTreeUtils, EFamilyTreeApi } from "utils";
-import { Header, Loading, CommonIcon, TreeNode, FamilyTree, FamilyMember, TreeConfig } from "components";
+import { Header, Loading, CommonIcon, TreeNode, FamilyTree, TreeConfig } from "components";
+import { Node } from "components/tree-relatives/types";
 
 export default function UIFamilyTree() {
   const phoneNumber = useRecoilValue(phoneState);
@@ -48,7 +49,7 @@ export default function UIFamilyTree() {
         console.warn(result);
       } else {
         const data = result["members"] || null;
-        const mems: FamilyMember[] = FamilyTreeUtils.remapServerData(data);
+        const mems: Node[] = FamilyTreeUtils.remapServerData(data);
         setFamilyMembers(FamilyTreeUtils.removeDuplicates(mems));
         setRootId(`${data.id}`);
       }

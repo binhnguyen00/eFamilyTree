@@ -1,0 +1,90 @@
+export type Mutable<T> = {
+  -readonly [P in keyof T]: T[P];
+};
+
+export const enum Gender {
+  male = 'male',
+  female = 'female',
+}
+
+export const enum RelType {
+  blood = 'blood',
+  married = 'married',
+  divorced = 'divorced',
+  adopted = 'adopted',
+  half = 'half',
+}
+
+export const enum FamilyType {
+  root = 'root',
+  child = 'child',
+  parent = 'parent',
+}
+
+export type Family = {
+  readonly id: number;
+  readonly type: FamilyType;
+  readonly main: boolean;
+  /** Parent family ID */
+  pid?: number;
+  /** Child family ID */
+  cid?: number;
+  /** Family's left coordinate */
+  X: number;
+  /** Family's top coordinate */
+  Y: number;
+  parents: readonly Unit[];
+  children: readonly Unit[];
+};
+
+export type Unit = {
+  /** Family ID */
+  readonly fid: number;
+  /** Is child unit */
+  readonly child: boolean;
+  readonly nodes: readonly Node[];
+  pos: number;
+};
+
+export type Size = {
+  width: number;
+  height: number;
+};
+
+export type Relation = {
+  id: string;
+  type: RelType;
+};
+
+export type Node = {
+  id: string;
+  gender: Gender;
+  name?: string;
+  avatar?: string;
+  parents: Relation[];
+  children: Relation[];
+  siblings: Relation[];
+  spouses: Relation[];
+  placeholder?: boolean;
+};
+
+export type ExtNode = Node &
+  {
+    top: number;
+    left: number;
+    hasSubTree: boolean;
+  };
+
+export type Connector = readonly [x1: number, y1: number, x2: number, y2: number];
+
+export type RelData = Readonly<{
+  canvas: Size;
+  families: readonly Family[];
+  nodes: readonly ExtNode[];
+  connectors: readonly Connector[];
+}>;
+
+export type Options = {
+  rootId: string;
+  placeholders?: boolean;
+};

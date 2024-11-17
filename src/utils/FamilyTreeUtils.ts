@@ -1,16 +1,17 @@
-import { FamilyMember, TreeConfig } from "components";
+import { TreeConfig } from "components";
+import { Node, Gender, RelType } from "components/tree-relatives/types";
 
 interface OdooPerson {
   id: number;
   name: string;
   avatar: string;
-  gender: "male" | "female";
+  gender: Gender;
 }
 
 interface OdooNode {
   id: number;
   name: string;
-  gender: "male" | "female";
+  gender: Gender;
   avatar: string;
   children: OdooNode[];
   parents: OdooPerson[];
@@ -19,52 +20,46 @@ interface OdooNode {
 
 export class FamilyTreeUtils {
   
-  public static remapServerData(node: OdooNode | null): FamilyMember[] {
+  // Remap Odoo data to Node structure
+  public static remapServerData(node: OdooNode | null): Node[] {
     if (!node) return [];
-    const result: FamilyMember[] = [];
+    const result: Node[] = [];
 
-    const processNode = (node: OdooNode, parentIds: string[] = []) => {
+    const processNode = (node: OdooNode, parentIds: string[] = []): void => {
       const id = `${node.id}`;
-      const name = node.name;
-      const gender = node.gender;
-      const avatar = node.avatar;
+      const { name, gender, avatar } = node;
 
-      // Create the main person
-      const person: FamilyMember = {
+      // Create the main Node object
+      const person: Node = {
         id,
         name,
         gender,
         avatar,
-        parents: parentIds.map((parentId) => ({ id: parentId, type: "blood" })),
+        parents: parentIds.map(parentId => ({ id: parentId, type: RelType.blood })),
         siblings: [],
         spouses: [],
-        children: [],
+        children: []
       };
 
-      // Add the person to the result list
       result.push(person);
 
       // Handle spouses
-      const spouseMap: { [key: string]: FamilyMember } = {};
+      const spouseMap: { [key: string]: Node } = {};
       if (Array.isArray(node.spouses) && node.spouses.length > 0) {
-        node.spouses.forEach((spouseInfo) => {
+        node.spouses.forEach(spouseInfo => {
           const spouseId = `${spouseInfo.id}`;
-          const spouseName = spouseInfo.name;
-          const spouseGender = spouseInfo.gender;
-          const spouseAvatar = spouseInfo.avatar;
-
-          const spouse: FamilyMember = {
+          const spouse: Node = {
             id: spouseId,
-            name: spouseName,
-            gender: spouseGender,
-            avatar: spouseAvatar,
+            name: spouseInfo.name,
+            gender: spouseInfo.gender,
+            avatar: spouseInfo.avatar,
             parents: [],
             siblings: [],
-            spouses: [{ id, type: "married" }],
-            children: [],
+            spouses: [{ id, type: RelType.married }],
+            children: []
           };
 
-          person.spouses.push({ id: spouseId, type: "married" });
+          person.spouses = [...person.spouses, { id: spouseId, type: RelType.married }];
           result.push(spouse);
           spouseMap[spouseId] = spouse;
         });
@@ -72,39 +67,36 @@ export class FamilyTreeUtils {
 
       // Process children
       if (Array.isArray(node.children) && node.children.length > 0) {
-        node.children.forEach((child) => {
+        node.children.forEach(child => {
           const childId = `${child.id}`;
-          const childName = child.name;
-          const childGender = child.gender;
-          const childAvatar = child.avatar;
           const childParents = child.parents?.map(p => `${p.id}`) || [];
 
-          const childPerson: FamilyMember = {
+          const childNode: Node = {
             id: childId,
-            name: childName,
-            gender: childGender,
-            avatar: childAvatar,
-            parents: childParents.map(parentId => ({ id: parentId, type: "blood" })),
+            name: child.name,
+            gender: child.gender,
+            avatar: child.avatar,
+            parents: childParents.map(parentId => ({ id: parentId, type: RelType.blood })),
             siblings: [],
             spouses: [],
-            children: [],
+            children: []
           };
 
           // Assign the child to the main person's children list
           if (childParents.includes(id)) {
-            person.children.push({ id: childId, type: "blood" });
+            person.children = [...person.children, { id: childId, type: RelType.blood }];
           }
 
           // Assign the child to the correct spouse's children list
           childParents.forEach(parentId => {
             if (spouseMap[parentId]) {
-              spouseMap[parentId].children.push({ id: childId, type: "blood" });
+              spouseMap[parentId].children = [...spouseMap[parentId].children, { id: childId, type: RelType.blood }];
             }
           });
 
           // Recursively process the child
           processNode(child, childParents);
-          result.push(childPerson);
+          result.push(childNode);
         });
       }
     };
@@ -115,8 +107,9 @@ export class FamilyTreeUtils {
     return result;
   }
 
-  public static removeDuplicates(arr: any[]) {
-    const map = new Map();
+  // Remove duplicates from the list
+  public static removeDuplicates(arr: Node[]): Node[] {
+    const map = new Map<string, boolean>();
     return arr.filter(item => {
       if (map.has(item.id)) return false;
       map.set(item.id, true);
@@ -124,49 +117,52 @@ export class FamilyTreeUtils {
     });
   }
 
-  public static calculateNodePosition({ left, top }: any): React.CSSProperties {
+  // Calculate the node position for rendering
+  public static calculateNodePosition({ left, top }: { left: number; top: number }): React.CSSProperties {
     return {
       width: TreeConfig.nodeWidth,
       height: TreeConfig.nodeHeight,
-      transform: `translate(${left * (TreeConfig.nodeWidth / 2)}px, ${top * (TreeConfig.nodeHeight / 2)}px)`,
+      transform: `translate(${left * (TreeConfig.nodeWidth / 2)}px, ${top * (TreeConfig.nodeHeight / 2)}px)`
     };
   }
 
-  public static getMemberById(id: string, members: FamilyMember[]): FamilyMember | undefined {
-    return members.find((m) => m.id === id);
+  // Get a member by ID
+  public static getMemberById(id: string, members: Node[]): Node | undefined {
+    return members.find(member => member.id === id);
   }
 
-  public static getTreeBranch(memberId: string, members: FamilyMember[]): FamilyMember[] {
-    const filteredMembers: FamilyMember[] = [];
+  // Get tree branch for a specific member
+  public static getTreeBranch(memberId: string, members: Node[]): Node[] {
+    const filteredMembers: Node[] = [];
     const visited = new Set<string>();
 
-    const addMemberAndRelatives = (id: string, parentIds: string[] = []) => {
+    const addMemberAndRelatives = (id: string, parentIds: string[] = []): void => {
       if (visited.has(id)) return;
       visited.add(id);
 
-      const member = members.find((m) => m.id === id);
+      const member = members.find(m => m.id === id);
       if (!member) return;
 
-      const standaloneMember: FamilyMember = {
+      const standaloneMember: Node = {
         ...member,
-        parents: parentIds.length === 0 ? [] : parentIds.map(pid => ({ id: pid, type: "blood" })),
+        parents: parentIds.length === 0 ? [] : parentIds.map(pid => ({ id: pid, type: RelType.blood })),
         siblings: [],
         spouses: [...member.spouses],
-        children: [],
+        children: []
       };
 
       filteredMembers.push(standaloneMember);
 
       const currentParentIds = [id, ...standaloneMember.spouses.map(s => s.id)];
 
-      member.children.forEach((child) => {
+      member.children.forEach(child => {
         if (child && child.id) {
           addMemberAndRelatives(child.id, currentParentIds);
-          standaloneMember.children.push({ id: child.id, type: "blood" });
+          standaloneMember.children = [...standaloneMember.children, { id: child.id, type: RelType.blood }];
         }
       });
 
-      standaloneMember.spouses.forEach((spouse) => addMemberAndRelatives(spouse.id));
+      standaloneMember.spouses.forEach(spouse => addMemberAndRelatives(spouse.id));
     };
 
     addMemberAndRelatives(memberId);
