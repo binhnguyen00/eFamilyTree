@@ -5,15 +5,19 @@ import "../i18n";
 
 import UIRoutes from "./routes";
 
+import { ThemeProvider } from "components";
+
 function Application() {
   return (
     <RecoilRoot>
       <App>
-        <SnackbarProvider>
-          <ZMPRouter memoryRouter>
-            <UIRoutes/>
-          </ZMPRouter>
-        </SnackbarProvider>
+        <ThemeProvider>
+          <SnackbarProvider>
+            <ZMPRouter memoryRouter>
+              <UIRoutes/>
+            </ZMPRouter>
+          </SnackbarProvider>
+        </ThemeProvider>
       </App>
     </RecoilRoot>
   );

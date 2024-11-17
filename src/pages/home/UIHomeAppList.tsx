@@ -5,7 +5,7 @@ import { t } from "i18next";
 import { useRecoilValue } from "recoil";
 import { logedInState } from "states";
 
-import { AppLogo, RequestPhone } from "components";
+import { AppLogo, RequestPhone, SizedBox } from "components";
 
 interface App {
   key: string;

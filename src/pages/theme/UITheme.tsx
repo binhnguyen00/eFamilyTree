@@ -1,8 +1,9 @@
 import React from "react";
-
-import { Header } from "components";
 import { t } from "i18next";
+
 import { Grid } from "zmp-ui";
+
+import { Header, useTheme } from "components";
 
 export default function UITheme() {
   return (
@@ -15,18 +16,11 @@ export default function UITheme() {
 }
 
 function UIThemeSelector() {
-  const toggleTheme = (themeCode: string) => {
-    document.documentElement.setAttribute("data-theme", themeCode);
-  };
+  const { toggleTheme } = useTheme();
 
   return (
     <Grid columnSpace="1rem" rowSpace="1rem" columnCount={2}>
-      <div className="button" onClick={() => toggleTheme("default")}>
-        default
-      </div>
-      <div className="button" onClick={() => toggleTheme("blue")}>
-        blue
-      </div>
+      TODO
     </Grid>
   )
 }

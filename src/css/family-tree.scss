@@ -1,17 +1,6 @@
 @use "./variables" as *;
 @use "./app.scss" as *;
-
-:root {
-  --tree-background-color: white;
-}
-
-[data-theme="blue"] {
-  --tree-background-color: blue;
-}
-
-[data-theme="default"] {
-  --tree-background-color: white;
-}
+@use "./theme.scss" as *;
 
 .tree-container {
   padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + $header-height) !important;

@@ -3,17 +3,18 @@ import React from "react";
 interface SizedBoxProps {
   width: number | string;
   height: number | string;
-  content: React.ReactNode;
+  children?: React.ReactNode;
+  border?: boolean;
   className?: string;
   style?: React.CSSProperties;
   onClick?: (event?: any) => void;
 }
 export default function SizedBox(props: SizedBoxProps) {
-  const { width, height, content, className, style, onClick } = props;
+  const { width, height, children, className, style, onClick, border } = props;
 
   return (
     <div 
-      className={`${className}`} 
+      className={`${className} ${border && "border"}`} 
       style={{
         width: width,
         height: height,
@@ -24,7 +25,7 @@ export default function SizedBox(props: SizedBoxProps) {
       }}
       onClick={onClick}
     >
-      {content}
+      {children}
     </div>
   )
 }
