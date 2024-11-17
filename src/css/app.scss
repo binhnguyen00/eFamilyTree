@@ -20,20 +20,6 @@ body {
   }
 }
 
-.tree-container {
-  padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + $header-height) !important;
-  padding-left: unset !important;
-  padding-right: unset !important;
-  padding-bottom: calc(var(--zaui-safe-area-inset-bottom, 0px) + ($footer-height + 10px)) !important;
-  background-color: white !important;
-
-  @extend .text-base;
-
-  @media (min-width: 640px) {
-    max-width: 100%;
-  }
-}
-
 .app-logo {
   border-radius: 1rem;
   object-fit: cover;

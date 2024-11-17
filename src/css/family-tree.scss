@@ -1,4 +1,31 @@
 @use "./variables" as *;
+@use "./app.scss" as *;
+
+:root {
+  --tree-background-color: white;
+}
+
+[data-theme="blue"] {
+  --tree-background-color: blue;
+}
+
+[data-theme="default"] {
+  --tree-background-color: white;
+}
+
+.tree-container {
+  padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + $header-height) !important;
+  padding-left: unset !important;
+  padding-right: unset !important;
+  padding-bottom: calc(var(--zaui-safe-area-inset-bottom, 0px) + ($footer-height + 10px)) !important;
+  background-color: var(--tree-background-color) !important;
+
+  @extend .text-base;
+
+  @media (min-width: 640px) {
+    max-width: 100%;
+  }
+}
 
 .tree-connector {
   background-color: $primary-color;

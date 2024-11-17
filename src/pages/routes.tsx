@@ -13,6 +13,7 @@ import UIImageList from "./album/UIImageList";
 import UINavigation from "components/common/Navigation";
 import UIRegisterClan from "./user/UIRegisterClan";
 import UIRegister from "./user/UIRegister";
+import UITheme from "./theme/UITheme";
 
 // Lazy load components
 const UIBlog = lazy(() => import("./blog/UIBlog"));
@@ -95,6 +96,7 @@ function AnimatedRoutes() {
       } />
       <Route path="/register-clan" element={<UIRegisterClan />} />
       <Route path="/register" element={<UIRegister />} />
+      <Route path="/theme" element={<UITheme />} />
 
       {/* DEMO ROUTES */}
       <Route path="/fund-detail" element={<UIFundDetail />} />

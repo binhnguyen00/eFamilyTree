@@ -20,6 +20,7 @@ export default function UIHomeAppList() {
     { key: "calendar", label: t("calendar"), requirePhone: true },
     { key: "blogs", label: t("blogs"), requirePhone: true },
     { key: "funds", label: t("funds"), requirePhone: true },
+    { key: "theme", label: t("theme"), requirePhone: false },
     { key: "upcoming", label: t("upcoming"), requirePhone: false },
     { key: "developer", label: t("developer"), requirePhone: false }
   ];
@@ -95,6 +96,8 @@ function AppSymbol({ iconKey }: { iconKey: string }) {
       return <img key={`ico-${iconKey}`} src={AppLogo.Blogs} alt="blogs" className="app-logo"/>
     case "funds":
       return <img key={`ico-${iconKey}`} src={AppLogo.Funds} alt="funds" className="app-logo"/>
+    case "theme":
+      return <img key={`ico-${iconKey}`} src={AppLogo.Theme} alt="theme" className="app-logo"/>
     case "upcoming":
       return <AppLogo.Upcoming key={`ico-${iconKey}`} size={"3rem"}/>
     case "developer":
