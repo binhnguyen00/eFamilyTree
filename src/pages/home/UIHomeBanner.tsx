@@ -13,7 +13,7 @@ export default function UIHomeBanner() {
     <Stack space="0.5rem">
       <Text.Title size="xLarge"> {t("family_tree")} </Text.Title>
       <Swiper loop autoplay>
-        <Swiper.Slide>
+        <Swiper.Slide style={{ opacity: 1 }}>
           <React.Suspense>
             <ImageWithText 
               text={
@@ -28,7 +28,7 @@ export default function UIHomeBanner() {
             />
           </React.Suspense>
         </Swiper.Slide>
-        <Swiper.Slide>
+        <Swiper.Slide style={{ opacity: 1 }}>
           <React.Suspense>
             <ImageWithText 
               text={
@@ -43,10 +43,14 @@ export default function UIHomeBanner() {
             />
           </React.Suspense>
         </Swiper.Slide>
-        <Swiper.Slide>
+        <Swiper.Slide style={{ opacity: 1 }}>
           <React.Suspense>
             <ImageWithText 
-              text={<p> {"Kết Nối Dòng Họ"} </p>}
+              text={
+                <Stack space="1rem">
+                  <p> {"Kết Nối Dòng Họ"} </p>
+                </Stack>
+              }
               textStyle={{ fontSize: "2rem" }}
               src={banner_03}
               height={150}
