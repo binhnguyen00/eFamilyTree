@@ -7,5 +7,10 @@ import ImageWithText from "./ImageWithText";
 import Navigation from "./Navigation";
 import RequestPhone from "./RequestPhone";
 import SearchBar from "./SearchBar";
+import SizedBox from "./SizedBox";
 
-export { Error, Loading, Retry, Divider, ImageWithText, SwipeGesture, Navigation, RequestPhone, SearchBar };
+export { 
+  Error, Loading, Retry, 
+  Divider, ImageWithText, SwipeGesture, Navigation, RequestPhone, SearchBar,
+  SizedBox
+};

@@ -9,6 +9,7 @@ import UIHomeBanner from './UIHomeBanner';
 import UIHomeAppList from './UIHomeAppList';
 import UIHomeAlbum from './UIHomeAlbum';
 import UIHomeBlog from './UIHomeBlog';
+import UIHomeTheme from './UIHomeTheme';
 
 export default function UIHomeLayout() {
 
@@ -30,6 +31,10 @@ export default function UIHomeLayout() {
         <Divider/>
 
         <UIHomeAppList/>
+
+        <Divider/>
+
+        <UIHomeTheme/>
 
         <Divider/>
 
