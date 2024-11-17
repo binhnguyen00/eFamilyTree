@@ -1,3 +1,4 @@
 import { useTheme, ThemeProvider } from "./ThemeContext";
+import { themes } from "./config";
 
-export { useTheme, ThemeProvider };
+export { useTheme, ThemeProvider, themes };
