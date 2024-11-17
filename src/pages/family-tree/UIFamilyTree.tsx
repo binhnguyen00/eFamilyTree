@@ -8,8 +8,8 @@ import { BottomNavigation, Sheet, Grid, Button, Text, ZBox, useNavigate, Stack }
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
-import { FailResponse, FamilyTreeUtils, EFamilyTreeApi, TreeConfig } from "utils";
-import { Header, Loading, CommonIcon, TreeNode, FamilyTree, FamilyMember } from "components";
+import { FailResponse, FamilyTreeUtils, EFamilyTreeApi } from "utils";
+import { Header, Loading, CommonIcon, TreeNode, FamilyTree, FamilyMember, TreeConfig } from "components";
 
 export default function UIFamilyTree() {
   const phoneNumber = useRecoilValue(phoneState);
@@ -79,8 +79,8 @@ export default function UIFamilyTree() {
                   <FamilyTree
                     nodes={familyMembers as any}
                     rootId={rootId}
-                    height={TreeConfig.height}
-                    width={TreeConfig.width}
+                    height={TreeConfig.nodeHeight}
+                    width={TreeConfig.nodeWidth}
                     renderNode={(node: any) => (
                       <TreeNode
                         key={node.id}

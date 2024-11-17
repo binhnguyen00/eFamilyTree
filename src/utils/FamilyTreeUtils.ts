@@ -1,4 +1,4 @@
-import { FamilyMember } from "components";
+import { FamilyMember, TreeConfig } from "components";
 
 interface OdooPerson {
   id: number;
@@ -16,9 +16,6 @@ interface OdooNode {
   parents: OdooPerson[];
   spouses: OdooPerson[];
 }
-
-export const NODE_WIDTH = 150;
-export const NODE_HEIGHT = 200;
 
 export class FamilyTreeUtils {
   
@@ -129,9 +126,9 @@ export class FamilyTreeUtils {
 
   public static calculateNodePosition({ left, top }: any): React.CSSProperties {
     return {
-      width: NODE_WIDTH,
-      height: NODE_HEIGHT,
-      transform: `translate(${left * (NODE_WIDTH / 2)}px, ${top * (NODE_HEIGHT / 2)}px)`,
+      width: TreeConfig.nodeWidth,
+      height: TreeConfig.nodeHeight,
+      transform: `translate(${left * (TreeConfig.nodeWidth / 2)}px, ${top * (TreeConfig.nodeHeight / 2)}px)`,
     };
   }
 

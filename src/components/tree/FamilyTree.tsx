@@ -1,9 +1,10 @@
 import React from 'react';
+
 import calcTree from 'relatives-tree';
-import Connector from './Connector';
 import { Node } from 'relatives-tree/lib/types';
-import TreeNode from 'components/tree/TreeNode';
-import { NODE_HEIGHT, NODE_WIDTH } from 'utils/FamilyTreeUtils';
+
+import Connector from './Connector';
+import { TreeNode, TreeConfig } from 'components';
 
 interface Props {
   nodes: ReadonlyArray<Node>;
@@ -26,8 +27,8 @@ export default React.memo<Props>(function FamilyTree(props) {
       isRoot={true} 
       onSelectNode={() => {}} 
       style={{
-        width: (NODE_WIDTH),
-        height: (NODE_HEIGHT)
+        width: (TreeConfig.nodeWidth),
+        height: (TreeConfig.nodeHeight),
       }}
     />
   );

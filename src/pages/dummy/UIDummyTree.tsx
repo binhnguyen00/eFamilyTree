@@ -3,10 +3,10 @@ import { t } from "i18next";
 import { Button, Grid, Select, Sheet, Text, useNavigate, ZBox } from "zmp-ui";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
-import { FamilyTree, TreeNode } from "components";
+import { FamilyTree, TreeNode, TreeConfig } from "components";
 
 import { UITreeControl } from "pages/family-tree/UIFamilyTree";
-import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "utils/FamilyTreeUtils";
+import { FamilyTreeUtils } from "utils/FamilyTreeUtils";
 
 import average from "pages/family-tree/sample/average.json";
 import divorced from "pages/family-tree/sample/divorced.json";
@@ -90,8 +90,8 @@ export default function UIDummyTree() {
                   <FamilyTree
                     nodes={nodes as any}
                     rootId={rootId}
-                    width={NODE_WIDTH}
-                    height={NODE_HEIGHT}
+                    width={TreeConfig.nodeWidth}
+                    height={TreeConfig.nodeHeight}
                     renderNode={(node: any) => (
                       <TreeNode
                         key={node.id}
