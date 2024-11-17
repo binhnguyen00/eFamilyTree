@@ -3,7 +3,7 @@ import { t } from "i18next";
 
 import { Button, Input, Sheet, Stack, Text } from "zmp-ui";
 
-import Header from "components/header/Header";
+import { Header } from "components";
 
 type RegisterForm = {
   mobile: string;

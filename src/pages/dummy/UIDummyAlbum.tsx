@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 import { Text, Box, ImageViewer, Stack } from "zmp-ui";
 
-import Header from "components/header/Header";
+import { Header } from "components";
 
 export default function UIDummyAlbum() {
   const [visible, setVisible] = React.useState(false);

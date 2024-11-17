@@ -8,14 +8,11 @@ import { BottomNavigation, Sheet, Grid, Button, Text, ZBox, useNavigate, Stack }
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
-import FamilyTree from "components/tree/FamilyTree";
-import TreeNode, { FamilyMember } from "components/tree/TreeNode";
-import CommonIcons from "components/icon/common";
-
-import { common, header } from "components";
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "utils/FamilyTreeUtils";
+
+import { Header, Loading, CommonIcon, TreeNode, FamilyTree, FamilyMember } from "components";
 
 export default function UIFamilyTree() {
   const phoneNumber = useRecoilValue(phoneState);
@@ -118,10 +115,10 @@ export default function UIFamilyTree() {
               </Text>
               <ZBox padding="1rem">
                 <Grid columnCount={2} columnSpace="0.2rem">
-                  <Button variant="primary" onClick={showMemberDetail} prefixIcon={<CommonIcons.User size={"1.5rem"}/>}>
+                  <Button variant="primary" onClick={showMemberDetail} prefixIcon={<CommonIcon.User size={"1.5rem"}/>}>
                     {t("btn_tree_member_info")}
                   </Button>
-                  <Button variant="primary" onClick={renderTreeBranch} prefixIcon={<CommonIcons.Tree size={"1.5rem"}/>}>
+                  <Button variant="primary" onClick={renderTreeBranch} prefixIcon={<CommonIcon.Tree size={"1.5rem"}/>}>
                     {t("btn_tree_member_detail")}
                   </Button>
                 </Grid>
@@ -131,7 +128,7 @@ export default function UIFamilyTree() {
         </div>
       );
     } else {
-      return <common.Loading message={t("loading_family_tree")}/>;
+      return <Loading message={t("loading_family_tree")}/>;
     }
   }
 
@@ -151,7 +148,7 @@ export default function UIFamilyTree() {
 
   return (
     <div>
-      <header.Header title={t("family_tree")}/>
+      <Header title={t("family_tree")}/>
 
       {renderTree()}
     </div>
@@ -168,13 +165,13 @@ export function UITreeControl() {
       <BottomNavigation.Item
         key="zoomIn" className="text-primary"
         label={"+ Zoom"}
-        icon={<CommonIcons.ZoomIn/>}
+        icon={<CommonIcon.ZoomIn/>}
         onClick={() => zoomIn()}
       />
       <BottomNavigation.Item
         key="zoomOut" className="text-primary"
         label={"- Zoom"}
-        icon={<CommonIcons.ZoomOut/>}
+        icon={<CommonIcon.ZoomOut/>}
         onClick={() => zoomOut()}
       />
       <BottomNavigation.Item

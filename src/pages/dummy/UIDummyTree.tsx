@@ -14,7 +14,7 @@ import severalSprouses from "pages/family-tree/sample/several-sprouses.json";
 import odooSample from "pages/family-tree/sample/odoo-sample.json";
 
 // icons
-import Header from "components/header/Header";
+import { Header } from "components";
 import CommonIcons from "components/icon/common";
 import UILoading from "components/common/Loading";
 

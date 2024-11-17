@@ -6,7 +6,7 @@ import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 import { List, Text, useNavigate } from "zmp-ui";
 
-import { common, header } from "components";
+import { Header, Loading, Error, SearchBar } from "components";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { FailResponse } from "utils/Interface";
 
@@ -97,7 +97,7 @@ export default function UIFund() {
     if (funds.length > 0) {
       return (
         <>
-          <common.SearchBar 
+          <SearchBar 
             placeholder={t("search_funds")}
             onSearch={(text, event) => console.log(text)}
           />
@@ -106,16 +106,16 @@ export default function UIFund() {
       )
     } else {
       if (fetchError) {
-        return <common.Error message={t("server_error")} onRetry={() => setReload(!reload)}/>; 
+        return <Error message={t("server_error")} onRetry={() => setReload(!reload)}/>; 
       } else {
-        return <common.Loading message={t("loading_funds")}/>; 
+        return <Loading message={t("loading_funds")}/>; 
       }
     }
   }
 
   return (
     <div className="container">
-      <header.Header title={t("funds")}/>
+      <Header title={t("funds")}/>
 
       {renderFundContainer()}
     </div>

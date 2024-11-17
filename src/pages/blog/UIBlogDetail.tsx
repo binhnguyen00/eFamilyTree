@@ -1,12 +1,12 @@
 import React from "react";
 import DOMPurify from "dompurify";
-import { t } from "i18next";
 import { useLocation } from 'react-router-dom';
+import { t } from "i18next";
 import { Stack, Text } from "zmp-ui";
 
-import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
+import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 
-import Header from "components/header/Header";
+import { Header } from "components";
 
 function UIBlogDetail() {
   const location = useLocation();

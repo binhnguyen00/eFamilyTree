@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { AnimationRoutes, Box } from "zmp-ui";
 import { t } from "i18next";
 
-import { common } from "components";
+import { Loading } from "components";
 
 import UIUser from "pages/user/UIUser";
 import UIFamilyTree from "pages/family-tree/UIFamilyTree";
@@ -41,12 +41,12 @@ function MainRoutes() {
     <Routes>
       <Route path="/" element={<UIHomeLayout />} />
       <Route path="/family-tree" element={
-        <Suspense fallback={<div className="container"> <common.Loading message={t("loading_family_tree")} /> </div>}>
+        <Suspense fallback={<div className="container"> <Loading message={t("loading_family_tree")} /> </div>}>
           <UIFamilyTree />
         </Suspense>
       } />
       <Route path="/user" element={
-        <Suspense fallback={<div className="container"> <common.Loading message={t("loading")} /> </div>}>
+        <Suspense fallback={<div className="container"> <Loading message={t("loading")} /> </div>}>
           <UIUser/>
         </Suspense>
       } />
@@ -60,36 +60,36 @@ function AnimatedRoutes() {
     <AnimationRoutes>
 
       <Route path="/family-member-info" element={
-        <Suspense fallback={<common.Loading message={t("loading")} />}>
+        <Suspense fallback={<Loading message={t("loading")} />}>
           <UIFamilyMember />
         </Suspense>
       } />
       <Route path="/about" element={<UIAbout />} />
       <Route path="/album" element={
-        <Suspense fallback={<common.Loading message={t("loading_album")} />}>
+        <Suspense fallback={<Loading message={t("loading_album")} />}>
           <UIAlbum />
         </Suspense>
       } />
       <Route path="/album/image-list" element={
-        <Suspense fallback={<common.Loading message={t("loading_album")} />}>
+        <Suspense fallback={<Loading message={t("loading_album")} />}>
           <UIImageList />
         </Suspense>
       } />
       <Route path="/calendar" element={
-        <Suspense fallback={<common.Loading message={t("loading_calendar")} />}>
+        <Suspense fallback={<Loading message={t("loading_calendar")} />}>
           <UICalendar />
         </Suspense>
       } />
       <Route path="/upcoming" element={<UIDummyUpcoming />} />
       <Route path="/developer" element={<UIDeveloper />} />
       <Route path="/blogs" element={
-        <Suspense fallback={<common.Loading message={t("loading_blogs")} />}>
+        <Suspense fallback={<Loading message={t("loading_blogs")} />}>
           <UIBlog />
         </Suspense>
       } />
       <Route path="/blog-detail" element={<UIBlogDetail />} />
       <Route path="/funds" element={
-        <Suspense fallback={<common.Loading message={t("loading_funds")} />}>
+        <Suspense fallback={<Loading message={t("loading_funds")} />}>
           <UIFund />
         </Suspense>
       } />

@@ -5,7 +5,7 @@ import { Box, Button, Input, Stack, Text } from "zmp-ui";
 
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
-import { common, header } from "components";
+import { Header, Loading } from "components";
 
 export default function UIFamilyMember() {
   const location = useLocation();
@@ -60,13 +60,13 @@ export default function UIFamilyMember() {
             > {t("retry")} </Button>
           </Stack>
         )
-      } else return <common.Loading message={t("loading")}/>;
+      } else return <Loading message={t("loading")}/>;
     }
   }
 
   return (
     <div className="container">
-      <header.Header title={t("member_info")}/>
+      <Header title={t("member_info")}/>
 
       {renderContainer()}
     </div>

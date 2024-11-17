@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { Box, Text, useNavigate } from "zmp-ui"; 
 
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
-import Header from "components/header/Header";
+import { Header } from "components";
 
 const data = [
   {

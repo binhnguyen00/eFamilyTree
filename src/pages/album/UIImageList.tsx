@@ -1,12 +1,12 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import { FcAddImage } from "react-icons/fc";
 import { t } from "i18next";
 
+import { openMediaPicker } from "zmp-sdk/apis";
 import { Box, Grid, ImageViewer } from "zmp-ui";
 
-import Header from "components/header/Header";
-import { openMediaPicker } from "zmp-sdk/apis";
-import { FcAddImage } from "react-icons/fc";
+import { Header } from "components";
 
 function UIImageList() { 
   const location = useLocation();

@@ -1,4 +1,5 @@
-import TreeNode from "./TreeNode";
-import FamilyTree from "./FamilyTree";
+import TreeNode from "./TreeNode"
+import FamilyTree from "./FamilyTree"
+import type { FamilyMember } from "./type";
 
-export { TreeNode, FamilyTree };
+export { TreeNode, FamilyTree, FamilyMember }

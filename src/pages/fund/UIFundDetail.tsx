@@ -5,7 +5,7 @@ import { t } from "i18next";
 import { Box, List, Text } from "zmp-ui";
 
 import { DateTimeUtils } from "utils/DateTimeUtils";
-import Header from "components/header/Header";
+import { Header } from "components";
 
 import UISearchBar from "components/common/SearchBar";
 

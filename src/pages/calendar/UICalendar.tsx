@@ -9,9 +9,7 @@ import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { CalendarUtils } from "utils/CalendarUtils";
 import { FailResponse } from "utils/Interface";
 
-import Header from "components/header/Header";
-import UILoading from "components/common/Loading";
-import Error from "components/common/Error";
+import { Header, Error, Loading } from "components";
 
 interface Event {
   name: string;
@@ -84,10 +82,6 @@ export default function UICalendar() {
             cellRender={renderCell} 
             onSelect={handleDateSelect} 
           />
-          {/* 
-          250px : height of Zalo calendar
-          44px  : height of header 
-          */}
           <div style={{ paddingLeft: 15, paddingRight: 15, height: `calc(100vh - 250px - 44px)`, overflowY: "auto" }}>
             {renderDetails(events)}
           </div>
@@ -96,7 +90,7 @@ export default function UICalendar() {
     } else {
       if (fetchError) {
         return <Error message={t("server_error")} onRetry={() => setReload(!reload)}/>; 
-      } else return <UILoading message={t("loading_events")}/>; 
+      } else return <Loading message={t("loading_events")}/>; 
     }
   }
 

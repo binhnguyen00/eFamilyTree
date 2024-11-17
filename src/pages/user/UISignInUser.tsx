@@ -4,7 +4,7 @@ import { t } from "i18next";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { languageState, logedInState, requestPhoneTriesState } from "states";
 
-import { Button, Stack, Switch, useNavigate } from "zmp-ui";
+import { Button, Stack, useNavigate } from "zmp-ui";
 
 export default function UISignInUser() {
   const navigate = useNavigate();

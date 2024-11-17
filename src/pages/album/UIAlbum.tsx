@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { FcAddImage } from "react-icons/fc";
 import { t } from "i18next";
 import { phoneState } from "states";
@@ -9,8 +10,7 @@ import { openMediaPicker } from "zmp-sdk/apis";
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 
-import Header from "components/header/Header";
-import { useNavigate } from "react-router-dom";
+import { Header } from "components";
 
 function UIAlbum() {
   return (
