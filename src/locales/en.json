@@ -32,6 +32,7 @@
   "success": "success",
   "error": "error",
   "fail": "fail",
+  "theme": "theme",
 
   "home": "Home",
   "home_subtitle": "Preserving Your Heritage",
