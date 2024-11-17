@@ -13,11 +13,11 @@ export default React.memo<Props>(function Connector({ connector, width, height }
 
   return (
     <i
+      className="tree-connector"
       style={{
         position: 'absolute',
         width: Math.max(1, (x2 - x1) * width + 1),
         height: Math.max(1, (y2 - y1) * height + 1),
-        background: "black",
         transform: `translate(${x1 * width}px, ${y1 * height}px)`,
         pointerEvents: 'none',
       }}

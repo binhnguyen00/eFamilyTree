@@ -1,9 +1,12 @@
 @use "./variables" as *;
 
+.tree-connector {
+  background-color: $primary-color;
+}
+
 .tree-node {
   position: absolute;
   padding: 15px;
-  overflow-wrap: break-word !important;
   border-radius: $node-border-radius;
 }
 
@@ -13,9 +16,10 @@
 
 .tree-node-male {
   background: linear-gradient(to bottom, $node-male-color 25%, #fef3e2 25%);
-  border: 1px solid $node-border-color;
+  border: 2px solid $node-border-color;
   position: relative;
   color: $node-male-color !important;
+  overflow-wrap: break-word !important;
   border-radius: $node-border-radius;
 
   &::before {
@@ -34,7 +38,8 @@
   background: linear-gradient(to bottom, $node-female-color 25%, #fef3e2 25%);
   position: relative;
   color: $node-female-color !important;
-  border: 1px solid $node-border-color;
+  border: 2px solid $node-border-color;
+  overflow-wrap: break-word !important;
   border-radius: $node-border-radius;
   text-wrap: wrap;
 
