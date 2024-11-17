@@ -1,5 +1,5 @@
 import { Api } from "./Api";
-import { Callback, FailResponse, HttpMethod } from "../utils/Interface";
+import { Callback, FailResponse, HttpMethod } from "utils";
 
 export class ExternalRESTful extends Api {
 
