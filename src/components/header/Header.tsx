@@ -11,7 +11,7 @@ interface HeaderProps {
   customRender?: React.ReactNode;
 }
 
-export default function UIHeader(props: HeaderProps) {
+export default function Header(props: HeaderProps) {
   const navigate = useNavigate();
   let { title, subtitle, showBackIcon, logo, customRender } = props;
   if (showBackIcon === undefined || showBackIcon === null) showBackIcon = true;

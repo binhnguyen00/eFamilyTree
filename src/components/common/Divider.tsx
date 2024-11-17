@@ -6,7 +6,7 @@ interface UIDividerProps extends BoxProps {
   size?: number;
   className?: string;
 }
-export default function UIDivider(props: UIDividerProps) {
+export default function Divider(props: UIDividerProps) {
   let { size = 1 } = props;
   
   return (

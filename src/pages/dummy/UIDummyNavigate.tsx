@@ -4,7 +4,7 @@ import { t } from "i18next";
 
 import { Box } from "zmp-ui";
 
-import UIHeader from "components/common/UIHeader";
+import Header from "components/header/Header";
 
 export default function UIDummyNavigate() {
   const location = useLocation();
@@ -12,7 +12,7 @@ export default function UIDummyNavigate() {
 
   return (
     <div className="container">
-      <UIHeader title={t("dummy_detail")}/>
+      <Header title={t("dummy_detail")}/>
 
       <Box>
         {JSON.stringify(data, null, 2)}

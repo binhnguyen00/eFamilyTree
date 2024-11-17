@@ -6,7 +6,7 @@ import { useRecoilValue } from "recoil";
 
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
-import CommonIcons from "components/icon/common";
+import { CommonIcon } from "components";
 
 export default function UIHomeAlbum() {
   const [albums, setAlbums] = React.useState<any[]>([]);
@@ -41,7 +41,7 @@ export default function UIHomeAlbum() {
         <>
           <Text size="small">{ t("no_album") }</Text>
           <Box flex flexDirection="row" alignItems="center" justifyContent="center" className="button-link">
-            <CommonIcons.AddPhoto size={"1rem"}/>
+            <CommonIcon.AddPhoto size={"1rem"}/>
             <Text size="small" className="ml-1"> {t("create")} </Text>
           </Box>
         </>
@@ -93,7 +93,7 @@ export default function UIHomeAlbum() {
         {albums.length ? (
           <Box flex flexDirection="row" alignItems="center" className="button" onClick={goToAlbumList}>
             <Text size="small"> {t("more")} </Text>
-            <CommonIcons.ChevonRight size={"1rem"}/>
+            <CommonIcon.ChevonRight size={"1rem"}/>
           </Box>
         ) : null}
       </Box>

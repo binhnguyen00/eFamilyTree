@@ -1,22 +1,21 @@
 import React from "react";
 import { t } from "i18next";
-import { Stack, Swiper, Text as ZText } from "zmp-ui";
+import { Stack, Swiper, Text } from "zmp-ui";
+import { ImageWithText } from "components";
 
 import banner_01 from "assets/img/banner/banner-01.jpg";
 import banner_02 from "assets/img/banner/banner-02.jpg";
 import banner_03 from "assets/img/banner/banner-03.jpg";
 
-import UIImageWithText from "components/common/UIImageWithText";
-
 export default function UIHomeBanner() {
 
   return (
     <Stack space="0.5rem">
-      <ZText.Title size="xLarge"> {t("family_tree")} </ZText.Title>
+      <Text.Title size="xLarge"> {t("family_tree")} </Text.Title>
       <Swiper loop autoplay>
         <Swiper.Slide>
           <React.Suspense>
-            <UIImageWithText 
+            <ImageWithText 
               text={
                 <Stack space="1rem">
                   <p>{"Gìn Giữ Giá Trị"}</p>
@@ -31,7 +30,7 @@ export default function UIHomeBanner() {
         </Swiper.Slide>
         <Swiper.Slide>
           <React.Suspense>
-            <UIImageWithText 
+            <ImageWithText 
               text={
                 <Stack space="1rem">
                   <p>{"Công Nghệ Lưu Giữ"}</p>
@@ -46,7 +45,7 @@ export default function UIHomeBanner() {
         </Swiper.Slide>
         <Swiper.Slide>
           <React.Suspense>
-            <UIImageWithText 
+            <ImageWithText 
               text={<p> {"Kết Nối Dòng Họ"} </p>}
               textStyle={{ fontSize: "2rem" }}
               src={banner_03}

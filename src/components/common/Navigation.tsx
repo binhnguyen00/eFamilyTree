@@ -4,7 +4,7 @@ import { BottomNavigation } from "zmp-ui";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import CommonIcons from "components/icon/common";
-import UIRequestPhone from "./UIRequestPhone";
+import UIRequestPhone from "./RequestPhone";
 
 interface MenuItem {
   label: string;

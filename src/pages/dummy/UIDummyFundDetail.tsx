@@ -6,8 +6,8 @@ import { Box, List, Text } from "zmp-ui";
 
 import { DateTimeUtils } from "utils/DateTimeUtils";
 
-import UISearchBar from "components/common/UISearchBar";
-import UIHeader from "components/common/UIHeader";
+import UISearchBar from "components/common/SearchBar";
+import Header from "components/header/Header";
 
 export default function UIDummyFundDetail() {
   const location = useLocation();
@@ -71,7 +71,7 @@ export default function UIDummyFundDetail() {
 
   return (
     <div className="container">
-      <UIHeader title={fund["name"]}/>
+      <Header title={fund["name"]}/>
         
       <UISearchBar 
         placeholder={t("search_funds")}

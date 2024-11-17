@@ -3,54 +3,51 @@ import React from 'react';
 import { Stack } from 'zmp-ui';
 import { t } from 'i18next';
 
-import { CommonComponentUtils } from 'components/common/CommonComponentUtils';
-import UIHeader from 'components/common/UIHeader';
+import { Header, HeaderUser, Divider, Loading } from 'components';
 
-import UIHeaderUser from 'components/header/UIHeaderUser';
 import UIHomeBanner from './UIHomeBanner';
 import UIHomeAppList from './UIHomeAppList';
 import UIHomeAlbum from './UIHomeAlbum';
 import UIHomeBlog from './UIHomeBlog';
-import UIDivider from 'components/common/UIDivider';
 
 export default function UIHomeLayout() {
 
   return (
     <div className='container text-base'>
-      <UIHeader showBackIcon={false} customRender={
+      <Header showBackIcon={false} customRender={
         <React.Suspense fallback={t("loading")}>
-          <UIHeaderUser/>
+          <HeaderUser/>
         </React.Suspense>
       }/>
 
       <Stack space='1.2rem'>
         <React.Suspense fallback={
-          CommonComponentUtils.renderLoading(t("loading"), 'small')
+          <Loading message={t("loading")}/>
         }>
           <UIHomeBanner/>
         </React.Suspense>
 
-        <UIDivider/>
+        <Divider/>
 
         <UIHomeAppList/>
 
-        <UIDivider/>
+        <Divider/>
 
         <React.Suspense fallback={
-          CommonComponentUtils.renderLoading(t("loading"), 'small')
+          <Loading message={t("loading")}/>
         }>
           <UIHomeAlbum/>
         </React.Suspense>
 
-        <UIDivider/>
+        <Divider/>
 
         <React.Suspense fallback={
-          CommonComponentUtils.renderLoading(t("loading"), 'small')
+          <Loading message={t("loading")}/>
         }>
           <UIHomeBlog/>
         </React.Suspense>
 
-        <UIDivider/>
+        <Divider/>
 
       </Stack>
     </div>

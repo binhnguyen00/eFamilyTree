@@ -9,13 +9,13 @@ import { openMediaPicker } from "zmp-sdk/apis";
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 
-import UIHeader from "components/common/UIHeader";
+import Header from "components/header/Header";
 import { useNavigate } from "react-router-dom";
 
 function UIAlbum() {
   return (
     <div className="container">
-      <UIHeader title={t("album")}/>
+      <Header title={t("album")}/>
       
       <UIAlbumList />
     </div>

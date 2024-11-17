@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { Box, Text, useNavigate } from "zmp-ui"; 
 
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
-import UIHeader from "components/common/UIHeader";
+import Header from "components/header/Header";
 
 const data = [
   {
@@ -19,7 +19,7 @@ const data = [
 export default function UIDummyBlog() {
   return (
     <div className="container">
-      <UIHeader title={t("blogs")}/>
+      <Header title={t("blogs")}/>
 
       <UIBlogList />
     </div>

@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Text, Box, Input, Stack } from "zmp-ui";
 import { atom, selector, useRecoilValue, useRecoilState } from "recoil"
-import UIHeader from "components/common/UIHeader";
+import Header from "components/header/Header";
 
 const numberState = atom({
   key: "number",
@@ -56,7 +56,7 @@ function UIPlayground() {
 
   return (
     <div className="container">
-      <UIHeader title={t("playground")}/>
+      <Header title={t("playground")}/>
 
       <Stack className="section-container" space="1rem">
         <Box flex justifyContent="space-between">

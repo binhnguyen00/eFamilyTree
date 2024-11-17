@@ -8,12 +8,12 @@ import people from "assets/img/about/people.png";
 import scroll from "assets/img/about/scroll.png";
 import vietnam from "assets/img/about/vietnam.png";
 
-import UIHeader from "components/common/UIHeader";
+import Header from "components/header/Header";
 
 function UIAbout() {
   return (
     <div className="container">
-      <UIHeader title={t("about")}/>
+      <Header title={t("about")}/>
 
       <Stack space="1rem">
 

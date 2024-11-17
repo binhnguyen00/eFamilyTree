@@ -4,7 +4,7 @@ import { t } from "i18next";
 
 import { Box, Grid, ImageViewer } from "zmp-ui";
 
-import UIHeader from "components/common/UIHeader";
+import Header from "components/header/Header";
 import { openMediaPicker } from "zmp-sdk/apis";
 import { FcAddImage } from "react-icons/fc";
 
@@ -87,7 +87,7 @@ function UIImageList() {
 
   return (
     <div className="container">
-      <UIHeader title={t("image_list")} subtitle={images.length}/>
+      <Header title={t("image_list")} subtitle={images.length}/>
 
       <Grid columnCount={3} rowSpace="0.5rem" columnSpace="0.5rem">
         {images.length ? renderImages() : renderAddButton()}

@@ -6,7 +6,7 @@ import { useRecoilValue } from "recoil";
 
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
-import CommonIcons from "components/icon/common";
+import { CommonIcon } from "components";
 
 export default function UIHomeBlog() {
   const [ blogs, setBlogs ] = React.useState<any[]>([]);
@@ -41,7 +41,7 @@ export default function UIHomeBlog() {
         <>
           <Text size="small">{ t("no_blogs") }</Text>
           <Box flex flexDirection="row" alignItems="center" justifyContent="center" className="button-link">
-            <CommonIcons.Plus size={"1rem"}/>
+            <CommonIcon.Plus size={"1rem"}/>
             <Text size="small" className="ml-1"> {t("create")} </Text>
           </Box>
         </>
@@ -97,7 +97,7 @@ export default function UIHomeBlog() {
         {blogs.length ? (
           <Box flex flexDirection="row" alignItems="center" className="button" onClick={goToBlogs}>
             <Text size="small"> {t("more")} </Text>
-            <CommonIcons.ChevonRight size={"1rem"}/>
+            <CommonIcon.ChevonRight size={"1rem"}/>
           </Box>
         ) : null}
       </Box>

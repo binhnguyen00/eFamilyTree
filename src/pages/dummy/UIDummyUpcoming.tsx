@@ -3,12 +3,12 @@ import { t } from "i18next";
 import { Button, Grid, Stack, Text } from "zmp-ui";
 
 import { FcRating } from "react-icons/fc";
-import UIHeader from "components/common/UIHeader";
+import Header from "components/header/Header";
 
 export default function UIDummyUpcoming() {
   return (
     <div className="container">
-      <UIHeader title={t("upcoming")}/>
+      <Header title={t("upcoming")}/>
 
       <Grid style={{ padding: "0 1rem" }} columnSpace="1rem" rowSpace="1rem" columnCount={2}>
         <Stack space="0.5rem">

@@ -5,8 +5,7 @@ import { t } from "i18next";
 import { useRecoilValue } from "recoil";
 import { logedInState } from "states";
 
-import AppLogo from "components/icon/app";
-import UIRequestPhone from "components/common/UIRequestPhone";
+import { AppLogo, RequestPhone } from "components";
 
 interface App {
   key: string;
@@ -59,7 +58,7 @@ export default function UIHomeAppList() {
       <Grid columnCount={4} rowSpace="0.5rem">
         {renderApps()}
       </Grid>
-      <UIRequestPhone visible={sheetVisible} closeSheet={() => setSheetVisible(false)}/>
+      <RequestPhone visible={sheetVisible} closeSheet={() => setSheetVisible(false)}/>
     </Stack>
   )
 }

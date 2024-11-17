@@ -7,16 +7,13 @@ import { useRecoilValue } from "recoil";
 
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { FailResponse } from "utils/Interface";
-import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 
-import UIHeader from "components/common/UIHeader";
-import UILoading from "components/common/UILoading";
-import UIError from "components/common/UIError";
+import { Header, Error, Loading } from "components";
 
-function UIBlog() {
+export default function UIBlog() {
   return (
     <div className="container">
-      <UIHeader title={t("blogs")}/>
+      <Header title={t("blogs")}/>
 
       <UIBlogList />
     </div>
@@ -96,11 +93,9 @@ function UIBlogList() {
     return renderBlogList(blogs);
   } else { 
     if (fetchError) {
-      return <UIError message={t("server_error")} onRetry={() => setReload(!reload)}/> 
+      return <Error message={t("server_error")} onRetry={() => setReload(!reload)}/> 
     } else {
-      return <UILoading message={t("loading_blogs")}/> 
+      return <Loading message={t("loading_blogs")}/> 
     }
   }
 }
-
-export default UIBlog;

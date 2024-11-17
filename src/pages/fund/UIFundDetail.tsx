@@ -5,9 +5,9 @@ import { t } from "i18next";
 import { Box, List, Text } from "zmp-ui";
 
 import { DateTimeUtils } from "utils/DateTimeUtils";
-import UIHeader from "components/common/UIHeader";
+import Header from "components/header/Header";
 
-import UISearchBar from "components/common/UISearchBar";
+import UISearchBar from "components/common/SearchBar";
 
 export default function UIFundDetail() {
   const location = useLocation();
@@ -71,7 +71,7 @@ export default function UIFundDetail() {
 
   return (
     <div className="container">
-      <UIHeader title={fund.name}/>
+      <Header title={fund.name}/>
 
       <UISearchBar 
         placeholder={t("search_funds")}

@@ -6,14 +6,11 @@ import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 import { List, Text, useNavigate } from "zmp-ui";
 
-import { CommonComponentUtils } from "components/common/CommonComponentUtils";
+import { common, header } from "components";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { FailResponse } from "utils/Interface";
-import UIHeader from "components/common/UIHeader";
 
-import UISearchBar from "components/common/UISearchBar";
-
-function UIFund() {
+export default function UIFund() {
   const navigate = useNavigate();
   const phoneNumber = useRecoilValue(phoneState);
 
@@ -100,7 +97,7 @@ function UIFund() {
     if (funds.length > 0) {
       return (
         <>
-          <UISearchBar 
+          <common.SearchBar 
             placeholder={t("search_funds")}
             onSearch={(text, event) => console.log(text)}
           />
@@ -109,20 +106,18 @@ function UIFund() {
       )
     } else {
       if (fetchError) {
-        return CommonComponentUtils.renderError(t("server_error"), () => setReload(!reload));
+        return <common.Error message={t("server_error")} onRetry={() => setReload(!reload)}/>; 
       } else {
-        return CommonComponentUtils.renderLoading(t("loading_funds"));
+        return <common.Loading message={t("loading_funds")}/>; 
       }
     }
   }
 
   return (
     <div className="container">
-      <UIHeader title={t("funds")}/>
+      <header.Header title={t("funds")}/>
 
       {renderFundContainer()}
     </div>
   )
 }
-
-export default UIFund;

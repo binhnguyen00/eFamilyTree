@@ -6,7 +6,7 @@ import { FaInfoCircle } from "react-icons/fa";
 import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { IoMdLogIn, IoMdAdd, IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
-const CommonIcons = {
+const CommonIcon = {
   Home: GoHomeFill,
   Photo: TbPhoto,
   AddPhoto: TbPhotoPlus,
@@ -23,4 +23,4 @@ const CommonIcons = {
   Logout: TbLogout
 };
 
-export default CommonIcons;
+export default CommonIcon;

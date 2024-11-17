@@ -6,7 +6,7 @@ import { Stack, Text } from "zmp-ui";
 
 import { EFamilyTreeApi } from "../../utils/EFamilyTreeApi";
 
-import UIHeader from "components/common/UIHeader";
+import Header from "components/header/Header";
 
 function UIBlogDetail() {
   const location = useLocation();
@@ -29,7 +29,7 @@ function UIBlogDetail() {
 
   return (
     <div className="container">
-      <UIHeader title={t("detail_blog")}/>
+      <Header title={t("detail_blog")}/>
 
       <Stack space="1rem">
         <Text.Title size="xLarge"> {blog["title"]} </Text.Title>

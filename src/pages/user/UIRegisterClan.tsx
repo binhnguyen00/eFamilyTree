@@ -3,7 +3,7 @@ import { t } from "i18next";
 
 import { Box, Button, Input, Stack, Text, Sheet } from "zmp-ui";
 
-import UIHeader from "components/common/UIHeader";
+import Header from "components/header/Header";
 
 type RegisterForm = {
   clanName: string;
@@ -31,7 +31,7 @@ export default function UIRegisterClan() {
 
   return (
     <div className="container">
-      <UIHeader title={t("register_clan")}/>
+      <Header title={t("register_clan")}/>
 
       <UIRegisterClanForm formData={formData} setFormData={setFormData} submit={submit}/>
 

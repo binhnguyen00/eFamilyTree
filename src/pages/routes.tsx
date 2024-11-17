@@ -3,14 +3,14 @@ import { Route, Routes } from "react-router-dom";
 import { AnimationRoutes, Box } from "zmp-ui";
 import { t } from "i18next";
 
-import { CommonComponentUtils } from "components/common/CommonComponentUtils";
+import { common } from "components";
 
 import UIUser from "pages/user/UIUser";
 import UIFamilyTree from "pages/family-tree/UIFamilyTree";
 import UIHomeLayout from "pages/home/UIHomeLayout";
 import UIAbout from "pages/about/UIAbout";
 import UIImageList from "./album/UIImageList";
-import UINavigation from "components/common/UINavigation";
+import UINavigation from "components/common/Navigation";
 import UIRegisterClan from "./user/UIRegisterClan";
 import UIRegister from "./user/UIRegister";
 
@@ -41,12 +41,12 @@ function MainRoutes() {
     <Routes>
       <Route path="/" element={<UIHomeLayout />} />
       <Route path="/family-tree" element={
-        <Suspense fallback={<div className="container"> {CommonComponentUtils.renderLoading(t("loading_family_tree"))} </div>}>
+        <Suspense fallback={<div className="container"> <common.Loading message={t("loading_family_tree")} /> </div>}>
           <UIFamilyTree />
         </Suspense>
       } />
       <Route path="/user" element={
-        <Suspense fallback={<div className="container"> {CommonComponentUtils.renderLoading(t("loading"))}</div>}>
+        <Suspense fallback={<div className="container"> <common.Loading message={t("loading")} /> </div>}>
           <UIUser/>
         </Suspense>
       } />
@@ -60,36 +60,36 @@ function AnimatedRoutes() {
     <AnimationRoutes>
 
       <Route path="/family-member-info" element={
-        <Suspense fallback={CommonComponentUtils.renderLoading(t("loading"))}>
+        <Suspense fallback={<common.Loading message={t("loading")} />}>
           <UIFamilyMember />
         </Suspense>
       } />
       <Route path="/about" element={<UIAbout />} />
       <Route path="/album" element={
-        <Suspense fallback={CommonComponentUtils.renderLoading(t("loading_album"))}>
+        <Suspense fallback={<common.Loading message={t("loading_album")} />}>
           <UIAlbum />
         </Suspense>
       } />
       <Route path="/album/image-list" element={
-        <Suspense fallback={CommonComponentUtils.renderLoading(t("loading_album"))}>
+        <Suspense fallback={<common.Loading message={t("loading_album")} />}>
           <UIImageList />
         </Suspense>
       } />
       <Route path="/calendar" element={
-        <Suspense fallback={CommonComponentUtils.renderLoading(t("loading_calendar"))}>
+        <Suspense fallback={<common.Loading message={t("loading_calendar")} />}>
           <UICalendar />
         </Suspense>
       } />
       <Route path="/upcoming" element={<UIDummyUpcoming />} />
       <Route path="/developer" element={<UIDeveloper />} />
       <Route path="/blogs" element={
-        <Suspense fallback={CommonComponentUtils.renderLoading(t("loading_blogs"))}>
+        <Suspense fallback={<common.Loading message={t("loading_blogs")} />}>
           <UIBlog />
         </Suspense>
       } />
       <Route path="/blog-detail" element={<UIBlogDetail />} />
       <Route path="/funds" element={
-        <Suspense fallback={CommonComponentUtils.renderLoading(t("loading_funds"))}>
+        <Suspense fallback={<common.Loading message={t("loading_funds")} />}>
           <UIFund />
         </Suspense>
       } />

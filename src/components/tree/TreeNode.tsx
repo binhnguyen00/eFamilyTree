@@ -20,7 +20,7 @@ interface TreeNodeProps {
   style?: React.CSSProperties;
 }
 
-function TreeNode({node, displayField, isRoot, onSelectNode, style}: TreeNodeProps) {
+export default function TreeNode({node, displayField, isRoot, onSelectNode, style}: TreeNodeProps) {
   const nodeStyle = { 
     width: "100%", 
     height: "100%", 
@@ -39,5 +39,3 @@ function TreeNode({node, displayField, isRoot, onSelectNode, style}: TreeNodePro
     </div>
   )
 }
-
-export default TreeNode;

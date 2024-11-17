@@ -2,7 +2,7 @@ import React from 'react';
 import calcTree from 'relatives-tree';
 import Connector from './Connector';
 import { Node } from 'relatives-tree/lib/types';
-import TreeNode from 'components/node/TreeNode';
+import TreeNode from 'components/tree/TreeNode';
 import { NODE_HEIGHT, NODE_WIDTH } from 'utils/FamilyTreeUtils';
 
 interface Props {

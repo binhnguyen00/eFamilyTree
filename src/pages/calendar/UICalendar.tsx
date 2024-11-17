@@ -9,9 +9,9 @@ import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { CalendarUtils } from "utils/CalendarUtils";
 import { FailResponse } from "utils/Interface";
 
-import UIHeader from "components/common/UIHeader";
-import UILoading from "components/common/UILoading";
-import UIError from "components/common/UIError";
+import Header from "components/header/Header";
+import UILoading from "components/common/Loading";
+import Error from "components/common/Error";
 
 interface Event {
   name: string;
@@ -95,7 +95,7 @@ export default function UICalendar() {
       )
     } else {
       if (fetchError) {
-        return <UIError message={t("server_error")} onRetry={() => setReload(!reload)}/>; 
+        return <Error message={t("server_error")} onRetry={() => setReload(!reload)}/>; 
       } else return <UILoading message={t("loading_events")}/>; 
     }
   }
@@ -122,7 +122,7 @@ export default function UICalendar() {
 
   return (
     <div className="container">
-      <UIHeader title={t("calendar")}/>
+      <Header title={t("calendar")}/>
 
       {renderCalendar()}
     </div>

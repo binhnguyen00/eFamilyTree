@@ -9,11 +9,10 @@ import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
 import FamilyTree from "components/tree/FamilyTree";
-import TreeNode, { FamilyMember } from "components/node/TreeNode";
+import TreeNode, { FamilyMember } from "components/tree/TreeNode";
 import CommonIcons from "components/icon/common";
 
-import UIHeader from "components/common/UIHeader";
-import { CommonComponentUtils } from "components/common/CommonComponentUtils";
+import { common, header } from "components";
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "utils/FamilyTreeUtils";
@@ -132,7 +131,7 @@ export default function UIFamilyTree() {
         </div>
       );
     } else {
-      return CommonComponentUtils.renderLoading(t("loading_family_tree"));
+      return <common.Loading message={t("loading_family_tree")}/>;
     }
   }
 
@@ -152,7 +151,7 @@ export default function UIFamilyTree() {
 
   return (
     <div>
-      <UIHeader title={t("family_tree")}/>
+      <header.Header title={t("family_tree")}/>
 
       {renderTree()}
     </div>

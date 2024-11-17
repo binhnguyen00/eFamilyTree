@@ -4,7 +4,7 @@ import { Calendar, Text, Box, Stack } from "zmp-ui";
 
 import { CalendarUtils, Event } from "utils/CalendarUtils";
 
-import UIHeader from "components/common/UIHeader";
+import Header from "components/header/Header";
 
 import data from "pages/calendar/sample/events.json";
 
@@ -63,7 +63,7 @@ export default function UIDummyCalendar() {
 
   return (
     <div className="container">
-      <UIHeader  title={t("calendar")}/>
+      <Header  title={t("calendar")}/>
 
       <div className="flex-v">
         <Calendar 

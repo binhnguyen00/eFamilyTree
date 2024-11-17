@@ -3,10 +3,8 @@ import { t } from "i18next";
 import { Button, Grid, Select, Sheet, Text, useNavigate, ZBox } from "zmp-ui";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
-import FamilyTree from "components/tree/FamilyTree";
-import TreeNode from "components/node/TreeNode";
+import { FamilyTree, TreeNode } from "components";
 
-import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 import { UITreeControl } from "pages/family-tree/UIFamilyTree";
 import { FamilyTreeUtils, NODE_HEIGHT, NODE_WIDTH } from "utils/FamilyTreeUtils";
 
@@ -16,8 +14,9 @@ import severalSprouses from "pages/family-tree/sample/several-sprouses.json";
 import odooSample from "pages/family-tree/sample/odoo-sample.json";
 
 // icons
-import UIHeader from "components/common/UIHeader";
+import Header from "components/header/Header";
 import CommonIcons from "components/icon/common";
+import UILoading from "components/common/Loading";
 
 export default function UIDummyTree() {
   const dataSrcKey = {
@@ -135,13 +134,13 @@ export default function UIDummyTree() {
         </div>
       )
     } else return (
-      CommonComponentUtils.renderLoading(t("loading"))
+      <UILoading message={t("loading")}/>
     )
   }
 
   return (
     <div>
-      <UIHeader title={t("dummy_tree")}/>
+      <Header title={t("dummy_tree")}/>
       
       {renderTree()}
     </div>

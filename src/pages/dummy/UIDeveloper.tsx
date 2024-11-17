@@ -4,7 +4,7 @@ import { FcApproval, FcCalendar, FcGenealogy, FcMoneyTransfer, FcTemplate, FcBio
 
 import { Button, Grid, Stack, Text, useNavigate } from "zmp-ui";
 
-import UIHeader from "components/common/UIHeader";
+import Header from "components/header/Header";
 
 function UIDeveloper() {
   // keys should be same as Route in ../main.tsx
@@ -57,7 +57,7 @@ function UIDeveloper() {
 
   return (
     <div className="container">
-      <UIHeader title={t("developer")}/>
+      <Header title={t("developer")}/>
 
       <Grid style={{ padding: "0 1rem" }} columnSpace="1rem" rowSpace="1rem" columnCount={2}>
         {renderFunctions()}

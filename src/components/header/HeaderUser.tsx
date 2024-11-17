@@ -6,16 +6,16 @@ import { Avatar, Box, Text, useNavigate } from "zmp-ui";
 
 import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
 
-import UIHeader from "components/common/UIHeader";
-import UIHeaderLoginButton from "./UIHeaderLoginButton";
+import Header from "components/header/Header";
+import HeaderLoginButton from "./HeaderLoginButton";
 
-export default function UIHeaderUser() {
+export default function HeaderUser() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
   const phone = useRecoilValue(phoneState);
 
-  if (!phone) return <UIHeaderLoginButton/>
+  if (!phone) return <HeaderLoginButton/>
   else {
     const UIUserInfo = () => {
       return (
@@ -32,7 +32,7 @@ export default function UIHeaderUser() {
       )
     }
     return (
-      <UIHeader showBackIcon={false} customRender={<UIUserInfo/>}/>
+      <Header showBackIcon={false} customRender={<UIUserInfo/>}/>
     )
   }
 }

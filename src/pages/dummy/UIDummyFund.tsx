@@ -4,8 +4,8 @@ import { IoIosArrowForward } from "react-icons/io";
 import { t } from "i18next";
 import { List, Text, useNavigate } from "zmp-ui";
 
-import UIHeader from "components/common/UIHeader";
-import UISearchBar from "components/common/UISearchBar";
+import Header from "components/header/Header";
+import UISearchBar from "components/common/SearchBar";
 
 const data = [
   {
@@ -134,7 +134,7 @@ export default function UIDummyFund() {
 
   return (
     <div className="container">
-      <UIHeader title={t("funds")}/>
+      <Header title={t("funds")}/>
 
       <UISearchBar 
         placeholder={t("search_funds")}

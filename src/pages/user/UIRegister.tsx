@@ -3,7 +3,7 @@ import { t } from "i18next";
 
 import { Button, Input, Sheet, Stack, Text } from "zmp-ui";
 
-import UIHeader from "components/common/UIHeader";
+import Header from "components/header/Header";
 
 type RegisterForm = {
   mobile: string;
@@ -28,7 +28,7 @@ export default function UIRegister() {
 
   return (
     <div className="container">
-      <UIHeader title={t("register")}/>
+      <Header title={t("register")}/>
 
       <UIRegisterForm formData={formData} onChange={onChange} submit={submit}/>
 

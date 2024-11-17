@@ -1,4 +1,4 @@
-import { FamilyMember } from "../components/node/TreeNode";
+import { FamilyMember } from "../components/tree/TreeNode";
 
 interface OdooPerson {
   id: number;
