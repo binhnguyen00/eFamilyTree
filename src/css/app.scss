@@ -138,11 +138,22 @@ button, .button {
   }
 }
 
-// sheet
+// zaui sheet
 .zaui-sheet-content {
   @extend .text-primary;
   background-color: $secondary-color !important;
   background-image: url("../assets/img/background/bg-grid.png") !important;
+}
+
+// swiper
+.zaui-swiper-item {
+  opacity: 1 !important;
+}
+
+// input
+.zaui-input-label {
+  color: $secondary-color !important;
+  text-transform: capitalize;
 }
 
 // nav bar
@@ -164,10 +175,4 @@ button, .button {
   &::after {
     height: 0 !important;
   }
-}
-
-// input
-.zaui-input-label {
-  color: $secondary-color !important;
-  text-transform: capitalize;
 }

@@ -2,6 +2,9 @@
 
 .tree-connector {
   background-color: $primary-color;
+  pointer-events: none;
+  stroke-linecap: round;
+  border-radius: 2rem;
 }
 
 .tree-node {
