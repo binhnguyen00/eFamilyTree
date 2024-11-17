@@ -1,4 +1,4 @@
-import { Callback, FailResponse } from "./Interface";
+import { Callback, FailResponse } from "utils";
 import { ExternalRESTful } from "server/ExternalRESTful";
 
 export class EFamilyTreeApi {

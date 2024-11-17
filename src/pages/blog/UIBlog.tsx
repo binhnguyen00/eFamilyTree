@@ -6,7 +6,7 @@ import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
-import { FailResponse } from "utils/Interface";
+import { FailResponse } from "utils/type";
 
 import { Header, Error, Loading } from "components";
 

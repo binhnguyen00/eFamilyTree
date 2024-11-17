@@ -8,7 +8,7 @@ import { List, Text, useNavigate } from "zmp-ui";
 
 import { Header, Loading, Error, SearchBar } from "components";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
-import { FailResponse } from "utils/Interface";
+import { FailResponse } from "utils/type";
 
 export default function UIFund() {
   const navigate = useNavigate();

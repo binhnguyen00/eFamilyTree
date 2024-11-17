@@ -7,7 +7,7 @@ import { useRecoilValue } from "recoil";
 
 import { Box, Grid, Stack, Text } from "zmp-ui";
 import { openMediaPicker } from "zmp-sdk/apis";
-import { FailResponse } from "utils/Interface";
+import { FailResponse } from "utils/type";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 
 import { Header } from "components";

@@ -4,7 +4,7 @@ import { Box, Stack, Text, useNavigate } from "zmp-ui";
 import { logedInState, phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
-import { FailResponse } from "utils/Interface";
+import { FailResponse } from "utils/type";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { CommonIcon } from "components";
 

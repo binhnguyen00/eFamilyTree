@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { useLocation } from "react-router-dom";
 import { Box, Button, Input, Stack, Text } from "zmp-ui";
 
-import { FailResponse } from "utils/Interface";
+import { FailResponse } from "utils/type";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { Header, Loading } from "components";
 

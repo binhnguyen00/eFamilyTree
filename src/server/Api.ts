@@ -1,4 +1,4 @@
-import { Callback, HttpMethod } from "utils";
+import { Callback, HttpMethod } from "utils/type";
 
 export abstract class Api {
   serverUrl: string;

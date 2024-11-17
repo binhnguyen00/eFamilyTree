@@ -7,7 +7,7 @@ import { useRecoilValue } from "recoil";
 
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { CalendarUtils } from "utils/CalendarUtils";
-import { FailResponse } from "utils/Interface";
+import { FailResponse } from "utils/type";
 
 import { Header, Error, Loading } from "components";
 

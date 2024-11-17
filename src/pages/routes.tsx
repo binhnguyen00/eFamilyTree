@@ -113,7 +113,7 @@ function AnimatedRoutes() {
 
 export default function UIRoutes() {
   return (
-    <Box flex flexDirection="column">
+    <>
       <Suspense>
         <MainRoutes />
       </Suspense>
@@ -123,6 +123,6 @@ export default function UIRoutes() {
       </Suspense>
 
       <UINavigation/>
-    </Box>
+    </>
   );
 }
