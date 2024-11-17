@@ -9,7 +9,7 @@ import { openMediaPicker } from "zmp-sdk/apis";
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 
-import { UIHeader } from "components/common/UIHeader";
+import UIHeader from "components/common/UIHeader";
 import { useNavigate } from "react-router-dom";
 
 function UIAlbum() {

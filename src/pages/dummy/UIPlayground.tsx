@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Text, Box, Input, Stack } from "zmp-ui";
 import { atom, selector, useRecoilValue, useRecoilState } from "recoil"
-import {UIHeader} from "components/common/UIHeader";
+import UIHeader from "components/common/UIHeader";
 
 const numberState = atom({
   key: "number",

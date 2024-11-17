@@ -7,7 +7,7 @@ import { Box, List, Text } from "zmp-ui";
 import { DateTimeUtils } from "utils/DateTimeUtils";
 
 import UISearchBar from "components/common/UISearchBar";
-import {UIHeader} from "components/common/UIHeader";
+import UIHeader from "components/common/UIHeader";
 
 export default function UIDummyFundDetail() {
   const location = useLocation();

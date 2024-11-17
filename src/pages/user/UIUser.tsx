@@ -4,7 +4,7 @@ import { useRecoilValue } from "recoil";
 import { logedInState, userState } from "states";
 
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
-import { UIHeader } from "components/common/UIHeader";
+import UIHeader from "components/common/UIHeader";
 
 import UISignInUser from "./UISignInUser";
 import UISignedInUser from "./UISignedInUser";

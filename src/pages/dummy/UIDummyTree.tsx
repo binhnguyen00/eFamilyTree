@@ -16,7 +16,7 @@ import severalSprouses from "pages/family-tree/sample/several-sprouses.json";
 import odooSample from "pages/family-tree/sample/odoo-sample.json";
 
 // icons
-import {UIHeader} from "components/common/UIHeader";
+import UIHeader from "components/common/UIHeader";
 import CommonIcons from "components/icon/common";
 
 export default function UIDummyTree() {

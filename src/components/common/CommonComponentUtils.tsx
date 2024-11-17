@@ -3,6 +3,7 @@ import { t } from "i18next";
 import { Spinner, Text, Stack, Button } from "zmp-ui";
 
 export class CommonComponentUtils {
+  /** @deprecated */
   public static renderLoading(message: string, size?: "small" | "normal" | "large") {
     let width = 0;
     if (!size) size = "normal";
@@ -22,6 +23,7 @@ export class CommonComponentUtils {
     )
   }
 
+  /** @deprecated */
   public static renderError(message: string, onRetry?: () => void) {
     return (
       <Stack space="0.5rem" style={{

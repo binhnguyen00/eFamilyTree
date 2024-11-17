@@ -12,7 +12,7 @@ import FamilyTree from "components/tree/FamilyTree";
 import TreeNode, { FamilyMember } from "components/node/TreeNode";
 import CommonIcons from "components/icon/common";
 
-import { UIHeader } from "components/common/UIHeader";
+import UIHeader from "components/common/UIHeader";
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 import { FailResponse } from "utils/Interface";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";

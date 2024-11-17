@@ -9,7 +9,7 @@ import { List, Text, useNavigate } from "zmp-ui";
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { FailResponse } from "utils/Interface";
-import { UIHeader } from "components/common/UIHeader";
+import UIHeader from "components/common/UIHeader";
 
 import UISearchBar from "components/common/UISearchBar";
 

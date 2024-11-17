@@ -9,7 +9,9 @@ import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { FailResponse } from "utils/Interface";
 import { CommonComponentUtils } from "components/common/CommonComponentUtils";
 
-import { UIHeader } from "components/common/UIHeader";
+import UIHeader from "components/common/UIHeader";
+import UILoading from "components/common/UILoading";
+import UIError from "components/common/UIError";
 
 function UIBlog() {
   return (
@@ -94,9 +96,9 @@ function UIBlogList() {
     return renderBlogList(blogs);
   } else { 
     if (fetchError) {
-      return CommonComponentUtils.renderError(t("server_error"), () => setReload(!reload));
+      return <UIError message={t("server_error")} onRetry={() => setReload(!reload)}/> 
     } else {
-      return CommonComponentUtils.renderLoading(t("loading_blogs"));
+      return <UILoading message={t("loading_blogs")}/> 
     }
   }
 }

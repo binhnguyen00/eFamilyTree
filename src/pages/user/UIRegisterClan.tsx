@@ -3,7 +3,7 @@ import { t } from "i18next";
 
 import { Box, Button, Input, Stack, Text, Sheet } from "zmp-ui";
 
-import { UIHeader } from "components/common/UIHeader";
+import UIHeader from "components/common/UIHeader";
 
 type RegisterForm = {
   clanName: string;
