@@ -33,7 +33,7 @@ export default function UIRequestPhone(props: { visible: boolean, closeSheet: ()
           }}>
             {t("login")}
           </Button>
-          <Button variant="secondary" onClick={closeSheet}>
+          <Button variant="tertiary" onClick={closeSheet}>
             <Text> {t("decline")} </Text>
           </Button>
         </Stack>

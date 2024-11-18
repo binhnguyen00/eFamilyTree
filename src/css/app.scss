@@ -37,10 +37,6 @@ body {
   color: var(--secondary-color) !important;
 }
 
-.zaui-text {
-  @extend .text-base;
-}
-
 // background
 .bg-primary {
   background: url("../assets/img/background/bg-grid.png") no-repeat 100% !important;
@@ -92,11 +88,8 @@ body {
 }
 
 .zaui-btn-tertiary {
-  color: var(--secondary-color) !important;
-}
-
-.zaui-btn-tertiary:active {
-  box-shadow: none !important;
+  @extend .text-primary;
+  background: none !important;
 }
 
 button, .button {
