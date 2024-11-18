@@ -1,5 +1,6 @@
 @use './theme-default.scss' as default;
 @use './theme-blue.scss' as blue;
+@use './theme-green.scss' as green;
 
 [data-theme="default"] {
   @include default.theme();
@@ -7,4 +8,8 @@
 
 [data-theme="blue"] {
   @include blue.theme();
+}
+
+[data-theme="green"] {
+  @include green.theme();
 }

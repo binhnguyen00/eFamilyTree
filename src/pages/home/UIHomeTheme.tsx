@@ -38,7 +38,7 @@ function UIThemeList() {
           border
           onClick={() => toggleTheme("default")}
         >
-          {"default"}
+          {"Rồng Vàng"}
         </SizedBox>
       </Stack>
 
@@ -50,7 +50,7 @@ function UIThemeList() {
           border
           onClick={() => toggleTheme("blue")}
         >
-          {"blue"}
+          {"Hồ Thuỷ"}
         </SizedBox>
       </Stack>
 
@@ -62,7 +62,7 @@ function UIThemeList() {
           border
           onClick={() => toggleTheme("green")}
         >
-          {"default"}
+          {"Lục Dã"}
         </SizedBox>
       </Stack>
 

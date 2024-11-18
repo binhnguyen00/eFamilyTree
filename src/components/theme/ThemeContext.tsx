@@ -1,5 +1,7 @@
 import React from "react";
 
+import { themes } from "./config";
+
 export const ThemeContext = React.createContext({ 
   theme: "default", 
   toggleTheme: (themeCode: string) => {} 
@@ -14,6 +16,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const toggleTheme = (themeCode: string) => {
     setTheme(themeCode);
+    if (!themes[themeCode]) {
+      console.error(`Theme ${themeCode} not found`);
+      return;
+    };
     document.documentElement.setAttribute('data-theme', themeCode);
   };
 
