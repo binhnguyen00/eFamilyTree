@@ -1,4 +1,4 @@
-import { useTheme, ThemeProvider } from "./ThemeContext";
 import { themes } from "./config";
+import { ThemeProvider, ThemeContext } from "./ThemeContext";
 
-export { useTheme, ThemeProvider, themes };
+export { ThemeProvider, ThemeContext, themes };

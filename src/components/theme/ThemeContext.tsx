@@ -1,11 +1,9 @@
 import React from "react";
 
-const ThemeContext = React.createContext({ 
+export const ThemeContext = React.createContext({ 
   theme: "default", 
   toggleTheme: (themeCode: string) => {} 
 });
-
-export const useTheme = () => React.useContext(ThemeContext);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [ theme, setTheme ] = React.useState("default");
