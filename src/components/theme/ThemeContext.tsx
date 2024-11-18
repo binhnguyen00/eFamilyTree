@@ -8,6 +8,10 @@ export const ThemeContext = React.createContext({
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [ theme, setTheme ] = React.useState("default");
 
+  React.useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, []);
+
   const toggleTheme = (themeCode: string) => {
     setTheme(themeCode);
     document.documentElement.setAttribute('data-theme', themeCode);

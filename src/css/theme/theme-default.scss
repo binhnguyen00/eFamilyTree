@@ -1,30 +1,39 @@
-$primary-color: #bd2a2d;
-$secondary-color: #FEF3E2;
-$tertiary-color: #FAB12F;
-$quaternary: #FEF3E2;
-$header-color: #a50003;
-$header-height: 55px;
-$footer-height: 80px;
+@mixin theme {
+  // Define SCSS variables
+  $primary-color: #7D0A0A;
+  $secondary-color: #EAD196;
+  $tertiary-color: #BF3131;
+  $quaternary-color: #F3EDC8;
 
-$node-male-color: #beeaff;
-$node-female-color: #febcdf;
-$node-border-color: $tertiary-color;
-$node-border-radius: 0.5rem;
+  $header-color: $primary-color;
+  $header-height: 55px;
 
-.theme-default {
-  --primary-color: $primary-color;
-  --secondary-color: $secondary-color;
-  --tertiary-color: $tertiary-color;
+  $footer-color: $secondary-color;
+  $footer-height: 80px;
 
-  --header-color: #a50003;
-  --header-height: 55px;
+  $node-male-color: #BEEAFF;
+  $node-female-color: #FEBCDF;
+  $node-border-color: $tertiary-color;
+  $node-border-radius: 0.5rem;
 
-  --footer-height: 80px;
+  $tree-background-color: white;
 
-  --node-male-color: #beeaff;
-  --node-female-color: #febcdf;
-  --node-border-color: #FAB12F;
-  --node-border-radius: 0.5rem;
+  // Set CSS variables using the SCSS variables
+  --primary-color: #{$primary-color};
+  --secondary-color: #{$secondary-color};
+  --tertiary-color: #{$tertiary-color};
+  --quaternary-color: #{$quaternary-color};
 
-  --tree-background-color: white;
+  --header-color: #{$header-color};
+  --header-height: #{$header-height};
+
+  --footer-color: #{$footer-color};
+  --footer-height: #{$footer-height};
+
+  --node-male-color: #{$node-male-color};
+  --node-female-color: #{$node-female-color};
+  --node-border-color: #{$node-border-color};
+  --node-border-radius: #{$node-border-radius};
+
+  --tree-background-color: #{$tree-background-color};
 }
