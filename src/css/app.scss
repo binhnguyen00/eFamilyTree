@@ -1,17 +1,17 @@
-@use "./variables" as *;
+@use "./theme/theme.scss" as *;
 
 body {
-  background-color: $primary-color !important;
-  color: $tertiary-color !important;
+  background-color: var(--primary-color) !important;
+  color: var(--secondary-color) !important;
 
   background: url("../assets/img/background/bg-grid.png") repeat center center;
 }
 
 .container {
-  padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + ($header-height + 10px)) !important;
+  padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + (var(--header-height) + 10px)) !important;
   padding-left: 10px;
   padding-right: 10px;
-  padding-bottom: calc(var(--zaui-safe-area-inset-bottom, 0px) + ($footer-height + 10px)) !important;
+  padding-bottom: calc(var(--zaui-safe-area-inset-bottom, 0px) + (var(--footer-height) + 10px)) !important;
 
   @extend .text-base;
 
@@ -20,83 +20,75 @@ body {
   }
 }
 
-.app-logo {
-  border-radius: 1rem;
-  object-fit: cover;
-  overflow: hidden;
-  height: 50px;
-}
-
 // text
 .text-primary {
-  color: $primary-color !important;
+  color: var(--primary-color) !important;
 }
 
 .text-secondary {
-  color: $secondary-color !important;
+  color: var(--secondary-color) !important;
 }
 
 .text-tertiary {
-  color: $tertiary-color !important;
+  color: var(--tertiary-color) !important;
 }
 
 .text-base {
-  color: $secondary-color !important;
+  color: var(--secondary-color) !important;
 }
 
 // background
 .bg-primary {
   background: url("../assets/img/background/bg-grid.png") no-repeat 100% !important;
-  background-color: $primary-color !important;
+  background-color: var(--primary-color) !important;
 }
 
 .bg-secondary {
-  background-color: $secondary-color !important;
+  background-color: var(--secondary-color) !important;
 }
 
 .bg-tertiary {
-  background-color: $tertiary-color !important;
+  background-color: var(--tertiary-color) !important;
 }
 
 .bg-blur {
-  // background-color: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(20px);
 }
 
 // header
 .zaui-header {
-  height: calc(var(--zaui-safe-area-inset-top, 0px) + $header-height) !important;
+  height: calc(var(--zaui-safe-area-inset-top, 0px) + var(--header-height)) !important;
   background: url("../assets/img/background/bg-grid.png") no-repeat center center !important;
-  background-color: $header-color !important;
-  color: $tertiary-color !important;
+  background-color: var(--header-color) !important;
+  color: var(--tertiary-color) !important;
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
-  border-bottom: $secondary-color solid 1.5px;
+  border-bottom: var(--secondary-color) solid 1.5px;
 }
 
 .zaui-header::after {
   height: 0 !important;
-  box-shadow: 10px 10px 40px 15px $secondary-color !important;
+  box-shadow: 10px 10px 40px 15px var(--secondary-color) !important;
 }
 
 // footer
 .zaui-bottom-navigation-content {
-  background-color: $secondary-color !important;
+  background-color: var(--secondary-color) !important;
 }
 
 // button
 .zaui-btn-primary {
-  background-color: $primary-color !important;
-  color: $secondary-color !important;
+  background-color: var(--primary-color) !important;
+  color: var(--secondary-color) !important;
 }
 
 .zaui-btn-secondary {
-  background-color: $secondary-color !important;
-  color: $primary-color !important;
+  background-color: var(--secondary-color) !important;
+  color: var(--primary-color) !important;
 }
 
 .zaui-btn-tertiary {
-  color: $secondary-color !important;
+  color: var(--secondary-color) !important;
 }
 
 .zaui-btn-tertiary:active {
@@ -127,7 +119,7 @@ button, .button {
 // zaui sheet
 .zaui-sheet-content {
   @extend .text-primary;
-  background-color: $secondary-color !important;
+  background-color: var(--secondary-color) !important;
   background-image: url("../assets/img/background/bg-grid.png") !important;
 }
 
@@ -138,7 +130,7 @@ button, .button {
 
 // input
 .zaui-input-label {
-  color: $secondary-color !important;
+  color: var(--secondary-color) !important;
   text-transform: capitalize;
 }
 
@@ -156,7 +148,7 @@ button, .button {
 .zaui-bottom-navigation-content {
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
-  height: calc(var(--zaui-safe-area-inset-bottom) + $footer-height) !important;
+  height: calc(var(--zaui-safe-area-inset-bottom) + var(--footer-height)) !important;
 
   &::after {
     height: 0 !important;

@@ -1,0 +1,25 @@
+@use './theme-default.scss' as *;
+@use './theme-blue.scss' as *;
+
+:root {
+  --primary-color: #bd2a2d;
+  --secondary-color: #FEF3E2;
+  --tertiary-color: #FAB12F;
+  --quaternary: #FEF3E2;
+  --header-color: #a50003;
+  --header-height: 55px;
+  --footer-height: 80px;
+
+  --node-male-color: #beeaff;
+  --node-female-color: #febcdf;
+  --node-border-color: $tertiary-color;
+  --node-border-radius: 0.5rem;
+}
+
+[data-theme="default"] {
+  @extend .theme-default !optional;
+}
+
+[data-theme="blue"] {
+  @extend .theme-blue !optional;
+}

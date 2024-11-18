@@ -4,13 +4,14 @@ interface SizedBoxProps {
   width: number | string;
   height: number | string;
   children?: React.ReactNode;
+  borderRadius?: number;
   border?: boolean;
   className?: string;
   style?: React.CSSProperties;
   onClick?: (event?: any) => void;
 }
 export default function SizedBox(props: SizedBoxProps) {
-  const { width, height, children, className, style, onClick, border } = props;
+  const { width, height, children, className, style, onClick, border, borderRadius } = props;
 
   return (
     <div 
@@ -21,6 +22,7 @@ export default function SizedBox(props: SizedBoxProps) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        borderRadius: borderRadius || "none",
         ...style
       }}
       onClick={onClick}

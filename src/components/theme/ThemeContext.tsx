@@ -10,7 +10,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const toggleTheme = (themeCode: string) => {
     setTheme(themeCode);
-    document.documentElement.className = `theme-${themeCode}`;
+    document.documentElement.setAttribute('data-theme', themeCode);
   };
 
   return (

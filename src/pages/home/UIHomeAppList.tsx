@@ -69,8 +69,10 @@ function AppButton(props: { appKey: string; label: string; onClick: () => void }
   
   return (
     <div onClick={onClick} className="button">
-      <Stack space="0.5rem" className="center">
-        <AppSymbol key={`ico-${appKey}`} iconKey={appKey}/> 
+      <Stack className="center">
+        <SizedBox width={60} height={60} borderRadius={10} border>
+          <AppSymbol key={`ico-${appKey}`} iconKey={appKey}/> 
+        </SizedBox>
         <Text
           key={`title-${appKey}`} 
           size="small" 
@@ -87,17 +89,17 @@ function AppButton(props: { appKey: string; label: string; onClick: () => void }
 function AppSymbol({ iconKey }: { iconKey: string }) {
   switch (iconKey) {
     case "family-tree":
-      return <img key={`ico-${iconKey}`} src={AppLogo.FamilyTree} alt="family tree" className="app-logo"/>
+      return <img key={`ico-${iconKey}`} src={AppLogo.FamilyTree} alt="family tree"/>
     case "album":
-      return <img key={`ico-${iconKey}`} src={AppLogo.Album} alt="album" className="app-logo" />
+      return <img key={`ico-${iconKey}`} src={AppLogo.Album} alt="album"/>
     case "calendar":
-      return <img key={`ico-${iconKey}`} src={AppLogo.Calendar} alt="calendar" className="app-logo"/>
+      return <img key={`ico-${iconKey}`} src={AppLogo.Calendar} alt="calendar"/>
     case "blogs":
-      return <img key={`ico-${iconKey}`} src={AppLogo.Blogs} alt="blogs" className="app-logo"/>
+      return <img key={`ico-${iconKey}`} src={AppLogo.Blogs} alt="blogs"/>
     case "funds":
-      return <img key={`ico-${iconKey}`} src={AppLogo.Funds} alt="funds" className="app-logo"/>
+      return <img key={`ico-${iconKey}`} src={AppLogo.Funds} alt="funds"/>
     case "theme":
-      return <img key={`ico-${iconKey}`} src={AppLogo.Theme} alt="theme" className="app-logo"/>
+      return <img key={`ico-${iconKey}`} src={AppLogo.Theme} alt="theme"/>
     case "upcoming":
       return <AppLogo.Upcoming key={`ico-${iconKey}`} size={"3rem"}/>
     case "developer":

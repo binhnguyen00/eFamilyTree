@@ -1,12 +1,10 @@
-@use "./variables" as *;
 @use "./app.scss" as *;
-@use "./theme.scss" as *;
 
 .tree-container {
-  padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + $header-height) !important;
+  padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + var(--header-height)) !important;
   padding-left: unset !important;
   padding-right: unset !important;
-  padding-bottom: calc(var(--zaui-safe-area-inset-bottom, 0px) + ($footer-height + 10px)) !important;
+  padding-bottom: calc(var(--zaui-safe-area-inset-bottom, 0px) + (var(--footer-height) + 10px)) !important;
   background-color: var(--tree-background-color) !important;
 
   @extend .text-base;
@@ -17,7 +15,7 @@
 }
 
 .tree-connector {
-  background-color: $primary-color;
+  background-color: var(--primary-color);
   pointer-events: none;
   stroke-linecap: round;
   border-radius: 2rem;
@@ -26,7 +24,7 @@
 .tree-node {
   position: absolute;
   padding: 15px;
-  border-radius: $node-border-radius;
+  border-radius: var(--node-border-radius);
 }
 
 .tree-node-root {
@@ -34,12 +32,12 @@
 }
 
 .tree-node-male {
-  background: linear-gradient(to bottom, $node-male-color 25%, #fef3e2 25%);
-  border: 2px solid $node-border-color;
+  background: linear-gradient(to bottom, var(--node-male-color) 25%, #fef3e2 25%);
+  border: 2px solid var(--node-border-color);
   position: relative;
-  color: $node-male-color !important;
+  color: var(--node-male-color) !important;
   overflow-wrap: break-word !important;
-  border-radius: $node-border-radius;
+  border-radius: var(--node-border-radius);
 
   &::before {
     content: '';         
@@ -48,18 +46,18 @@
     left: 0;
     width: 100%;         
     height: 25%;         
-    background: $node-male-color;
-    border-radius: $node-border-radius;
+    background: var(--node-male-color);
+    border-radius: var(--node-border-radius);
   }
 }
 
 .tree-node-female {
-  background: linear-gradient(to bottom, $node-female-color 25%, #fef3e2 25%);
+  background: linear-gradient(to bottom, var(--node-female-color) 25%, #fef3e2 25%);
   position: relative;
-  color: $node-female-color !important;
-  border: 2px solid $node-border-color;
+  color: var(--node-female-color) !important;
+  border: 2px solid var(--node-border-color);
   overflow-wrap: break-word !important;
-  border-radius: $node-border-radius;
+  border-radius: var(--node-border-radius);
   text-wrap: wrap;
 
   &::before {
@@ -69,8 +67,8 @@
     left: 0;
     width: 100%;         
     height: 25%;         
-    background: $node-female-color;
-    border-radius: $node-border-radius;
+    background: var(--node-female-color);
+    border-radius: var(--node-border-radius);
   }
 }
 
