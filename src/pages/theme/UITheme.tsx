@@ -3,7 +3,8 @@ import { t } from "i18next";
 
 import { Grid } from "zmp-ui";
 
-import { Header, useTheme } from "components";
+import {  useTheme } from "hooks";
+import { Header } from "components";
 
 export default function UITheme() {
   return (

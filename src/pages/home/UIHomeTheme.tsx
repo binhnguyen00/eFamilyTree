@@ -2,7 +2,8 @@ import React from "react";
 import { t } from "i18next";
 import { Box, Stack, Text } from "zmp-ui";
 
-import { CommonIcon, SizedBox, useTheme } from "components";
+import { useTheme } from "hooks";
+import { CommonIcon, SizedBox } from "components";
 
 export default function UIHomeTheme() {
 
