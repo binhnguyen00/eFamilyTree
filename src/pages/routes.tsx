@@ -24,7 +24,7 @@ const UICalendar = lazy(() => import("./calendar/UICalendar"));
 const UIAlbum = lazy(() => import("./album/UIAlbum"));
 const UIPlayground = lazy(() => import("./dummy/UIPlayground"));
 const UIDeveloper = lazy(() => import("./dummy/UIDeveloper"));
-const UIDummyUpcoming = lazy(() => import("./dummy/UIDummyUpcoming"));
+const UIUpcoming = lazy(() => import("./upcomming/UIUpcomming"));
 const UIFamilyMember = lazy(() => import("./family-tree/UIFamilyMember"));
 
 // Demo components (lazy loaded)
@@ -81,7 +81,7 @@ function AnimatedRoutes() {
           <UICalendar />
         </Suspense>
       } />
-      <Route path="/upcoming" element={<UIDummyUpcoming />} />
+      <Route path="/upcoming" element={<UIUpcoming />} />
       <Route path="/developer" element={<UIDeveloper />} />
       <Route path="/blogs" element={
         <Suspense fallback={<Loading message={t("loading_blogs")} />}>
