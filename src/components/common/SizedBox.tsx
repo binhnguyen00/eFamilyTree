@@ -24,6 +24,7 @@ export default function SizedBox(props: SizedBoxProps) {
         justifyContent: "center",
         overflow: (borderRadius || border) ? "hidden" : undefined,
         borderRadius: borderRadius || "none",
+        touchAction: "none",
         ...style
       }}
       onClick={onClick}
