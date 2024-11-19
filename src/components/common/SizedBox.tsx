@@ -22,7 +22,7 @@ export default function SizedBox(props: SizedBoxProps) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        overflow: borderRadius ? "hidden" : undefined,
+        overflow: (borderRadius || border) ? "hidden" : undefined,
         borderRadius: borderRadius || "none",
         ...style
       }}

@@ -33,6 +33,9 @@
   "error": "error",
   "fail": "fail",
   "theme": "theme",
+  "theme_red": "golden dragon",
+  "theme_blue": "autumn lake",
+  "theme_green": "wild greenery",
 
   "home": "Home",
   "home_subtitle": "Preserving Your Heritage",

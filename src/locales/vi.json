@@ -33,6 +33,9 @@
   "error": "lỗi",
   "fail": "thất bại",
   "theme": "giao diện",
+  "theme_red": "rồng vàng",
+  "theme_blue": "hồ thuỷ",
+  "theme_green": "lục dã",
 
   "home": "Trang Chủ",
   "home_subtitle": "Gìn Giữ Nguồn Cội",

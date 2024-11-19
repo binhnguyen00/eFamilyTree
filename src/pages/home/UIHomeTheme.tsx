@@ -2,6 +2,10 @@ import React from "react";
 import { t } from "i18next";
 import { Box, Stack, Text } from "zmp-ui";
 
+import themeRed from "assets/img/theme/theme-red.jpeg";
+import themeGreen from "assets/img/theme/theme-green.jpeg";
+import themeBlue from "assets/img/theme/theme-blue.jpeg";
+
 import { useTheme } from "hooks";
 import { CommonIcon, SizedBox } from "components";
 
@@ -30,7 +34,7 @@ function UIThemeList() {
   return (
     <div className="scroll-h flex-h">
 
-      <Stack space="0.5rem">
+      <Stack space="0.5rem" className="center text-capitalize">
         <SizedBox 
           className="button"
           width={150} 
@@ -38,11 +42,12 @@ function UIThemeList() {
           border
           onClick={() => toggleTheme("default")}
         >
-          {"Rồng Vàng"}
+          <img src={themeRed} alt="theme red"/>
         </SizedBox>
+        <Text> {t("theme_red")} </Text>
       </Stack>
 
-      <Stack space="0.5rem">
+      <Stack space="0.5rem" className="center text-capitalize">
         <SizedBox 
           className="button"
           width={150} 
@@ -50,11 +55,12 @@ function UIThemeList() {
           border
           onClick={() => toggleTheme("blue")}
         >
-          {"Hồ Thuỷ"}
+          <img src={themeBlue} alt="theme blue"/>
         </SizedBox>
+        <Text> {t("theme_blue")} </Text>
       </Stack>
 
-      <Stack space="0.5rem">
+      <Stack space="0.5rem" className="center text-capitalize">
         <SizedBox 
           className="button"
           width={150} 
@@ -62,8 +68,9 @@ function UIThemeList() {
           border
           onClick={() => toggleTheme("green")}
         >
-          {"Lục Dã"}
+          <img src={themeGreen} alt="theme green"/>
         </SizedBox>
+        <Text> {t("theme_green")} </Text>
       </Stack>
 
     </div>
