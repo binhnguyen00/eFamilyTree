@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSwipeable } from 'react-swipeable';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'zmp-ui';
 
-const UISwipeGesture = ({ children }) => {
+export function SwipeGesture({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -18,10 +19,8 @@ const UISwipeGesture = ({ children }) => {
   });
 
   return (
-    <div {...handlers} style={{ height: '100vh' }}>
+    <div id='swipe-gesture' {...handlers}>
       {children}
     </div>
   );
 };
-
-export default UISwipeGesture;

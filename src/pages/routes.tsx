@@ -1,9 +1,9 @@
 import React, { lazy, Suspense } from "react";
-import { Route, Routes } from "react-router-dom";
-import { AnimationRoutes, Box } from "zmp-ui";
+import { Route } from "react-router-dom";
+import { AnimationRoutes } from "zmp-ui";
 import { t } from "i18next";
 
-import { Loading } from "components";
+import { Loading, SwipeGesture } from "components";
 
 import UIUser from "pages/user/UIUser";
 import UIFamilyTree from "pages/family-tree/UIFamilyTree";
@@ -39,7 +39,7 @@ const UIDummyNavigate = lazy(() => import("./dummy/UIDummyNavigate"));
 // Component for Main Routes
 function MainRoutes() {
   return (
-    <Routes>
+    <AnimationRoutes>
       <Route path="/" element={<UIHomeLayout />} />
       <Route path="/family-tree" element={
         <Suspense fallback={<div className="container"> <Loading message={t("loading_family_tree")} /> </div>}>
@@ -51,12 +51,12 @@ function MainRoutes() {
           <UIUser/>
         </Suspense>
       } />
-    </Routes>
+    </AnimationRoutes>
   );
 }
 
 // animated routes
-function AnimatedRoutes() {
+function SubRoutes() {
   return (
     <AnimationRoutes>
 
@@ -115,16 +115,16 @@ function AnimatedRoutes() {
 
 export default function UIRoutes() {
   return (
-    <>
+    <SwipeGesture>
       <Suspense>
         <MainRoutes />
       </Suspense>
 
       <Suspense>
-        <AnimatedRoutes />
+        <SubRoutes />
       </Suspense>
 
       <UINavigation/>
-    </>
+    </SwipeGesture>
   );
 }

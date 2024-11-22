@@ -1,5 +1,9 @@
 @use "./theme/theme.scss" as *;
 
+#app {
+  height: inherit;
+}
+
 body {
   background-color: var(--primary-color) !important;
   color: var(--secondary-color) !important;
@@ -150,4 +154,9 @@ button, .button {
   &::after {
     height: 0 !important;
   }
+}
+
+// swipe gesture
+#swipe-gesture {
+  height: inherit;
 }
