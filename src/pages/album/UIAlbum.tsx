@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { FcAddImage } from "react-icons/fc";
 import { t } from "i18next";
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
@@ -10,7 +9,7 @@ import { openMediaPicker } from "zmp-sdk/apis";
 import { FailResponse } from "utils/type";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 
-import { Header } from "components";
+import { Header, SizedBox } from "components";
 
 function UIAlbum() {
   return (
@@ -105,15 +104,16 @@ function UIAlbumList() {
     }
 
     return (
-      <Box flex justifyContent="center">
-        <FcAddImage size={"4.5em"} className="button" onClick={addImage} />
+      <Box flex flexDirection="row" justifyContent="center">
+        <SizedBox width={"4.5em"} height={"4.5em"} border className="button" onClick={addImage}>
+          <div> {"+"} </div>
+        </SizedBox>
       </Box>
     )
   }
 
   return (
     <Grid columnCount={1} columnSpace="0.5rem" rowSpace="0.5rem">
-      {/* {albums.length > 0 ? renderAlbums() : renderAddButton()} */}
       {renderAlbums()}
     </Grid>
   )
