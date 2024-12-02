@@ -63,14 +63,33 @@ export class EFamilyTreeApi {
     return this.server.POST("get/fund", header, body, success, fail);
   }
 
-  public static getCerificates(phoneNumber, groupId, successCB: Callback, failCB?: Callback) {
+  public static getCerificatesByGroup(phoneNumber, groupId: number, successCB: Callback, failCB?: Callback) {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber,
-      placeHolder: groupId
+      type_id: groupId
     });
     const [ success, fail ] = this.createCallback(successCB, failCB);
-    return this.server.POST("get/certificate", header, body, success, fail);
+    return this.server.POST("get/certificates", header, body, success, fail);
+  }
+
+  public static getCerificateInfo(phoneNumber, certificateId: number, successCB: Callback, failCB?: Callback) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      phone: phoneNumber,
+      id: certificateId
+    });
+    const [ success, fail ] = this.createCallback(successCB, failCB);
+    return this.server.POST("get/certificates", header, body, success, fail);
+  }
+
+  public static getCerificateGroups(phoneNumber, successCB: Callback, failCB?: Callback) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      phone: phoneNumber,
+    });
+    const [ success, fail ] = this.createCallback(successCB, failCB);
+    return this.server.POST("get/type/certificates", header, body, success, fail);
   }
 
   private static initBody(params: any): Record<string, any> { 

@@ -1,23 +1,22 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import { t } from "i18next";
 
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
-import { useNavigate } from "zmp-ui";
+import { List, Stack, Text, useNavigate } from "zmp-ui";
 
 import { EFamilyTreeApi, FailResponse } from "utils";
-import { Header } from "components";
+import { Header, CommonIcon } from "components";
 
-interface UICertificateProps {
-  groupId?: number
-}
-export default function UICertificate(props: UICertificateProps) {
-  const { groupId } = props;
+export default function UICertificate() {
+  const location = useLocation();
+  const { certificateGroupId } = location.state || null;
 
   const navigate = useNavigate();
   const phoneNumber = useRecoilValue(phoneState);
 
-  const [ groups, setGroups ] = React.useState<any[]>([]);
+  const [ certificates, setCertificates ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);
   const [ fetchError, setFetchError ] = React.useState(false);
 
@@ -28,9 +27,7 @@ export default function UICertificate(props: UICertificateProps) {
         console.warn(result);
       } else {
         setFetchError(false);
-        setGroups(result["certificates"] || []);
-
-        console.log(result);
+        setCertificates(result["certificates"] || []);
       }
     }
     const fail = (error: FailResponse) => {
@@ -38,14 +35,30 @@ export default function UICertificate(props: UICertificateProps) {
       console.error(error.stackTrace);
     }
 
-    EFamilyTreeApi.getCerificates(phoneNumber, groupId, success, fail);
+    EFamilyTreeApi.getCerificatesByGroup(phoneNumber, certificateGroupId, success, fail);
   }, [ reload ])
 
-  const renderCertificate = () => {
-    return (
-      <div>
+  const navigateToCertificateDetail = (certificateId: number) => () => {
+    navigate("/certificate-info", { state: { certificateId } });
+  }
 
-      </div>
+  const renderCertificate = () => {
+    let html = [] as React.ReactNode[];
+    certificates.forEach((certificate: any, index: number) => {
+      html.push(
+        <List.Item
+          key={index}
+          suffix={<CommonIcon.ChevonRight size={12}/>}
+          onClick={() => navigateToCertificateDetail(certificate.id)}
+        >
+          <Text.Title> {certificate["name"]} </Text.Title>
+        </List.Item>
+      )
+    })
+    return (
+      <Stack space="1rem">
+        {html}
+      </Stack>
     )
   }
 
