@@ -2,10 +2,40 @@ import React from "react";
 
 import { t } from "i18next";
 import { Header, SizedBox } from "components";
-import { Stack, Text } from "zmp-ui";
+import { phoneState } from "states";
+import { useRecoilValue } from "recoil";
+import { Stack, Text, useNavigate } from "zmp-ui";
+import { EFamilyTreeApi, FailResponse } from "utils";
 
 /** Bảng Vàng */
 export default function UICerificate() {
+  const navigate = useNavigate();
+  const phoneNumber = useRecoilValue(phoneState);
+
+  const [ certificates, setCertificates ] = React.useState<any[]>([]);
+  const [ reload, setReload ] = React.useState(false);
+  const [ fetchError, setFetchError ] = React.useState(false);
+
+  React.useEffect(() => {
+    const success = (result: any[] | string) => {
+      if (typeof result === "string") {
+        setFetchError(true);
+        console.warn(result);
+      } else {
+        setFetchError(false);
+        setCertificates(result["certificates"] || []);
+
+        console.log(result);
+      }
+    }
+    const fail = (error: FailResponse) => {
+      setFetchError(true);
+      console.error(error.stackTrace);
+    }
+
+    EFamilyTreeApi.getCerificates(phoneNumber, success, fail);
+  }, [ reload ])
+
   const renderCertificate = () => {
     return (
       <Stack space="1rem">
