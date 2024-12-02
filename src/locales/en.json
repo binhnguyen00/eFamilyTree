@@ -107,7 +107,11 @@
   "no_funds": "No Funds available",
   "demo_funds": "Demo Funds",
   "search_funds": "Search Funds",
-    
+
+  "certificates": "certificates",
+  "loading_certificates": "Loading certificates...",
+  "no_certificates": "No certificates available",
+
   "btn_tree_member_info": "member info",
   "btn_tree_member_detail": "tree branch"
 }
