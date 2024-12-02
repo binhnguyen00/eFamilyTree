@@ -63,10 +63,11 @@ export class EFamilyTreeApi {
     return this.server.POST("get/fund", header, body, success, fail);
   }
 
-  public static getCerificates(phoneNumber, successCB: Callback, failCB?: Callback) {
+  public static getCerificates(phoneNumber, groupId, successCB: Callback, failCB?: Callback) {
     const header = this.initHeader();
     const body = this.initBody({
-      phone: phoneNumber
+      phone: phoneNumber,
+      placeHolder: groupId
     });
     const [ success, fail ] = this.createCallback(successCB, failCB);
     return this.server.POST("get/certificate", header, body, success, fail);

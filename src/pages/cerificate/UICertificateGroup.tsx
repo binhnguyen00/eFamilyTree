@@ -8,35 +8,8 @@ import { Stack, Text, useNavigate } from "zmp-ui";
 import { EFamilyTreeApi, FailResponse } from "utils";
 
 /** Bảng Vàng */
-export default function UICerificate() {
-  const navigate = useNavigate();
-  const phoneNumber = useRecoilValue(phoneState);
-
-  const [ certificates, setCertificates ] = React.useState<any[]>([]);
-  const [ reload, setReload ] = React.useState(false);
-  const [ fetchError, setFetchError ] = React.useState(false);
-
-  React.useEffect(() => {
-    const success = (result: any[] | string) => {
-      if (typeof result === "string") {
-        setFetchError(true);
-        console.warn(result);
-      } else {
-        setFetchError(false);
-        setCertificates(result["certificates"] || []);
-
-        console.log(result);
-      }
-    }
-    const fail = (error: FailResponse) => {
-      setFetchError(true);
-      console.error(error.stackTrace);
-    }
-
-    EFamilyTreeApi.getCerificates(phoneNumber, success, fail);
-  }, [ reload ])
-
-  const renderCertificate = () => {
+export default function UICerificateGroup() {
+  const renderCertificateGroup = () => {
     return (
       <Stack space="1rem">
         <SizedBox width={"100%"} height={100} border className="button">
@@ -72,7 +45,7 @@ export default function UICerificate() {
     <div className="container">
       <Header title={t("certificates")}/>
 
-      {renderCertificate()}
+      {renderCertificateGroup()}
     </div>
   )
 }

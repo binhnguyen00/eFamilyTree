@@ -24,7 +24,7 @@ import UIPlayground from "./dummy/UIPlayground";
 import UIDeveloper from "./dummy/UIDeveloper";
 import UIUpcoming from "./upcomming/UIUpcomming";
 import UIFamilyMember from "./family-tree/UIFamilyMember";
-import UICerificate from "./cerificate/UICerificate";
+import UICerificateGroup from "./cerificate/UICertificateGroup";
 
 // Demo components (lazy loaded)
 const UIDummyFund = lazy(() => import("./dummy/UIDummyFund"));
@@ -96,7 +96,7 @@ function SubRoutes() {
       <Route path="/register-clan" element={<UIRegisterClan />} />
       <Route path="/register" element={<UIRegister />} />
       <Route path="/theme" element={<UITheme />} />
-      <Route path="/certificates" element={<UICerificate />} />
+      <Route path="/certificate-group" element={<UICerificateGroup />} />
 
       {/* DEMO ROUTES */}
       <Route path="/fund-detail" element={<UIFundDetail />} />
