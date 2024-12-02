@@ -24,9 +24,9 @@ import UIPlayground from "./dummy/UIPlayground";
 import UIDeveloper from "./dummy/UIDeveloper";
 import UIUpcoming from "./upcomming/UIUpcomming";
 import UIFamilyMember from "./family-tree/UIFamilyMember";
-import UICerificateGroup from "./cerificate/UICertificateGroup";
-import UICertificate from "./cerificate/UICertificate";
-import UICertificateDetail from "./cerificate/UICertificateDetail";
+import UICerificateGroup from "./certificate/UICertificateGroup";
+import UICertificate from "./certificate/UICertificate";
+import UICertificateDetail from "./certificate/UICertificateDetail";
 
 // Demo components (lazy loaded)
 const UIDummyFund = lazy(() => import("./dummy/UIDummyFund"));
