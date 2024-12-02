@@ -14,18 +14,17 @@ import UINavigation from "components/common/Navigation";
 import UIRegisterClan from "./user/UIRegisterClan";
 import UIRegister from "./user/UIRegister";
 import UITheme from "./theme/UITheme";
-
-// Lazy load components
-const UIBlog = lazy(() => import("./blog/UIBlog"));
-const UIBlogDetail = lazy(() => import("./blog/UIBlogDetail"));
-const UIFund = lazy(() => import("./fund/UIFund"));
-const UIFundDetail = lazy(() => import("./fund/UIFundDetail"));
-const UICalendar = lazy(() => import("./calendar/UICalendar"));
-const UIAlbum = lazy(() => import("./album/UIAlbum"));
-const UIPlayground = lazy(() => import("./dummy/UIPlayground"));
-const UIDeveloper = lazy(() => import("./dummy/UIDeveloper"));
-const UIUpcoming = lazy(() => import("./upcomming/UIUpcomming"));
-const UIFamilyMember = lazy(() => import("./family-tree/UIFamilyMember"));
+import UIBlog from "./blog/UIBlog";
+import UIBlogDetail from "./blog/UIBlogDetail";
+import UIFund from "./fund/UIFund";
+import UIFundDetail from "./fund/UIFundDetail";
+import UICalendar from "./calendar/UICalendar";
+import UIAlbum from "./album/UIAlbum";
+import UIPlayground from "./dummy/UIPlayground";
+import UIDeveloper from "./dummy/UIDeveloper";
+import UIUpcoming from "./upcomming/UIUpcomming";
+import UIFamilyMember from "./family-tree/UIFamilyMember";
+import UICerificate from "./cerificate/UICerificate";
 
 // Demo components (lazy loaded)
 const UIDummyFund = lazy(() => import("./dummy/UIDummyFund"));
@@ -97,6 +96,7 @@ function SubRoutes() {
       <Route path="/register-clan" element={<UIRegisterClan />} />
       <Route path="/register" element={<UIRegister />} />
       <Route path="/theme" element={<UITheme />} />
+      <Route path="/certificates" element={<UICerificate />} />
 
       {/* DEMO ROUTES */}
       <Route path="/fund-detail" element={<UIFundDetail />} />

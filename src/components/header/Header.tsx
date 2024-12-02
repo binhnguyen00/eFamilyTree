@@ -35,7 +35,7 @@ export default function Header(props: HeaderProps) {
           <Box flex flexDirection="row" justifyContent="flex-start">
             {logo && (logo)}
             <Stack>
-              <Text.Title style={{ textTransform: "capitalize" }}>
+              <Text.Title className="text-capitalize">
                 {title}
               </Text.Title>
               <Text size="xSmall">{subtitle}</Text>

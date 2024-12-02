@@ -107,6 +107,10 @@
   "demo_funds": "Demo Quỹ",
   "search_funds": "Tìm kiêm quỹ",
 
+  "certificates": "bảng vàng",
+  "loading_certificates": "Đang tải bảng vàng...",
+  "no_certificates": "Chưa có bảng vàng",
+
   "btn_tree_member_info": "thông tin",
   "btn_tree_member_detail": "nhánh"
 }

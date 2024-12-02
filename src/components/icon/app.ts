@@ -8,6 +8,7 @@ import APP_CALENDAR from "assets/img/app/app-calendar.jpeg";
 import APP_BLOGS from "assets/img/app/app-post.jpeg";
 import APP_FUNDS from "assets/img/app/app-fund.jpeg";
 import APP_THEME from "assets/img/app/app-theme.jpeg";
+import APP_CERTIFICATE from "assets/img/app/app-certificate.jpeg";
 
 const AppLogo = {
   Info: FcInfo,
@@ -20,6 +21,7 @@ const AppLogo = {
   Album: APP_ALBUM,
   Blogs: APP_BLOGS,
   Theme: APP_THEME,
+  Certificate: APP_CERTIFICATE,
 };
 
 export default AppLogo;
