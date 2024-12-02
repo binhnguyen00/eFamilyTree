@@ -100,7 +100,7 @@ function AppSymbol({ iconKey }: { iconKey: string }) {
       return <img key={`ico-${iconKey}`} src={AppLogo.Funds} alt="funds"/>
     case "theme":
       return <img key={`ico-${iconKey}`} src={AppLogo.Theme} alt="theme"/>
-    case "certificates":
+    case "certificate-group":
       return <img key={`ico-${iconKey}`} src={AppLogo.Certificate} alt="theme"/>
     case "upcoming":
       return <AppLogo.Upcoming key={`ico-${iconKey}`} size={"3rem"}/>
