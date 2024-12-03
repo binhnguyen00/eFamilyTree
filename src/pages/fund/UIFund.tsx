@@ -72,6 +72,8 @@ export default function UIFund() {
     let html = [] as React.ReactNode[];
 
     funds.map((item, index) => {
+      const totalAmount = Number.parseFloat(item["total_amount"]);
+      const formatted = new Intl.NumberFormat('id-ID').format(totalAmount)
       html.push(
         <List.Item
           key={index}
@@ -80,7 +82,7 @@ export default function UIFund() {
         >
           <>
             <Text.Title> {item["name"]} </Text.Title>
-            <Text> {item["total_amount"]} </Text>
+            <Text> {formatted} </Text>
           </>
         </List.Item>
       )

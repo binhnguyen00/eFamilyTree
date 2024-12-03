@@ -45,19 +45,20 @@ export default function UIDummyFundDetail() {
 
     flow.map((item, index) => {
       const isIncome = item["type"] === "income";
+      const totalAmount = Number.parseFloat(item["amount"]);
+      const formatted = new Intl.NumberFormat('id-ID').format(totalAmount)
       html.push(
         <List.Item
           key={index}
+          className="bg-blur border rounded"
         >
-          <>
-            <Box flex flexDirection="row" justifyContent="space-between">
-              <Text style={{ color: isIncome ? "green" : "red" }}> 
-                {`${isIncome ? "+" : "-"} ${item["amount"]}`} 
-              </Text>
-              <Text> {item["date"]} </Text>
-            </Box>
-            <Text> {item["note"] || t("undefinded")} </Text>
-          </>
+          <Box flex flexDirection="row" justifyContent="space-between">
+            <Text style={{ color: isIncome ? "lightgreen" : "red" }}> 
+              {`${isIncome ? "+" : "-"} ${formatted}`} 
+            </Text>
+            <Text> {item["date"]} </Text>
+          </Box>
+          <Text> {item["note"] || t("undefinded")} </Text>
         </List.Item>
       )
     })
