@@ -22,7 +22,7 @@ export default function TreeNode({node, displayField, isRoot, onSelectNode, styl
         style={nodeStyle}
       >
         <Avatar size={60} src={node.avatar ? `http://${node.avatar}` : undefined} className='m-2'/>
-        <Text.Title size='xLarge' classID='text-uppercase text-center text-warp'> 
+        <Text.Title size='xLarge' classID='text-uppercase text-center text-warp' style={{ color: "black" }}> 
           {node[displayField]} 
         </Text.Title>
       </Stack>

@@ -35,7 +35,7 @@
   background: linear-gradient(to bottom, var(--node-male-color) 25%, #fef3e2 25%);
   border: 2px solid var(--node-border-color);
   position: relative;
-  color: var(--node-male-color) !important;
+  color: var(--node-male-color);
   overflow-wrap: break-word !important;
   border-radius: var(--node-border-radius);
 
@@ -54,7 +54,7 @@
 .tree-node-female {
   background: linear-gradient(to bottom, var(--node-female-color) 25%, #fef3e2 25%);
   position: relative;
-  color: var(--node-female-color) !important;
+  color: var(--node-female-color);
   border: 2px solid var(--node-border-color);
   overflow-wrap: break-word !important;
   border-radius: var(--node-border-radius);
