@@ -80,7 +80,7 @@ export class EFamilyTreeApi {
       id: certificateId
     });
     const [ success, fail ] = this.createCallback(successCB, failCB);
-    return this.server.POST("get/certificates", header, body, success, fail);
+    return this.server.POST("get/info/certificate", header, body, success, fail);
   }
 
   public static getCerificateGroups(phoneNumber, successCB: Callback, failCB?: Callback) {

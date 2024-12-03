@@ -26,10 +26,13 @@ export default function UICertificateDetail() {
         console.warn(result);
       } else {
         setFetchError(false);
-        setCertificate(result["certificate"] || {
+        setCertificate(result["data"] || {
+          id: null,
+          name: "",
           clan: "",
           member: "",
-          achivement: "",
+          recordeddate: "",
+          achievement: "",
           ranking: ""
         });
       }
@@ -48,6 +51,7 @@ export default function UICertificateDetail() {
       <Stack space="0.5rem">
         <Input label={t("clan")} value={certificate.clan} name="clan"/>
         <Input label={t("family_member")} value={certificate.member} name="member"/>
+        <Input label={t("date")} value={certificate.recordeddate} name="recordeddate"/>
         <Input label={t("achivement")} value={certificate.achivement} name="achivement"/>
         <Input label={t("ranking")} value={certificate.ranking} name="ranking"/>
       </Stack>

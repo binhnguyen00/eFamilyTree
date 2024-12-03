@@ -11,7 +11,10 @@ import { Header, CommonIcon } from "components";
 
 export default function UICertificate() {
   const location = useLocation();
-  const { certificateGroupId } = location.state || null;
+  const { certificateGroupId, certificateGroupName } = location.state || {  
+    certificateGroupId: 0, 
+    certificateGroupName: ""
+  };
 
   const navigate = useNavigate();
   const phoneNumber = useRecoilValue(phoneState);
@@ -27,7 +30,7 @@ export default function UICertificate() {
         console.warn(result);
       } else {
         setFetchError(false);
-        setCertificates(result["certificates"] || []);
+        setCertificates(result["data"] || [] as any[]);
       }
     }
     const fail = (error: FailResponse) => {
@@ -38,7 +41,7 @@ export default function UICertificate() {
     EFamilyTreeApi.getCerificatesByGroup(phoneNumber, certificateGroupId, success, fail);
   }, [ reload ])
 
-  const navigateToCertificateDetail = (certificateId: number) => () => {
+  const navigateToCertificateDetail = (certificateId: number) => {
     navigate("/certificate-info", { state: { certificateId } });
   }
 
@@ -48,10 +51,12 @@ export default function UICertificate() {
       html.push(
         <List.Item
           key={index}
-          suffix={<CommonIcon.ChevonRight size={12}/>}
+          className="button"
+          suffix={<CommonIcon.ChevonRight size={15}/>}
           onClick={() => navigateToCertificateDetail(certificate.id)}
         >
           <Text.Title> {certificate["name"]} </Text.Title>
+          <Text> {certificate["member"]} </Text>
         </List.Item>
       )
     })
@@ -64,7 +69,7 @@ export default function UICertificate() {
 
   return (
     <div className="container">
-      <Header title={t("certificate")}/>
+      <Header title={certificateGroupName}/>
 
       {renderCertificate()}
     </div>

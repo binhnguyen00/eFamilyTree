@@ -24,7 +24,7 @@ export default function UICerificateGroup() {
         console.warn(result);
       } else {
         setFetchError(false);
-        setGroups(result["certificates"] || []);
+        setGroups(result["data"] || [] as any[]);
       }
     }
     const fail = (error: FailResponse) => {
@@ -35,28 +35,29 @@ export default function UICerificateGroup() {
     EFamilyTreeApi.getCerificateGroups(phoneNumber, success, fail);
   }, [ reload ])
 
-  const onSelectGroup = (certificateGroupId: number) => () => {
-    navigate("/certificates", { state: { certificateGroupId } });
+  const onSelectGroup = (certificateGroupId: number, certificateGroupName: string) => () => {
+    navigate("/certificates", { state: { certificateGroupId, certificateGroupName } });
   }
 
   const renderCertificateGroup = () => {
     let html = [] as React.ReactNode[];
-    groups.forEach((group, index) => {
-      html.push(
-        <SizedBox 
-          key={index} 
-          width={"100%"} 
-          height={100} 
-          border 
-          className="button" 
-          onClick={onSelectGroup(group.id)}
-        >
-          <Text className="text-capitalize">
-            {group}
-          </Text>
-        </SizedBox>
-      )
-    })
+    if (groups.length) 
+      groups.forEach((group, index) => {
+        html.push(
+          <SizedBox 
+            key={index} 
+            width={"100%"} 
+            height={100} 
+            border 
+            className="button" 
+            onClick={onSelectGroup(group.id, group.name)}
+          >
+            <Text className="text-capitalize">
+              {group.name}
+            </Text>
+          </SizedBox>
+        )
+      })
     if (html.length) {
       return (
         <Stack space="1rem">
