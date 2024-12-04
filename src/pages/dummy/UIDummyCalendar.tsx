@@ -13,6 +13,7 @@ export default function UIDummyCalendar() {
 
   const handleDateSelect = (selectedDate: Date) => {
     let eventsOnDate: any[] = CalendarUtils.filterEventsByDate(data, selectedDate);
+    console.log(eventsOnDate);
     setSelectedInfo(eventsOnDate);
   };
 

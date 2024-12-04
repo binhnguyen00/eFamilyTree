@@ -20,7 +20,8 @@ export class DateTimeUtils {
     return moment(date).format(this.DATE_TIME);
   }
 
-  public static formatFromString(dateTimeStr: string, format: "DD/MM/YYYY" | "DD/MM/YYYY HH:mm:ss") {
+  /** @deprecated */
+  public static formatFromStringDep(dateTimeStr: string, format: "DD/MM/YYYY" | "DD/MM/YYYY HH:mm:ss") {
     let parsedMoment = moment(dateTimeStr, format, true);
     if (!parsedMoment.isValid() && format === "DD/MM/YYYY") {
       parsedMoment = moment(dateTimeStr, "DD/MM/YYYY HH:mm:ss", true);
@@ -30,6 +31,34 @@ export class DateTimeUtils {
     } else {
       throw new Error("DateTimeUtils: Format Date from String failed");
     }
+  }
+
+  public static formatFromString(dateStr: string) {
+    const possibleFormats = [
+      "YYYY-MM-DD",
+      "YYYY/MM/DD",
+      "DD/MM/YYYY",
+      "MM/DD/YYYY",
+      "DD-MM-YYYY",
+      "MM-DD-YYYY",
+    ];
+    const parsedMoment = moment(dateStr, possibleFormats, true);
+    if (parsedMoment.isValid()) return parsedMoment.toDate();
+    else 
+      throw new Error(`DateTimeUtils: Invalid date string "${dateStr}"`);
+  }
+
+  public static formatDate(dateStr: string, format: string) {
+    const parsedMoment = moment(dateStr, moment.ISO_8601, true); 
+    if (!parsedMoment.isValid()) {
+      const fallbackMoment = moment(dateStr);
+      if (fallbackMoment.isValid()) {
+        return fallbackMoment.format(format);
+      }
+    } else {
+      return parsedMoment.format(format);
+    }
+    throw new Error(`DateTimeUtils: Invalid date string "${dateStr}"`);
   }
 
   public static formatFromDate(date: Date, format: "DD/MM/YYYY" | "DD/MM/YYYY HH:mm:ss") {

@@ -12,11 +12,11 @@ export interface Event {
 
 export class CalendarUtils {
 
-  public static filterEventsByDate(events: Event[], date: Date) {
+  public static filterEventsByDate(events: any[], date: Date) {
     date = DateTimeUtils.setToMidnight(date);
     const filteredEvents = events.filter((event: Event) => {
-      const eventStart = DateTimeUtils.formatFromString(event.date_begin.substring(0, 10), "DD/MM/YYYY");
-      const eventEnd = DateTimeUtils.formatFromString(event.date_end.substring(0, 10), "DD/MM/YYYY");
+      const eventStart = DateTimeUtils.formatFromString(event.date_begin.substring(0, 10));
+      const eventEnd = DateTimeUtils.formatFromString(event.date_end.substring(0, 10));
       if (date >= eventStart && date <= eventEnd) return event;
       else return;
     });

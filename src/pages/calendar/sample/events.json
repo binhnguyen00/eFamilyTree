@@ -1,20 +1,22 @@
 [
   {
-    "name": "Giỗ tổ họ Nguyễn",
-    "dong_ho": "Nguyễn Văn",
-    "id": 1,
-    "date_begin": "04/11/2024 07:00:00",
-    "date_end": "10/11/2024 13:00:00",
-    "dia_diem": "Nhà tổ",
-    "note": "...."
+    "name": "An unpublished event",
+    "date_begin": "2024-11-27 09:30:00",
+    "date_end": "2024-11-28 17:30:00",
+    "dong_ho_id": "Management",
+    "note": "<p>giỗ</p>",
+    "user_id": "Phạm Khắc Hoàng",
+    "dia_diem": "nhà thờ",
+    "stage_id": "Ended"
   },
   {
-    "name": "Giỗ tổ họ Hoàng",
-    "dong_ho": "Nguyễn Văn",
-    "id": 2,
-    "date_begin": "03/11/2024 07:00:00",
-    "date_end": "07/11/2024 13:00:00",
-    "dia_diem": "Nhà tổ",
-    "note": "...."
+    "name": "Hockey Tournament",
+    "date_begin": "2025-11-14 09:00:00",
+    "date_end": "2025-11-21 17:00:00",
+    "dong_ho_id": "Management",
+    "note": "<p>Giỗ</p>",
+    "user_id": "Phạm Khắc Vinh",
+    "dia_diem": "Nhà thờ tổ",
+    "stage_id": "New"
   }
 ]

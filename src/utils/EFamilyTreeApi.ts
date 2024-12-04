@@ -51,7 +51,7 @@ export class EFamilyTreeApi {
       phone: phoneNumber
     });
     const [ success, fail ] = this.createCallback(successCB, failCB);
-    return this.server.POST("get/events", header, body, success, fail);
+    return this.server.POST("get/list/event", header, body, success, fail);
   }
 
   public static getFunds(phoneNumber, successCB: Callback, failCB?: Callback) {

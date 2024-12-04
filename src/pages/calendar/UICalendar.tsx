@@ -9,7 +9,7 @@ import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { CalendarUtils } from "utils/CalendarUtils";
 import { FailResponse } from "utils/type";
 
-import { Header, Error, Loading } from "components";
+import { Header } from "components";
 
 interface Event {
   name: string;
@@ -24,26 +24,23 @@ interface Event {
 export default function UICalendar() {
   const phoneNumber = useRecoilValue(phoneState);
 
+  const [ eventOnDate, setEventOnDate ] = React.useState<Event[]>([]);
   const [ events, setEvents ] = React.useState<Event[]>([]);
   const [ reload, setReload ] = React.useState(false);
-  const [ fetchError, setFetchError ] = React.useState(false);
 
   React.useEffect(() => {
 
     const success = (result: any[] | string) => {
       if (typeof result === 'string') {
-        setFetchError(true);
         console.warn(result);
       } else {
-        setFetchError(false);
-        const todayEvents = CalendarUtils.filterEventsByDate(result, new Date());
-        setEvents(todayEvents);
+        const data = result["data"] || [];
+        setEvents(data);
       }
     }
 
     const fail = (error: FailResponse) => {
       console.error(error.stackTrace);
-      setFetchError(true);
     } 
 
     EFamilyTreeApi.getMemberUpcomingEvents(phoneNumber, success, fail);
@@ -51,7 +48,7 @@ export default function UICalendar() {
 
   const handleDateSelect = (selectedDate: Date) => {
     let eventsOnDate: any[] = CalendarUtils.filterEventsByDate(events, selectedDate);
-    setEvents(eventsOnDate);
+    setEventOnDate(eventsOnDate);
   };
 
   const renderCell = (dateInCell: Date) => {
@@ -73,26 +70,6 @@ export default function UICalendar() {
       </Box>
     );
   };
-
-  const renderCalendar = () => {
-    if (events.length > 0) {
-      return (
-        <div className="flex-v">
-          <Calendar 
-            cellRender={renderCell} 
-            onSelect={handleDateSelect} 
-          />
-          <div style={{ paddingLeft: 15, paddingRight: 15, height: `calc(100vh - 250px - 44px)`, overflowY: "auto" }}>
-            {renderDetails(events)}
-          </div>
-        </div>
-      )
-    } else {
-      if (fetchError) {
-        return <Error message={t("server_error")} onRetry={() => setReload(!reload)}/>; 
-      } else return <Loading message={t("loading_events")}/>; 
-    }
-  }
 
   const renderDetails = (events: Event[]) => {
     if (!events.length) return <Text>{t("no_calendar_events")}</Text>;
@@ -118,7 +95,15 @@ export default function UICalendar() {
     <div className="container">
       <Header title={t("calendar")}/>
 
-      {renderCalendar()}
+      <div className="flex-v">
+        <Calendar 
+          cellRender={renderCell} 
+          onSelect={handleDateSelect} 
+        />
+        <div style={{ overflowY: "auto" }}>
+          {renderDetails(eventOnDate)}
+        </div>
+      </div>
     </div>
   )
 }
