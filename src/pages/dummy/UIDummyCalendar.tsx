@@ -70,13 +70,7 @@ export default function UIDummyCalendar() {
           cellRender={renderCell} 
           onSelect={handleDateSelect} 
         />
-        {/* 
-        250px : height of Zalo calendar
-        44px  : height of header 
-        */}
-        <div>
-          {renderDetails(selectedInfo)}
-        </div>
+        {renderDetails(selectedInfo)}
       </div>
     </div>
   );

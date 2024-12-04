@@ -100,9 +100,8 @@ export default function UICalendar() {
           cellRender={renderCell} 
           onSelect={handleDateSelect} 
         />
-        <div style={{ overflowY: "auto" }}>
-          {renderDetails(eventOnDate)}
-        </div>
+        
+        {renderDetails(eventOnDate)}
       </div>
     </div>
   )
