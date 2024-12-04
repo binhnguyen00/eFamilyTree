@@ -43,12 +43,11 @@ export default function UIDummyCalendar() {
   };
 
   const renderDetails = (events: Event[]) => {
-    if (!events.length) return <Text>{t("no_calendar_events")}</Text>;
-
+    if (!events.length) return <Text className="mt-2 mb-2"> {t("no_calendar_events")} </Text>
     return (
-      <Stack> 
+      <Stack className="mt-2 mb-2"> 
         {events.map((event) => (
-          <Box key={event.id} flex flexDirection="column" flexWrap style={{ paddingTop: 10, paddingBottom: 10 }}>
+          <Box key={event.id} flex flexDirection="column" flexWrap>
             <Text>{event.name}</Text>
             <Text size="small">
               Địa điểm: {event.dia_diem}
@@ -75,7 +74,7 @@ export default function UIDummyCalendar() {
         250px : height of Zalo calendar
         44px  : height of header 
         */}
-        <div style={{ paddingLeft: 15, paddingRight: 15, height: `calc(100vh - 250px - 44px)`, overflowY: "auto" }}>
+        <div>
           {renderDetails(selectedInfo)}
         </div>
       </div>

@@ -160,3 +160,24 @@ button, .button {
 #swipe-gesture {
   height: inherit;
 }
+
+// calendar
+.zaui-calendar-panel-content {
+  height: 300px;
+  background-color: var(--quaternary-color) !important;
+  thead {
+    color: var(--primary-color) !important;
+  }
+}
+
+.zaui-calendar-header-title {
+  color: var(--secondary-color) !important;
+}
+
+.zaui-calendar-header-btn-prev {
+  color: var(--secondary-color) !important;
+}
+
+.zaui-calendar-header-btn-next {
+  color: var(--secondary-color) !important;
+}
