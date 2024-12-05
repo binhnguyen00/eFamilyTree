@@ -182,3 +182,14 @@ button, .button {
 .zaui-calendar-header-btn-next {
   color: var(--secondary-color) !important;
 }
+
+.calendar-content {
+  height: calc(
+    100vh 
+    - 343px 
+    - var(--zaui-safe-area-inset-top, 0px) 
+    - (var(--header-height) + 17px) 
+    - var(--zaui-safe-area-inset-bottom, 0px) 
+    - (var(--footer-height) + 17px)
+  ) !important;
+}

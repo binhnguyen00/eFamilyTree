@@ -62,18 +62,17 @@ export default function UICalendar() {
   };
 
   const renderDetails = (events: any[]) => {
-    if (!events.length) return <Text>{t("no_calendar_events")}</Text>;
-
+    if (!events.length) return <Text className="mt-2"> {t("no_calendar_events")} </Text>
     return (
-      <Stack> 
+      <Stack className="mt-2 mb-2" space="0.5rem"> 
         {events.map((event) => (
           <Box key={event.id} flex flexDirection="column" flexWrap style={{ paddingTop: 10, paddingBottom: 10 }}>
             <Text>{event.name}</Text>
             <Text size="small">
-              Địa điểm: {event.dia_diem}
+              {`${t("place")}: ${event.dia_diem}`}
             </Text>
             <Text size="small">
-              Thời gian: {event.date_begin} - {event.date_end}
+              {`${t("time")}: ${event.date_begin} - ${event.date_end}`}
             </Text>
           </Box>
         ))}
@@ -90,8 +89,11 @@ export default function UICalendar() {
           cellRender={renderCell} 
           onSelect={handleDateSelect} 
         />
-        
-        {renderDetails(eventOnDate)}
+        <div 
+          className="scroll-h" 
+        >
+          {renderDetails(eventOnDate)}
+        </div>
       </div>
     </div>
   )

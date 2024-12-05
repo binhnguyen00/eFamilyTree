@@ -19,9 +19,10 @@
 }
 
 .text-wrap {
-  white-space: normal; /* Allows text to wrap */
-  word-wrap: break-word; /* Breaks long words if needed */
-  overflow-wrap: break-word; /* Ensures text breaks when necessary */
+  white-space: normal; // Allow text to wrap onto the next line
+  word-wrap: break-word; // Enable word wrapping if the word is too long
+  overflow-wrap: break-word; // Modern equivalent for word wrapping
+  word-break: break-word; // Break long words if necessary (legacy support)
 }
 
 .text-center {

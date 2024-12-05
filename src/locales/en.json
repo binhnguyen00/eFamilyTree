@@ -38,7 +38,9 @@
   "theme_green": "wild greenery",
   "achivement": "achivement",
   "ranking": "ranking",
-  "date": "ngày",
+  "date": "date",
+  "time": "Thời Gian",
+  "place": "Địa Điểm",
 
   "home": "Home",
   "home_subtitle": "Preserving Your Heritage",

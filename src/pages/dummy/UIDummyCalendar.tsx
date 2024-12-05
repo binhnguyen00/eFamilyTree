@@ -1,10 +1,10 @@
 import React from "react";
 import { t } from "i18next";
-import { Calendar, Text, Box, Stack } from "zmp-ui";
+import { Calendar, Text, Box, Stack, List } from "zmp-ui";
 
 import { CalendarUtils, Event } from "utils/CalendarUtils";
 
-import { Header } from "components";
+import { Header, SizedBox } from "components";
 
 import data from "pages/calendar/sample/events.json";
 
@@ -43,21 +43,28 @@ export default function UIDummyCalendar() {
   };
 
   const renderDetails = (events: Event[]) => {
-    if (!events.length) return <Text className="mt-2 mb-2"> {t("no_calendar_events")} </Text>
+    if (!events.length) return <Text> {t("no_calendar_events")} </Text>
     return (
-      <Stack className="mt-2 mb-2"> 
+      <div className="flex-v"> 
         {events.map((event) => (
-          <Box key={event.id} flex flexDirection="column" flexWrap>
-            <Text>{event.name}</Text>
-            <Text size="small">
-              Địa điểm: {event.dia_diem}
-            </Text>
-            <Text size="small">
-              Thời gian: {event.date_begin} - {event.date_end}
-            </Text>
-          </Box>
+          <SizedBox 
+            key={event.id} 
+            height={"inherit"} width={"100%"} 
+            center={false} 
+            className="text-wrap"
+          >
+            <div style={{borderBottom: "0.5px solid"}} className="pt-2 pb-2">
+              <Text.Title>{event.name}</Text.Title>
+              <Text size="small">
+                Địa điểm: {event.dia_diem}
+              </Text>
+              <Text size="small">
+                Thời gian: {event.date_begin} - {event.date_end}
+              </Text>
+            </div>
+          </SizedBox>
         ))}
-      </Stack>
+      </div>
     );
   };
 
@@ -65,13 +72,18 @@ export default function UIDummyCalendar() {
     <div className="container">
       <Header  title={t("calendar")}/>
 
-      <div className="flex-v">
+      <Stack space="0.5rem">
+
         <Calendar 
           cellRender={renderCell} 
           onSelect={handleDateSelect} 
         />
-        {renderDetails(selectedInfo)}
-      </div>
+
+        <div className="scroll-h calendar-content">
+          {renderDetails(selectedInfo)}
+        </div>
+
+      </Stack>
     </div>
   );
 };

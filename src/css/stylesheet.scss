@@ -4,24 +4,6 @@
   flex-grow: 1;
 }
 
-.flex-v {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  height: 100vh; // Take the full viewport height
-
-  & > .fixed {
-    height: 100px; // Set a fixed height for the first element
-  }
-
-  & > .flex-grow {
-    flex-grow: 1; // Allow the second element to grow and fill the rest of the space
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; // Space items within flex-grow element
-  }
-}
-
 .flex-h {
   display: flex;
   flex-direction: row !important;
@@ -30,15 +12,11 @@
 }
 
 .center {
-  display: flex;
-  justify-content: "center";
-  align-items: center;
-  align-content: center;
-  text-align: center;
-}
-
-.border {
-  border: white solid 0.5px;
+  display: flex !important;
+  justify-content: "center" !important;
+  align-items: center !important;
+  align-content: center !important;
+  text-align: center !important;
 }
 
 .scrollable {
@@ -67,6 +45,10 @@
 
 .max-h {
   height: 100vh;
+}
+
+.border {
+  border: white solid 0.5px;
 }
 
 .rounded {
