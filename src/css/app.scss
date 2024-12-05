@@ -11,6 +11,7 @@ body {
   color: var(--secondary-color) !important;
 
   background: url("../assets/img/background/bg-grid.png") repeat center center;
+  background-size: 900px;
 }
 
 .container {
@@ -66,6 +67,7 @@ body {
   height: calc(var(--zaui-safe-area-inset-top, 0px) + var(--header-height)) !important;
   background: url("../assets/img/background/bg-grid.png") no-repeat center center !important;
   background-color: var(--header-color) !important;
+  background-size: 900px !important;
   color: var(--secondary-color) !important;
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
@@ -123,7 +125,6 @@ button, .button {
 .zaui-sheet-content {
   @extend .text-primary;
   background-color: var(--secondary-color) !important;
-  background-image: url("../assets/img/background/bg-grid.png") !important;
 }
 
 // swiper
