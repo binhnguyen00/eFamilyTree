@@ -13,10 +13,7 @@ import divorced from "pages/family-tree/sample/divorced.json";
 import severalSprouses from "pages/family-tree/sample/several-sprouses.json";
 import odooSample from "pages/family-tree/sample/odoo-sample.json";
 
-// icons
-import { Header } from "components";
-import CommonIcons from "components/icon/common";
-import UILoading from "components/common/Loading";
+import { Header, CommonIcon } from "components";
 
 export default function UIDummyTree() {
   const dataSrcKey = {
@@ -46,95 +43,91 @@ export default function UIDummyTree() {
   }
 
   const renderTree = () => {
-    if (nodes.length > 0) {
-      return (
-        <div className="tree-container" style={{ width: "100vw", height: "100vh", position: "fixed" }}>
-          <Select
-            label={<p className="text-capitalize"> {t("data_source")} </p>}
-            defaultValue={1}
-            onChange={(val) => {
-              if (val === 4) {
-                const odooSample = dataSrcKey[Number(val)];
-                const odooMems = odooSample["members"] || null as any;
-                const members = FamilyTreeUtils.remapServerData(odooMems);
-                const final = FamilyTreeUtils.removeDuplicates(members);
-                console.log(members);
-                
-                setNodes(final);
-                setRootId(members[0].id);
-                setSelectNameField("name");
-              } else {
-                const members = dataSrcKey[Number(val)];
-                setNodes(members);
-                setRootId(members[0].id); 
-                setSelectNameField("id");
-              } 
-            }}
-            closeOnSelect
-          >
-            <Select.Option value={1} title={t("average")} />
-            <Select.Option value={2} title={t("several_spouses")} />
-            <Select.Option value={3} title={t("divorced")} />
-            <Select.Option value={4} title={t("Odoo")} />
-          </Select>
+    return (
+      <div className="tree-container" style={{ width: "100vw", height: "100vh", position: "fixed" }}>
+        <Select
+          label={<p className="text-capitalize"> {t("data_source")} </p>}
+          defaultValue={1}
+          onChange={(val) => {
+            if (val === 4) {
+              const odooSample = dataSrcKey[Number(val)];
+              const odooMems = odooSample["members"] || null as any;
+              const members = FamilyTreeUtils.remapServerData(odooMems);
+              const final = FamilyTreeUtils.removeDuplicates(members);
+              console.log(members);
+              
+              setNodes(final);
+              setRootId(members[0].id);
+              setSelectNameField("name");
+            } else {
+              const members = dataSrcKey[Number(val)];
+              setNodes(members);
+              setRootId(members[0].id); 
+              setSelectNameField("id");
+            } 
+          }}
+          closeOnSelect
+        >
+          <Select.Option value={1} title={t("average")} />
+          <Select.Option value={2} title={t("several_spouses")} />
+          <Select.Option value={3} title={t("divorced")} />
+          <Select.Option value={4} title={t("Odoo")} />
+        </Select>
 
-          <TransformWrapper 
-            minScale={0.1} 
-            centerOnInit 
-            centerZoomedOut
-            initialScale={0.5}
-          >
-            {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
-              <>
-                <TransformComponent>
-                  <FamilyTree
-                    nodes={nodes as any}
-                    rootId={rootId}
-                    width={TreeConfig.nodeWidth}
-                    height={TreeConfig.nodeHeight}
-                    renderNode={(node: any) => (
-                      <TreeNode
-                        key={node.id}
-                        node={node}
-                        displayField={selectNameField}
-                        isRoot={node.id === rootId}
-                        onSelectNode={setSelectId}
-                        style={FamilyTreeUtils.calculateNodePosition(node)}
-                      />
-                    )}
-                  />
-                </TransformComponent>
+        <TransformWrapper 
+          minScale={0.1} 
+          centerOnInit 
+          centerZoomedOut
+          initialScale={0.5}
+        >
+          {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
+            <>
+              <TransformComponent>
+                <FamilyTree
+                  nodes={nodes as any}
+                  rootId={rootId}
+                  width={TreeConfig.nodeWidth}
+                  height={TreeConfig.nodeHeight}
+                  renderNode={(node: any) => (
+                    <TreeNode
+                      key={node.id}
+                      node={node}
+                      displayField={selectNameField}
+                      isRoot={node.id === rootId}
+                      onSelectNode={setSelectId}
+                      style={FamilyTreeUtils.calculateNodePosition(node)}
+                    />
+                  )}
+                />
+              </TransformComponent>
 
-                <UITreeControl />
-              </>
-            )}
-          </TransformWrapper>
+              <UITreeControl />
+            </>
+          )}
+        </TransformWrapper>
 
-          <Sheet
-            visible={selectId !== ""}
-            onClose={() => { setSelectId("") }}
-            mask
-            autoHeight
-            handler
-            swipeToClose
-            title="Thành Viên"
-          >
-            <Text className="center"> {selectId} </Text>
-            <ZBox padding="1rem">
-              <Grid columnCount={2} columnSpace="1rem" rowSpace="1rem">
-                <Button className="" onClick={showMemberDetail} prefixIcon={<CommonIcons.User size={"1.5rem"}/>}>
-                  {t("btn_tree_member_info")}
-                </Button>
-                <Button onClick={renderTreeBranch} prefixIcon={<CommonIcons.Tree size={"1.5rem"}/>}>
-                  {t("btn_tree_member_detail")}
-                </Button>
-              </Grid>
-            </ZBox>
-          </Sheet>
-        </div>
-      )
-    } else return (
-      <UILoading message={t("loading")}/>
+        <Sheet
+          visible={selectId !== ""}
+          onClose={() => { setSelectId("") }}
+          mask
+          autoHeight
+          handler
+          swipeToClose
+          title="Thành Viên"
+        >
+          <Text className="center"> {selectId} </Text>
+          <ZBox padding="1rem">
+            <Grid columnCount={2} columnSpace="1rem" rowSpace="1rem">
+              <Button className="" onClick={showMemberDetail} prefixIcon={<CommonIcon.User size={"1.5rem"}/>}>
+                {t("btn_tree_member_info")}
+              </Button>
+              <Button onClick={renderTreeBranch} prefixIcon={<CommonIcon.Tree size={"1.5rem"}/>}>
+                {t("btn_tree_member_detail")}
+              </Button>
+            </Grid>
+          </ZBox>
+        </Sheet>
+      </div>
     )
   }
 

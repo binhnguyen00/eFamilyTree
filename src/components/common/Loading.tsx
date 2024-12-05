@@ -1,11 +1,11 @@
 import React from "react";
 import { Spinner, Text } from "zmp-ui";
 
-interface UILoadingProps {
+interface LoadingProps {
   message: string
   size?: "small" | "normal" | "large"
 }
-export default function UILoading(props: UILoadingProps) {
+export default function Loading(props: LoadingProps) {
   let { message, size } = props;
   let width = 0;
   if (!size) size = "normal";
