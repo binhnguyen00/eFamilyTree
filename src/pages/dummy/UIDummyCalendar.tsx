@@ -43,7 +43,7 @@ export default function UIDummyCalendar() {
   };
 
   const renderDetails = (events: Event[]) => {
-    if (!events.length) return <Text> {t("no_calendar_events")} </Text>
+    if (!events.length) return <Text.Title className="pt-1"> {t("no_calendar_events")} </Text.Title>
     return (
       <div className="flex-v"> 
         {events.map((event) => (
@@ -53,13 +53,13 @@ export default function UIDummyCalendar() {
             center={false} 
             className="text-wrap"
           >
-            <div style={{borderBottom: "0.5px solid"}} className="pt-2 pb-2">
+            <div style={{borderBottom: "0.5px solid"}} className="pt-1 pb-2">
               <Text.Title>{event.name}</Text.Title>
               <Text size="small">
-                Địa điểm: {event.dia_diem}
+                {`${t("place")}: ${event.dia_diem}`}
               </Text>
               <Text size="small">
-                Thời gian: {event.date_begin} - {event.date_end}
+                {`${t("time")}: ${event.date_begin} - ${event.date_end}`}
               </Text>
             </div>
           </SizedBox>

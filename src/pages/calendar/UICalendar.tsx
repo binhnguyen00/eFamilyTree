@@ -9,7 +9,7 @@ import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { CalendarUtils } from "utils/CalendarUtils";
 import { FailResponse } from "utils/type";
 
-import { Header } from "components";
+import { Header, SizedBox } from "components";
 
 export default function UICalendar() {
   const phoneNumber = useRecoilValue(phoneState);
@@ -62,21 +62,28 @@ export default function UICalendar() {
   };
 
   const renderDetails = (events: any[]) => {
-    if (!events.length) return <Text className="mt-2"> {t("no_calendar_events")} </Text>
+    if (!events.length) return <Text.Title className="pt-1"> {t("no_calendar_events")} </Text.Title>
     return (
-      <Stack className="mt-2 mb-2" space="0.5rem"> 
+      <div className="flex-v"> 
         {events.map((event) => (
-          <Box key={event.id} flex flexDirection="column" flexWrap style={{ paddingTop: 10, paddingBottom: 10 }}>
-            <Text>{event.name}</Text>
-            <Text size="small">
-              {`${t("place")}: ${event.dia_diem}`}
-            </Text>
-            <Text size="small">
-              {`${t("time")}: ${event.date_begin} - ${event.date_end}`}
-            </Text>
-          </Box>
+          <SizedBox 
+            key={event.id} 
+            height={"inherit"} width={"100%"} 
+            center={false} 
+            className="text-wrap"
+          >
+            <div style={{borderBottom: "0.5px solid"}} className="pt-2 pb-2">
+              <Text.Title>{event.name}</Text.Title>
+              <Text size="small">
+                {`${t("place")}: ${event.dia_diem}`}
+              </Text>
+              <Text size="small">
+                {`${t("time")}: ${event.date_begin} - ${event.date_end}`}
+              </Text>
+            </div>
+          </SizedBox>
         ))}
-      </Stack>
+      </div>
     );
   };
 
@@ -85,15 +92,16 @@ export default function UICalendar() {
       <Header title={t("calendar")}/>
 
       <div className="flex-v">
+
         <Calendar 
           cellRender={renderCell} 
           onSelect={handleDateSelect} 
         />
-        <div 
-          className="scroll-h" 
-        >
+
+        <div className="scroll-h calendar-content">
           {renderDetails(eventOnDate)}
         </div>
+
       </div>
     </div>
   )
