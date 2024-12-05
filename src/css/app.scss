@@ -1,7 +1,9 @@
 @use "./theme/theme.scss" as *;
+@use "./font.scss" as *;
 
 #app {
   height: inherit;
+  @extend .lexend-regular; // Font Family
 }
 
 body {
