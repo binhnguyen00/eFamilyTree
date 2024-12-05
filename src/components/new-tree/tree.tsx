@@ -15,6 +15,8 @@ const Tree: React.FC<TreeProps> = React.memo(({ nodes }) => {
           field_0: 'name',
           img_0: 'img',
         },
+        enablePan: true,
+        enableTouch: true
       });
 
       return () => {

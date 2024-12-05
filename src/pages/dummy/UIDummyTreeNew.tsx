@@ -12,10 +12,12 @@ const nodes = [
 
 export default function UIDummyTreeNew() {
   return (
-    <div className="tree-container">
+    <div>
       <Header title={t("family_tree")} />
 
-      <Tree nodes={nodes}/>
+      <div className="tree-container">
+        <Tree nodes={nodes}/>
+      </div>
     </div>
   )
 }
