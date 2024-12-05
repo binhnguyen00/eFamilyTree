@@ -76,9 +76,14 @@
 .react-transform-wrapper {
   height: inherit !important;
   width: unset !important;
+  touch-action: manipulation; /* Allows manipulation without triggering default gestures */
+  user-select: none; /* Prevent text selection */
 }
 
 // override react-zoom-pan-pinch css
 .react-transform-component {
-  min-height: 5000px !important;
+  min-height: 2000px !important;
+  touch-action: manipulation; /* Allows manipulation without triggering default gestures */
+  user-select: none; /* Prevent text selection */
+  border: 1px solid black;
 }

@@ -79,6 +79,7 @@ export const swipeDisabledPathsAtom = atom<string[]>({
     '/family-tree',   // UIFamilyTree
     '/calendar',      // UICalendar
 
+    '/demo-tree',
     '/demo-calendar',
   ],
 });
