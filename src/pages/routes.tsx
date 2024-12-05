@@ -32,6 +32,7 @@ import UICertificateDetail from "./certificate/UICertificateDetail";
 const UIDummyFund = lazy(() => import("./dummy/UIDummyFund"));
 const UIDummyFundDetail = lazy(() => import("./dummy/UIDummyFundDetail"));
 const UIDummyTree = lazy(() => import("./dummy/UIDummyTree"));
+const UIDummyTreeNew = lazy(() => import("./dummy/UIDummyTreeNew"));
 const UIDummyCalendar = lazy(() => import("./dummy/UIDummyCalendar"));
 const UIDummyBlog = lazy(() => import("./dummy/UIDummyBlog"));
 const UIDummyAlbum = lazy(() => import("./dummy/UIDummyAlbum"));
@@ -107,7 +108,7 @@ function SubRoutes() {
       <Route path="/playground" element={<UIPlayground />} />
       <Route path="/demo-funds" element={<UIDummyFund />} />
       <Route path="/demo-fund-detail" element={<UIDummyFundDetail />} />
-      <Route path="/demo-tree" element={<UIDummyTree />} />
+      <Route path="/demo-tree" element={<UIDummyTreeNew />} />
       <Route path="/demo-calendar" element={<UIDummyCalendar />} />
       <Route path="/demo-blogs" element={<UIDummyBlog />} />
       <Route path="/demo-album" element={<UIDummyAlbum />} />
