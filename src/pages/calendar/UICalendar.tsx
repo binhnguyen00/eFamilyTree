@@ -11,21 +11,11 @@ import { FailResponse } from "utils/type";
 
 import { Header } from "components";
 
-interface Event {
-  name: string;
-  dong_ho: string;
-  id: number;
-  date_begin: string; // format: DD/MM/YYYY HH:mm:ss
-  date_end: string; // format: DD/MM/YYYY HH:mm:ss
-  dia_diem: string;
-  note: string;
-}
-
 export default function UICalendar() {
   const phoneNumber = useRecoilValue(phoneState);
 
-  const [ eventOnDate, setEventOnDate ] = React.useState<Event[]>([]);
-  const [ events, setEvents ] = React.useState<Event[]>([]);
+  const [ eventOnDate, setEventOnDate ] = React.useState<any[]>([]);
+  const [ events, setEvents ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);
 
   React.useEffect(() => {
@@ -71,7 +61,7 @@ export default function UICalendar() {
     );
   };
 
-  const renderDetails = (events: Event[]) => {
+  const renderDetails = (events: any[]) => {
     if (!events.length) return <Text>{t("no_calendar_events")}</Text>;
 
     return (
