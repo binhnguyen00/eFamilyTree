@@ -80,5 +80,5 @@
 
 // override react-zoom-pan-pinch css
 .react-transform-component {
-  height: inherit !important;
+  min-height: 5000px !important;
 }

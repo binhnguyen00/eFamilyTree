@@ -79,26 +79,34 @@ export default function UIDummyTree() {
           centerOnInit 
           centerZoomedOut
           initialScale={0.5}
+          wheel={{ step: 0.2 }}
         >
           {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
             <>
-              <TransformComponent>
-                <FamilyTree
-                  nodes={nodes as any}
-                  rootId={rootId}
-                  width={TreeConfig.nodeWidth}
-                  height={TreeConfig.nodeHeight}
-                  renderNode={(node: any) => (
-                    <TreeNode
-                      key={node.id}
-                      node={node}
-                      displayField={selectNameField}
-                      isRoot={node.id === rootId}
-                      onSelectNode={setSelectId}
-                      style={FamilyTreeUtils.calculateNodePosition(node)}
-                    />
-                  )}
-                />
+              <TransformComponent 
+                contentStyle={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <div>
+                  <FamilyTree
+                    nodes={nodes as any}
+                    rootId={rootId}
+                    width={TreeConfig.nodeWidth}
+                    height={TreeConfig.nodeHeight}
+                    renderNode={(node: any) => (
+                      <TreeNode
+                        key={node.id}
+                        node={node}
+                        displayField={selectNameField}
+                        isRoot={node.id === rootId}
+                        onSelectNode={setSelectId}
+                        style={FamilyTreeUtils.calculateNodePosition(node)}
+                      />
+                    )}
+                  />
+                </div>
               </TransformComponent>
 
               <UITreeControl />
