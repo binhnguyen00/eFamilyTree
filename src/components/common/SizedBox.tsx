@@ -34,11 +34,10 @@ export default function SizedBox(props: SizedBoxProps) {
 
   return (
     <div 
-      className={`${className} ${border && "border"} ${center && "center"}`} 
+      className={`${className} ${border ? "border" : ""} ${center ? "center" : ""}`} 
       style={{
         width: width,
         height: height,
-        display: "flex",
         borderTop: (borderTop) ? "0.5px solid" : undefined,
         borderBottom: (borderBottom) ? "0.5px solid" : undefined,
         borderRadius: (requireBorder) ? (borderRadius || 10) : "none",
