@@ -47,8 +47,9 @@ export default function UICerificateGroup() {
           <SizedBox 
             key={index} 
             width={"100%"} 
-            height={100} 
+            height={150} 
             border 
+            center
             className="button" 
             onClick={onSelectGroup(group.id, group.name)}
           >
@@ -67,27 +68,27 @@ export default function UICerificateGroup() {
     } else {
       return (
         <Stack space="1rem">
-          <SizedBox width={"100%"} height={100} border className="button">
+          <SizedBox width={"100%"} height={150} border className="button">
             <Text className="text-capitalize">
               {"nhân vật lịch sử"}
             </Text>
           </SizedBox>
-          <SizedBox width={"100%"} height={100} border className="button">
+          <SizedBox width={"100%"} height={150} border className="button">
             <Text className="text-capitalize"> 
               {"người hiếu học"} 
             </Text>
           </SizedBox>
-          <SizedBox width={"100%"} height={100} border className="button">
+          <SizedBox width={"100%"} height={150} border className="button">
             <Text className="text-capitalize">
               {"người có công"}
             </Text>
           </SizedBox>
-          <SizedBox width={"100%"} height={100} border className="button">
+          <SizedBox width={"100%"} height={150} border className="button">
             <Text className="text-capitalize">
               {"người thành đạt"}
             </Text>
           </SizedBox>
-          <SizedBox width={"100%"} height={100} border className="button">
+          <SizedBox width={"100%"} height={150} border className="button">
             <Text className="text-capitalize">
               {"tấm lòng vàng"}
             </Text>

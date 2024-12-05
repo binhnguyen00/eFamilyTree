@@ -27,14 +27,23 @@ export default function SizedBox(props: SizedBoxProps) {
   } = props;
 
   const requireBorder = borderRadius || border;
-  if (center == null || center === undefined) center = true;
+  if (center === null || center === undefined) center = true;
+  if (center) {
+    style = {
+      ...style,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      textAlign: "center",
+    }
+  }
   if (!padding) padding = 0;
   if (!paddingTop) paddingTop = padding;
   if (!paddingBottom) paddingBottom = padding;
 
   return (
     <div 
-      className={`${className} ${border ? "border" : ""} ${center ? "center" : ""}`} 
+      className={`${className} ${border ? "border" : ""}`} 
       style={{
         width: width,
         height: height,
