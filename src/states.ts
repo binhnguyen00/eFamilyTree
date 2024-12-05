@@ -1,5 +1,5 @@
 import { atom, selector } from "recoil";
-import { ZmpSDK } from "./utils/ZmpSDK";
+import { ZmpSDK } from "./utils/zmpsdk";
 import { getUserInfo } from "zmp-sdk";
 import { t } from "i18next";
 
@@ -71,3 +71,14 @@ export const languageState = atom({
   key: "language",
   default: "vi",
 })
+
+export const swipeDisabledPathsAtom = atom<string[]>({
+  key: 'swipeDisabledPaths',
+  default: [
+    '/',              // UIHomeLayout
+    '/family-tree',   // UIFamilyTree
+    '/calendar',      // UICalendar
+
+    '/demo-calendar',
+  ],
+});

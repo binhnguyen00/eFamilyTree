@@ -11,6 +11,6 @@ import SizedBox from "./SizedBox";
 
 export { 
   Error, Loading, Retry, 
-  Divider, ImageWithText, SwipeGesture, Navigation, RequestPhone, SearchBar,
+  Divider, ImageWithText, SwipeGesture as SwipeGesture, Navigation, RequestPhone, SearchBar,
   SizedBox
 };
