@@ -1,20 +1,14 @@
 import React from "react";
 import { t } from "i18next";
 import { Button, Grid, Select, Sheet, Text, useNavigate, ZBox } from "zmp-ui";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-
-import QuickPinchZoom, { make3dTransformValue } from "react-quick-pinch-zoom";
-import { FamilyTree, TreeNode, TreeConfig } from "components";
-
-import { UITreeControl } from "pages/family-tree/UIFamilyTree";
-import { FamilyTreeUtils } from "utils/FamilyTreeUtils";
 
 import average from "pages/family-tree/sample/average.json";
 import divorced from "pages/family-tree/sample/divorced.json";
 import severalSprouses from "pages/family-tree/sample/several-sprouses.json";
 import odooSample from "pages/family-tree/sample/odoo-sample.json";
 
-import { Header, CommonIcon } from "components";
+import { FamilyTreeUtils } from "utils/FamilyTreeUtils";
+import { Header, CommonIcon, FamilyTree, TreeNode, TreeConfig } from "components";
 
 export default function UIDummyTree() {
   const dataSrcKey = {
@@ -43,19 +37,10 @@ export default function UIDummyTree() {
     setNodes(treeBranch);
   }
 
-  const divRef = React.useRef<HTMLDivElement | null>(null);
-  const onUpdate = ({ x, y, scale }) => {
-    const { current: div } = divRef;
-    if (div) {
-      const value = make3dTransformValue({ x, y, scale });
-      div.style.setProperty("transform", value);
-    }
-  };
-
   const renderTree = () => {
     return (
       <div className="tree-container" style={{ width: "100vw", height: "100vh", position: "fixed" }}>
-        <Select
+        {/* <Select
           label={<p className="text-capitalize"> {t("data_source")} </p>}
           defaultValue={1}
           onChange={(val) => {
@@ -82,7 +67,7 @@ export default function UIDummyTree() {
           <Select.Option value={2} title={t("several_spouses")} />
           <Select.Option value={3} title={t("divorced")} />
           <Select.Option value={4} title={t("Odoo")} />
-        </Select>
+        </Select> */}
 
         {/* <TransformWrapper 
           minScale={0.1} 
@@ -106,26 +91,22 @@ export default function UIDummyTree() {
           )}
         </TransformWrapper> */}
 
-        <QuickPinchZoom onUpdate={onUpdate}>
-          <div ref={divRef}>
-            <FamilyTree
-              nodes={nodes as any}
-              rootId={rootId}
-              width={TreeConfig.nodeWidth}
-              height={TreeConfig.nodeHeight}
-              renderNode={(node: any) => (
-                <TreeNode
-                  key={node.id}
-                  node={node}
-                  displayField={selectNameField}
-                  isRoot={node.id === rootId}
-                  onSelectNode={setSelectId}
-                  style={FamilyTreeUtils.calculateNodePosition(node)}
-                />
-              )}
+        <FamilyTree
+          nodes={nodes as any}
+          rootId={rootId}
+          width={TreeConfig.nodeWidth}
+          height={TreeConfig.nodeHeight}
+          renderNode={(node: any) => (
+            <TreeNode
+              key={node.id}
+              node={node}
+              displayField={selectNameField}
+              isRoot={node.id === rootId}
+              onSelectNode={setSelectId}
+              style={FamilyTreeUtils.calculateNodePosition(node)}
             />
-          </div>
-        </QuickPinchZoom>
+          )}
+        />
 
         <Sheet
           visible={selectId !== ""}
