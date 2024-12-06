@@ -108,7 +108,7 @@ function SubRoutes() {
       <Route path="/playground" element={<UIPlayground />} />
       <Route path="/demo-funds" element={<UIDummyFund />} />
       <Route path="/demo-fund-detail" element={<UIDummyFundDetail />} />
-      <Route path="/demo-tree" element={<UIDummyTreeNew />} />
+      <Route path="/demo-tree" element={<UIDummyTree />} />
       <Route path="/demo-calendar" element={<UIDummyCalendar />} />
       <Route path="/demo-blogs" element={<UIDummyBlog />} />
       <Route path="/demo-album" element={<UIDummyAlbum />} />

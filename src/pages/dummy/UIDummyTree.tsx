@@ -3,6 +3,7 @@ import { t } from "i18next";
 import { Button, Grid, Select, Sheet, Text, useNavigate, ZBox } from "zmp-ui";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
+import QuickPinchZoom, { make3dTransformValue } from "react-quick-pinch-zoom";
 import { FamilyTree, TreeNode, TreeConfig } from "components";
 
 import { UITreeControl } from "pages/family-tree/UIFamilyTree";
@@ -42,6 +43,15 @@ export default function UIDummyTree() {
     setNodes(treeBranch);
   }
 
+  const divRef = React.useRef<HTMLDivElement | null>(null);
+  const onUpdate = ({ x, y, scale }) => {
+    const { current: div } = divRef;
+    if (div) {
+      const value = make3dTransformValue({ x, y, scale });
+      div.style.setProperty("transform", value);
+    }
+  };
+
   const renderTree = () => {
     return (
       <div className="tree-container" style={{ width: "100vw", height: "100vh", position: "fixed" }}>
@@ -74,7 +84,7 @@ export default function UIDummyTree() {
           <Select.Option value={4} title={t("Odoo")} />
         </Select>
 
-        <TransformWrapper 
+        {/* <TransformWrapper 
           minScale={0.1} 
           centerOnInit 
           centerZoomedOut
@@ -89,30 +99,33 @@ export default function UIDummyTree() {
                   alignItems: "center",
                 }}
               >
-                <div>
-                  <FamilyTree
-                    nodes={nodes as any}
-                    rootId={rootId}
-                    width={TreeConfig.nodeWidth}
-                    height={TreeConfig.nodeHeight}
-                    renderNode={(node: any) => (
-                      <TreeNode
-                        key={node.id}
-                        node={node}
-                        displayField={selectNameField}
-                        isRoot={node.id === rootId}
-                        onSelectNode={setSelectId}
-                        style={FamilyTreeUtils.calculateNodePosition(node)}
-                      />
-                    )}
-                  />
-                </div>
               </TransformComponent>
 
               <UITreeControl />
             </>
           )}
-        </TransformWrapper>
+        </TransformWrapper> */}
+
+        <QuickPinchZoom onUpdate={onUpdate}>
+          <div ref={divRef}>
+            <FamilyTree
+              nodes={nodes as any}
+              rootId={rootId}
+              width={TreeConfig.nodeWidth}
+              height={TreeConfig.nodeHeight}
+              renderNode={(node: any) => (
+                <TreeNode
+                  key={node.id}
+                  node={node}
+                  displayField={selectNameField}
+                  isRoot={node.id === rootId}
+                  onSelectNode={setSelectId}
+                  style={FamilyTreeUtils.calculateNodePosition(node)}
+                />
+              )}
+            />
+          </div>
+        </QuickPinchZoom>
 
         <Sheet
           visible={selectId !== ""}
