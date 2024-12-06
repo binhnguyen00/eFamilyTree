@@ -10,6 +10,10 @@ import { Gender, Node } from 'components/tree-relatives/types';
 import { TreeNode, TreeConfig, SizedBox, CommonIcon } from 'components';
 import { useGesture } from "@use-gesture/react";
 
+
+// ============================================
+// Tree Controller
+// ============================================
 interface TreeProps {
   nodes: Node[];
   rootId: string;
@@ -53,10 +57,10 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
   const nodeHeight = props.nodeHeight / 2;
   const treeWidth = data.canvas.width * nodeWidth;
   const treeHeight = data.canvas.height * nodeHeight;
-
+  const center = -((treeWidth - props.nodeWidth * 4) / 2);
 
   let treeRef = React.useRef<HTMLDivElement | null>(null);
-  let [ crop, setCrop ] = React.useState({ x: 0, y: 0, scale: 1 });
+  let [ crop, setCrop ] = React.useState({ x: center, y: center, scale: 0.5 });
 
   useGesture(
     {
@@ -79,8 +83,8 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
   return (
     <>
 
-      {props.statsForNerds && (
-        <div>
+      {!props.statsForNerds && (
+        <div style={{ color: "black" }}>
           <p> X: {crop.x} </p>
           <p> Y: {crop.y} </p>
         </div>
@@ -94,7 +98,7 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
         />
 
         <FamilyTreeController 
-          centerPos={-((treeWidth - props.nodeWidth * 4) / 2)}
+          centerPos={center}
           onCenter={(xPos, yPos, scale) => {
             setCrop({ x: xPos, y: yPos, scale: scale });
           }}
