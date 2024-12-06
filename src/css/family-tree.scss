@@ -1,11 +1,12 @@
 @use "./app.scss" as *;
 
 .tree-container {
-  padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + var(--header-height)) !important;
+  padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + var(--header-height) + 10px) !important;
   padding-left: unset !important;
   padding-right: unset !important;
-  // padding-bottom: calc(var(--zaui-safe-area-inset-bottom, 0px) + (var(--footer-height) + 10px)) !important;
   background-color: var(--tree-background-color) !important;
+  position: fixed !important;
+  width: 100vw !important;
   height: 100vh !important;
 
   @extend .text-base;

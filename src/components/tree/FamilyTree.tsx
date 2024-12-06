@@ -1,13 +1,14 @@
 import React from 'react';
 import { t } from 'i18next';
 
+import { Box } from 'zmp-ui';
+
 import Connector from './Connector';
 import calcTree from 'components/tree-relatives';
 import { Gender, Node } from 'components/tree-relatives/types';
 
 import { TreeNode, TreeConfig, SizedBox, CommonIcon } from 'components';
 import { useGesture } from "@use-gesture/react";
-import { Box, Stack, Text } from 'zmp-ui';
 
 interface TreeProps {
   nodes: Node[];
@@ -22,7 +23,7 @@ interface TreeProps {
 }
 
 export default React.memo<TreeProps>(function FamilyTree(props) {
-  if (!props.searchFields?.length) props.searchFields = [ "id" ];
+  let { searchFields = [ "id" ] } = props;
 
   if (props.nodes.length === 0) return (
     <TreeNode 
@@ -63,6 +64,7 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
         setCrop((crop) => ({ ...crop, x: dx, y: dy }));
       },
       onPinch: ({ offset: [d] }) => {
+        if (crop.scale <= 0) return;
         setCrop((crop) => ({ ...crop, scale: d }));
       },
     }, 
@@ -84,24 +86,24 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
         </div>
       )}
 
-      <Box flex flexDirection='row' justifyContent='space-between'>
+      <Box flex flexDirection='row' justifyContent='space-between' className='ml-1 mr-1'>
         <FamilyTreeSearch 
-          searchFields={ ["id", "name"] }
+          searchFields={searchFields}
           nodes={props.nodes}
-          onSelect={(xPos, yPos, scale) => {
-            setCrop({ x: xPos, y: yPos, scale });
-          }}
+          onSelect={(xPos, yPos, scale) => setCrop({ x: xPos, y: yPos, scale })}
         />
 
         <FamilyTreeController 
           centerPos={-((treeWidth - props.nodeWidth * 4) / 2)}
           onCenter={(xPos, yPos, scale) => {
-            setCrop({ x: -((treeWidth - props.nodeWidth * 4) / 2), y: yPos, scale: scale });
+            setCrop({ x: xPos, y: yPos, scale: scale });
           }}
           onZoomIn={(xPos, yPos, scale) => {
+            if (crop.scale >= 2.2) return; // Scale Limit
             setCrop((crop) => ({ ...crop, scale: crop.scale + scale }));
           }}
           onZoomOut={(xPos, yPos, scale) => {
+            if (crop.scale <= 0.2) return; // Zoom Limit
             setCrop((crop) => ({ ...crop, scale: crop.scale - scale }));
           }}
         />
@@ -162,7 +164,7 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
       <SizedBox 
         className='bg-blur mb-1 p-1'
         width={"fit-content"} height={"fit-content"} border
-        onClick={() => onCenter(centerPos, 0, 1)}
+        onClick={() => onCenter(centerPos, centerPos, 0.5)}
         children={<CommonIcon.Home size={40}/>}
       />
 
@@ -209,30 +211,35 @@ function FamilyTreeSearch(props: FamilyTreeSearchProps) {
           const values = matrix[1].split(',').map(parseFloat);
           const x = values[4];
           const y = values[5];
-          onSelect(-(x - 100), -(y - 100), 1); // Zoom in the Node position
+          onSelect(-(x - 100), -(y - 100), 0.8); // Zoom in the Node position
         }
       }
     }
   }
 
   const renderFilterdNodes = () => {
+    let html = [] as React.ReactNode[];
     if (filteredNodes.length) {
-      let html = [] as React.ReactNode[];
       filteredNodes.forEach(node => {
         html.push(
-          <div key={node.id} onClick={() => onSelectNode(node)}>
+          <div key={node.id} onClick={() => onSelectNode(node)} className='border mb-1 p-1'>
             <span> {node.id} </span> <span> {node.name} </span>
           </div>
         )
       })
-      if (html.length) return html;
-      else return;
     } 
-    return;
+    if (!html.length) return null;;
+    return(
+      <div className='flex-v bg-blur p-2' style={{ position: "fixed", ...style }}>
+        {html}
+      </div>
+    );
   }
 
   const style = {
     color: "var(--primary-color)",
+    fontSize: "1.2rem",
+    width: "80vw"
   } as React.CSSProperties;
 
   return (
@@ -244,7 +251,7 @@ function FamilyTreeSearch(props: FamilyTreeSearchProps) {
           placeholder={t("search")}
           style={{
             border: "none",
-            width: "70vw",
+            width: "80vw",
             outline: "none",
             background: "transparent",
           }}
@@ -264,9 +271,7 @@ function FamilyTreeSearch(props: FamilyTreeSearchProps) {
         <CommonIcon.SearchPerson size={30} />
       </div>
 
-      <div className='flex-v bg-blur p-2' style={{ position: "fixed" }}>
-        {renderFilterdNodes()}
-      </div>
+      {renderFilterdNodes()}
 
     </div>
   )

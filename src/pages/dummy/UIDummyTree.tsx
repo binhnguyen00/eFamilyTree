@@ -39,7 +39,7 @@ export default function UIDummyTree() {
 
   const renderTree = () => {
     return (
-      <div className="tree-container" style={{ width: "100vw", height: "100vh", position: "fixed" }}>
+      <div className="tree-container">
         {/* <Select
           label={<p className="text-capitalize"> {t("data_source")} </p>}
           defaultValue={1}
