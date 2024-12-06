@@ -40,7 +40,7 @@ export default function UIDummyTree() {
   const renderTree = () => {
     return (
       <div className="tree-container" style={{ width: "100vw", height: "100vh", position: "fixed" }}>
-        {/* <Select
+        <Select
           label={<p className="text-capitalize"> {t("data_source")} </p>}
           defaultValue={1}
           onChange={(val) => {
@@ -67,35 +67,14 @@ export default function UIDummyTree() {
           <Select.Option value={2} title={t("several_spouses")} />
           <Select.Option value={3} title={t("divorced")} />
           <Select.Option value={4} title={t("Odoo")} />
-        </Select> */}
-
-        {/* <TransformWrapper 
-          minScale={0.1} 
-          centerOnInit 
-          centerZoomedOut
-          initialScale={0.5}
-          wheel={{ step: 0.2 }}
-        >
-          {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
-            <>
-              <TransformComponent 
-                contentStyle={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-              </TransformComponent>
-
-              <UITreeControl />
-            </>
-          )}
-        </TransformWrapper> */}
+        </Select>
 
         <FamilyTree
           nodes={nodes as any}
           rootId={rootId}
-          width={TreeConfig.nodeWidth}
-          height={TreeConfig.nodeHeight}
+          nodeWidth={TreeConfig.nodeWidth}
+          nodeHeight={TreeConfig.nodeHeight}
+          searchFields={["id", "name"]}
           renderNode={(node: any) => (
             <TreeNode
               key={node.id}

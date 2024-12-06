@@ -80,8 +80,8 @@ export default function UIFamilyTree() {
                   <FamilyTree
                     nodes={familyMembers as any}
                     rootId={rootId}
-                    height={TreeConfig.nodeHeight}
-                    width={TreeConfig.nodeWidth}
+                    nodeHeight={TreeConfig.nodeHeight}
+                    nodeWidth={TreeConfig.nodeWidth}
                     renderNode={(node: any) => (
                       <TreeNode
                         key={node.id}

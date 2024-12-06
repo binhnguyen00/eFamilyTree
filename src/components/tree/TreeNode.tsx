@@ -16,7 +16,7 @@ export default function TreeNode({node, displayField, isRoot, onSelectNode, styl
     height: "100%", 
   };
   return (
-    <div className='tree-node' style={style} onClick={() => onSelectNode(node.id)}>
+    <div id={`node-${node.id}`} className='tree-node' style={style} onClick={() => onSelectNode(node.id)}>
       <Stack
         className={`tree-node-${node.gender} p-2 border center`}
         style={nodeStyle}
