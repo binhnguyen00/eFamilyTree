@@ -5,6 +5,8 @@ import { PiTreeFill } from "react-icons/pi";
 import { FaInfoCircle } from "react-icons/fa";
 import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { IoMdLogIn, IoMdAdd, IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import { LuMinus } from "react-icons/lu";
+import { MdPersonSearch } from "react-icons/md";
 
 const CommonIcon = {
   Home: GoHomeFill,
@@ -19,8 +21,10 @@ const CommonIcon = {
   ChevonRight: IoIosArrowForward,
   ChevonLeft: IoIosArrowBack,
   Plus: IoMdAdd,
+  Minus: LuMinus,
   Login: IoMdLogIn,
-  Logout: TbLogout
+  Logout: TbLogout,
+  SearchPerson: MdPersonSearch,
 };
 
 export default CommonIcon;

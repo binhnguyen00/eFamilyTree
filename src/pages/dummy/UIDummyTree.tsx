@@ -40,7 +40,7 @@ export default function UIDummyTree() {
   const renderTree = () => {
     return (
       <div className="tree-container" style={{ width: "100vw", height: "100vh", position: "fixed" }}>
-        <Select
+        {/* <Select
           label={<p className="text-capitalize"> {t("data_source")} </p>}
           defaultValue={1}
           onChange={(val) => {
@@ -67,7 +67,7 @@ export default function UIDummyTree() {
           <Select.Option value={2} title={t("several_spouses")} />
           <Select.Option value={3} title={t("divorced")} />
           <Select.Option value={4} title={t("Odoo")} />
-        </Select>
+        </Select> */}
 
         <FamilyTree
           nodes={nodes as any}
