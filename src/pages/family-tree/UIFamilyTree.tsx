@@ -65,40 +65,26 @@ export default function UIFamilyTree() {
   const renderTree = () => {
     if (!loading) {
       return (
-        <div className="tree-container" style={{ width: "100vw", height: "100vh", position: "fixed" }}>
+        <div className="tree-container">
           {renderResetTree()}
 
-          <TransformWrapper 
-            minScale={0.1} 
-            centerOnInit 
-            centerZoomedOut
-            initialScale={0.5}
-          >
-            {({ zoomIn, zoomOut, resetTransform, ...rest }) => (
-              <>
-                <TransformComponent>
-                  <FamilyTree
-                    nodes={familyMembers as any}
-                    rootId={rootId}
-                    nodeHeight={TreeConfig.nodeHeight}
-                    nodeWidth={TreeConfig.nodeWidth}
-                    renderNode={(node: any) => (
-                      <TreeNode
-                        key={node.id}
-                        node={node}
-                        displayField="name"
-                        isRoot={node.id === rootId}
-                        onSelectNode={(id) => { setSelectId(id) }}
-                        style={FamilyTreeUtils.calculateNodePosition(node)}
-                      />
-                    )}
-                  />
-                </TransformComponent>
-                
-                <UITreeControl />
-              </>
+          <FamilyTree
+            nodes={familyMembers as any}
+            rootId={rootId}
+            nodeHeight={TreeConfig.nodeHeight}
+            nodeWidth={TreeConfig.nodeWidth}
+            searchFields={["id", "name"]}
+            renderNode={(node: any) => (
+              <TreeNode
+                key={node.id}
+                node={node}
+                displayField="name"
+                isRoot={node.id === rootId}
+                onSelectNode={(id) => { setSelectId(id) }}
+                style={FamilyTreeUtils.calculateNodePosition(node)}
+              />
             )}
-          </TransformWrapper>
+          />
 
           <Sheet
             visible={selectId !== ""}

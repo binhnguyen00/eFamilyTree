@@ -60,7 +60,7 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
   const center = -((treeWidth - props.nodeWidth * 4) / 2);
 
   let treeRef = React.useRef<HTMLDivElement | null>(null);
-  let [ crop, setCrop ] = React.useState({ x: center, y: center, scale: 0.5 });
+  let [ crop, setCrop ] = React.useState({ x: center, y: center / 2, scale: 0.5 });
 
   useGesture(
     {
@@ -100,7 +100,7 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
         <FamilyTreeController 
           centerPos={center}
           onCenter={(xPos, yPos, scale) => {
-            setCrop({ x: xPos, y: yPos, scale: scale });
+            setCrop({ x: xPos, y: yPos / 2, scale: scale });
           }}
           onZoomIn={(xPos, yPos, scale) => {
             if (crop.scale >= 2.2) return; // Scale Limit
