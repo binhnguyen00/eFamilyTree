@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@vitejs/plugin-react": "^1.3.2",
-    "@balkangraph/familytree.js": "^1.9.44",
+    "@use-gesture/react": "^10.3.1",
     "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -30,7 +30,6 @@
     "react-i18next": "^15.1.0",
     "react-icons": "^5.2.1",
     "react-zoom-pan-pinch": "^3.6.1",
-    "@use-gesture/react": "^10.3.1",
     "recoil": "^0.7.7",
     "zmp-sdk": "^2.41.0",
     "zmp-ui": "^1.11.5",

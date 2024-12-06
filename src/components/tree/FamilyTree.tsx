@@ -55,13 +55,13 @@ export default React.memo<Props>(function FamilyTree(props) {
       },
       onPinch: ({ offset: [d] }) => {
         setCrop((crop) => ({ ...crop, scale: d }));
-      }
+      },
     }, 
     {
       target: ref,
       eventOptions: {
         passive: false,
-      }
+      },
     }
   ) 
 
