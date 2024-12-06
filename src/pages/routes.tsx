@@ -32,7 +32,6 @@ import UICertificateDetail from "./certificate/UICertificateDetail";
 const UIDummyFund = lazy(() => import("./dummy/UIDummyFund"));
 const UIDummyFundDetail = lazy(() => import("./dummy/UIDummyFundDetail"));
 const UIDummyTree = lazy(() => import("./dummy/UIDummyTree"));
-const UIDummyTreeNew = lazy(() => import("./dummy/UIDummyTreeNew"));
 const UIDummyCalendar = lazy(() => import("./dummy/UIDummyCalendar"));
 const UIDummyBlog = lazy(() => import("./dummy/UIDummyBlog"));
 const UIDummyAlbum = lazy(() => import("./dummy/UIDummyAlbum"));
