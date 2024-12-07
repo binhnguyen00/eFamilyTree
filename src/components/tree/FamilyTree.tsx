@@ -61,13 +61,16 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
 
   let treeRef = React.useRef<HTMLDivElement | null>(null);
   let [ crop, setCrop ] = React.useState({ x: center, y: center / 2, scale: 0.5 });
+  let [ shouldAnimate, setShouldAnimate ] = React.useState(false);
 
   useGesture(
     {
       onDrag: ({ offset: [dx, dy] }) => {
+        setShouldAnimate(false);
         setCrop((prev) => ({ ...prev, x: dx, y: dy }));
       },
       onPinch: ({ offset: [scale] }) => {
+        setShouldAnimate(false);
         setCrop((prev) => ({ ...prev, scale: Math.max(0.2, Math.min(2.2, scale)) })); // Clamp scale
       },
     },
@@ -95,14 +98,17 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
         <FamilyTreeController 
           centerPos={center}
           onCenter={(xPos, yPos, scale) => {
+            setShouldAnimate(true);
             setCrop({ x: xPos, y: yPos / 2, scale: scale });
           }}
           onZoomIn={(xPos, yPos, scale) => {
             if (crop.scale >= 2.2) return; // Scale Limit
+            setShouldAnimate(true);
             setCrop((crop) => ({ ...crop, scale: crop.scale + scale }));
           }}
           onZoomOut={(xPos, yPos, scale) => {
             if (crop.scale <= 0.2) return; // Zoom Limit
+            setShouldAnimate(true);
             setCrop((crop) => ({ ...crop, scale: crop.scale - scale }));
           }}
         />
@@ -120,7 +126,7 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
           left: crop.x,
           top: crop.y,
           transform: `scale(${crop.scale})`,
-          transition: 'left 0.3s ease, top 0.3s ease, transform 0.3s ease',
+          transition: shouldAnimate ? 'left 0.3s ease, top 0.3s ease, transform 0.3s ease' : 'none', 
           touchAction: "none",
         }}
       >
