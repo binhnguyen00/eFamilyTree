@@ -120,6 +120,7 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
           left: crop.x,
           top: crop.y,
           transform: `scale(${crop.scale})`,
+          transition: 'left 0.3s ease, top 0.3s ease, transform 0.3s ease',
           touchAction: "none",
         }}
       >
@@ -228,7 +229,14 @@ function FamilyTreeSearch(props: FamilyTreeSearchProps) {
     if (filteredNodes.length) {
       filteredNodes.forEach(node => {
         html.push(
-          <div key={node.id} onClick={() => onSelectNode(node)} className='border mb-1 p-1'>
+          <div 
+            key={node.id} 
+            onClick={() => {
+              onSelectNode(node);
+              setFilteredNodes([]);
+            }} 
+            className='border mb-1 p-1'
+          >
             <span> {node.id} </span> <span> {node.name} </span>
           </div>
         )
