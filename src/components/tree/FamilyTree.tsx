@@ -65,30 +65,25 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
   useGesture(
     {
       onDrag: ({ offset: [dx, dy] }) => {
-        setCrop((crop) => ({ ...crop, x: dx, y: dy }));
+        setCrop((prev) => ({ ...prev, x: dx, y: dy }));
       },
-      onPinch: ({ offset: [d] }) => {
-        if (crop.scale <= 0) return;
-        setCrop((crop) => ({ ...crop, scale: d }));
+      onPinch: ({ offset: [scale] }) => {
+        setCrop((prev) => ({ ...prev, scale: Math.max(0.2, Math.min(2.2, scale)) })); // Clamp scale
       },
-    }, 
+    },
     {
       target: treeRef,
-      eventOptions: {
-        passive: false,
-      },
+      enabled: true,
+      drag: {
+        from(state) {
+          return [crop.x, crop.y];
+        },
+      }
     }
-  ) 
+  );
 
   return (
     <>
-
-      {!props.statsForNerds && (
-        <div style={{ color: "black" }}>
-          <p> X: {crop.x} </p>
-          <p> Y: {crop.y} </p>
-        </div>
-      )}
 
       <Box flex flexDirection='row' justifyContent='space-between' className='ml-1 mr-1'>
         <FamilyTreeSearch 
@@ -138,6 +133,13 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
         ))}
         {data.nodes.map(props.renderNode)}
       </div>
+
+      {props.statsForNerds && (
+        <div className='flex-h' style={{ color: "black", position: "absolute", top: "90%", left: "50%", transform: "translate(-50%, -50%)" }}>
+          <p> X: {crop.x} </p>
+          <p> Y: {crop.y} </p>
+        </div>
+      )}
 
     </>
   );
