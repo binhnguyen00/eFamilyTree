@@ -31,27 +31,6 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
   let { searchFields = [ "id" ] } = props;
   let treeRef = React.useRef<HTMLDivElement | null>(null);
 
-  if (!props.nodes || !props.nodes.length) {
-    return (
-      <div ref={treeRef} style={{ touchAction: "none" }}>
-        <TreeNode 
-          node={{
-            name: "text", id: "", gender: Gender.male, avatar: "",
-            parents: [], siblings: [], spouses: [], children: []
-          }} 
-          displayField="name" 
-          isRoot={true} 
-          onSelectNode={() => {}} 
-          style={{
-            width: (TreeConfig.nodeWidth),
-            height: (TreeConfig.nodeHeight),
-            zIndex: 1,
-          }}
-        />
-      </div>
-    )
-  }
-
   let data = calcTree(
     props.nodes, 
     {

@@ -7,7 +7,7 @@ import { useRecoilValue } from "recoil";
 
 import { FailResponse, FamilyTreeUtils, EFamilyTreeApi } from "utils";
 import { Header, CommonIcon, TreeNode, FamilyTree, TreeConfig, Loading } from "components";
-import { Node } from "components/tree-relatives/types";
+import { Gender, Node } from "components/tree-relatives/types";
 
 export function UIFamilyTree() {
   const phoneNumber = useRecoilValue(phoneState);
@@ -35,7 +35,17 @@ export function UIFamilyTree() {
   }, [ reload ])
 
   if (!members.length) {
-    return <Loading message={t("loading")}/>;
+    return (
+      <UIFamilyTreeContainer 
+        nodes={[{
+          name: t("family_member"), id: "", gender: Gender.male, avatar: "",
+          parents: [], siblings: [], spouses: [], children: []
+        }]}
+        rootId={""}
+        phoneNumber={""}
+        onReload={() => {}}
+      />
+    );
   } else {
     return (
       <UIFamilyTreeContainer 
@@ -134,6 +144,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
         />
 
         <PopupOption/>
+
       </div>
     );
   }
