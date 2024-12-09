@@ -5,7 +5,7 @@ import { useSetRecoilState } from "recoil";
 import { requestPhoneTriesState } from "states";
 import { Box, Button, Sheet, Stack, Text } from "zmp-ui";
 
-export default function UIRequestPhone(props: { visible: boolean, closeSheet: () => void }) {
+export function RequestPhone(props: { visible: boolean, closeSheet: () => void }) {
   const { visible, closeSheet } = props;
   const retry = useSetRecoilState(requestPhoneTriesState);
 

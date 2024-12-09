@@ -28,6 +28,28 @@ interface TreeProps {
 
 export default React.memo<TreeProps>(function FamilyTree(props) {
   let { searchFields = [ "id" ] } = props;
+  let treeRef = React.useRef<HTMLDivElement | null>(null);
+
+  if (!props.nodes || !props.nodes.length) {
+    return (
+      <div ref={treeRef} style={{ touchAction: "none" }}>
+        <TreeNode 
+          node={{
+            name: "text", id: "", gender: Gender.male, avatar: "",
+            parents: [], siblings: [], spouses: [], children: []
+          }} 
+          displayField="name" 
+          isRoot={true} 
+          onSelectNode={() => {}} 
+          style={{
+            width: (TreeConfig.nodeWidth),
+            height: (TreeConfig.nodeHeight),
+            zIndex: 1,
+          }}
+        />
+      </div>
+    )
+  }
 
   let data = calcTree(
     props.nodes, 
@@ -47,7 +69,6 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
     y: ((treeHeight / 2) - window.innerHeight / 4) * -1,
   };
 
-  let treeRef = React.useRef<HTMLDivElement | null>(null);
   let [ crop, setCrop ] = React.useState({ x: center.x, y: center.y, scale: 0.5 });
   let [ shouldAnimate, setShouldAnimate ] = React.useState(false);
 
@@ -77,24 +98,6 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
         transform: ([x, y]) => [x, y]
       },
     }
-  );
-
-  if (props.nodes.length === 0) return (
-    <div ref={treeRef} style={{ touchAction: "none" }}>
-      <TreeNode 
-        node={{
-          name: "text", id: "", gender: Gender.male, avatar: "",
-          parents: [], siblings: [], spouses: [], children: []
-        }} 
-        displayField="" 
-        isRoot={true} 
-        onSelectNode={() => {}} 
-        style={{
-          width: (TreeConfig.nodeWidth),
-          height: (TreeConfig.nodeHeight),
-        }}
-      />
-    </div>
   );
 
   return (

@@ -5,12 +5,12 @@ import { t } from "i18next";
 
 import { Loading, SwipeGesture } from "components";
 
+import { UIFamilyTree, UIFamilyTreeContainer } from "pages/family-tree/UIFamilyTree";
 import UIUser from "pages/user/UIUser";
-import UIFamilyTree from "pages/family-tree/UIFamilyTree";
 import UIHomeLayout from "pages/home/UIHomeLayout";
 import UIAbout from "pages/about/UIAbout";
 import UIImageList from "./album/UIImageList";
-import UINavigation from "components/common/Navigation";
+import Navigation from "components/common/Navigation";
 import UIRegisterClan from "./user/UIRegisterClan";
 import UIRegister from "./user/UIRegister";
 import UITheme from "./theme/UITheme";
@@ -128,7 +128,7 @@ export default function UIRoutes() {
         <SubRoutes />
       </Suspense>
 
-      <UINavigation/>
+      <Navigation/>
     </SwipeGesture>
   );
 }

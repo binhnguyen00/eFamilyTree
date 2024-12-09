@@ -1,9 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { CgUndo } from "react-icons/cg";
-import { BiHorizontalCenter } from "react-icons/bi";
-import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
-import { BottomNavigation, Sheet, Grid, Button, Text, ZBox, useNavigate, Stack } from "zmp-ui";
+import { Sheet, Grid, Button, useNavigate, Stack } from "zmp-ui";
 
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
@@ -12,7 +9,8 @@ import { FailResponse, FamilyTreeUtils, EFamilyTreeApi } from "utils";
 import { Header, Loading, CommonIcon, TreeNode, FamilyTree, TreeConfig } from "components";
 import { Node } from "components/tree-relatives/types";
 
-export default function UIFamilyTree() {
+/** @deprecated */
+export function UIFamilyTreeDeprecated() {
   const phoneNumber = useRecoilValue(phoneState);
   const navigate = useNavigate();
 
@@ -92,12 +90,10 @@ export default function UIFamilyTree() {
             autoHeight
             handler
             swipeToClose
+            title={`${FamilyTreeUtils.getMemberById(selectId, familyMembers)?.name || t("member_info")}`}
           >
             <Stack space="1rem">
-              <Text size="large" className="center"> 
-                {`${FamilyTreeUtils.getMemberById(selectId, familyMembers)?.name || ""}`} 
-              </Text>
-              <ZBox padding="1rem">
+              <div className="p-2">
                 <Grid columnCount={2} columnSpace="0.2rem">
                   <Button variant="primary" onClick={showMemberDetail} prefixIcon={<CommonIcon.User size={"1.5rem"}/>}>
                     {t("btn_tree_member_info")}
@@ -106,7 +102,7 @@ export default function UIFamilyTree() {
                     {t("btn_tree_member_detail")}
                   </Button>
                 </Grid>
-              </ZBox>
+              </div>
             </Stack>
           </Sheet>
         </div>
@@ -139,37 +135,149 @@ export default function UIFamilyTree() {
   )
 }
 
-export function UITreeControl() {
-  const { zoomIn, zoomOut, resetTransform, centerView } = useControls();
+export function UIFamilyTree() {
+  const phoneNumber = useRecoilValue(phoneState);
+
+  let [ members, setMembers ] = React.useState<any[]>([]);
+  let [ rootId, setRootId ] = React.useState<string>("");
+
+  React.useEffect(() => {
+    const success = (result: any[] | string) => {
+      if (typeof result === 'string') {
+        console.warn(result);
+      } else {
+        const data = result["members"] || null;
+        const mems: Node[] = FamilyTreeUtils.remapServerData(data);
+        setMembers(FamilyTreeUtils.removeDuplicates(mems));
+        setRootId(`${data.id}`);
+      }
+    }
+    const fail = (error: FailResponse) => {
+      console.error(error.stackTrace);
+    } 
+
+    EFamilyTreeApi.getMembers(phoneNumber, success, fail);
+  }, [ ])
+  return (
+    <React.Suspense>
+      <UIFamilyTreeContainer 
+        nodes={members}
+        rootId={rootId}
+        phoneNumber={phoneNumber}
+      />
+    </React.Suspense>
+  )
+}
+
+interface UIFamilyTreeContainerProps {
+  nodes: any[];
+  rootId: string;
+  phoneNumber: any;
+}
+export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) { 
+  const navigate = useNavigate();
+
+  const [ familyMembers, setFamilyMembers ] = React.useState<any[]>(props.nodes);
+  const [ rootId, setRootId ] = React.useState<string>(props.rootId);
+  const [ selectId, setSelectId ] = React.useState<string>("");
+  const [ resetBtn, setResetBtn ] = React.useState<boolean>(false);
+
+  const [ reload, setReload ] = React.useState(false);
+
+  const showMemberDetail = () => {
+    setSelectId("");
+    const data = {
+      memberId: selectId,
+      phoneNumber: props.phoneNumber,
+    }
+    navigate("/family-member-info", { state: { data } });
+  }
+
+  const renderTreeBranch = () => {
+    setSelectId("");
+    const treeBranch = FamilyTreeUtils.getTreeBranch(selectId, familyMembers);
+    setRootId(selectId);
+    setFamilyMembers(treeBranch);
+    setResetBtn(true);
+  }
+
+  const ResetTree = () => {
+    if (resetBtn) {
+      return (
+        <Button 
+          className="p-2"
+          size="small" 
+          onClick={() => {
+            setFamilyMembers([]);
+            setRootId("");
+            setReload(!reload)}
+          }
+        >
+          {t("reset")}
+        </Button>
+      )
+    } else return null;
+  }
+
+  const PopupOption = () => {
+    return (
+      <Sheet
+        visible={selectId !== ""}
+        onClose={() => { setSelectId("") }}
+        autoHeight
+        handler
+        swipeToClose
+        title={`${FamilyTreeUtils.getMemberById(selectId, familyMembers)?.name || t("member_info")}`}
+      >
+        <Stack space="1rem">
+          <div className="p-2">
+            <Grid columnCount={2} columnSpace="0.2rem">
+              <Button variant="primary" onClick={showMemberDetail} prefixIcon={<CommonIcon.User size={"1.5rem"}/>}>
+                {t("btn_tree_member_info")}
+              </Button>
+              <Button variant="primary" onClick={renderTreeBranch} prefixIcon={<CommonIcon.Tree size={"1.5rem"}/>}>
+                {t("btn_tree_member_detail")}
+              </Button>
+            </Grid>
+          </div>
+        </Stack>
+      </Sheet>
+    )
+  }
+
+  const Tree = () => {
+    return (
+      <div className="tree-container">
+        <ResetTree/>
+
+        <FamilyTree
+          nodes={familyMembers as any[]}
+          rootId={rootId}
+          nodeHeight={TreeConfig.nodeHeight}
+          nodeWidth={TreeConfig.nodeWidth}
+          searchFields={["id", "name"]}
+          renderNode={(node: any) => (
+            <TreeNode
+              key={node.id}
+              node={node}
+              displayField="name"
+              isRoot={node.id === rootId}
+              onSelectNode={(id) => { setSelectId(id) }}
+              style={FamilyTreeUtils.calculateNodePosition(node)}
+            />
+          )}
+        />
+
+        <PopupOption/>
+      </div>
+    );
+  }
 
   return (
-    <BottomNavigation
-      fixed activeKey=""
-    >
-      <BottomNavigation.Item
-        key="zoomIn" className="text-primary"
-        label={"+ Zoom"}
-        icon={<CommonIcon.ZoomIn/>}
-        onClick={() => zoomIn()}
-      />
-      <BottomNavigation.Item
-        key="zoomOut" className="text-primary"
-        label={"- Zoom"}
-        icon={<CommonIcon.ZoomOut/>}
-        onClick={() => zoomOut()}
-      />
-      <BottomNavigation.Item
-        key="center" className="text-primary"
-        label={t("center_view")}
-        icon={<BiHorizontalCenter/>}
-        onClick={() => centerView()}
-      />
-      <BottomNavigation.Item
-        key="reset" className="text-primary"
-        label={t("reset")}
-        icon={<CgUndo/>}
-        onClick={() => resetTransform()}
-      />
-    </BottomNavigation>
+    <div>
+      <Header title={t("family_tree")}/>
+
+      <Tree/>
+    </div>
   )
 }

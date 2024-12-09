@@ -79,11 +79,6 @@ body {
   box-shadow: 10px 10px 40px 15px var(--secondary-color) !important;
 }
 
-// footer
-.zaui-bottom-navigation-content {
-  background-color: var(--footer-color) !important;
-}
-
 // button
 .zaui-btn-primary {
   background-color: var(--primary-color) !important;
@@ -139,17 +134,15 @@ button, .button {
 }
 
 // nav bar
-.nav-active-icon {
-  color: rgb(245, 235, 217) !important;
-}
+.nav-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  height: auto;
 
-.zaui-bottom-navigation-item .zaui-bottom-navigation-item-icon {
-  font-size: 24px;
-  width: unset !important;
-  height: unset !important;
-}
-
-.zaui-bottom-navigation-content {
+  background-color: var(--footer-color) !important;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
   height: calc(var(--zaui-safe-area-inset-bottom) + var(--footer-height)) !important;

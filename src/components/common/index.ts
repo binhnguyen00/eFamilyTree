@@ -5,9 +5,10 @@ import Divider from "./Divider";
 import SwipeGesture from "./SwipeGesture";
 import ImageWithText from "./ImageWithText";
 import Navigation from "./Navigation";
-import RequestPhone from "./RequestPhone";
 import SearchBar from "./SearchBar";
 import SizedBox from "./SizedBox";
+
+import { RequestPhone } from "./RequestPhone";
 
 export { 
   Error, Loading, Retry, 

@@ -95,10 +95,9 @@ export default function UIDummyTree() {
           autoHeight
           handler
           swipeToClose
-          title="Thành Viên"
+          title={selectId}
         >
-          <Text className="center"> {selectId} </Text>
-          <ZBox padding="1rem">
+          <div className="p-2">
             <Grid columnCount={2} columnSpace="1rem" rowSpace="1rem">
               <Button className="" onClick={showMemberDetail} prefixIcon={<CommonIcon.User size={"1.5rem"}/>}>
                 {t("btn_tree_member_info")}
@@ -107,7 +106,7 @@ export default function UIDummyTree() {
                 {t("btn_tree_member_detail")}
               </Button>
             </Grid>
-          </ZBox>
+          </div>
         </Sheet>
       </div>
     )
