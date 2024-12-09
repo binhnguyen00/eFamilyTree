@@ -6,7 +6,7 @@ import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
 import { FailResponse, FamilyTreeUtils, EFamilyTreeApi } from "utils";
-import { Header, CommonIcon, TreeNode, FamilyTree, TreeConfig } from "components";
+import { Header, CommonIcon, TreeNode, FamilyTree, TreeConfig, Loading } from "components";
 import { Node } from "components/tree-relatives/types";
 
 export function UIFamilyTree() {
@@ -32,15 +32,18 @@ export function UIFamilyTree() {
 
     EFamilyTreeApi.getMembers(phoneNumber, success, fail);
   }, [ ])
-  return (
-    <React.Suspense>
+
+  if (!members.length) {
+    return <Loading message={t("loading")}/>;
+  } else {
+    return (
       <UIFamilyTreeContainer 
         nodes={members}
         rootId={rootId}
         phoneNumber={phoneNumber}
       />
-    </React.Suspense>
-  )
+    )
+  }
 }
 
 interface UIFamilyTreeContainerProps {
@@ -125,7 +128,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
         <ResetTree/>
 
         <FamilyTree
-          nodes={familyMembers as any[]}
+          nodes={familyMembers as any}
           rootId={rootId}
           nodeHeight={TreeConfig.nodeHeight}
           nodeWidth={TreeConfig.nodeWidth}
@@ -136,7 +139,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
               node={node}
               displayField="name"
               isRoot={node.id === rootId}
-              onSelectNode={(id) => { setSelectId(id) }}
+              onSelectNode={setSelectId}
               style={FamilyTreeUtils.calculateNodePosition(node)}
             />
           )}

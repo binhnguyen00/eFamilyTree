@@ -5,6 +5,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { CommonIcon } from "components/icon/common";
 import { RequestPhone } from "./RequestPhone";
+import { useRecoilValue } from "recoil";
+import { phoneState } from "states";
 
 export function Navigation() {
   const location = useLocation();
@@ -16,8 +18,6 @@ export function Navigation() {
     return NO_BOTTOM_NAVIGATION_PAGES.includes(location.pathname);
   }, [location]);
   if (noBottomNav) return null;
-
-  console.log(location.pathname);
 
   return (
     <div className="nav-bar flex-h">
@@ -34,7 +34,7 @@ export function Navigation() {
         label={""}
         icon={<CommonIcon.Tree size={40}/>}
         activeIcon={null}
-        requirePhone={true}
+        requirePhone={false}
       /> 
       <NavItem
         path="/user"
@@ -60,9 +60,8 @@ function NavItem(props: NavItemProps) {
 
   const location = useLocation();
   const navigate = useNavigate();
-  const [sheetVisible, setSheetVisible] = React.useState(false);
-
   const isActive = location.pathname === path;
+  const [ sheetVisible, setSheetVisible ] = React.useState(false);
 
   return (
     <>

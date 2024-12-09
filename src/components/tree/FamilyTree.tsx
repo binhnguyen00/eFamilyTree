@@ -95,7 +95,6 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
         from(state) {
           return [crop.x, crop.y];
         },
-        transform: ([x, y]) => [x, y]
       },
     }
   );
