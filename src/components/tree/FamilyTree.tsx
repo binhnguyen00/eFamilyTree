@@ -5,9 +5,9 @@ import { Box } from 'zmp-ui';
 
 import Connector from './Connector';
 import calcTree from 'components/tree-relatives';
-import { Gender, Node } from 'components/tree-relatives/types';
+import { Node } from 'components/tree-relatives/types';
 
-import { TreeNode, TreeConfig, SizedBox, CommonIcon } from 'components';
+import { SizedBox, CommonIcon } from 'components';
 import { useGesture } from "@use-gesture/react";
 
 
@@ -66,15 +66,17 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
     {
       eventOptions: {
         passive: true, 
-        capture: false, 
-        pointer: true
+        capture: true, 
+        pointer: true,
+        once: true
       },
       target: treeRef,
       enabled: true,
       drag: {
-        from(state) {
-          return [crop.x, crop.y];
-        },
+        from: () => [crop.x, crop.y],
+      },
+      pinch: {
+        from: () => [crop.scale, 0],
       },
     }
   );
@@ -139,9 +141,18 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
       </div>
 
       {props.statsForNerds && (
-        <div className='flex-h' style={{ color: "black", position: "absolute", top: "90%", left: "50%", transform: "translate(-50%, -50%)" }}>
-          <p> X: {crop.x} </p>
-          <p> Y: {crop.y} </p>
+        <div 
+          className='flex-h' 
+          style={{ 
+            color: "black", 
+            position: "absolute", 
+            top: "90%", 
+            left: "50%", 
+            transform: "translate(-50%, -50%)",
+            zIndex: 2,
+          }}>
+          <p> {`x: ${crop.x}`} </p>
+          <p> {`y: ${crop.y}`} </p>
         </div>
       )}
 
