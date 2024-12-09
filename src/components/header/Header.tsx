@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Stack, Text, useNavigate } from "zmp-ui";
 
-import CommonIcons from "components/icon/common";
+import { CommonIcon } from "components/icon/common";
 
 interface HeaderProps {
   title?: string;
@@ -11,7 +11,7 @@ interface HeaderProps {
   customRender?: React.ReactNode;
 }
 
-export default function Header(props: HeaderProps) {
+export function Header(props: HeaderProps) {
   const navigate = useNavigate();
   let { title, subtitle, showBackIcon, logo, customRender } = props;
   if (showBackIcon === undefined || showBackIcon === null) showBackIcon = true;
@@ -24,7 +24,7 @@ export default function Header(props: HeaderProps) {
         flex flexDirection="row" justifyContent="flex-start" alignContent="center" alignItems="center"
       >
         {showBackIcon && (
-          <CommonIcons.ChevonLeft
+          <CommonIcon.ChevonLeft
             className="button-bounce" size={"1.5rem"} 
             onClick={() => {
               navigate(-1);

@@ -8,7 +8,7 @@ import { IoMdLogIn, IoMdAdd, IoIosArrowForward, IoIosArrowBack } from "react-ico
 import { LuMinus } from "react-icons/lu";
 import { MdPersonSearch } from "react-icons/md";
 
-const CommonIcon = {
+export const CommonIcon = {
   Home: GoHomeFill,
   Photo: TbPhoto,
   AddPhoto: TbPhotoPlus,
@@ -26,5 +26,3 @@ const CommonIcon = {
   Logout: TbLogout,
   SearchPerson: MdPersonSearch,
 };
-
-export default CommonIcon;

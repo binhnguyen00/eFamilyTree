@@ -10,7 +10,7 @@ import APP_FUNDS from "assets/img/app/app-fund.jpeg";
 import APP_THEME from "assets/img/app/app-theme.jpeg";
 import APP_CERTIFICATE from "assets/img/app/app-certificate.jpeg";
 
-const AppLogo = {
+export const AppLogo = {
   Info: FcInfo,
   Approval: FcApproval,
   CommandLine: FcCommandLine,
@@ -23,5 +23,3 @@ const AppLogo = {
   Theme: APP_THEME,
   Certificate: APP_CERTIFICATE,
 };
-
-export default AppLogo;

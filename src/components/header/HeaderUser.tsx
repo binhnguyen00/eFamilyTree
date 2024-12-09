@@ -7,9 +7,9 @@ import { Avatar, Box, Text, useNavigate } from "zmp-ui";
 import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
 
 import { Header } from "components";
-import HeaderLoginButton from "./HeaderLoginButton";
+import { HeaderLoginButton } from "./HeaderLoginButton";
 
-export default function HeaderUser() {
+export function HeaderUser() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
