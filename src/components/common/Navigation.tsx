@@ -1,13 +1,12 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { BottomNavigation, Box, Stack, Text } from "zmp-ui";
+import { Box, Text } from "zmp-ui";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import CommonIcons from "components/icon/common";
 import { RequestPhone } from "./RequestPhone";
-import SizedBox from "./SizedBox";
 
-export default function Navigation() {
+export function Navigation() {
   const location = useLocation();
   const NO_BOTTOM_NAVIGATION_PAGES = ["/family-tree", "/demo-tree"];
 

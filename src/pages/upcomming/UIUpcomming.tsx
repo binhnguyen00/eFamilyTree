@@ -4,7 +4,7 @@ import { Header, SizedBox } from "components";
 import { Stack, Text } from "zmp-ui";
 
 
-export default function UIUpcomming() {
+export function UIUpcomming() {
   return (
     <div className="container">
       <Header title={t("upcoming")}/>

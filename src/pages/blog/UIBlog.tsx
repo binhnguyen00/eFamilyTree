@@ -10,7 +10,7 @@ import { FailResponse } from "utils/type";
 
 import { Header, Error, Loading } from "components";
 
-export default function UIBlog() {
+export function UIBlog() {
   return (
     <div className="container">
       <Header title={t("blogs")}/>

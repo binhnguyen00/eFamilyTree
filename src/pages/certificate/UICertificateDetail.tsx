@@ -9,7 +9,7 @@ import { Input, Stack } from "zmp-ui";
 import { EFamilyTreeApi, FailResponse } from "utils";
 import { Header } from "components";
 
-export default function UICertificateDetail() {
+export function UICertificateDetail() {
   const location = useLocation();
   const { certificateId } = location.state || null;
 

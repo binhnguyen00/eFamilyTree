@@ -8,7 +8,7 @@ import { Header, Loading } from "components";
 import UISignInUser from "./UISignInUser";
 import UISignedInUser from "./UISignedInUser";
 
-export default function UIUser() { 
+export function UIUser() { 
   const { t } = useTranslation();
   const loginedIn = useRecoilValue(logedInState);
   const userInfo = useRecoilValue(userState);

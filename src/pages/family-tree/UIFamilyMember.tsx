@@ -7,7 +7,7 @@ import { FailResponse } from "utils/type";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { Header, Loading } from "components";
 
-export default function UIFamilyMember() {
+export function UIFamilyMember() {
   const location = useLocation();
 
   const { data } = location.state || null;

@@ -10,7 +10,7 @@ type RegisterForm = {
   clanCode: string;
 }
 
-export default function UIRegister() {
+export function UIRegister() {
   const [ sheetVisible, setSheetVisible ] = React.useState(false);
   const [ formData, setFormData ] = React.useState({} as RegisterForm);
 

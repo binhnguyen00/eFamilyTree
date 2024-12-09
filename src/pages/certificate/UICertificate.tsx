@@ -9,7 +9,7 @@ import { List, Stack, Text, useNavigate } from "zmp-ui";
 import { EFamilyTreeApi, FailResponse } from "utils";
 import { Header, CommonIcon } from "components";
 
-export default function UICertificate() {
+export function UICertificate() {
   const location = useLocation();
   const { certificateGroupId, certificateGroupName } = location.state || {  
     certificateGroupId: 0, 

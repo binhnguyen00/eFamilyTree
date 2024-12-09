@@ -10,7 +10,7 @@ import themeRed from "assets/img/theme/theme-red.jpeg";
 import themeGreen from "assets/img/theme/theme-green.jpeg";
 import themeBlue from "assets/img/theme/theme-blue.jpeg";
 
-export default function UITheme() {
+export function UITheme() {
   return (
     <div className="container">
       <Header title={t("theme")}/>

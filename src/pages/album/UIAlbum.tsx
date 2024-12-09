@@ -11,7 +11,7 @@ import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 
 import { Header, SizedBox } from "components";
 
-function UIAlbum() {
+export function UIAlbum() {
   return (
     <div className="container">
       <Header title={t("album")}/>
@@ -118,5 +118,3 @@ function UIAlbumList() {
     </Grid>
   )
 }
-
-export default UIAlbum;

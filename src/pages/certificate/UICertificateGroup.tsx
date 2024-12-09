@@ -8,7 +8,7 @@ import { Stack, Text, useNavigate } from "zmp-ui";
 import { EFamilyTreeApi, FailResponse } from "utils";
 
 /** Bảng Vàng */
-export default function UICerificateGroup() {
+export function UICerificateGroup() {
 
   const navigate = useNavigate();
   const phoneNumber = useRecoilValue(phoneState);

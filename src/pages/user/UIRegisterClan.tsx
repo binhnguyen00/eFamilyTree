@@ -18,7 +18,7 @@ type RegisterForm = {
   rollInClan: string;
 }
 
-export default function UIRegisterClan() {
+export function UIRegisterClan() {
   const [ sheetVisible, setSheetVisible ] = React.useState(false);
   const [ formData, setFormData ] = React.useState({} as RegisterForm);
 

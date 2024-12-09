@@ -11,7 +11,7 @@ import UIHomeAlbum from './UIHomeAlbum';
 import UIHomeBlog from './UIHomeBlog';
 import UIHomeTheme from './UIHomeTheme';
 
-export default function UIHomeLayout() {
+export function UIHomeLayout() {
 
   return (
     <div className='container text-base'>

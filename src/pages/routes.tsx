@@ -5,28 +5,28 @@ import { t } from "i18next";
 
 import { Loading, SwipeGesture } from "components";
 
-import { UIFamilyTree, UIFamilyTreeContainer } from "pages/family-tree/UIFamilyTree";
-import UIUser from "pages/user/UIUser";
-import UIHomeLayout from "pages/home/UIHomeLayout";
-import UIAbout from "pages/about/UIAbout";
-import UIImageList from "./album/UIImageList";
-import Navigation from "components/common/Navigation";
-import UIRegisterClan from "./user/UIRegisterClan";
-import UIRegister from "./user/UIRegister";
-import UITheme from "./theme/UITheme";
-import UIBlog from "./blog/UIBlog";
-import UIBlogDetail from "./blog/UIBlogDetail";
-import UIFund from "./fund/UIFund";
-import UIFundDetail from "./fund/UIFundDetail";
-import UICalendar from "./calendar/UICalendar";
-import UIAlbum from "./album/UIAlbum";
-import UIPlayground from "./dummy/UIPlayground";
-import UIDeveloper from "./dummy/UIDeveloper";
-import UIUpcoming from "./upcomming/UIUpcomming";
-import UIFamilyMember from "./family-tree/UIFamilyMember";
-import UICerificateGroup from "./certificate/UICertificateGroup";
-import UICertificate from "./certificate/UICertificate";
-import UICertificateDetail from "./certificate/UICertificateDetail";
+import { UIFamilyTree } from "pages/family-tree/UIFamilyTree";
+import { Navigation } from "components/common/Navigation";
+import { UIUser } from "pages/user/UIUser";
+import { UIHomeLayout } from "pages/home/UIHomeLayout";
+import { UIAbout } from "pages/about/UIAbout";
+import { UIImageList } from "./album/UIImageList";
+import { UIRegisterClan } from "./user/UIRegisterClan";
+import { UIRegister } from "./user/UIRegister";
+import { UITheme } from "./theme/UITheme";
+import { UIBlog } from "./blog/UIBlog";
+import { UIBlogDetail } from "./blog/UIBlogDetail";
+import { UIFund } from "./fund/UIFund";
+import { UIFundDetail } from "./fund/UIFundDetail";
+import { UICalendar } from "./calendar/UICalendar";
+import { UIAlbum } from "./album/UIAlbum";
+import { UIPlayground } from "./dummy/UIPlayground";
+import { UIDeveloper } from "./dummy/UIDeveloper";
+import { UIUpcomming } from "./upcomming/UIUpcomming";
+import { UIFamilyMember } from "./family-tree/UIFamilyMember";
+import { UICerificateGroup } from "./certificate/UICertificateGroup";
+import { UICertificate } from "./certificate/UICertificate";
+import { UICertificateDetail } from "./certificate/UICertificateDetail";
 
 // Demo components (lazy loaded)
 const UIDummyFund = lazy(() => import("./dummy/UIDummyFund"));
@@ -82,7 +82,7 @@ function SubRoutes() {
           <UICalendar />
         </Suspense>
       } />
-      <Route path="/upcoming" element={<UIUpcoming />} />
+      <Route path="/upcoming" element={<UIUpcomming />} />
       <Route path="/developer" element={<UIDeveloper />} />
       <Route path="/blogs" element={
         <Suspense fallback={<Loading message={t("loading_blogs")} />}>

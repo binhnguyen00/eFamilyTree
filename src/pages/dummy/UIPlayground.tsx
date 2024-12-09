@@ -43,7 +43,7 @@ const todoSelector = selector({
   }
 })
 
-function UIPlayground() {
+export function UIPlayground() {
   const { t, i18n } = useTranslation();
   const [ number, setState ] = useRecoilState(numberState);
   const numberValue = useRecoilValue(numberSelector);
@@ -102,5 +102,3 @@ function UIPlayground() {
     </div>
   )
 }
-
-export default UIPlayground;

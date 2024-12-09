@@ -8,7 +8,7 @@ import { Box, Grid, ImageViewer } from "zmp-ui";
 
 import { Header } from "components";
 
-function UIImageList() { 
+export function UIImageList() { 
   const location = useLocation();
   const [ visible, setVisible ] = React.useState(false);
   const [ activeIndex, setActiveIndex ] = React.useState(0);
@@ -95,5 +95,3 @@ function UIImageList() {
     </div>
   )
 }
-
-export default UIImageList;

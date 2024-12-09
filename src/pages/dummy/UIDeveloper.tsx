@@ -6,7 +6,7 @@ import { Button, Grid, Stack, Text, useNavigate } from "zmp-ui";
 
 import { Header } from "components";
 
-function UIDeveloper() {
+export function UIDeveloper() {
   // keys should be same as Route in ../main.tsx
   const funcKeyMap = {
     "playground": t("playground"),
@@ -86,5 +86,3 @@ function renderIcon(iconKey: string) {
       return <FcApproval size={"4.5rem"}/>
   }
 }
-
-export default UIDeveloper;

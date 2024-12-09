@@ -9,7 +9,7 @@ import { Header } from "components";
 
 import UISearchBar from "components/common/SearchBar";
 
-export default function UIFundDetail() {
+export function UIFundDetail() {
   const location = useLocation();
   const { fund } = location.state || null;
 

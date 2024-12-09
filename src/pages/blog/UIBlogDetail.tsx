@@ -8,7 +8,7 @@ import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 
 import { Header } from "components";
 
-function UIBlogDetail() {
+export function UIBlogDetail() {
   const location = useLocation();
   const { blog } = location.state || {
     title: "",
@@ -38,5 +38,3 @@ function UIBlogDetail() {
     </div>
   )
 }
-
-export default UIBlogDetail

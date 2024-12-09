@@ -10,7 +10,7 @@ import vietnam from "assets/img/about/vietnam.png";
 
 import { Header } from "components";
 
-function UIAbout() {
+export function UIAbout() {
   return (
     <div className="container">
       <Header title={t("about")}/>
@@ -92,5 +92,3 @@ function UIAbout() {
     </div>
   );
 };
-
-export default UIAbout;

@@ -11,7 +11,7 @@ import { FailResponse } from "utils/type";
 
 import { Header, SizedBox } from "components";
 
-export default function UICalendar() {
+export function UICalendar() {
   const phoneNumber = useRecoilValue(phoneState);
 
   const [ eventOnDate, setEventOnDate ] = React.useState<any[]>([]);

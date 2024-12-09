@@ -10,7 +10,7 @@ import { Header, Loading, Error, SearchBar } from "components";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { FailResponse } from "utils/type";
 
-export default function UIFund() {
+export function UIFund() {
   const navigate = useNavigate();
   const phoneNumber = useRecoilValue(phoneState);
 
