@@ -1,25 +1,11 @@
+@font-face {
+  font-family: 'Roboto';
+  src: url('src/css/font/Roboto-Regular.ttf') format('truetype');
+}
+
 .charmonman-regular {
   font-family: "Charmonman", cursive;
   font-weight: 400;
-  font-style: normal;
-}
-
-.charmonman-bold {
-  font-family: "Charmonman", cursive;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.roboto-regular {
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.lexend-regular {
-  font-family: "Lexend", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: bolder;
   font-style: normal;
 }
 

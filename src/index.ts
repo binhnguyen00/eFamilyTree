@@ -7,7 +7,7 @@ import "./css/tailwind.scss";
 import "./css/stylesheet.scss";
 import "./css/app.scss";
 import "./css/album.scss";
-import "./css/font.scss";
+import "./css/font/font.scss";
 import "./css/family-tree.scss";
 import "./css/bootstrap.scss";
 

@@ -8,5 +8,13 @@ export default () => {
     root: "./src",
     base: "",
     plugins: [react(), tsconfigPaths()],
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern', // or "modern"
+          includePaths: ["./src/css", "./src/css/theme"],
+        }
+      }
+    }
   });
 };

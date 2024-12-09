@@ -1,9 +1,9 @@
 @use "./theme/theme.scss" as *;
-@use "./font.scss" as *;
+@use "./font/font.scss" as *;
 
 #app {
   height: inherit;
-  @extend .lexend-regular; // Font Family
+  font-family: 'Roboto', serif;
 }
 
 body {
