@@ -19,11 +19,12 @@ interface TreeProps {
   rootId: string;
   nodeWidth: number;
   nodeHeight: number;
+  renderNode: (node: any) => React.ReactNode;
   placeholders?: boolean;
   className?: string;
   searchFields?: string[];
   statsForNerds?: boolean;
-  renderNode: (node: any) => React.ReactNode;
+  onReset?: () => void;
 }
 
 export default React.memo<TreeProps>(function FamilyTree(props) {
@@ -128,6 +129,7 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
             setShouldAnimate(true);
             setCrop((crop) => ({ ...crop, scale: crop.scale - scale }));
           }}
+          onReset={props.onReset}
         />
       </Box>
 
@@ -176,10 +178,11 @@ interface FamilyTreeControllerProps {
   onCenter: (xPos: number, yPos: number, scale: number) => void;
   onZoomIn: (xPos: number, yPos: number, scale: number) => void;
   onZoomOut: (xPos: number, yPos: number, scale: number) => void;
+  onReset?: () => void;
 }
 
 function FamilyTreeController(props: FamilyTreeControllerProps) {
-  let { onCenter, onZoomIn, onZoomOut, centerPos } = props;
+  let { onCenter, onZoomIn, onZoomOut, onReset, centerPos } = props;
 
   const style = {
     color: "var(--primary-color)",
@@ -192,25 +195,34 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
       style={style}
     >
       <SizedBox 
-        className='bg-secondary mb-1 p-1'
+        className='bg-secondary mb-1 p-1 button'
         width={"fit-content"} height={"fit-content"} border
         onClick={() => onCenter(centerPos.x, centerPos.y, 0.5)}
-        children={<CommonIcon.Home size={40}/>}
+        children={<CommonIcon.Home size={32}/>}
       />
 
       <SizedBox 
-        className='bg-secondary mb-1 p-1'
+        className='bg-secondary mb-1 p-1 button'
         width={"fit-content"} height={"fit-content"} border
         onClick={() => onZoomIn(0, 0, 0.1)}
-        children={<CommonIcon.ZoomIn size={40}/>}
+        children={<CommonIcon.ZoomIn size={32}/>}
       />
 
       <SizedBox 
-        className='bg-secondary p-1'
+        className='bg-secondary mb-1 p-1 button'
         width={"fit-content"} height={"fit-content"} border
         onClick={() => onZoomOut(0, 0, 0.1)}
-        children={<CommonIcon.ZoomOut size={40}/>}
+        children={<CommonIcon.ZoomOut size={32}/>}
       />
+
+      {onReset && (
+        <SizedBox 
+          className='bg-secondary p-1 button'
+          width={"fit-content"} height={"fit-content"} border
+          onClick={() => onReset()}
+          children={<CommonIcon.Reset size={32}/>}
+        />
+      )}
     </Box>
   )
 }

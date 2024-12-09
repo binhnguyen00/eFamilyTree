@@ -7,6 +7,7 @@ import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { IoMdLogIn, IoMdAdd, IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { LuMinus } from "react-icons/lu";
 import { MdPersonSearch } from "react-icons/md";
+import { GrPowerReset } from "react-icons/gr";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -25,4 +26,5 @@ export const CommonIcon = {
   Login: IoMdLogIn,
   Logout: TbLogout,
   SearchPerson: MdPersonSearch,
+  Reset: GrPowerReset,
 };

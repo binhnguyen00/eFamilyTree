@@ -5,8 +5,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { CommonIcon } from "components/icon/common";
 import { RequestPhone } from "./RequestPhone";
-import { useRecoilValue } from "recoil";
-import { phoneState } from "states";
 
 export function Navigation() {
   const location = useLocation();
