@@ -12,7 +12,7 @@ interface SearchBarProps {
   ) => void;
 }
 
-export default function UISearchBar(props: SearchBarProps) {
+export function SearchBar(props: SearchBarProps) {
   let { onSearch, placeholder } = props;
   if (!onSearch) {
     onSearch = (value: any, event: any) => {

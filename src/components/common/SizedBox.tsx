@@ -16,7 +16,7 @@ interface SizedBoxProps {
   style?: React.CSSProperties;
   onClick?: (event?: any) => void;
 }
-export default function SizedBox(props: SizedBoxProps) {
+export function SizedBox(props: SizedBoxProps) {
   let { 
     children, className, style, 
     width, height, 

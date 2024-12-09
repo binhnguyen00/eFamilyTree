@@ -7,7 +7,7 @@ interface UIRetryProps {
   onRetry: () => void;
 }
 
-export default function UIRetry({ message, onRetry }: UIRetryProps) {
+export function Retry({ message, onRetry }: UIRetryProps) {
   return (
     <Stack space="0.5rem" style={{
       textTransform: "capitalize"

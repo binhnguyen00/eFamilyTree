@@ -5,7 +5,7 @@ interface LoadingProps {
   message: string
   size?: "small" | "normal" | "large"
 }
-export default function Loading(props: LoadingProps) {
+export function Loading(props: LoadingProps) {
   let { message, size } = props;
   let width = 0;
   if (!size) size = "normal";

@@ -7,7 +7,7 @@ interface UIErrorProps {
   onRetry: () => void;
 }
 
-export default function Error(props: UIErrorProps) {
+export function Error(props: UIErrorProps) {
   const { message, onRetry } = props;
   return (
     <Stack space="0.5rem" style={{

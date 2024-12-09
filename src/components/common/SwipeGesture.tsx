@@ -9,7 +9,7 @@ import { swipeDisabledPathsAtom } from 'states';
  * @PageDisable Disable swipe gesture on some path
  * @SwipeRange Can be swiped only on the left side of the screen. Swipe range is about 30px
  */
-export default function SwipeGesture({ children }: { children: React.ReactNode }) {
+export function SwipeGesture({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
   const swipeDisabledPaths = useRecoilValue(swipeDisabledPathsAtom);

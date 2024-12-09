@@ -1,13 +1,13 @@
-import Error from "./Error";
-import Loading from "./Loading";
-import Retry from "./Retry";
-import Divider from "./Divider";
-import SwipeGesture from "./SwipeGesture";
-import ImageWithText from "./ImageWithText";
-import Navigation from "./Navigation";
-import SearchBar from "./SearchBar";
-import SizedBox from "./SizedBox";
+import { Error } from "./Error";
+import { Loading } from "./Loading";
+import { Retry } from "./Retry";
+import { Divider } from "./Divider";
+import { SwipeGesture } from "./SwipeGesture";
+import { ImageWithText } from "./ImageWithText";
+import { SearchBar } from "./SearchBar";
+import { SizedBox } from "./SizedBox";
 
+import { Navigation } from "./Navigation";
 import { RequestPhone } from "./RequestPhone";
 
 export { 

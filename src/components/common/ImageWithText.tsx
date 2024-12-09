@@ -8,7 +8,7 @@ interface ImageWithTextProps {
   height?: number | string;
 }
 
-export default function ImageWithText(props: ImageWithTextProps) {
+export function ImageWithText(props: ImageWithTextProps) {
   const { src, text, textStyle, width, height } = props;
 
   const overlayTextStyle = {
