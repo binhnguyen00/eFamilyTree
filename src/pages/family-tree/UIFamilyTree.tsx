@@ -12,12 +12,19 @@ import { Gender, Node } from "components/tree-relatives/types";
 export function UIFamilyTree() {
   const phoneNumber = useRecoilValue(phoneState);
 
-  let [ members, setMembers ] = React.useState<any[]>([]);
+  let [ members, setMembers ] = React.useState<any[]>([
+    {
+      name: t("family_member"), id: "", gender: Gender.male, avatar: "",
+      parents: [], siblings: [], spouses: [], children: []
+    }
+  ]);
   let [ rootId, setRootId ] = React.useState<string>("");
   let [ reload, setReload ] = React.useState(false);
+  let [ loading, setLoading ] = React.useState(true);
 
   React.useEffect(() => {
     const success = (result: any[] | string) => {
+      setLoading(false);
       if (typeof result === 'string') {
         console.warn(result);
       } else {
@@ -28,34 +35,27 @@ export function UIFamilyTree() {
       }
     }
     const fail = (error: FailResponse) => {
+      setLoading(false);
       console.error(error.stackTrace);
     } 
 
     EFamilyTreeApi.getMembers(phoneNumber, success, fail);
-  }, [ reload ])
+  }, [ reload, phoneNumber ]);
 
-  if (!members.length) {
-    return (
-      <UIFamilyTreeContainer 
-        nodes={[{
-          name: t("family_member"), id: "", gender: Gender.male, avatar: "",
-          parents: [], siblings: [], spouses: [], children: []
-        }]}
-        rootId={""}
-        phoneNumber={""}
-        onReload={() => {}}
-      />
-    );
-  } else {
-    return (
-      <UIFamilyTreeContainer 
-        nodes={members}
-        rootId={rootId}
-        phoneNumber={phoneNumber}
-        onReload={() => setReload(!reload)}
-      />
-    )
-  }
+  if (loading) return (
+    <div className="container">
+      <Header title={t("family_tree")} />
+      <Loading message={t("loading_family_tree")} />      
+    </div>
+  ) 
+  else return (
+    <UIFamilyTreeContainer 
+      nodes={members}
+      rootId={rootId}
+      phoneNumber={phoneNumber}
+      onReload={() => setReload(!reload)}
+    />
+  )
 }
 
 interface UIFamilyTreeContainerProps {
@@ -67,10 +67,16 @@ interface UIFamilyTreeContainerProps {
 export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) { 
   const navigate = useNavigate();
 
-  const [ familyMembers, setFamilyMembers ] = React.useState<any[]>(props.nodes);
+  const [ members, setMembers ] = React.useState<any[]>(props.nodes);
   const [ rootId, setRootId ] = React.useState<string>(props.rootId);
   const [ selectId, setSelectId ] = React.useState<string>("");
   const [ resetBtn, setResetBtn ] = React.useState<boolean>(false);
+  const [ reload, setReload ] = React.useState(false);
+
+  React.useEffect(() => {
+    setMembers(props.nodes);
+    setRootId(props.rootId);
+  }, [ reload ]);
 
   const showMemberDetail = () => {
     setSelectId("");
@@ -83,49 +89,23 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
 
   const renderTreeBranch = () => {
     setSelectId("");
-    const treeBranch = FamilyTreeUtils.getTreeBranch(selectId, familyMembers);
+    const treeBranch = FamilyTreeUtils.getTreeBranch(selectId, props.nodes);
+    setMembers(treeBranch);
     setRootId(selectId);
-    setFamilyMembers(treeBranch);
     setResetBtn(true);
   }
 
-  const PopupOption = () => {
-    return (
-      <Sheet
-        visible={selectId !== ""}
-        onClose={() => { setSelectId("") }}
-        autoHeight
-        handler
-        swipeToClose
-        title={`${FamilyTreeUtils.getMemberById(selectId, familyMembers)?.name || t("member_info")}`}
-      >
-        <Stack space="1rem">
-          <div className="p-2">
-            <Grid columnCount={2} columnSpace="0.2rem">
-              <Button variant="primary" onClick={showMemberDetail} prefixIcon={<CommonIcon.User size={"1.5rem"}/>}>
-                {t("btn_tree_member_info")}
-              </Button>
-              <Button variant="primary" onClick={renderTreeBranch} prefixIcon={<CommonIcon.Tree size={"1.5rem"}/>}>
-                {t("btn_tree_member_detail")}
-              </Button>
-            </Grid>
-          </div>
-        </Stack>
-      </Sheet>
-    )
-  }
-
-  const onReset = resetBtn ? () => {
-    if (props.onReload) props.onReload();
-    setResetBtn(false);
-  } : undefined;
-
   const Tree = () => {
-    return (
-      <div className="tree-container">
 
+    const onReset = resetBtn ? () => {
+      setReload(!reload);
+      setResetBtn(false);
+    } : undefined;
+
+    return (
+      <>
         <FamilyTree
-          nodes={familyMembers as any}
+          nodes={members}
           rootId={rootId}
           nodeHeight={TreeConfig.nodeHeight}
           nodeWidth={TreeConfig.nodeWidth}
@@ -143,14 +123,33 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
           )}
         />
 
-        <PopupOption/>
-
-      </div>
+        <Sheet
+          visible={selectId !== ""}
+          onClose={() => { setSelectId("") }}
+          autoHeight
+          handler
+          swipeToClose
+          title={`${FamilyTreeUtils.getMemberById(selectId, props.nodes)?.name || t("member_info")}`}
+        >
+          <Stack space="1rem">
+            <div className="p-2">
+              <Grid columnCount={2} columnSpace="0.2rem">
+                <Button variant="primary" onClick={showMemberDetail} prefixIcon={<CommonIcon.User size={"1.5rem"}/>}>
+                  {t("btn_tree_member_info")}
+                </Button>
+                <Button variant="primary" onClick={renderTreeBranch} prefixIcon={<CommonIcon.Tree size={"1.5rem"}/>}>
+                  {t("btn_tree_member_detail")}
+                </Button>
+              </Grid>
+            </div>
+          </Stack>
+        </Sheet>
+      </>
     );
   }
 
   return (
-    <div>
+    <div className="tree-container">
       <Header title={t("family_tree")}/>
 
       <Tree/>

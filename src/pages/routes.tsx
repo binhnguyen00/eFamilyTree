@@ -43,9 +43,7 @@ function MainRoutes() {
     <AnimationRoutes>
       <Route path="/" element={<UIHomeLayout />} />
       <Route path="/family-tree" element={
-        <Suspense fallback={<div className="container"> <Loading message={t("loading_family_tree")} /> </div>}>
-          <UIFamilyTree />
-        </Suspense>
+        <UIFamilyTree />
       } />
       <Route path="/user" element={
         <Suspense fallback={<div className="container"> <Loading message={t("loading")} /> </div>}>

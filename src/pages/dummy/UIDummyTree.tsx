@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Grid, Select, Sheet, Text, useNavigate, ZBox } from "zmp-ui";
+import { Button, Grid, Select, Sheet, useNavigate } from "zmp-ui";
 
 import average from "pages/family-tree/sample/average.json";
 import divorced from "pages/family-tree/sample/divorced.json";
@@ -21,6 +21,13 @@ export default function UIDummyTree() {
   const [ rootId, setRootId ] = React.useState(nodes[0].id);
   const [ selectId, setSelectId ] = React.useState<string>("");
   const [ selectNameField, setSelectNameField ] = React.useState<string>("id");
+  const [ resetBtn, setResetBtn ] = React.useState<boolean>(false);
+  const [ reload, setReload ] = React.useState(false);
+
+  React.useEffect(() => {
+    setNodes(average);
+    setRootId(average[0].id);
+  }, [ reload ])
 
   const navigate = useNavigate();
   const showMemberDetail = () => {
@@ -32,42 +39,46 @@ export default function UIDummyTree() {
   const renderTreeBranch = () => {
     setSelectId("");
     const treeBranch = FamilyTreeUtils.getTreeBranch(selectId, nodes);
-    console.log(treeBranch);
     setRootId(selectId);
     setNodes(treeBranch);
+    setResetBtn(true);
   }
+
+  const onReset = resetBtn ? () => {
+    setReload(!reload);
+    setResetBtn(false);
+  } : undefined;
 
   const renderTree = () => {
     return (
       <div className="tree-container">
-        {/* <Select
-          label={<p className="text-capitalize"> {t("data_source")} </p>}
-          defaultValue={1}
-          onChange={(val) => {
-            if (val === 4) {
-              const odooSample = dataSrcKey[Number(val)];
-              const odooMems = odooSample["members"] || null as any;
-              const members = FamilyTreeUtils.remapServerData(odooMems);
-              const final = FamilyTreeUtils.removeDuplicates(members);
-              console.log(members);
-              
-              setNodes(final);
-              setRootId(members[0].id);
-              setSelectNameField("name");
-            } else {
-              const members = dataSrcKey[Number(val)];
-              setNodes(members);
-              setRootId(members[0].id); 
-              setSelectNameField("id");
-            } 
-          }}
-          closeOnSelect
-        >
-          <Select.Option value={1} title={t("average")} />
-          <Select.Option value={2} title={t("several_spouses")} />
-          <Select.Option value={3} title={t("divorced")} />
-          <Select.Option value={4} title={t("Odoo")} />
-        </Select> */}
+        <div className="ml-1 mr-1">
+          <Select
+            defaultValue={1}
+            onChange={(val) => {
+              if (val === 4) {
+                const odooSample = dataSrcKey[Number(val)];
+                const odooMems = odooSample["members"] || null as any;
+                const members = FamilyTreeUtils.remapServerData(odooMems);
+                const final = FamilyTreeUtils.removeDuplicates(members);
+                setNodes(final);
+                setRootId(members[0].id);
+                setSelectNameField("name");
+              } else {
+                const members = dataSrcKey[Number(val)];
+                setNodes(members);
+                setRootId(members[0].id); 
+                setSelectNameField("id");
+              } 
+            }}
+            closeOnSelect
+          >
+            <Select.Option value={1} title={t("average")} />
+            <Select.Option value={2} title={t("several_spouses")} />
+            <Select.Option value={3} title={t("divorced")} />
+            <Select.Option value={4} title={t("Odoo")} />
+          </Select>
+        </div>
 
         <FamilyTree
           nodes={nodes as any}
@@ -76,16 +87,14 @@ export default function UIDummyTree() {
           nodeHeight={TreeConfig.nodeHeight}
           searchFields={["id", "name"]}
           statsForNerds
-          onReset={() => {
-            setNodes(average);
-          }}
+          onReset={onReset}
           renderNode={(node: any) => (
             <TreeNode
               key={node.id}
               node={node}
               displayField={selectNameField}
               isRoot={node.id === rootId}
-              onSelectNode={setSelectId}
+              onSelectNode={(id: string) => setSelectId(id)}
               style={FamilyTreeUtils.calculateNodePosition(node)}
             />
           )}
