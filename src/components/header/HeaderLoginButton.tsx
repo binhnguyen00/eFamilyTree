@@ -1,7 +1,7 @@
-import CommonIcons from "components/icon/common";
 import React from "react";
 import { useRecoilValue } from "recoil";
 import { userState } from "states";
+import { CommonIcon } from "components/icon/common";
 
 import { Avatar, Box, Text, useNavigate } from "zmp-ui";
 
@@ -24,7 +24,7 @@ export function HeaderLoginButton() {
       <Text size="small" onClick={() => navigate("/user")}> 
         {user.name} 
       </Text>
-      <CommonIcons.ChevonRight size={"1rem"}/>
+      <CommonIcon.ChevonRight size={"1rem"}/>
     </Box>
   )
 }

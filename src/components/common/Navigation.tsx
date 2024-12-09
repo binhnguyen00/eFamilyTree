@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Box, Text } from "zmp-ui";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import CommonIcons from "components/icon/common";
+import { CommonIcon } from "components/icon/common";
 import { RequestPhone } from "./RequestPhone";
 
 export function Navigation() {
@@ -24,22 +24,22 @@ export function Navigation() {
       <NavItem
         path="/"
         label={t("home")}
-        icon={<CommonIcons.Home size={24}/>}
-        activeIcon={<CommonIcons.Home size={32} className="text-tertiary"/>}
+        icon={<CommonIcon.Home size={24}/>}
+        activeIcon={<CommonIcon.Home size={32} className="text-tertiary"/>}
         requirePhone={false}
       /> 
       <NavItem
         path="/family-tree"
         label={t("family_tree")}
-        icon={<CommonIcons.Tree size={32}/>}
-        activeIcon={<CommonIcons.Tree size={40} className="text-tertiary"/>}
+        icon={<CommonIcon.Tree size={32}/>}
+        activeIcon={<CommonIcon.Tree size={40} className="text-tertiary"/>}
         requirePhone={true}
       /> 
       <NavItem
         path="/user"
         label={t("account")}
-        icon={<CommonIcons.User size={24}/>}
-        activeIcon={<CommonIcons.User size={32} className="text-tertiary"/>}
+        icon={<CommonIcon.User size={24}/>}
+        activeIcon={<CommonIcon.User size={32} className="text-tertiary"/>}
         requirePhone={false}
       /> 
     </div>
