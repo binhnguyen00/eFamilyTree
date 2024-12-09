@@ -126,6 +126,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
         <Sheet
           visible={selectId !== ""}
           onClose={() => { setSelectId("") }}
+          mask
           autoHeight
           handler
           swipeToClose

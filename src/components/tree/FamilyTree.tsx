@@ -12,7 +12,7 @@ import { useGesture } from "@use-gesture/react";
 
 
 // ============================================
-// Tree Controller
+// Tree
 // ============================================
 interface TreeProps {
   nodes: Node[];
@@ -276,7 +276,7 @@ function FamilyTreeSearch(props: FamilyTreeSearchProps) {
   return (
     <div style={style}>
 
-      <div className='flex-h border bg-secondary rounded p-2'>
+      <div className='flex-h border bg-secondary rounded p-1'>
         <input
           type='text'
           placeholder={t("search")}
