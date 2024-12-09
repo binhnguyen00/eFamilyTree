@@ -5,7 +5,7 @@ import { t } from "i18next";
 import { List, Text, useNavigate } from "zmp-ui";
 
 import { Header } from "components";
-import UISearchBar from "components/common/SearchBar";
+import { SearchBar } from "components/common/SearchBar";
 
 const data = [
   {
@@ -138,7 +138,7 @@ export default function UIDummyFund() {
     <div className="container">
       <Header title={t("funds")}/>
 
-      <UISearchBar 
+      <SearchBar 
         placeholder={t("search_funds")}
         onSearch={(text, event) => console.log(text)}
       />

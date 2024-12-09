@@ -7,7 +7,7 @@ import { Box, List, Text } from "zmp-ui";
 import { DateTimeUtils } from "utils/DateTimeUtils";
 import { Header } from "components";
 
-import UISearchBar from "components/common/SearchBar";
+import { SearchBar } from "components/common/SearchBar";
 
 export function UIFundDetail() {
   const location = useLocation();
@@ -73,7 +73,7 @@ export function UIFundDetail() {
     <div className="container">
       <Header title={fund.name}/>
 
-      <UISearchBar 
+      <SearchBar 
         placeholder={t("search_funds")}
         onSearch={(text, event) => console.log(text)}
       />
