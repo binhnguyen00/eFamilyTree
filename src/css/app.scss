@@ -1,5 +1,7 @@
 @use "./theme/theme.scss" as *;
 @use "./font/font.scss" as *;
+@use "./stylesheet.scss" as *;
+@use "./bootstrap.scss" as *;
 
 #app {
   height: inherit;
@@ -150,6 +152,24 @@ button, .button {
   &::after {
     height: 0 !important;
   }
+}
+
+.nav-item {
+  &.special {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--primary-color) !important;
+    color: var(--secondary-color) !important;
+    border: 1px solid var(--secondary-color) !important;
+    border-radius: 50% !important;
+    width: 80px;
+    height: 80px;
+    font-weight: bold;
+    @extend .flex-v, .center
+  }
+
 }
 
 // swipe gesture

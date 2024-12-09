@@ -29,10 +29,11 @@ export function Navigation() {
         requirePhone={false}
       /> 
       <NavItem
+        className="nav-item special"
         path="/family-tree"
-        label={t("family_tree")}
-        icon={<CommonIcon.Tree size={32}/>}
-        activeIcon={<CommonIcon.Tree size={40} className="text-tertiary"/>}
+        label={""}
+        icon={<CommonIcon.Tree size={40}/>}
+        activeIcon={null}
         requirePhone={true}
       /> 
       <NavItem
@@ -52,9 +53,10 @@ interface NavItemProps {
   icon: React.ReactNode;
   requirePhone: boolean;
   activeIcon?: React.ReactNode;
+  className?: string;
 }
 function NavItem(props: NavItemProps) {
-  let { path, label, icon, requirePhone, activeIcon } = props;
+  let { path, label, icon, requirePhone, activeIcon, className = "" } = props;
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -65,7 +67,7 @@ function NavItem(props: NavItemProps) {
   return (
     <>
       <Box 
-        className="center text-primary button"
+        className={`center text-primary button ${className}`}
         flex flexDirection="column" justifyContent="center"
         onClick={() => {
           if (requirePhone) {
