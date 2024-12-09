@@ -57,10 +57,14 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
   const nodeHeight = props.nodeHeight / 2;
   const treeWidth = data.canvas.width * nodeWidth;
   const treeHeight = data.canvas.height * nodeHeight;
-  const center = -((treeWidth - props.nodeWidth * 4) / 2);
+
+  const center = {
+    x: ((treeWidth / 2) - (window.innerWidth / 2)) * -1,
+    y: ((treeHeight / 2) - window.innerHeight / 4) * -1,
+  };
 
   let treeRef = React.useRef<HTMLDivElement | null>(null);
-  let [ crop, setCrop ] = React.useState({ x: center, y: center / 2, scale: 0.5 });
+  let [ crop, setCrop ] = React.useState({ x: center.x, y: center.y, scale: 0.5 });
   let [ shouldAnimate, setShouldAnimate ] = React.useState(false);
 
   useGesture(
@@ -75,31 +79,40 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
       },
     },
     {
+      eventOptions: {
+        passive: true, 
+        capture: false, 
+        pointer: true
+      },
       target: treeRef,
       enabled: true,
       drag: {
         from(state) {
           return [crop.x, crop.y];
         },
-      }
+        transform: ([x, y]) => [x, y]
+      },
     }
   );
 
   return (
-    <>
+    <div ref={treeRef} style={{ touchAction: "none" }}>
 
       <Box flex flexDirection='row' justifyContent='space-between' className='ml-1 mr-1'>
         <FamilyTreeSearch 
           searchFields={searchFields}
           nodes={props.nodes}
-          onSelect={(xPos, yPos, scale) => setCrop({ x: xPos, y: yPos, scale })}
+          onSelect={(xPos, yPos, scale) => {
+            setShouldAnimate(true);
+            setCrop({ x: xPos, y: yPos, scale })
+          }}
         />
 
         <FamilyTreeController 
-          centerPos={center}
+          centerPos={{ x: center.x, y: center.y }}
           onCenter={(xPos, yPos, scale) => {
             setShouldAnimate(true);
-            setCrop({ x: xPos, y: yPos / 2, scale: scale });
+            setCrop({ x: xPos, y: yPos, scale: scale });
           }}
           onZoomIn={(xPos, yPos, scale) => {
             if (crop.scale >= 2.2) return; // Scale Limit
@@ -115,7 +128,6 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
       </Box>
 
       <div
-        ref={treeRef}
         className={`${props.className} border`}
         style={{
           zIndex: -1,
@@ -148,7 +160,7 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
         </div>
       )}
 
-    </>
+    </div>
   );
 });
 
@@ -156,7 +168,7 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
 // Tree Controller
 // ============================================
 interface FamilyTreeControllerProps {
-  centerPos: number;
+  centerPos: { x: number, y: number };
   onCenter: (xPos: number, yPos: number, scale: number) => void;
   onZoomIn: (xPos: number, yPos: number, scale: number) => void;
   onZoomOut: (xPos: number, yPos: number, scale: number) => void;
@@ -175,21 +187,21 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
       style={style}
     >
       <SizedBox 
-        className='bg-blur mb-1 p-1'
+        className='bg-secondary mb-1 p-1'
         width={"fit-content"} height={"fit-content"} border
-        onClick={() => onCenter(centerPos, centerPos, 0.5)}
+        onClick={() => onCenter(centerPos.x, centerPos.y, 0.5)}
         children={<CommonIcon.Home size={40}/>}
       />
 
       <SizedBox 
-        className='bg-blur mb-1 p-1'
+        className='bg-secondary mb-1 p-1'
         width={"fit-content"} height={"fit-content"} border
         onClick={() => onZoomIn(0, 0, 0.1)}
         children={<CommonIcon.ZoomIn size={40}/>}
       />
 
       <SizedBox 
-        className='bg-blur p-1'
+        className='bg-secondary p-1'
         width={"fit-content"} height={"fit-content"} border
         onClick={() => onZoomOut(0, 0, 0.1)}
         children={<CommonIcon.ZoomOut size={40}/>}
@@ -215,18 +227,9 @@ function FamilyTreeSearch(props: FamilyTreeSearchProps) {
   const onSelectNode = (node: any) => {
     const div = document.querySelector<HTMLDivElement>(`#node-${node.id}`);
 
-    if (div) { // Get the div postion (x, y)
-      const nodeStyle = getComputedStyle(div);
-      const transform = nodeStyle.transform;
-      if (transform && transform !== 'none') {
-        const matrix = transform.match(/matrix\((.+)\)/) || transform.match(/matrix3d\((.+)\)/);
-        if (matrix && matrix[1]) {
-          const values = matrix[1].split(',').map(parseFloat);
-          const x = values[4];
-          const y = values[5];
-          onSelect(-(x - 100), -(y - 100), 0.8); // Zoom in the Node position
-        }
-      }
+    if (div) { 
+      const { x, y } = getDivPosition(div);
+      onSelect(-(x - 100), -(y - 100), 0.8); // Zoom in the Node position
     }
   }
 
@@ -250,7 +253,7 @@ function FamilyTreeSearch(props: FamilyTreeSearchProps) {
     } 
     if (!html.length) return null;;
     return(
-      <div className='flex-v bg-blur p-2' style={{ position: "fixed", ...style }}>
+      <div className='flex-v bg-secondary p-2' style={{ position: "fixed", ...style }}>
         {html}
       </div>
     );
@@ -265,7 +268,7 @@ function FamilyTreeSearch(props: FamilyTreeSearchProps) {
   return (
     <div style={style}>
 
-      <div className='flex-h border bg-blur rounded p-2'>
+      <div className='flex-h border bg-secondary rounded p-2'>
         <input
           type='text'
           placeholder={t("search")}
@@ -295,4 +298,20 @@ function FamilyTreeSearch(props: FamilyTreeSearchProps) {
 
     </div>
   )
+}
+
+function getDivPosition(div: HTMLDivElement | null) {
+  if (!div) return { x: 0, y: 0 };
+  const style = getComputedStyle(div);
+  const transform = style.transform;
+  if (transform && transform !== 'none') {
+    const matrix = transform.match(/matrix\((.+)\)/) || transform.match(/matrix3d\((.+)\)/);
+    if (matrix && matrix[1]) {
+      const values = matrix[1].split(',').map(parseFloat);
+      const x = values[4];
+      const y = values[5];
+      return { x, y };
+    }
+  }
+  return { x: 0, y: 0 };
 }
