@@ -29,22 +29,6 @@ interface TreeProps {
 export default React.memo<TreeProps>(function FamilyTree(props) {
   let { searchFields = [ "id" ] } = props;
 
-  if (props.nodes.length === 0) return (
-    <TreeNode 
-      node={{
-        name: "text", id: "", gender: Gender.male, avatar: "",
-        parents: [], siblings: [], spouses: [], children: []
-      }} 
-      displayField="" 
-      isRoot={true} 
-      onSelectNode={() => {}} 
-      style={{
-        width: (TreeConfig.nodeWidth),
-        height: (TreeConfig.nodeHeight),
-      }}
-    />
-  );
-
   let data = calcTree(
     props.nodes, 
     {
@@ -93,6 +77,24 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
         transform: ([x, y]) => [x, y]
       },
     }
+  );
+
+  if (props.nodes.length === 0) return (
+    <div ref={treeRef} style={{ touchAction: "none" }}>
+      <TreeNode 
+        node={{
+          name: "text", id: "", gender: Gender.male, avatar: "",
+          parents: [], siblings: [], spouses: [], children: []
+        }} 
+        displayField="" 
+        isRoot={true} 
+        onSelectNode={() => {}} 
+        style={{
+          width: (TreeConfig.nodeWidth),
+          height: (TreeConfig.nodeHeight),
+        }}
+      />
+    </div>
   );
 
   return (
