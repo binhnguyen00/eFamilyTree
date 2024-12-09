@@ -130,7 +130,7 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
       <div
         className={`${props.className} border`}
         style={{
-          zIndex: -1,
+          zIndex: 1,
           position: 'relative',
           width: treeWidth,
           height: treeHeight,
@@ -179,6 +179,7 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
 
   const style = {
     color: "var(--primary-color)",
+    zIndex: 2,
   } as React.CSSProperties;
 
   return (
@@ -262,7 +263,8 @@ function FamilyTreeSearch(props: FamilyTreeSearchProps) {
   const style = {
     color: "var(--primary-color)",
     fontSize: "1.2rem",
-    width: "80vw"
+    width: "80vw",
+    zIndex: 2,
   } as React.CSSProperties;
 
   return (
