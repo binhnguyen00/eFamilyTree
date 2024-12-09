@@ -152,8 +152,8 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
   return (
     <div className="tree-container">
       <Header title={t("family_tree")}/>
-
-      <Tree/>
+      
+      {Tree()}
     </div>
   )
 }
