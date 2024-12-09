@@ -18,7 +18,6 @@ export function RequestPhone(props: { visible: boolean, closeSheet: () => void }
       swipeToClose
       onClose={closeSheet}
       title={t("need_login")}
-      className="text-capitalize"
     >
       <Stack space="1rem" className="p-3">
         <Box flex flexDirection="row" alignItems="center">
