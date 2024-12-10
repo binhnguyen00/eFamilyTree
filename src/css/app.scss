@@ -12,8 +12,9 @@ body {
   background-color: var(--primary-color) !important;
   color: var(--secondary-color) !important;
 
-  background: url("../assets/img/background/bg-grid.png") repeat center center;
-  background-size: 900px;
+  background: 
+    url("../assets/img/background/pattern-cloud-01.png") repeat 10% 90%;
+  background-size: 400px 400px;
 }
 
 .container {
@@ -67,9 +68,9 @@ body {
 // header
 .zaui-header {
   height: calc(var(--zaui-safe-area-inset-top, 0px) + var(--header-height)) !important;
-  background: url("../assets/img/background/bg-grid.png") no-repeat center center !important;
+  background: url("../assets/img/background/pattern-cloud-02.png") no-repeat 70% 40% !important;
   background-color: var(--header-color) !important;
-  background-size: 900px !important;
+  background-size: 300px !important;
   color: var(--secondary-color) !important;
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
