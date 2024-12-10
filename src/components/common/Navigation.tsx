@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Box, Text } from "zmp-ui";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Box, Text, useNavigate } from "zmp-ui";
+import { useLocation } from "react-router-dom";
 
 import { CommonIcon } from "components/icon/common";
 import { RequestPhone } from "./RequestPhone";
