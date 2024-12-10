@@ -109,7 +109,6 @@ button, .button {
   }
   text-transform: capitalize;
   border-radius: 0.7rem !important;
-  touch-action: none;
 }
 
 .button-link {
@@ -179,7 +178,7 @@ button, .button {
       transform: translateX(-50%) scale(0.85);
     }
     
-    @extend .flex-v, .center
+    @extend .flex-v, .center;
   }
 }
 
