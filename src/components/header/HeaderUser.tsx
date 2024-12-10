@@ -25,9 +25,9 @@ export function HeaderUser() {
             src={user.avatar.startsWith("http") ? user.avatar : UNKNOWN_AVATAR}
             onClick={() => navigate("/user")}
           />
-          <Text size="small" className="button" onClick={() => navigate("/user")}> 
+          <Text.Title size="small" style={{ fontWeight: "bolder", textShadow: "1.5px 1.5px 1.5px black" }} className="button" onClick={() => navigate("/user")}> 
             {t(user.name)} 
-          </Text>
+          </Text.Title>
         </Box>
       )
     }

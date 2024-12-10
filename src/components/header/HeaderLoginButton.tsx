@@ -21,9 +21,9 @@ export function HeaderLoginButton() {
           navigate("/user")
         }}
       />
-      <Text size="small" onClick={() => navigate("/user")}> 
+      <Text.Title size="small" style={{ fontWeight: "bolder", textShadow: "1.5px 1.5px 1.5px black" }} onClick={() => navigate("/user")}> 
         {user.name} 
-      </Text>
+      </Text.Title>
       <CommonIcon.ChevonRight size={"1rem"}/>
     </Box>
   )

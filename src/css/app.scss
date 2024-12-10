@@ -72,9 +72,9 @@ body {
 // header
 .zaui-header {
   height: calc(var(--zaui-safe-area-inset-top, 0px) + var(--header-height)) !important;
-  background: url("../assets/img/background/pattern-cloud-02.png") no-repeat 70% 50% !important;
+  background: url("../assets/img/background/pattern-cloud-02.png") no-repeat 70% 45% !important;
   background-color: var(--header-color) !important;
-  background-size: 220px !important;
+  background-size: 210px !important;
   color: var(--secondary-color) !important;
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
