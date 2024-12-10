@@ -8,7 +8,7 @@ import { FailResponse } from "utils/type";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { CommonIcon } from "components";
 
-export default function UIHomeBlog() {
+export function UIHomeBlog() {
   const [ blogs, setBlogs ] = React.useState<any[]>([]);
 
   const navigate = useNavigate();

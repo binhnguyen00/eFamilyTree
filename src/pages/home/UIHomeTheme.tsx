@@ -5,7 +5,7 @@ import { Box, Stack, Text, useNavigate } from "zmp-ui";
 import { CommonIcon } from "components";
 import { UIThemeList } from "pages/theme/UITheme";
 
-export default function UIHomeTheme() {
+export function UIHomeTheme() {
   const navigate = useNavigate();
 
   return (

@@ -7,7 +7,7 @@ import banner_01 from "assets/img/banner/banner-01.jpg";
 import banner_02 from "assets/img/banner/banner-02.jpg";
 import banner_03 from "assets/img/banner/banner-03.jpg";
 
-export default function UIHomeBanner() {
+export function UIHomeBanner() {
 
   return (
     <Stack space="0.5rem">

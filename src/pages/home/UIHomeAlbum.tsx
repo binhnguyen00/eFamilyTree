@@ -8,7 +8,7 @@ import { FailResponse } from "utils/type";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { CommonIcon } from "components";
 
-export default function UIHomeAlbum() {
+export function UIHomeAlbum() {
   const [ albums, setAlbums ] = React.useState<any[]>([]);
 
   const navigate = useNavigate();

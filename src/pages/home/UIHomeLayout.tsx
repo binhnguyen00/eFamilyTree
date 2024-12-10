@@ -5,11 +5,11 @@ import { t } from 'i18next';
 
 import { Header, HeaderUser, Divider, Loading } from 'components';
 
-import UIHomeBanner from './UIHomeBanner';
-import UIHomeAppList from './UIHomeAppList';
-import UIHomeAlbum from './UIHomeAlbum';
-import UIHomeBlog from './UIHomeBlog';
-import UIHomeTheme from './UIHomeTheme';
+import { UIHomeBanner } from './UIHomeBanner';
+import { UIHomeAppList } from './UIHomeAppList';
+import { UIHomeAlbum } from './UIHomeAlbum';
+import { UIHomeBlog } from './UIHomeBlog';
+import { UIHomeTheme } from './UIHomeTheme';
 
 export function UIHomeLayout() {
 
@@ -22,11 +22,7 @@ export function UIHomeLayout() {
       }/>
 
       <Stack space='1.2rem'>
-        <React.Suspense fallback={
-          <Loading message={t("loading")}/>
-        }>
-          <UIHomeBanner/>
-        </React.Suspense>
+        <UIHomeBanner/>
 
         <Divider/>
 
@@ -38,17 +34,13 @@ export function UIHomeLayout() {
 
         <Divider/>
 
-        <React.Suspense fallback={
-          <Loading message={t("loading")}/>
-        }>
+        <React.Suspense fallback={<Loading message={t("loading")}/>}>
           <UIHomeAlbum/>
         </React.Suspense>
 
         <Divider/>
 
-        <React.Suspense fallback={
-          <Loading message={t("loading")}/>
-        }>
+        <React.Suspense fallback={<Loading message={t("loading")}/>}>
           <UIHomeBlog/>
         </React.Suspense>
 

@@ -12,7 +12,7 @@ interface App {
   label: string;
   requirePhone: boolean;
 }
-export default function UIHomeAppList() {
+export function UIHomeAppList() {
 
   const apps: App[] = [
     { key: "family-tree", label: t("family_tree"), requirePhone: true },
