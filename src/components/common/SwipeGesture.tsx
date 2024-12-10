@@ -22,7 +22,6 @@ export function SwipeGesture({ children }: { children: React.ReactNode }) {
       }
     },
     onTouchStartOrOnMouseDown: (({ event }) => {
-      // if (isSwipeDisabled) event.preventDefault();
       let clientX: number | undefined;
       // Handle TouchEvent
       if ((event as TouchEvent).changedTouches) {
