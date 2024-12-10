@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Box, Grid, Stack, Text, useNavigate } from "zmp-ui";
+import { Box, Button, Grid, Stack, Text, useNavigate } from "zmp-ui";
 import { logedInState, phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
@@ -91,9 +91,10 @@ export function UIHomeAlbum() {
       <Box flex flexDirection="row" justifyContent="space-between" >
         <Text.Title size="xLarge" className="text-capitalize"> {t("album")} </Text.Title>
         {albums.length ? (
-          <Box flex flexDirection="row" alignItems="center" className="button" onClick={goToAlbumList}>
-            <Text size="small"> {t("more")} </Text>
-            <CommonIcon.ChevonRight size={"1rem"}/>
+          <Box flex flexDirection="row" alignItems="center" alignContent="center" className="button">
+            <Button size="small" variant="secondary" suffixIcon={<CommonIcon.ChevonRight size={"1rem"}/>} onClick={goToAlbumList}>
+              <Text> {t("more")} </Text>
+            </Button>
           </Box>
         ) : null}
       </Box>

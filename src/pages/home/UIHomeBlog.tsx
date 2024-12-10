@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Box, Stack, Text, useNavigate } from "zmp-ui";
+import { Box, Button, Stack, Text, useNavigate } from "zmp-ui";
 import { logedInState, phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
@@ -95,9 +95,10 @@ export function UIHomeBlog() {
       <Box flex flexDirection="row" justifyContent="space-between">
         <Text.Title size="xLarge" className="text-capitalize"> {t("blogs")} </Text.Title>
         {blogs.length ? (
-          <Box flex flexDirection="row" alignItems="center" className="button" onClick={goToBlogs}>
-            <Text size="small"> {t("more")} </Text>
-            <CommonIcon.ChevonRight size={"1rem"}/>
+          <Box flex flexDirection="row" alignItems="center" alignContent="center" className="button">
+            <Button size="small" variant="secondary" suffixIcon={<CommonIcon.ChevonRight size={"1rem"}/>} onClick={goToBlogs}>
+              <Text> {t("more")} </Text>
+            </Button>
           </Box>
         ) : null}
       </Box>

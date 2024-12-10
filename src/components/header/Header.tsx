@@ -35,7 +35,7 @@ export function Header(props: HeaderProps) {
           <Box flex flexDirection="row" justifyContent="flex-start">
             {logo && (logo)}
             <Stack>
-              <Text.Title className="text-capitalize">
+              <Text.Title className="text-capitalize text-shadow" style={{ fontWeight: "bolder" }}>
                 {title}
               </Text.Title>
               <Text size="xSmall">{subtitle}</Text>

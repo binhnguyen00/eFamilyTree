@@ -76,8 +76,7 @@ function AppButton(props: { appKey: string; label: string; onClick: () => void }
         <Text
           key={`title-${appKey}`} 
           size="small" 
-          className="mt-2"
-          style={{ textTransform: "capitalize", textAlign: "center" }}
+          className="mt-2 text-shadow text-capitalize text-center"
         >
           {label}
         </Text>

@@ -13,7 +13,7 @@ export function Divider(props: UIDividerProps) {
     <Box 
       style={{
         minHeight: size,
-        opacity: 0.5,
+        opacity: 1,
       }}
       {...props}
       className="bg-tertiary"

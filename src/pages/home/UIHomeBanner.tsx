@@ -17,7 +17,7 @@ export function UIHomeBanner() {
 
   return (
     <Stack space="0.5rem">
-      <Text.Title size="xLarge"> {t("family_tree")} </Text.Title>
+      <Text.Title size="xLarge" className="text-capitalize"> {t("family_tree")} </Text.Title>
       <Swiper loop autoplay>
         <Swiper.Slide>
           <React.Suspense>
