@@ -27,7 +27,7 @@ export function UIHomeBanner() {
                   <p>{"Lan toả tới"}</p>
                   <p>{"Những người yêu thương"}</p>
                   <Box flex flexDirection="row" justifyContent="center">
-                    <Button variant="primary" size="small" onClick={onRegister}>  {t("register")} </Button>
+                    <Button variant="secondary" size="small" onClick={onRegister}>  {t("register")} </Button>
                   </Box>
                 </Stack>
               }
@@ -37,6 +37,7 @@ export function UIHomeBanner() {
             />
           </React.Suspense>
         </Swiper.Slide>
+
         <Swiper.Slide>
           <React.Suspense>
             <ImageWithText 
@@ -52,6 +53,7 @@ export function UIHomeBanner() {
             />
           </React.Suspense>
         </Swiper.Slide>
+
         <Swiper.Slide>
           <React.Suspense>
             <ImageWithText 
@@ -67,6 +69,7 @@ export function UIHomeBanner() {
             />
           </React.Suspense>
         </Swiper.Slide>
+
         <Swiper.Slide>
           <React.Suspense>
             <ImageWithText 
@@ -81,6 +84,7 @@ export function UIHomeBanner() {
             />
           </React.Suspense>
         </Swiper.Slide>
+
       </Swiper>
     </Stack>
   )
