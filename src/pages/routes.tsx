@@ -42,14 +42,8 @@ function MainRoutes() {
   return (
     <AnimationRoutes>
       <Route path="/" element={<UIHomeLayout />} />
-      <Route path="/family-tree" element={
-        <UIFamilyTree />
-      } />
-      <Route path="/user" element={
-        <Suspense fallback={<div className="container"> <Loading message={t("loading")} /> </div>}>
-          <UIUser/>
-        </Suspense>
-      } />
+      <Route path="/family-tree" element={<UIFamilyTree />} />
+      <Route path="/user" element={<UIUser/>} />
     </AnimationRoutes>
   );
 }
@@ -59,40 +53,16 @@ function SubRoutes() {
   return (
     <AnimationRoutes>
 
-      <Route path="/family-member-info" element={
-        <Suspense fallback={<Loading message={t("loading")} />}>
-          <UIFamilyMember />
-        </Suspense>
-      } />
+      <Route path="/family-member-info" element={<UIFamilyMember />} />
       <Route path="/about" element={<UIAbout />} />
-      <Route path="/album" element={
-        <Suspense fallback={<Loading message={t("loading_album")} />}>
-          <UIAlbum />
-        </Suspense>
-      } />
-      <Route path="/album/image-list" element={
-        <Suspense fallback={<Loading message={t("loading_album")} />}>
-          <UIImageList />
-        </Suspense>
-      } />
-      <Route path="/calendar" element={
-        <Suspense fallback={<Loading message={t("loading_calendar")} />}>
-          <UICalendar />
-        </Suspense>
-      } />
+      <Route path="/album" element={<UIAlbum />} />
+      <Route path="/album/image-list" element={<UIImageList />} />
+      <Route path="/calendar" element={<UICalendar />} />
       <Route path="/upcoming" element={<UIUpcomming />} />
       <Route path="/developer" element={<UIDeveloper />} />
-      <Route path="/blogs" element={
-        <Suspense fallback={<Loading message={t("loading_blogs")} />}>
-          <UIBlog />
-        </Suspense>
-      } />
+      <Route path="/blogs" element={<UIBlog />} />
       <Route path="/blog-detail" element={<UIBlogDetail />} />
-      <Route path="/funds" element={
-        <Suspense fallback={<Loading message={t("loading_funds")} />}>
-          <UIFund />
-        </Suspense>
-      } />
+      <Route path="/funds" element={<UIFund />} />
       <Route path="/register-clan" element={<UIRegisterClan />} />
       <Route path="/register" element={<UIRegister />} />
       <Route path="/theme" element={<UITheme />} />

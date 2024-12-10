@@ -13,7 +13,7 @@ function Application() {
       <App>
         <ThemeProvider>
           <SnackbarProvider>
-            <ZMPRouter memoryRouter>
+            <ZMPRouter>
               <UIRoutes/>
             </ZMPRouter>
           </SnackbarProvider>
