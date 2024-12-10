@@ -109,6 +109,7 @@ button, .button {
   }
   text-transform: capitalize;
   border-radius: 0.7rem !important;
+  touch-action: none;
 }
 
 .button-link {

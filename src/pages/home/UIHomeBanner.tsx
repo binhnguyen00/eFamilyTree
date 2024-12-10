@@ -26,14 +26,14 @@ export function UIHomeBanner() {
                 <Stack space="1rem">
                   <p>{"Lan toả tới"}</p>
                   <p>{"Những người yêu thương"}</p>
-                  <Box flex flexDirection="row" justifyContent="center">
-                    <Button variant="secondary" size="small" onClick={onRegister}>  {t("register")} </Button>
+                  <Box flex flexDirection="row" justifyContent="center" className="box-shadow">
+                    <Button variant="primary" size="small" onClick={onRegister}>  {t("register")} </Button>
                   </Box>
                 </Stack>
               }
               textStyle={{ fontSize: "1.5rem" }}
               src={banner_04}
-              height={150}
+              height={180}
             />
           </React.Suspense>
         </Swiper.Slide>
@@ -49,7 +49,7 @@ export function UIHomeBanner() {
               }
               textStyle={{ fontSize: "2rem" }}
               src={banner_01}
-              height={150}
+              height={180}
             />
           </React.Suspense>
         </Swiper.Slide>
@@ -65,7 +65,7 @@ export function UIHomeBanner() {
               }
               textStyle={{ fontSize: "1.5rem" }}
               src={banner_02}
-              height={150}
+              height={180}
             />
           </React.Suspense>
         </Swiper.Slide>
@@ -80,7 +80,7 @@ export function UIHomeBanner() {
               }
               textStyle={{ fontSize: "2rem" }}
               src={banner_03}
-              height={150}
+              height={180}
             />
           </React.Suspense>
         </Swiper.Slide>
