@@ -7,7 +7,7 @@ import Connector from './Connector';
 import calcTree from 'components/tree-relatives';
 import { Node } from 'components/tree-relatives/types';
 
-import { SizedBox, CommonIcon } from 'components';
+import { SizedBox, CommonIcon, Divider } from 'components';
 import { useGesture } from "@use-gesture/react";
 
 
@@ -23,6 +23,7 @@ interface TreeProps {
   placeholders?: boolean;
   className?: string;
   searchFields?: string[];
+  searchDisplayField?: string;
   statsForNerds?: boolean;
   onReset?: () => void;
 }
@@ -87,6 +88,7 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
       <Box flex flexDirection='row' justifyContent='space-between' className='ml-1 mr-1'>
         <FamilyTreeSearch 
           searchFields={searchFields}
+          displayField={props.searchDisplayField}
           nodes={props.nodes}
           onSelect={(xPos, yPos, scale) => {
             setShouldAnimate(true);
@@ -115,7 +117,7 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
       </Box>
 
       <div
-        className={`${props.className} border`}
+        className={`${props.className}`}
         style={{
           zIndex: 1,
           position: 'relative',
@@ -223,11 +225,12 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
 interface FamilyTreeSearchProps {
   nodes: Node[];
   searchFields?: string[];
+  displayField?: string;
   onSelect: (xPos: number, yPos: number, scale: number) => void;
 }
 
 function FamilyTreeSearch(props: FamilyTreeSearchProps) {
-  let { nodes, searchFields, onSelect } = props;
+  let { nodes, searchFields, onSelect, displayField = "id" } = props;
 
   let [ filteredNodes, setFilteredNodes ] = React.useState<any[]>([]);
 
@@ -251,16 +254,26 @@ function FamilyTreeSearch(props: FamilyTreeSearchProps) {
               onSelectNode(node);
               setFilteredNodes([]);
             }} 
-            className='border mb-1 p-1'
+            className='mb-1 p-1'
+            style={{ borderBottom: "1px solid var(--primary-color)" }}
           >
-            <span> {node.id} </span> <span> {node.name} </span>
+            <span> {node[displayField] || node.id} </span>
           </div>
         )
       })
     } 
     if (!html.length) return null;;
     return(
-      <div className='flex-v bg-secondary p-2' style={{ position: "fixed", ...style }}>
+      <div 
+        className='flex-v bg-secondary p-2 rounded' 
+        style={{ 
+          position: "fixed", 
+          height: "fit-content", 
+          overflow: "auto", 
+          maxHeight: "300px", 
+          ...style 
+        }}
+      >
         {html}
       </div>
     );

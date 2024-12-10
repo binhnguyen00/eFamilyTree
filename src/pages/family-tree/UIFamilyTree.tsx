@@ -25,7 +25,7 @@ export function UIFamilyTree() {
   React.useEffect(() => {
     const success = (result: any[] | string) => {
       setLoading(false);
-      if (typeof result === 'string') {
+      if (result["error"]) {
         console.warn(result);
       } else {
         const data = result["members"] || null;
@@ -110,6 +110,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
           nodeHeight={TreeConfig.nodeHeight}
           nodeWidth={TreeConfig.nodeWidth}
           searchFields={["id", "name"]}
+          searchDisplayField="name"
           onReset={onReset}
           renderNode={(node: any) => (
             <TreeNode
