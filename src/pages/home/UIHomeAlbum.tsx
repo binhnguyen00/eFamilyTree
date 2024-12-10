@@ -89,7 +89,7 @@ export function UIHomeAlbum() {
     <Stack space="0.5rem">
 
       <Box flex flexDirection="row" justifyContent="space-between" >
-        <Text.Title size="xLarge" className="text-capitalize"> {t("album")} </Text.Title>
+        <Text.Title size="xLarge" className="text-capitalize text-shadow"> {t("album")} </Text.Title>
         {albums.length ? (
           <Box flex flexDirection="row" alignItems="center" alignContent="center" className="button">
             <Button size="small" variant="secondary" suffixIcon={<CommonIcon.ChevonRight size={"1rem"}/>} onClick={goToAlbumList}>

@@ -12,7 +12,7 @@ export function UIHomeTheme() {
     <Stack space="0.5rem">
 
       <Box flex flexDirection="row" justifyContent="space-between">
-        <Text.Title size="xLarge" className="text-capitalize"> {t("theme")} </Text.Title>
+        <Text.Title size="xLarge" className="text-capitalize text-shadow"> {t("theme")} </Text.Title>
         <Box flex flexDirection="row" alignItems="center" alignContent="center" className="button">
           <Button size="small" variant="secondary" suffixIcon={<CommonIcon.ChevonRight size={"1rem"}/>} onClick={() => navigate("/theme")}>
             <Text> {t("more")} </Text>

@@ -14,7 +14,7 @@ import { UIHomeTheme } from './UIHomeTheme';
 export function UIHomeLayout() {
 
   return (
-    <div className='container text-base text-shadow'>
+    <div className='container text-base'>
       <Header showBackIcon={false} customRender={
         <React.Suspense fallback={t("loading")}>
           <HeaderUser/>
