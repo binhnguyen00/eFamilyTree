@@ -18,7 +18,8 @@ export function UIHomeBanner() {
   return (
     <Stack space="0.5rem">
       <Text.Title size="xLarge" className="text-capitalize"> {t("family_tree")} </Text.Title>
-      <Swiper loop autoplay>
+      <Swiper duration={10000}>
+        
         <Swiper.Slide>
           <React.Suspense>
             <ImageWithText 
@@ -27,7 +28,7 @@ export function UIHomeBanner() {
                   <p>{"Lan toả tới"}</p>
                   <p>{"Những người yêu thương"}</p>
                   <Box flex flexDirection="row" justifyContent="center">
-                    <Button variant="primary" size="small" onClick={onRegister}>  {t("register")} </Button>
+                    <Button variant="secondary" size="small" onClick={onRegister}>  {t("register")} </Button>
                   </Box>
                 </Stack>
               }
@@ -37,6 +38,7 @@ export function UIHomeBanner() {
             />
           </React.Suspense>
         </Swiper.Slide>
+
         <Swiper.Slide>
           <React.Suspense>
             <ImageWithText 
@@ -52,6 +54,7 @@ export function UIHomeBanner() {
             />
           </React.Suspense>
         </Swiper.Slide>
+
         <Swiper.Slide>
           <React.Suspense>
             <ImageWithText 
@@ -67,6 +70,7 @@ export function UIHomeBanner() {
             />
           </React.Suspense>
         </Swiper.Slide>
+
         <Swiper.Slide>
           <React.Suspense>
             <ImageWithText 
@@ -81,6 +85,7 @@ export function UIHomeBanner() {
             />
           </React.Suspense>
         </Swiper.Slide>
+
       </Swiper>
     </Stack>
   )
