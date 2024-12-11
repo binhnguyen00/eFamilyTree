@@ -1,48 +1,51 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 
-const scrollPositions = {};
+const scrollPositions: Record<string, number> = {};
 
 export function PagePositionSaver() {
   const location = useLocation();
-  React.useEffect(() => {
-    // Look for the main scroll element on the page
-    const content = findElementWithScrollbar();
-    if (content) {
-      const key = `${location.pathname}${location.search}`;
-      if (scrollPositions[key]) {
-        // Scroll to the previous position on this new location
-        content.scrollTo(0, scrollPositions[key]);
-      }
-      const saveScrollPosition = (e: Event) => {
-        // Save position on scroll
-        scrollPositions[key] = content.scrollTop;
-      };
-      content.addEventListener("scroll", saveScrollPosition);
-      return () => content.removeEventListener("scroll", saveScrollPosition);
-    }
-    return () => {};
-  }, [location]);
+  const currentScrollKey = React.useRef<string>("");
 
-  return <></>;
+  React.useEffect(() => {
+    const content = findElementWithScrollbar();
+    if (!content) return;
+
+    const key = `${location.pathname}${location.search}`;
+    currentScrollKey.current = key;
+
+    // Restore previous scroll position
+    if (scrollPositions[key] !== undefined) {
+      content.scrollTo(0, scrollPositions[key]);
+    }
+
+    // Save scroll position on scroll
+    const saveScrollPosition = () => {
+      scrollPositions[key] = content.scrollTop;
+    };
+
+    content.addEventListener("scroll", saveScrollPosition);
+
+    // Cleanup on unmount or dependency change
+    return () => {
+      content.removeEventListener("scroll", saveScrollPosition);
+    };
+  }, [ location ]);
+
+  return null;
 }
 
-function findElementWithScrollbar(rootElement: Element = document.body) {
+function findElementWithScrollbar(rootElement: Element = document.body): Element | null {
   if (rootElement.scrollHeight > rootElement.clientHeight) {
-    // If the element has a scrollbar, return it
-    return rootElement;
+    return rootElement; // Element has a scrollbar
   }
 
-  // If the element doesn't have a scrollbar, check its child elements
-  for (let i = 0; i < rootElement.children.length; i++) {
-    const childElement = rootElement.children[i];
+  for (const childElement of Array.from(rootElement.children)) {
     const elementWithScrollbar = findElementWithScrollbar(childElement);
     if (elementWithScrollbar) {
-      // If a child element has a scrollbar, return it
       return elementWithScrollbar;
     }
   }
 
-  // If none of the child elements have a scrollbar, return null
-  return null;
+  return null; // No scrollable element found
 }
