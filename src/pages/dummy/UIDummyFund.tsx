@@ -1,17 +1,16 @@
 import React from "react";
-import { IoIosArrowForward } from "react-icons/io";
 
 import { t } from "i18next";
-import { List, Text, useNavigate } from "zmp-ui";
+import { Box, Text, useNavigate } from "zmp-ui";
 
-import { Header } from "components";
+import { CommonIcon, Divider, Header } from "components";
 import { SearchBar } from "components/common/SearchBar";
 
 const data = [
   {
     "name": "Quỹ Đám Giỗ",
     "dong_ho": "Phạm Khắc",
-    "total_amount": 10000000,
+    "total_amount": 1850000,
     "income_ids": [
       {
         "id": 6,
@@ -58,7 +57,7 @@ const data = [
   {
     "name": "Quỹ Sinh Nhật",
     "dong_ho": "Dòng họ Phạm Khắc",
-    "total_amount": 7000000,
+    "total_amount": 5500000,
     "income_ids": [
       {
         "id": 7,
@@ -114,23 +113,24 @@ export default function UIDummyFund() {
       const totalAmount = Number.parseFloat(item["total_amount"]);
       const formatted = new Intl.NumberFormat('id-ID').format(totalAmount)
       html.push(
-        <List.Item
-          key={index}
-          suffix={<IoIosArrowForward size={12}/>}
+        <Box
           onClick={() => navigateToFundDetail(item)}
+          flex flexDirection="row" justifyContent="space-between"
+          className="bg-secondary text-primary p-3 rounded mt-2"
         >
-          <>
+          <div>
             <Text.Title> {item["name"]} </Text.Title>
             <Text> {formatted} </Text>
-          </>
-        </List.Item>
+          </div>
+          <CommonIcon.ChevonRight size={20}/>
+        </Box>
       )
     })
 
     return (
-      <List>
-        <>{html}</>
-      </List>
+      <div className="flex-v">
+        {html}
+      </div>
     )
   }
 

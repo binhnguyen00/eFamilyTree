@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation } from 'react-router-dom';
 
 import { t } from "i18next";
-import { Box, List, Text } from "zmp-ui";
+import { Box, Stack, Text } from "zmp-ui";
 
 import { DateTimeUtils } from "utils/DateTimeUtils";
 import { Header } from "components";
@@ -38,34 +38,46 @@ export function UIFundDetail() {
     const incomes = markIncome(fund["income_ids"] || []);
     const expends = markExpense(fund["expense_ids"] || []);
     const flow = DateTimeUtils.sortByDate([...incomes, ...expends], "date");
-    console.log(flow);
-    
+    const total = flow.reduce((acc, item) => {
+      const amount = Number.parseFloat(item["amount"]);
+      if (incomes.includes(item)) return acc + amount;
+      else return acc - amount;
+    }, 0);
+
     let html = [] as React.ReactNode[];
     if (flow.length === 0) return html;
 
+    html.push(
+      <Box 
+        flex flexDirection="row" justifyContent="space-between"
+        className="p-3 bg-secondary text-primary rounded"
+      >
+        <Text.Title> 
+          {`${t("total")}: ${new Intl.NumberFormat('id-ID').format(Number.parseFloat(total))}`}
+        </Text.Title>
+      </Box>
+    )
     flow.map((item, index) => {
       const isIncome = item["type"] === "income";
       const formatted = new Intl.NumberFormat('id-ID').format(item["amount"])
       html.push(
-        <List.Item
-          key={index}
-          className="bg-blur border rounded"
+        <Box 
+          flex flexDirection="row" justifyContent="space-between"
+          className="mt-2 p-3 bg-secondary text-primary rounded"
         >
-          <Box flex flexDirection="row" justifyContent="space-between">
-            <Text style={{ color: isIncome ? "lightgreen" : "red" }}> 
-              {`${isIncome ? "+" : "-"} ${formatted}`} 
-            </Text>
-            <Text> {item["date"]} </Text>
-          </Box>
-          <Text> {item["note"] || null} </Text>
-        </List.Item>
+          <Stack space="0.5rem">
+            <Text.Title> {`${isIncome ? "+" : "-"} ${formatted}`} </Text.Title>
+            <Text> {item["note"] || ""} </Text>
+          </Stack>
+          <Text> {item["date"]} </Text>
+        </Box>
       )
     })
 
     return (
-      <List>
+      <div className="flex-v">
         {html}
-      </List>
+      </div>
     )
   }
 

@@ -67,6 +67,10 @@ body {
   backdrop-filter: blur(20px);
 }
 
+.bg-white {
+  background-color: white !important;
+}
+
 // header
 .zaui-header {
   height: calc(var(--zaui-safe-area-inset-top, 0px) + var(--header-height)) !important;

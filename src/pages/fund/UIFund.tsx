@@ -1,12 +1,11 @@
 import React from "react";
-import { IoIosArrowForward } from "react-icons/io";
 
 import { t } from "i18next";
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
-import { List, Text, useNavigate } from "zmp-ui";
+import { Box, Text, useNavigate } from "zmp-ui";
 
-import { Header, Loading, Error, SearchBar } from "components";
+import { Header, Loading, Error, SearchBar, CommonIcon, Divider } from "components";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { FailResponse } from "utils/type";
 
@@ -75,23 +74,24 @@ export function UIFund() {
       const totalAmount = Number.parseFloat(item["total_amount"]);
       const formatted = new Intl.NumberFormat('id-ID').format(totalAmount)
       html.push(
-        <List.Item
-          key={index}
-          suffix={<IoIosArrowForward size={12}/>}
+        <Box
           onClick={() => navigateToFundDetail(item)}
+          flex flexDirection="row" justifyContent="space-between"
+          className="bg-secondary text-primary p-3 rounded mt-2"
         >
-          <>
+          <div>
             <Text.Title> {item["name"]} </Text.Title>
             <Text> {formatted} </Text>
-          </>
-        </List.Item>
+          </div>
+          <CommonIcon.ChevonRight size={20}/>
+        </Box>
       )
     })
 
     return (
-      <List>
-        <>{html}</>
-      </List>
+      <div className="flex-v">
+        {html}
+      </div>
     )
   }
 
