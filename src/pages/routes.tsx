@@ -60,6 +60,7 @@ function SubRoutes() {
       <Route path="/blogs" element={<UIBlog />} />
       <Route path="/blog-detail" element={<UIBlogDetail />} />
       <Route path="/funds" element={<UIFund />} />
+      <Route path="/fund-detail" element={<UIFundDetail />} />
       <Route path="/register-clan" element={<UIRegisterClan />} />
       <Route path="/register" element={<UIRegister />} />
       <Route path="/theme" element={<UITheme />} />
@@ -68,7 +69,6 @@ function SubRoutes() {
       <Route path="/certificate-info" element={<UICertificateDetail />} />
 
       {/* DEMO ROUTES */}
-      <Route path="/fund-detail" element={<UIFundDetail />} />
       <Route path="/playground" element={<UIPlayground />} />
       <Route path="/demo-funds" element={<UIDummyFund />} />
       <Route path="/demo-fund-detail" element={<UIDummyFundDetail />} />

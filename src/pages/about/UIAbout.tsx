@@ -1,14 +1,14 @@
 import React from "react";
 import { t } from "i18next";
-import { Stack, Text, Swiper, Grid } from "zmp-ui";
+import { Stack, Text, Swiper, Grid, Box } from "zmp-ui";
+
+import { Header, ImageWithText, SizedBox } from "components";
 
 import slide_01 from "assets/img/about/about-swiper-1.jpg";
 import slide_02 from "assets/img/about/about-swiper-2.jpg";
 import people from "assets/img/about/people.png";
 import scroll from "assets/img/about/scroll.png";
 import vietnam from "assets/img/about/vietnam.png";
-
-import { Header } from "components";
 
 export function UIAbout() {
   return (
@@ -19,17 +19,29 @@ export function UIAbout() {
 
         <Swiper loop>
           <Swiper.Slide>
-            <img
-              className="slide-img"
+            <ImageWithText
+              text={
+                <Stack space="1rem" className="text-shadow charmonman-regular">
+                  <p> {"Tự hào và Hãnh diện"} </p>
+                  <p> {"Đồng hành cùng khách hàng"} </p>
+                </Stack>
+              }
+              textStyle={{ fontSize: "1.6rem" }}
               src={slide_01}
-              alt="slide-1"
+              height={160}
             />
           </Swiper.Slide>
           <Swiper.Slide>
-            <img
-              className="slide-img"
+            <ImageWithText
+              text={
+                <Stack space="1rem" className="text-shadow charmonman-regular">
+                  <p> {"Cùng Việt Nam"} </p>
+                  <p> {"Chuyển đổi số"} </p>
+                </Stack>
+              }
+              textStyle={{ fontSize: "2rem" }}
               src={slide_02}
-              alt="slide-2"
+              height={160}
             />
           </Swiper.Slide>
         </Swiper>
@@ -49,42 +61,27 @@ export function UIAbout() {
           <Text> {"Dựa trên nền tảng cây gia phả, ứng dụng giúp kết nối các thành viên trong dòng họ, hỗ trợ anh em, họ hàng duy trì tình cảm gắn bó, chia sẻ và giúp đỡ lẫn nhau."} </Text>
         </Stack>
 
-        <br />
-        <br />
-
         <Grid columnCount={3}>
-          <Stack className="center">
-            <img 
-              src={scroll} alt="dòng họ"
-              style={{
-                height: "50%",
-                width: "50%",
-              }}
-            />
-            <Text.Title size="large"> {"23"} </Text.Title>
-            <Text.Title size="large"> {"Dòng Họ"} </Text.Title>
+          <Stack space="1rem" className="center">
+            <img src={scroll} alt="dòng họ" style={{ width: 50, height: 50 }}/>
+            <div>
+              <Text.Title size="large"> {"23"} </Text.Title>
+              <Text.Title className="charmonman-regular" size="large"> {"Dòng Họ"} </Text.Title>
+            </div>
           </Stack>
-          <Stack className="center">
-            <img 
-              src={people} alt="người dùng"
-              style={{
-                height: "50%",
-                width: "50%",
-              }}
-            />
-            <Text.Title size="large"> {"1856"} </Text.Title>
-            <Text.Title size="large"> {"Người dùng"} </Text.Title>
+          <Stack space="1rem" className="center">
+            <img src={people} alt="dòng họ" style={{ width: 50, height: 50 }}/>
+            <div>
+              <Text.Title size="large"> {"1856"} </Text.Title>
+              <Text.Title className="charmonman-regular" size="large"> {"Người dùng"} </Text.Title>
+            </div>
           </Stack>
-          <Stack className="center">
-            <img 
-              src={vietnam} alt="Việt Nam"
-              style={{
-                height: "50%",
-                width: "50%",
-              }}
-            />
-            <Text.Title size="large"> {"15"} </Text.Title>
-            <Text.Title size="large"> {"Tỉnh Thành"} </Text.Title>
+          <Stack space="1rem" className="center">
+            <img src={vietnam} alt="dòng họ" style={{ width: 60, height: 50 }}/>
+            <div>
+              <Text.Title size="large"> {"15"} </Text.Title>
+              <Text.Title className="charmonman-regular" size="large"> {"Tỉnh Thành"} </Text.Title>
+            </div>
           </Stack>
         </Grid>
 

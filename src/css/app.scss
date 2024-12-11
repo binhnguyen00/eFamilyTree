@@ -9,18 +9,17 @@
 }
 
 body {
-  background-color: var(--primary-color) !important;
-  color: var(--secondary-color) !important;
+  @extend .bg-primary;
+  @extend .text-secondary;
 
-  background: 
-    url("../assets/img/background/pattern-cloud-01.png") repeat 90%;
+  background: url("../assets/img/background/pattern-cloud-01.png") repeat 90%;
   background-size: 300px;
 }
 
 .container {
-  padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + (var(--header-height) + 10px)) !important;
   padding-left: 10px;
   padding-right: 10px;
+  padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + (var(--header-height) + 10px)) !important;
   padding-bottom: calc(var(--zaui-safe-area-inset-bottom, 0px) + (var(--footer-height) + 10px)) !important;
 
   @extend .text-base;
@@ -53,7 +52,6 @@ body {
 
 // background
 .bg-primary {
-  background: url("../assets/img/background/bg-grid.png") no-repeat 100% !important;
   background-color: var(--primary-color) !important;
 }
 
@@ -126,7 +124,7 @@ button, .button {
 // zaui sheet
 .zaui-sheet-content {
   @extend .text-primary;
-  background-color: var(--secondary-color) !important;
+  @extend .bg-secondary;
 }
 
 // swiper
@@ -136,7 +134,7 @@ button, .button {
 
 // input
 .zaui-input-label {
-  color: var(--primary-color) !important;
+  @extend .text-secondary;
   text-transform: capitalize;
 }
 
@@ -197,16 +195,16 @@ button, .button {
 }
 
 .zaui-calendar-header-title {
-  color: var(--secondary-color) !important;
+  @extend .text-secondary;
   font-size: 1.5rem;
 }
 
 .zaui-calendar-header-btn-prev {
-  color: var(--secondary-color) !important;
+  @extend .text-secondary;
 }
 
 .zaui-calendar-header-btn-next {
-  color: var(--secondary-color) !important;
+  @extend .text-secondary;
 }
 
 .calendar-content {
