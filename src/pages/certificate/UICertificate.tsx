@@ -1,10 +1,10 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import { t } from "i18next";
+import { useNavigate } from "react-router-dom";
 
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
-import { List, Stack, Text, useNavigate } from "zmp-ui";
+import { List, Stack, Text } from "zmp-ui";
 
 import { EFamilyTreeApi, FailResponse } from "utils";
 import { Header, CommonIcon } from "components";

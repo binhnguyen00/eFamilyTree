@@ -1,8 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useRecoilValue } from "recoil";
 import { phoneState, userState } from "states";
-import { Avatar, Box, Text, useNavigate } from "zmp-ui";
+import { Avatar, Box, Text } from "zmp-ui";
 
 import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
 

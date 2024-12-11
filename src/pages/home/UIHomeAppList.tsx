@@ -1,5 +1,6 @@
 import React from "react";
-import { Grid, Stack, Text, useNavigate } from "zmp-ui";
+import { useNavigate } from "react-router-dom";
+import { Grid, Stack, Text } from "zmp-ui";
 
 import { t } from "i18next";
 import { useRecoilValue } from "recoil";

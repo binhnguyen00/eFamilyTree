@@ -1,10 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import { t } from "i18next";
 import { Header, SizedBox } from "components";
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
-import { Stack, Text, useNavigate } from "zmp-ui";
+import { Stack, Text } from "zmp-ui";
 import { EFamilyTreeApi, FailResponse } from "utils";
 
 /** Bảng Vàng */

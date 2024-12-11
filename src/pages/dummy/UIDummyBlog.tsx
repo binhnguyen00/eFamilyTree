@@ -1,6 +1,7 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { t } from "i18next"; 
-import { Box, Text, useNavigate } from "zmp-ui"; 
+import { Box, Text } from "zmp-ui"; 
 
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
 import { Header } from "components";

@@ -1,6 +1,7 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Box, Text, useNavigate } from "zmp-ui";
+import { Box, Text } from "zmp-ui";
 import { useLocation } from "react-router-dom";
 
 import { CommonIcon } from "components/icon/common";

@@ -1,4 +1,5 @@
 import React from "react";
+import { BrowserRouter } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { App, ZMPRouter, SnackbarProvider } from "zmp-ui";
 import "../i18n";
@@ -13,9 +14,9 @@ function Application() {
       <App>
         <ThemeProvider>
           <SnackbarProvider>
-            <ZMPRouter>
+            <BrowserRouter>
               <UIRoutes/>
-            </ZMPRouter>
+            </BrowserRouter>
           </SnackbarProvider>
         </ThemeProvider>
       </App>

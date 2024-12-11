@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSwipeable } from 'react-swipeable';
-import { useLocation } from 'react-router-dom';
-import { useNavigate } from 'zmp-ui';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+
 import { swipeDisabledPathsAtom } from 'states';
 
 /**
@@ -23,12 +23,9 @@ export function SwipeGesture({ children }: { children: React.ReactNode }) {
     },
     onTouchStartOrOnMouseDown: (({ event }) => {
       let clientX: number | undefined;
-      // Handle TouchEvent
       if ((event as TouchEvent).changedTouches) {
         clientX = (event as TouchEvent).changedTouches[0].clientX;
-      }
-      // Handle MouseEvent
-      else {
+      } else {
         clientX = (event as MouseEvent).clientX;
       }
       // Restrict gesture to the first 30px area

@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from "react";
-import { Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { AnimationRoutes } from "zmp-ui";
 
 import { SwipeGesture, Navigation } from "components";
@@ -37,18 +37,18 @@ const UIDummyNavigate = lazy(() => import("./dummy/UIDummyNavigate"));
 // Component for Main Routes
 function MainRoutes() {
   return (
-    <AnimationRoutes>
+    <Routes>
       <Route path="/" element={<UIHomeLayout />} />
       <Route path="/family-tree" element={<UIFamilyTree />} />
       <Route path="/user" element={<UIUser/>} />
-    </AnimationRoutes>
+    </Routes>
   );
 }
 
 // animated routes
 function SubRoutes() {
   return (
-    <AnimationRoutes>
+    <Routes>
 
       <Route path="/about" element={<UIAbout />} />
       <Route path="/album" element={<UIAlbum />} />
@@ -77,7 +77,7 @@ function SubRoutes() {
       <Route path="/demo-album" element={<UIDummyAlbum />} />
       <Route path="/dummy-detail" element={<UIDummyNavigate />} />
 
-    </AnimationRoutes>
+    </Routes>
   );
 }
 

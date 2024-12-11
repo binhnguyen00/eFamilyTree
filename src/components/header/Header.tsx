@@ -1,5 +1,6 @@
 import React from "react";
-import { Box, Stack, Text, useNavigate } from "zmp-ui";
+import { useNavigate } from "react-router-dom";
+import { Box, Stack, Text } from "zmp-ui";
 
 import { CommonIcon } from "components/icon/common";
 

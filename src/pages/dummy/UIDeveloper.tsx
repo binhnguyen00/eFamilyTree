@@ -1,8 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { t } from "i18next";
 import { FcApproval, FcCalendar, FcGenealogy, FcMoneyTransfer, FcTemplate, FcBiotech, FcStackOfPhotos } from "react-icons/fc";
 
-import { Button, Grid, Stack, Text, useNavigate } from "zmp-ui";
+import { Button, Grid, Stack, Text } from "zmp-ui";
 
 import { Header } from "components";
 

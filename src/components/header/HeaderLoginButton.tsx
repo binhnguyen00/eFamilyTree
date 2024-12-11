@@ -1,9 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userState } from "states";
 import { CommonIcon } from "components/icon/common";
 
-import { Avatar, Box, Text, useNavigate } from "zmp-ui";
+import { Avatar, Box, Text } from "zmp-ui";
 
 import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
 

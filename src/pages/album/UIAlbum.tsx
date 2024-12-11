@@ -1,9 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { t } from "i18next";
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
-import { Box, Grid, Stack, Text, useNavigate } from "zmp-ui";
+import { Box, Grid, Stack, Text } from "zmp-ui";
 import { openMediaPicker } from "zmp-sdk/apis";
 import { FailResponse } from "utils/type";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";

@@ -1,6 +1,7 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { t } from "i18next";
-import { Box, Button, Stack, Swiper, Text, useNavigate } from "zmp-ui";
+import { Box, Button, Stack, Swiper, Text } from "zmp-ui";
 import { ImageWithText } from "components";
 
 import banner_01 from "assets/img/banner/banner-01.jpg";
