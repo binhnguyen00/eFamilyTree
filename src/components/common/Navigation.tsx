@@ -21,7 +21,7 @@ export function Navigation() {
   return (
     <div className="nav-bar flex-h">
       <NavItem
-        path="/home"
+        path="/"
         label={t("home")}
         icon={<CommonIcon.Home size={24}/>}
         activeIcon={<CommonIcon.Home size={32} className="text-tertiary"/>}

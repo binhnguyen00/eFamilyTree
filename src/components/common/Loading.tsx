@@ -21,7 +21,7 @@ export function Loading(props: LoadingProps) {
   return (
     <div className="container center">
       <SizedBox width={width} height={width}>
-        <Stack space="0.5rem">
+        <Stack space="0.5rem" className="center">
           <Spinner visible/>
           <Text.Title 
             style={{

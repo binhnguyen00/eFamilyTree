@@ -8,7 +8,7 @@ import { useRecoilValue } from "recoil";
 
 import { FailResponse } from "utils/type";
 import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
-import { CommonIcon } from "components";
+import { CommonIcon, SizedBox } from "components";
 
 export function UIHomeAlbum() {
   const [ albums, setAlbums ] = React.useState<any[]>([]);
@@ -56,7 +56,7 @@ export function UIHomeAlbum() {
         html.push(
           <Box 
             key={`album-${i}`} 
-            className="button rounded border bg-blur" 
+            className="button rounded border bg-secondary text-primary" 
             flex flexDirection="row" 
             onClick={() => goToImageList(album)}
           >
@@ -70,7 +70,6 @@ export function UIHomeAlbum() {
             <Stack className="album-right">
               <Text.Title size="small">{album.name}</Text.Title>
               <Text>{`${album.file_anh.length || 0} ${t("image_list")}`}</Text>
-              <Text>{album.thoi_gian}</Text>
               <Text>{album.dia_diem}</Text>
               <Text>{album.mo_ta}</Text>
             </Stack>
