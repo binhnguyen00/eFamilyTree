@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Sheet, Grid, Button, useNavigate, Stack } from "zmp-ui";
+import { Sheet, Grid, Button, useNavigate, Stack, Box, Input } from "zmp-ui";
 
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
@@ -65,13 +65,15 @@ interface UIFamilyTreeContainerProps {
   onReload?: () => void;
 }
 export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) { 
-  const navigate = useNavigate();
-
+  // tree
   const [ members, setMembers ] = React.useState<any[]>(props.nodes);
   const [ rootId, setRootId ] = React.useState<string>(props.rootId);
   const [ selectId, setSelectId ] = React.useState<string>("");
   const [ resetBtn, setResetBtn ] = React.useState<boolean>(false);
   const [ reload, setReload ] = React.useState(false);
+
+  // member
+  const [ memberInfo, setMemberInfo ] = React.useState<any>(null);
 
   React.useEffect(() => {
     setMembers(props.nodes);
@@ -80,11 +82,15 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
 
   const showMemberDetail = () => {
     setSelectId("");
-    const data = {
-      memberId: selectId,
-      phoneNumber: props.phoneNumber,
+    const success = (result: any) => {
+      const info = result.info || null;
+      setMemberInfo(info);
     }
-    navigate("/family-member-info", { state: { data } });
+    const fail = (error: FailResponse) => {
+      console.error(error.stackTrace);
+    } 
+    const memberId: number = +selectId;
+    EFamilyTreeApi.getMemberInfo(props.phoneNumber, memberId, success, fail);
   }
 
   const renderTreeBranch = () => {
@@ -95,7 +101,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
     setResetBtn(true);
   }
 
-  const Tree = () => {
+  const treeContainer = () => {
 
     const onReset = resetBtn ? () => {
       setReload(!reload);
@@ -123,29 +129,6 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
             />
           )}
         />
-
-        <Sheet
-          visible={selectId !== ""}
-          onClose={() => { setSelectId("") }}
-          mask
-          autoHeight
-          handler
-          swipeToClose
-          title={`${FamilyTreeUtils.getMemberById(selectId, props.nodes)?.name || t("member_info")}`}
-        >
-          <Stack space="1rem">
-            <div className="p-2">
-              <Grid columnCount={2} columnSpace="0.2rem">
-                <Button variant="primary" onClick={showMemberDetail} prefixIcon={<CommonIcon.User size={"1.5rem"}/>}>
-                  {t("btn_tree_member_info")}
-                </Button>
-                <Button variant="primary" onClick={renderTreeBranch} prefixIcon={<CommonIcon.Tree size={"1.5rem"}/>}>
-                  {t("btn_tree_member_detail")}
-                </Button>
-              </Grid>
-            </div>
-          </Stack>
-        </Sheet>
       </>
     );
   }
@@ -154,7 +137,83 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
     <div className="tree-container">
       <Header title={t("family_tree")}/>
       
-      {Tree()}
+      {treeContainer()}
+
+      {selectId !== "" && (
+        <UITreeOptions
+          visible={selectId !== ""}
+          title={`${FamilyTreeUtils.getMemberById(selectId, props.nodes)?.name || t("member_info")}`}
+          onClose={() => { setSelectId("") }}
+          showMemberDetail={showMemberDetail}
+          renderTreeBranch={renderTreeBranch}
+        />
+      )}
+
+      {memberInfo && (
+        <UIMemberDetail
+          visible={memberInfo !== null} 
+          info={memberInfo !== null && memberInfo}
+          onClose={() => { setMemberInfo(null) }}
+        />
+      )}
     </div>
+  )
+}
+
+interface UITreeOptionsProps {
+  visible: boolean;
+  onClose: () => void;
+  showMemberDetail: () => void;
+  renderTreeBranch: () => void;
+  title?: string;
+}
+function UITreeOptions(props: UITreeOptionsProps) {
+  const { visible, onClose, showMemberDetail, renderTreeBranch, title } = props;
+  return (
+    <Sheet
+      visible={visible}
+      onClose={onClose}
+      mask
+      autoHeight
+      handler
+      swipeToClose
+      title={title}
+    >
+      <div className="p-2">
+        <Grid columnCount={2} columnSpace="0.2rem">
+          <Button variant="primary" onClick={showMemberDetail} prefixIcon={<CommonIcon.User size={"1.5rem"}/>}>
+            {t("btn_tree_member_info")}
+          </Button>
+          <Button variant="primary" onClick={renderTreeBranch} prefixIcon={<CommonIcon.Tree size={"1.5rem"}/>}>
+            {t("btn_tree_member_detail")}
+          </Button>
+        </Grid>
+      </div>
+    </Sheet>
+  )
+}
+
+interface UIMemberDetailProps {
+  visible: boolean;
+  info: any;
+  onClose: () => void;
+}
+function UIMemberDetail(props: UIMemberDetailProps) {
+  const { visible, info, onClose } = props;
+
+  return (
+    <Sheet
+      visible={visible} mask autoHeight handler swipeToClose
+      onClose={onClose} 
+      title={info["name"] || t("member_info")}
+    >
+      <Box className="p-2" style={{ maxHeight: "50vh" }}>
+        <Input label={"Họ Tên"} value={info["name"] || ""} />
+        <Input label={"Điện thoại"} value={info["phone"] || ""} />
+        <Input label={"Bố"} value={info["bo"] || ""} />
+        <Input label={"Mẹ"} value={info["me"] || ""} />
+        <Input label={"Ngành/Chi"} value={info["nganh_chi"] || ""} />
+      </Box>
+    </Sheet>
   )
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Grid, Select, Sheet, useNavigate } from "zmp-ui";
+import { Button, Grid, Input, Select, Sheet } from "zmp-ui";
 
 import average from "pages/family-tree/sample/average.json";
 import divorced from "pages/family-tree/sample/divorced.json";
@@ -24,16 +24,17 @@ export default function UIDummyTree() {
   const [ resetBtn, setResetBtn ] = React.useState<boolean>(false);
   const [ reload, setReload ] = React.useState(false);
 
+  const [ memberInfo, setMemberInfo ] = React.useState<any>(null);
+
   React.useEffect(() => {
     setNodes(average);
     setRootId(average[0].id);
   }, [ reload ])
 
-  const navigate = useNavigate();
   const showMemberDetail = () => {
     setSelectId("");
     const data = nodes.find((m: any) => m.id === selectId);
-    navigate("/dummy-detail", { state: { data } });
+    setMemberInfo(data);
   }
 
   const renderTreeBranch = () => {
@@ -100,27 +101,6 @@ export default function UIDummyTree() {
             />
           )}
         />
-
-        <Sheet
-          visible={selectId !== ""}
-          onClose={() => { setSelectId("") }}
-          mask
-          autoHeight
-          handler
-          swipeToClose
-          title={selectId}
-        >
-          <div className="p-2">
-            <Grid columnCount={2} columnSpace="1rem" rowSpace="1rem">
-              <Button className="" onClick={showMemberDetail} prefixIcon={<CommonIcon.User size={"1.5rem"}/>}>
-                {t("btn_tree_member_info")}
-              </Button>
-              <Button onClick={renderTreeBranch} prefixIcon={<CommonIcon.Tree size={"1.5rem"}/>}>
-                {t("btn_tree_member_detail")}
-              </Button>
-            </Grid>
-          </div>
-        </Sheet>
       </div>
     )
   }
@@ -130,6 +110,78 @@ export default function UIDummyTree() {
       <Header title={t("dummy_tree")}/>
       
       {renderTree()}
+
+      {selectId !== "" && (
+        <UITreeOptions
+          visible={selectId !== ""}
+          title={`${selectId}`}
+          onClose={() => { setSelectId("") }}
+          showMemberDetail={showMemberDetail}
+          renderTreeBranch={renderTreeBranch}
+        />
+      )}
+
+      {memberInfo !== null && (
+        <UIMemberDetail
+          visible={memberInfo !== null}
+          info={memberInfo}
+          onClose={() => { setMemberInfo(null) }}
+        />
+      )}
     </div>
+  )
+}
+
+interface UITreeOptionsProps {
+  visible: boolean;
+  onClose: () => void;
+  showMemberDetail: () => void;
+  renderTreeBranch: () => void;
+  title?: string;
+}
+function UITreeOptions(props: UITreeOptionsProps) {
+  const { visible, onClose, showMemberDetail, renderTreeBranch, title } = props;
+  return (
+    <Sheet
+      visible={visible}
+      onClose={onClose}
+      mask
+      autoHeight
+      handler
+      swipeToClose
+      title={title}
+    >
+      <div className="p-2">
+        <Grid columnCount={2} columnSpace="0.2rem">
+          <Button variant="primary" onClick={showMemberDetail} prefixIcon={<CommonIcon.User size={"1.5rem"}/>}>
+            {t("btn_tree_member_info")}
+          </Button>
+          <Button variant="primary" onClick={renderTreeBranch} prefixIcon={<CommonIcon.Tree size={"1.5rem"}/>}>
+            {t("btn_tree_member_detail")}
+          </Button>
+        </Grid>
+      </div>
+    </Sheet>
+  )
+}
+
+interface UIMemberDetailProps {
+  visible: boolean;
+  info: any;
+  onClose: () => void;
+}
+function UIMemberDetail(props: UIMemberDetailProps) {
+  const { visible, info, onClose } = props;
+
+  return (
+    <Sheet
+      visible={visible} mask autoHeight handler swipeToClose
+      onClose={onClose} 
+      title={info["name"] || t("member_info")}
+    >
+      <pre className="scroll-h" style={{ maxHeight: "50vh" }}>
+        {JSON.stringify(info, null, 2)}
+      </pre>
+    </Sheet>
   )
 }

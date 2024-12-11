@@ -1,9 +1,8 @@
 import React, { lazy, Suspense } from "react";
 import { Route } from "react-router-dom";
 import { AnimationRoutes } from "zmp-ui";
-import { t } from "i18next";
 
-import { Loading, SwipeGesture } from "components";
+import { SwipeGesture } from "components";
 
 import { UIFamilyTree } from "pages/family-tree/UIFamilyTree";
 import { Navigation } from "components/common/Navigation";
@@ -23,7 +22,6 @@ import { UIAlbum } from "./album/UIAlbum";
 import { UIPlayground } from "./dummy/UIPlayground";
 import { UIDeveloper } from "./dummy/UIDeveloper";
 import { UIUpcomming } from "./upcomming/UIUpcomming";
-import { UIFamilyMember } from "./family-tree/UIFamilyMember";
 import { UICerificateGroup } from "./certificate/UICertificateGroup";
 import { UICertificate } from "./certificate/UICertificate";
 import { UICertificateDetail } from "./certificate/UICertificateDetail";
@@ -53,7 +51,6 @@ function SubRoutes() {
   return (
     <AnimationRoutes>
 
-      <Route path="/family-member-info" element={<UIFamilyMember />} />
       <Route path="/about" element={<UIAbout />} />
       <Route path="/album" element={<UIAlbum />} />
       <Route path="/album/image-list" element={<UIImageList />} />
