@@ -75,7 +75,7 @@ export const languageState = atom({
 export const swipeDisabledPathsAtom = atom<string[]>({
   key: 'swipeDisabledPaths',
   default: [
-    '/',              // UIHomeLayout
+    '/home',          // UIHomeLayout
     '/family-tree',   // UIFamilyTree
     '/calendar',      // UICalendar
 

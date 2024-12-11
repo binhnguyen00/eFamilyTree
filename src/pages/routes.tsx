@@ -1,8 +1,7 @@
 import React, { lazy, Suspense } from "react";
-import { Route, Routes } from "react-router-dom";
-import { AnimationRoutes } from "zmp-ui";
+import { Route, Routes, Navigate } from "react-router-dom";
 
-import { SwipeGesture, Navigation } from "components";
+import { Navigation } from "components";
 
 import { UIFamilyTree } from "pages/family-tree/UIFamilyTree";
 import { UIUser } from "pages/user/UIUser";
@@ -38,7 +37,8 @@ const UIDummyNavigate = lazy(() => import("./dummy/UIDummyNavigate"));
 function MainRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<UIHomeLayout />} />
+      <Route path="/" element={<Navigate to="/home" replace />} />
+      <Route path="/home" element={<UIHomeLayout />} />
       <Route path="/family-tree" element={<UIFamilyTree />} />
       <Route path="/user" element={<UIUser/>} />
     </Routes>
@@ -81,9 +81,9 @@ function SubRoutes() {
   );
 }
 
-export default function UIRoutes() {
+export function UIRoutes() {
   return (
-    <SwipeGesture>
+    <>
       <Suspense>
         <MainRoutes />
       </Suspense>
@@ -93,6 +93,6 @@ export default function UIRoutes() {
       </Suspense>
 
       <Navigation/>
-    </SwipeGesture>
+    </>
   );
 }

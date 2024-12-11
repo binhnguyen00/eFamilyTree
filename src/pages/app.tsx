@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { RecoilRoot } from "recoil";
-import { App, ZMPRouter, SnackbarProvider } from "zmp-ui";
-import "../i18n";
+import { App, SnackbarProvider } from "zmp-ui";
 
-import UIRoutes from "./routes";
-
+import { UIRoutes } from "./routes";
 import { ThemeProvider } from "components";
+
+import "../i18n";
 
 function Application() {
   return (
@@ -14,9 +14,9 @@ function Application() {
       <App>
         <ThemeProvider>
           <SnackbarProvider>
-            <BrowserRouter>
-              <UIRoutes/>
-            </BrowserRouter>
+              <BrowserRouter>
+                <UIRoutes/>
+              </BrowserRouter>
           </SnackbarProvider>
         </ThemeProvider>
       </App>

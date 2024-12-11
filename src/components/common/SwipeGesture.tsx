@@ -5,6 +5,7 @@ import { useRecoilValue } from 'recoil';
 
 import { swipeDisabledPathsAtom } from 'states';
 
+/** @deprecated */
 /**
  * @PageDisable Disable swipe gesture on some path
  * @SwipeRange Can be swiped only on the left side of the screen. Swipe range is about 30px
