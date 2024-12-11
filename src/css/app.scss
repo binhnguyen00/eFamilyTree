@@ -14,6 +14,7 @@ body {
 
   background: url("../assets/img/background/pattern-cloud-01.png") repeat 90%;
   background-size: 300px;
+  user-select: none; // Prevent text selection
 }
 
 .container {
@@ -129,6 +130,10 @@ button, .button {
 .zaui-sheet-content {
   @extend .text-primary;
   @extend .bg-secondary;
+  .zaui-input-label {
+    @extend .text-primary;
+    text-transform: capitalize;
+  }
 }
 
 // swiper

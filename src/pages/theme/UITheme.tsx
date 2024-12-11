@@ -3,7 +3,7 @@ import { t } from "i18next";
 
 import { Grid, Stack, Text } from "zmp-ui";
 
-import {  useTheme } from "hooks";
+import { useTheme } from "hooks";
 import { Header, SizedBox } from "components";
 
 import themeRed from "assets/img/theme/theme-red.jpeg";

@@ -2,10 +2,9 @@ import React, { lazy, Suspense } from "react";
 import { Route } from "react-router-dom";
 import { AnimationRoutes } from "zmp-ui";
 
-import { SwipeGesture } from "components";
+import { SwipeGesture, Navigation } from "components";
 
 import { UIFamilyTree } from "pages/family-tree/UIFamilyTree";
-import { Navigation } from "components/common/Navigation";
 import { UIUser } from "pages/user/UIUser";
 import { UIHomeLayout } from "pages/home/UIHomeLayout";
 import { UIAbout } from "pages/about/UIAbout";
