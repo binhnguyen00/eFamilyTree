@@ -38,7 +38,11 @@ export function UIRoutes() {
   return (
     <Routes>
       {/* HOME */}
-      <Route path="/*" element={<Navigate to="/home" replace />} />
+      <Route path="/*" element={
+        <React.Suspense fallback={<Loading/>}>
+          <UIHomeLayout />
+        </React.Suspense>
+      } />
       <Route path="/home" element={
         <React.Suspense fallback={<Loading/>}>
           <UIHomeLayout />
