@@ -1,11 +1,11 @@
 import React from "react";
 import { t } from "i18next";
-import { Sheet, Grid, Button, useNavigate, Stack, Box, Input } from "zmp-ui";
+import { Sheet, Grid, Button, Box, Input } from "zmp-ui";
 
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
-import { FailResponse, FamilyTreeUtils, EFamilyTreeApi } from "utils";
+import { FailResponse, FamilyTreeUtils, EFamilyTreeApi, CommonUtils } from "utils";
 import { Header, CommonIcon, TreeNode, FamilyTree, TreeConfig, Loading } from "components";
 import { Gender, Node } from "components/tree-relatives/types";
 
@@ -139,9 +139,9 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
       
       {treeContainer()}
 
-      {selectId !== "" && (
+      {!CommonUtils.isStringEmpty(selectId) && (
         <UITreeOptions
-          visible={selectId !== ""}
+          visible={!CommonUtils.isStringEmpty(selectId)}
           title={`${FamilyTreeUtils.getMemberById(selectId, props.nodes)?.name || t("member_info")}`}
           onClose={() => { setSelectId("") }}
           showMemberDetail={showMemberDetail}
@@ -149,10 +149,10 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
         />
       )}
 
-      {memberInfo && (
+      {!CommonUtils.isNullOrUndefined(memberInfo) && (
         <UIMemberDetail
-          visible={memberInfo !== null} 
-          info={memberInfo !== null && memberInfo}
+          visible={!CommonUtils.isNullOrUndefined(memberInfo)} 
+          info={!CommonUtils.isNullOrUndefined(memberInfo) && memberInfo}
           onClose={() => { setMemberInfo(null) }}
         />
       )}
@@ -208,11 +208,11 @@ function UIMemberDetail(props: UIMemberDetailProps) {
       title={info["name"] || t("member_info")}
     >
       <Box className="p-2" style={{ maxHeight: "50vh" }}>
-        <Input label={"Họ Tên"} value={info["name"] || ""} />
-        <Input label={"Điện thoại"} value={info["phone"] || ""} />
-        <Input label={"Bố"} value={info["bo"] || ""} />
-        <Input label={"Mẹ"} value={info["me"] || ""} />
-        <Input label={"Ngành/Chi"} value={info["nganh_chi"] || ""} />
+        <Input label={"Họ Tên"} value={info["name"]} />
+        <Input label={"Điện thoại"} value={info["phone"]} />
+        <Input label={"Bố"} value={info["bo"]} />
+        <Input label={"Mẹ"} value={info["me"]} />
+        <Input label={"Ngành/Chi"} value={info["nganh_chi"]} />
       </Box>
     </Sheet>
   )

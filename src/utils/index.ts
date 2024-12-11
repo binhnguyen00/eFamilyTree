@@ -6,8 +6,9 @@ import type { Callback, FailResponse } from "./type";
 import { HttpMethod } from "./type"
 import { ZmpSDK } from "./ZmpSDK";
 import { FamilyTreeUtils } from "./FamilyTreeUtils";
+import { CommonUtils } from "./CommonUtils";
 
 export { 
   AppConfig, DateTimeUtils, CalendarUtils, FamilyTreeUtils, 
-  EFamilyTreeApi, ZmpSDK, HttpMethod, Callback, FailResponse 
+  EFamilyTreeApi, ZmpSDK, HttpMethod, Callback, FailResponse, CommonUtils
 };

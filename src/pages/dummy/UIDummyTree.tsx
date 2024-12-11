@@ -1,13 +1,13 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Grid, Input, Select, Sheet } from "zmp-ui";
+import { Button, Grid, Select, Sheet } from "zmp-ui";
 
 import average from "pages/family-tree/sample/average.json";
 import divorced from "pages/family-tree/sample/divorced.json";
 import severalSprouses from "pages/family-tree/sample/several-sprouses.json";
 import odooSample from "pages/family-tree/sample/odoo-sample.json";
 
-import { FamilyTreeUtils } from "utils/FamilyTreeUtils";
+import { FamilyTreeUtils, CommonUtils } from "utils";
 import { Header, CommonIcon, FamilyTree, TreeNode, TreeConfig } from "components";
 
 export default function UIDummyTree() {
@@ -111,9 +111,9 @@ export default function UIDummyTree() {
       
       {renderTree()}
 
-      {selectId !== "" && (
+      {!CommonUtils.isStringEmpty(selectId) && (
         <UITreeOptions
-          visible={selectId !== ""}
+          visible={!CommonUtils.isStringEmpty(selectId)}
           title={`${selectId}`}
           onClose={() => { setSelectId("") }}
           showMemberDetail={showMemberDetail}
@@ -121,9 +121,9 @@ export default function UIDummyTree() {
         />
       )}
 
-      {memberInfo !== null && (
+      {!CommonUtils.isNullOrUndefined(memberInfo) && (
         <UIMemberDetail
-          visible={memberInfo !== null}
+          visible={!CommonUtils.isNullOrUndefined(memberInfo)}
           info={memberInfo}
           onClose={() => { setMemberInfo(null) }}
         />
