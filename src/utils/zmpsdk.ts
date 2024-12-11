@@ -10,6 +10,7 @@ export class ZmpSDK {
         success: async (data) => {
           const { number, token } = data;
           if (token) {
+            console.log("getPhoneNumber:\n", token);
             try {
               const response = await this.getPhoneNumberByToken(token);
               resolve(response.data.number.replace(/\+84|84/g, '0'));
@@ -21,7 +22,7 @@ export class ZmpSDK {
           }
         },
         fail: (error) => {
-          console.error(error);
+          console.error("getPhoneNumber:\n", error);
           reject(error);
         }
       });
@@ -42,6 +43,7 @@ export class ZmpSDK {
         const zalo = new ExternalRESTful("https://graph.zalo.me/v2.0");
         zalo.GET("me/info", zaloHeader, null, successCB, failCB);
       } catch (error) {
+        console.error("getPhoneNumberByToken:\n", error);
         reject(error);
       }
     });
@@ -54,7 +56,7 @@ export class ZmpSDK {
           resolve(accessToken);
         },
         fail: (error) => {
-          console.error(error);
+          console.error("getAccessToken:\n", error);
           reject(error);
         }
       });

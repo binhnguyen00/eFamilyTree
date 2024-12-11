@@ -1,7 +1,7 @@
-import React, { lazy, Suspense } from "react";
+import React from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 
-import { Navigation } from "components";
+import { Loading } from "components";
 
 import { UIFamilyTree } from "pages/family-tree/UIFamilyTree";
 import { UIUser } from "pages/user/UIUser";
@@ -24,32 +24,34 @@ import { UICerificateGroup } from "./certificate/UICertificateGroup";
 import { UICertificate } from "./certificate/UICertificate";
 import { UICertificateDetail } from "./certificate/UICertificateDetail";
 
-// Demo components (lazy loaded)
-const UIDummyFund = lazy(() => import("./dummy/UIDummyFund"));
-const UIDummyFundDetail = lazy(() => import("./dummy/UIDummyFundDetail"));
-const UIDummyTree = lazy(() => import("./dummy/UIDummyTree"));
-const UIDummyCalendar = lazy(() => import("./dummy/UIDummyCalendar"));
-const UIDummyBlog = lazy(() => import("./dummy/UIDummyBlog"));
-const UIDummyAlbum = lazy(() => import("./dummy/UIDummyAlbum"));
-const UIDummyNavigate = lazy(() => import("./dummy/UIDummyNavigate"));
+// Demo components (React.lazy loaded)
+const UIDummyFund = React.lazy(() => import("./dummy/UIDummyFund"));
+const UIDummyFundDetail = React.lazy(() => import("./dummy/UIDummyFundDetail"));
+const UIDummyTree = React.lazy(() => import("./dummy/UIDummyTree"));
+const UIDummyCalendar = React.lazy(() => import("./dummy/UIDummyCalendar"));
+const UIDummyBlog = React.lazy(() => import("./dummy/UIDummyBlog"));
+const UIDummyAlbum = React.lazy(() => import("./dummy/UIDummyAlbum"));
+const UIDummyNavigate = React.lazy(() => import("./dummy/UIDummyNavigate"));
 
-// Component for Main Routes
-function MainRoutes() {
+export function UIRoutes() {
+
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/home" replace />} />
-      <Route path="/home" element={<UIHomeLayout />} />
+      {/* HOME */}
+      <Route path="/*" element={<Navigate to="/home" replace />} />
+      <Route path="/home" element={
+        <React.Suspense fallback={<Loading/>}>
+          <UIHomeLayout />
+        </React.Suspense>
+      } />
       <Route path="/family-tree" element={<UIFamilyTree />} />
-      <Route path="/user" element={<UIUser/>} />
-    </Routes>
-  );
-}
+      <Route path="/user" element={
+        <React.Suspense fallback={<Loading/>}>
+          <UIUser />
+        </React.Suspense>
+      } />
 
-// animated routes
-function SubRoutes() {
-  return (
-    <Routes>
-
+      {/* APP */}
       <Route path="/about" element={<UIAbout />} />
       <Route path="/album" element={<UIAlbum />} />
       <Route path="/album/image-list" element={<UIImageList />} />
@@ -68,31 +70,46 @@ function SubRoutes() {
       <Route path="/certificate-info" element={<UICertificateDetail />} />
 
       {/* DEMO ROUTES */}
-      <Route path="/playground" element={<UIPlayground />} />
-      <Route path="/demo-funds" element={<UIDummyFund />} />
-      <Route path="/demo-fund-detail" element={<UIDummyFundDetail />} />
-      <Route path="/demo-tree" element={<UIDummyTree />} />
-      <Route path="/demo-calendar" element={<UIDummyCalendar />} />
-      <Route path="/demo-blogs" element={<UIDummyBlog />} />
-      <Route path="/demo-album" element={<UIDummyAlbum />} />
-      <Route path="/dummy-detail" element={<UIDummyNavigate />} />
-
+      <Route path="/playground" element={
+        <React.Suspense fallback={<Loading/>}>
+          <UIPlayground />
+        </React.Suspense>
+      } />
+      <Route path="/demo-funds" element={
+        <React.Suspense fallback={<Loading/>}>
+          <UIDummyFund />
+        </React.Suspense>
+      } />
+      <Route path="/demo-fund-detail" element={
+        <React.Suspense fallback={<Loading/>}>
+          <UIDummyFundDetail />
+        </React.Suspense>
+      } />
+      <Route path="/demo-tree" element={
+        <React.Suspense fallback={<Loading/>}>
+          <UIDummyTree />
+        </React.Suspense>
+      } />
+      <Route path="/demo-calendar" element={
+        <React.Suspense fallback={<Loading/>}>
+          <UIDummyCalendar />
+        </React.Suspense>
+      } />
+      <Route path="/demo-blogs" element={
+        <React.Suspense fallback={<Loading/>}>
+          <UIDummyBlog />
+        </React.Suspense>
+      } />
+      <Route path="/demo-album" element={
+        <React.Suspense fallback={<Loading/>}>
+          <UIDummyAlbum />
+        </React.Suspense>
+      } />
+      <Route path="/dummy-detail" element={
+        <React.Suspense fallback={<Loading/>}>
+          <UIDummyNavigate />
+        </React.Suspense>
+      } />
     </Routes>
-  );
-}
-
-export function UIRoutes() {
-  return (
-    <>
-      <Suspense>
-        <MainRoutes />
-      </Suspense>
-
-      <Suspense>
-        <SubRoutes />
-      </Suspense>
-
-      <Navigation/>
-    </>
   );
 }

@@ -72,6 +72,7 @@ export const languageState = atom({
   default: "vi",
 })
 
+/** @deprecated */
 export const swipeDisabledPathsAtom = atom<string[]>({
   key: 'swipeDisabledPaths',
   default: [

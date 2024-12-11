@@ -43,7 +43,7 @@ export function SizedBox(props: SizedBoxProps) {
 
   return (
     <div 
-      className={`${className} ${border ? "border" : ""}`} 
+      className={`${className ? className : ""} ${border ? "border" : ""}`} 
       style={{
         width: width,
         height: height,

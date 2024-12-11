@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Text, Box, Input, Stack } from "zmp-ui";
 import { atom, selector, useRecoilValue, useRecoilState } from "recoil"
-import { Header } from "components";
+import { Header, Loading } from "components";
 
 const numberState = atom({
   key: "number",
@@ -55,50 +55,52 @@ export function UIPlayground() {
   const todoListValue = useRecoilValue(todoSelector);
 
   return (
-    <div className="container">
+    <Stack space="1rem" className="container">
       <Header title={t("playground")}/>
 
-      <Stack className="section-container" space="1rem">
+      <Stack space="1rem">
         <Box flex justifyContent="space-between">
-          <Button onClick={() => setState(number + 1)} size="small">
+          <Button variant="secondary" onClick={() => setState(number + 1)} size="small">
             + Add
           </Button>
-          <Button onClick={() => setState(number - 1)} size="small">
+          <Button variant="secondary" onClick={() => setState(number - 1)} size="small">
             - Remove
           </Button>
-          <Button onClick={() => setState(0)} size="small">
+          <Button variant="secondary" onClick={() => setState(0)} size="small">
             Reset
           </Button>
         </Box>
         <Input value={numberValue}/>
       </Stack>
 
-      <Stack className="section-container" space="1rem">
+      <Stack space="1rem">
         <Input
           value={text} placeholder="Input"
           onChange={(e) => setText(e.target.value)}/>
         <Input 
           value={textValue} placeholder="Output"/>
         <Box flex justifyContent="space-evenly">
-          <Button size="small" onClick={() => {
+          <Button variant="secondary" size="small" onClick={() => {
             setTodoList([...todoList, text]) 
             setText("")
           }}> + Add </Button>
-          <Button size="small" onClick={() => { setTodoList([]) }}> Reset </Button>
+          <Button variant="secondary" size="small" onClick={() => { setTodoList([]) }}> Reset </Button>
         </Box>
         <Input.TextArea value={todoListValue}/>
       </Stack>
 
-      <Stack className="section-container" space="1rem">
+      <Stack space="1rem">
         <Text.Title size="large"> {t("playground_translate")} </Text.Title>
-        <Button onClick={() => i18n.changeLanguage("vi")}>
+        <Button variant="secondary" onClick={() => i18n.changeLanguage("vi")}>
           {t("vietnamese")}
         </Button>
-        <Button onClick={() => i18n.changeLanguage("en")}>
+        <Button variant="secondary" onClick={() => i18n.changeLanguage("en")}>
           {t("english")}
         </Button>
       </Stack>
 
-    </div>
+      <Loading/>
+
+    </Stack>
   )
 }

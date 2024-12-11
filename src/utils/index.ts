@@ -4,7 +4,7 @@ import { CalendarUtils } from "./CalendarUtils";
 import { EFamilyTreeApi } from "./EFamilyTreeApi";
 import type { Callback, FailResponse } from "./type";
 import { HttpMethod } from "./type"
-import { ZmpSDK } from "./ZmpSDK";
+import { ZmpSDK } from "./zmpsdk";
 import { FamilyTreeUtils } from "./FamilyTreeUtils";
 import { CommonUtils } from "./CommonUtils";
 
