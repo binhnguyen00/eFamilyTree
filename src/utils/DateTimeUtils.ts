@@ -8,6 +8,25 @@ export class DateTimeUtils {
     return moment().format(this.DATE_TIME);
   }
 
+  public static areSameDay(date1: Date, date2: Date): boolean {
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  }
+
+  public static isToday(date: Date): boolean {
+    const today = new Date();
+    return this.areSameDay(date, today);
+  }
+
+  public static isTomorrow(date: Date): boolean {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return this.areSameDay(date, tomorrow);
+  }
+
   public static formatTo(format: string) {
     return moment().format(format);
   }
@@ -18,19 +37,6 @@ export class DateTimeUtils {
 
   public static formatToDateTime(date: Date) {
     return moment(date).format(this.DATE_TIME);
-  }
-
-  /** @deprecated */
-  public static formatFromStringDep(dateTimeStr: string, format: "DD/MM/YYYY" | "DD/MM/YYYY HH:mm:ss") {
-    let parsedMoment = moment(dateTimeStr, format, true);
-    if (!parsedMoment.isValid() && format === "DD/MM/YYYY") {
-      parsedMoment = moment(dateTimeStr, "DD/MM/YYYY HH:mm:ss", true);
-    }
-    if (parsedMoment.isValid()) {
-      return parsedMoment.toDate();
-    } else {
-      throw new Error("DateTimeUtils: Format Date from String failed");
-    }
   }
 
   public static formatFromString(dateStr: string) {
