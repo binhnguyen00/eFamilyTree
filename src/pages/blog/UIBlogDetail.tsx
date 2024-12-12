@@ -1,11 +1,11 @@
 import React from "react";
-import DOMPurify from "dompurify";
-import { useLocation } from 'react-router-dom';
 import { t } from "i18next";
+import { useLocation } from 'react-router-dom';
+
+import DOMPurify from "dompurify";
 import { Stack, Text } from "zmp-ui";
 
-import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
-
+import { EFamilyTreeApi } from "utils";
 import { Header } from "components";
 
 export function UIBlogDetail() {
@@ -28,10 +28,10 @@ export function UIBlogDetail() {
   const updatedContent = addDomainToImageSrc(purifiedContent);
 
   return (
-    <div className="container">
+    <div className="container bg-white">
       <Header title={t("detail_blog")}/>
 
-      <Stack space="1rem">
+      <Stack space="1rem" className="text-base">
         <Text.Title size="xLarge"> {blog["title"]} </Text.Title>
         <div dangerouslySetInnerHTML={{ __html: updatedContent }} />
       </Stack>

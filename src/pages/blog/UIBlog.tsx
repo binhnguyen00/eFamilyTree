@@ -14,7 +14,7 @@ export function UIBlog() {
     <div className="container bg-white">
       <Header title={t("blogs")}/>
 
-      <div style={{ color: "black" }}>
+      <div className="text-base">
         <UIBlogList />
       </div>
     </div>
