@@ -1,6 +1,6 @@
 import { getSetting, getPhoneNumber, getAccessToken } from "zmp-sdk";
-import { Callback } from "./type";
-import { ExternalRESTful } from "../server/ExternalRESTful";
+import { SuccessCB } from "./type";
+import { OdooRESTful } from "../server/OdooRESTful";
 
 export class ZmpSDK {
   
@@ -38,9 +38,9 @@ export class ZmpSDK {
           access_token: accessToken,
           secret_key: import.meta.env.VITE_APP_SECRET_KEY as string
         }
-        const successCB: Callback = (data) => resolve(data);
-        const failCB: Callback = (error) => reject(error);
-        const zalo = new ExternalRESTful("https://graph.zalo.me/v2.0");
+        const successCB: SuccessCB = (data) => resolve(data);
+        const failCB: SuccessCB = (error) => reject(error);
+        const zalo = new OdooRESTful("https://graph.zalo.me/v2.0");
         zalo.GET("me/info", zaloHeader, null, successCB, failCB);
       } catch (error) {
         console.error("getPhoneNumberByToken:\n", error);

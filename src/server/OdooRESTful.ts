@@ -1,7 +1,7 @@
 import { Api } from "./Api";
-import { Callback, FailResponse, HttpMethod, ServerResponse } from "utils/type";
+import { SuccessCB, FailCB, FailResponse, HttpMethod } from "utils/type";
 
-export class ExternalRESTful extends Api {
+export class OdooRESTful extends Api {
 
   /** @override */
   initRequest(method: HttpMethod, requestHeaders?: any, requestBody?: any): RequestInit {;
@@ -33,7 +33,7 @@ export class ExternalRESTful extends Api {
   }
 
   /** @override */
-  doFetch(url: string, requestInit: RequestInit, successCB: Callback, failCB?: Callback) {
+  doFetch(url: string, requestInit: RequestInit, successCB: SuccessCB, failCB?: FailCB) {
     if (!failCB) failCB = (response: any) => {
       console.log(response);
     }
@@ -41,8 +41,9 @@ export class ExternalRESTful extends Api {
     fetch(url, requestInit).then((res: Response) => {
       if (res.ok) return res.json();
       else return null;
-    }).then((res: ServerResponse) => {
-      successCB(res); // could be success or fail, but odoo server always return 200
+    }).then((res: any) => {
+      const result = OdooRESTful.getResponseResult(res);
+      successCB(result);
     }).catch((error: Error) => {
       console.error(`eFamilyTree UI error: \n\t${error.message}`);
       failCB({
@@ -53,13 +54,31 @@ export class ExternalRESTful extends Api {
     });
   }
 
-  public GET(path: string, header: any, pathVariables: any, successCB: Callback, failCB?: Callback) {
+  /**  
+   * @description Odoo Server always response 200 or not response at all.
+   * @odoo_response 
+   * {
+   *    id: <some_random_long>,
+   *    jsonrpc: "2.0",
+   *    result: { // custimizable
+   *      status: "success" | "error",
+   *      message: string, 
+   *      data: any
+   *    }
+   * } 
+   * @return the "result" from odoo response
+  */
+  private static getResponseResult(response: any): any {
+    if (response) return response.result;
+  }
+
+  public GET(path: string, header: any, pathVariables: any, successCB: SuccessCB, failCB?: FailCB) {
     var url: string = this.initialUrl(path, pathVariables);
     var requestInit: RequestInit = this.initRequest(HttpMethod.GET, header);
     this.doFetch(url, requestInit, successCB, failCB);
   }
 
-  public POST(path: string, header: any, body: any, successCB: Callback, failCB?: Callback) {
+  public POST(path: string, header: any, body: any, successCB: SuccessCB, failCB?: FailCB) {
     var url: string = this.initialUrl(path);
     var requestInit: RequestInit = this.initRequest(HttpMethod.POST, header, body);
     this.doFetch(url, requestInit, successCB, failCB);

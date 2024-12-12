@@ -1,4 +1,4 @@
-import { Callback, HttpMethod } from "utils/type";
+import { SuccessCB, HttpMethod, FailCB } from "utils/type";
 
 export abstract class Api {
   serverUrl: string;
@@ -40,7 +40,7 @@ export abstract class Api {
     return requestInit;
   }
 
-  doFetch(url: string, requestInit: RequestInit, successCB: Callback, failCB?: Callback) {
+  doFetch(url: string, requestInit: RequestInit, successCB: SuccessCB, failCB?: FailCB) {
     if (!failCB) failCB = (response: any) => {
       console.log(response);
     }

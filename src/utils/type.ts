@@ -1,4 +1,5 @@
-export type Callback = (response: any) => void; 
+export type SuccessCB = (response: ServerResponse) => void; 
+export type FailCB = (response: FailResponse) => void; 
 
 export interface FailResponse {
   status: "success" | "error";

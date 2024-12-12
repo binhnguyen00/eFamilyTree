@@ -29,8 +29,8 @@ export function UIFamilyTree() {
       if (result.status === "error") {
         console.error("UIFamilyTree:\n\t", result.message);
       } else {
-        // TODO: re-write logic, cuz server has changed
         const data = result.data as any;
+        // TODO: re-write logic, cuz server has changed
         const mems: Node[] = FamilyTreeUtils.remapServerData(data);
         setMembers(FamilyTreeUtils.removeDuplicates(mems));
         setRootId(`${data.id}`);
@@ -38,7 +38,7 @@ export function UIFamilyTree() {
     }
     const fail = (error: FailResponse) => {
       setLoading(false);
-      console.error(error.stackTrace);
+      console.error("UIFamilyTree:\n\t", error.message, "\n", error.stackTrace);
     } 
 
     EFamilyTreeApi.getMembers(phoneNumber, success, fail);

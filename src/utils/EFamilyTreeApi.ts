@@ -1,95 +1,86 @@
-import { Callback, FailResponse } from "utils";
-import { ExternalRESTful } from "server/ExternalRESTful";
+import { OdooRESTful } from "server/OdooRESTful";
+import { FailCB, SuccessCB } from "utils";
 
 export class EFamilyTreeApi {
-  private static server = new ExternalRESTful("https://giapha.mobifone5.vn");
+  private static server = new OdooRESTful("https://giapha.mobifone5.vn");
 
   public static getServerBaseUrl() {
     return this.server.serverUrl;
   }
 
-  public static getMembers(phoneNumber, successCB: Callback, failCB?: Callback) {
+  public static getMembers(phoneNumber, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber
     });
-    const [ success, fail ] = this.createCallback(successCB, failCB);
-    this.server.POST("get/member", header, body, success, fail);
+    this.server.POST("get/member", header, body, successCB, failCB);
   }
 
-  public static getMemberInfo(phoneNumber, memberId: number, successCB: Callback, failCB?: Callback) {
+  public static getMemberInfo(phoneNumber, memberId: number, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber,
       thanh_vien_id: memberId
     });
-    const [ success, fail ] = this.createCallback(successCB, failCB);
-    return this.server.POST("get/info/member", header, body, success, fail);
+    return this.server.POST("get/info/member", header, body, successCB, failCB);
   }
 
-  public static getMemberBlogs(phoneNumber, successCB: Callback, failCB?: Callback) {
+  public static getMemberBlogs(phoneNumber, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber
     });
-    const [ success, fail ] = this.createCallback(successCB, failCB);
-    return this.server.POST("get/list/blog", header, body, success, fail);
+    return this.server.POST("get/list/blog", header, body, successCB, failCB);
   }
 
-  public static getMemberAlbum(phoneNumber, successCB: Callback, failCB?: Callback) {
+  public static getMemberAlbum(phoneNumber, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber
     });
-    const [ success, fail ] = this.createCallback(successCB, failCB);
-    return this.server.POST("get/album", header, body, success, fail);
+    return this.server.POST("get/album", header, body, successCB, failCB);
   }
 
-  public static getMemberUpcomingEvents(phoneNumber, successCB: Callback, failCB?: Callback) {
+  public static getMemberUpcomingEvents(phoneNumber, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber
     });
-    const [ success, fail ] = this.createCallback(successCB, failCB);
-    return this.server.POST("get/list/event", header, body, success, fail);
+    return this.server.POST("get/list/event", header, body, successCB, failCB);
   }
 
-  public static getFunds(phoneNumber, successCB: Callback, failCB?: Callback) {
+  public static getFunds(phoneNumber, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber
     });
-    const [ success, fail ] = this.createCallback(successCB, failCB);
-    return this.server.POST("get/fund", header, body, success, fail);
+    return this.server.POST("get/fund", header, body, successCB, failCB);
   }
 
-  public static getCerificatesByGroup(phoneNumber, groupId: number, successCB: Callback, failCB?: Callback) {
+  public static getCerificatesByGroup(phoneNumber, groupId: number, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber,
       type_id: groupId
     });
-    const [ success, fail ] = this.createCallback(successCB, failCB);
-    return this.server.POST("get/certificates", header, body, success, fail);
+    return this.server.POST("get/certificates", header, body, successCB, failCB);
   }
 
-  public static getCerificateInfo(phoneNumber, certificateId: number, successCB: Callback, failCB?: Callback) {
+  public static getCerificateInfo(phoneNumber, certificateId: number, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber,
       id: certificateId
     });
-    const [ success, fail ] = this.createCallback(successCB, failCB);
-    return this.server.POST("get/info/certificate", header, body, success, fail);
+    return this.server.POST("get/info/certificate", header, body, successCB, failCB);
   }
 
-  public static getCerificateGroups(phoneNumber, successCB: Callback, failCB?: Callback) {
+  public static getCerificateGroups(phoneNumber, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber,
     });
-    const [ success, fail ] = this.createCallback(successCB, failCB);
-    return this.server.POST("get/type/certificates", header, body, success, fail);
+    return this.server.POST("get/type/certificates", header, body, successCB, failCB);
   }
 
   private static initBody(params: any): Record<string, any> { 
@@ -102,35 +93,5 @@ export class EFamilyTreeApi {
     return {
       "Content-Type": "application/json; charset=UTF-8",
     }
-  }
-
-  private static getResponseResult(response: any): any {
-    /* Fail Response
-    {
-      "jsonrpc": "2.0",
-      "id": 1297312732103,
-      "result": {
-        "error": "Bạn không thuộc cây gia phả nào"
-      }
-    } */
-    if (!response) return {
-      status: true,
-      message: "No Response from Server!"
-    } as FailResponse;
-    if (response.error) return response;
-    if (response.result.error) return response.result;
-    return response.result as any;
-  }
-
-  private static createCallback(successCB: Callback, failCB?: Callback) {
-    const success = (response: any) => {
-      const result = this.getResponseResult(response);
-      successCB(result);
-    }
-    const fail = (response: any) => {
-      const result = this.getResponseResult(response);
-      if (failCB) failCB(result);
-    }
-    return [ success, fail ];
   }
 }

@@ -2,7 +2,7 @@ import * as AppConfig from "./AppConfig";
 import { DateTimeUtils } from "./DateTimeUtils";
 import { CalendarUtils } from "./CalendarUtils";
 import { EFamilyTreeApi } from "./EFamilyTreeApi";
-import type { Callback, FailResponse, ServerResponse } from "./type";
+import type { SuccessCB, FailCB, FailResponse, ServerResponse } from "./type";
 import { HttpMethod } from "./type"
 import { ZmpSDK } from "./zmpsdk";
 import { FamilyTreeUtils } from "./FamilyTreeUtils";
@@ -10,5 +10,5 @@ import { CommonUtils } from "./CommonUtils";
 
 export { 
   AppConfig, DateTimeUtils, CalendarUtils, FamilyTreeUtils, ServerResponse,
-  EFamilyTreeApi, ZmpSDK, HttpMethod, Callback, FailResponse, CommonUtils
+  EFamilyTreeApi, ZmpSDK, HttpMethod, SuccessCB, FailCB, FailResponse, CommonUtils
 };

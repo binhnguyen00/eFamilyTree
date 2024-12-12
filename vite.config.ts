@@ -20,7 +20,11 @@ export default () => {
       preprocessorOptions: {
         scss: {
           api: 'modern', // or "modern"
-          includePaths: ["./src/css/*"],
+          includePaths: [
+            "./src/css", 
+            "./src/css/theme", 
+            "./src/css/font"
+          ],
         }
       }
     },
