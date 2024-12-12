@@ -7,7 +7,7 @@ import Connector from './Connector';
 import calcTree from 'components/tree-relatives';
 import { Node } from 'components/tree-relatives/types';
 
-import { SizedBox, CommonIcon, Divider } from 'components';
+import { SizedBox, CommonIcon } from 'components';
 import { useGesture } from "@use-gesture/react";
 
 // ============================================

@@ -1,5 +1,5 @@
 import { Api } from "./Api";
-import { Callback, FailResponse, HttpMethod } from "utils/type";
+import { Callback, FailResponse, HttpMethod, ServerResponse } from "utils/type";
 
 export class ExternalRESTful extends Api {
 
@@ -41,13 +41,12 @@ export class ExternalRESTful extends Api {
     fetch(url, requestInit).then((res: Response) => {
       if (res.ok) return res.json();
       else return null;
-    }).then((res: any) => {
-      if (res) successCB(res);
-      else failCB(res);
+    }).then((res: ServerResponse) => {
+      successCB(res); // could be success or fail, but odoo server always return 200
     }).catch((error: Error) => {
-      console.error(`Mini App UI error: \n\t${error.message}`);
+      console.error(`eFamilyTree UI error: \n\t${error.message}`);
       failCB({
-        error: true,
+        status: "error",
         message: error.message,
         stackTrace: error.stack || ""
       } as FailResponse);

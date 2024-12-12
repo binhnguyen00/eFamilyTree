@@ -6,6 +6,7 @@ import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
 import { FailResponse, FamilyTreeUtils, EFamilyTreeApi, CommonUtils } from "utils";
+import { ServerResponse } from "utils/type";
 import { Header, CommonIcon, TreeNode, FamilyTree, TreeConfig, Loading } from "components";
 import { Gender, Node } from "components/tree-relatives/types";
 
@@ -23,12 +24,13 @@ export function UIFamilyTree() {
   let [ loading, setLoading ] = React.useState(true);
 
   React.useEffect(() => {
-    const success = (result: any[] | string) => {
+    const success = (result: ServerResponse) => {
       setLoading(false);
-      if (result["error"]) {
-        console.warn(result);
+      if (result.status === "error") {
+        console.error("UIFamilyTree:\n\t", result.message);
       } else {
-        const data = result["members"] || null;
+        // TODO: re-write logic, cuz server has changed
+        const data = result.data as any;
         const mems: Node[] = FamilyTreeUtils.remapServerData(data);
         setMembers(FamilyTreeUtils.removeDuplicates(mems));
         setRootId(`${data.id}`);

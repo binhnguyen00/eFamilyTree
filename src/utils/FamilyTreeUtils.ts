@@ -20,7 +20,7 @@ interface OdooNode {
 
 export class FamilyTreeUtils {
   
-  // Remap Odoo data to Node structure
+  /** @deprecated */
   public static remapServerData(node: OdooNode | null): Node[] {
     if (!node) return [];
     const result: Node[] = [];
@@ -108,6 +108,7 @@ export class FamilyTreeUtils {
   }
 
   // Remove duplicates from the list
+  /** @deprecated */
   public static removeDuplicates(arr: Node[]): Node[] {
     const map = new Map<string, boolean>();
     return arr.filter(item => {

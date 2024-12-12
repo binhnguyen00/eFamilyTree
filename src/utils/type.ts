@@ -1,9 +1,15 @@
 export type Callback = (response: any) => void; 
 
 export interface FailResponse {
-  error: boolean;
+  status: "success" | "error";
   message: string;
   stackTrace: string;
+}
+
+export interface ServerResponse {
+  status: "success" | "error";
+  message: string;
+  data: any;
 }
 
 export enum HttpMethod {

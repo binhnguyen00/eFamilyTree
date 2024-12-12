@@ -16,15 +16,16 @@ export default () => {
       emptyOutDir: true,
     },
     css: {
+      devSourcemap: true,
       preprocessorOptions: {
         scss: {
           api: 'modern', // or "modern"
-          includePaths: ["./src/css", "./src/css/theme"],
+          includePaths: ["./src/css/*"],
         }
       }
     },
     server: {
-      port: 3000,
+      port: 2999,
       open: true,
     },
   });

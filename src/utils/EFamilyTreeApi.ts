@@ -114,7 +114,7 @@ export class EFamilyTreeApi {
       }
     } */
     if (!response) return {
-      error: true,
+      status: true,
       message: "No Response from Server!"
     } as FailResponse;
     if (response.error) return response;
