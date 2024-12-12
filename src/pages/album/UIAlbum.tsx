@@ -4,10 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { phoneState } from "states";
 
-import { openMediaPicker } from "zmp-sdk/apis";
 import { Box, Grid, Stack, Text } from "zmp-ui";
 
-import { Header, SizedBox } from "components";
+import { Header, Info, Loading } from "components";
 import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
 
 export function UIAlbum() {
@@ -25,9 +24,11 @@ function UIAlbumList() {
   const phoneNumber = useRecoilValue(phoneState);
   const [ reload, setReload ] = React.useState(false);
   const [ albums, setAlbums ] = React.useState<any[]>([]);
+  const [ loading, setLoading ] = React.useState(true);
 
   React.useEffect(() => {
     const success = (result: ServerResponse) => {
+      setLoading(false);
       if (result.status === "error") {
         console.error("UIAlbumList:\n\t", result.message);
       } else {
@@ -36,18 +37,19 @@ function UIAlbumList() {
       }
     }
     const fail = (error: FailResponse) => {
+      setLoading(false);
       console.error("UIAlbumList:\n\t", error.stackTrace);
     }
     EFamilyTreeApi.getMemberAlbum(phoneNumber, success, fail);
   }, [ reload ]);
 
   const goToImageList = (album: any) => {
-    const images = album?.file_anh || [] as any[];
+    const images: any[] = album["image"] || [];
     navigate("/album/image-list", { state: { images } });
   }
 
   const renderAlbums = () => {
-    if (!albums) return;
+    if (!albums) return <></>;
     
     let html = [] as React.ReactNode[];
 
@@ -55,59 +57,37 @@ function UIAlbumList() {
       html.push(
         <Box 
           key={index} 
-          className="button rounded border" 
+          className="button rounded border bg-secondary text-primary" 
           flex flexDirection="row" 
           onClick={() => goToImageList(album)}
         >
           <div className="album-left">
             <img 
-              src={`https://${album.avatar}`} 
+              src={`https://${album["avatar"]}`} 
               alt={album.name} 
               className="button rounded"
             />
           </div>
           <Stack className="album-right">
-            <Text.Title>{album.name}</Text.Title>
-            <Text>{album.file_anh.length || 0}</Text>
-            <Text>{album.thoi_gian}</Text>
-            <Text>{album.dia_diem}</Text>
-            <Text>{album.mo_ta}</Text>
+            <Text.Title>{album["name"]}</Text.Title>
+            <Text> {album["image"].length || 0} </Text>
+            <Text> {album["date"]} </Text>
+            <Text> {album["address"]} </Text>
+            <Text> {album["description"]} </Text>
           </Stack>
         </Box>
       )
     })
 
-    html.push(renderAddButton());
-
     return html;
   }
 
-  const renderAddButton = () => {
-    const addImage = () => {
-      openMediaPicker({
-        serverUploadUrl: "",
-        type: "photo",
-          success: (res) => {
-            const { data } = res;
-            const result = JSON.parse(data);
-            console.log(result);
-          },
-          fail: (error) => {
-            console.log(error);
-          },
-      })
-    }
-
-    return (
-      <Box flex flexDirection="row" justifyContent="center">
-        <SizedBox width={"4.5em"} height={"4.5em"} border className="button" onClick={addImage}>
-          <div> {"+"} </div>
-        </SizedBox>
-      </Box>
-    )
-  }
-
-  return (
+  if (albums.length === 0) {
+    if (loading)
+      return <Loading message={t("loading")}/>
+    else 
+      return <Info title={t("no_album")}/>
+  } else return (
     <Grid columnCount={1} columnSpace="0.5rem" rowSpace="0.5rem">
       {renderAlbums()}
     </Grid>

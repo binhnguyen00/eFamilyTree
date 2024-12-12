@@ -7,7 +7,7 @@ interface InfoProps {
 }
 export function Info(props: InfoProps) {
   return (
-    <div className="container">
+    <div className="container center">
       <Text.Title> {props.title} </Text.Title>
       {props.message && (
         <Text> {props.message} </Text>

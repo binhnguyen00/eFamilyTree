@@ -35,7 +35,7 @@ export function UIHomeAlbum() {
   }, [loginedIn, phoneNumber]);
 
   const goToImageList = (album: any) => {
-    const images = album?.file_anh || [] as any[];
+    const images = album["image"] || [] as any[];
     navigate("/album/image-list", { state: { images } });
   }
 

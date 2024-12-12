@@ -1,12 +1,10 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
-import { FcAddImage } from "react-icons/fc";
 import { t } from "i18next";
+import { useLocation } from "react-router-dom";
 
-import { openMediaPicker } from "zmp-sdk/apis";
-import { Box, Grid, ImageViewer } from "zmp-ui";
+import { Grid, ImageViewer } from "zmp-ui";
 
-import { Header } from "components";
+import { Header, Info } from "components";
 
 export function UIImageList() { 
   const location = useLocation();
@@ -17,30 +15,30 @@ export function UIImageList() {
 
   const renderImages = () => {
     let html = [] as React.ReactNode[];
-
-    if (!images) return html;
-    images.map((imageUrl, index) => {
-      html.push(
-        <div 
-          key={index}
-          style={{
-            borderRadius: "8px",
-            overflow: "hidden"
-          }}
-          className="button"
-        >
-          <img 
-            src={`https://${imageUrl}`} style={{ width: "100%", height: "100%", objectFit: "cover" }} className="button"
-            role='presentation'
-            onClick={() => {
-              setActiveIndex(index);
-              setVisible(true);
+    if (!images.length) return html;
+    else {
+      images.map((imageUrl, index) => {
+        html.push(
+          <div 
+            key={index}
+            style={{
+              borderRadius: "8px",
+              overflow: "hidden"
             }}
-          />
-        </div>
-      )
-    })
-    html.push(renderAddButton());
+            className="button"
+          >
+            <img 
+              src={`https://${imageUrl}`} style={{ width: "100%", height: "100%", objectFit: "cover" }} className="button"
+              role='presentation'
+              onClick={() => {
+                setActiveIndex(index);
+                setVisible(true);
+              }}
+            />
+          </div>
+        )
+      })
+    }
 
     const remap: any[] = images.map((imageUrl, index) => {
       return {
@@ -62,36 +60,17 @@ export function UIImageList() {
     );
   }
 
-  const renderAddButton = () => {
-    const addImage = () => {
-      openMediaPicker({
-        serverUploadUrl: "",
-        type: "photo",
-          success: (res) => {
-            const { data } = res;
-            const result = JSON.parse(data);
-            console.log(result);
-          },
-          fail: (error) => {
-            console.log(error);
-          },
-      })
-    }
-
-    return (
-      <Box flex justifyContent="center">
-        <FcAddImage size={"4.5em"} className="button" onClick={addImage} />
-      </Box>
-    )
-  }
-
   return (
-    <div className="container">
+    <div className="container bg-white">
       <Header title={t("image_list")} subtitle={images.length}/>
 
-      <Grid columnCount={3} rowSpace="0.5rem" columnSpace="0.5rem">
-        {images.length ? renderImages() : renderAddButton()}
-      </Grid>
+      {images.length ? (
+        <Grid columnCount={4} rowSpace="0.5rem" columnSpace="0.5rem">
+          {renderImages()}
+        </Grid>
+      ) : (
+        <Info title={t("no_image")}/>
+      )}
     </div>
   )
 }
