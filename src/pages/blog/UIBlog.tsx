@@ -1,15 +1,13 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { t } from "i18next";
-import { Box, Stack, Text } from "zmp-ui"; 
+import { useNavigate } from "react-router-dom";
+import { Box, Stack, Text } from "zmp-ui";
 
-import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
+import { phoneState } from "states";
 
-import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
-import { FailResponse } from "utils/type";
-
-import { Header, Error, Loading } from "components";
+import { Error, Header, Loading } from "components";
+import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
 
 export function UIBlog() {
   return (
@@ -30,21 +28,17 @@ function UIBlogList() {
   const [ fetchError, setFetchError ] = React.useState(false);
 
   React.useEffect(() => {
-    const success = (result: any[] | string) => {
-      if (typeof result === 'string') {
-        setFetchError(true);
-        console.warn(result);
+    const success = (result: ServerResponse) => {
+      if (result.status === "error") {
+        console.error("UIBlogList:\n\t", result.message);
       } else {
-        setFetchError(false);
-        setBlogs(result || []);
+        const data = result.data as any[];
+        setBlogs(data);
       }
     };
-
     const fail = (error: FailResponse) => {
-      console.error(error.stackTrace);
-      setFetchError(true);
+      console.error("UIBlogList:\n\t", error.stackTrace);
     };
-
     EFamilyTreeApi.getMemberBlogs(phoneNumber, success, fail);
   }, [ reload ]);
 

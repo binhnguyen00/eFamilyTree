@@ -1,15 +1,14 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { t } from "i18next";
-import { phoneState } from "states";
+import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { phoneState } from "states";
 
-import { Box, Grid, Stack, Text } from "zmp-ui";
 import { openMediaPicker } from "zmp-sdk/apis";
-import { FailResponse } from "utils/type";
-import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
+import { Box, Grid, Stack, Text } from "zmp-ui";
 
 import { Header, SizedBox } from "components";
+import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
 
 export function UIAlbum() {
   return (
@@ -28,22 +27,18 @@ function UIAlbumList() {
   const [ albums, setAlbums ] = React.useState<any[]>([]);
 
   React.useEffect(() => {
-
-    const success = (result: any[] | string) => {
-      // result should be a list of image urls
-      if (typeof result === 'string') {
-        console.warn(result);
+    const success = (result: ServerResponse) => {
+      if (result.status === "error") {
+        console.error("UIAlbumList:\n\t", result.message);
       } else {
-        setAlbums(result["albums"] || [] as any[]);
+        const data = result.data as any[];
+        setAlbums(data);
       }
     }
-
     const fail = (error: FailResponse) => {
-      console.error(error.stackTrace);
+      console.error("UIAlbumList:\n\t", error.stackTrace);
     }
-
     EFamilyTreeApi.getMemberAlbum(phoneNumber, success, fail);
-
   }, [ reload ]);
 
   const goToImageList = (album: any) => {

@@ -1,13 +1,14 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { t } from "i18next";
-import { Box, Button, Stack, Text } from "zmp-ui";
+import { useNavigate } from "react-router-dom";
+
 import { logedInState, phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
-import { FailResponse } from "utils/type";
-import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
+import { Box, Button, Stack, Text } from "zmp-ui";
+
 import { CommonIcon } from "components";
+import { FailResponse, ServerResponse, EFamilyTreeApi } from "utils";
 
 export function UIHomeBlog() {
   const [ blogs, setBlogs ] = React.useState<any[]>([]);
@@ -18,11 +19,17 @@ export function UIHomeBlog() {
 
   React.useEffect(() => {
     if (loginedIn) {
-      const success = (result: any[] | string) => {
-        if (typeof result === 'string') console.warn(result);
-        else setBlogs(result || []);
+      const success = (result: ServerResponse) => {
+        if (result.status === "error") {
+          console.error("UIHomeBlog:\n\t", result.message);
+        } else {
+          const data = result.data as any[];
+          setBlogs(data);
+        }
       };
-      const fail = (error: FailResponse) => console.error(error.stackTrace);
+      const fail = (error: FailResponse) => {
+        console.error("UIHomeBlog:\n\t", error.stackTrace);
+      }
       EFamilyTreeApi.getMemberBlogs(phoneNumber, success, fail);
     }
   }, [loginedIn, phoneNumber]);

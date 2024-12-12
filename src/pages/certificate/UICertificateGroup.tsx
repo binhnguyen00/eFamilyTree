@@ -1,12 +1,14 @@
 import React from "react";
+import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
 
-import { t } from "i18next";
-import { Header, SizedBox } from "components";
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
+
 import { Stack, Text } from "zmp-ui";
-import { EFamilyTreeApi, FailResponse } from "utils";
+
+import { Header, SizedBox } from "components";
+import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
 
 /** Bảng Vàng */
 export function UICerificateGroup() {
@@ -16,20 +18,17 @@ export function UICerificateGroup() {
 
   const [ groups, setGroups ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);
-  const [ fetchError, setFetchError ] = React.useState(false);
 
   React.useEffect(() => {
-    const success = (result: any[] | string) => {
-      if (typeof result === "string") {
-        setFetchError(true);
-        console.warn(result);
+    const success = (result: ServerResponse) => {
+      if (result.status === "error") {
+        console.error("UICertificateGroup:\n\t", result.message);
       } else {
-        setFetchError(false);
-        setGroups(result["data"] || [] as any[]);
+        const data = result.data as any[];
+        setGroups(data);
       }
     }
     const fail = (error: FailResponse) => {
-      setFetchError(true);
       console.error(error.stackTrace);
     }
 

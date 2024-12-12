@@ -1,14 +1,14 @@
 import React from "react";
+import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
 
-import { t } from "i18next";
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
+
 import { Box, Text } from "zmp-ui";
 
-import { Header, Loading, Error, SearchBar, CommonIcon, Divider } from "components";
-import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
-import { FailResponse } from "utils/type";
+import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
+import { Header, Loading, Error, SearchBar, CommonIcon } from "components";
 
 export function UIFund() {
   const navigate = useNavigate();
@@ -19,47 +19,17 @@ export function UIFund() {
   const [ fetchError, setFetchError ] = React.useState(false);
 
   React.useEffect(() => {
-    const success = (result: any[] | string) => {
-      /** Results
-       * [{
-       *    name: "Quỹ giỗ tổ",
-       *    dong_ho: "Nguyễn Văn",
-       *    total_amount: 1000000,
-       *    income_ids: [
-       *      {
-       *        id: 6,
-       *        nguoi_nop: [
-       *          23, "Hoàng Thị Hoa"
-       *        ],
-       *        amount: 5555.0,
-       *        date: "2024-10-29",
-       *        note: false
-       *      }
-       *    ],
-       *    expends_ids: [
-       *      {
-       *        id: 6,
-       *        amount: 5555.0,
-       *        date: "2024-10-31",
-       *        note: false
-       *      }
-       *    ]
-       * }]
-       */
-      if (typeof result === "string") {
-        setFetchError(true);
-        console.warn(result);
+    const success = (result: ServerResponse) => {
+      if (result.status === "error") {
+        console.error("UIFund:\n\t", result.message);
       } else {
-        setFetchError(false);
-        setFunds(result["fund_data"] || []);
+        const data = result.data as any[];
+        setFunds(data);
       }
     };
-
     const fail = (error: FailResponse) => {
-      setFetchError(true);
-      console.error(error.stackTrace);
+      console.error("UIFund:\n\t", error.stackTrace);
     };
-
     EFamilyTreeApi.getFunds(phoneNumber, success, fail);
   }, [ reload ]);
 

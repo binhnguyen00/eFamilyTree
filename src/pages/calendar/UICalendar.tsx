@@ -1,15 +1,12 @@
 import React from "react";
 import { t } from "i18next";
-import { Box, Calendar, Stack, Text } from "zmp-ui";
+import { Box, Calendar, Text } from "zmp-ui";
 
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
-import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
-import { CalendarUtils } from "utils/CalendarUtils";
-import { FailResponse } from "utils/type";
-
 import { Header, SizedBox } from "components";
+import { EFamilyTreeApi, CalendarUtils, FailResponse, ServerResponse } from "utils";
 
 export function UICalendar() {
   const phoneNumber = useRecoilValue(phoneState);
@@ -19,20 +16,17 @@ export function UICalendar() {
   const [ reload, setReload ] = React.useState(false);
 
   React.useEffect(() => {
-
-    const success = (result: any[] | string) => {
-      if (typeof result === 'string') {
-        console.warn(result);
+    const success = (result: ServerResponse) => {
+      if (result.status === "error") {
+        console.error("UICalendar:\n\t", result.message);
       } else {
-        const data = result["data"] || [];
+        const data = result.data as any[];
         setEvents(data);
       }
     }
-
     const fail = (error: FailResponse) => {
-      console.error(error.stackTrace);
-    } 
-
+      console.error("UICalendar:\n\t", error.stackTrace);
+    }
     EFamilyTreeApi.getMemberUpcomingEvents(phoneNumber, success, fail);
   }, [ reload ]);
 

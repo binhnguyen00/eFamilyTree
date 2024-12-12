@@ -6,8 +6,8 @@ import { phoneState } from "states";
 
 import { Input, Stack } from "zmp-ui";
 
-import { EFamilyTreeApi, FailResponse } from "utils";
 import { Header } from "components";
+import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
 
 export function UICertificateDetail() {
   const location = useLocation();
@@ -15,31 +15,27 @@ export function UICertificateDetail() {
 
   const phoneNumber = useRecoilValue(phoneState);
 
-  const [ certificate, setCertificate ] = React.useState<any>({});
+  const [ certificate, setCertificate ] = React.useState<any>({
+    name: "",
+    clan: "",
+    member: "",
+    recordeddate: "",
+    achivement: "",
+    ranking: ""
+  });
   const [ reload, setReload ] = React.useState(false);
-  const [ fetchError, setFetchError ] = React.useState(false);
 
   React.useEffect(() => {
-    const success = (result: any[] | string) => {
-      if (typeof result === "string") {
-        setFetchError(true);
-        console.warn(result);
+    const success = (result: ServerResponse) => {
+      if (result.status === "error") {
+        console.error("UICertificateDetail:\n\t", result.message);
       } else {
-        setFetchError(false);
-        setCertificate(result["data"] || {
-          id: null,
-          name: "",
-          clan: "",
-          member: "",
-          recordeddate: "",
-          achievement: "",
-          ranking: ""
-        });
+        const data = result.data as any;
+        setCertificate(data);
       }
     }
     const fail = (error: FailResponse) => {
-      setFetchError(true);
-      console.error(error.stackTrace);
+      console.error("UICertificateDetail:\n\t", error.stackTrace);
     }
     EFamilyTreeApi.getCerificateInfo(phoneNumber, certificateId, success, fail);
   }, [ reload ])

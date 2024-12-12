@@ -1,13 +1,12 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 import { List, Stack, Text } from "zmp-ui";
 
-import { EFamilyTreeApi, FailResponse } from "utils";
 import { Header, CommonIcon } from "components";
+import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
 
 export function UICertificate() {
   const location = useLocation();
@@ -21,21 +20,18 @@ export function UICertificate() {
 
   const [ certificates, setCertificates ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);
-  const [ fetchError, setFetchError ] = React.useState(false);
 
   React.useEffect(() => {
-    const success = (result: any[] | string) => {
-      if (typeof result === "string") {
-        setFetchError(true);
-        console.warn(result);
+    const success = (result: ServerResponse) => {
+      if (result.status === "error") {
+        console.error("UICertificate:\n\t", result.message);
       } else {
-        setFetchError(false);
-        setCertificates(result["data"] || [] as any[]);
+        const data = result.data as any[];
+        setCertificates(data);
       }
     }
     const fail = (error: FailResponse) => {
-      setFetchError(true);
-      console.error(error.stackTrace);
+      console.error("UICertificate:\n\t", error.stackTrace);
     }
 
     EFamilyTreeApi.getCerificatesByGroup(phoneNumber, certificateGroupId, success, fail);

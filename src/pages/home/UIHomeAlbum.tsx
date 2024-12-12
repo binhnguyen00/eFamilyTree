@@ -1,14 +1,14 @@
 import React from "react";
+import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
 
-import { t } from "i18next";
-import { Box, Button, Grid, Stack, Text } from "zmp-ui";
 import { logedInState, phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
-import { FailResponse } from "utils/type";
-import { EFamilyTreeApi } from "utils/EFamilyTreeApi";
-import { CommonIcon, SizedBox } from "components";
+import { Box, Button, Grid, Stack, Text } from "zmp-ui";
+
+import { CommonIcon } from "components";
+import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
 
 export function UIHomeAlbum() {
   const [ albums, setAlbums ] = React.useState<any[]>([]);
@@ -19,11 +19,17 @@ export function UIHomeAlbum() {
 
   React.useEffect(() => {
     if (loginedIn) {
-      const success = (result: any[] | string) => {
-        if (typeof result === 'string') console.warn(result);
-        else setAlbums(result["albums"] || []);
+      const success = (result: ServerResponse) => {
+        if (result.status === "error") {
+          console.error("UIHomeAlbum:\n\t", result.message);
+        } else {
+          const data = result.data as any[];
+          setAlbums(data);
+        }
       };
-      const fail = (error: FailResponse) => console.error(error.stackTrace);
+      const fail = (error: FailResponse) => {
+        console.error("UIHomeAlbum:\n\t", error.stackTrace);
+      }
       EFamilyTreeApi.getMemberAlbum(phoneNumber, success, fail);
     }
   }, [loginedIn, phoneNumber]);
