@@ -16,7 +16,7 @@ export function Divider(props: UIDividerProps) {
         opacity: 1,
       }}
       {...props}
-      className="bg-secondary m-3"
+      className="bg-secondary mt-3 mb-3"
     />
   )
 }

@@ -8,9 +8,10 @@ import { SizedBox } from "./SizedBox";
 import { Navigation } from "./Navigation";
 import { RequestPhone } from "./RequestPhone";
 import { PagePositionSaver } from "./PagePositionSaver";
+import { Info } from "./Info";
 
 export { 
-  Error, Loading, Retry, 
+  Error, Loading, Retry, Info,
   Divider, ImageWithText, Navigation, RequestPhone, SearchBar,
   SizedBox, PagePositionSaver
 };

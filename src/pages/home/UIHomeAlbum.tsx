@@ -68,16 +68,16 @@ export function UIHomeAlbum() {
           >
             <div className="album-left">
               <img 
-                src={`https://${album.avatar}`} 
+                src={`https://${album["avatar"]}`} 
                 alt={album.name} 
                 className="button rounded"
               />
             </div>
             <Stack className="album-right">
               <Text.Title size="small">{album.name}</Text.Title>
-              <Text>{`${album.file_anh.length || 0} ${t("image_list")}`}</Text>
-              <Text>{album.dia_diem}</Text>
-              <Text>{album.mo_ta}</Text>
+              <Text>{`${album["image"].length || 0} ${t("image_list")}`}</Text>
+              <Text>{album["address"]}</Text>
+              <Text>{album["desciption"]}</Text>
             </Stack>
           </Box>
         )

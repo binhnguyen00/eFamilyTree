@@ -6,15 +6,17 @@ import { Box, Stack, Text } from "zmp-ui";
 import { useRecoilValue } from "recoil";
 import { phoneState } from "states";
 
-import { Error, Header, Loading } from "components";
+import { Header, Loading, Info } from "components";
 import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
 
 export function UIBlog() {
   return (
-    <div className="container">
+    <div className="container bg-white">
       <Header title={t("blogs")}/>
 
-      <UIBlogList />
+      <div style={{ color: "black" }}>
+        <UIBlogList />
+      </div>
     </div>
   )
 }
@@ -25,10 +27,11 @@ function UIBlogList() {
 
   const [ blogs, setBlogs ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);
-  const [ fetchError, setFetchError ] = React.useState(false);
+  const [ loading, setLoading ] = React.useState(true);
 
   React.useEffect(() => {
     const success = (result: ServerResponse) => {
+      setLoading(false);
       if (result.status === "error") {
         console.error("UIBlogList:\n\t", result.message);
       } else {
@@ -37,6 +40,7 @@ function UIBlogList() {
       }
     };
     const fail = (error: FailResponse) => {
+      setLoading(false);
       console.error("UIBlogList:\n\t", error.stackTrace);
     };
     EFamilyTreeApi.getMemberBlogs(phoneNumber, success, fail);
@@ -81,16 +85,20 @@ function UIBlogList() {
       );
     });
 
-    return <Stack space="1rem">{html}</Stack>;
+    return (
+      <Stack space="1rem">
+        {html} 
+      </Stack>
+    );
   };
 
-  if (blogs.length > 0) {
+
+  if (blogs.length === 0) {
+    if (loading) 
+      return <Loading message={t("loading_blogs")}/>;
+    else 
+      return <Info title={t("no_blogs")}/>;
+  } else {
     return renderBlogList(blogs);
-  } else { 
-    if (fetchError) {
-      return <Error message={t("server_error")} onRetry={() => setReload(!reload)}/> 
-    } else {
-      return <Loading message={t("loading_blogs")}/> 
-    }
   }
 }

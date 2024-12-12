@@ -30,7 +30,7 @@ body {
   padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + (var(--header-height) + 10px)) !important;
   padding-bottom: calc(var(--zaui-safe-area-inset-bottom, 0px) + (var(--footer-height) + 10px)) !important;
 
-  @extend .text-base;
+  @extend .text-secondary;
 
   @media (min-width: 640px) {
     max-width: 100%;
@@ -55,7 +55,7 @@ body {
 }
 
 .text-base {
-  color: var(--secondary-color) !important;
+  color: black !important;
 }
 
 // background
