@@ -20,7 +20,7 @@ interface OdooNode {
 
 
 /** @deprecated */
-export class FamilyTreeUtils {
+export class FamilyTreeUtilsDeprecated {
   
   /** @deprecated */
   public static remapServerData(node: OdooNode | null): Node[] {

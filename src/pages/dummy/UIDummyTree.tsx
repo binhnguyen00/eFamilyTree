@@ -7,7 +7,7 @@ import divorced from "pages/family-tree/sample/divorced.json";
 import severalSprouses from "pages/family-tree/sample/several-sprouses.json";
 import odooSample from "pages/family-tree/sample/odoo-sample.json";
 
-import { FamilyTreeUtils, CommonUtils, FamilyTreeAnalyzer } from "utils";
+import { CommonUtils, FamilyTreeAnalyzer, FamilyTreeUtils } from "utils";
 import { Header, CommonIcon, FamilyTree, TreeNode, TreeConfig } from "components";
 
 export default function UIDummyTree() {
@@ -32,17 +32,17 @@ export default function UIDummyTree() {
   }, [ reload ])
 
   const showMemberDetail = () => {
-    setSelectId("");
     const data = nodes.find((m: any) => m.id === selectId);
     setMemberInfo(data);
+    setSelectId(""); // hide the sheet
   }
 
   const renderTreeBranch = () => {
-    setSelectId("");
     const treeBranch = FamilyTreeUtils.getTreeBranch(selectId, nodes);
     setRootId(selectId);
     setNodes(treeBranch);
     setResetBtn(true);
+    setSelectId(""); // hide the sheet
   }
 
   const onReset = resetBtn ? () => {

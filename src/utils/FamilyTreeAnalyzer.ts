@@ -27,10 +27,6 @@ export class FamilyTreeAnalyzer {
     return members;
   }
 
-  public getTreeMember(memberId: string) {
-    this.processsor.getTreeMemberById(memberId);
-  }
-
   public getAncestor(): Person | null | undefined {
     const ancestor = Array.from(this.people.values()).find(person => 
       !person.fid && !person.mid && person.gender === "1"
@@ -149,7 +145,7 @@ export class FamilyTreeAnalyzer {
 }
 
 // =================================================
-// FamilyTreeMapper
+// Processor
 // =================================================
 class FamilyTreeProcessor {
   private people: Person[];
@@ -163,12 +159,6 @@ class FamilyTreeProcessor {
    */
   public remapAllToTreeMembers(): Node[] {
     return this.people.map(person => this.remapPersonToTreeMember(person));
-  }
-
-  public getTreeMemberById(id: string): Node | undefined {
-    const target = this.people.find(person => person.id.toString() === id);
-    if (!target) return;
-    return 
   }
 
   private remapPersonToTreeMember(person: Person): Node {
@@ -234,4 +224,53 @@ class FamilyTreeProcessor {
       type: RelType.married
     }));
   }
+}
+
+// =================================================
+// Utils
+// =================================================
+export class FamilyTreeUtils {
+
+  public static getTreeBranch(memberId: string, members: Node[]): Node[] {
+    const filteredMembers: Node[] = [];
+    const visited = new Set<string>();
+
+    const addMemberAndRelatives = (id: string, parentIds: string[] = []): void => {
+      if (visited.has(id)) return;
+      visited.add(id);
+
+      const member = members.find(m => m.id === id);
+      if (!member) return;
+
+      const standaloneMember: Node = {
+        ...member,
+        parents: parentIds.length === 0 ? [] : parentIds.map(pid => ({ id: pid, type: RelType.blood })),
+        siblings: [],
+        spouses: [...member.spouses],
+        children: []
+      };
+
+      filteredMembers.push(standaloneMember);
+
+      const currentParentIds = [id, ...standaloneMember.spouses.map(s => s.id)];
+
+      member.children.forEach(child => {
+        if (child && child.id) {
+          addMemberAndRelatives(child.id, currentParentIds);
+          standaloneMember.children = [...standaloneMember.children, { id: child.id, type: RelType.blood }];
+        }
+      });
+
+      standaloneMember.spouses.forEach(spouse => addMemberAndRelatives(spouse.id));
+    };
+
+    addMemberAndRelatives(memberId);
+
+    return filteredMembers;
+  }
+
+  public static getMemberById(id: string, members: Node[]): Node | undefined {
+    return members.find(member => member.id === id);
+  }
+
 }

@@ -30,17 +30,17 @@ export function UIFamilyTree() {
         console.error("UIFamilyTree:\n\t", result.message);
       } else {
         const data = result.data as any;
-        // TODO: re-write logic, cuz server has changed
-        const mems: Node[] = FamilyTreeUtils.remapServerData(data);
-        setMembers(FamilyTreeUtils.removeDuplicates(mems));
-        setRootId(`${data.id}`);
+        const analyzer = new FamilyTreeAnalyzer(data);
+        const members = analyzer.getTreeMembers();
+        const ancestor = analyzer.getAncestor();
+        setMembers(members);
+        setRootId(`${ancestor?.id}`);
       }
     }
     const fail = (error: FailResponse) => {
       setLoading(false);
       console.error("UIFamilyTree:\n\t", error.message, "\n", error.stackTrace);
     } 
-
     EFamilyTreeApi.getMembers(phoneNumber, success, fail);
   }, [ reload, phoneNumber ]);
 
@@ -83,7 +83,6 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
   }, [ reload ]);
 
   const showMemberDetail = () => {
-    setSelectId("");
     const success = (result: any) => {
       const info = result.info || null;
       setMemberInfo(info);
@@ -93,14 +92,15 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
     } 
     const memberId: number = +selectId;
     EFamilyTreeApi.getMemberInfo(props.phoneNumber, memberId, success, fail);
+    setSelectId(""); // hide the sheet
   }
 
   const renderTreeBranch = () => {
-    setSelectId("");
     const treeBranch = FamilyTreeUtils.getTreeBranch(selectId, props.nodes);
     setMembers(treeBranch);
     setRootId(selectId);
     setResetBtn(true);
+    setSelectId(""); // hide the sheet
   }
 
   const treeContainer = () => {

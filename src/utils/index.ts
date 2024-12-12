@@ -5,11 +5,11 @@ import { EFamilyTreeApi } from "./EFamilyTreeApi";
 import type { SuccessCB, FailCB, FailResponse, ServerResponse } from "./type";
 import { HttpMethod } from "./type"
 import { ZmpSDK } from "./zmpsdk";
-import { FamilyTreeUtils } from "./FamilyTreeUtils";
+import { FamilyTreeUtilsDeprecated } from "./FamilyTreeUtils";
 import { CommonUtils } from "./CommonUtils";
-import { FamilyTreeAnalyzer } from "./FamilyTreeAnalyzer";
+import { FamilyTreeAnalyzer, FamilyTreeUtils } from "./FamilyTreeAnalyzer";
 
 export { 
-  AppConfig, DateTimeUtils, CalendarUtils, FamilyTreeUtils, ServerResponse,
-  EFamilyTreeApi, ZmpSDK, HttpMethod, SuccessCB, FailCB, FailResponse, CommonUtils, FamilyTreeAnalyzer
+  AppConfig, DateTimeUtils, CalendarUtils, FamilyTreeUtilsDeprecated, ServerResponse,
+  EFamilyTreeApi, ZmpSDK, HttpMethod, SuccessCB, FailCB, FailResponse, CommonUtils, FamilyTreeAnalyzer, FamilyTreeUtils
 };
