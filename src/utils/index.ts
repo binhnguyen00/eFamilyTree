@@ -7,8 +7,9 @@ import { HttpMethod } from "./type"
 import { ZmpSDK } from "./zmpsdk";
 import { FamilyTreeUtils } from "./FamilyTreeUtils";
 import { CommonUtils } from "./CommonUtils";
+import { FamilyTreeAnalyzer } from "./FamilyTreeAnalyzer";
 
 export { 
   AppConfig, DateTimeUtils, CalendarUtils, FamilyTreeUtils, ServerResponse,
-  EFamilyTreeApi, ZmpSDK, HttpMethod, SuccessCB, FailCB, FailResponse, CommonUtils
+  EFamilyTreeApi, ZmpSDK, HttpMethod, SuccessCB, FailCB, FailResponse, CommonUtils, FamilyTreeAnalyzer
 };

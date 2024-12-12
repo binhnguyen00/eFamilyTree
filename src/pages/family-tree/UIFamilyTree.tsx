@@ -5,7 +5,7 @@ import { Sheet, Grid, Button, Box, Input } from "zmp-ui";
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
-import { FailResponse, FamilyTreeUtils, EFamilyTreeApi, CommonUtils } from "utils";
+import { FailResponse, FamilyTreeUtils, EFamilyTreeApi, CommonUtils, FamilyTreeAnalyzer } from "utils";
 import { ServerResponse } from "utils/type";
 import { Header, CommonIcon, TreeNode, FamilyTree, TreeConfig, Loading } from "components";
 import { Gender, Node } from "components/tree-relatives/types";
@@ -127,7 +127,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
               displayField="name"
               isRoot={node.id === rootId}
               onSelectNode={(id: string) => setSelectId(id)}
-              style={FamilyTreeUtils.calculateNodePosition(node)}
+              style={FamilyTreeAnalyzer.calculateNodePosition(node)}
             />
           )}
         />

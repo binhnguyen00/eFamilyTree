@@ -7,7 +7,7 @@ import divorced from "pages/family-tree/sample/divorced.json";
 import severalSprouses from "pages/family-tree/sample/several-sprouses.json";
 import odooSample from "pages/family-tree/sample/odoo-sample.json";
 
-import { FamilyTreeUtils, CommonUtils } from "utils";
+import { FamilyTreeUtils, CommonUtils, FamilyTreeAnalyzer } from "utils";
 import { Header, CommonIcon, FamilyTree, TreeNode, TreeConfig } from "components";
 
 export default function UIDummyTree() {
@@ -58,12 +58,13 @@ export default function UIDummyTree() {
             defaultValue={1}
             onChange={(val) => {
               if (val === 4) {
-                const odooSample = dataSrcKey[Number(val)];
-                const odooMems = odooSample["members"] || null as any;
-                const members = FamilyTreeUtils.remapServerData(odooMems);
-                const final = FamilyTreeUtils.removeDuplicates(members);
-                setNodes(final);
-                setRootId(members[0].id);
+                const odooMems = dataSrcKey[Number(val)];
+                const analyzer = new FamilyTreeAnalyzer(odooMems);
+                const members = analyzer.getTreeMembers();
+                const ancestor = analyzer.getAncestor();
+
+                setNodes(members);
+                setRootId(ancestor?.id.toString());
                 setSelectNameField("name");
               } else {
                 const members = dataSrcKey[Number(val)];
@@ -97,7 +98,7 @@ export default function UIDummyTree() {
               displayField={selectNameField}
               isRoot={node.id === rootId}
               onSelectNode={(id: string) => setSelectId(id)}
-              style={FamilyTreeUtils.calculateNodePosition(node)}
+              style={FamilyTreeAnalyzer.calculateNodePosition(node)}
             />
           )}
         />

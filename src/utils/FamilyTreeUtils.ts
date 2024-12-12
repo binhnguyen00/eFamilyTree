@@ -18,6 +18,8 @@ interface OdooNode {
   spouses: OdooPerson[];
 }
 
+
+/** @deprecated */
 export class FamilyTreeUtils {
   
   /** @deprecated */
@@ -116,15 +118,6 @@ export class FamilyTreeUtils {
       map.set(item.id, true);
       return true;
     });
-  }
-
-  // Calculate the node position for rendering
-  public static calculateNodePosition({ left, top }: { left: number; top: number }): React.CSSProperties {
-    return {
-      width: TreeConfig.nodeWidth,
-      height: TreeConfig.nodeHeight,
-      transform: `translate(${left * (TreeConfig.nodeWidth / 2)}px, ${top * (TreeConfig.nodeHeight / 2)}px)`
-    };
   }
 
   // Get a member by ID

@@ -1,472 +1,172 @@
-{
-  "members": {
-    "id": 1,
-    "name": "Phạm Khắc Hoàng",
-    "parents": [],
-    "gender": "male",
-    "children": [
-        {
-            "id": 21,
-            "name": "Phạm Hồng Hạnh",
-            "parents": [
-                {
-                    "id": 1,
-                    "name": "Phạm Khắc Hoàng",
-                    "gender": "male"
-                },
-                {
-                    "id": 31,
-                    "name": "Vợ ông Hoàng",
-                    "gender": "female"
-                }
-            ],
-            "gender": "female",
-            "children": [
-                {
-                    "id": 12,
-                    "name": "Phạm Khắc Hải",
-                    "parents": [
-                        {
-                            "id": 21,
-                            "name": "Phạm Hồng Hạnh",
-                            "gender": "female"
-                        },
-                        {
-                            "id": 21,
-                            "name": "Phạm Hồng Hạnh",
-                            "gender": "female"
-                        }
-                    ],
-                    "gender": "male",
-                    "children": [],
-                    "spouses": []
-                },
-                {
-                    "id": 13,
-                    "name": "Phạm Thị Mơ",
-                    "parents": [
-                        {
-                            "id": 21,
-                            "name": "Phạm Hồng Hạnh",
-                            "gender": "female"
-                        },
-                        {
-                            "id": 5,
-                            "name": "Phạm Thị Xuân",
-                            "gender": "female"
-                        }
-                    ],
-                    "gender": "female",
-                    "children": [],
-                    "spouses": []
-                },
-                {
-                    "id": 11,
-                    "name": "Phạm Xuân Diệu",
-                    "parents": [
-                        {
-                            "id": 21,
-                            "name": "Phạm Hồng Hạnh",
-                            "gender": "female"
-                        },
-                        {
-                            "id": 5,
-                            "name": "Phạm Thị Xuân",
-                            "gender": "female"
-                        }
-                    ],
-                    "gender": "female",
-                    "children": [],
-                    "spouses": []
-                }
-            ],
-            "spouses": []
-        },
-        {
-            "id": 2,
-            "name": "Phạm Khắc Khanh",
-            "parents": [
-                {
-                    "id": 1,
-                    "name": "Phạm Khắc Hoàng",
-                    "gender": "male"
-                },
-                {
-                    "id": 31,
-                    "name": "Vợ ông Hoàng",
-                    "gender": "female"
-                }
-            ],
-            "gender": "male",
-            "children": [
-                {
-                    "id": 8,
-                    "name": "Phạm KHắc Phong",
-                    "parents": [
-                        {
-                            "id": 2,
-                            "name": "Phạm Khắc Khanh",
-                            "gender": "male"
-                        },
-                        {
-                            "id": 30,
-                            "name": "Vợ ông Khanh",
-                            "gender": "female"
-                        }
-                    ],
-                    "gender": "male",
-                    "children": [
-                        {
-                            "id": 36,
-                            "name": "Con vợ 1 ông Phong",
-                            "parents": [
-                                {
-                                    "id": 8,
-                                    "name": "Phạm KHắc Phong",
-                                    "gender": "male"
-                                },
-                                {
-                                    "id": 28,
-                                    "name": "vợ 1",
-                                    "gender": "female"
-                                }
-                            ],
-                            "gender": "male",
-                            "children": [],
-                            "spouses": []
-                        },
-                        {
-                            "id": 37,
-                            "name": "con vợ 2 ông Phong",
-                            "parents": [
-                                {
-                                    "id": 8,
-                                    "name": "Phạm KHắc Phong",
-                                    "gender": "male"
-                                },
-                                {
-                                    "id": 29,
-                                    "name": "vợ 2",
-                                    "gender": "female"
-                                }
-                            ],
-                            "gender": "male",
-                            "children": [],
-                            "spouses": []
-                        }
-                    ],
-                    "spouses": [
-                        {
-                            "id": 28,
-                            "name": "vợ 1",
-                            "gender": "female"
-                        },
-                        {
-                            "id": 29,
-                            "name": "vợ 2",
-                            "gender": "female"
-                        }
-                    ]
-                },
-                {
-                    "id": 7,
-                    "name": "Phạm Thúy Diễm",
-                    "parents": [
-                        {
-                            "id": 2,
-                            "name": "Phạm Khắc Khanh",
-                            "gender": "male"
-                        },
-                        {
-                            "id": 30,
-                            "name": "Vợ ông Khanh",
-                            "gender": "female"
-                        }
-                    ],
-                    "gender": "female",
-                    "children": [],
-                    "spouses": []
-                },
-                {
-                    "id": 6,
-                    "name": "Phạm Thị Ngọc",
-                    "parents": [
-                        {
-                            "id": 2,
-                            "name": "Phạm Khắc Khanh",
-                            "gender": "male"
-                        },
-                        {
-                            "id": 30,
-                            "name": "Vợ ông Khanh",
-                            "gender": "female"
-                        }
-                    ],
-                    "gender": "female",
-                    "children": [],
-                    "spouses": []
-                }
-            ],
-            "spouses": [
-                {
-                    "id": 30,
-                    "name": "Vợ ông Khanh",
-                    "gender": "female"
-                }
-            ]
-        },
-        {
-            "id": 3,
-            "name": "Phạm Khắc Vinh",
-            "parents": [
-                {
-                    "id": 1,
-                    "name": "Phạm Khắc Hoàng",
-                    "gender": "male"
-                },
-                {
-                    "id": 31,
-                    "name": "Vợ ông Hoàng",
-                    "gender": "female"
-                }
-            ],
-            "gender": "male",
-            "children": [
-                {
-                    "id": 4,
-                    "name": "Phạm Khắc Thê",
-                    "parents": [
-                        {
-                            "id": 3,
-                            "name": "Phạm Khắc Vinh",
-                            "gender": "male"
-                        },
-                        {
-                            "id": 32,
-                            "name": "vợ ông Vinh",
-                            "gender": "female"
-                        }
-                    ],
-                    "gender": "male",
-                    "children": [
-                        {
-                            "id": 10,
-                            "name": "Phạm Khắc Toàn",
-                            "parents": [
-                                {
-                                    "id": 4,
-                                    "name": "Phạm Khắc Thê",
-                                    "gender": "male"
-                                },
-                                {
-                                    "id": 33,
-                                    "name": "Vợ ông thê",
-                                    "gender": "female"
-                                }
-                            ],
-                            "gender": "male",
-                            "children": [
-                                {
-                                    "id": 14,
-                                    "name": "Phạm Hồng Hoa",
-                                    "parents": [
-                                        {
-                                            "id": 10,
-                                            "name": "Phạm Khắc Toàn",
-                                            "gender": "male"
-                                        },
-                                        {
-                                            "id": 34,
-                                            "name": "vợ ông Toàn",
-                                            "gender": "female"
-                                        }
-                                    ],
-                                    "gender": "female",
-                                    "children": [],
-                                    "spouses": []
-                                },
-                                {
-                                    "id": 17,
-                                    "name": "Phạm Thị Mai",
-                                    "parents": [
-                                        {
-                                            "id": 10,
-                                            "name": "Phạm Khắc Toàn",
-                                            "gender": "male"
-                                        },
-                                        {
-                                            "id": 34,
-                                            "name": "vợ ông Toàn",
-                                            "gender": "female"
-                                        }
-                                    ],
-                                    "gender": "female",
-                                    "children": [],
-                                    "spouses": []
-                                }
-                            ],
-                            "spouses": [
-                                {
-                                    "id": 34,
-                                    "name": "vợ ông Toàn",
-                                    "gender": "female"
-                                }
-                            ]
-                        }
-                    ],
-                    "spouses": [
-                        {
-                            "id": 33,
-                            "name": "Vợ ông thê",
-                            "gender": "female"
-                        }
-                    ]
-                },
-                {
-                    "id": 18,
-                    "name": "Phạm Khắc Tiến",
-                    "parents": [
-                        {
-                            "id": 3,
-                            "name": "Phạm Khắc Vinh",
-                            "gender": "male"
-                        },
-                        {
-                            "id": 32,
-                            "name": "vợ ông Vinh",
-                            "gender": "female"
-                        }
-                    ],
-                    "gender": "male",
-                    "children": [
-                        {
-                            "id": 19,
-                            "name": "Phạm Khắc Phú",
-                            "parents": [
-                                {
-                                    "id": 18,
-                                    "name": "Phạm Khắc Tiến",
-                                    "gender": "male"
-                                },
-                                {
-                                    "id": 35,
-                                    "name": "vợ ông Tiến",
-                                    "gender": "female"
-                                }
-                            ],
-                            "gender": "male",
-                            "children": [],
-                            "spouses": []
-                        },
-                        {
-                            "id": 20,
-                            "name": "Phạm Khắc Quang",
-                            "parents": [
-                                {
-                                    "id": 18,
-                                    "name": "Phạm Khắc Tiến",
-                                    "gender": "male"
-                                },
-                                {
-                                    "id": 35,
-                                    "name": "vợ ông Tiến",
-                                    "gender": "female"
-                                }
-                            ],
-                            "gender": "male",
-                            "children": [],
-                            "spouses": []
-                        }
-                    ],
-                    "spouses": [
-                        {
-                            "id": 35,
-                            "name": "vợ ông Tiến",
-                            "gender": "female"
-                        }
-                    ]
-                },
-                {
-                    "id": 16,
-                    "name": "Phạm Khắc Toán",
-                    "parents": [
-                        {
-                            "id": 3,
-                            "name": "Phạm Khắc Vinh",
-                            "gender": "male"
-                        },
-                        {
-                            "id": 32,
-                            "name": "vợ ông Vinh",
-                            "gender": "female"
-                        }
-                    ],
-                    "gender": "male",
-                    "children": [],
-                    "spouses": []
-                },
-                {
-                    "id": 15,
-                    "name": "Phạm Ngọc Hoàn",
-                    "parents": [
-                        {
-                            "id": 3,
-                            "name": "Phạm Khắc Vinh",
-                            "gender": "male"
-                        },
-                        {
-                            "id": 32,
-                            "name": "vợ ông Vinh",
-                            "gender": "female"
-                        }
-                    ],
-                    "gender": "female",
-                    "children": [],
-                    "spouses": []
-                }
-            ],
-            "spouses": []
-        },
-        {
-            "id": 9,
-            "name": "Phạm Khắc Đoàn",
-            "parents": [
-                {
-                    "id": 1,
-                    "name": "Phạm Khắc Hoàng",
-                    "gender": "male"
-                },
-                {
-                    "id": 30,
-                    "name": "Vợ ông Khanh",
-                    "gender": "female"
-                }
-            ],
-            "gender": "female",
-            "children": [
-                {
-                    "id": 5,
-                    "name": "Phạm Thị Xuân",
-                    "parents": [
-                        {
-                            "id": 9,
-                            "name": "Phạm Khắc Đoàn",
-                            "gender": "female"
-                        },
-                        {
-                            "id": 31,
-                            "name": "Vợ ông Hoàng",
-                            "gender": "female"
-                        }
-                    ],
-                    "gender": "female",
-                    "children": [],
-                    "spouses": []
-                }
-            ],
-            "spouses": []
-        }
+[
+  {
+    "id": 11,
+    "name": "Phạm Khắc Đường",
+    "gender": "1",
+    "fid": 1,
+    "mid": 4,
+    "img": "giapha.mobifone5.vn/web/content/300",
+    "pids": [
+      12
     ],
-    "spouses": []
-}
-}
+    "phone": "0942659016",
+    "is_alive": false
+  },
+  {
+    "id": 4,
+    "name": "Nguyễn Thị Loan",
+    "gender": "0",
+    "fid": null,
+    "mid": null,
+    "img": "giapha.mobifone5.vn/web/content/284",
+    "pids": [
+      1
+    ],
+    "phone": "0936952262",
+    "is_alive": false
+  },
+  {
+    "id": 17,
+    "name": "Phạm Khắc Quang",
+    "gender": "1",
+    "fid": 13,
+    "mid": 14,
+    "img": "giapha.mobifone5.vn/web/content/309",
+    "pids": [
+      18
+    ],
+    "phone": "",
+    "is_alive": true
+  },
+  {
+    "id": 18,
+    "name": "Lê Hằng Nga",
+    "gender": "0",
+    "fid": null,
+    "mid": null,
+    "img": "giapha.mobifone5.vn/web/content/311",
+    "pids": [
+      17
+    ],
+    "phone": "",
+    "is_alive": true
+  },
+  {
+    "id": 13,
+    "name": "Phạm Khắc Thành",
+    "gender": "1",
+    "fid": 7,
+    "mid": 8,
+    "img": "giapha.mobifone5.vn/web/content/296",
+    "pids": [
+      14,
+      19
+    ],
+    "phone": "",
+    "is_alive": true
+  },
+  {
+    "id": 19,
+    "name": "Phạm Thị Hoa",
+    "gender": "0",
+    "fid": null,
+    "mid": null,
+    "img": "giapha.mobifone5.vn/web/content/318",
+    "pids": [
+      13
+    ],
+    "phone": "",
+    "is_alive": true
+  },
+  {
+    "id": 14,
+    "name": "Phạm Thị Hiên",
+    "gender": "0",
+    "fid": null,
+    "mid": null,
+    "img": "giapha.mobifone5.vn/web/content/316",
+    "pids": [
+      13
+    ],
+    "phone": "",
+    "is_alive": true
+  },
+  {
+    "id": 8,
+    "name": "Phạm Thị Cởn",
+    "gender": "0",
+    "fid": null,
+    "mid": null,
+    "img": "giapha.mobifone5.vn/web/content/286",
+    "pids": [
+      7
+    ],
+    "phone": "",
+    "is_alive": false
+  },
+  {
+    "id": 10,
+    "name": "Nguyễn Thị Bấm",
+    "gender": "0",
+    "fid": null,
+    "mid": null,
+    "img": "giapha.mobifone5.vn/web/content/288",
+    "pids": [
+      9
+    ],
+    "phone": "",
+    "is_alive": false
+  },
+  {
+    "id": 7,
+    "name": "Phạm Khắc Tuội",
+    "gender": "1",
+    "fid": 1,
+    "mid": 4,
+    "img": "giapha.mobifone5.vn/web/content/290",
+    "pids": [
+      8
+    ],
+    "phone": "",
+    "is_alive": false
+  },
+  {
+    "id": 9,
+    "name": "Phạm Khắc Phú",
+    "gender": "1",
+    "fid": 1,
+    "mid": 4,
+    "img": "giapha.mobifone5.vn/web/content/292",
+    "pids": [
+      10
+    ],
+    "phone": "",
+    "is_alive": true
+  },
+  {
+    "id": 12,
+    "name": "Phạm Thị Đỏ",
+    "gender": "0",
+    "fid": null,
+    "mid": null,
+    "img": "giapha.mobifone5.vn/web/content/294",
+    "pids": [
+      11
+    ],
+    "phone": "",
+    "is_alive": true
+  },
+  {
+    "id": 1,
+    "name": "Phạm Khắc Khoa",
+    "gender": "1",
+    "fid": null,
+    "mid": null,
+    "img": "giapha.mobifone5.vn/web/content/298",
+    "pids": [
+      4
+    ],
+    "phone": "",
+    "is_alive": false
+  }
+]
