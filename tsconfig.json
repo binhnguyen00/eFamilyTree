@@ -18,8 +18,9 @@
       "es7",
       "es2017",
       "es2019",
+      "es2020",
     ],
-    "module": "esnext",
+    "module": "es2020",
     "moduleResolution": "bundler",
     "noEmit": true,
     "noEmitOnError": true,
@@ -37,7 +38,7 @@
     "sourceMap": true,
     "strict": true,
     "strictFunctionTypes": false,
-    "target": "es6",
+    "target": "es2020",
     "types": [
       "vite/client"
     ]

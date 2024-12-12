@@ -16,7 +16,6 @@ export default () => {
       emptyOutDir: true,
     },
     css: {
-      devSourcemap: true,
       preprocessorOptions: {
         scss: {
           api: 'modern', // or "modern"
