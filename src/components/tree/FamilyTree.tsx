@@ -10,7 +10,6 @@ import { Node } from 'components/tree-relatives/types';
 import { SizedBox, CommonIcon, Divider } from 'components';
 import { useGesture } from "@use-gesture/react";
 
-
 // ============================================
 // Tree
 // ============================================
@@ -70,6 +69,9 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
         capture: true, 
         pointer: true,
         once: true
+      },
+      wheel: {
+        enabled: true,
       },
       target: treeRef,
       enabled: true,

@@ -5,7 +5,7 @@ class FamilyTreeConfig {
   constructor() {
     this.nodeWidth = 150;
     this.nodeHeight = 200;
-    console.log("Init tree config", this);
+    console.log("Init tree config:\n", this);
   }
 }
 
