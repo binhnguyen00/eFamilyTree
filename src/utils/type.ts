@@ -1,5 +1,17 @@
-export type SuccessCB = (response: ServerResponse) => void; 
-export type FailCB = (response: FailResponse) => void; 
+/** 
+ * @description callback for odoo server
+ */
+export type SuccessCB = (response: ServerResponse) => void;
+
+/** 
+ * @description callback for odoo server
+ */
+export type FailCB = (response: FailResponse) => void;
+
+/** 
+ * @description callback for external server
+ */
+export type CallBack = (response: any) => void;             
 
 export interface FailResponse {
   status: "success" | "error";
