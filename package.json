@@ -18,7 +18,7 @@
   "scripts": {
     "deploy": "zmp deploy",
     "build": "tsc -b && vite build",
-    "dev": "vite",
+    "server": "vite",
     "build:css": "postcss src/css/tailwind.css -o src/css/app.css"
   },
   "dependencies": {
