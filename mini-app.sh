@@ -50,6 +50,10 @@ function build() {
   pnpm run build
 }
 
+function deploy() {
+  pnpm run deploy
+}
+
 function run() {
   pnpm run server
 }
@@ -89,6 +93,8 @@ elif [ "$COMMAND" = "install" ] ; then
   install $@
 elif [ "$COMMAND" = "run" ] ; then
   run
+elif [ "$COMMAND" = "deploy" ] ; then
+  deploy
 else
   show_help
 fi
