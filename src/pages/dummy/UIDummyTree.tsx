@@ -7,8 +7,10 @@ import divorced from "pages/family-tree/sample/divorced.json";
 import severalSprouses from "pages/family-tree/sample/several-sprouses.json";
 import odooSample from "pages/family-tree/sample/odoo-sample.json";
 
-import { CommonUtils, FamilyTreeAnalyzer, FamilyTreeUtils } from "utils";
+import { CommonUtils } from "utils";
 import { Header, CommonIcon, FamilyTree, TreeNode, TreeConfig } from "components";
+import { TreeDataProcessor } from 'pages/family-tree/TreeDataProcessor';
+import { TreeUtils } from 'pages/family-tree/TreeUtils';
 
 export default function UIDummyTree() {
   const dataSrcKey = {
@@ -38,7 +40,7 @@ export default function UIDummyTree() {
   }
 
   const renderTreeBranch = () => {
-    const treeBranch = FamilyTreeUtils.getTreeBranch(selectId, nodes);
+    const treeBranch = TreeUtils.getBranch(selectId, nodes);
     setRootId(selectId);
     setNodes(treeBranch);
     setResetBtn(true);
@@ -58,13 +60,11 @@ export default function UIDummyTree() {
             defaultValue={1}
             onChange={(val) => {
               if (val === 4) {
-                const odooMems = dataSrcKey[Number(val)];
-                const analyzer = new FamilyTreeAnalyzer(odooMems);
-                const members = analyzer.getTreeMembers();
-                const ancestor = analyzer.getAncestor();
-
-                setNodes(members);
-                setRootId(ancestor?.id.toString());
+                const odooData = dataSrcKey[Number(val)];
+                const processor = new TreeDataProcessor(odooData);
+                const ancestor = processor.getAncestor();
+                setNodes(processor.peopleToNodes());
+                setRootId(ancestor?.id);
                 setSelectNameField("name");
               } else {
                 const members = dataSrcKey[Number(val)];
@@ -98,7 +98,7 @@ export default function UIDummyTree() {
               displayField={selectNameField}
               isRoot={node.id === rootId}
               onSelectNode={(id: string) => setSelectId(id)}
-              style={FamilyTreeAnalyzer.calculateNodePosition(node)}
+              style={TreeUtils.calculateNodePosition(node)}
             />
           )}
         />

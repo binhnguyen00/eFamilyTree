@@ -13,6 +13,7 @@ interface Person {
   is_alive: boolean;
 }
 
+/** @deprecated */
 export class FamilyTreeAnalyzer {
   private people: Map<number, Person>;
   private processsor: FamilyTreeProcessor;
@@ -23,7 +24,7 @@ export class FamilyTreeAnalyzer {
   }
 
   public getTreeMembers() {
-    const members = this.processsor.remapAllToTreeMembers();
+    const members = this.processsor.peopleToNodes();
     return members;
   }
 
@@ -157,21 +158,21 @@ class FamilyTreeProcessor {
   /**
    * @description Remap the whole family tree to tree members
    */
-  public remapAllToTreeMembers(): Node[] {
-    return this.people.map(person => this.remapPersonToTreeMember(person));
-  }
-
-  private remapPersonToTreeMember(person: Person): Node {
-    return {
-      id: person.id.toString(),
-      gender: person.gender === "1" ? Gender.male : Gender.female,
-      name: person.name,
-      avatar: person.img,
-      parents: this.getParentRelations(person),
-      children: this.getChildrenRelations(person),
-      siblings: this.getSiblingRelations(person),
-      spouses: this.getSpouseRelations(person),
-    };
+  public peopleToNodes(): Node[] {
+    let nodes: Node[] = [];
+    this.people.map((person: Person) => {
+      nodes.push({
+        id: person.id.toString(),
+        gender: person.gender === "1" ? Gender.male : Gender.female,
+        name: person.name,
+        avatar: person.img,
+        parents: this.getParentRelations(person),
+        children: this.getChildrenRelations(person),
+        siblings: this.getSiblingRelations(person),
+        spouses: this.getSpouseRelations(person),
+      })
+    })
+    return nodes;
   }
 
   private getParentRelations(person: Person): Relation[] {
@@ -231,7 +232,7 @@ class FamilyTreeProcessor {
 // =================================================
 export class FamilyTreeUtils {
 
-  public static getTreeBranch(memberId: string, members: Node[]): Node[] {
+  public static getTreeBranch(nodeId: string, members: Node[]): Node[] {
     const filteredMembers: Node[] = [];
     const visited = new Set<string>();
 
@@ -264,7 +265,7 @@ export class FamilyTreeUtils {
       standaloneMember.spouses.forEach(spouse => addMemberAndRelatives(spouse.id));
     };
 
-    addMemberAndRelatives(memberId);
+    addMemberAndRelatives(nodeId);
 
     return filteredMembers;
   }
