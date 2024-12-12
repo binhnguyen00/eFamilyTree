@@ -24,8 +24,21 @@ export class TreeDataProcessor {
 
   constructor(data: Person[]) {
     this.people = data;
-    this.nodes = this.peopleToNodes();
-    this.rootId = this.getAncestor()!.id;
+    if (!data.length) {
+      this.nodes = [{
+        id: "0",
+        name: "Thành Viên",
+        gender: Gender.male,
+        parents: [],
+        children: [],
+        siblings: [],
+        spouses: []
+      }];
+      this.rootId = "0";
+    } else {
+      this.nodes = this.peopleToNodes();
+      this.rootId = this.getAncestor().id;
+    }
   }
 
   public peopleToNodes(): Node[] {
@@ -36,13 +49,12 @@ export class TreeDataProcessor {
     return nodes;
   }
 
-  public getAncestor(): Node | null {
-    const target = this.people.find((person: Person) => {
-      return !person.fid && !person.mid && person.gender === "1";
+  public getAncestor(): Node {
+    const target = this.nodes.find((node: Node) => {
+      return node.parents.length === 0 && node.gender === Gender.male;
     })
-    if (!target) return null;
-    const ancestor = this.personToNode(target);
-    return ancestor;
+    if (!target) return this.nodes[0];
+    else return target;
   }
 
   public getNode(id: string): Node | null {

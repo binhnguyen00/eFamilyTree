@@ -5,23 +5,18 @@ import { Sheet, Grid, Button, Box, Input } from "zmp-ui";
 import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
-import { FailResponse, FamilyTreeUtils, EFamilyTreeApi, CommonUtils, FamilyTreeAnalyzer } from "utils";
-import { ServerResponse } from "utils/type";
+import { 
+  ServerResponse, FailResponse, FamilyTreeUtils, EFamilyTreeApi, CommonUtils } from "utils";
 import { Header, CommonIcon, TreeNode, FamilyTree, TreeConfig, Loading } from "components";
-import { Gender, Node } from "components/tree-relatives/types";
+import { TreeUtils } from "./TreeUtils";
+import { TreeDataProcessor } from "./TreeDataProcessor";
 
 export function UIFamilyTree() {
   const phoneNumber = useRecoilValue(phoneState);
 
-  let [ members, setMembers ] = React.useState<any[]>([
-    {
-      name: t("family_member"), id: "", gender: Gender.male, avatar: "",
-      parents: [], siblings: [], spouses: [], children: []
-    }
-  ]);
-  let [ rootId, setRootId ] = React.useState<string>("");
   let [ reload, setReload ] = React.useState(false);
   let [ loading, setLoading ] = React.useState(true);
+  let [ processor, setProcessor ] = React.useState<TreeDataProcessor>(new TreeDataProcessor([]));
 
   React.useEffect(() => {
     const success = (result: ServerResponse) => {
@@ -30,11 +25,8 @@ export function UIFamilyTree() {
         console.error("UIFamilyTree:\n\t", result.message);
       } else {
         const data = result.data as any;
-        const analyzer = new FamilyTreeAnalyzer(data);
-        const members = analyzer.getTreeMembers();
-        const ancestor = analyzer.getAncestor();
-        setMembers(members);
-        setRootId(`${ancestor?.id}`);
+        const processor = new TreeDataProcessor(data);
+        setProcessor(processor);
       }
     }
     const fail = (error: FailResponse) => {
@@ -52,8 +44,8 @@ export function UIFamilyTree() {
   ) 
   else return (
     <UIFamilyTreeContainer 
-      nodes={members}
-      rootId={rootId}
+      nodes={processor.nodes}
+      rootId={processor.rootId}
       phoneNumber={phoneNumber}
       onReload={() => setReload(!reload)}
     />
@@ -68,7 +60,7 @@ interface UIFamilyTreeContainerProps {
 }
 export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) { 
   // tree
-  const [ members, setMembers ] = React.useState<any[]>(props.nodes);
+  const [ nodes, setNodes ] = React.useState<any[]>(props.nodes);
   const [ rootId, setRootId ] = React.useState<string>(props.rootId);
   const [ selectId, setSelectId ] = React.useState<string>("");
   const [ resetBtn, setResetBtn ] = React.useState<boolean>(false);
@@ -78,7 +70,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
   const [ memberInfo, setMemberInfo ] = React.useState<any>(null);
 
   React.useEffect(() => {
-    setMembers(props.nodes);
+    setNodes(props.nodes);
     setRootId(props.rootId);
   }, [ reload ]);
 
@@ -96,8 +88,8 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
   }
 
   const renderTreeBranch = () => {
-    const treeBranch = FamilyTreeUtils.getTreeBranch(selectId, props.nodes);
-    setMembers(treeBranch);
+    const treeBranch = TreeUtils.getBranch(selectId, props.nodes);
+    setNodes(treeBranch);
     setRootId(selectId);
     setResetBtn(true);
     setSelectId(""); // hide the sheet
@@ -113,7 +105,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
     return (
       <>
         <FamilyTree
-          nodes={members}
+          nodes={nodes}
           rootId={rootId}
           nodeHeight={TreeConfig.nodeHeight}
           nodeWidth={TreeConfig.nodeWidth}
@@ -127,7 +119,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
               displayField="name"
               isRoot={node.id === rootId}
               onSelectNode={(id: string) => setSelectId(id)}
-              style={FamilyTreeAnalyzer.calculateNodePosition(node)}
+              style={TreeUtils.calculateNodePosition(node)}
             />
           )}
         />

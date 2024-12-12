@@ -5,7 +5,7 @@ import { Box } from 'zmp-ui';
 
 import Connector from './Connector';
 import calcTree from 'components/tree-relatives';
-import { Node } from 'components/tree-relatives/types';
+import { Gender, Node } from 'components/tree-relatives/types';
 
 import { SizedBox, CommonIcon } from 'components';
 import { useGesture } from "@use-gesture/react";
@@ -28,6 +28,19 @@ interface TreeProps {
 }
 
 export default React.memo<TreeProps>(function FamilyTree(props) {
+  if (!props.nodes.length || !props.rootId) {
+    props.nodes = [{
+      id: "0",
+      gender: Gender.male,
+      name: "Thành Viên",
+      parents: [],
+      children: [],
+      siblings: [],
+      spouses: []
+    }]
+    props.rootId = "0";
+  }
+
   let { searchFields = [ "id" ] } = props;
   let treeRef = React.useRef<HTMLDivElement | null>(null);
 
