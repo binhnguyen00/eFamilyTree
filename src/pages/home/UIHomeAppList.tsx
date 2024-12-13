@@ -4,7 +4,7 @@ import { Grid, Stack, Text } from "zmp-ui";
 
 import { t } from "i18next";
 import { useRecoilValue } from "recoil";
-import { hasPhonePermission } from "states";
+import { loginState } from "states";
 
 import { AppLogo, RequestPhone, SizedBox } from "components";
 
@@ -27,7 +27,7 @@ export function UIHomeAppList() {
   ];
 
   const navigate = useNavigate();
-  const logedIn = useRecoilValue(hasPhonePermission);
+  const logedIn = useRecoilValue(loginState);
   const [ requestPhone, setRequestPhone ] = React.useState(false); 
 
   const handleUserSelectApp = (appKey: string, requirePhone: boolean) => {

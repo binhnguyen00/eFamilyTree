@@ -4,7 +4,7 @@ import { RecoilRoot } from "recoil";
 import { App, SnackbarProvider } from "zmp-ui";
 
 import { UIRoutes } from "./routes";
-import { Navigation, ThemeProvider, PagePositionSaver } from "components";
+import { Navigation, ThemeProvider, PagePositionSaver, AutoLoginProvider, Loading } from "components";
 
 import "../i18n";
 
@@ -14,11 +14,13 @@ function Application() {
       <App>
         <ThemeProvider>
           <SnackbarProvider>
-            <Router>
-              <UIRoutes/>
-              <Navigation/>
-              <PagePositionSaver />
-            </Router>
+            <AutoLoginProvider>
+              <Router>
+                <UIRoutes/>
+                <Navigation/>
+                <PagePositionSaver />
+              </Router>
+            </AutoLoginProvider>
           </SnackbarProvider>
         </ThemeProvider>
       </App>

@@ -3,7 +3,7 @@ import { ZmpSDK } from "./utils/zmpsdk";
 import { getUserInfo } from "zmp-sdk";
 import { t } from "i18next";
 
-export const hasPhonePermission = selector({
+export const loginState = selector({
   key: "hasPhonePermission",
   get: async ({ get }) => {
     const requested = get(requestPhoneTriesState);
@@ -71,6 +71,11 @@ export const languageState = atom({
   default: "vi",
 })
 
+export const homePath = atom({
+  key: "homePath",
+  default: `/zapps/${import.meta.env.VITE_APP_ZALO_APP_ID}`,
+})
+
 export const settingsState = selector({
   key: "settings",
   get: async ({ }) => {
@@ -92,7 +97,10 @@ export const settingsState = selector({
   }
 })
 
-export const homePath = atom({
-  key: "homePath",
-  default: `/zapps/${import.meta.env.VITE_APP_ZALO_APP_ID}`,
+export const phonePermissionState = selector({
+  key: "phonePermission",
+  get: async ({ get }) => {
+    const authSetting = get(settingsState);
+    return authSetting["scope.userPhonenumber"];
+  }
 })

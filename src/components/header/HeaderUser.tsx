@@ -1,15 +1,13 @@
 import React from "react";
 import { Avatar } from "zmp-ui";
 
-import { useRecoilValue } from "recoil";
-import { hasPhonePermission, userState } from "states";
-
 import { Header } from "components";
+import { useAutoLogin } from "hooks";
 
 import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
 
 export function HeaderUser() {
-  const phonePermission = useRecoilValue(hasPhonePermission);
+  const { userInfo, phonePermission } = useAutoLogin();
 
   if (!phonePermission) return (
     <Header
@@ -20,7 +18,6 @@ export function HeaderUser() {
     />
   )
   else {
-    const userInfo = useRecoilValue(userState);
     return (
       <Header 
         showBackIcon={false} 
