@@ -23,6 +23,8 @@ export function AutoLoginContextProvider({ children }: { children: React.ReactNo
   };
   let phoneNumber = "";
 
+  console.log("phonePermission", phonePermission);
+
   if (phonePermission) { // Do auto login
     const retry = useSetRecoilState(requestPhoneTriesState);
     retry(r => r + 1);
