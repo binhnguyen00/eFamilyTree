@@ -11,10 +11,10 @@ import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
 
 export function UIBlog() {
   return (
-    <div className="container bg-white" style={{ height: "100vh" }}>
+    <div className="container bg-white">
       <Header title={t("blogs")}/>
 
-      <div className="text-base">
+      <div className="text-base" style={{ minHeight: "100vh" }}>
         <UIBlogList />
       </div>
     </div>
