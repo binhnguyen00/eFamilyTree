@@ -20,7 +20,7 @@ export function UIHome() {
         </React.Suspense>
       }/>
 
-      <Stack space='1.2rem'>
+      <Stack>
         <React.Suspense fallback={<Loading message={t("loading")}/>}>
           <UIHomeBanner/>
         </React.Suspense>
