@@ -20,7 +20,7 @@ export class EFamilyTreeApi {
     const header = this.initHeader();
     const body = this.initBody({
       phone: phoneNumber,
-      thanh_vien_id: memberId
+      member_id: memberId
     });
     return this.server.POST("get/info/member", header, body, successCB, failCB);
   }
