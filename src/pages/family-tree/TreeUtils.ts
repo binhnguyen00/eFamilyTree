@@ -47,4 +47,8 @@ export class TreeUtils {
       transform: `translate(${left * (TreeConfig.nodeWidth / 2)}px, ${top * (TreeConfig.nodeHeight / 2)}px)`
     };
   }
+
+  public static getMemberById(id: string, members: Node[]): Node | undefined {
+    return members.find(member => member.id === id);
+  }
 }

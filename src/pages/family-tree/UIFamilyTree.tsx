@@ -6,7 +6,7 @@ import { phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
 import { 
-  ServerResponse, FailResponse, FamilyTreeUtils, EFamilyTreeApi, CommonUtils } from "utils";
+  ServerResponse, FailResponse, EFamilyTreeApi, CommonUtils } from "utils";
 import { Header, CommonIcon, TreeNode, FamilyTree, TreeConfig, Loading } from "components";
 import { TreeUtils } from "./TreeUtils";
 import { TreeDataProcessor } from "./TreeDataProcessor";
@@ -136,7 +136,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
       {!CommonUtils.isStringEmpty(selectId) && (
         <UITreeOptions
           visible={!CommonUtils.isStringEmpty(selectId)}
-          title={`${FamilyTreeUtils.getMemberById(selectId, props.nodes)?.name || t("member_info")}`}
+          title={`${TreeUtils.getMemberById(selectId, props.nodes)?.name || t("member_info")}`}
           onClose={() => { setSelectId("") }}
           showMemberDetail={showMemberDetail}
           renderTreeBranch={renderTreeBranch}

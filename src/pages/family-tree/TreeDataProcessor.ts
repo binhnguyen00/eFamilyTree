@@ -1,4 +1,3 @@
-import { TreeConfig } from "components";
 import { Node, Gender, RelType, Relation } from "components/tree-relatives/types";
 
 interface Person {
