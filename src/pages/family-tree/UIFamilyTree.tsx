@@ -207,10 +207,10 @@ function UIMemberDetail(props: UIMemberDetailProps) {
     >
       <Box className="p-2" style={{ maxHeight: "50vh" }}>
         <Input label={"Họ Tên"} value={info["name"]} />
+        <Input label={"Giới tính"} value={info["gender"] === "1" ? t("male") : t("female")} />
         <Input label={"Điện thoại"} value={info["phone"]} />
-        <Input label={"Bố"} value={info["bo"]} />
-        <Input label={"Mẹ"} value={info["me"]} />
-        <Input label={"Ngành/Chi"} value={info["nganh_chi"]} />
+        <Input label={"Bố"} value={info["father"]} />
+        <Input label={"Mẹ"} value={info["mother"]} />
       </Box>
     </Sheet>
   )
