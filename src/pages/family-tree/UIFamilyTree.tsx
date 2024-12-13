@@ -75,12 +75,16 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
   }, [ reload ]);
 
   const showMemberDetail = () => {
-    const success = (result: any) => {
-      const info = result.info || null;
-      setMemberInfo(info);
+    const success = (result: ServerResponse) => {
+      if (result.status === "error") {
+        console.error("showMemberDetail:\n\t", result.message);
+      } else {
+        const data = result.data as any;
+        setMemberInfo(data);
+      }
     }
     const fail = (error: FailResponse) => {
-      console.error(error.stackTrace);
+      console.error("showMemberDetail:\n\t", error.message, "\n", "error.stackTrace");
     } 
     const memberId: number = +selectId;
     EFamilyTreeApi.getMemberInfo(props.phoneNumber, memberId, success, fail);
