@@ -11,7 +11,7 @@ import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
 
 export function UIBlog() {
   return (
-    <div className="container bg-white">
+    <div className="container bg-white" style={{ height: "100vh" }}>
       <Header title={t("blogs")}/>
 
       <div className="text-base">
@@ -48,7 +48,7 @@ function UIBlogList() {
 
   const navigateToBlog = (title: string, content: string) => {
     const blog = { title, content };
-    navigate("/blog/detail", { state: { blog } });
+    navigate("/blogs/detail", { state: { blog } });
   };
 
   const renderBlogList = (items: any[]) => {

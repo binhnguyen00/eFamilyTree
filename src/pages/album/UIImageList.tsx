@@ -61,7 +61,7 @@ export function UIImageList() {
   }
 
   return (
-    <div className="container bg-white">
+    <div className="container bg-white" style={{ height: "100vh" }}>
       <Header title={t("image_list")} subtitle={images.length}/>
 
       {images.length ? (
