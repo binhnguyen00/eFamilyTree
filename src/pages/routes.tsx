@@ -1,11 +1,11 @@
 import React from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import { Loading } from "components";
 
 import { UIFamilyTree } from "pages/family-tree/UIFamilyTree";
 import { UIUser } from "pages/user/UIUser";
-import { UIHomeLayout } from "pages/home/UIHomeLayout";
+import { UIHome } from "pages/home/UIHome";
 import { UIAbout } from "pages/about/UIAbout";
 import { UIImageList } from "./album/UIImageList";
 import { UIRegisterClan } from "./user/UIRegisterClan";
@@ -19,7 +19,6 @@ import { UICalendar } from "./calendar/UICalendar";
 import { UIAlbum } from "./album/UIAlbum";
 import { UIPlayground } from "./dummy/UIPlayground";
 import { UIDeveloper } from "./dummy/UIDeveloper";
-import { UIUpcomming } from "./upcomming/UIUpcomming";
 import { UICerificateGroup } from "./certificate/UICertificateGroup";
 import { UICertificate } from "./certificate/UICertificate";
 import { UICertificateDetail } from "./certificate/UICertificateDetail";
@@ -34,83 +33,85 @@ const UIDummyAlbum = React.lazy(() => import("./dummy/UIDummyAlbum"));
 const UIDummyNavigate = React.lazy(() => import("./dummy/UIDummyNavigate"));
 
 export function UIRoutes() {
+  const APP_ID = import.meta.env.VITE_APP_ZALO_APP_ID as string
 
   return (
     <Routes>
       {/* HOME */}
-      <Route path="/*" element={
-        <React.Suspense fallback={<Loading/>}>
-          <UIHomeLayout />
-        </React.Suspense>
-      } />
-      <Route path="/home" element={
-        <React.Suspense fallback={<Loading/>}>
-          <UIHomeLayout />
-        </React.Suspense>
-      } />
+      <Route path={`/zapps/${APP_ID}`} element={<UIHome />} />
+      <Route path="/" element={<UIHome />} />
+      <Route path="/home" element={<UIHome />} />
+
       <Route path="/family-tree" element={<UIFamilyTree />} />
+
       <Route path="/user" element={
-        <React.Suspense fallback={<Loading/>}>
+        <React.Suspense fallback={<Loading />}>
           <UIUser />
         </React.Suspense>
       } />
 
       {/* APP */}
       <Route path="/about" element={<UIAbout />} />
-      <Route path="/album" element={<UIAlbum />} />
-      <Route path="/album/image-list" element={<UIImageList />} />
+
+      <Route path="/album" element={<UIAlbum />}/>
+      <Route path="/album/images" element={<UIImageList />} />
+
       <Route path="/calendar" element={<UICalendar />} />
-      <Route path="/upcoming" element={<UIUpcomming />} />
-      <Route path="/developer" element={<UIDeveloper />} />
-      <Route path="/blogs" element={<UIBlog />} />
-      <Route path="/blog-detail" element={<UIBlogDetail />} />
-      <Route path="/funds" element={<UIFund />} />
-      <Route path="/fund-detail" element={<UIFundDetail />} />
-      <Route path="/register-clan" element={<UIRegisterClan />} />
+
+      <Route path="/blogs" element={<UIBlog />}/>
+      <Route path="/blogs/detail" element={<UIBlogDetail />} />
+
+      <Route path="/funds" element={<UIFund />}/>
+      <Route path="/funds/detail" element={<UIFundDetail />} />
+
       <Route path="/register" element={<UIRegister />} />
+      <Route path="/register-clan" element={<UIRegisterClan />} />
+
       <Route path="/theme" element={<UITheme />} />
-      <Route path="/certificate-group" element={<UICerificateGroup />} />
-      <Route path="/certificates" element={<UICertificate />} />
-      <Route path="/certificate-info" element={<UICertificateDetail />} />
+
+      <Route path="/certificate" element={<UICerificateGroup />}/>
+      <Route path="/certificate/list" element={<UICertificate />}/>
+      <Route path="/certificate/list/info" element={<UICertificateDetail />} />
 
       {/* DEMO ROUTES */}
-      <Route path="/playground" element={
-        <React.Suspense fallback={<Loading/>}>
+      <Route path="/dev" element={<UIDeveloper />}/>
+      <Route path="/dev/playground" element={
+        <React.Suspense fallback={<Loading />}>
           <UIPlayground />
         </React.Suspense>
       } />
-      <Route path="/demo-funds" element={
-        <React.Suspense fallback={<Loading/>}>
+      <Route path="/dev/funds" element={
+        <React.Suspense fallback={<Loading />}>
           <UIDummyFund />
         </React.Suspense>
-      } />
-      <Route path="/demo-fund-detail" element={
-        <React.Suspense fallback={<Loading/>}>
+      }/>
+      <Route path="/dev/funds/detail" element={
+        <React.Suspense fallback={<Loading />}>
           <UIDummyFundDetail />
         </React.Suspense>
       } />
-      <Route path="/demo-tree" element={
-        <React.Suspense fallback={<Loading/>}>
+      <Route path="/dev/tree" element={
+        <React.Suspense fallback={<Loading />}>
           <UIDummyTree />
         </React.Suspense>
       } />
-      <Route path="/demo-calendar" element={
-        <React.Suspense fallback={<Loading/>}>
+      <Route path="/dev/calendar" element={
+        <React.Suspense fallback={<Loading />}>
           <UIDummyCalendar />
         </React.Suspense>
       } />
-      <Route path="/demo-blogs" element={
-        <React.Suspense fallback={<Loading/>}>
+      <Route path="/dev/blogs" element={
+        <React.Suspense fallback={<Loading />}>
           <UIDummyBlog />
         </React.Suspense>
       } />
-      <Route path="/demo-album" element={
-        <React.Suspense fallback={<Loading/>}>
+      <Route path="/dev/album" element={
+        <React.Suspense fallback={<Loading />}>
           <UIDummyAlbum />
         </React.Suspense>
       } />
-      <Route path="/dummy-detail" element={
-        <React.Suspense fallback={<Loading/>}>
+      <Route path="/dev/dummy-detail" element={
+        <React.Suspense fallback={<Loading />}>
           <UIDummyNavigate />
         </React.Suspense>
       } />

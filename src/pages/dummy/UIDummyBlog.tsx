@@ -32,7 +32,7 @@ function UIBlogList() {
 
   const navigateToBlog = (title: string, content: string) => {
     const blog = { title, content };
-    navigate("/blog-detail", { state: { blog } });
+    navigate("/blog/detail", { state: { blog } });
   };
 
   const renderBlogs = (items: any[]) => {

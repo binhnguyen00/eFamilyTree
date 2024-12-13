@@ -10,7 +10,6 @@ export class ZmpSDK {
         success: async (data) => {
           const { number, token } = data;
           if (token) {
-            console.log("getPhoneNumber:\n", token);
             try {
               const response = await this.getPhoneNumberByToken(token);
               resolve(response.data.number.replace(/\+84|84/g, '0'));

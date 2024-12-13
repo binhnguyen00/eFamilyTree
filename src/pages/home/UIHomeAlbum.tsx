@@ -36,7 +36,7 @@ export function UIHomeAlbum() {
 
   const goToImageList = (album: any) => {
     const images = album["image"] || [] as any[];
-    navigate("/album/image-list", { state: { images } });
+    navigate("/image-list", { state: { images } });
   }
 
   const goToAlbumList = () => {

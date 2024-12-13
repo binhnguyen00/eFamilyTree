@@ -11,8 +11,7 @@ import { UIHomeAlbum } from './UIHomeAlbum';
 import { UIHomeBlog } from './UIHomeBlog';
 import { UIHomeTheme } from './UIHomeTheme';
 
-export function UIHomeLayout() {
-
+export function UIHome() {
   return (
     <div className='container text-secondary'>
       <Header showBackIcon={false} customRender={

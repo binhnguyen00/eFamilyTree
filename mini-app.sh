@@ -50,6 +50,10 @@ function build() {
   pnpm run build
 }
 
+function login() {
+  pnpm run login
+}
+
 function deploy() {
   pnpm run deploy
 }
@@ -63,6 +67,9 @@ function show_help() {
 ./mini-app.sh [COMMAND] [OPTION]
 
 Commands:
+
+  Login to Zalo:
+    ./mini-app.sh login
 
   Install dependencies:
     ./mini-app.sh install [-clean]
@@ -91,6 +98,8 @@ if [ "$COMMAND" = "build" ] ; then
   build $@
 elif [ "$COMMAND" = "install" ] ; then
   install $@
+elif [ "$COMMAND" = "login" ] ; then
+  login
 elif [ "$COMMAND" = "run" ] ; then
   run
 elif [ "$COMMAND" = "deploy" ] ; then

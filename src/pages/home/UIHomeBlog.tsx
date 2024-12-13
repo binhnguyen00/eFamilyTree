@@ -36,7 +36,7 @@ export function UIHomeBlog() {
 
   const goToBlogDetail = (title: string, content: string) => {
     const blog = { title, content };
-    navigate("/blog-detail", { state: { blog } });
+    navigate("/blog/detail", { state: { blog } });
   };
 
   const goToBlogs = () => {

@@ -72,15 +72,13 @@ export const languageState = atom({
   default: "vi",
 })
 
-/** @deprecated */
-export const swipeDisabledPathsAtom = atom<string[]>({
-  key: 'swipeDisabledPaths',
-  default: [
-    '/home',          // UIHomeLayout
-    '/family-tree',   // UIFamilyTree
-    '/calendar',      // UICalendar
-
-    '/demo-tree',
-    '/demo-calendar',
-  ],
-});
+export const settingsState = selector({
+  key: "settings",
+  get: async ({ }) => {
+    const settings = await ZmpSDK.getSetting();
+    if (settings) {
+      const { authSetting } = settings;
+      return authSetting;
+    } else return {};
+  }
+})

@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { t } from "i18next";
 import { FcApproval, FcCalendar, FcGenealogy, FcMoneyTransfer, FcTemplate, FcBiotech, FcStackOfPhotos } from "react-icons/fc";
 
@@ -10,12 +10,12 @@ import { Header } from "components";
 export function UIDeveloper() {
   // keys should be same as Route in ../main.tsx
   const funcKeyMap = {
-    "playground": t("playground"),
-    "demo-album": t("album"),
-    "demo-funds": t("demo_funds"),
-    "demo-tree": t("demo_tree"),
-    "demo-calendar": t("demo_calendar"),
-    "demo-blogs": t("demo_blogs"),
+    "dev/playground": t("playground"),
+    "dev/album": t("album"),
+    "dev/funds": t("demo_funds"),
+    "dev/tree": t("demo_tree"),
+    "dev/calendar": t("demo_calendar"),
+    "dev/blogs": t("demo_blogs"),
   }
   const navigate = useNavigate();
 
@@ -63,6 +63,8 @@ export function UIDeveloper() {
       <Grid style={{ padding: "0 1rem" }} columnSpace="1rem" rowSpace="1rem" columnCount={2}>
         {renderFunctions()}
       </Grid>
+      
+      <Outlet />
       <br />
 
     </div>
@@ -71,17 +73,17 @@ export function UIDeveloper() {
 
 function renderIcon(iconKey: string) { 
   switch (iconKey) {
-    case "playground":
+    case "dev/playground":
       return <FcBiotech size={"4.5rem"}/>
-    case "demo-tree":
+    case "dev/tree":
       return <FcGenealogy size={"4.5rem"}/>
-    case "demo-funds":
+    case "dev/funds":
       return <FcMoneyTransfer size={"4.5rem"}/>
-    case "demo-calendar":
+    case "dev/calendar":
       return <FcCalendar size={"4.5rem"}/>
-    case "demo-blogs":
+    case "dev/blogs":
       return <FcTemplate size={"4.5rem"}/>
-    case "demo-album":
+    case "dev/album":
       return <FcStackOfPhotos size={"4.5rem"}/>
     default: 
       return <FcApproval size={"4.5rem"}/>

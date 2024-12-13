@@ -38,7 +38,7 @@ export function UICertificate() {
   }, [ reload ])
 
   const navigateToCertificateDetail = (certificateId: number) => {
-    navigate("/certificate-info", { state: { certificateId } });
+    navigate("/certificate/list/info", { state: { certificateId } });
   }
 
   const renderCertificate = () => {

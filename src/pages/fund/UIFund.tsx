@@ -35,7 +35,7 @@ export function UIFund() {
 
   const navigateToFundDetail = (fund: any = null) => {
     if (!fund) return;
-    navigate("/fund-detail", { state: { fund } });
+    navigate("/funds/detail", { state: { fund } });
   }
 
   const renderFundList = () => {
