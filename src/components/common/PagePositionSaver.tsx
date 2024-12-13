@@ -32,7 +32,7 @@ export function PagePositionSaver() {
     };
   }, [ location ]);
 
-  return null;
+  return <></>;
 }
 
 function findElementWithScrollbar(rootElement: Element = document.body): Element | null {

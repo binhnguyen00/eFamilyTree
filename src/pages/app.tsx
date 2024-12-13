@@ -4,10 +4,9 @@ import { RecoilRoot } from "recoil";
 import { App, SnackbarProvider } from "zmp-ui";
 
 import { UIRoutes } from "./routes";
-import { Navigation, ThemeProvider } from "components";
+import { Navigation, ThemeProvider, PagePositionSaver } from "components";
 
 import "../i18n";
-import { PagePositionSaver } from "components/common/PagePositionSaver";
 
 function Application() {
   return (
@@ -16,9 +15,9 @@ function Application() {
         <ThemeProvider>
           <SnackbarProvider>
             <Router>
-              <PagePositionSaver />
               <UIRoutes/>
               <Navigation/>
+              <PagePositionSaver />
             </Router>
           </SnackbarProvider>
         </ThemeProvider>
