@@ -21,15 +21,21 @@ export function UIHome() {
       }/>
 
       <Stack space='1.2rem'>
-        <UIHomeBanner/>
+        <React.Suspense fallback={<Loading message={t("loading")}/>}>
+          <UIHomeBanner/>
+        </React.Suspense>
 
         <Divider/>
 
-        <UIHomeAppList/>
+        <React.Suspense fallback={<Loading message={t("loading")}/>}>
+          <UIHomeAppList/>
+        </React.Suspense>
 
         <Divider/>
 
-        <UIHomeTheme/>
+        <React.Suspense fallback={<Loading message={t("loading")}/>}>
+          <UIHomeTheme/>
+        </React.Suspense>
 
         <Divider/>
 

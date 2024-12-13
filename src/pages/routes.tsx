@@ -22,6 +22,8 @@ import { UIDeveloper } from "./dummy/UIDeveloper";
 import { UICerificateGroup } from "./certificate/UICertificateGroup";
 import { UICertificate } from "./certificate/UICertificate";
 import { UICertificateDetail } from "./certificate/UICertificateDetail";
+import { homePath } from '../states';
+import { useRecoilValue } from "recoil";
 
 // Demo components (React.lazy loaded)
 const UIDummyFund = React.lazy(() => import("./dummy/UIDummyFund"));
@@ -33,14 +35,12 @@ const UIDummyAlbum = React.lazy(() => import("./dummy/UIDummyAlbum"));
 const UIDummyNavigate = React.lazy(() => import("./dummy/UIDummyNavigate"));
 
 export function UIRoutes() {
-  const APP_ID = import.meta.env.VITE_APP_ZALO_APP_ID as string
+  const home = useRecoilValue(homePath);
 
   return (
     <Routes>
       {/* HOME */}
-      <Route path={`/zapps/${APP_ID}`} element={<UIHome />} />
-      <Route path="/" element={<UIHome />} />
-      <Route path="/home" element={<UIHome />} />
+      <Route path={home} element={<UIHome />} />
 
       <Route path="/family-tree" element={<UIFamilyTree />} />
 

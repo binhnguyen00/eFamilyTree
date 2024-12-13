@@ -82,3 +82,8 @@ export const settingsState = selector({
     } else return {};
   }
 })
+
+export const homePath = atom({
+  key: "homePath",
+  default: `/zapps/${import.meta.env.VITE_APP_ZALO_APP_ID}`,
+})
