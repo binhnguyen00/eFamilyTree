@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import i18n from "i18n";
 import { t } from "i18next";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { languageState, logedInState, requestPhoneTriesState } from "states";
+import { languageState, hasPhonePermission, requestPhoneTriesState } from "states";
 
 import { Button, Stack } from "zmp-ui";
 
@@ -11,7 +11,7 @@ export default function UISignInUser() {
   const navigate = useNavigate();
 
   const retry = useSetRecoilState(requestPhoneTriesState);
-  const login = useRecoilValue(logedInState);
+  const login = useRecoilValue(hasPhonePermission);
   const currentLanguage = useRecoilValue(languageState);
   const setLanguage = useSetRecoilState(languageState);
 

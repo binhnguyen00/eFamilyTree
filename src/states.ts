@@ -3,8 +3,8 @@ import { ZmpSDK } from "./utils/zmpsdk";
 import { getUserInfo } from "zmp-sdk";
 import { t } from "i18next";
 
-export const logedInState = selector({
-  key: "logedInState",
+export const hasPhonePermission = selector({
+  key: "hasPhonePermission",
   get: async ({ get }) => {
     const requested = get(requestPhoneTriesState);
     if (requested) {
@@ -90,16 +90,6 @@ export const settingsState = selector({
       return defaultSetting;
     }
   }
-})
-
-export const hasPhonePermission = selector({
-  key: "hasPhonePermission",
-  get: async ({ get }) => {
-    const authSetting = get(settingsState);
-    console.log(authSetting);
-    if (!authSetting) return false;
-    return authSetting["scope.userPhonenumber"];
-  },
 })
 
 export const homePath = atom({

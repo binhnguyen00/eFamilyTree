@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
 
-import { logedInState, phoneState } from "states";
+import { hasPhonePermission, phoneState } from "states";
 import { useRecoilValue } from "recoil";
 
 import { Box, Button, Grid, Stack, Text } from "zmp-ui";
@@ -14,7 +14,7 @@ export function UIHomeAlbum() {
   const [ albums, setAlbums ] = React.useState<any[]>([]);
 
   const navigate = useNavigate();
-  const loginedIn = useRecoilValue(logedInState);
+  const loginedIn = useRecoilValue(hasPhonePermission);
   const phoneNumber = useRecoilValue(phoneState);
 
   React.useEffect(() => {

@@ -30,7 +30,7 @@ export function RequestPhone(props: { visible: boolean, closeSheet: () => void }
             retry(r => r + 1);
             closeSheet();
           }}>
-            {t("login")}
+            {t("allow")}
           </Button>
           <Button variant="tertiary" onClick={closeSheet}>
             <Text> {t("decline")} </Text>

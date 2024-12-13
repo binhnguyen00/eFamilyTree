@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useRecoilValue } from "recoil";
-import { logedInState, userState } from "states";
+import { hasPhonePermission, userState } from "states";
 
 import { Header, Loading } from "components";
 
@@ -10,7 +10,7 @@ import UISignedInUser from "./UISignedInUser";
 
 export function UIUser() { 
   const { t } = useTranslation();
-  const loginedIn = useRecoilValue(logedInState);
+  const loginedIn = useRecoilValue(hasPhonePermission);
   const userInfo = useRecoilValue(userState);
 
   const [ container, setContainer ] = React.useState(<Loading message={t("loading")} />);
