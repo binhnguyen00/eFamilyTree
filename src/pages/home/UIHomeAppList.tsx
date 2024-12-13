@@ -28,11 +28,11 @@ export function UIHomeAppList() {
 
   const navigate = useNavigate();
   const logedIn = useRecoilValue(logedInState);
-  const [ sheetVisible, setSheetVisible ] = React.useState(false); 
+  const [ requestPhone, setRequestPhone ] = React.useState(false); 
 
   const handleUserSelectApp = (appKey: string, requirePhone: boolean) => {
     if (requirePhone && !logedIn) {
-      setSheetVisible(true);
+      setRequestPhone(true);
     } else {
       navigate(`/${appKey}`)
       return;
@@ -60,7 +60,7 @@ export function UIHomeAppList() {
       <Grid columnCount={4} rowSpace="0.5rem">
         {renderApps()}
       </Grid>
-      <RequestPhone visible={sheetVisible} closeSheet={() => setSheetVisible(false)}/>
+      <RequestPhone visible={requestPhone} closeSheet={() => setRequestPhone(false)}/>
     </Stack>
   )
 }

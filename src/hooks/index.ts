@@ -1,4 +1,4 @@
 import { useTheme } from "./useTheme";
-import { usePreviousRoute } from "./usePreviousRoute";
+import { useAutoLogin } from "./useAutoLogin";
 
-export { useTheme, usePreviousRoute };
+export { useTheme, useAutoLogin };

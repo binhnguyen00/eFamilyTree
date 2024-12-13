@@ -1,8 +1,6 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { t } from "i18next";
-import { useSetRecoilState } from "recoil";
-import { requestPhoneTriesState } from "states";
+import { useNavigate } from "react-router-dom";
 
 import { Avatar, Box, Button, Stack, Text } from "zmp-ui";
 
@@ -11,7 +9,6 @@ interface UISignedInUserProps {
 }
 export default function UISignedInUser({ userInfo }: UISignedInUserProps) {
   const navigate = useNavigate();
-  const retry = useSetRecoilState(requestPhoneTriesState);
 
   return (
     <Stack space="1rem">
@@ -33,10 +30,6 @@ export default function UISignedInUser({ userInfo }: UISignedInUserProps) {
       <Button variant="secondary" onClick={() => navigate("/about")}>
         {t("about")}
       </Button>
-
-      <button onClick={() => retry(0)}>
-        {t("logout")}
-      </button>
 
     </Stack>
   )

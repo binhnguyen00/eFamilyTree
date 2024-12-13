@@ -27,21 +27,20 @@ export const requestPhoneTriesState = atom({
   default: 0,
 });
 
-export const phoneState = selector<string | boolean>({
+export const phoneState = selector<string>({
   key: "phone",
   get: async ({ get }) => {
     const requested = get(requestPhoneTriesState);
-    if (requested) {
+    if (requested > 0) {
       try {
         const phoneNumber = await ZmpSDK.getPhoneNumber();
-        if (phoneNumber) {
-          return phoneNumber;
-        } else return false
+        return phoneNumber || "";
       } catch (error) {
-        console.error("Error fetching phone number:", error);
-        return false;
+        console.error("phoneState:\n\t", error);
+        return "";
       }
-    } else return false;
+    }
+    return "";
   },
 });
 
@@ -54,13 +53,13 @@ export const userState = selector({
       avatar: "",
       name: t("account"),
     }
-    if (requested) {
+    if (requested > 0) {
       try {
         const { userInfo } = await getUserInfo({ autoRequestPermission: true });
         if (userInfo.id) return userInfo;
         else return defaultUser;
       } catch (error) {
-        console.error("Error fetching user info:", error);
+        console.error("userState:\n\t", error);
         return defaultUser;
       }
     } else return defaultUser;
@@ -75,12 +74,32 @@ export const languageState = atom({
 export const settingsState = selector({
   key: "settings",
   get: async ({ }) => {
+    let defaultSetting = {
+      "scope.userInfo": false,
+      "scope.userPhonenumber": false,
+      "scope.userLocation": false,
+      "scope.camera": false,
+      "scope.micro": false
+    };
     const settings = await ZmpSDK.getSetting();
     if (settings) {
       const { authSetting } = settings;
-      return authSetting;
-    } else return {};
+      if (Object.keys(authSetting).length) return authSetting;
+      else return defaultSetting;
+    } else {
+      return defaultSetting;
+    }
   }
+})
+
+export const hasPhonePermission = selector({
+  key: "hasPhonePermission",
+  get: async ({ get }) => {
+    const authSetting = get(settingsState);
+    console.log(authSetting);
+    if (!authSetting) return false;
+    return authSetting["scope.userPhonenumber"];
+  },
 })
 
 export const homePath = atom({

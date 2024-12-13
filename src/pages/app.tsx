@@ -7,19 +7,22 @@ import { UIRoutes } from "./routes";
 import { Navigation, ThemeProvider, PagePositionSaver } from "components";
 
 import "../i18n";
+import { AutoLoginContextProvider } from "../components/common/AutoLoginContext";
 
 function Application() {
   return (
     <RecoilRoot>
       <App>
         <ThemeProvider>
-          <SnackbarProvider>
-            <Router>
-              <UIRoutes/>
-              <Navigation/>
-              <PagePositionSaver />
-            </Router>
-          </SnackbarProvider>
+          <AutoLoginContextProvider>
+            <SnackbarProvider>
+              <Router>
+                <UIRoutes/>
+                <Navigation/>
+                <PagePositionSaver />
+              </Router>
+            </SnackbarProvider>
+          </AutoLoginContextProvider>
         </ThemeProvider>
       </App>
     </RecoilRoot>

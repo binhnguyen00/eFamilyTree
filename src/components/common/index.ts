@@ -9,9 +9,10 @@ import { Navigation } from "./Navigation";
 import { RequestPhone } from "./RequestPhone";
 import { PagePositionSaver } from "./PagePositionSaver";
 import { Info } from "./Info";
+import { AutoLoginContext } from "./AutoLoginContext";
 
 export { 
   Error, Loading, Retry, Info,
   Divider, ImageWithText, Navigation, RequestPhone, SearchBar,
-  SizedBox, PagePositionSaver
+  SizedBox, PagePositionSaver, AutoLoginContext
 };
