@@ -1,12 +1,9 @@
 import React from "react";
 import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { phoneState } from "states";
-
 import { Box, Grid, Stack, Text } from "zmp-ui";
 
-import { Header, Info, Loading } from "components";
+import { AutoLoginContext, Header, Info, Loading } from "components";
 import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
 
 export function UIAlbum() {
@@ -21,7 +18,8 @@ export function UIAlbum() {
 
 function UIAlbumList() {
   const navigate = useNavigate();
-  const phoneNumber = useRecoilValue(phoneState);
+  const { phone } = React.useContext(AutoLoginContext);
+
   const [ reload, setReload ] = React.useState(false);
   const [ albums, setAlbums ] = React.useState<any[]>([]);
   const [ loading, setLoading ] = React.useState(true);
@@ -40,7 +38,7 @@ function UIAlbumList() {
       setLoading(false);
       console.error("UIAlbumList:\n\t", error.stackTrace);
     }
-    EFamilyTreeApi.getMemberAlbum(phoneNumber, success, fail);
+    EFamilyTreeApi.getMemberAlbum(phone, success, fail);
   }, [ reload ]);
 
   const goToImageList = (album: any) => {

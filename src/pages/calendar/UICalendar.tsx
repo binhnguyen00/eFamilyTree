@@ -2,14 +2,11 @@ import React from "react";
 import { t } from "i18next";
 import { Box, Calendar, Text } from "zmp-ui";
 
-import { phoneState } from "states";
-import { useRecoilValue } from "recoil";
-
-import { Header, SizedBox } from "components";
+import { AutoLoginContext, Header, SizedBox } from "components";
 import { EFamilyTreeApi, CalendarUtils, FailResponse, ServerResponse } from "utils";
 
 export function UICalendar() {
-  const phoneNumber = useRecoilValue(phoneState);
+  const { phone } = React.useContext(AutoLoginContext);
 
   const [ eventOnDate, setEventOnDate ] = React.useState<any[]>([]);
   const [ events, setEvents ] = React.useState<any[]>([]);
@@ -27,7 +24,7 @@ export function UICalendar() {
     const fail = (error: FailResponse) => {
       console.error("UICalendar:\n\t", error.stackTrace);
     }
-    EFamilyTreeApi.getMemberUpcomingEvents(phoneNumber, success, fail);
+    EFamilyTreeApi.getMemberUpcomingEvents(phone, success, fail);
   }, [ reload ]);
 
   const handleDateSelect = (selectedDate: Date) => {

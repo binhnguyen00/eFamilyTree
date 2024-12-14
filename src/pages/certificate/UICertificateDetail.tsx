@@ -1,20 +1,15 @@
 import React from "react";
 import { t } from "i18next";
 import { useLocation } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { phoneState } from "states";
-
 import { Input, Stack } from "zmp-ui";
 
-import { Header } from "components";
+import { AutoLoginContext, Header } from "components";
 import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
 
 export function UICertificateDetail() {
   const location = useLocation();
   const { certificateId } = location.state || null;
-
-  const phoneNumber = useRecoilValue(phoneState);
-
+  const { phone } = React.useContext(AutoLoginContext);
   const [ certificate, setCertificate ] = React.useState<any>({
     name: "",
     clan: "",
@@ -37,7 +32,7 @@ export function UICertificateDetail() {
     const fail = (error: FailResponse) => {
       console.error("UICertificateDetail:\n\t", error.stackTrace);
     }
-    EFamilyTreeApi.getCerificateInfo(phoneNumber, certificateId, success, fail);
+    EFamilyTreeApi.getCerificateInfo(phone, certificateId, success, fail);
   }, [ reload ])
 
   return (

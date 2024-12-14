@@ -1,21 +1,15 @@
 import React from "react";
 import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
-
-import { phoneState } from "states";
-import { useRecoilValue } from "recoil";
-
 import { Stack, Text } from "zmp-ui";
 
-import { Header, SizedBox } from "components";
+import { AutoLoginContext, Header, SizedBox } from "components";
 import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
 
 /** Bảng Vàng */
 export function UICerificateGroup() {
-
   const navigate = useNavigate();
-  const phoneNumber = useRecoilValue(phoneState);
-
+  const { phone } = React.useContext(AutoLoginContext);
   const [ groups, setGroups ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);
 
@@ -32,7 +26,7 @@ export function UICerificateGroup() {
       console.error(error.stackTrace);
     }
 
-    EFamilyTreeApi.getCerificateGroups(phoneNumber, success, fail);
+    EFamilyTreeApi.getCerificateGroups(phone, success, fail);
   }, [ reload ])
 
   const onSelectGroup = (certificateGroupId: number, certificateGroupName: string) => () => {

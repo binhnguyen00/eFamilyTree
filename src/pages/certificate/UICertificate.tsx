@@ -1,23 +1,18 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
-import { phoneState } from "states";
-import { useRecoilValue } from "recoil";
 import { List, Stack, Text } from "zmp-ui";
 
-import { Header, CommonIcon } from "components";
+import { Header, CommonIcon, AutoLoginContext } from "components";
 import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
 
 export function UICertificate() {
+  const navigate = useNavigate();
   const location = useLocation();
   const { certificateGroupId, certificateGroupName } = location.state || {  
     certificateGroupId: 0, 
     certificateGroupName: ""
   };
-
-  const navigate = useNavigate();
-  const phoneNumber = useRecoilValue(phoneState);
-
+  const { phone } = React.useContext(AutoLoginContext);
   const [ certificates, setCertificates ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);
 
@@ -34,7 +29,7 @@ export function UICertificate() {
       console.error("UICertificate:\n\t", error.stackTrace);
     }
 
-    EFamilyTreeApi.getCerificatesByGroup(phoneNumber, certificateGroupId, success, fail);
+    EFamilyTreeApi.getCerificatesByGroup(phone, certificateGroupId, success, fail);
   }, [ reload ])
 
   const navigateToCertificateDetail = (certificateId: number) => {

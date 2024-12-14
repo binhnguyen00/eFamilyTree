@@ -1,25 +1,21 @@
 import React from "react";
 import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
-
-import { phoneState } from "states";
-import { useRecoilValue } from "recoil";
-
 import { Box, Text } from "zmp-ui";
 
 import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
-import { Header, Loading, Error, SearchBar, CommonIcon } from "components";
+import { Header, Loading, SearchBar, CommonIcon, AutoLoginContext, Info } from "components";
 
 export function UIFund() {
   const navigate = useNavigate();
-  const phoneNumber = useRecoilValue(phoneState);
-
+  const { phone } = React.useContext(AutoLoginContext);
   const [ funds, setFunds ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);
-  const [ fetchError, setFetchError ] = React.useState(false);
+  const [ loading, setLoading ] = React.useState(true);
 
   React.useEffect(() => {
     const success = (result: ServerResponse) => {
+      setLoading(false);
       if (result.status === "error") {
         console.error("UIFund:\n\t", result.message);
       } else {
@@ -28,9 +24,10 @@ export function UIFund() {
       }
     };
     const fail = (error: FailResponse) => {
+      setLoading(false);
       console.error("UIFund:\n\t", error.stackTrace);
     };
-    EFamilyTreeApi.getFunds(phoneNumber, success, fail);
+    EFamilyTreeApi.getFunds(phone, success, fail);
   }, [ reload ]);
 
   const navigateToFundDetail = (fund: any = null) => {
@@ -78,10 +75,10 @@ export function UIFund() {
         </>
       )
     } else {
-      if (fetchError) {
-        return <Error message={t("server_error")} onRetry={() => setReload(!reload)}/>; 
-      } else {
+      if (loading) {
         return <Loading message={t("loading_funds")}/>; 
+      } else {
+        return <Info title={t("no_funds")}/>
       }
     }
   }

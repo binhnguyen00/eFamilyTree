@@ -3,10 +3,7 @@ import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
 import { Box, Stack, Text } from "zmp-ui";
 
-import { useRecoilValue } from "recoil";
-import { phoneState } from "states";
-
-import { Header, Loading, Info } from "components";
+import { Header, Loading, Info, AutoLoginContext } from "components";
 import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
 
 export function UIBlog() {
@@ -23,7 +20,7 @@ export function UIBlog() {
 
 function UIBlogList() {
   const navigate = useNavigate();
-  const phoneNumber = useRecoilValue(phoneState);
+  const { phone } = React.useContext(AutoLoginContext);
 
   const [ blogs, setBlogs ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);
@@ -43,7 +40,7 @@ function UIBlogList() {
       setLoading(false);
       console.error("UIBlogList:\n\t", error.stackTrace);
     };
-    EFamilyTreeApi.getMemberBlogs(phoneNumber, success, fail);
+    EFamilyTreeApi.getMemberBlogs(phone, success, fail);
   }, [ reload ]);
 
   const navigateToBlog = (title: string, content: string) => {

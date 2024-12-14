@@ -1,19 +1,14 @@
 import React from "react";
 import { t } from "i18next";
 import { Sheet, Grid, Button, Box, Input } from "zmp-ui";
-
-import { phoneState } from "states";
-import { useRecoilValue } from "recoil";
-
 import { 
   ServerResponse, FailResponse, EFamilyTreeApi, CommonUtils } from "utils";
-import { Header, CommonIcon, TreeNode, FamilyTree, TreeConfig, Loading } from "components";
+import { Header, CommonIcon, TreeNode, FamilyTree, TreeConfig, Loading, AutoLoginContext } from "components";
 import { TreeUtils } from "./TreeUtils";
 import { TreeDataProcessor } from "./TreeDataProcessor";
 
 export function UIFamilyTree() {
-  const phoneNumber = useRecoilValue(phoneState);
-
+  const { phone } = React.useContext(AutoLoginContext);
   let [ reload, setReload ] = React.useState(false);
   let [ loading, setLoading ] = React.useState(true);
   let [ processor, setProcessor ] = React.useState<TreeDataProcessor>(new TreeDataProcessor([]));
@@ -33,8 +28,8 @@ export function UIFamilyTree() {
       setLoading(false);
       console.error("UIFamilyTree:\n\t", error.message, "\n", error.stackTrace);
     } 
-    EFamilyTreeApi.getMembers(phoneNumber, success, fail);
-  }, [ reload, phoneNumber ]);
+    EFamilyTreeApi.getMembers(phone, success, fail);
+  }, [ reload ]);
 
   if (loading) return (
     <div className="container">
@@ -46,7 +41,7 @@ export function UIFamilyTree() {
     <UIFamilyTreeContainer 
       nodes={processor.nodes}
       rootId={processor.rootId}
-      phoneNumber={phoneNumber}
+      phoneNumber={phone}
       onReload={() => setReload(!reload)}
     />
   )
