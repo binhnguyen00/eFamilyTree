@@ -25,7 +25,7 @@ interface AccountProps {
 }
 function UIAccountContainer(props: AccountProps) {
   const navigate = useNavigate();
-  const { logedIn, user } = props;
+  const { user } = props;
 
   return (
     <Stack space="1rem">
@@ -39,11 +39,9 @@ function UIAccountContainer(props: AccountProps) {
         <Text.Title> {user.name} </Text.Title>
       </Box>
 
-      {!logedIn && (
-        <Button variant="secondary" onClick={() => navigate("/register") }>
-          {t("register")}
-        </Button>
-      )}
+      <Button variant="secondary" onClick={() => navigate("/register") }>
+        {t("register")}
+      </Button>
 
       <Button variant="secondary" onClick={() => navigate("/register-clan")}>
         {t("register_clan")}

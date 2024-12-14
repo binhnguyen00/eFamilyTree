@@ -30,7 +30,7 @@ export function UICerificateGroup() {
   }, [ reload ])
 
   const onSelectGroup = (certificateGroupId: number, certificateGroupName: string) => () => {
-    navigate("certificate/list", { state: { certificateGroupId, certificateGroupName } });
+    navigate("/certificate/list", { state: { certificateGroupId, certificateGroupName } });
   }
 
   const renderCertificateGroup = () => {
