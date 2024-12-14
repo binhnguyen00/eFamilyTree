@@ -5,12 +5,11 @@ interface PhonePermissionHookProps {
   returnValue: (hasPermission: boolean) => void;
 }
 export function useGetPhonePermission(props: PhonePermissionHookProps) {
-  console.log("useGetPhonePermission");
-  
   let { returnValue } = props;
   React.useEffect(() => {
     const success = (authSetting: any) => {
       returnValue(authSetting["scope.userPhonenumber"]);
+      // returnValue(true);
     }
     const fail = (error: any) => {
       fail(error);

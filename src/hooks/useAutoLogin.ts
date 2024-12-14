@@ -6,37 +6,37 @@ import { useGetPhonePermission } from "hooks";
 
 interface AutoLoginProps {
   update: (phone: string, user: any) => void;
-  dependencies?: any[]
 }
 export function useAutoLogin(props: AutoLoginProps) {
-  let { update, dependencies = [] } = props;
+  let { update } = props;
 
   let [ hasPermission, setPermission ] = React.useState(false);
-  let [ phoneNumber, setPhone ] = React.useState("");
-  let [ userInfo, setUser ] = React.useState<any>(null);
+  let [ user, setUser ] = React.useState(null);
+  let [ phone, setPhoneNumber ] = React.useState("");
 
   useGetPhonePermission({ 
     returnValue: (permission: boolean) => {
-      if (permission) 
-        setPermission(true);
-      else 
-        setPermission(false);
+      console.log("hasPermission", permission);
+      if (permission) setPermission(true);
     } 
   });
 
   React.useEffect(() => {
+    update(phone, user);
+  }, [phone, user, update]);
+
+  React.useEffect(() => {
     if (hasPermission) {
       ZmpSDK.getUserInfo(
-        (user: any) => setUser(user),
-        (error: any) => console.error(error)
-      )
-      ZmpSDK.getPhoneNumber(
-        (number: string) => setPhone(number),
-        (error: any) => console.error(error)
+        (userInfo: any) => setUser(userInfo),
+        (error: any) => console.error("Error fetching user info:", error)
       );
-      update(phoneNumber, userInfo);
+      ZmpSDK.getPhoneNumber(
+        (number: string) => setPhoneNumber(number),
+        (error: any) => console.error("Error fetching phone number:", error)
+      );
     }
-  }, [ ...dependencies ]);
+  }, [hasPermission]);
 }
 
 export function useLoginContext() {
