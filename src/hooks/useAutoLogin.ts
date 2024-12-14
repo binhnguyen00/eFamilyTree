@@ -4,20 +4,11 @@ import { ZmpSDK } from "utils";
 import { AutoLoginContext } from "components";
 import { useGetPhonePermission } from "hooks";
 
-interface AutoLoginProps {
-  // update: (phone: string, user: any) => void;
-}
-
 export function useAutoLogin() {
-  // let { update } = props;
   let [ user, setUser ] = React.useState(null);
   let [ phone, setPhoneNumber ] = React.useState("");
 
   const hasPermission = useGetPhonePermission();
-
-  // React.useEffect(() => {
-  //   update(phone, user);
-  // }, [phone, user, update]);
 
   React.useEffect(() => {
     if (hasPermission) {
