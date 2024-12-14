@@ -6,6 +6,8 @@ export class ZmpSDK {
   
   public static getUserInfo(successCB: CallBack, failCB?: CallBack) {
     getUserInfo({
+      autoRequestPermission: true,
+      avatarType: "large",
       success(res) {
         successCB(res.userInfo);
       },
