@@ -6,18 +6,20 @@ import { ZmpSDK } from "utils";
 import { AutoLoginContext, CommonIcon } from "components";
 
 export function RequestPhone(props: { visible: boolean, closeSheet: () => void }) {
-  const { login } = React.useContext(AutoLoginContext);
+  const { updateCtx } = React.useContext(AutoLoginContext);
   const { visible, closeSheet } = props;
   const [ request, setRequest ] = React.useState(false);
 
   if (request) {
     const success = (number: string) => { 
-      login();
       setRequest(false);
+      ZmpSDK.getUserInfo(
+        (userInfo: any) => updateCtx(number, userInfo)
+      )
     }
     const fail = (error: any) => { 
-      console.error("RequestPhone:\n\t", error) 
       setRequest(false);
+      console.error("RequestPhone:\n\t", error) 
     }
     ZmpSDK.getPhoneNumber(success, fail);
   };
