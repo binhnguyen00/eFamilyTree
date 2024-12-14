@@ -1,24 +1,18 @@
 import React from "react";
 import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
-
-import { loginState, phoneState } from "states";
-import { useRecoilValue } from "recoil";
-
 import { Box, Button, Grid, Stack, Text } from "zmp-ui";
 
-import { CommonIcon } from "components";
+import { AutoLoginContext, CommonIcon } from "components";
 import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
 
 export function UIHomeAlbum() {
-  const [ albums, setAlbums ] = React.useState<any[]>([]);
-
   const navigate = useNavigate();
-  const loginedIn = useRecoilValue(loginState);
-  const phoneNumber = useRecoilValue(phoneState);
+  const [ albums, setAlbums ] = React.useState<any[]>([]);
+  const { logedIn, phone } = React.useContext(AutoLoginContext);
 
   React.useEffect(() => {
-    if (loginedIn) {
+    if (logedIn) {
       const success = (result: ServerResponse) => {
         if (result.status === "error") {
           console.error("UIHomeAlbum:\n\t", result.message);
@@ -30,9 +24,9 @@ export function UIHomeAlbum() {
       const fail = (error: FailResponse) => {
         console.error("UIHomeAlbum:\n\t", error.stackTrace);
       }
-      EFamilyTreeApi.getMemberAlbum(phoneNumber, success, fail);
+      EFamilyTreeApi.getMemberAlbum(phone, success, fail);
     }
-  }, [loginedIn, phoneNumber]);
+  }, [ logedIn ]);
 
   const goToImageList = (album: any) => {
     const images = album["image"] || [] as any[];
@@ -89,8 +83,6 @@ export function UIHomeAlbum() {
       )
     }
   };
-
-
 
   return (
     <Stack space="0.5rem">

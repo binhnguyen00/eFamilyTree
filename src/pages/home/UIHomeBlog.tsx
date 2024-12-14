@@ -1,24 +1,18 @@
 import React from "react";
 import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
-
-import { loginState, phoneState } from "states";
-import { useRecoilValue } from "recoil";
-
 import { Box, Button, Stack, Text } from "zmp-ui";
 
-import { CommonIcon } from "components";
+import { AutoLoginContext, CommonIcon } from "components";
 import { FailResponse, ServerResponse, EFamilyTreeApi } from "utils";
 
 export function UIHomeBlog() {
-  const [ blogs, setBlogs ] = React.useState<any[]>([]);
-
   const navigate = useNavigate();
-  const loginedIn = useRecoilValue(loginState);
-  const phoneNumber = useRecoilValue(phoneState);
+  const [ blogs, setBlogs ] = React.useState<any[]>([]);
+  const { logedIn, phone } = React.useContext(AutoLoginContext);
 
   React.useEffect(() => {
-    if (loginedIn) {
+    if (logedIn) {
       const success = (result: ServerResponse) => {
         if (result.status === "error") {
           console.error("UIHomeBlog:\n\t", result.message);
@@ -30,9 +24,9 @@ export function UIHomeBlog() {
       const fail = (error: FailResponse) => {
         console.error("UIHomeBlog:\n\t", error.stackTrace);
       }
-      EFamilyTreeApi.getMemberBlogs(phoneNumber, success, fail);
+      EFamilyTreeApi.getMemberBlogs(phone, success, fail);
     }
-  }, [loginedIn, phoneNumber]);
+  }, [ logedIn ]);
 
   const goToBlogDetail = (title: string, content: string) => {
     const blog = { title, content };
