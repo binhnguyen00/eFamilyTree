@@ -5,7 +5,11 @@ import { AutoLoginContext } from "components";
 import { useGetPhonePermission } from "hooks";
 
 export function useAutoLogin() {
-  let [ user, setUser ] = React.useState(null);
+  let [ user, setUser ] = React.useState({
+    id: "",
+    name: "",
+    avatar: "",
+  });
   let [ phone, setPhoneNumber ] = React.useState("");
 
   const hasPermission = useGetPhonePermission();

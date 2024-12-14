@@ -7,23 +7,24 @@ import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
 
 export function HeaderUser() {
   const { logedIn, user, phone } = React.useContext(AutoLoginContext);
+  const [ userName, setUserName ] = React.useState("");
 
-  if (!logedIn) return (
+  React.useEffect(() => {
+    if (user) setUserName(user.name);
+  }, [ logedIn ]);
+
+  return (
     <Header
       showBackIcon={false}
-      logo={<Avatar src={UNKNOWN_AVATAR} size={40}/>}
-      title="Xin chào"
+      logo={
+        <Avatar 
+          src={logedIn ? user.avatar : UNKNOWN_AVATAR} 
+          size={40} 
+          className="border-secondary"
+        />
+      }
+      title={logedIn ? `Xin chào, ${userName}` : "Xin chào"}
       subtitle="Chúc ngày mới tốt lành"
     />
   )
-  else {
-    return (
-      <Header 
-        showBackIcon={false} 
-        logo={<Avatar src={user.avatar} size={40}/>}
-        title={`Xin chào, ${user.name}`}
-        subtitle="Chúc ngày mới tốt lành"
-      />
-    )
-  }
 }
