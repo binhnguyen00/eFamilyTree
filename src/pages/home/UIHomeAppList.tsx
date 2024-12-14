@@ -1,12 +1,9 @@
 import React from "react";
+import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
 import { Grid, Stack, Text } from "zmp-ui";
 
-import { t } from "i18next";
-import { useRecoilValue } from "recoil";
-import { loginState } from "states";
-
-import { AppLogo, RequestPhone, SizedBox } from "components";
+import { AppLogo, AutoLoginContext, RequestPhone, SizedBox } from "components";
 
 interface App {
   key: string;
@@ -14,6 +11,9 @@ interface App {
   requirePhone: boolean;
 }
 export function UIHomeAppList() {
+  const navigate = useNavigate();
+  const { logedIn } = React.useContext(AutoLoginContext);
+  const [ requestPhone, setRequestPhone ] = React.useState(false); 
 
   const apps: App[] = [
     { key: "family-tree", label: t("family_tree"), requirePhone: true },
@@ -25,10 +25,6 @@ export function UIHomeAppList() {
     { key: "theme", label: t("theme"), requirePhone: false },
     { key: "dev", label: t("developer"), requirePhone: false }
   ];
-
-  const navigate = useNavigate();
-  const logedIn = useRecoilValue(loginState);
-  const [ requestPhone, setRequestPhone ] = React.useState(false); 
 
   const handleUserSelectApp = (appKey: string, requirePhone: boolean) => {
     if (requirePhone && !logedIn) {
@@ -56,11 +52,15 @@ export function UIHomeAppList() {
 
   return (
     <Stack space="0.5rem">
+
       <Text.Title size="xLarge" className="text-capitalize text-shadow"> {t("utilities")} </Text.Title>
+
       <Grid columnCount={4} rowSpace="0.5rem">
         {renderApps()}
       </Grid>
+
       <RequestPhone visible={requestPhone} closeSheet={() => setRequestPhone(false)}/>
+
     </Stack>
   )
 }
