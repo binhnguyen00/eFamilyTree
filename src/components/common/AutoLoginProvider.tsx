@@ -22,9 +22,14 @@ export function AutoLoginProvider({ children }: { children: React.ReactNode }) {
 
   useAutoLogin({
     update: (phone: string, user: any) => {
-      setPhoneNumber(phone);
-      setUser(user);
+      const ctxMessage: string = `
+      1. phone: ${phone}
+      2. user: ${JSON.stringify(user, null, 2)}
+      `;
+      console.log("Auto Login Ctx:", ctxMessage);
+      if (user) setUser(user);
       if (phone.length > 0) {
+        setPhoneNumber(phone);
         setLogedIn(true);
       }
     },

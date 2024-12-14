@@ -75,32 +75,3 @@ export const homePath = atom({
   key: "homePath",
   default: `/zapps/${import.meta.env.VITE_APP_ZALO_APP_ID}`,
 })
-
-export const settingsState = selector({
-  key: "settings",
-  get: async ({ }) => {
-    let defaultSetting = {
-      "scope.userInfo": false,
-      "scope.userPhonenumber": false,
-      "scope.userLocation": false,
-      "scope.camera": false,
-      "scope.micro": false
-    };
-    const settings = await ZmpSDK.getSettingDeprecated();
-    if (settings) {
-      const { authSetting } = settings;
-      if (Object.keys(authSetting).length) return authSetting;
-      else return defaultSetting;
-    } else {
-      return defaultSetting;
-    }
-  }
-})
-
-export const phonePermissionState = selector({
-  key: "phonePermission",
-  get: async ({ get }) => {
-    const authSetting = get(settingsState);
-    return authSetting["scope.userPhonenumber"];
-  }
-})

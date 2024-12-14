@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import { Loading } from "components";
 
 import { UIFamilyTree } from "pages/family-tree/UIFamilyTree";
-import { UIUser } from "pages/user/UIUser";
+import { UIAccount } from "pages/user/UIAccount";
 import { UIHome } from "pages/home/UIHome";
 import { UIAbout } from "pages/about/UIAbout";
 import { UIImageList } from "./album/UIImageList";
@@ -46,7 +46,7 @@ export function UIRoutes() {
 
       <Route path="/user" element={
         <React.Suspense fallback={<Loading />}>
-          <UIUser />
+          <UIAccount />
         </React.Suspense>
       } />
 

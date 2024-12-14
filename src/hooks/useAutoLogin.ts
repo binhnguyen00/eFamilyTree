@@ -28,11 +28,11 @@ export function useAutoLogin(props: AutoLoginProps) {
     if (hasPermission) {
       ZmpSDK.getUserInfo(
         (userInfo: any) => setUser(userInfo),
-        (error: any) => {} // console.error("useAutoLogin:\n\t", error)
+        (error: any) => console.error("useAutoLogin:\n\t", error)
       );
       ZmpSDK.getPhoneNumber(
         (number: string) => setPhoneNumber(number),
-        (error: any) => {} // console.error("useAutoLogin:\n\t", error)
+        (error: any) => console.error("useAutoLogin:\n\t", error)
       );
     }
   }, [hasPermission]);
