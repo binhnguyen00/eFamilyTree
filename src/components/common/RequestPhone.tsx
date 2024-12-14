@@ -3,15 +3,22 @@ import { t } from "i18next";
 import { Box, Button, Sheet, Stack, Text } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
-import { CommonIcon } from "components";
+import { AutoLoginContext, CommonIcon } from "components";
 
 export function RequestPhone(props: { visible: boolean, closeSheet: () => void }) {
+  const { login } = React.useContext(AutoLoginContext);
   const { visible, closeSheet } = props;
   const [ request, setRequest ] = React.useState(false);
 
   if (request) {
-    const success = (number: string) => { /* Do nothing :D */ }
-    const fail = (error: any) => { console.error("RequestPhone:\n\t", error) }
+    const success = (number: string) => { 
+      login();
+      setRequest(false);
+    }
+    const fail = (error: any) => { 
+      console.error("RequestPhone:\n\t", error) 
+      setRequest(false);
+    }
     ZmpSDK.getPhoneNumber(success, fail);
   };
 

@@ -9,10 +9,11 @@ export const AutoLoginContext = React.createContext({
     avatar: "",
   },
   logedIn: false,
+  login: () => {}
 });
 
 export function AutoLoginProvider({ children }: { children: React.ReactNode }) {
-  const { phoneNumber, userInfo, logedIn } = useAutoLogin();
+  const { phoneNumber, userInfo, logedIn, login } = useAutoLogin();
 
   console.log(
     "Auto Login Context:\n", {
@@ -26,7 +27,8 @@ export function AutoLoginProvider({ children }: { children: React.ReactNode }) {
     <AutoLoginContext.Provider value={{
       phone: phoneNumber,
       user: userInfo,
-      logedIn: logedIn
+      logedIn: logedIn,
+      login: login
     }}>
       {children}
     </AutoLoginContext.Provider>

@@ -129,7 +129,8 @@ export class ZmpSDK {
   }
 
   private static getPhoneNumberByToken(token: string, successCB: CallBack, failCB?: CallBack) {
-    const getPhoneNumber = (accessToken: string) => {
+
+    const success = (accessToken: string) => { 
       const zaloHeader = {
         code: token,
         access_token: accessToken,
@@ -138,10 +139,7 @@ export class ZmpSDK {
       const zalo = new ExternalRESTful("https://graph.zalo.me/v2.0");
       zalo.GET("me/info", zaloHeader, null, successCB, failCB);
     }
-
-    const success = (accessToken: string) => { 
-      getPhoneNumber(accessToken); 
-    }
+    
     const fail = (error: any) => { 
       console.error("getPhoneNumberByToken:\n\t", error);
       if (failCB) failCB(error);

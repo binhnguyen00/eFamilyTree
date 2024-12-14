@@ -2,17 +2,17 @@ import React from "react";
 import { ZmpSDK } from "utils";
 
 export function useGetPhonePermission() {
-  let [ permission, setPermission ] = React.useState(false);
+  const [permission, setPermission] = React.useState(false);
 
   React.useEffect(() => {
     const success = (authSetting: any) => {
-      setPermission(authSetting["scope.userPhonenumber"]);
-    }
+      setPermission(!!authSetting["scope.userPhonenumber"]);
+    };
     const fail = (error: any) => {
-      fail(error);
-    }
+      console.error("useGetPhonePermission:\n\t", error);
+    };
     ZmpSDK.getSettings(success, fail);
-  }, [ permission ])
+  }, []); // Empty dependency array to avoid infinite loop.
 
   return permission;
 }
