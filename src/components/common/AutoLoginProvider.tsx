@@ -1,38 +1,32 @@
 import React from "react";
-import { t } from "i18next";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { phonePermissionState, phoneState, requestPhoneTriesState, userState } from "states";
+import { useAutoLogin } from "hooks";
 
 export const AutoLoginContext = React.createContext({
-  phonePermission: false,
-  phoneNumber: "",
-  userInfo: {
-    id: "",
-    avatar: "",
-    name: t("account")
-  },
+  phone: "",
+  user: null,
 });
 
 export function AutoLoginProvider({ children }: { children: React.ReactNode }) {
-  const retry = useSetRecoilState(requestPhoneTriesState);
-  const permission = useRecoilValue(phonePermissionState);
+  console.log("AutoLoginProvider");
 
-  let userInfo = {
-    id: "",
-    avatar: "",
-    name: t("account")
-  };
-  let phoneNumber = ""; 
+  let [ phoneNumber, setPhoneNumber ] = React.useState("");
+  let [ user, setUser ] = React.useState(null);
 
-  if (permission) {
-    // Do auto login
+  const updateContext = (phone: string, user: any) => {
+    setPhoneNumber(phone);
+    setUser(user);
+    console.log(phone, user);
   }
+
+  useAutoLogin({
+    update: updateContext,
+    dependencies: [ phoneNumber, user ]
+  });
 
   return (
     <AutoLoginContext.Provider value={{
-      phonePermission: permission,
-      phoneNumber: phoneNumber,
-      userInfo: userInfo,
+      phone: phoneNumber,
+      user: user
     }}>
       {children}
     </AutoLoginContext.Provider>

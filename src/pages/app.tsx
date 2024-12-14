@@ -4,7 +4,7 @@ import { RecoilRoot } from "recoil";
 import { App, SnackbarProvider } from "zmp-ui";
 
 import { UIRoutes } from "./routes";
-import { Navigation, ThemeProvider, PagePositionSaver, AutoLoginProvider, Loading } from "components";
+import { Navigation, ThemeProvider, PagePositionSaver, AutoLoginProvider } from "components";
 
 import "../i18n";
 

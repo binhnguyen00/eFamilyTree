@@ -7,7 +7,9 @@ import { useAutoLogin } from "hooks";
 import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
 
 export function HeaderUser() {
-  const { userInfo, phonePermission } = useAutoLogin();
+  // const { userInfo, phonePermission } = useAutoLogin();
+  let phonePermission = false;
+  let userInfo = null as any;
 
   if (!phonePermission) return (
     <Header

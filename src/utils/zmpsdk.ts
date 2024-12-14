@@ -1,17 +1,18 @@
-import { getSetting, getPhoneNumber, getAccessToken } from "zmp-sdk";
+import { getSetting, getPhoneNumber, getAccessToken, getUserInfo } from 'zmp-sdk';
 import { CallBack } from "./type";
 import { ExternalRESTful } from "server/ExternalRESTful";
 
 export class ZmpSDK {
   
-  public static getPhoneNumber(): Promise<any> {
+  /** @deprecated */
+  public static getPhoneNumberDeprecated(): Promise<any> {
     return new Promise((resolve, reject) => {
       getPhoneNumber({
         success: async (data) => {
           const { number, token } = data;
           if (token) {
             try {
-              const response = await this.getPhoneNumberByToken(token);
+              const response = await this.getPhoneNumberByTokenDeprecated(token);
               resolve(response.data.number.replace(/\+84|84/g, '0'));
             } catch (error) {
               reject(error);
@@ -28,10 +29,11 @@ export class ZmpSDK {
     });
   }
 
-  private static getPhoneNumberByToken(token: string): Promise<any> {
+  /** @deprecated */
+  private static getPhoneNumberByTokenDeprecated(token: string): Promise<any> {
     return new Promise(async (resolve, reject) => {
       try {
-        const accessToken = await this.getAccessToken();
+        const accessToken = await this.getAccessTokenDeprecated();
         const zaloHeader = {
           code: token,
           access_token: accessToken,
@@ -48,7 +50,8 @@ export class ZmpSDK {
     });
   }
 
-  private static getAccessToken(): Promise<string> {
+  /** @deprecated */
+  private static getAccessTokenDeprecated(): Promise<string> {
     return new Promise(async (resolve, reject) => {
       getAccessToken({
         success: (accessToken) => {
@@ -62,7 +65,8 @@ export class ZmpSDK {
     });
   }
 
-  public static getSetting(): Promise<any> {
+  /** @deprecated */
+  public static getSettingDeprecated(): Promise<any> {
     return new Promise(async (resolve, reject) => {
       getSetting({
         success: (data) => {
@@ -73,5 +77,87 @@ export class ZmpSDK {
         }
       });
     });
+  }
+
+  // New Method
+  public static getUserInfo(successCB: CallBack, failCB?: CallBack) {
+    getUserInfo({
+      success(res) {
+        successCB(res.userInfo);
+      },
+      fail(err) {
+        if (failCB) failCB(err);
+      },
+    });
+  }
+
+  public static getSettings(successCB: CallBack, failCB?: CallBack) {
+    getSetting({
+      success(res) {
+        let authSetting = res.authSetting;
+        if (Object.keys(authSetting).length == 0) authSetting = {
+          "scope.userInfo": false,
+          "scope.userPhonenumber": false,
+          "scope.userLocation": false,
+          "scope.camera": false,
+          "scope.micro": false
+        }; 
+        successCB(authSetting);
+      },
+      fail(err) {
+        if (failCB) failCB(err);
+      },
+    });
+  }
+
+  public static getPhoneNumber(successCB: CallBack, failCB?: CallBack) {
+    // Define locally in order to use in getPhoneNumber.success
+    const getPhoneNumberByToken = this.getPhoneNumberByToken;
+
+    getPhoneNumber({
+      success({ number, token }) {
+        if (token) {
+          const successPhone = (response) => {
+            const number: string = response.data.number.replace(/\+84|84/g, '0');
+            successCB(number);
+          }
+          getPhoneNumberByToken(token, successPhone, failCB);
+        }
+      },
+      fail(err) {
+        if (failCB) failCB(err);
+      }
+    })
+  }
+
+  private static getPhoneNumberByToken(token: string, successCB: CallBack, failCB?: CallBack) {
+    const getPhoneNumber = (accessToken: string) => {
+      const zaloHeader = {
+        code: token,
+        access_token: accessToken,
+        secret_key: import.meta.env.VITE_APP_SECRET_KEY as string
+      }
+      const zalo = new ExternalRESTful("https://graph.zalo.me/v2.0");
+      zalo.GET("me/info", zaloHeader, null, successCB, failCB);
+    }
+
+    const getAccessToken = () => {
+      const success = (accessToken: string) => { getPhoneNumber(accessToken); }
+      const fail = (error: any) => { if (failCB) failCB(error);}
+      this.getAccessToken(success, fail);
+    }
+
+    getAccessToken();
+  }
+
+  private static getAccessToken(successCB: CallBack, failCB?: CallBack) {
+    getAccessToken({
+      success(accessToken) {
+        successCB(accessToken);
+      },
+      fail(err) {
+        if (failCB) failCB(err);
+      },
+    })
   }
 }

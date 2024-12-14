@@ -9,7 +9,7 @@ export const loginState = selector({
     const requested = get(requestPhoneTriesState);
     if (requested) {
       try {
-        const settings = await ZmpSDK.getSetting();
+        const settings = await ZmpSDK.getSettingDeprecated();
         if (settings) {
           const { authSetting } = settings;
           return authSetting["scope.userPhonenumber"];
@@ -33,7 +33,7 @@ export const phoneState = selector<string>({
     const requested = get(requestPhoneTriesState);
     if (requested > 0) {
       try {
-        const phoneNumber = await ZmpSDK.getPhoneNumber();
+        const phoneNumber = await ZmpSDK.getPhoneNumberDeprecated();
         return phoneNumber || "";
       } catch (error) {
         console.error("phoneState:\n\t", error);
@@ -86,7 +86,7 @@ export const settingsState = selector({
       "scope.camera": false,
       "scope.micro": false
     };
-    const settings = await ZmpSDK.getSetting();
+    const settings = await ZmpSDK.getSettingDeprecated();
     if (settings) {
       const { authSetting } = settings;
       if (Object.keys(authSetting).length) return authSetting;
