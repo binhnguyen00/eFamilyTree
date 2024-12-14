@@ -1,4 +1,4 @@
-import { AppLogo } from "./app";
-import { CommonIcon } from "./common";
+import { AppLogo } from "./app-icon";
+import { CommonIcon } from "./common-icon";
 
 export { AppLogo, CommonIcon };

@@ -5,7 +5,7 @@ import { useRecoilValue } from "recoil";
 import { homePath } from "states";
 import { Box, Text } from "zmp-ui";
 
-import { CommonIcon } from "components/icon/common";
+import { CommonIcon } from "components/icon/common-icon";
 
 export function Navigation() {
   const home = useRecoilValue(homePath);

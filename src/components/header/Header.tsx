@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Stack, Text } from "zmp-ui";
 
-import { CommonIcon } from "components/icon/common";
+import { CommonIcon } from "components/icon/common-icon";
 
 interface HeaderProps {
   title?: string;

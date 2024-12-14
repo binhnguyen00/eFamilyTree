@@ -12,33 +12,20 @@ export const AutoLoginContext = React.createContext({
 });
 
 export function AutoLoginProvider({ children }: { children: React.ReactNode }) {
-  let [ logedIn, setLogedIn ] = React.useState(false);
-  let [ phoneNumber, setPhoneNumber ] = React.useState("");
-  let [ user, setUser ] = React.useState({
-    id: "",
-    name: "",
-    avatar: "",
-  });
+  const { phoneNumber, userInfo, logedIn } = useAutoLogin();
 
-  useAutoLogin({
-    update: (phone: string, user: any) => {
-      const ctxMessage: string = `
-      1. phone: ${phone}
-      2. user: ${JSON.stringify(user, null, 2)}
-      `;
-      console.log("Auto Login Ctx:", ctxMessage);
-      if (user) setUser(user);
-      if (phone.length > 0) {
-        setPhoneNumber(phone);
-        setLogedIn(true);
-      }
-    },
-  });
-
+  console.log(
+    "Auto Login Context:\n", {
+      "Phone Number": phoneNumber,
+      "User Info": userInfo, 
+      "Loged In": logedIn 
+    }
+  ); 
+  
   return (
     <AutoLoginContext.Provider value={{
       phone: phoneNumber,
-      user: user,
+      user: userInfo,
       logedIn: logedIn
     }}>
       {children}

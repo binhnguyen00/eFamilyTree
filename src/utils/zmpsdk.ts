@@ -153,7 +153,6 @@ export class ZmpSDK {
   private static getAccessToken(successCB: CallBack, failCB?: CallBack) {
     getAccessToken({
       success(accessToken) {
-        console.log("accessToken", accessToken);
         successCB(accessToken);
       },
       fail(error) {

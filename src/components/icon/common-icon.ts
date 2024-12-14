@@ -8,6 +8,7 @@ import { IoMdLogIn, IoMdAdd, IoIosArrowForward, IoIosArrowBack } from "react-ico
 import { LuMinus } from "react-icons/lu";
 import { MdPersonSearch } from "react-icons/md";
 import { GrPowerReset } from "react-icons/gr";
+import { FaPhoneAlt } from "react-icons/fa";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -27,4 +28,5 @@ export const CommonIcon = {
   Logout: TbLogout,
   SearchPerson: MdPersonSearch,
   Reset: GrPowerReset,
+  Phone: FaPhoneAlt,
 };

@@ -1,13 +1,19 @@
 import React from "react";
 import { t } from "i18next";
-import { FaPhoneAlt } from "react-icons/fa";
-import { useSetRecoilState } from "recoil";
-import { requestPhoneTriesState } from "states";
 import { Box, Button, Sheet, Stack, Text } from "zmp-ui";
+
+import { ZmpSDK } from "utils";
+import { CommonIcon } from "components";
 
 export function RequestPhone(props: { visible: boolean, closeSheet: () => void }) {
   const { visible, closeSheet } = props;
-  const retry = useSetRecoilState(requestPhoneTriesState);
+  const [ request, setRequest ] = React.useState(false);
+
+  if (request) {
+    const success = (number: string) => { /* Do nothing :D */ }
+    const fail = (error: any) => { console.error("RequestPhone:\n\t", error) }
+    ZmpSDK.getPhoneNumber(success, fail);
+  };
 
   return (
     <Sheet
@@ -21,14 +27,14 @@ export function RequestPhone(props: { visible: boolean, closeSheet: () => void }
     >
       <Stack space="1rem" className="p-3">
         <Box flex flexDirection="row" alignItems="center">
-          <FaPhoneAlt size={16}/>
+          <CommonIcon.Phone size={16}/>
           <Text className="ml-2"> {t("phone_requirement")} </Text>
         </Box>
         <Text> {t("login_requirement")} </Text>
         <Stack>
           <Button size="medium" onClick={() => {
-            retry(r => r + 1);
             closeSheet();
+            setRequest(true);
           }}>
             {t("allow")}
           </Button>

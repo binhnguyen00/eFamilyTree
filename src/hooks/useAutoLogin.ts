@@ -5,24 +5,19 @@ import { AutoLoginContext } from "components";
 import { useGetPhonePermission } from "hooks";
 
 interface AutoLoginProps {
-  update: (phone: string, user: any) => void;
+  // update: (phone: string, user: any) => void;
 }
-export function useAutoLogin(props: AutoLoginProps) {
-  let { update } = props;
 
-  let [ hasPermission, setPermission ] = React.useState(false);
+export function useAutoLogin() {
+  // let { update } = props;
   let [ user, setUser ] = React.useState(null);
   let [ phone, setPhoneNumber ] = React.useState("");
 
-  useGetPhonePermission({ 
-    returnValue: (permission: boolean) => {
-      if (permission) setPermission(true);
-    } 
-  });
+  const hasPermission = useGetPhonePermission();
 
-  React.useEffect(() => {
-    update(phone, user);
-  }, [phone, user, update]);
+  // React.useEffect(() => {
+  //   update(phone, user);
+  // }, [phone, user, update]);
 
   React.useEffect(() => {
     if (hasPermission) {
@@ -36,6 +31,12 @@ export function useAutoLogin(props: AutoLoginProps) {
       );
     }
   }, [hasPermission]);
+
+  return {
+    userInfo: user,
+    phoneNumber: phone,
+    logedIn: phone.length > 0
+  } as any;
 }
 
 export function useLoginContext() {
