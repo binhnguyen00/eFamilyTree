@@ -9,7 +9,6 @@ export function useGetPhonePermission(props: PhonePermissionHookProps) {
   React.useEffect(() => {
     const success = (authSetting: any) => {
       returnValue(authSetting["scope.userPhonenumber"]);
-      // returnValue(true);
     }
     const fail = (error: any) => {
       fail(error);

@@ -16,7 +16,6 @@ export function useAutoLogin(props: AutoLoginProps) {
 
   useGetPhonePermission({ 
     returnValue: (permission: boolean) => {
-      console.log("hasPermission", permission);
       if (permission) setPermission(true);
     } 
   });
@@ -29,11 +28,11 @@ export function useAutoLogin(props: AutoLoginProps) {
     if (hasPermission) {
       ZmpSDK.getUserInfo(
         (userInfo: any) => setUser(userInfo),
-        (error: any) => console.error("Error fetching user info:", error)
+        (error: any) => {} // console.error("useAutoLogin:\n\t", error)
       );
       ZmpSDK.getPhoneNumber(
         (number: string) => setPhoneNumber(number),
-        (error: any) => console.error("Error fetching phone number:", error)
+        (error: any) => {} // console.error("useAutoLogin:\n\t", error)
       );
     }
   }, [hasPermission]);

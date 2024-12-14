@@ -111,9 +111,6 @@ export class ZmpSDK {
   }
 
   public static getPhoneNumber(successCB: CallBack, failCB?: CallBack) {
-    // Define locally in order to use in getPhoneNumber.success
-    const getPhoneNumberByToken = this.getPhoneNumberByToken;
-
     getPhoneNumber({
       success({ number, token }) {
         if (token) {
@@ -121,12 +118,13 @@ export class ZmpSDK {
             const number: string = response.data.number.replace(/\+84|84/g, '0');
             successCB(number);
           }
-          getPhoneNumberByToken(token, successPhone, failCB);
+          ZmpSDK.getPhoneNumberByToken(token, successPhone, failCB);
         }
       },
-      fail(err) {
-        if (failCB) failCB(err);
-      }
+      fail(error) {
+        console.error("getPhoneNumber:\n\t", error);
+        if (failCB) failCB(error);
+      },
     })
   }
 
@@ -141,22 +139,26 @@ export class ZmpSDK {
       zalo.GET("me/info", zaloHeader, null, successCB, failCB);
     }
 
-    const getAccessToken = () => {
-      const success = (accessToken: string) => { getPhoneNumber(accessToken); }
-      const fail = (error: any) => { if (failCB) failCB(error);}
-      this.getAccessToken(success, fail);
+    const success = (accessToken: string) => { 
+      getPhoneNumber(accessToken); 
     }
-
-    getAccessToken();
+    const fail = (error: any) => { 
+      console.error("getPhoneNumberByToken:\n\t", error);
+      if (failCB) failCB(error);
+    }
+    
+    this.getAccessToken(success, fail);
   }
 
   private static getAccessToken(successCB: CallBack, failCB?: CallBack) {
     getAccessToken({
       success(accessToken) {
+        console.log("accessToken", accessToken);
         successCB(accessToken);
       },
-      fail(err) {
-        if (failCB) failCB(err);
+      fail(error) {
+        console.error("getAccessToken:\n\t", error);
+        if (failCB) failCB(error);
       },
     })
   }

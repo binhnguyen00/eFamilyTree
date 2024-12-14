@@ -1,17 +1,14 @@
 import React from "react";
 import { Avatar } from "zmp-ui";
 
-import { Header } from "components";
-import { useAutoLogin } from "hooks";
+import { AutoLoginContext, Header } from "components";
 
 import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
 
 export function HeaderUser() {
-  // const { userInfo, phonePermission } = useAutoLogin();
-  let phonePermission = false;
-  let userInfo = null as any;
+  const { logedIn, user, phone } = React.useContext(AutoLoginContext);
 
-  if (!phonePermission) return (
+  if (!logedIn) return (
     <Header
       showBackIcon={false}
       logo={<Avatar src={UNKNOWN_AVATAR} size={40}/>}
@@ -23,8 +20,8 @@ export function HeaderUser() {
     return (
       <Header 
         showBackIcon={false} 
-        logo={<Avatar src={userInfo.avatar} size={40}/>}
-        title={`Xin chào, ${userInfo?.name}`}
+        logo={<Avatar src={user.avatar} size={40}/>}
+        title={`Xin chào, ${user.name}`}
         subtitle="Chúc ngày mới tốt lành"
       />
     )
