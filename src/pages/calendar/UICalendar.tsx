@@ -66,7 +66,7 @@ export function UICalendar() {
             <div style={{borderBottom: "0.5px solid"}} className="pt-2 pb-2">
               <Text.Title>{event.name}</Text.Title>
               <Text size="small">
-                {`${t("place")}: ${event.dia_diem}`}
+                {`${t("place")}: ${event.address}`}
               </Text>
               <Text size="small">
                 {`${t("time")}: ${event.date_begin} - ${event.date_end}`}

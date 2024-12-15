@@ -56,7 +56,7 @@ export function UIHomeAlbum() {
         html.push(
           <Box 
             key={`album-${i}`} 
-            className="button rounded border bg-secondary text-primary" 
+            className="button rounded border-secondary bg-secondary text-primary" 
             flex flexDirection="row" 
             onClick={() => goToImageList(album)}
           >
