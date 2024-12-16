@@ -110,9 +110,24 @@ export function UIPlayground() {
           const fail = (error: FailResponse) => {
             console.error(error);
           }
-          EFamilyTreeApi.mock(success, fail);
+          EFamilyTreeApi.mockHTTP(success, fail);
         }}>
-          {"Call Server"}
+          {"HTTP"}
+        </Button>
+      </Stack>
+      
+      <Stack space="1rem">
+        <Text.Title size="large"> {"Get User Settings"} </Text.Title>
+        <Button variant="secondary" onClick={() => {
+          const success = (result: ServerResponse) => {
+            console.log(result);
+          } 
+          const fail = (error: FailResponse) => {
+            console.error(error);
+          }
+          EFamilyTreeApi.getUserSetting("0942659016", success, fail);
+        }}>
+          {"Get Settings"}
         </Button>
       </Stack>
 

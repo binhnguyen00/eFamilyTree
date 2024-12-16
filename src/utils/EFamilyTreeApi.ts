@@ -8,9 +8,9 @@ export class EFamilyTreeApi {
     return this.server.serverUrl;
   }
 
-  public static mock(successCB: SuccessCB, failCB?: FailCB) {
+  public static mockHTTP(successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
-    return this.server.GET("api/mock/setting/default", header, null, successCB, failCB);
+    return this.server.GET("api/http/mock/setting/default", header, null, successCB, failCB);
   }
 
   public static getMembers(phoneNumber, successCB: SuccessCB, failCB?: FailCB) {
@@ -88,8 +88,19 @@ export class EFamilyTreeApi {
     return this.server.POST("get/type/certificates", header, body, successCB, failCB);
   }
 
+  public static getUserSetting(phoneNumber: string, successCB: SuccessCB, failCB?: FailCB) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      phone_number: phoneNumber
+    })
+    return this.server.POST("account/setting", header, body, successCB, failCB);
+  }
+
   private static initBody(params: any): Record<string, any> { 
     return {
+      jsonrpc: "2.0",
+      method: "call",
+      id: 1,
       params: params
     }
   }
