@@ -26,6 +26,11 @@ export class OdooRESTful extends Api {
     let requestInit: RequestInit = {
       method: method,
       headers: headers,
+      mode: 'cors',
+      cache: 'no-cache',
+      // credentials: 'include',
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
       body: body,
     }
 

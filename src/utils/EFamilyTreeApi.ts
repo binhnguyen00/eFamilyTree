@@ -8,6 +8,11 @@ export class EFamilyTreeApi {
     return this.server.serverUrl;
   }
 
+  public static mock(successCB: SuccessCB, failCB?: FailCB) {
+    const header = this.initHeader();
+    return this.server.GET("api/mock/setting/default", header, null, successCB, failCB);
+  }
+
   public static getMembers(phoneNumber, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
     const body = this.initBody({
@@ -91,7 +96,7 @@ export class EFamilyTreeApi {
 
   private static initHeader(): Record<string, any> {
     return {
-      "Content-Type": "application/json; charset=UTF-8",
+      'Content-Type': 'application/json; charset=UTF-8',
     }
   }
 }

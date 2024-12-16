@@ -2,7 +2,9 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Text, Box, Input, Stack } from "zmp-ui";
 import { atom, selector, useRecoilValue, useRecoilState } from "recoil"
+
 import { Header, Loading } from "components";
+import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
 
 const numberState = atom({
   key: "number",
@@ -96,6 +98,21 @@ export function UIPlayground() {
         </Button>
         <Button variant="secondary" onClick={() => i18n.changeLanguage("en")}>
           {t("english")}
+        </Button>
+      </Stack>
+      
+      <Stack space="1rem">
+        <Text.Title size="large"> {"Mock CORS"} </Text.Title>
+        <Button variant="secondary" onClick={() => {
+          const success = (result: ServerResponse) => {
+            console.log(result);
+          } 
+          const fail = (error: FailResponse) => {
+            console.error(error);
+          }
+          EFamilyTreeApi.mock(success, fail);
+        }}>
+          {"Call Server"}
         </Button>
       </Stack>
 
