@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Button, Text, Box, Input, Stack } from "zmp-ui";
 import { atom, selector, useRecoilValue, useRecoilState } from "recoil"
 
-import { BaseServer } from "api";
+import { BaseServer, UserSettingApi } from "api";
 import { Header, Loading } from "components";
 import { FailResponse, ServerResponse } from "server";
 
@@ -114,6 +114,21 @@ export function UIPlayground() {
           BaseServer.mockHTTP(success, fail);
         }}>
           {"HTTP"}
+        </Button>
+      </Stack>
+
+      <Stack space="1rem">
+        <Text.Title size="large"> {"Test Settings API"} </Text.Title>
+        <Button variant="secondary" onClick={() => {
+          const success = (result: ServerResponse) => {
+            console.log(result);
+          } 
+          const fail = (error: FailResponse) => {
+            console.error(error);
+          }
+          UserSettingApi.getOrDefault("0942659016", success, fail);
+        }}>
+          {"Get Settings"}
         </Button>
       </Stack>
       

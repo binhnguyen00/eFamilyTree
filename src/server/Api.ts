@@ -29,7 +29,6 @@ export abstract class Api {
       method: method,
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
-        'Access-Control-Allow-Origin': "*"
       },
       mode: 'cors',
       cache: 'no-cache',
