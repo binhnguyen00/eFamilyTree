@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Box, Button, Stack, Text } from "zmp-ui";
 
 import { AutoLoginContext, CommonIcon } from "components";
-import { FailResponse, ServerResponse, EFamilyTreeApi } from "utils";
+import { SocialPostApi } from "api";
+import { FailResponse, ServerResponse } from "server";
 
 export function UIHomeBlog() {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export function UIHomeBlog() {
       const fail = (error: FailResponse) => {
         console.error("UIHomeBlog:\n\t", error.stackTrace);
       }
-      EFamilyTreeApi.getMemberBlogs(phone, success, fail);
+      SocialPostApi.getSocialPosts(phone, success, fail);
     }
   }, [ logedIn ]);
 
@@ -61,7 +62,7 @@ export function UIHomeBlog() {
         }
 
         const imageUrl = coverProperties["background-image"] as string;
-        const imgSrc = `${EFamilyTreeApi.getServerBaseUrl()}${imageUrl.replace(/url\(['"]?(.*?)['"]?\)/, '$1')}`;
+        const imgSrc = `${SocialPostApi.getServerBaseUrl()}${imageUrl.replace(/url\(['"]?(.*?)['"]?\)/, '$1')}`;
         const imgStyle = { width: 300, height: 180, objectFit: 'cover', maxWidth: "unset" } as React.CSSProperties;
         const content = post["content"];
 

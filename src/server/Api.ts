@@ -1,4 +1,4 @@
-import { SuccessCB, HttpMethod, FailCB } from "utils/type";
+import { SuccessCB, HttpMethod, FailCB } from "server/type";
 
 export abstract class Api {
   serverUrl: string;

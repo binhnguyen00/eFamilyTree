@@ -3,8 +3,9 @@ import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, Grid, Stack, Text } from "zmp-ui";
 
+import { AlbumApi } from "api";
+import { FailResponse, ServerResponse } from "server";
 import { AutoLoginContext, CommonIcon } from "components";
-import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
 
 export function UIHomeAlbum() {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export function UIHomeAlbum() {
       const fail = (error: FailResponse) => {
         console.error("UIHomeAlbum:\n\t", error.stackTrace);
       }
-      EFamilyTreeApi.getMemberAlbum(phone, success, fail);
+      AlbumApi.getAlbums(phone, success, fail);
     }
   }, [ logedIn ]);
 

@@ -3,8 +3,9 @@ import { t } from "i18next";
 import { useLocation } from "react-router-dom";
 import { Input, Stack } from "zmp-ui";
 
+import { CertificateApi } from "api";
 import { AutoLoginContext, Header } from "components";
-import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
+import { FailResponse, ServerResponse } from "server";
 
 export function UICertificateDetail() {
   const location = useLocation();
@@ -32,7 +33,7 @@ export function UICertificateDetail() {
     const fail = (error: FailResponse) => {
       console.error("UICertificateDetail:\n\t", error.stackTrace);
     }
-    EFamilyTreeApi.getCerificateInfo(phone, certificateId, success, fail);
+    CertificateApi.getInfo(phone, certificateId, success, fail);
   }, [ reload ])
 
   return (

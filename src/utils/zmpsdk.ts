@@ -1,6 +1,10 @@
-import { getSetting, getPhoneNumber, getAccessToken, getUserInfo } from 'zmp-sdk';
-import { CallBack } from "./type";
-import { ExternalRESTful } from "server/ExternalRESTful";
+import { 
+  getSetting, 
+  getPhoneNumber, 
+  getAccessToken, 
+  getUserInfo 
+} from 'zmp-sdk';
+import { CallBack, ExternalRESTful } from "server";
 
 export class ZmpSDK {
   

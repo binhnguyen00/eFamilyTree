@@ -2,8 +2,9 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { List, Stack, Text } from "zmp-ui";
 
+import { CertificateApi } from "api";
+import { FailResponse, ServerResponse } from "server";
 import { Header, CommonIcon, AutoLoginContext } from "components";
-import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
 
 export function UICertificate() {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ export function UICertificate() {
       console.error("UICertificate:\n\t", error.stackTrace);
     }
 
-    EFamilyTreeApi.getCerificatesByGroup(phone, certificateGroupId, success, fail);
+    CertificateApi.getByGroup(phone, certificateGroupId, success, fail);
   }, [ reload ])
 
   const navigateToCertificateDetail = (certificateId: number) => {

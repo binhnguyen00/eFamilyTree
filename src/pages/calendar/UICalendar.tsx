@@ -2,8 +2,10 @@ import React from "react";
 import { t } from "i18next";
 import { Box, Calendar, Text } from "zmp-ui";
 
+import { CalendarUtils } from "utils";
+import { LifeEventApi } from "api";
+import { FailResponse, ServerResponse } from "server"
 import { AutoLoginContext, Header, SizedBox } from "components";
-import { EFamilyTreeApi, CalendarUtils, FailResponse, ServerResponse } from "utils";
 
 export function UICalendar() {
   const { phone } = React.useContext(AutoLoginContext);
@@ -24,7 +26,7 @@ export function UICalendar() {
     const fail = (error: FailResponse) => {
       console.error("UICalendar:\n\t", error.stackTrace);
     }
-    EFamilyTreeApi.getMemberUpcomingEvents(phone, success, fail);
+    LifeEventApi.getLifeEvents(phone, success, fail);
   }, [ reload ]);
 
   const handleDateSelect = (selectedDate: Date) => {

@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Box, Stack, Text } from "zmp-ui";
 
 import { Header, Loading, Info, AutoLoginContext } from "components";
-import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
+import { SocialPostApi } from "api";
+import { FailResponse, ServerResponse } from "server";
 
 export function UIBlog() {
   return (
@@ -40,7 +41,7 @@ function UIBlogList() {
       setLoading(false);
       console.error("UIBlogList:\n\t", error.stackTrace);
     };
-    EFamilyTreeApi.getMemberBlogs(phone, success, fail);
+    SocialPostApi.getSocialPosts(phone, success, fail);
   }, [ reload ]);
 
   const navigateToBlog = (title: string, content: string) => {
@@ -61,7 +62,7 @@ function UIBlogList() {
         console.log(error);
       }
       const imageUrl = coverProperties["background-image"] as string;
-      const imgSrc = `${EFamilyTreeApi.getServerBaseUrl()}${imageUrl.replace(/url\(['"]?(.*?)['"]?\)/, '$1')}`;
+      const imgSrc = `${SocialPostApi.getServerBaseUrl()}${imageUrl.replace(/url\(['"]?(.*?)['"]?\)/, '$1')}`;
       const content = item["content"];
 
       html.push(

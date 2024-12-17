@@ -3,8 +3,9 @@ import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
 import { Stack, Text } from "zmp-ui";
 
+import { CertificateApi } from "api";
+import { FailResponse, ServerResponse } from "server";
 import { AutoLoginContext, Header, SizedBox } from "components";
-import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
 
 /** Bảng Vàng */
 export function UICerificateGroup() {
@@ -26,7 +27,7 @@ export function UICerificateGroup() {
       console.error(error.stackTrace);
     }
 
-    EFamilyTreeApi.getCerificateGroups(phone, success, fail);
+    CertificateApi.getGroups(phone, success, fail);
   }, [ reload ])
 
   const onSelectGroup = (certificateGroupId: number, certificateGroupName: string) => () => {

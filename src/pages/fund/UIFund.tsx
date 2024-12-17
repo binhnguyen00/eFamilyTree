@@ -3,7 +3,8 @@ import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
 import { Box, Text } from "zmp-ui";
 
-import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
+import { FundApi } from "api";
+import { FailResponse, ServerResponse } from "server";
 import { Header, Loading, SearchBar, CommonIcon, AutoLoginContext, Info } from "components";
 
 export function UIFund() {
@@ -27,7 +28,7 @@ export function UIFund() {
       setLoading(false);
       console.error("UIFund:\n\t", error.stackTrace);
     };
-    EFamilyTreeApi.getFunds(phone, success, fail);
+    FundApi.getFunds(phone, success, fail);
   }, [ reload ]);
 
   const navigateToFundDetail = (fund: any = null) => {

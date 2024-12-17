@@ -3,8 +3,9 @@ import { useTranslation } from "react-i18next";
 import { Button, Text, Box, Input, Stack } from "zmp-ui";
 import { atom, selector, useRecoilValue, useRecoilState } from "recoil"
 
+import { BaseServer } from "api";
 import { Header, Loading } from "components";
-import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
+import { FailResponse, ServerResponse } from "server";
 
 const numberState = atom({
   key: "number",
@@ -110,27 +111,12 @@ export function UIPlayground() {
           const fail = (error: FailResponse) => {
             console.error(error);
           }
-          EFamilyTreeApi.mockHTTP(success, fail);
+          BaseServer.mockHTTP(success, fail);
         }}>
           {"HTTP"}
         </Button>
       </Stack>
       
-      <Stack space="1rem">
-        <Text.Title size="large"> {"Get User Settings"} </Text.Title>
-        <Button variant="secondary" onClick={() => {
-          const success = (result: ServerResponse) => {
-            console.log(result);
-          } 
-          const fail = (error: FailResponse) => {
-            console.error(error);
-          }
-          EFamilyTreeApi.getUserSetting("0942659016", success, fail);
-        }}>
-          {"Get Settings"}
-        </Button>
-      </Stack>
-
       <Loading/>
 
     </Stack>

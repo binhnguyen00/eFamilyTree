@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Box, Grid, Stack, Text } from "zmp-ui";
 
 import { AutoLoginContext, Header, Info, Loading } from "components";
-import { EFamilyTreeApi, FailResponse, ServerResponse } from "utils";
+import { AlbumApi } from "api"; 
+import { FailResponse, ServerResponse } from "server";
 
 export function UIAlbum() {
   return (
@@ -38,7 +39,7 @@ function UIAlbumList() {
       setLoading(false);
       console.error("UIAlbumList:\n\t", error.stackTrace);
     }
-    EFamilyTreeApi.getMemberAlbum(phone, success, fail);
+    AlbumApi.getAlbums(phone, success, fail);
   }, [ reload ]);
 
   const goToImageList = (album: any) => {

@@ -1,9 +1,12 @@
 import React from "react";
 import { t } from "i18next";
 import { Sheet, Grid, Button, Box, Input } from "zmp-ui";
-import { 
-  ServerResponse, FailResponse, EFamilyTreeApi, CommonUtils } from "utils";
+
+import { CommonUtils } from "utils";
+import { FamilyTreeApi } from "api";
+import { ServerResponse, FailResponse } from "server";
 import { Header, CommonIcon, TreeNode, FamilyTree, TreeConfig, Loading, AutoLoginContext } from "components";
+
 import { TreeUtils } from "./TreeUtils";
 import { TreeDataProcessor } from "./TreeDataProcessor";
 
@@ -28,7 +31,7 @@ export function UIFamilyTree() {
       setLoading(false);
       console.error("UIFamilyTree:\n\t", error.message, "\n", error.stackTrace);
     } 
-    EFamilyTreeApi.getMembers(phone, success, fail);
+    FamilyTreeApi.getMembers(phone, success, fail);
   }, [ reload ]);
 
   if (loading) return (
@@ -82,7 +85,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
       console.error("showMemberDetail:\n\t", error.message, "\n", "error.stackTrace");
     } 
     const memberId: number = +selectId;
-    EFamilyTreeApi.getMemberInfo(props.phoneNumber, memberId, success, fail);
+    FamilyTreeApi.getMemberInfo(props.phoneNumber, memberId, success, fail);
     setSelectId(""); // hide the sheet
   }
 
