@@ -5,10 +5,10 @@ import { Box, Calendar, Text } from "zmp-ui";
 import { CalendarUtils } from "utils";
 import { LifeEventApi } from "api";
 import { FailResponse, ServerResponse } from "server"
-import { AutoLoginContext, Header, SizedBox } from "components";
+import { AppContext, Header, SizedBox } from "components";
 
 export function UICalendar() {
-  const { phone } = React.useContext(AutoLoginContext);
+  const { phoneNumber } = React.useContext(AppContext);
 
   const [ eventOnDate, setEventOnDate ] = React.useState<any[]>([]);
   const [ events, setEvents ] = React.useState<any[]>([]);
@@ -26,7 +26,7 @@ export function UICalendar() {
     const fail = (error: FailResponse) => {
       console.error("UICalendar:\n\t", error.stackTrace);
     }
-    LifeEventApi.getLifeEvents(phone, success, fail);
+    LifeEventApi.getLifeEvents(phoneNumber, success, fail);
   }, [ reload ]);
 
   const handleDateSelect = (selectedDate: Date) => {

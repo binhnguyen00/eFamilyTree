@@ -4,17 +4,17 @@ import { useNavigate } from "react-router-dom";
 
 import { Avatar, Box, Button, Stack, Text } from "zmp-ui";
 
-import { AutoLoginContext, Header } from "components";
+import { AppContext, Header } from "components";
 
 import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
 
 export function UIAccount() { 
-  const { logedIn, user } = React.useContext(AutoLoginContext);
+  const { logedIn, userInfo } = React.useContext(AppContext);
   return (
     <div className="container">
       <Header title={t("account")} />
 
-      <UIAccountContainer logedIn={logedIn} user={user}/>
+      <UIAccountContainer logedIn={logedIn} user={userInfo}/>
     </div>
   )
 }

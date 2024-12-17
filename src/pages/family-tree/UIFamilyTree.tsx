@@ -5,13 +5,13 @@ import { Sheet, Grid, Button, Box, Input } from "zmp-ui";
 import { CommonUtils } from "utils";
 import { FamilyTreeApi } from "api";
 import { ServerResponse, FailResponse } from "server";
-import { Header, CommonIcon, TreeNode, FamilyTree, TreeConfig, Loading, AutoLoginContext } from "components";
+import { Header, CommonIcon, TreeNode, FamilyTree, TreeConfig, Loading, AppContext } from "components";
 
 import { TreeUtils } from "./TreeUtils";
 import { TreeDataProcessor } from "./TreeDataProcessor";
 
 export function UIFamilyTree() {
-  const { phone } = React.useContext(AutoLoginContext);
+  const { phoneNumber } = React.useContext(AppContext);
   let [ reload, setReload ] = React.useState(false);
   let [ loading, setLoading ] = React.useState(true);
   let [ processor, setProcessor ] = React.useState<TreeDataProcessor>(new TreeDataProcessor([]));
@@ -31,7 +31,7 @@ export function UIFamilyTree() {
       setLoading(false);
       console.error("UIFamilyTree:\n\t", error.message, "\n", error.stackTrace);
     } 
-    FamilyTreeApi.getMembers(phone, success, fail);
+    FamilyTreeApi.getMembers(phoneNumber, success, fail);
   }, [ reload ]);
 
   if (loading) return (
@@ -44,7 +44,7 @@ export function UIFamilyTree() {
     <UIFamilyTreeContainer 
       nodes={processor.nodes}
       rootId={processor.rootId}
-      phoneNumber={phone}
+      phoneNumber={phoneNumber}
       onReload={() => setReload(!reload)}
     />
   )
@@ -206,7 +206,7 @@ function UIMemberDetail(props: UIMemberDetailProps) {
       <Box className="p-2" style={{ maxHeight: "50vh" }}>
         <Input label={"Họ Tên"} value={info["name"]} />
         <Input label={"Giới tính"} value={info["gender"] === "1" ? t("male") : t("female")} />
-        <Input label={"Điện thoại"} value={info["phone"]} />
+        <Input label={"Điện thoại"} value={info["phoneNumber"]} />
         <Input label={"Bố"} value={info["father"]} />
         <Input label={"Mẹ"} value={info["mother"]} />
       </Box>

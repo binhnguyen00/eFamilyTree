@@ -5,12 +5,12 @@ import { Stack, Text } from "zmp-ui";
 
 import { CertificateApi } from "api";
 import { FailResponse, ServerResponse } from "server";
-import { AutoLoginContext, Header, SizedBox } from "components";
+import { AppContext, Header, SizedBox } from "components";
 
 /** Bảng Vàng */
 export function UICerificateGroup() {
   const navigate = useNavigate();
-  const { phone } = React.useContext(AutoLoginContext);
+  const { phoneNumber } = React.useContext(AppContext);
   const [ groups, setGroups ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);
 
@@ -27,7 +27,7 @@ export function UICerificateGroup() {
       console.error(error.stackTrace);
     }
 
-    CertificateApi.getGroups(phone, success, fail);
+    CertificateApi.getGroups(phoneNumber, success, fail);
   }, [ reload ])
 
   const onSelectGroup = (certificateGroupId: number, certificateGroupName: string) => () => {

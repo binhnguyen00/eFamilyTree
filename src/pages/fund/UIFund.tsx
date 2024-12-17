@@ -5,11 +5,11 @@ import { Box, Text } from "zmp-ui";
 
 import { FundApi } from "api";
 import { FailResponse, ServerResponse } from "server";
-import { Header, Loading, SearchBar, CommonIcon, AutoLoginContext, Info } from "components";
+import { Header, Loading, SearchBar, CommonIcon, AppContext, Info } from "components";
 
 export function UIFund() {
   const navigate = useNavigate();
-  const { phone } = React.useContext(AutoLoginContext);
+  const { phoneNumber } = React.useContext(AppContext);
   const [ funds, setFunds ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);
   const [ loading, setLoading ] = React.useState(true);
@@ -28,7 +28,7 @@ export function UIFund() {
       setLoading(false);
       console.error("UIFund:\n\t", error.stackTrace);
     };
-    FundApi.getFunds(phone, success, fail);
+    FundApi.getFunds(phoneNumber, success, fail);
   }, [ reload ]);
 
   const navigateToFundDetail = (fund: any = null) => {

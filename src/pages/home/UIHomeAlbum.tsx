@@ -5,12 +5,12 @@ import { Box, Button, Grid, Stack, Text } from "zmp-ui";
 
 import { AlbumApi } from "api";
 import { FailResponse, ServerResponse } from "server";
-import { AutoLoginContext, CommonIcon } from "components";
+import { AppContext, CommonIcon } from "components";
 
 export function UIHomeAlbum() {
   const navigate = useNavigate();
   const [ albums, setAlbums ] = React.useState<any[]>([]);
-  const { logedIn, phone } = React.useContext(AutoLoginContext);
+  const { logedIn, phoneNumber } = React.useContext(AppContext);
 
   React.useEffect(() => {
     if (logedIn) {
@@ -25,7 +25,7 @@ export function UIHomeAlbum() {
       const fail = (error: FailResponse) => {
         console.error("UIHomeAlbum:\n\t", error.stackTrace);
       }
-      AlbumApi.getAlbums(phone, success, fail);
+      AlbumApi.getAlbums(phoneNumber, success, fail);
     }
   }, [ logedIn ]);
 

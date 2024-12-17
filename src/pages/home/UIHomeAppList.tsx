@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
 import { Grid, Stack, Text } from "zmp-ui";
 
-import { AppLogo, AutoLoginContext, RequestPhone, SizedBox } from "components";
+import { AppLogo, AppContext, RequestPhone, SizedBox } from "components";
 
 interface App {
   key: string;
@@ -12,7 +12,7 @@ interface App {
 }
 export function UIHomeAppList() {
   const navigate = useNavigate();
-  const { logedIn } = React.useContext(AutoLoginContext);
+  const { logedIn } = React.useContext(AppContext);
   const [ requestPhone, setRequestPhone ] = React.useState(false); 
 
   const apps: App[] = [

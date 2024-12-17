@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
 import { Box, Stack, Text } from "zmp-ui";
 
-import { Header, Loading, Info, AutoLoginContext } from "components";
+import { Header, Loading, Info, AppContext } from "components";
 import { SocialPostApi } from "api";
 import { FailResponse, ServerResponse } from "server";
 
@@ -21,7 +21,7 @@ export function UIBlog() {
 
 function UIBlogList() {
   const navigate = useNavigate();
-  const { phone } = React.useContext(AutoLoginContext);
+  const { phoneNumber } = React.useContext(AppContext);
 
   const [ blogs, setBlogs ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);
@@ -41,7 +41,7 @@ function UIBlogList() {
       setLoading(false);
       console.error("UIBlogList:\n\t", error.stackTrace);
     };
-    SocialPostApi.getSocialPosts(phone, success, fail);
+    SocialPostApi.getSocialPosts(phoneNumber, success, fail);
   }, [ reload ]);
 
   const navigateToBlog = (title: string, content: string) => {

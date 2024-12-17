@@ -1,6 +1,5 @@
 import React from "react";
 import { ZmpSDK } from "utils";
-import { AutoLoginContext } from "components";
 import { useGetPhonePermission } from "hooks";
 
 interface AutoLoginCtx {
@@ -39,8 +38,4 @@ export function useAutoLogin(): AutoLoginCtx {
     logedIn: phone.length > 0,
     updateCtx: updateCtx,
   };
-}
-
-export function useLoginContext() {
-  return React.useContext(AutoLoginContext);
 }

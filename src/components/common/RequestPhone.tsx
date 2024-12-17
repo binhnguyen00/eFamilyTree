@@ -3,10 +3,10 @@ import { t } from "i18next";
 import { Box, Button, Sheet, Stack, Text } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
-import { AutoLoginContext, CommonIcon } from "components";
+import { AppContext, CommonIcon } from "components";
 
 export function RequestPhone(props: { visible: boolean, closeSheet: () => void }) {
-  const { updateCtx } = React.useContext(AutoLoginContext);
+  const { updateCtx } = React.useContext(AppContext);
   const { visible, closeSheet } = props;
   const [ request, setRequest ] = React.useState(false);
 

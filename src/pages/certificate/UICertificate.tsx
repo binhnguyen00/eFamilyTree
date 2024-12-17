@@ -4,7 +4,7 @@ import { List, Stack, Text } from "zmp-ui";
 
 import { CertificateApi } from "api";
 import { FailResponse, ServerResponse } from "server";
-import { Header, CommonIcon, AutoLoginContext } from "components";
+import { Header, CommonIcon, AppContext } from "components";
 
 export function UICertificate() {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ export function UICertificate() {
     certificateGroupId: 0, 
     certificateGroupName: ""
   };
-  const { phone } = React.useContext(AutoLoginContext);
+  const { phoneNumber } = React.useContext(AppContext);
   const [ certificates, setCertificates ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);
 
@@ -30,7 +30,7 @@ export function UICertificate() {
       console.error("UICertificate:\n\t", error.stackTrace);
     }
 
-    CertificateApi.getByGroup(phone, certificateGroupId, success, fail);
+    CertificateApi.getByGroup(phoneNumber, certificateGroupId, success, fail);
   }, [ reload ])
 
   const navigateToCertificateDetail = (certificateId: number) => {

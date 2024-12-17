@@ -3,14 +3,14 @@ import { t } from "i18next";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, Stack, Text } from "zmp-ui";
 
-import { AutoLoginContext, CommonIcon } from "components";
+import { AppContext, CommonIcon } from "components";
 import { SocialPostApi } from "api";
 import { FailResponse, ServerResponse } from "server";
 
 export function UIHomeBlog() {
   const navigate = useNavigate();
   const [ blogs, setBlogs ] = React.useState<any[]>([]);
-  const { logedIn, phone } = React.useContext(AutoLoginContext);
+  const { logedIn, phoneNumber } = React.useContext(AppContext);
 
   React.useEffect(() => {
     if (logedIn) {
@@ -25,7 +25,7 @@ export function UIHomeBlog() {
       const fail = (error: FailResponse) => {
         console.error("UIHomeBlog:\n\t", error.stackTrace);
       }
-      SocialPostApi.getSocialPosts(phone, success, fail);
+      SocialPostApi.getSocialPosts(phoneNumber, success, fail);
     }
   }, [ logedIn ]);
 
