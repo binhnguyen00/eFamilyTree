@@ -2,22 +2,32 @@ import React from "react";
 import { ZmpSDK } from "utils";
 import { useGetPhonePermission } from "hooks";
 
+interface UserInfo {
+  id: string;
+  name: string;
+  avatar: string;
+}
+
 interface AutoLoginCtx {
-  userInfo: any;
+  userInfo: UserInfo;
   phoneNumber: string;
   logedIn: boolean;
-  updateCtx: (phoneNumber: string, userInfo: any) => void;
+  updatePhoneNumber: (phoneNumber: string) => void;
+  updateUserInfo: (userInfo: UserInfo) => void;
 }
 
 export function useAutoLogin(): AutoLoginCtx {
-  const [ user, setUser ] = React.useState<any>({ id: "", name: "", avatar: "" });
-  const [ phone, setPhoneNumber ] = React.useState("");
+  const [ user, setUser ] = React.useState<UserInfo>({ id: "", name: "", avatar: "" });
+  const [ phone, setPhoneNumber ] = React.useState<string>("");
   const hasPermission = useGetPhonePermission();
 
-  const updateCtx = (phoneNumber: string, userInfo: any) => {
+  const updatePhoneNumber = (phoneNumber: string) => {
     setPhoneNumber(phoneNumber);
+  }
+
+  const updateUserInfo = (userInfo: UserInfo) => {
     setUser(userInfo);
-  };
+  }
 
   React.useEffect(() => {
     if (hasPermission) {
@@ -36,6 +46,7 @@ export function useAutoLogin(): AutoLoginCtx {
     userInfo: user,
     phoneNumber: phone,
     logedIn: phone.length > 0,
-    updateCtx: updateCtx,
+    updatePhoneNumber: updatePhoneNumber,
+    updateUserInfo: updateUserInfo
   };
 }

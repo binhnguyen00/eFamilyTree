@@ -1,5 +1,19 @@
 import React from "react";
-import { useAutoLogin, useSetting } from "hooks";
+import { useAutoLogin, useSetting, useTheme } from "hooks";
+
+interface AppCtx {
+  logedIn: boolean;
+  phoneNumber: string;
+  userInfo: {
+    id: string;
+    name: string;
+    avatar: string;
+  };
+  settings: {
+    theme: string;
+    language: string;
+  };
+}
 
 export const AppContext = React.createContext({
   logedIn: false,
@@ -13,23 +27,23 @@ export const AppContext = React.createContext({
     theme: "",
     language: ""
   },
-  updateCtx: (phoneNumber: string, userInfo: any) => {}
+  updatePhoneNumber: (phoneNumber: string) => {},
+  updateUserInfo: (userInfo: any) => {},
+  updateSettings: (settings: any) => {}
 });
 
 export function ApplicationProvider({ children }: { children: React.ReactNode }) {
-  const { phoneNumber, userInfo, logedIn, updateCtx } = useAutoLogin();
-  const { language, theme } = useSetting(phoneNumber);
-  
-  const userSetting = { 
-    theme: theme,
-    language: language
-  }
+  const { phoneNumber, userInfo, logedIn, updatePhoneNumber, updateUserInfo } = useAutoLogin();
+  const { settings, updateSettings } = useSetting(phoneNumber);
+  const { toggleTheme } = useTheme();
 
+  toggleTheme(settings.theme);
+  
   const appCtx = {
     logedIn: logedIn,
     phoneNumber: phoneNumber,
     userInfo: userInfo,
-    userSetting: userSetting
+    userSetting: settings
   }
   console.log("App Context:\n", appCtx); 
 
@@ -38,8 +52,10 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
       logedIn: logedIn,
       phoneNumber: phoneNumber,
       userInfo: userInfo,
-      settings: userSetting,
-      updateCtx: updateCtx
+      settings: settings,
+      updatePhoneNumber: updatePhoneNumber,
+      updateUserInfo: updateUserInfo,
+      updateSettings: updateSettings
     }}>
       {children}
     </AppContext.Provider>

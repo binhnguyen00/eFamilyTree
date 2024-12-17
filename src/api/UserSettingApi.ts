@@ -18,16 +18,18 @@ export class UserSettingApi extends BaseServer {
 
   public static updateOrCreate(
     phoneNumber: string, 
-    theme: string,
-    language: string,
+    settings: {
+      theme: string,
+      language: string,
+    },
     successCB: SuccessCB, 
     failCB?: FailCB
   ) {
     const header = this.initHeader();
     const body = this.initBody({
       phone_number: phoneNumber,
-      theme: theme,
-      language: language,
+      theme: settings.theme,
+      language: settings.language,
     })
     this.server.POST("account/setting/save", header, body, successCB, failCB);
   }

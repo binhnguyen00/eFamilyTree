@@ -3,8 +3,10 @@ import { t } from "i18next";
 
 import { Grid, Stack, Text } from "zmp-ui";
 
-import { useTheme } from "hooks";
+import { UserSettingApi } from "api";
 import { Header, SizedBox } from "components";
+import { useAppContext, useTheme } from "hooks";
+import { FailResponse, ServerResponse } from "server";
 
 import themeRed from "assets/img/theme/theme-red.jpeg";
 import themeGreen from "assets/img/theme/theme-green.jpeg";
@@ -24,6 +26,23 @@ export function UITheme() {
 
 export function UIThemeList() {
   const { toggleTheme } = useTheme();
+  const { phoneNumber, settings } = useAppContext();
+
+  const saveSettings = (themeCode: string) => {
+    const success = (result: ServerResponse) => {
+      const settings = result.data;
+      toggleTheme(settings["theme"]);
+    }
+    const fail = (error: FailResponse) => {
+      console.error(error);
+      toggleTheme(themeCode)
+    }
+    const target = {
+      ...settings,
+      theme: themeCode
+    }
+    UserSettingApi.updateOrCreate(phoneNumber, target, success, fail);
+  }
 
   return (
     <>
@@ -33,7 +52,7 @@ export function UIThemeList() {
           width={150} 
           height={100} 
           border
-          onClick={() => toggleTheme("default")}
+          onClick={() => saveSettings("default")}
         >
           <img src={themeRed} alt="theme red"/>
         </SizedBox>
@@ -46,7 +65,7 @@ export function UIThemeList() {
           width={150} 
           height={100} 
           border
-          onClick={() => toggleTheme("blue")}
+          onClick={() => saveSettings("blue")}
         >
           <img src={themeBlue} alt="theme blue"/>
         </SizedBox>
@@ -59,7 +78,7 @@ export function UIThemeList() {
           width={150} 
           height={100} 
           border
-          onClick={() => toggleTheme("green")}
+          onClick={() => saveSettings("green")}
         >
           <img src={themeGreen} alt="theme green"/>
         </SizedBox>

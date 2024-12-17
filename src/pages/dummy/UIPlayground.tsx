@@ -1,96 +1,60 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Text, Box, Input, Stack } from "zmp-ui";
-import { atom, selector, useRecoilValue, useRecoilState } from "recoil"
+import { Button, Text, Stack } from "zmp-ui";
 
 import { BaseServer, UserSettingApi } from "api";
-import { Header, Loading } from "components";
+import { Header, Loading, SizedBox } from "components";
 import { FailResponse, ServerResponse } from "server";
+import { useAppContext } from "hooks";
 
-const numberState = atom({
-  key: "number",
-  default: 0
-})
-
-const numberSelector = selector({
-  key: "numberSelector",
-  get: ({ get }) => {
-    const value = get(numberState)
-    return value
-  }
-})
-
-const textState = atom({
-  key: "text",
-  default: ""
-})
-
-const textSelector = selector({
-  key: "textSelector",
-  get: ({ get }) => {
-    const value = get(textState)
-    return value
-  }
-})
-
-const todo = atom<string[]>({
-  key: "todo",
-  default: []
-})
-
-const todoSelector = selector({
-  key: "todoSelector",
-  get: ({ get }) => {
-    const value = get(todo)
-    return value
-  }
-})
+import themeRed from "assets/img/theme/theme-red.jpeg";
+import themeBlue from "assets/img/theme/theme-blue.jpeg";
 
 export function UIPlayground() {
   const { t, i18n } = useTranslation();
-  const [ number, setState ] = useRecoilState(numberState);
-  const numberValue = useRecoilValue(numberSelector);
-
-  const [ text, setText ] = useRecoilState(textState);
-  const textValue = useRecoilValue(textSelector);
-
-  const [ todoList, setTodoList ] = useRecoilState(todo);
-  const todoListValue = useRecoilValue(todoSelector);
+  const { settings, updateSettings } = useAppContext();
 
   return (
     <Stack space="1rem" className="container">
       <Header title={t("playground")}/>
 
-      <Stack space="1rem">
-        <Box flex justifyContent="space-between">
-          <Button variant="secondary" onClick={() => setState(number + 1)} size="small">
-            + Add
-          </Button>
-          <Button variant="secondary" onClick={() => setState(number - 1)} size="small">
-            - Remove
-          </Button>
-          <Button variant="secondary" onClick={() => setState(0)} size="small">
-            Reset
-          </Button>
-        </Box>
-        <Input value={numberValue}/>
-      </Stack>
+      <div className="scroll-h flex-h">
+        <Stack space="0.5rem" className="center text-capitalize">
+          <SizedBox 
+            className="button"
+            width={150} 
+            height={100} 
+            border
+            onClick={() => {
+              updateSettings({
+                ...settings,
+                theme: "default"
+              })
+            }}
+          >
+            <img src={themeRed} alt="theme red"/>
+          </SizedBox>
+          <Text> {t("theme_red")} </Text>
+        </Stack>
 
-      <Stack space="1rem">
-        <Input
-          value={text} placeholder="Input"
-          onChange={(e) => setText(e.target.value)}/>
-        <Input 
-          value={textValue} placeholder="Output"/>
-        <Box flex justifyContent="space-evenly">
-          <Button variant="secondary" size="small" onClick={() => {
-            setTodoList([...todoList, text]) 
-            setText("")
-          }}> + Add </Button>
-          <Button variant="secondary" size="small" onClick={() => { setTodoList([]) }}> Reset </Button>
-        </Box>
-        <Input.TextArea value={todoListValue}/>
-      </Stack>
+        <Stack space="0.5rem" className="center text-capitalize">
+          <SizedBox 
+            className="button"
+            width={150} 
+            height={100} 
+            border
+            onClick={() => {
+              updateSettings({
+                ...settings,
+                theme: "blue"
+              })
+            }}
+          >
+            <img src={themeBlue} alt="theme blue"/>
+          </SizedBox>
+          <Text> {t("theme_blue")} </Text>
+        </Stack>
+      </div>
 
       <Stack space="1rem">
         <Text.Title size="large"> {t("playground_translate")} </Text.Title>

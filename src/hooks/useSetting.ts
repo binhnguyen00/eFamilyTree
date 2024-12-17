@@ -9,11 +9,20 @@ interface Settings {
   language: "vi" | "en"
 }
 
-export function useSetting(phoneNumber: string): Settings {
-  let [ setting, setSetting ] = React.useState<Settings>({
+interface SettingCtx {
+  settings: Settings,
+  updateSettings: (settings: Settings) => void
+}
+
+export function useSetting(phoneNumber: string): SettingCtx {
+  let [ settings, setSetting ] = React.useState<Settings>({
     theme: "default",
     language: "vi"
   });
+
+  const updateSettings = (userSettings: Settings) => {
+    setSetting(userSettings);
+  }
 
   React.useEffect(() => {
     if (phoneNumber && !CommonUtils.isStringEmpty(phoneNumber)) {
@@ -28,5 +37,8 @@ export function useSetting(phoneNumber: string): Settings {
     }
   }, [phoneNumber])
 
-  return setting;
+  return {
+    settings: settings,
+    updateSettings: updateSettings
+  };
 }

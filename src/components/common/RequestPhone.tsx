@@ -3,10 +3,11 @@ import { t } from "i18next";
 import { Box, Button, Sheet, Stack, Text } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
-import { AppContext, CommonIcon } from "components";
+import { CommonIcon } from "components";
+import { useAppContext } from "hooks";
 
 export function RequestPhone(props: { visible: boolean, closeSheet: () => void }) {
-  const { updateCtx } = React.useContext(AppContext);
+  const { updatePhoneNumber, updateUserInfo } = useAppContext();
   const { visible, closeSheet } = props;
   const [ request, setRequest ] = React.useState(false);
 
@@ -14,7 +15,10 @@ export function RequestPhone(props: { visible: boolean, closeSheet: () => void }
     const success = (number: string) => { 
       setRequest(false);
       ZmpSDK.getUserInfo(
-        (userInfo: any) => updateCtx(number, userInfo)
+        (userInfo: any) => {
+          updatePhoneNumber(number);
+          updateUserInfo(userInfo);
+        }
       )
     }
     const fail = (error: any) => { 
