@@ -1,10 +1,9 @@
 import { OdooRESTful } from './OdooRESTful';
 import { ExternalRESTful } from './ExternalRESTful';
-import { 
-  CallBack, 
-  FailCB, SuccessCB, 
-  FailResponse, ServerResponse,
-  HttpMethod, 
+import type { 
+  CallBack, FailCB, SuccessCB, 
+  FailResponse, ServerResponse, 
+  HttpMethod 
 } from "./type";
 
 export { 
