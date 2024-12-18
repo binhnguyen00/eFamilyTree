@@ -11,6 +11,10 @@
   gap: 0.5em;
 }
 
+.flex-grow {
+  flex-grow: 1;
+}
+
 .center {
   display: flex !important;
   justify-content: center !important;
