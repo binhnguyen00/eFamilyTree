@@ -2,6 +2,7 @@ import React from "react";
 import { useAutoLogin, useSetting, useTheme } from "hooks";
 
 interface AppCtx {
+  appId: string;
   logedIn: boolean;
   phoneNumber: string;
   userInfo: {
@@ -13,7 +14,6 @@ interface AppCtx {
     theme: string;
     language: string;
   };
-  appId: string;
   updatePhoneNumber: (phoneNumber: string) => void,
   updateUserInfo: (userInfo: any) => void,
   updateSettings: (settings: any) => void
@@ -30,17 +30,21 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
 
   toggleTheme(settings.theme);
   
-  const appCtx = {
+  const ctxInfo = {
+    appId: appId,
     logedIn: logedIn,
     phoneNumber: phoneNumber,
     userInfo: userInfo,
     settings: settings,
-    appId: appId,
+  }
+  console.log("App Context:\n", ctxInfo); 
+
+  const appCtx = {
+    ...ctxInfo,
     updatePhoneNumber: updatePhoneNumber,
     updateUserInfo: updateUserInfo,
     updateSettings: updateSettings
   } as AppCtx;
-  console.log("App Context:\n", appCtx); 
 
   return (
     <AppContext.Provider value={appCtx}>
