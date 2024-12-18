@@ -1,6 +1,7 @@
 import React from "react";
+import { t } from "i18next";
 import { useTranslation } from "react-i18next";
-import { Button, Text, Stack } from "zmp-ui";
+import { Button, Text, Stack, Grid } from "zmp-ui";
 
 import { BaseServer, UserSettingApi } from "api";
 import { Header, Loading, SizedBox } from "components";
@@ -11,14 +12,74 @@ import themeRed from "assets/img/theme/theme-red.jpeg";
 import themeBlue from "assets/img/theme/theme-blue.jpeg";
 
 export function UIPlayground() {
-  const { t, i18n } = useTranslation();
-  const { settings, updateSettings } = useAppContext();
 
   return (
     <Stack space="1rem" className="container">
       <Header title={t("playground")}/>
 
+      <Stack space="1rem">
+        <Text.Title size="large"> {"Mock CORS"} </Text.Title>
+        <Button variant="secondary" onClick={() => {
+          const success = (result: ServerResponse) => {
+            console.log(result);
+          } 
+          const fail = (error: FailResponse) => {
+            console.error(error);
+          }
+          BaseServer.mockHTTP(success, fail);
+        }}>
+          {"HTTP"}
+        </Button>
+      </Stack>
+
+      <UIUserSetting/>
+
+      <UITheme/>
+
+      <Loading/>
+
+    </Stack>
+  )
+}
+
+function UIUserSetting() {
+  return (
+    <Stack space="1rem">
+      <Text.Title size="large" className="text-capitalize"> {t("setting")} </Text.Title>
+      <Grid columnCount={3} columnSpace="0.5rem" rowSpace="0.5rem">
+
+        <Button variant="secondary" onClick={() => {
+          const success = (result: ServerResponse) => { console.log(result); } 
+          const fail = (error: FailResponse) => { console.error(error); }
+          UserSettingApi.getOrDefault("0942659016", success, fail);
+        }}>
+          {"Get Settings"}
+        </Button>
+
+        <Button variant="secondary" onClick={() => {
+          const success = (result: ServerResponse) => { console.log(result); } 
+          const fail = (error: FailResponse) => { console.error(error); }
+          UserSettingApi.updateOrCreate("0942659016", {
+            theme: "blue",
+            language: "vi",
+          }, success, fail);
+        }}>
+          {"Blue Theme"}
+        </Button>
+
+      </Grid>
+    </Stack>
+  )
+}
+
+function UITheme() {
+  const { settings, updateSettings } = useAppContext();
+
+  return (
+    <Stack space="1rem">
+      <Text.Title size="large" className="text-capitalize"> {t("theme")} </Text.Title>
       <div className="scroll-h flex-h">
+
         <Stack space="0.5rem" className="center text-capitalize">
           <SizedBox 
             className="button"
@@ -55,49 +116,6 @@ export function UIPlayground() {
           <Text> {t("theme_blue")} </Text>
         </Stack>
       </div>
-
-      <Stack space="1rem">
-        <Text.Title size="large"> {t("playground_translate")} </Text.Title>
-        <Button variant="secondary" onClick={() => i18n.changeLanguage("vi")}>
-          {t("vietnamese")}
-        </Button>
-        <Button variant="secondary" onClick={() => i18n.changeLanguage("en")}>
-          {t("english")}
-        </Button>
-      </Stack>
-      
-      <Stack space="1rem">
-        <Text.Title size="large"> {"Mock CORS"} </Text.Title>
-        <Button variant="secondary" onClick={() => {
-          const success = (result: ServerResponse) => {
-            console.log(result);
-          } 
-          const fail = (error: FailResponse) => {
-            console.error(error);
-          }
-          BaseServer.mockHTTP(success, fail);
-        }}>
-          {"HTTP"}
-        </Button>
-      </Stack>
-
-      <Stack space="1rem">
-        <Text.Title size="large"> {"Test Settings API"} </Text.Title>
-        <Button variant="secondary" onClick={() => {
-          const success = (result: ServerResponse) => {
-            console.log(result);
-          } 
-          const fail = (error: FailResponse) => {
-            console.error(error);
-          }
-          UserSettingApi.getOrDefault("0942659016", success, fail);
-        }}>
-          {"Get Settings"}
-        </Button>
-      </Stack>
-      
-      <Loading/>
-
     </Stack>
   )
 }
