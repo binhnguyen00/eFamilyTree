@@ -1,14 +1,13 @@
 import React from "react";
 import { t } from "i18next";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { homePath } from "states";
 import { Box, Text } from "zmp-ui";
 
-import { CommonIcon } from "components/icon/common-icon";
+import { CommonIcon } from "components";
+import { useAppContext } from "hooks";
 
 export function Navigation() {
-  const home = useRecoilValue(homePath);
+  const { appId } = useAppContext();
   const location = useLocation();
   const NO_BOTTOM_NAVIGATION_PAGES = ["/family-tree", "/dev/tree"];
 
@@ -21,7 +20,7 @@ export function Navigation() {
   return (
     <div className="nav-bar flex-h">
       <NavItem
-        path={home}
+        path={`/zapps/${appId}`}
         label={t("home")}
         icon={<CommonIcon.Home size={24}/>}
         activeIcon={<CommonIcon.Home size={32} className="text-tertiary"/>}

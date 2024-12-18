@@ -22,8 +22,7 @@ import { UIDeveloper } from "./dummy/UIDeveloper";
 import { UICerificateGroup } from "./certificate/UICertificateGroup";
 import { UICertificate } from "./certificate/UICertificate";
 import { UICertificateDetail } from "./certificate/UICertificateDetail";
-import { homePath } from '../states';
-import { useRecoilValue } from "recoil";
+import { useAppContext } from "hooks";
 
 // Demo components (React.lazy loaded)
 const UIDummyFund = React.lazy(() => import("./dummy/UIDummyFund"));
@@ -34,13 +33,13 @@ const UIDummyBlog = React.lazy(() => import("./dummy/UIDummyBlog"));
 const UIDummyAlbum = React.lazy(() => import("./dummy/UIDummyAlbum"));
 const UIDummyNavigate = React.lazy(() => import("./dummy/UIDummyNavigate"));
 
-export function UIRoutes() {
-  const home = useRecoilValue(homePath);
+export function AppRoutes() {
+  const { appId } = useAppContext();
 
   return (
     <Routes>
       {/* HOME */}
-      <Route path={home} element={<UIHome />} />
+      <Route path={`/zapps/${appId}`} element={<UIHome />} />
 
       <Route path="/family-tree" element={<UIFamilyTree />} />
 

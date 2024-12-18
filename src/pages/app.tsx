@@ -1,33 +1,29 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { RecoilRoot } from "recoil";
-import { App, SnackbarProvider } from "zmp-ui";
+import { App as ZaloApp } from "zmp-ui";
 
-import { UIRoutes } from "./routes";
+import { AppRoutes } from "./routes";
 import { 
-  Navigation, ThemeProvider, PagePositionSaver, 
-  ApplicationProvider 
+  Navigation, 
+  PagePositionSaver,
+  ThemeProvider, ApplicationProvider 
 } from "components";
 
 import "../i18n";
 
 function Application() {
   return (
-    <RecoilRoot>
-      <App>
-        <ThemeProvider>
-          <SnackbarProvider>
-            <ApplicationProvider>
-              <Router>
-                <UIRoutes/>
-                <Navigation/>
-                <PagePositionSaver />
-              </Router>
-            </ApplicationProvider>
-          </SnackbarProvider>
-        </ThemeProvider>
-      </App>
-    </RecoilRoot>
+    <ZaloApp>
+      <ThemeProvider>
+        <ApplicationProvider>
+          <Router>
+            <AppRoutes/>
+            <Navigation/>
+            <PagePositionSaver />
+          </Router>
+        </ApplicationProvider>
+      </ThemeProvider>
+    </ZaloApp>
   );
 };
 
