@@ -16,6 +16,14 @@ export function UIHomeBanner() {
     navigate("/register");
   }
 
+  const onRegisterClan = () => {
+    navigate("/register-clan");
+  }
+
+  const navigateAbout = () => {
+    navigate("/about");
+  }
+
   return (
     <Stack space="0.5rem">
       <Text.Title size="xLarge" className="text-capitalize text-shadow"> {t("family_tree")} </Text.Title>
@@ -46,6 +54,9 @@ export function UIHomeBanner() {
                 <Stack space="1rem">
                   <p>{"Gìn Giữ Giá Trị"}</p>
                   <p>{"Gia Tộc"}</p>
+                  <Box flex flexDirection="row" justifyContent="center" className="box-shadow">
+                    <Button variant="primary" size="small" onClick={onRegisterClan}>  {t("register_clan")} </Button>
+                  </Box>
                 </Stack>
               }
               textStyle={{ fontSize: "2rem" }}
@@ -62,6 +73,9 @@ export function UIHomeBanner() {
                 <Stack space="1rem">
                   <p>{"Công Nghệ Lưu Giữ"}</p>
                   <p>{"Giá Trị Truyền Thống"}</p>
+                  <Box flex flexDirection="row" justifyContent="center" className="box-shadow">
+                    <Button variant="primary" size="small" onClick={navigateAbout}>  {t("about")} </Button>
+                  </Box>
                 </Stack>
               }
               textStyle={{ fontSize: "1.5rem" }}
