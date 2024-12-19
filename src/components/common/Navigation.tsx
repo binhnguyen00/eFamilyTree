@@ -33,7 +33,7 @@ export function Navigation() {
         activeIcon={null}
       /> 
       <NavItem
-        path="/user"
+        path="/account"
         label={t("account")}
         icon={<CommonIcon.User size={24}/>}
         activeIcon={<CommonIcon.User size={32} className="text-tertiary"/>}

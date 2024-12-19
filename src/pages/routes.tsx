@@ -3,25 +3,26 @@ import { Route, Routes } from "react-router-dom";
 
 import { Loading } from "components";
 
-import { UIFamilyTree } from "pages/family-tree/UIFamilyTree";
-import { UIAccount } from "pages/user/UIAccount";
-import { UIHome } from "pages/home/UIHome";
 import { UIAbout } from "pages/about/UIAbout";
-import { UIImageList } from "./album/UIImageList";
-import { UIRegisterClan } from "./user/UIRegisterClan";
-import { UIRegister } from "./user/UIRegister";
-import { UITheme } from "./theme/UITheme";
-import { UIBlog } from "./blog/UIBlog";
-import { UIBlogDetail } from "./blog/UIBlogDetail";
-import { UIFund } from "./fund/UIFund";
-import { UIFundDetail } from "./fund/UIFundDetail";
-import { UICalendar } from "./calendar/UICalendar";
-import { UIAlbum } from "./album/UIAlbum";
-import { UIPlayground } from "./dummy/UIPlayground";
-import { UIDeveloper } from "./dummy/UIDeveloper";
-import { UICerificateGroup } from "./certificate/UICertificateGroup";
-import { UICertificate } from "./certificate/UICertificate";
-import { UICertificateDetail } from "./certificate/UICertificateDetail";
+import { UIAlbum } from "pages/album/UIAlbum";
+import { UIImageList } from "pages/album/UIImageList";
+import { UIBlog } from "pages/blog/UIBlog";
+import { UIBlogDetail } from "pages/blog/UIBlogDetail";
+import { UICalendar } from "pages/calendar/UICalendar";
+import { UICertificate } from "pages/certificate/UICertificate";
+import { UICertificateDetail } from "pages/certificate/UICertificateDetail";
+import { UICerificateGroup } from "pages/certificate/UICertificateGroup";
+import { UIDeveloper } from "pages/dummy/UIDeveloper";
+import { UIPlayground } from "pages/dummy/UIPlayground";
+import { UIFamilyTree } from "pages/family-tree/UIFamilyTree";
+import { UIFund } from "pages/fund/UIFund";
+import { UIFundDetail } from "pages/fund/UIFundDetail";
+import { UIHome } from "pages/home/UIHome";
+import { UITheme } from "pages/theme/UITheme";
+import { UIAccount } from "pages/user/UIAccount";
+import { UIRegister } from "pages/user/UIRegister";
+import { UIRegisterClan } from "pages/user/UIRegisterClan";
+
 import { useAppContext } from "hooks";
 
 // Demo components (React.lazy loaded)
@@ -43,7 +44,7 @@ export function AppRoutes() {
 
       <Route path="/family-tree" element={<UIFamilyTree />} />
 
-      <Route path="/user" element={
+      <Route path="/account" element={
         <React.Suspense fallback={<Loading />}>
           <UIAccount />
         </React.Suspense>

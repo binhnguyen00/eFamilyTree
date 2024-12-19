@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 
 import { Avatar, Box, Button, Grid, Stack, Text } from "zmp-ui";
 
+import { UserSettingApi } from "api";
+import { FailResponse, ServerResponse } from "server";
 import { AppContext, Header } from "components";
 
 import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
-import { FailResponse, ServerResponse } from "server";
-import { UserSettingApi } from "api";
 
 export function UIAccount() { 
   return (
@@ -21,19 +21,8 @@ export function UIAccount() {
 }
 
 function UIAccountContainer() {
-  const { userInfo, settings, updateSettings } = React.useContext(AppContext);
+  const { userInfo } = React.useContext(AppContext);
   const navigate = useNavigate();
-
-  const changeLang = (langCode: "vi" | "en") => {
-    const success = (result: ServerResponse) => {
-      const settings = result.data;
-      updateSettings(settings);
-    }
-    UserSettingApi.updateOrCreate("0942659016", {
-      ...settings,
-      language: langCode
-    }, success);
-  }
 
   return (
     <Stack space="1rem">
@@ -44,7 +33,7 @@ function UIAccountContainer() {
           src={userInfo.avatar ? userInfo.avatar : UNKNOWN_AVATAR}
           className="border-secondary"
         />
-        <Text.Title> {userInfo.name} </Text.Title>
+        <Text.Title className="text-capitalize text-shadow"> {userInfo.name} </Text.Title>
       </Box>
 
       <Button variant="secondary" onClick={() => navigate("/register") }>
@@ -59,17 +48,78 @@ function UIAccountContainer() {
         {t("about")}
       </Button>
 
-      <Grid columnCount={2} columnSpace="0.5rem">
-        <Button variant="secondary" onClick={() => changeLang("vi")}>
-          {t("vietnamese")}
-        </Button>
-        <Button variant="secondary" onClick={() => changeLang("en")}>
-          {t("english")}
-        </Button>
-      </Grid>
+      <div className="p-3 rounded bg-secondary">
+        <UISettings/>
+      </div>
 
     </Stack>
   )
 }
 
+function UISettings() {
+  const { phoneNumber, settings, updateSettings } = React.useContext(AppContext);
 
+  const changeLang = (langCode: "vi" | "en") => {
+    const success = (result: ServerResponse) => {
+      const settings = result.data;
+      updateSettings(settings);
+    }
+    UserSettingApi.updateOrCreate(
+      phoneNumber, 
+      {
+        ...settings,
+        language: langCode
+      }, 
+      success
+    );
+  }
+
+  const changeBackground = () => {
+
+    const getImage = () => {
+      const fileInput = (document.getElementById('ftree-bg') as HTMLInputElement).files?.[0];
+      return fileInput || null;
+    }
+
+    const image = getImage();
+    if (!image) return;
+
+    const success = (result: ServerResponse) => {
+      console.log(result.data);
+    }
+    UserSettingApi.updateBackground(phoneNumber, image, success);
+  } 
+
+  return (
+    <Stack space="1rem">
+      <Text.Title size="xLarge" className="text-primary text-capitalize center"> {t("settings")} </Text.Title>
+      
+      <Text.Title className="text-capitalize text-primary"> {t("language")} </Text.Title>
+      <Stack space="1rem">
+        <Grid columnCount={2} columnSpace="0.5rem">
+          <Button variant="primary" size="medium" onClick={() => changeLang("vi")}>
+            {t("vietnamese")}
+          </Button>
+          <Button variant="primary" size="medium" onClick={() => changeLang("en")}>
+            {t("english")}
+          </Button>
+        </Grid>
+      </Stack>
+
+      <Text.Title className="text-capitalize text-primary"> {t("tree_background")} </Text.Title>
+      <Stack space="1rem">
+        <input
+          type="file"
+          id="ftree-bg" accept="image/*"
+          style={{ 
+            padding: "1em",
+          }}
+          className="border-primary rounded"
+        />
+        <Button variant="primary" size="medium" onClick={changeBackground}>
+          {t("update")}
+        </Button>
+      </Stack>
+    </Stack>
+  )
+}
