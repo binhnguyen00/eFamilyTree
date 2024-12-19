@@ -5,8 +5,8 @@ export class OdooRESTful extends Api {
 
   /** @override */
   initRequest(method: HttpMethod, requestHeaders?: any, requestBody?: any): RequestInit {;
-
-    let headers: any = null;
+    // headers
+    let headers = { 'Content-Type': 'application/json; charset=UTF-8' }
     if (requestHeaders) {
       if (requestHeaders['Content-Type']) headers = requestHeaders;
       else {
@@ -16,25 +16,23 @@ export class OdooRESTful extends Api {
         }
         
       }
-    } else headers = {
-      'Content-Type': 'application/json; charset=UTF-8',
+    } 
+    // body
+    let body: any = null;
+    if (requestBody) {
+      body = JSON.stringify(requestBody);
     }
 
-    let body: any = null;
-    if (requestBody) body = JSON.stringify(requestBody);
-
-    let requestInit: RequestInit = {
+    return {
       method: method,
       headers: headers,
+      body: body,
       mode: 'cors',
       cache: 'no-cache',
-      // credentials: 'include',
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
-      body: body,
-    }
-
-    return requestInit;
+      // credentials: 'include',
+    } as RequestInit;
   }
 
   /** @override */
@@ -87,5 +85,29 @@ export class OdooRESTful extends Api {
     var url: string = this.initialUrl(path);
     var requestInit: RequestInit = this.initRequest(HttpMethod.POST, header, body);
     this.doFetch(url, requestInit, successCB, failCB);
+  }
+
+  public postWithFormData(path: string, formData: FormData, successCB: SuccessCB, failCB?: FailCB) {
+    var url = this.serverUrl + '/' + path;
+    if (!failCB) failCB = (response: any) => {
+      console.log(response);
+    }
+    fetch(url, {
+      method: HttpMethod.POST,
+      body: formData
+    }).then((res: Response) => {
+      if (res.ok) return res.json();
+      else return null;
+    }).then((res: any) => {
+      const result = OdooRESTful.getResponseResult(res);
+      successCB(result);
+    }).catch((error: Error) => {
+      console.error(`eFamilyTree UI error: \n\t${error.message}`);
+      failCB({
+        status: "error",
+        message: error.message,
+        stackTrace: error.stack || ""
+      } as FailResponse);
+    });
   }
 }

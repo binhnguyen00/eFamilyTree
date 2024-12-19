@@ -1,4 +1,5 @@
 import React from "react";
+
 import { t } from "i18next";
 import { Button, Text, Stack, Grid } from "zmp-ui";
 
@@ -32,6 +33,8 @@ export function UIPlayground() {
       </Stack>
 
       <UIUserSetting/>
+
+      <UIUploadImageFile/>
 
       <UITheme/>
 
@@ -115,6 +118,58 @@ function UITheme() {
           <Text> {t("theme_blue")} </Text>
         </Stack>
       </div>
+    </Stack>
+  )
+}
+
+function UIUploadImageFile() {
+
+  const getImage = () => {
+    const fileInput = (document.getElementById('ftree-bg') as HTMLInputElement).files?.[0];
+    return fileInput || null;
+  }
+
+  const upload = (event: any) => {
+    const image = getImage();
+    console.log(image);
+    if (!image) return;
+
+    const success = (result: ServerResponse) => {
+      console.log(result.data);
+    }
+    const fail = (error: FailResponse) => {
+      console.error(error);
+    }
+    UserSettingApi.updateBackground("0942659016", image, success, fail);
+  }
+
+  const get = () => {
+    const success = (result: ServerResponse) => {
+      console.log(result.data);
+    }
+    const fail = (error: FailResponse) => {
+      console.error(error);
+    }
+    UserSettingApi.getBackground("0942659016", success, fail);
+  }
+
+  return (
+    <Stack space="1rem">
+      <Text.Title size="large" className="text-capitalize"> {t("Change Tree Background")} </Text.Title>
+
+      <input
+        type="file"
+        id="ftree-bg" accept="image/*"
+      />
+
+      <Grid columnCount={2} columnSpace="0.5rem">
+        <Button variant="secondary" onClick={upload}> 
+          upload 
+        </Button>
+        <Button variant="secondary" onClick={get}> 
+          get
+        </Button>
+      </Grid>
     </Stack>
   )
 }
