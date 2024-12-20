@@ -10,6 +10,7 @@ import { FailResponse, ServerResponse } from "server";
 interface Settings {
   theme: Theme,
   language: "vi" | "en"
+  background?: string;
 }
 
 interface SettingCtx {
@@ -22,7 +23,7 @@ export function useSettings(phoneNumber: string): SettingCtx {
   let { toggleTheme } = useTheme();
   let [ settings, setSetting ] = React.useState<Settings>({
     theme: Theme.DEFAULT,
-    language: "vi"
+    language: "vi",
   });
 
   const updateSettings = (userSettings: Settings) => {
@@ -38,14 +39,26 @@ export function useSettings(phoneNumber: string): SettingCtx {
   // Get user settings
   React.useEffect(() => {
     if (phoneNumber && !CommonUtils.isStringEmpty(phoneNumber)) {
+      // Get theme, language
       const success = (result: ServerResponse) => {
         const setting = result.data;
         setSetting(setting);
       }
-      const fail = (error: FailResponse) => {
-        console.error(error);
-      }
+      const fail = (error: FailResponse) => console.error(error)
       UserSettingApi.getOrDefault(phoneNumber, success, fail);
+
+      // Get background
+      UserSettingApi.getBackground(
+        phoneNumber, 
+        (result: ServerResponse) => {
+          const bg = result.data;
+          setSetting({
+            ...settings,
+            background: bg["path"]
+          })
+        },
+        (error: FailResponse) => console.error(error)
+      )
     }
   }, [phoneNumber])
 

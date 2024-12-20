@@ -82,7 +82,11 @@ function UISettings() {
     const image = getImage();
     if (!image) return;
     const success = (result: ServerResponse) => {
-      console.log(result.data);
+      const background = result.data;
+      updateSettings({
+        ...settings,
+        background: background["path"]
+      })
     }
     UserSettingApi.updateBackground(phoneNumber, image, success);
   } 

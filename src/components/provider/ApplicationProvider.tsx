@@ -14,6 +14,7 @@ export interface AppCtx {
   settings: {
     theme: string;
     language: string;
+    background: string;
   };
   updatePhoneNumber: (phoneNumber: string) => void,
   updateUserInfo: (userInfo: any) => void,

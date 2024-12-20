@@ -304,7 +304,7 @@ function FamilyTreeSearch(props: FamilyTreeSearchProps) {
   return (
     <div style={style}>
 
-      <div className='flex-h border bg-secondary rounded p-1'>
+      <div className='flex-h border-secondary bg-secondary rounded p-1'>
         <input
           type='text'
           placeholder={t("search")}

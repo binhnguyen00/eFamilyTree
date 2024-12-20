@@ -4,6 +4,7 @@ import { Sheet, Grid, Button, Box, Input } from "zmp-ui";
 
 import { CommonUtils } from "utils";
 import { FamilyTreeApi } from "api";
+import { useAppContext } from "hooks";
 import { ServerResponse, FailResponse } from "server";
 import { Header, CommonIcon, TreeNode, FamilyTree, TreeConfig, Loading, AppContext } from "components";
 
@@ -57,6 +58,9 @@ interface UIFamilyTreeContainerProps {
   onReload?: () => void;
 }
 export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) { 
+  // settings
+  const { settings } = useAppContext();
+
   // tree
   const [ nodes, setNodes ] = React.useState<any[]>(props.nodes);
   const [ rootId, setRootId ] = React.useState<string>(props.rootId);
@@ -129,8 +133,20 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
     );
   }
 
+  let background;
+  if (settings.background && !CommonUtils.isStringEmpty(settings.background)) {
+    background = {
+      backgroundImage: `url(https://giapha.mobifone5.vn${settings.background}) !important`,
+    }
+  } else background = {
+    backgroundColor: `var(--tree-background-color) !important`,
+  }
+
   return (
-    <div className="tree-container">
+    <div 
+      className="tree-container"
+      style={{ ...background }}
+    >
       <Header title={t("family_tree")}/>
       
       {treeContainer()}
