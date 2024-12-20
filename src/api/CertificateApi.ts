@@ -1,7 +1,7 @@
-import { BaseServer } from "./BaseServer";
+import { BaseApi } from "./BaseApi";
 import { SuccessCB, FailCB } from "server"
 
-export class CertificateApi extends BaseServer {
+export class CertificateApi extends BaseApi {
 
   public static getByGroup(phoneNumber, groupId: number, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();

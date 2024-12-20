@@ -1,7 +1,7 @@
-import { BaseServer } from "./BaseServer";
+import { BaseApi } from "./BaseApi";
 import { SuccessCB, FailCB } from "server"
 
-export class LifeEventApi extends BaseServer {
+export class LifeEventApi extends BaseApi {
 
   public static getLifeEvents(phoneNumber, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();

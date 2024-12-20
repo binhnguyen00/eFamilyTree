@@ -5,15 +5,17 @@ import { LifeEventApi } from './LifeEventApi';
 import { FundApi } from './FundApi';
 import { CertificateApi } from './CertificateApi';
 import { UserSettingApi } from './UserSettingApi';
-import { BaseServer } from './BaseServer';
+import { BaseApi } from './BaseApi';
+import { TestApi } from "./TestApi";
 
 export { 
-  BaseServer,
+  BaseApi as BaseServer,
   FamilyTreeApi, 
   SocialPostApi, 
   AlbumApi, 
   LifeEventApi, 
   FundApi, 
   CertificateApi,
-  UserSettingApi
+  UserSettingApi, 
+  TestApi,
 };

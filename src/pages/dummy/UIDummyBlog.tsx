@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { t } from "i18next"; 
 import { Box, Text } from "zmp-ui"; 
 
-import { BaseServer } from "api/BaseServer";
+import { BaseApi } from "api/BaseApi";
 import { Header } from "components";
 
 const data = [
@@ -58,7 +58,7 @@ function UIBlogList() {
         console.log(error);
       }
       const imageUrl = coverProperties["background-image"] as string;
-      const imgSrc = `${BaseServer.getServerBaseUrl()}${imageUrl.replace(/url\(['"]?(.*?)['"]?\)/, '$1')}`;
+      const imgSrc = `${BaseApi.getServerBaseUrl()}${imageUrl.replace(/url\(['"]?(.*?)['"]?\)/, '$1')}`;
       const content = item["content"];
 
       html.push(

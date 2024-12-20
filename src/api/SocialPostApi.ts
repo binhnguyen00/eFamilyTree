@@ -1,7 +1,7 @@
-import { BaseServer } from "./BaseServer";
+import { BaseApi } from "./BaseApi";
 import { SuccessCB, FailCB } from "server"
 
-export class SocialPostApi extends BaseServer {
+export class SocialPostApi extends BaseApi {
 
   public static getSocialPosts(phoneNumber, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();

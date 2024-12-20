@@ -1,19 +1,24 @@
-import { BaseApi } from "./BaseApi";
-import { SuccessCB, FailCB } from "server"
+import { OdooRESTful, FailCB, SuccessCB } from "server";
 
-export class UserSettingApi extends BaseApi {
+export class TestApi {
+  public static server = new OdooRESTful("http://localhost:8069");
+
+  public static mockHTTP(successCB: SuccessCB, failCB?: FailCB) {
+    const header = this.initHeader();
+    return this.server.GET("api/http/mock/setting/default", header, null, successCB, failCB);
+  }
 
   public static getOrDefault(phoneNumber: string, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
     const body = this.initBody({
       phone_number: phoneNumber
     })
-    return this.server.POST("account/setting", header, body, successCB, failCB);
+    return this.server.POST("test/account/setting", header, body, successCB, failCB);
   }
 
   public static getDefault(successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
-    return this.server.POST("account/setting/default", header, null, successCB, failCB);
+    return this.server.POST("test/account/setting/default", header, null, successCB, failCB);
   }
 
   public static updateOrCreate(
@@ -31,7 +36,7 @@ export class UserSettingApi extends BaseApi {
       theme: settings.theme,
       language: settings.language,
     })
-    this.server.POST("account/setting/save", header, body, successCB, failCB);
+    this.server.POST("test/account/setting/save", header, body, successCB, failCB);
   }
 
   public static getBackground(phoneNumber: string, successCB: SuccessCB, failCB?: FailCB) {
@@ -39,13 +44,28 @@ export class UserSettingApi extends BaseApi {
     const body = this.initBody({
       phone_number: phoneNumber
     })
-    this.server.POST("account/setting/background", header, body, successCB, failCB);
+    this.server.POST("test/account/setting/background", header, body, successCB, failCB);
   }
 
   public static updateBackground(phoneNumber: string, image: any, successCB: SuccessCB, failCB?: FailCB) {
     const formData = new FormData();
     formData.append("phone_number", phoneNumber);
     formData.append("background", image);
-    this.server.postWithFormData("account/setting/background/save", formData, successCB, failCB);
+    this.server.postWithFormData("test/account/setting/background/save", formData, successCB, failCB);
+  }
+
+  public static initBody(params: any): Record<string, any> { 
+    return {
+      jsonrpc: "2.0",
+      method: "call",
+      id: 1,
+      params: params
+    }
+  }
+
+  public static initHeader(): Record<string, any> {
+    return {
+      'Content-Type': 'application/json; charset=UTF-8',
+    }
   }
 }

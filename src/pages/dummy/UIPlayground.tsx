@@ -3,7 +3,7 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Text, Stack, Grid } from "zmp-ui";
 
-import { BaseServer, UserSettingApi } from "api";
+import { TestApi } from "api";
 import { Header, Loading, SizedBox } from "components";
 import { FailResponse, ServerResponse } from "server";
 import { useAppContext } from "hooks";
@@ -26,7 +26,7 @@ export function UIPlayground() {
           const fail = (error: FailResponse) => {
             console.error(error);
           }
-          BaseServer.mockHTTP(success, fail);
+          TestApi.mockHTTP(success, fail);
         }}>
           {"HTTP"}
         </Button>
@@ -53,7 +53,7 @@ function UIUserSetting() {
         <Button variant="secondary" onClick={() => {
           const success = (result: ServerResponse) => { console.log(result); } 
           const fail = (error: FailResponse) => { console.error(error); }
-          UserSettingApi.getOrDefault("0942659016", success, fail);
+          TestApi.getOrDefault("0942659016", success, fail);
         }}>
           {"Get Settings"}
         </Button>
@@ -61,7 +61,7 @@ function UIUserSetting() {
         <Button variant="secondary" onClick={() => {
           const success = (result: ServerResponse) => { console.log(result); } 
           const fail = (error: FailResponse) => { console.error(error); }
-          UserSettingApi.updateOrCreate("0942659016", {
+          TestApi.updateOrCreate("0942659016", {
             theme: "blue",
             language: "vi",
           }, success, fail);
@@ -140,7 +140,7 @@ function UIUploadImageFile() {
     const fail = (error: FailResponse) => {
       console.error(error);
     }
-    UserSettingApi.updateBackground("0942659016", image, success, fail);
+    TestApi.updateBackground("0942659016", image, success, fail);
   }
 
   const get = () => {
@@ -150,7 +150,7 @@ function UIUploadImageFile() {
     const fail = (error: FailResponse) => {
       console.error(error);
     }
-    UserSettingApi.getBackground("0942659016", success, fail);
+    TestApi.getBackground("0942659016", success, fail);
   }
 
   return (

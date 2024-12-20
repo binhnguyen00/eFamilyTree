@@ -1,7 +1,7 @@
-import { BaseServer } from "./BaseServer";
+import { BaseApi } from "./BaseApi";
 import { SuccessCB, FailCB } from "server"
 
-export class FamilyTreeApi extends BaseServer {
+export class FamilyTreeApi extends BaseApi {
 
   public static getMembers(phoneNumber, successCB: SuccessCB, failCB?: FailCB) {
       const header = this.initHeader();

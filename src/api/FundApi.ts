@@ -1,7 +1,7 @@
-import { BaseServer } from "./BaseServer";
+import { BaseApi } from "./BaseApi";
 import { SuccessCB, FailCB } from "server"
 
-export class FundApi extends BaseServer {
+export class FundApi extends BaseApi {
   
   public static getFunds(phoneNumber, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();

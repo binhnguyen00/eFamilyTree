@@ -6,9 +6,9 @@ import type {
   HttpMethod 
 } from "./type";
 
-export { 
-  CallBack, FailCB, SuccessCB, 
+export {
+  CallBack, FailCB, SuccessCB,
   FailResponse, ServerResponse,
   OdooRESTful, ExternalRESTful,
-  HttpMethod, 
-}
+  HttpMethod,
+};
