@@ -23,7 +23,6 @@ export function UIHomeAppList() {
     { key: "funds", label: t("funds"), requirePhone: true },
     { key: "certificate", label: t("certificates"), requirePhone: true },
     { key: "theme", label: t("theme"), requirePhone: false },
-    { key: "dev", label: t("developer"), requirePhone: false }
   ];
 
   const handleUserSelectApp = (appKey: string, requirePhone: boolean) => {
@@ -104,8 +103,6 @@ function AppSymbol({ iconKey }: { iconKey: string }) {
       return <img key={`ico-${iconKey}`} src={AppLogo.Certificate} alt="theme"/>
     case "upcoming":
       return <AppLogo.Upcoming key={`ico-${iconKey}`} size={"3rem"}/>
-    case "dev":
-      return <AppLogo.CommandLine key={`ico-${iconKey}`} size={"3rem"}/>
     default: 
       return <AppLogo.Approval key={`ico-${iconKey}`} size={"3rem"}/>
   }

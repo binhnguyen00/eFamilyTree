@@ -21,8 +21,15 @@ export function UIAccount() {
 }
 
 function UIAccountContainer() {
-  const { userInfo } = React.useContext(AppContext);
+  const { userInfo, phoneNumber } = React.useContext(AppContext);
   const navigate = useNavigate();
+
+  // Temporary methods
+  const devs = [ 
+    "0942659016", 
+    "0936952262",
+    "0899096788"
+  ] as string[];
 
   return (
     <Stack space="1rem">
@@ -47,6 +54,12 @@ function UIAccountContainer() {
       <Button variant="secondary" onClick={() => navigate("/about")}>
         {t("about")}
       </Button>
+
+      {devs.includes(phoneNumber) || !phoneNumber && (
+        <Button variant="secondary" onClick={() => navigate("/dev")}>
+          {t("developer")}
+        </Button>
+      )}
 
       <div className="p-3 rounded bg-secondary">
         <UISettings/>
