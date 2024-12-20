@@ -7,9 +7,10 @@ import { CertificateApi } from './CertificateApi';
 import { UserSettingApi } from './UserSettingApi';
 import { BaseApi } from './BaseApi';
 import { TestApi } from "./TestApi";
+import { AccountApi } from "./AccountApi";
 
 export { 
-  BaseApi as BaseServer,
+  BaseApi,
   FamilyTreeApi, 
   SocialPostApi, 
   AlbumApi, 
@@ -18,4 +19,5 @@ export {
   CertificateApi,
   UserSettingApi, 
   TestApi,
+  AccountApi,
 };

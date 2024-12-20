@@ -4,8 +4,10 @@ import { t } from "i18next";
 import { Box, Button, Input, Stack, Text, Sheet } from "zmp-ui";
 
 import { Header } from "components";
+import { FailResponse, ServerResponse } from "server";
+import { AccountApi } from "api";
 
-type RegisterForm = {
+export type RegisterClanForm = {
   clanName: string;
   country: string;
   city: string;
@@ -19,14 +21,23 @@ type RegisterForm = {
 }
 
 export function UIRegisterClan() {
-  const [ sheetVisible, setSheetVisible ] = React.useState(false);
-  const [ formData, setFormData ] = React.useState({} as RegisterForm);
+  const [ successPop, setSuccessPop ] = React.useState(false);
+  const [ failPop, setFailPop ] = React.useState(false);
+  const [ formData, setFormData ] = React.useState({} as RegisterClanForm);
 
   const submit = (e: any) => {
-    setSheetVisible(true);
     console.log(formData);
     console.log("Now clear the form data");
     setFormData({ clanName: '', country: '', city: '', district: '', subDistrict: '', address: '', name: '', mobile: '', email: '', rollInClan: '' });
+    const success = (result: ServerResponse) => {
+      setSuccessPop(true);
+      console.log(result);
+    }
+    const fail = (error: FailResponse) => {
+      setFailPop(true);
+      console.error(error);
+    }
+    AccountApi.registerClan(formData, success, fail);
   };
 
   return (
@@ -36,17 +47,33 @@ export function UIRegisterClan() {
       <UIRegisterClanForm formData={formData} setFormData={setFormData} submit={submit}/>
 
       <Sheet
-        visible={sheetVisible}
+        visible={successPop}
         autoHeight
         mask
         handler
         swipeToClose
-        onClose={() => setSheetVisible(false)}
+        onClose={() => setSuccessPop(false)}
         title={t("register_clan")}
         className="text-capitalize"
       >
         <Stack space="1rem" className="p-3">
           <Text size="large" style={{ color: "#3cb371" }} className="center">{`${t("submit")} ${t("success")}`}</Text>
+          <p style={{ textTransform: "none" }}>{t("register_clan_success")}</p>
+        </Stack>
+      </Sheet>
+      
+      <Sheet
+        visible={failPop}
+        autoHeight
+        mask
+        handler
+        swipeToClose
+        onClose={() => setFailPop(false)}
+        title={t("register_clan")}
+        className="text-capitalize"
+      >
+        <Stack space="1rem" className="p-3">
+          <Text size="large" style={{ color: "#3cb371" }} className="center">{`${t("submit")} ${t("fail")}`}</Text>
           <p style={{ textTransform: "none" }}>{t("register_clan_success")}</p>
         </Stack>
       </Sheet>
@@ -56,8 +83,8 @@ export function UIRegisterClan() {
 
 
 function UIRegisterClanForm({ formData, setFormData, submit }: { 
-  formData: RegisterForm, 
-  setFormData: React.Dispatch<React.SetStateAction<RegisterForm>> 
+  formData: RegisterClanForm, 
+  setFormData: React.Dispatch<React.SetStateAction<RegisterClanForm>> 
   submit: (e: any) => void
 }) {
 
@@ -99,7 +126,7 @@ interface StepProps {
   previousStep?: () => void; 
   handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void; 
   handleSubmit?: (e: any) => void;
-  formData: RegisterForm;
+  formData: RegisterClanForm;
 }
 
 function ClanForm(props: StepProps) {

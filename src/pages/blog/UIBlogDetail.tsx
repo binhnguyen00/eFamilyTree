@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import DOMPurify from "dompurify";
 import { Stack, Text } from "zmp-ui";
 
-import { BaseServer } from "api";
+import { BaseApi } from "api";
 import { Header } from "components";
 
 export function UIBlogDetail() {
@@ -20,7 +20,7 @@ export function UIBlogDetail() {
   const addDomainToImageSrc = (html: string) => {
     return html.replace(/<img\s+([^>]*?)src="([^"]*?)"/g, (match, attrs, src) => {
       // Ensure the src doesn't already have a domain due to Odoo
-      const newSrc = src.startsWith("http") ? src : `${BaseServer.getServerBaseUrl()}${src}`;
+      const newSrc = src.startsWith("http") ? src : `${BaseApi.getServerBaseUrl()}${src}`;
       return `<img ${attrs}src="${newSrc}"`;
     });
   };
