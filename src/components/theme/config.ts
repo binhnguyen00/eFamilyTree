@@ -1,7 +1,7 @@
-const themes = {
-  default: "default",
-  blue: "blue",
-  green: "green",
+enum Theme {
+  DEFAULT = "default",
+  BLUE = "blue",
+  GREEN = "green",
 }
 
-export { themes };
+export { Theme };

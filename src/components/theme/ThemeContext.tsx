@@ -1,6 +1,6 @@
 import React from "react";
 
-import { themes } from "./config";
+import { Theme } from "./config";
 
 export const ThemeContext = React.createContext({ 
   theme: "default", 
@@ -8,6 +8,7 @@ export const ThemeContext = React.createContext({
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const availableThemes: string[] = [ Theme.BLUE, Theme.GREEN, Theme.DEFAULT ];
   const [ theme, setTheme ] = React.useState("default");
 
   React.useEffect(() => {
@@ -16,11 +17,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const toggleTheme = (themeCode: string) => {
     setTheme(themeCode);
-    if (!themes[themeCode]) {
+    if (availableThemes.includes(themeCode)) {
+      document.documentElement.setAttribute('data-theme', themeCode);
+    } else {
       console.error(`Theme ${themeCode} not found`);
       return;
-    };
-    document.documentElement.setAttribute('data-theme', themeCode);
+    }
   };
 
   return (

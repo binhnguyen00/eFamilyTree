@@ -4,10 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from "hooks";
 import { UserSettingApi } from "api";
 import { CommonUtils } from "utils";
+import { Theme } from "components";
 import { FailResponse, ServerResponse } from "server";
 
 interface Settings {
-  theme: "default" | "blue" | "green",
+  theme: Theme,
   language: "vi" | "en"
 }
 
@@ -20,7 +21,7 @@ export function useSettings(phoneNumber: string): SettingCtx {
   let { i18n } = useTranslation();
   let { toggleTheme } = useTheme();
   let [ settings, setSetting ] = React.useState<Settings>({
-    theme: "default",
+    theme: Theme.DEFAULT,
     language: "vi"
   });
 
