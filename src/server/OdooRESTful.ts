@@ -48,7 +48,7 @@ export class OdooRESTful extends Api {
       const result = OdooRESTful.getResponseResult(res);
       successCB(result);
     }).catch((error: Error) => {
-      console.error(`eFamilyTree UI error: \n\t${error.message}`);
+      console.error(`eFamilyTree UI error: \n\t${error.stack}`);
       failCB({
         status: "error",
         message: error.message,
@@ -102,7 +102,7 @@ export class OdooRESTful extends Api {
       const result = OdooRESTful.getResponseResult(res);
       successCB(result);
     }).catch((error: Error) => {
-      console.error(`eFamilyTree UI error: \n\t${error.message}`);
+      console.error(`eFamilyTree UI error: \n\t${error.stack}`);
       failCB({
         status: "error",
         message: error.message,

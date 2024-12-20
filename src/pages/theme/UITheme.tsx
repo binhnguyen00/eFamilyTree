@@ -4,8 +4,8 @@ import { t } from "i18next";
 import { Grid, Stack, Text } from "zmp-ui";
 
 import { UserSettingApi } from "api";
-import { Header, SizedBox } from "components";
-import { useAppContext, useTheme } from "hooks";
+import { Header, SizedBox, Theme } from "components";
+import { useAppContext } from "hooks";
 import { FailResponse, ServerResponse } from "server";
 
 import themeRed from "assets/img/theme/theme-red.jpeg";
@@ -25,21 +25,19 @@ export function UITheme() {
 }
 
 export function UIThemeList() {
-  const { toggleTheme } = useTheme();
-  const { phoneNumber, settings } = useAppContext();
+  const { phoneNumber, settings, updateSettings } = useAppContext();
 
-  const saveSettings = (themeCode: string) => {
+  const saveTheme = (theme: Theme) => {
     const success = (result: ServerResponse) => {
       const settings = result.data;
-      toggleTheme(settings["theme"]);
+      updateSettings(settings)
     }
     const fail = (error: FailResponse) => {
       console.error(error);
-      toggleTheme(themeCode)
     }
     const target = {
       ...settings,
-      theme: themeCode
+      theme: theme
     }
     UserSettingApi.updateOrCreate(phoneNumber, target, success, fail);
   }
@@ -52,7 +50,7 @@ export function UIThemeList() {
           width={150} 
           height={100} 
           border
-          onClick={() => saveSettings("default")}
+          onClick={() => saveTheme(Theme.DEFAULT)}
         >
           <img src={themeRed} alt="theme red"/>
         </SizedBox>
@@ -65,7 +63,7 @@ export function UIThemeList() {
           width={150} 
           height={100} 
           border
-          onClick={() => saveSettings("blue")}
+          onClick={() => saveTheme(Theme.BLUE)}
         >
           <img src={themeBlue} alt="theme blue"/>
         </SizedBox>
@@ -78,7 +76,7 @@ export function UIThemeList() {
           width={150} 
           height={100} 
           border
-          onClick={() => saveSettings("green")}
+          onClick={() => saveTheme(Theme.GREEN)}
         >
           <img src={themeGreen} alt="theme green"/>
         </SizedBox>

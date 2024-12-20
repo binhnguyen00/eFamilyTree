@@ -43,7 +43,7 @@ export class ExternalRESTful extends Api {
     }).then((res: any) => {
       successCB(res);
     }).catch((error: Error) => {
-      console.error(`eFamilyTree UI error: \n\t${error.message}`);
+      console.error(`eFamilyTree UI error: \n\t${error.stack}`);
       failCB({
         status: "error",
         message: error.message,
