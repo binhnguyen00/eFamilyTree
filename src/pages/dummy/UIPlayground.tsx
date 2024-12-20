@@ -46,7 +46,6 @@ export function UIPlayground() {
 
 function UIUserSetting() {
   const { settings, updateSettings } = useAppContext();
-  console.log(settings);
 
   return (
     <Stack space="1rem">
@@ -115,6 +114,17 @@ function UIUserSetting() {
           }, success, fail);
         }}>
           {t("english")}
+        </Button>
+
+        <Button variant="secondary" onClick={() => {
+          const success = (result: ServerResponse) => {
+            const settings = result.data;
+            updateSettings(settings);
+            TestApi.updateOrCreate("0942659016", settings, (result: ServerResponse) => console.log(result.data));
+          }
+          TestApi.getDefault(success);
+        }}>
+          {t("reset_settings")}
         </Button>
 
       </Grid>

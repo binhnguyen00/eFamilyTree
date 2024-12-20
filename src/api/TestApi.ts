@@ -2,7 +2,7 @@ import { BaseApi } from "./BaseApi";
 import { OdooRESTful, FailCB, SuccessCB } from "server";
 
 export class TestApi extends BaseApi {
-  public static server = new OdooRESTful("http://localhost:8069");
+  static server = new OdooRESTful("http://localhost:8069");
 
   public static mockHTTP(successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();

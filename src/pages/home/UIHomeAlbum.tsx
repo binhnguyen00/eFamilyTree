@@ -43,10 +43,6 @@ export function UIHomeAlbum() {
       return (
         <>
           <Text size="small">{ t("no_album") }</Text>
-          <Box flex flexDirection="row" alignItems="center" justifyContent="center" className="button-link">
-            <CommonIcon.AddPhoto size={"1rem"}/>
-            <Text size="small" className="ml-1"> {t("create")} </Text>
-          </Box>
         </>
       )
     } else {

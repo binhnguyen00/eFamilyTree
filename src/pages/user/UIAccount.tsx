@@ -75,20 +75,28 @@ function UISettings() {
   }
 
   const changeBackground = () => {
-
     const getImage = () => {
       const fileInput = (document.getElementById('ftree-bg') as HTMLInputElement).files?.[0];
       return fileInput || null;
     }
-
     const image = getImage();
     if (!image) return;
-
     const success = (result: ServerResponse) => {
       console.log(result.data);
     }
     UserSettingApi.updateBackground(phoneNumber, image, success);
   } 
+
+  const reset = () => {
+    const success = (result: ServerResponse) => {
+      const settings = result.data;
+      updateSettings(settings);
+      UserSettingApi.updateOrCreate(phoneNumber, settings, (result: ServerResponse) => {
+        console.log(result);
+      });
+    }
+    UserSettingApi.getDefault(success);
+  }
 
   return (
     <Stack space="1rem">
@@ -120,6 +128,10 @@ function UISettings() {
           {t("update")}
         </Button>
       </Stack>
+
+      <Button variant="tertiary" size="medium" onClick={reset}>
+        {t("reset_settings")}
+      </Button>
     </Stack>
   )
 }

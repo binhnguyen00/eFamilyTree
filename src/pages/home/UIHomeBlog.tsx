@@ -41,13 +41,7 @@ export function UIHomeBlog() {
   const renderBlogs = () => {
     if (!blogs.length) {
       return (
-        <>
-          <Text size="small">{ t("no_blogs") }</Text>
-          <Box flex flexDirection="row" alignItems="center" justifyContent="center" className="button-link">
-            <CommonIcon.Plus size={"1rem"}/>
-            <Text size="small" className="ml-1"> {t("create")} </Text>
-          </Box>
-        </>
+        <Text size="small">{ t("no_blogs") }</Text>
       )
     } else {
       let html = [] as React.ReactNode[];
@@ -76,7 +70,7 @@ export function UIHomeBlog() {
             </Text.Title>
             <Text size="small"> {post["post_date"]} </Text>
             <img 
-              className="button"
+              className="button border-secondary"
               src={imgSrc || undefined} 
               style={imgStyle}
               onClick={() => goToBlogDetail(post["name"], content)}
