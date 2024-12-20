@@ -1,6 +1,7 @@
+import { BaseApi } from "./BaseApi";
 import { OdooRESTful, FailCB, SuccessCB } from "server";
 
-export class TestApi {
+export class TestApi extends BaseApi {
   public static server = new OdooRESTful("http://localhost:8069");
 
   public static mockHTTP(successCB: SuccessCB, failCB?: FailCB) {
@@ -52,20 +53,5 @@ export class TestApi {
     formData.append("phone_number", phoneNumber);
     formData.append("background", image);
     this.server.postWithFormData("test/account/setting/background/save", formData, successCB, failCB);
-  }
-
-  public static initBody(params: any): Record<string, any> { 
-    return {
-      jsonrpc: "2.0",
-      method: "call",
-      id: 1,
-      params: params
-    }
-  }
-
-  public static initHeader(): Record<string, any> {
-    return {
-      'Content-Type': 'application/json; charset=UTF-8',
-    }
   }
 }
