@@ -1,7 +1,8 @@
 import React from "react";
-import { useAutoLogin, useSetting, useTheme } from "hooks";
 
-interface AppCtx {
+import { useAutoLogin, useSettings } from "hooks";
+
+export interface AppCtx {
   appId: string;
   logedIn: boolean;
   phoneNumber: string;
@@ -25,10 +26,7 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
   const appId = import.meta.env.VITE_APP_ZALO_APP_ID;
 
   const { phoneNumber, userInfo, logedIn, updatePhoneNumber, updateUserInfo } = useAutoLogin();
-  const { settings, updateSettings } = useSetting(phoneNumber);
-  const { toggleTheme } = useTheme();
-
-  toggleTheme(settings.theme);
+  const { settings, updateSettings } = useSettings(phoneNumber);
   
   const ctxInfo = {
     appId: appId,

@@ -4,9 +4,9 @@ import { t } from "i18next";
 import { Button, Text, Stack, Grid } from "zmp-ui";
 
 import { TestApi } from "api";
+import { useAppContext } from "hooks";
 import { Header, Loading, SizedBox } from "components";
 import { FailResponse, ServerResponse } from "server";
-import { useAppContext } from "hooks";
 
 import themeRed from "assets/img/theme/theme-red.jpeg";
 import themeBlue from "assets/img/theme/theme-blue.jpeg";
@@ -45,10 +45,13 @@ export function UIPlayground() {
 }
 
 function UIUserSetting() {
+  const { settings, updateSettings } = useAppContext();
+  console.log(settings);
+
   return (
     <Stack space="1rem">
       <Text.Title size="large" className="text-capitalize"> {t("setting")} </Text.Title>
-      <Grid columnCount={3} columnSpace="0.5rem" rowSpace="0.5rem">
+      <Grid columnCount={2} columnSpace="0.5rem" rowSpace="0.5rem">
 
         <Button variant="secondary" onClick={() => {
           const success = (result: ServerResponse) => { console.log(result); } 
@@ -59,14 +62,59 @@ function UIUserSetting() {
         </Button>
 
         <Button variant="secondary" onClick={() => {
-          const success = (result: ServerResponse) => { console.log(result); } 
+          const success = (result: ServerResponse) => { updateSettings({
+            theme: result.data.theme,
+            language: result.data.language,
+          }) } 
           const fail = (error: FailResponse) => { console.error(error); }
           TestApi.updateOrCreate("0942659016", {
+            language: settings.language,
+            theme: "default",
+          }, success, fail);
+        }}>
+          {"Default Theme"}
+        </Button>
+
+        <Button variant="secondary" onClick={() => {
+          const success = (result: ServerResponse) => { updateSettings({
+            theme: result.data.theme,
+            language: result.data.language,
+          }) } 
+          const fail = (error: FailResponse) => { console.error(error); }
+          TestApi.updateOrCreate("0942659016", {
+            language: settings.language,
             theme: "blue",
-            language: "vi",
           }, success, fail);
         }}>
           {"Blue Theme"}
+        </Button>
+
+        <Button variant="secondary" onClick={() => {
+          const success = (result: ServerResponse) => { updateSettings({
+            theme: result.data.theme,
+            language: result.data.language,
+          }) } 
+          const fail = (error: FailResponse) => { console.error(error); }
+          TestApi.updateOrCreate("0942659016", {
+            theme: settings.theme,
+            language: "vi",
+          }, success, fail);
+        }}>
+          {t("vietnamese")}
+        </Button>
+
+        <Button variant="secondary" onClick={() => {
+          const success = (result: ServerResponse) => { updateSettings({
+            theme: result.data.theme,
+            language: result.data.language,
+          }) } 
+          const fail = (error: FailResponse) => { console.error(error); }
+          TestApi.updateOrCreate("0942659016", {
+            theme: settings.theme,
+            language: "en",
+          }, success, fail);
+        }}>
+          {t("english")}
         </Button>
 
       </Grid>

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Avatar, Box, Button, Grid, Stack, Text } from "zmp-ui";
 
 import { UserSettingApi } from "api";
-import { FailResponse, ServerResponse } from "server";
+import { ServerResponse } from "server";
 import { AppContext, Header } from "components";
 
 import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
