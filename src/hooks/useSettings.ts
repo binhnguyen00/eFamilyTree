@@ -41,24 +41,23 @@ export function useSettings(phoneNumber: string): SettingCtx {
     if (phoneNumber && !CommonUtils.isStringEmpty(phoneNumber)) {
       // Get theme, language
       const success = (result: ServerResponse) => {
-        const setting = result.data;
-        setSetting(setting);
+        const settings = result.data;
+        // Get background
+        UserSettingApi.getBackground(
+          phoneNumber, 
+          (result: ServerResponse) => {
+            const bg = result.data;
+            setSetting({
+              ...settings,
+              background: bg["path"]
+            })
+          },
+          (error: FailResponse) => console.error(error)
+        )
       }
       const fail = (error: FailResponse) => console.error(error)
       UserSettingApi.getOrDefault(phoneNumber, success, fail);
 
-      // Get background
-      UserSettingApi.getBackground(
-        phoneNumber, 
-        (result: ServerResponse) => {
-          const bg = result.data;
-          setSetting({
-            ...settings,
-            background: bg["path"]
-          })
-        },
-        (error: FailResponse) => console.error(error)
-      )
     }
   }, [phoneNumber])
 
