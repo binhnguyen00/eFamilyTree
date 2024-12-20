@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { t } from "i18next";
 import { Box, Button, Stack, Swiper, Text } from "zmp-ui";
+
 import { ImageWithText } from "components";
 
 import banner_01 from "assets/img/banner/banner-01.jpg";
@@ -33,8 +34,8 @@ export function UIHomeBanner() {
             <ImageWithText 
               text={
                 <Stack space="1rem">
-                  <p>{"Lan toả tới"}</p>
-                  <p>{"Những người yêu thương"}</p>
+                  <p>{t("share_to")}</p>
+                  <p>{t("love_ones")}</p>
                   <Box flex flexDirection="row" justifyContent="center" className="box-shadow">
                     <Button variant="primary" size="small" onClick={onRegister}>  {t("register")} </Button>
                   </Box>
@@ -52,8 +53,8 @@ export function UIHomeBanner() {
             <ImageWithText 
               text={
                 <Stack space="1rem">
-                  <p>{"Gìn Giữ Giá Trị"}</p>
-                  <p>{"Gia Tộc"}</p>
+                  <p>{t("preserve_value")}</p>
+                  <p>{t("house")}</p>
                   <Box flex flexDirection="row" justifyContent="center" className="box-shadow">
                     <Button variant="primary" size="small" onClick={onRegisterClan}>  {t("register_clan")} </Button>
                   </Box>
@@ -71,8 +72,9 @@ export function UIHomeBanner() {
             <ImageWithText 
               text={
                 <Stack space="1rem">
-                  <p>{"Công Nghệ Lưu Giữ"}</p>
-                  <p>{"Giá Trị Truyền Thống"}</p>
+
+                  <p>{t("maintain_technology")}</p>
+                  <p>{t("traditional_value")}</p>
                   <Box flex flexDirection="row" justifyContent="center" className="box-shadow">
                     <Button variant="primary" size="small" onClick={navigateAbout}>  {t("about")} </Button>
                   </Box>
@@ -90,7 +92,7 @@ export function UIHomeBanner() {
             <ImageWithText 
               text={
                 <Stack space="1rem">
-                  <p> {"Kết Nối Dòng Họ"} </p>
+                  <p> {t("connect_clan")} </p>
                 </Stack>
               }
               textStyle={{ fontSize: "2rem" }}

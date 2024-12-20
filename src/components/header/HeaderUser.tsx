@@ -4,6 +4,7 @@ import { Avatar } from "zmp-ui";
 import { AppContext, Header } from "components";
 
 import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
+import { t } from "i18next";
 
 export function HeaderUser() {
   const { logedIn, userInfo } = React.useContext(AppContext);
@@ -23,8 +24,8 @@ export function HeaderUser() {
           className="border-secondary"
         />
       }
-      title={logedIn ? `Xin chào, ${userName}` : "Xin chào"}
-      subtitle="Chúc ngày mới tốt lành"
+      title={logedIn ? `${t("hello")}, ${userName}` : t("hello")}
+      subtitle={t("have_a_great_day")}
     />
   )
 }
