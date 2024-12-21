@@ -1,5 +1,6 @@
 import React from "react";
 
+import { Settings } from "hooks/useSettings";
 import { useAutoLogin, useSettings } from "hooks";
 
 export interface AppCtx {
@@ -11,11 +12,7 @@ export interface AppCtx {
     name: string;
     avatar: string;
   };
-  settings: {
-    theme: string;
-    language: string;
-    background: string;
-  };
+  settings: Settings;
   updatePhoneNumber: (phoneNumber: string) => void,
   updateUserInfo: (userInfo: any) => void,
   updateSettings: (settings: any) => void

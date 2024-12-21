@@ -62,6 +62,7 @@ function UIUserSetting() {
 
         <Button variant="secondary" onClick={() => {
           const success = (result: ServerResponse) => { updateSettings({
+            ...settings,
             theme: result.data.theme,
             language: result.data.language,
           }) } 
@@ -76,6 +77,7 @@ function UIUserSetting() {
 
         <Button variant="secondary" onClick={() => {
           const success = (result: ServerResponse) => { updateSettings({
+            ...settings,
             theme: result.data.theme,
             language: result.data.language,
           }) } 
@@ -90,6 +92,7 @@ function UIUserSetting() {
 
         <Button variant="secondary" onClick={() => {
           const success = (result: ServerResponse) => { updateSettings({
+            ...settings,
             theme: result.data.theme,
             language: result.data.language,
           }) } 
@@ -104,6 +107,7 @@ function UIUserSetting() {
 
         <Button variant="secondary" onClick={() => {
           const success = (result: ServerResponse) => { updateSettings({
+            ...settings,
             theme: result.data.theme,
             language: result.data.language,
           }) } 
@@ -181,6 +185,7 @@ function UITheme() {
 }
 
 function UIUploadImageFile() {
+  let { settings, updateSettings } = useAppContext();
 
   const getImage = () => {
     const fileInput = (document.getElementById('ftree-bg') as HTMLInputElement).files?.[0];
@@ -193,7 +198,14 @@ function UIUploadImageFile() {
     if (!image) return;
 
     const success = (result: ServerResponse) => {
-      console.log(result.data);
+      const bg = result.data; 
+      updateSettings({
+        ...settings,
+        background: {
+          id: bg["id"],
+          path: bg["path"]
+        }
+      })
     }
     const fail = (error: FailResponse) => {
       console.error(error);

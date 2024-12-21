@@ -77,14 +77,11 @@ function UISettings() {
       const settings = result.data;
       updateSettings(settings);
     }
-    UserSettingApi.updateOrCreate(
-      phoneNumber, 
-      {
-        ...settings,
-        language: langCode
-      }, 
-      success
-    );
+    const target = { 
+      theme: settings.theme, 
+      language: langCode 
+    }
+    UserSettingApi.updateOrCreate(phoneNumber, target, success);
   }
 
   const changeBackground = () => {
@@ -98,7 +95,10 @@ function UISettings() {
       const background = result.data;
       updateSettings({
         ...settings,
-        background: background["path"]
+        background: {
+          id: background["id"],
+          path: background["path"]
+        }
       })
     }
     UserSettingApi.updateBackground(phoneNumber, image, success);
@@ -108,9 +108,7 @@ function UISettings() {
     const success = (result: ServerResponse) => {
       const settings = result.data;
       updateSettings(settings);
-      UserSettingApi.updateOrCreate(phoneNumber, settings, (result: ServerResponse) => {
-        console.log(result);
-      });
+      UserSettingApi.updateOrCreate(phoneNumber, settings, () => {});
     }
     UserSettingApi.getDefault(success);
   }

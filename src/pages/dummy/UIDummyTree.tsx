@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Grid, Select, Sheet } from "zmp-ui";
+import { Avatar, Button, Grid, Select, Sheet } from "zmp-ui";
 
 import average from "pages/family-tree/sample/average.json";
 import divorced from "pages/family-tree/sample/divorced.json";
@@ -11,6 +11,7 @@ import { CommonUtils } from "utils";
 import { Header, CommonIcon, FamilyTree, TreeNode, TreeConfig } from "components";
 import { TreeDataProcessor } from 'pages/family-tree/TreeDataProcessor';
 import { TreeUtils } from 'pages/family-tree/TreeUtils';
+import { useAppContext } from "hooks";
 
 export default function UIDummyTree() {
   const dataSrcKey = {
@@ -54,7 +55,7 @@ export default function UIDummyTree() {
 
   const renderTree = () => {
     return (
-      <div className="tree-container">
+      <div>
         <div className="ml-1 mr-1">
           <Select
             defaultValue={1}
@@ -106,8 +107,21 @@ export default function UIDummyTree() {
     )
   }
 
+  const { settings } = useAppContext();
+  let background;
+  if (settings.background && settings.background.id) {
+    background = {
+      backgroundImage: `url(http://localhost:8069${settings.background.path})`,
+    }
+  } else background = {
+    backgroundColor: `var(--tree-background-color) !important`,
+  }
+
   return (
-    <div>
+    <div
+      className="tree-container"
+      style={{ ...background }}
+    >
       <Header title={t("dummy_tree")}/>
       
       {renderTree()}

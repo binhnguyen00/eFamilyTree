@@ -7,10 +7,13 @@ import { CommonUtils } from "utils";
 import { Theme } from "components";
 import { FailResponse, ServerResponse } from "server";
 
-interface Settings {
+export interface Settings {
   theme: Theme,
   language: "vi" | "en"
-  background?: string;
+  background?: {
+    id: number,
+    path: string
+  };
 }
 
 interface SettingCtx {
@@ -24,6 +27,10 @@ export function useSettings(phoneNumber: string): SettingCtx {
   let [ settings, setSetting ] = React.useState<Settings>({
     theme: Theme.DEFAULT,
     language: "vi",
+    background: {
+      id: 0,
+      path: ""
+    }
   });
 
   const updateSettings = (userSettings: Settings) => {
@@ -49,7 +56,10 @@ export function useSettings(phoneNumber: string): SettingCtx {
             const bg = result.data;
             setSetting({
               ...settings,
-              background: bg["path"]
+              background: {
+                id: bg["id"],
+                path: bg["path"]
+              }
             })
           },
           (error: FailResponse) => console.error(error)
