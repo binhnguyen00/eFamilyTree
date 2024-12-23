@@ -149,7 +149,7 @@ function UISettings() {
             {t("update")}
           </Button>
           <Button variant="primary" size="medium" onClick={resetBackground}>
-            {t("reset")}
+            {t("reset_background")}
           </Button>
         </Grid>
       </Stack>

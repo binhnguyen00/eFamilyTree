@@ -139,9 +139,9 @@ function UIUserSetting() {
               }
             })
           }
-          TestApi.updateBackground("0942659016", null, success);
+          TestApi.updateBackground("0942659016", undefined, success);
         }}>
-          {t("reset bg")}
+          {t("reset_background")}
         </Button>
 
       </Grid>
