@@ -139,7 +139,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
       backgroundImage: `url(http://giapha.mobifone5.vn${settings.background.path})`,
     }
   } else background = {
-    backgroundColor: `var(--tree-background-color) !important`,
+    backgroundColor: `var(--tree-background-color)`,
   }
 
   return (

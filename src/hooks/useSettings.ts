@@ -34,6 +34,7 @@ export function useSettings(phoneNumber: string): SettingCtx {
   });
 
   const updateSettings = (userSettings: Settings) => {
+    console.log("Update Settings", userSettings);
     setSetting(userSettings);
   }
 
