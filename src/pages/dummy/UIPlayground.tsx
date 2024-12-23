@@ -55,6 +55,14 @@ function UIUserSetting() {
         <Button variant="secondary" onClick={() => {
           const success = (result: ServerResponse) => { console.log(result); } 
           const fail = (error: FailResponse) => { console.error(error); }
+          TestApi.getDefault(success, fail);
+        }}>
+          {"Get Default"}
+        </Button>
+
+        <Button variant="secondary" onClick={() => {
+          const success = (result: ServerResponse) => { console.log(result); } 
+          const fail = (error: FailResponse) => { console.error(error); }
           TestApi.getOrDefault("0942659016", success, fail);
         }}>
           {"Get Settings"}
@@ -122,13 +130,18 @@ function UIUserSetting() {
 
         <Button variant="secondary" onClick={() => {
           const success = (result: ServerResponse) => {
-            const settings = result.data;
-            updateSettings(settings);
-            TestApi.updateOrCreate("0942659016", settings, (result: ServerResponse) => console.log(result.data));
+            const bg = result.data;
+            updateSettings({
+              ...settings,
+              background: {
+                id: bg["id"],
+                path: bg["path"]
+              }
+            })
           }
-          TestApi.getDefault(success);
+          TestApi.updateBackground("0942659016", null, success);
         }}>
-          {t("reset_settings")}
+          {t("reset bg")}
         </Button>
 
       </Grid>

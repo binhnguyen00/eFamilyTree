@@ -21,7 +21,7 @@ export function UIAccount() {
 }
 
 function UIAccountContainer() {
-  const { userInfo, phoneNumber } = React.useContext(AppContext);
+  const { userInfo, phoneNumber, settings } = React.useContext(AppContext);
   const navigate = useNavigate();
 
   // Temporary methods
@@ -104,13 +104,18 @@ function UISettings() {
     UserSettingApi.updateBackground(phoneNumber, image, success);
   } 
 
-  const reset = () => {
+  const resetBackground = () => {
     const success = (result: ServerResponse) => {
-      const settings = result.data;
-      updateSettings(settings);
-      UserSettingApi.updateOrCreate(phoneNumber, settings, () => {});
+      const background = result.data;
+      updateSettings({
+        ...settings,
+        background: {
+          id: background["id"],
+          path: background["path"]
+        }
+      })
     }
-    UserSettingApi.getDefault(success);
+    UserSettingApi.updateBackground(phoneNumber, null, success);
   }
 
   return (
@@ -139,14 +144,15 @@ function UISettings() {
           }}
           className="border-primary rounded"
         />
-        <Button variant="primary" size="medium" onClick={changeBackground}>
-          {t("update")}
-        </Button>
+        <Grid columnCount={2} columnSpace="0.5rem">
+          <Button variant="primary" size="medium" onClick={changeBackground}>
+            {t("update")}
+          </Button>
+          <Button variant="primary" size="medium" onClick={resetBackground}>
+            {t("reset")}
+          </Button>
+        </Grid>
       </Stack>
-
-      <Button variant="tertiary" size="medium" onClick={reset}>
-        {t("reset_settings")}
-      </Button>
     </Stack>
   )
 }

@@ -13,7 +13,7 @@ export class UserSettingApi extends BaseApi {
 
   public static getDefault(successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
-    return this.server.POST("account/setting/default", header, null, successCB, failCB);
+    return this.server.POST("account/setting/default", header, {}, successCB, failCB);
   }
 
   public static updateOrCreate(
