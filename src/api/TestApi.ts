@@ -1,5 +1,5 @@
 import { BaseApi } from "./BaseApi";
-import { OdooRESTful, FailCB, SuccessCB } from "server";
+import { OdooRESTful, FailCB, SuccessCB, CallBack } from "server";
 
 export class TestApi extends BaseApi {
   static server = new OdooRESTful("http://localhost:8069");
@@ -47,5 +47,11 @@ export class TestApi extends BaseApi {
     formData.append("phone_number", phoneNumber);
     formData.append("background", image);
     this.server.postWithFormData("test/account/setting/background/save", formData, successCB, failCB);
+  }
+
+  public static exportPDF(html2pdf: string, successCB: CallBack, failCB?: FailCB) {
+    const formData = new FormData();
+    formData.append("html2pdf", html2pdf);
+    return this.server.exportPDF("export/pdf", formData, successCB, failCB);
   }
 }

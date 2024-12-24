@@ -1,4 +1,5 @@
 import React from 'react';
+import { openWebview } from "zmp-sdk/apis";
 import { renderToStaticMarkup } from 'react-dom/server';
 import { useGesture } from "@use-gesture/react";
 import { t } from 'i18next';
@@ -8,6 +9,8 @@ import Connector from './Connector';
 import calcTree from 'components/tree-relatives';
 import { Gender, Node } from 'components/tree-relatives/types';
 import { SizedBox, CommonIcon } from 'components';
+import { FailResponse, ServerResponse } from 'server';
+import { FamilyTreeApi, TestApi } from 'api';
 
 // ============================================
 // Tree
@@ -199,8 +202,27 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
   let { onCenter, onZoomIn, onZoomOut, onReset, centerPos, html2pdf } = props;
 
   const exportPDF = () => {
-    const html = renderToStaticMarkup(html2pdf);
-    console.log(html);
+    const html: string = renderToStaticMarkup(html2pdf);
+    const success = (blob: Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'tree.pdf';
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    }
+    const fail = (error: FailResponse) => {
+      console.error(error);
+    }
+    TestApi.exportPDF(html, success, fail);
+
+    // const text = 'This is some text content that will be saved as a file.';
+    // const blob = new Blob([text], { type: 'text/plain' });
+    // const url = window.URL.createObjectURL(blob);
+    // console.log(url);
+    // window.open("https://images.pexels.com/photos/29902918/pexels-photo-29902918/free-photo-of-scenic-mountain-landscape-in-talgar-kazakhstan.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", '_blank');
   };
 
   const style = {

@@ -19,4 +19,10 @@ export class FamilyTreeApi extends BaseApi {
     });
     return this.server.POST("get/info/member", header, body, successCB, failCB);
   }
+
+  public static exportPDF(html2pdf: string, successCB: SuccessCB, failCB?: FailCB) {
+    const formData = new FormData();
+    formData.append("html2pdf", html2pdf);
+    return this.server.exportPDF("export/pdf", formData, successCB, failCB);
+  }
 }
