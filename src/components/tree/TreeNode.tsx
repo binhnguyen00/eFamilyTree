@@ -38,31 +38,6 @@ const StyledNode = styled.div<{ nodeColor: string }>`
 
 export function TreeNode({node, displayField, isRoot, onSelectNode}: TreeNodeProps) {
   const nodeColor = (node.gender === "male") ? "#112D4E" : "#7D0A0A";
-  const nodeStyle = {
-    background: `linear-gradient(to bottom, ${nodeColor} 25%, #FEF3E2 25%)`,
-    color: `${nodeColor}`,
-    borderRadius: "0.5rem",
-    position: "relative",
-    width: "100%", 
-    height: "100%", 
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    alignContent: "center",
-    padding: "0.5rem",
-    "::before": {
-      content: "''",
-      position: "absolute",
-      top: "0",
-      left: "0",
-      width: "100%",
-      height: "25%",
-      background: `${nodeColor}`,
-      borderRadius: "0.5rem",
-    },
-  } as React.CSSProperties;
-
   const nodePosition = TreeUtils.calculateNodePosition(node as any);
 
   return (
