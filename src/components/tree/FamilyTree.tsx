@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderToStaticMarkup, renderToString } from 'react-dom/server';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { useGesture } from "@use-gesture/react";
 import { t } from 'i18next';
 import { Box } from 'zmp-ui';
@@ -99,7 +99,7 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
   const tree = () => {
     return (
       <div
-        className={`${props.className}`}
+        className={`${props.className ? props.className : ""}`}
         style={{
           zIndex: 1,
           position: 'relative',
@@ -199,7 +199,7 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
   let { onCenter, onZoomIn, onZoomOut, onReset, centerPos, html2pdf } = props;
 
   const exportPDF = () => {
-    const html = renderToString(html2pdf);
+    const html = renderToStaticMarkup(html2pdf);
     console.log(html);
   };
 
