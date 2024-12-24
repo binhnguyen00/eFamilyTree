@@ -9,6 +9,7 @@ import { LuMinus } from "react-icons/lu";
 import { MdPersonSearch } from "react-icons/md";
 import { GrPowerReset } from "react-icons/gr";
 import { FaPhoneAlt } from "react-icons/fa";
+import { FaFilePdf } from "react-icons/fa6";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -29,4 +30,5 @@ export const CommonIcon = {
   SearchPerson: MdPersonSearch,
   Reset: GrPowerReset,
   Phone: FaPhoneAlt,
+  PDF: FaFilePdf,
 };

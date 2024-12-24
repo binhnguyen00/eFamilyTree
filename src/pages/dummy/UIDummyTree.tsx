@@ -99,7 +99,6 @@ export default function UIDummyTree() {
               displayField={selectNameField}
               isRoot={node.id === rootId}
               onSelectNode={(id: string) => setSelectId(id)}
-              style={TreeUtils.calculateNodePosition(node)}
             />
           )}
         />
@@ -119,7 +118,7 @@ export default function UIDummyTree() {
 
   return (
     <div
-      className="tree-container"
+      id="tree-container"
       style={{ ...background }}
     >
       <Header title={t("dummy_tree")}/>

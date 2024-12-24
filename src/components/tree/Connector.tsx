@@ -14,12 +14,15 @@ export default React.memo<Props>(function Connector({ connector, width, height }
 
   return (
     <i
-      className="tree-connector"
       style={{
         position: 'absolute',
         width: Math.max(thickness, (x2 - x1) * width + 2),
         height: Math.max(thickness, (y2 - y1) * height + 1),
         transform: `translate(${x1 * width}px, ${y1 * height}px)`,
+        backgroundColor: 'black',
+        pointerEvents: 'none',
+        strokeLinecap: 'round',
+        borderRadius: '2rem',
       }}
     />
   );

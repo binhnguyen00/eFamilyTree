@@ -125,7 +125,6 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
               displayField="name"
               isRoot={node.id === rootId}
               onSelectNode={(id: string) => setSelectId(id)}
-              style={TreeUtils.calculateNodePosition(node)}
             />
           )}
         />
@@ -144,7 +143,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
 
   return (
     <div 
-      className="tree-container"
+      id="tree-container"
       style={{ ...background }}
     >
       <Header title={t("family_tree")}/>

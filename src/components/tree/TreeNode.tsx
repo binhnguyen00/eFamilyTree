@@ -1,31 +1,83 @@
 import React from 'react';
-import { Avatar, Stack, Text } from "zmp-ui";
+import { t } from 'i18next';
 import { Node } from 'components/tree-relatives/types';
+import { TreeUtils } from 'pages/family-tree/TreeUtils';
 
 interface TreeNodeProps {
   node: Node;
   displayField: string;
   isRoot: boolean;
   onSelectNode: (id: string) => void;
-  style?: React.CSSProperties;
 }
 
-export function TreeNode({node, displayField, isRoot, onSelectNode, style}: TreeNodeProps) {
-  const nodeStyle = { 
+export function TreeNode({node, displayField, isRoot, onSelectNode}: TreeNodeProps) {
+  const nodeColor = (node.gender === "male") ? "#112D4E" : "#7D0A0A";
+  const nodeStyle = {
+    background: `linear-gradient(to bottom, ${nodeColor} 25%, #FEF3E2 25%)`,
+    color: `${nodeColor}`,
+    borderRadius: "0.5rem",
+    position: "relative",
     width: "100%", 
     height: "100%", 
-  };
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    alignContent: "center",
+    padding: "0.5rem",
+    "::before": {
+      content: "''",
+      position: "absolute",
+      top: "0",
+      left: "0",
+      width: "100%",
+      height: "25%",
+      background: `${nodeColor}`,
+      borderRadius: "0.5rem",
+    },
+  } as React.CSSProperties;
+  const nodePosition = TreeUtils.calculateNodePosition(node as any);
+
   return (
-    <div id={`node-${node.id}`} className='tree-node' style={style} onClick={() => onSelectNode(node.id)}>
-      <Stack
-        className={`tree-node-${node.gender} p-2 border center`}
-        style={nodeStyle}
+    <div 
+      id={`node-${node.id}`} 
+      style={{
+        ...nodePosition,
+        position: "absolute",
+        padding: 20,
+        borderRadius: "0.5rem"
+      }} 
+      onClick={() => onSelectNode(node.id)}
+    >
+      <div
+        style={{
+          ...nodeStyle
+        }}
       >
-        <Avatar size={60} src={node.avatar ? `http://${node.avatar}` : undefined} className='m-2'/>
-        <Text.Title size='xLarge' classID='text-uppercase text-center text-warp' style={{ color: "black" }}> 
-          {node[displayField]} 
-        </Text.Title>
-      </Stack>
+        <img // Avatar
+          src={node.avatar && `http://${node.avatar}`} 
+          style={{
+            width: 80, 
+            height: 80,
+            objectFit: "cover",
+            borderRadius: "50%",
+            zIndex: 999
+          }}
+          alt={t("family_member")} 
+        />
+        <h3 // Name
+          style={{ 
+            color: "black",
+            textAlign: "center",
+            textTransform: "uppercase",
+            whiteSpace: "normal",     
+            wordWrap: "break-word", 
+            overflowWrap: "break-word",
+            wordBreak: "break-word",
+          }}> 
+            {node[displayField]} 
+        </h3>
+      </div>
     </div>
   )
 }

@@ -1,14 +1,13 @@
 import React from 'react';
+import { renderToStaticMarkup, renderToString } from 'react-dom/server';
+import { useGesture } from "@use-gesture/react";
 import { t } from 'i18next';
-
 import { Box } from 'zmp-ui';
 
 import Connector from './Connector';
 import calcTree from 'components/tree-relatives';
 import { Gender, Node } from 'components/tree-relatives/types';
-
 import { SizedBox, CommonIcon } from 'components';
-import { useGesture } from "@use-gesture/react";
 
 // ============================================
 // Tree
@@ -97,6 +96,36 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
     }
   );
 
+  const tree = () => {
+    return (
+      <div
+        className={`${props.className}`}
+        style={{
+          zIndex: 1,
+          position: 'relative',
+          width: treeWidth,
+          height: treeHeight,
+
+          left: crop.x,
+          top: crop.y,
+          transform: `scale(${crop.scale})`,
+          transition: shouldAnimate ? 'left 0.3s ease, top 0.3s ease, transform 0.3s ease' : 'none', 
+          touchAction: "none",
+        }}
+      >
+        {data.connectors.map((connector, idx) => (
+          <Connector
+            key={idx}
+            connector={connector}
+            width={nodeWidth}
+            height={nodeHeight}
+          />
+        ))}
+        {data.nodes.map(props.renderNode)}
+      </div>
+    )
+  }
+
   return (
     <div ref={treeRef} style={{ touchAction: "none" }}>
 
@@ -128,34 +157,11 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
             setCrop((crop) => ({ ...crop, scale: crop.scale - scale }));
           }}
           onReset={props.onReset}
+          html2pdf={tree()}
         />
       </Box>
 
-      <div
-        className={`${props.className}`}
-        style={{
-          zIndex: 1,
-          position: 'relative',
-          width: treeWidth,
-          height: treeHeight,
-
-          left: crop.x,
-          top: crop.y,
-          transform: `scale(${crop.scale})`,
-          transition: shouldAnimate ? 'left 0.3s ease, top 0.3s ease, transform 0.3s ease' : 'none', 
-          touchAction: "none",
-        }}
-      >
-        {data.connectors.map((connector, idx) => (
-          <Connector
-            key={idx}
-            connector={connector}
-            width={nodeWidth}
-            height={nodeHeight}
-          />
-        ))}
-        {data.nodes.map(props.renderNode)}
-      </div>
+      {tree()}
 
       {props.statsForNerds && (
         <div 
@@ -186,10 +192,16 @@ interface FamilyTreeControllerProps {
   onZoomIn: (xPos: number, yPos: number, scale: number) => void;
   onZoomOut: (xPos: number, yPos: number, scale: number) => void;
   onReset?: () => void;
+  html2pdf?: React.ReactNode;
 }
 
 function FamilyTreeController(props: FamilyTreeControllerProps) {
-  let { onCenter, onZoomIn, onZoomOut, onReset, centerPos } = props;
+  let { onCenter, onZoomIn, onZoomOut, onReset, centerPos, html2pdf } = props;
+
+  const exportPDF = () => {
+    const html = renderToString(html2pdf);
+    console.log(html);
+  };
 
   const style = {
     color: "var(--primary-color)",
@@ -202,24 +214,31 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
       style={style}
     >
       <SizedBox 
-        className='bg-secondary mb-1 p-1 button'
-        width={"fit-content"} height={"fit-content"} border
+        className='bg-secondary mb-1 p-1 button border-primary'
+        width={"fit-content"} height={"fit-content"}
         onClick={() => onCenter(centerPos.x, centerPos.y, 0.5)}
         children={<CommonIcon.Home size={32}/>}
       />
 
       <SizedBox 
-        className='bg-secondary mb-1 p-1 button'
-        width={"fit-content"} height={"fit-content"} border
+        className='bg-secondary mb-1 p-1 button border-primary'
+        width={"fit-content"} height={"fit-content"}
         onClick={() => onZoomIn(0, 0, 0.1)}
         children={<CommonIcon.ZoomIn size={32}/>}
       />
 
       <SizedBox 
-        className='bg-secondary mb-1 p-1 button'
-        width={"fit-content"} height={"fit-content"} border
+        className='bg-secondary mb-1 p-1 button border-primary'
+        width={"fit-content"} height={"fit-content"}
         onClick={() => onZoomOut(0, 0, 0.1)}
         children={<CommonIcon.ZoomOut size={32}/>}
+      />
+
+      <SizedBox
+        className='bg-secondary mb-1 p-1 button border-primary'
+        width={"fit-content"} height={"fit-content"}
+        onClick={exportPDF}
+        children={<CommonIcon.PDF size={32}/>}
       />
 
       {onReset && (
@@ -304,7 +323,7 @@ function FamilyTreeSearch(props: FamilyTreeSearchProps) {
   return (
     <div style={style}>
 
-      <div className='flex-h border-secondary bg-secondary rounded p-1'>
+      <div className='flex-h border-primary bg-secondary rounded p-1'>
         <input
           type='text'
           placeholder={t("search")}
