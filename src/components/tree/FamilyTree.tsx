@@ -1,18 +1,16 @@
 import React from 'react';
 import html2canvas from 'html2canvas';
 import { Options } from 'html2canvas';
-import { openWebview } from "zmp-sdk/apis";
 import { renderToStaticMarkup } from 'react-dom/server';
 import { useGesture } from "@use-gesture/react";
 import { t } from 'i18next';
-import { Box } from 'zmp-ui';
+import { Box, useSnackbar } from 'zmp-ui';
 
 import Connector from './Connector';
 import calcTree from 'components/tree-relatives';
 import { Gender, Node } from 'components/tree-relatives/types';
 import { SizedBox, CommonIcon } from 'components';
 import { FailResponse } from 'server';
-import { FamilyTreeApi, TestApi } from 'api';
 import { useAppContext } from 'hooks';
 import { ZmpSDK } from 'utils';
 
@@ -216,29 +214,10 @@ interface FamilyTreeControllerProps {
 }
 
 function FamilyTreeController(props: FamilyTreeControllerProps) {
-  let { onCenter, onZoomIn, onZoomOut, onReset, centerPos, html2pdf } = props;
+  const { openSnackbar, setDownloadProgress, closeSnackbar } = useSnackbar();
+  const { onCenter, onZoomIn, onZoomOut, onReset, centerPos, html2pdf } = props;
 
-  /** @deprecated */
-  const exportPDF = () => {
-    const html: string = renderToStaticMarkup(html2pdf);
-    const success = (blob: Blob) => {
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'tree.pdf';
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-    }
-    const fail = (error: FailResponse) => {
-      console.error(error);
-    }
-    TestApi.exportPDF(html, success, fail);
-  };
-
-
-  const exportPNG = async () => {
+  const exportJPG = async () => {
     const element = document.getElementById('tree-canvas');
     if (!element) return;
 
@@ -248,19 +227,29 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
     } as Options;
 
     const success = (result: any) => {
-      console.log(result);
+      openSnackbar({
+        text: t("download_success"),
+        type: "success",
+        position: "top",
+        duration: 3000,
+      })
     }
     const fail = (error: any) => {
-      console.error(error)
+      openSnackbar({
+        text: t("download_fail"),
+        type: "error",
+        position: "top",
+        duration: 3000
+      })
+    }
+    const onProgress = (progress: number) => {
+      console.log(progress);
     }
 
     try {
       const canvas = await html2canvas(element, options);
-      canvas.toBlob((blob) => {
-        if (!blob) return;
-        const url = window.URL.createObjectURL(blob);
-        ZmpSDK.openWebview(url, success, fail)
-      });
+      const base64 = canvas.toDataURL('image/jpeg', 0.98);
+      ZmpSDK.saveImageToGallery(base64, success, fail, onProgress);
     } catch (error) {
       console.error('Error exporting image:', error);
     }
@@ -300,8 +289,8 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
       <SizedBox
         className='bg-secondary mb-1 p-1 button border-primary'
         width={"fit-content"} height={"fit-content"}
-        onClick={exportPNG}
-        children={<CommonIcon.PNG size={32}/>}
+        onClick={exportJPG}
+        children={<CommonIcon.JPG size={32}/>}
       />
 
       {onReset && (

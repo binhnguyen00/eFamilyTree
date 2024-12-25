@@ -35,6 +35,8 @@
   "developer": "Developer",
   "district": "district",
   "divorced": "Divorced",
+  "download_success": "Download Success",
+  "download_fail": "Download Fail",
   "dummy_detail": "Dummy Detail",
   "dummy_tree": "Dummy Family Tree",
   "email": "email",

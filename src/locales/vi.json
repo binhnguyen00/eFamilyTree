@@ -35,6 +35,8 @@
   "developer": "Nhà phát triển",
   "district": "quận/huyện",
   "divorced": "Ly dị",
+  "download_success": "Tải xuống thành công",
+  "download_fail": "Tải xuống thất bại",
   "dummy_detail": "Chi tiết",
   "dummy_tree": "cây gia tộc",
   "email": "email",

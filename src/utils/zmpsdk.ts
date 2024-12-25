@@ -2,10 +2,11 @@ import {
   getSetting, 
   getPhoneNumber, 
   getAccessToken, 
-  getUserInfo 
-} from 'zmp-sdk';
+  getUserInfo, 
+  openWebview,
+  saveImageToGallery
+} from 'zmp-sdk/apis';
 import { CallBack, ExternalRESTful } from "server";
-import { openWebview } from 'zmp-sdk/apis';
 
 export class ZmpSDK {
   
@@ -106,6 +107,25 @@ export class ZmpSDK {
       },
       fail(err) {
         if (failCB) failCB(err);
+      },
+    })
+  }
+
+  public static saveImageToGallery(base64: string, successCB: CallBack, failCB?: CallBack, onProgress?: (progress: number) => void) {
+    saveImageToGallery({
+      imageBase64Data: base64,
+      onProgress: (progress: number) => {
+        if (onProgress) onProgress(progress)
+      },
+      success() {
+        successCB({
+          status: "success",
+          message: "download successfully",
+          data: null
+        });
+      },
+      fail: (error) => {
+        if (failCB) failCB(error)
       },
     })
   }

@@ -10,7 +10,7 @@ import { MdPersonSearch } from "react-icons/md";
 import { GrPowerReset } from "react-icons/gr";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaFilePdf } from "react-icons/fa6";
-import { BiSolidFilePng } from "react-icons/bi";
+import { BiSolidFilePng, BiSolidFileJpg } from "react-icons/bi";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -33,4 +33,5 @@ export const CommonIcon = {
   Phone: FaPhoneAlt,
   PDF: FaFilePdf,
   PNG: BiSolidFilePng,
+  JPG: BiSolidFileJpg,
 };
