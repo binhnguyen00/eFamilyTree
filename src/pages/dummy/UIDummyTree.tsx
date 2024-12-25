@@ -106,21 +106,8 @@ export default function UIDummyTree() {
     )
   }
 
-  const { settings } = useAppContext();
-  let background;
-  if (settings.background && settings.background.id) {
-    background = {
-      backgroundImage: `url(http://localhost:8069${settings.background.path})`,
-    }
-  } else background = {
-    backgroundColor: `var(--tree-background-color) !important`,
-  }
-
   return (
-    <div
-      id="tree-container"
-      style={{ ...background }}
-    >
+    <div id="tree-container">
       <Header title={t("dummy_tree")}/>
       
       {renderTree()}

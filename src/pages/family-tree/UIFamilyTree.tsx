@@ -132,20 +132,8 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
     );
   }
 
-  let background;
-  if (settings.background && settings.background.id) {
-    background = {
-      backgroundImage: `url(http://giapha.mobifone5.vn${settings.background.path})`,
-    }
-  } else background = {
-    backgroundColor: `var(--tree-background-color)`,
-  }
-
   return (
-    <div 
-      id="tree-container"
-      style={{ ...background }}
-    >
+    <div id="tree-container">
       <Header title={t("family_tree")}/>
       
       {treeContainer()}
