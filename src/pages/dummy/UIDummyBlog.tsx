@@ -1,10 +1,10 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { t } from "i18next"; 
 import { Box, Text } from "zmp-ui"; 
 
 import { BaseApi } from "api/BaseApi";
 import { Header } from "components";
+import { useRouteNavigate } from "hooks";
 
 const data = [
   {
@@ -38,11 +38,11 @@ export default function UIDummyBlog() {
 }
 
 function UIBlogList() {
-  let navigate = useNavigate();
+  const { goTo } = useRouteNavigate();
 
   const navigateToBlog = (title: string, content: string) => {
     const blog = { title, content };
-    navigate("/blogs/detail", { state: { blog } });
+    goTo("blogs/detail", { blog });
   };
 
   const renderBlogs = (items: any[]) => {

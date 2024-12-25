@@ -3,6 +3,7 @@ import { useAutoLogin } from "./useAutoLogin";
 import { useSettings } from "./useSettings";
 import { useGetPhonePermission } from './useGetPhonePermission';
 import { useAppContext } from './useAppContext';
+import { useRouteNavigate } from "./useRouteNavigate";
 
 export { 
   useTheme, 
@@ -10,4 +11,5 @@ export {
   useSettings,
   useGetPhonePermission,
   useAppContext,
+  useRouteNavigate,
 };

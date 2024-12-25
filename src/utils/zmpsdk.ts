@@ -5,6 +5,7 @@ import {
   getUserInfo 
 } from 'zmp-sdk';
 import { CallBack, ExternalRESTful } from "server";
+import { openWebview } from 'zmp-sdk/apis';
 
 export class ZmpSDK {
   
@@ -86,6 +87,25 @@ export class ZmpSDK {
       fail(error) {
         console.error("getAccessToken:\n\t", error);
         if (failCB) failCB(error);
+      },
+    })
+  }
+
+  public static openWebview(url: string, successCB: CallBack, failCB?: CallBack) {
+    console.log(window.location.pathname);
+    console.log(url);
+    
+    openWebview({
+      url: url,
+      config: {
+        style: "normal",
+        leftButton: "back",
+      },
+      success(res) {
+        successCB(res);
+      },
+      fail(err) {
+        if (failCB) failCB(err);
       },
     })
   }

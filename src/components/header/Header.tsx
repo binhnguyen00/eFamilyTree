@@ -1,8 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { Box, Stack, Text } from "zmp-ui";
 
 import { CommonIcon } from "components/icon/common-icon";
+import { useRouteNavigate } from "hooks";
 
 interface HeaderProps {
   title?: string;
@@ -13,7 +13,7 @@ interface HeaderProps {
 }
 
 export function Header(props: HeaderProps) {
-  const navigate = useNavigate();
+  const { goBack } = useRouteNavigate();
   let { title, subtitle, showBackIcon, logo, customRender } = props;
   if (showBackIcon === undefined || showBackIcon === null) showBackIcon = true;
 
@@ -27,9 +27,7 @@ export function Header(props: HeaderProps) {
         {showBackIcon && (
           <CommonIcon.ChevonLeft
             className="button-bounce" size={"1.5rem"} 
-            onClick={() => {
-              navigate(-1);
-            }}
+            onClick={() => goBack()}
           />
         )}
         {customRender ? customRender : (

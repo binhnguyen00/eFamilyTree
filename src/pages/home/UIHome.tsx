@@ -1,4 +1,5 @@
 import React from 'react';
+import { Outlet } from "react-router-dom";
 
 import { Stack } from 'zmp-ui';
 import { t } from 'i18next';
@@ -55,3 +56,9 @@ export function UIHome() {
     </div>
   )
 };
+
+export function UIHomeLayout() { 
+  return (
+    <Outlet/>
+  )
+}

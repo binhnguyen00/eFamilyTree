@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactHtml2Canvas from 'react-html2canvas'
+import html2canvas from 'html2canvas';
+import { Options } from 'html2canvas';
 import { openWebview } from "zmp-sdk/apis";
 import { renderToStaticMarkup } from 'react-dom/server';
 import { useGesture } from "@use-gesture/react";
@@ -13,6 +14,7 @@ import { SizedBox, CommonIcon } from 'components';
 import { FailResponse } from 'server';
 import { FamilyTreeApi, TestApi } from 'api';
 import { useAppContext } from 'hooks';
+import { ZmpSDK } from 'utils';
 
 // ============================================
 // Tree
@@ -47,7 +49,6 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
 
   let { searchFields = [ "id" ] } = props;
   let treeRef = React.useRef<HTMLDivElement | null>(null);
-  let ref = React.useRef<any>();
 
   let data = calcTree(
     props.nodes, 
@@ -113,35 +114,35 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
     } else background = {
       backgroundColor: `var(--tree-background-color)`,
     }
-    return (
-      <ReactHtml2Canvas ref={ref} id="tree-canvas">
-        <div
-          className={`${props.className ? props.className : ""}`}
-          style={{
-            zIndex: 1,
-            position: 'relative',
-            width: treeWidth,
-            height: treeHeight,
 
-            left: crop.x,
-            top: crop.y,
-            transform: `scale(${crop.scale})`,
-            transition: shouldAnimate ? 'left 0.3s ease, top 0.3s ease, transform 0.3s ease' : 'none', 
-            touchAction: "none",
-            ...background,
-          }}
-        >
-          {data.connectors.map((connector, idx) => (
-            <Connector
-              key={idx}
-              connector={connector}
-              width={nodeWidth}
-              height={nodeHeight}
-            />
-          ))}
-          {data.nodes.map(props.renderNode)}
-        </div>
-      </ReactHtml2Canvas>
+    return (
+      <div
+        id="tree-canvas"
+        className={`${props.className ? props.className : ""}`}
+        style={{
+          zIndex: 1,
+          position: 'relative',
+          width: treeWidth,
+          height: treeHeight,
+
+          left: crop.x,
+          top: crop.y,
+          transform: `scale(${crop.scale})`,
+          transition: shouldAnimate ? 'left 0.3s ease, top 0.3s ease, transform 0.3s ease' : 'none', 
+          touchAction: "none",
+          ...background,
+        }}
+      >
+        {data.connectors.map((connector, idx) => (
+          <Connector
+            key={idx}
+            connector={connector}
+            width={nodeWidth}
+            height={nodeHeight}
+          />
+        ))}
+        {data.nodes.map(props.renderNode)}
+      </div>
     )
   }
 
@@ -176,9 +177,6 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
             setCrop((crop) => ({ ...crop, scale: crop.scale - scale }));
           }}
           onReset={props.onReset}
-          onExportAsImage={() => {
-            ref.current.handleDownload();
-          }}
           html2pdf={tree()}
         />
       </Box>
@@ -214,12 +212,11 @@ interface FamilyTreeControllerProps {
   onZoomIn: (xPos: number, yPos: number, scale: number) => void;
   onZoomOut: (xPos: number, yPos: number, scale: number) => void;
   onReset?: () => void;
-  onExportAsImage?: () => void;
   html2pdf?: React.ReactNode;
 }
 
 function FamilyTreeController(props: FamilyTreeControllerProps) {
-  let { onCenter, onZoomIn, onZoomOut, onReset, onExportAsImage, centerPos, html2pdf } = props;
+  let { onCenter, onZoomIn, onZoomOut, onReset, centerPos, html2pdf } = props;
 
   /** @deprecated */
   const exportPDF = () => {
@@ -240,8 +237,33 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
     TestApi.exportPDF(html, success, fail);
   };
 
-  const exportPNG = () => {
-    onExportAsImage?.();
+
+  const exportPNG = async () => {
+    const element = document.getElementById('tree-canvas');
+    if (!element) return;
+
+    const options = {
+      scale: 7, // for better image quality
+      useCORS: true,
+    } as Options;
+
+    const success = (result: any) => {
+      console.log(result);
+    }
+    const fail = (error: any) => {
+      console.error(error)
+    }
+
+    try {
+      const canvas = await html2canvas(element, options);
+      canvas.toBlob((blob) => {
+        if (!blob) return;
+        const url = window.URL.createObjectURL(blob);
+        ZmpSDK.openWebview(url, success, fail)
+      });
+    } catch (error) {
+      console.error('Error exporting image:', error);
+    }
   }
 
   const style = {
@@ -275,14 +297,6 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
         children={<CommonIcon.ZoomOut size={32}/>}
       />
 
-      {/* TODO: Future Feature
-      <SizedBox
-        className='bg-secondary mb-1 p-1 button border-primary'
-        width={"fit-content"} height={"fit-content"}
-        onClick={exportPDF}
-        children={<CommonIcon.PDF size={32}/>}
-      /> */}
-
       <SizedBox
         className='bg-secondary mb-1 p-1 button border-primary'
         width={"fit-content"} height={"fit-content"}
@@ -292,7 +306,7 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
 
       {onReset && (
         <SizedBox 
-          className='bg-secondary p-1 button'
+          className='bg-secondary p-1 button border-primary'
           width={"fit-content"} height={"fit-content"} border
           onClick={() => onReset()}
           children={<CommonIcon.Reset size={32}/>}

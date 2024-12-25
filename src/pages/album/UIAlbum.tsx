@@ -1,11 +1,11 @@
 import React from "react";
 import { t } from "i18next";
-import { useNavigate } from "react-router-dom";
 import { Box, Grid, Stack, Text } from "zmp-ui";
 
 import { AppContext, Header, Info, Loading } from "components";
 import { AlbumApi } from "api"; 
 import { FailResponse, ServerResponse } from "server";
+import { useRouteNavigate } from "hooks";
 
 export function UIAlbum() {
   return (
@@ -18,7 +18,7 @@ export function UIAlbum() {
 }
 
 function UIAlbumList() {
-  const navigate = useNavigate();
+  const { goTo } = useRouteNavigate();
   const { phoneNumber } = React.useContext(AppContext);
 
   const [ reload, setReload ] = React.useState(false);
@@ -44,7 +44,7 @@ function UIAlbumList() {
 
   const goToImageList = (album: any) => {
     const images: any[] = album["image"] || [];
-    navigate("/album/images", { state: { images } });
+    goTo("album/images", { images });
   }
 
   const renderAlbums = () => {

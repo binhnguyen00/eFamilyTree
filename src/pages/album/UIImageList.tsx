@@ -1,17 +1,17 @@
 import React from "react";
 import { t } from "i18next";
-import { useLocation } from "react-router-dom";
 
 import { Grid, ImageViewer } from "zmp-ui";
 
 import { Header, Info } from "components";
+import { useRouteNavigate } from "hooks";
 
 export function UIImageList() { 
-  const location = useLocation();
+  const { belongings } = useRouteNavigate();
   const [ visible, setVisible ] = React.useState(false);
   const [ activeIndex, setActiveIndex ] = React.useState(0);
 
-  const { images } = location.state || [] as any[];
+  const { images } = belongings || [] as any[];
 
   const renderImages = () => {
     let html = [] as React.ReactNode[];

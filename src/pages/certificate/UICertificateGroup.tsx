@@ -1,15 +1,15 @@
 import React from "react";
 import { t } from "i18next";
-import { useNavigate } from "react-router-dom";
 import { Stack, Text } from "zmp-ui";
 
 import { CertificateApi } from "api";
 import { FailResponse, ServerResponse } from "server";
 import { AppContext, Header, SizedBox } from "components";
+import { useRouteNavigate } from "hooks";
 
 /** Bảng Vàng */
 export function UICerificateGroup() {
-  const navigate = useNavigate();
+  const { goTo } = useRouteNavigate();
   const { phoneNumber } = React.useContext(AppContext);
   const [ groups, setGroups ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);
@@ -31,7 +31,7 @@ export function UICerificateGroup() {
   }, [ reload ])
 
   const onSelectGroup = (certificateGroupId: number, certificateGroupName: string) => () => {
-    navigate("/certificate/list", { state: { certificateGroupId, certificateGroupName } });
+    goTo("certificate/list", { certificateGroupId, certificateGroupName });
   }
 
   const renderCertificateGroup = () => {

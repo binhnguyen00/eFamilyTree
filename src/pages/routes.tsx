@@ -23,7 +23,7 @@ import { UIAccount } from "pages/user/UIAccount";
 import { UIRegister } from "pages/user/UIRegister";
 import { UIRegisterClan } from "pages/user/UIRegisterClan";
 
-import { useAppContext } from "hooks";
+import { useRouteNavigate } from "hooks";
 
 // Demo components (React.lazy loaded)
 const UIDummyFund = React.lazy(() => import("./dummy/UIDummyFund"));
@@ -35,43 +35,41 @@ const UIDummyAlbum = React.lazy(() => import("./dummy/UIDummyAlbum"));
 const UIDummyNavigate = React.lazy(() => import("./dummy/UIDummyNavigate"));
 
 export function AppRoutes() {
-  const { appId } = useAppContext();
+  const { createPath, rootPath } = useRouteNavigate();
 
   return (
     <Routes>
       {/* HOME */}
-      <Route path={`/zapps/${appId}`} element={<UIHome />} />
-
-      <Route path="/family-tree" element={<UIFamilyTree />} />
-
-      <Route path="/account" element={
+      <Route path={rootPath} element={<UIHome />}/> 
+      <Route path={createPath("family-tree")} element={<UIFamilyTree />} />
+      <Route path={createPath("account")} element={
         <React.Suspense fallback={<Loading />}>
           <UIAccount />
         </React.Suspense>
       } />
 
       {/* APP */}
-      <Route path="/about" element={<UIAbout />} />
+      <Route path={createPath("about")} element={<UIAbout />} />
 
-      <Route path="/album" element={<UIAlbum />}/>
-      <Route path="/album/images" element={<UIImageList />} />
+      <Route path={createPath("album")} element={<UIAlbum />}/>
+      <Route path={createPath("album/images")} element={<UIImageList />} />
 
-      <Route path="/calendar" element={<UICalendar />} />
+      <Route path={createPath("calendar")} element={<UICalendar />} />
 
-      <Route path="/blogs" element={<UIBlog />}/>
-      <Route path="/blogs/detail" element={<UIBlogDetail />} />
+      <Route path={createPath("blogs")} element={<UIBlog />}/>
+      <Route path={createPath("blogs/detail")} element={<UIBlogDetail />} />
 
-      <Route path="/funds" element={<UIFund />}/>
-      <Route path="/funds/detail" element={<UIFundDetail />} />
+      <Route path={createPath("funds")} element={<UIFund />}/>
+      <Route path={createPath("funds/detail")} element={<UIFundDetail />} />
 
-      <Route path="/register" element={<UIRegister />} />
-      <Route path="/register-clan" element={<UIRegisterClan />} />
+      <Route path={createPath("register")} element={<UIRegister />} />
+      <Route path={createPath("register/clan")} element={<UIRegisterClan />} />
 
-      <Route path="/theme" element={<UITheme />} />
+      <Route path={createPath("theme")} element={<UITheme />} />
 
-      <Route path="/certificate" element={<UICerificateGroup />}/>
-      <Route path="/certificate/list" element={<UICertificate />}/>
-      <Route path="/certificate/list/info" element={<UICertificateDetail />} />
+      <Route path={createPath("certificate")} element={<UICerificateGroup />}/>
+      <Route path={createPath("certificate/list")} element={<UICertificate />}/>
+      <Route path={createPath("certificate/list/info")} element={<UICertificateDetail />} />
 
       {/* DEMO ROUTES */}
       <Route path="/dev" element={<UIDeveloper />}/>

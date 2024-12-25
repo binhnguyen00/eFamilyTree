@@ -1,14 +1,14 @@
 import React from "react";
 import { t } from "i18next";
-import { useNavigate } from "react-router-dom";
 import { Box, Text } from "zmp-ui";
 
 import { FundApi } from "api";
 import { FailResponse, ServerResponse } from "server";
 import { Header, Loading, SearchBar, CommonIcon, AppContext, Info } from "components";
+import { useRouteNavigate } from "hooks";
 
 export function UIFund() {
-  const navigate = useNavigate();
+  const { goTo } = useRouteNavigate();
   const { phoneNumber } = React.useContext(AppContext);
   const [ funds, setFunds ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);
@@ -33,7 +33,7 @@ export function UIFund() {
 
   const navigateToFundDetail = (fund: any = null) => {
     if (!fund) return;
-    navigate("/funds/detail", { state: { fund } });
+    goTo("funds/detail", { fund });
   }
 
   const renderFundList = () => {

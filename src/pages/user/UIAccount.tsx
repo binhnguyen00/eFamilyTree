@@ -1,6 +1,5 @@
 import React from "react";
 import { t } from "i18next";
-import { useNavigate } from "react-router-dom";
 
 import { Avatar, Box, Button, Grid, Stack, Text } from "zmp-ui";
 
@@ -9,6 +8,7 @@ import { ServerResponse } from "server";
 import { AppContext, Header } from "components";
 
 import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
+import { useRouteNavigate } from "hooks";
 
 export function UIAccount() { 
   return (
@@ -21,8 +21,8 @@ export function UIAccount() {
 }
 
 function UIAccountContainer() {
-  const { userInfo, phoneNumber, settings } = React.useContext(AppContext);
-  const navigate = useNavigate();
+  const { userInfo, phoneNumber } = React.useContext(AppContext);
+  const { goTo, jumpTo } = useRouteNavigate();
 
   // Temporary methods
   const devs = [ 
@@ -43,23 +43,23 @@ function UIAccountContainer() {
         <Text.Title className="text-capitalize text-shadow"> {userInfo.name} </Text.Title>
       </Box>
 
-      <Button variant="secondary" onClick={() => navigate("/register") }>
+      <Button variant="secondary" onClick={() => goTo("register") }>
         {t("register")}
       </Button>
 
-      <Button variant="secondary" onClick={() => navigate("/register-clan")}>
+      <Button variant="secondary" onClick={() => goTo("register/clan")}>
         {t("register_clan")}
       </Button>
 
-      <Button variant="secondary" onClick={() => navigate("/about")}>
+      <Button variant="secondary" onClick={() => goTo("about")}>
         {t("about")}
       </Button>
 
-      {devs.includes(phoneNumber) || !phoneNumber && (
-        <Button variant="secondary" onClick={() => navigate("/dev")}>
+      {!phoneNumber || devs.includes(phoneNumber) ? (
+        <Button variant="secondary" onClick={() => jumpTo("dev")}>
           {t("developer")}
         </Button>
-      )}
+      ): null}
 
       <div className="p-3 rounded bg-secondary">
         <UISettings/>

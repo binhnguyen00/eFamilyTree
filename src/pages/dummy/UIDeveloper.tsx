@@ -1,11 +1,14 @@
 import React from "react";
-import { Outlet, useNavigate } from "react-router-dom";
 import { t } from "i18next";
-import { FcApproval, FcCalendar, FcGenealogy, FcMoneyTransfer, FcTemplate, FcBiotech, FcStackOfPhotos } from "react-icons/fc";
-
 import { Button, Grid, Stack, Text } from "zmp-ui";
+import { 
+  FcApproval, FcBiotech, FcCalendar, 
+  FcGenealogy, FcMoneyTransfer, 
+  FcStackOfPhotos, FcTemplate 
+} from "react-icons/fc";
 
 import { Header } from "components";
+import { useRouteNavigate } from "hooks";
 
 export function UIDeveloper() {
   // keys should be same as Route in ../main.tsx
@@ -17,10 +20,10 @@ export function UIDeveloper() {
     "dev/calendar": t("demo_calendar"),
     "dev/blogs": t("demo_blogs"),
   }
-  const navigate = useNavigate();
+  const { jumpTo } = useRouteNavigate();
 
   const navigatePage = (pageKey: string) => {
-    navigate(`/${pageKey}`);
+    jumpTo(`${pageKey}`);
   };
 
   const renderFunctions = () => {
@@ -63,10 +66,6 @@ export function UIDeveloper() {
       <Grid style={{ padding: "0 1rem" }} columnSpace="1rem" rowSpace="1rem" columnCount={2}>
         {renderFunctions()}
       </Grid>
-      
-      <Outlet />
-      <br />
-
     </div>
   )
 }

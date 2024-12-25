@@ -1,16 +1,16 @@
 import React from "react";
 import { t } from "i18next";
-import { useNavigate } from "react-router-dom";
 import { Box, Button, Grid, Stack, Text } from "zmp-ui";
 
 import { AlbumApi } from "api";
+import { CommonIcon } from "components";
 import { FailResponse, ServerResponse } from "server";
-import { AppContext, CommonIcon } from "components";
+import { useAppContext, useRouteNavigate } from "hooks";
 
 export function UIHomeAlbum() {
-  const navigate = useNavigate();
+  const { goTo } = useRouteNavigate();
   const [ albums, setAlbums ] = React.useState<any[]>([]);
-  const { logedIn, phoneNumber } = React.useContext(AppContext);
+  const { logedIn, phoneNumber } = useAppContext();
 
   React.useEffect(() => {
     if (logedIn) {
@@ -31,11 +31,11 @@ export function UIHomeAlbum() {
 
   const goToImageList = (album: any) => {
     const images = album["image"] || [] as any[];
-    navigate("/album/images", { state: { images } });
+    goTo("album/images", { images });
   }
 
   const goToAlbumList = () => {
-    navigate("/album");
+    goTo("album");
   }
 
   const renderAlbums = () => {

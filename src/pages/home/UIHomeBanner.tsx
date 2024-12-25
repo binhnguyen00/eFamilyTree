@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { t } from "i18next";
 import { Box, Button, Stack, Swiper, Text } from "zmp-ui";
 
@@ -9,21 +8,14 @@ import banner_01 from "assets/img/banner/banner-01.jpg";
 import banner_02 from "assets/img/banner/banner-02.jpg";
 import banner_03 from "assets/img/banner/banner-03.jpg";
 import banner_04 from "assets/img/banner/banner-04.jpg";
+import { useRouteNavigate } from "hooks";
 
 export function UIHomeBanner() {
-  const navigate = useNavigate();
+  const { goTo } = useRouteNavigate();
 
-  const onRegister = () => {
-    navigate("/register");
-  }
-
-  const onRegisterClan = () => {
-    navigate("/register-clan");
-  }
-
-  const navigateAbout = () => {
-    navigate("/about");
-  }
+  const onRegister = () => goTo("register");
+  const onRegisterClan = () => goTo("register/clan");
+  const navigateAbout = () => goTo("about");
 
   return (
     <Stack space="0.5rem">

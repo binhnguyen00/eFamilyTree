@@ -1,14 +1,14 @@
 import React from "react";
 import { t } from "i18next";
-import { useNavigate } from "react-router-dom";
 import { Box, Button, Stack, Text } from "zmp-ui";
 
 import { AppContext, CommonIcon } from "components";
 import { SocialPostApi } from "api";
 import { FailResponse, ServerResponse } from "server";
+import { useRouteNavigate } from "hooks";
 
 export function UIHomeBlog() {
-  const navigate = useNavigate();
+  const { goTo } = useRouteNavigate();
   const [ blogs, setBlogs ] = React.useState<any[]>([]);
   const { logedIn, phoneNumber } = React.useContext(AppContext);
 
@@ -31,11 +31,11 @@ export function UIHomeBlog() {
 
   const goToBlogDetail = (title: string, content: string) => {
     const blog = { title, content };
-    navigate("/blogs/detail", { state: { blog } });
+    goTo("blogs/detail", { blog });
   };
 
   const goToBlogs = () => {
-    navigate("/blogs");
+    goTo("blogs");
   }
 
   const renderBlogs = () => {

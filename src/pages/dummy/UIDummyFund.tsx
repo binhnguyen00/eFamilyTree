@@ -6,6 +6,7 @@ import { Box, Text } from "zmp-ui";
 
 import { CommonIcon, Header } from "components";
 import { SearchBar } from "components/common/SearchBar";
+import { useRouteNavigate } from "hooks";
 
 const data = [
   {
@@ -99,12 +100,12 @@ const data = [
 ]
 
 export default function UIDummyFund() {
-  const navigate = useNavigate();
+  const { jumpTo } = useRouteNavigate();
   const [funds, setFunds] = React.useState<any[]>(data);
 
   const navigateToFundDetail = (fund: any = null) => {
     if (!fund) return;
-    navigate("/dev/funds/detail", { state: { fund } });
+    jumpTo("dev/funds/detail", { fund });
   }
 
   const renderFunds = () => {

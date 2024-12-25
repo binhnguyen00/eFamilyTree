@@ -1,15 +1,14 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import { List, Stack, Text } from "zmp-ui";
 
 import { CertificateApi } from "api";
 import { FailResponse, ServerResponse } from "server";
 import { Header, CommonIcon, AppContext } from "components";
+import { useRouteNavigate } from "hooks";
 
 export function UICertificate() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { certificateGroupId, certificateGroupName } = location.state || {  
+  const { goTo, belongings } = useRouteNavigate();
+  const { certificateGroupId, certificateGroupName } = belongings || {  
     certificateGroupId: 0, 
     certificateGroupName: ""
   };
@@ -34,7 +33,7 @@ export function UICertificate() {
   }, [ reload ])
 
   const navigateToCertificateDetail = (certificateId: number) => {
-    navigate("/certificate/list/info", { state: { certificateId } });
+    goTo("certificate/list/info", { certificateId });
   }
 
   const renderCertificate = () => {

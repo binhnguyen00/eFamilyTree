@@ -1,8 +1,8 @@
 import React from "react";
 import { t } from "i18next";
-import { useNavigate } from "react-router-dom";
 import { Grid, Stack, Text } from "zmp-ui";
 
+import { useRouteNavigate } from "hooks";
 import { AppLogo, AppContext, RequestPhone, SizedBox } from "components";
 
 interface App {
@@ -11,7 +11,7 @@ interface App {
   requirePhone: boolean;
 }
 export function UIHomeAppList() {
-  const navigate = useNavigate();
+  const { goTo } = useRouteNavigate();
   const { logedIn } = React.useContext(AppContext);
   const [ requestPhone, setRequestPhone ] = React.useState(false); 
 
@@ -29,7 +29,7 @@ export function UIHomeAppList() {
     if (requirePhone && !logedIn) {
       setRequestPhone(true);
     } else {
-      navigate(`/${appKey}`)
+      goTo(`${appKey}`)
       return;
     }
   }

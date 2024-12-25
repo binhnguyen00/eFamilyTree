@@ -1,11 +1,11 @@
 import React from "react";
 import { t } from "i18next";
-import { useNavigate } from "react-router-dom";
 import { Box, Stack, Text } from "zmp-ui";
 
 import { Header, Loading, Info, AppContext } from "components";
 import { SocialPostApi } from "api";
 import { FailResponse, ServerResponse } from "server";
+import { useRouteNavigate } from "hooks";
 
 export function UIBlog() {
   return (
@@ -20,7 +20,7 @@ export function UIBlog() {
 }
 
 function UIBlogList() {
-  const navigate = useNavigate();
+  const { goTo } = useRouteNavigate();
   const { phoneNumber } = React.useContext(AppContext);
 
   const [ blogs, setBlogs ] = React.useState<any[]>([]);
@@ -46,7 +46,7 @@ function UIBlogList() {
 
   const navigateToBlog = (title: string, content: string) => {
     const blog = { title, content };
-    navigate("/blogs/detail", { state: { blog } });
+    goTo("blogs/detail", { blog });
   };
 
   const renderBlogList = (items: any[]) => {

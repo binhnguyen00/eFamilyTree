@@ -1,19 +1,18 @@
 import React from "react";
 import { t } from "i18next";
-import { useLocation, useNavigate } from "react-router-dom";
 import { Box, Text } from "zmp-ui";
 
 import { CommonIcon } from "components";
-import { useAppContext } from "hooks";
+import { useAppContext, useRouteNavigate } from "hooks";
 
 export function Navigation() {
   const { appId } = useAppContext();
-  const location = useLocation();
-  const NO_BOTTOM_NAVIGATION_PAGES = ["/family-tree", "/dev/tree"];
+  const { currentPath } = useRouteNavigate();
+  const NO_BOTTOM_NAVIGATION_PAGES = [`/zapps/${appId}/family-tree`, "/dev/tree"];
 
   const noBottomNav = React.useMemo(() => {
-    return NO_BOTTOM_NAVIGATION_PAGES.includes(location.pathname);
-  }, [location]);
+    return NO_BOTTOM_NAVIGATION_PAGES.includes(currentPath);
+  }, [currentPath]);
   if (noBottomNav) return null;
 
 
@@ -27,13 +26,13 @@ export function Navigation() {
       /> 
       <NavItem
         className="nav-item special"
-        path="/family-tree"
+        path={`family-tree`}
         label={""}
         icon={<CommonIcon.Tree size={40}/>}
         activeIcon={null}
       /> 
       <NavItem
-        path="/account"
+        path={`account`}
         label={t("account")}
         icon={<CommonIcon.User size={24}/>}
         activeIcon={<CommonIcon.User size={32} className="text-tertiary"/>}
@@ -50,19 +49,16 @@ interface NavItemProps {
   className?: string;
 }
 function NavItem(props: NavItemProps) {
-  let { path, label, icon, activeIcon, className = "" } = props;
-
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const isActive = location.pathname.includes(path) || location.pathname === path;
+  const { path, label, icon, activeIcon, className = "" } = props;
+  const { currentPath, goTo, createPath } = useRouteNavigate();
+  const isActive = currentPath === createPath(path);
 
   return (
     <>
       <Box 
         className={`center text-primary button ${className}`}
         flex flexDirection="column" justifyContent="center"
-        onClick={() => navigate(path) }
+        onClick={() => goTo(path)}
       >
         {isActive ? activeIcon || icon : icon}
         <Text.Title size={"small"}>
