@@ -64,7 +64,7 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
 
   const center = {
     x: ((treeWidth / 2) - (window.innerWidth / 2)) * -1,
-    y: ((treeHeight / 2) - window.innerHeight / 4) * -1,
+    y: ((treeHeight / 2) - window.innerHeight / 2) * -1,
   };
 
   let [ crop, setCrop ] = React.useState({ x: center.x, y: center.y, scale: 0.5 });
