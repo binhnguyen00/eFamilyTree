@@ -92,10 +92,7 @@ export class ZmpSDK {
     })
   }
 
-  public static openWebview(url: string, successCB: CallBack, failCB?: CallBack) {
-    console.log(window.location.pathname);
-    console.log(url);
-    
+  public static openWebview(url: string, successCB?: CallBack, failCB?: CallBack) {
     openWebview({
       url: url,
       config: {
@@ -103,7 +100,7 @@ export class ZmpSDK {
         leftButton: "back",
       },
       success(res) {
-        successCB(res);
+        if (successCB) successCB(res);
       },
       fail(err) {
         if (failCB) failCB(err);

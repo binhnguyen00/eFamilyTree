@@ -49,9 +49,10 @@ export class TestApi extends BaseApi {
     this.server.postWithFormData("test/account/setting/background/save", formData, successCB, failCB);
   }
 
-  public static exportPDF(html2pdf: string, successCB: CallBack, failCB?: FailCB) {
+  public static exportSVG(phoneNumber: string, blob: Blob, successCB: SuccessCB, failCB?: FailCB) {
     const formData = new FormData();
-    formData.append("html2pdf", html2pdf);
-    return this.server.exportPDF("export/pdf", formData, successCB, failCB);
+    formData.append("phone_number", phoneNumber);
+    formData.append("svg", blob);
+    return this.server.postWithFormData("tree/export/svg", formData, successCB, failCB);
   }
 }

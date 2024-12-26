@@ -11,7 +11,9 @@ import calcTree from 'components/tree-relatives';
 import { Gender, Node } from 'components/tree-relatives/types';
 import { SizedBox, CommonIcon } from 'components';
 import { useAppContext } from 'hooks';
-import { ZmpSDK } from 'utils';
+import { CommonUtils, ZmpSDK } from 'utils';
+import { FamilyTreeApi, TestApi } from 'api';
+import { ServerResponse } from 'server';
 
 // ============================================
 // Tree
@@ -217,6 +219,7 @@ interface FamilyTreeControllerProps {
 }
 
 function FamilyTreeController(props: FamilyTreeControllerProps) {
+  const { phoneNumber } = useAppContext();
   const { openSnackbar } = useSnackbar();
   const { onCenter, onZoomIn, onZoomOut, onReset, centerPos, html2export } = props;
 
@@ -233,7 +236,7 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
       openSnackbar({
         text: t("download_success"),
         type: "success",
-        position: "top",
+        position: "bottom",
         duration: 3000,
       })
     }
@@ -241,7 +244,7 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
       openSnackbar({
         text: t("download_fail"),
         type: "error",
-        position: "top",
+        position: "bottom",
         duration: 3000
       })
     }
@@ -259,10 +262,7 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
   }
 
   const exportSVG = () => {
-    let content = reactDomToString(html2export.content);
-
-    console.log(content);
-    
+    const content = reactDomToString(html2export.content);
     const width = html2export.width + 120;
     const height = html2export.height + 120;
     const svg = `
@@ -289,10 +289,20 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
       </svg>
     `;
     const blob = new Blob([svg], { type: 'image/svg+xml' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'tree.svg';
-    link.click();
+    const success = (result: ServerResponse) => {
+      if (result.status === "success") {
+        let downloadUrl = result.data;
+        ZmpSDK.openWebview(downloadUrl);
+      } else {
+        openSnackbar({
+          text: t("download_fail"), 
+          type: "error",
+          position: "bottom",
+          duration: 3000, 
+        })
+      };
+    }
+    FamilyTreeApi.exportSVG(phoneNumber, blob, success);
   }
 
   const style = {
