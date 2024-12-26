@@ -117,6 +117,7 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
     return (
       <div
         id="tree-canvas"
+        ref={treeRef}
         className={`${props.className ? props.className : ""}`}
         style={{
           zIndex: 1,
@@ -146,7 +147,7 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
   }
 
   return (
-    <div ref={treeRef} style={{ touchAction: "none" }}>
+    <div style={{ touchAction: "none" }}>
 
       <Box flex flexDirection='row' justifyContent='space-between' className='ml-1 mr-1'>
         <FamilyTreeSearch 
