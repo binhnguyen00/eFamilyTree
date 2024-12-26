@@ -1,7 +1,7 @@
 import React from 'react';
 import html2canvas from 'html2canvas';
 import { Options } from 'html2canvas';
-import { renderToStaticMarkup } from 'react-dom/server';
+import { renderToString as reactDomToString } from 'react-dom/server';
 import { useGesture } from "@use-gesture/react";
 import { t } from 'i18next';
 import { Box, useSnackbar } from 'zmp-ui';
@@ -10,7 +10,6 @@ import Connector from './Connector';
 import calcTree from 'components/tree-relatives';
 import { Gender, Node } from 'components/tree-relatives/types';
 import { SizedBox, CommonIcon } from 'components';
-import { FailResponse } from 'server';
 import { useAppContext } from 'hooks';
 import { ZmpSDK } from 'utils';
 
@@ -119,7 +118,7 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
         className={`${props.className ? props.className : ""}`}
         style={{
           zIndex: 1,
-          position: 'relative',
+          position: 'absolute',
           width: treeWidth,
           height: treeHeight,
 
@@ -175,7 +174,7 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
             setCrop((crop) => ({ ...crop, scale: crop.scale - scale }));
           }}
           onReset={props.onReset}
-          html2pdf={tree()}
+          html2export={{ content: tree(), width: treeWidth, height: treeHeight }}
         />
       </Box>
 
@@ -210,14 +209,18 @@ interface FamilyTreeControllerProps {
   onZoomIn: (xPos: number, yPos: number, scale: number) => void;
   onZoomOut: (xPos: number, yPos: number, scale: number) => void;
   onReset?: () => void;
-  html2pdf?: React.ReactNode;
+  html2export: {
+    content: React.ReactNode;
+    width: number;
+    height: number;
+  };
 }
 
 function FamilyTreeController(props: FamilyTreeControllerProps) {
-  const { openSnackbar, setDownloadProgress, closeSnackbar } = useSnackbar();
-  const { onCenter, onZoomIn, onZoomOut, onReset, centerPos, html2pdf } = props;
+  const { openSnackbar } = useSnackbar();
+  const { onCenter, onZoomIn, onZoomOut, onReset, centerPos, html2export } = props;
 
-  const exportJPG = async () => {
+  const exportPNG = async () => {
     const element = document.getElementById('tree-canvas');
     if (!element) return;
 
@@ -248,11 +251,48 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
 
     try {
       const canvas = await html2canvas(element, options);
-      const base64 = canvas.toDataURL('image/jpeg', 0.98);
+      const base64 = canvas.toDataURL(); // Default image format: PNG
       ZmpSDK.saveImageToGallery(base64, success, fail, onProgress);
     } catch (error) {
       console.error('Error exporting image:', error);
     }
+  }
+
+  const exportSVG = () => {
+    let content = reactDomToString(html2export.content);
+
+    console.log(content);
+    
+    const width = html2export.width + 120;
+    const height = html2export.height + 120;
+    const svg = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
+        <style>
+          .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          .border {
+            border: 1px solid black;
+          }
+          .svg-node {
+            width: 100px !important;
+            height: 150px !important;
+          }
+        </style>
+        <foreignObject class="" width="${width}" height="${height}">
+          <div xmlns="http://www.w3.org/1999/xhtml" class="center">
+            ${content}
+          </div>
+        </foreignObject>
+      </svg>
+    `;
+    const blob = new Blob([svg], { type: 'image/svg+xml' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'tree.svg';
+    link.click();
   }
 
   const style = {
@@ -289,8 +329,15 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
       <SizedBox
         className='bg-secondary mb-1 p-1 button border-primary'
         width={"fit-content"} height={"fit-content"}
-        onClick={exportJPG}
-        children={<CommonIcon.JPG size={32}/>}
+        onClick={exportPNG}
+        children={<CommonIcon.PNG size={32}/>}
+      />
+
+      <SizedBox
+        className='bg-secondary mb-1 p-1 button border-primary'
+        width={"fit-content"} height={"fit-content"}
+        onClick={exportSVG}
+        children={<CommonIcon.SVG size={32}/>}
       />
 
       {onReset && (

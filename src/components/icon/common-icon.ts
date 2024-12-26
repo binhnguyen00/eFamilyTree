@@ -11,6 +11,8 @@ import { GrPowerReset } from "react-icons/gr";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaFilePdf } from "react-icons/fa6";
 import { BiSolidFilePng, BiSolidFileJpg } from "react-icons/bi";
+import { BsFiletypeSvg } from "react-icons/bs";
+import { FaCloudDownloadAlt } from "react-icons/fa";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -34,4 +36,6 @@ export const CommonIcon = {
   PDF: FaFilePdf,
   PNG: BiSolidFilePng,
   JPG: BiSolidFileJpg,
+  SVG: BsFiletypeSvg,
+  CloudDownload: FaCloudDownloadAlt,
 };
