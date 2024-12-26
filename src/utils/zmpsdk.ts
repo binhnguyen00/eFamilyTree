@@ -4,7 +4,8 @@ import {
   getAccessToken, 
   getUserInfo, 
   openWebview,
-  saveImageToGallery
+  saveImageToGallery,
+  downloadFile
 } from 'zmp-sdk/apis';
 import { CallBack, ExternalRESTful } from "server";
 
@@ -101,6 +102,22 @@ export class ZmpSDK {
       },
       success(res) {
         if (successCB) successCB(res);
+      },
+      fail(err) {
+        if (failCB) failCB(err);
+      },
+    })
+  }
+
+  public static downloadFile(url: string, successCB?: CallBack, failCB?: CallBack) {
+    downloadFile({
+      url: url,
+      success() {
+        if (successCB) successCB({
+          status: "success",
+          message: "download successfully",
+          data: null
+        });
       },
       fail(err) {
         if (failCB) failCB(err);

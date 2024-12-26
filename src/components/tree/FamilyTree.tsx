@@ -292,7 +292,7 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
     const success = (result: ServerResponse) => {
       if (result.status === "success") {
         let downloadUrl = result.data;
-        ZmpSDK.openWebview(downloadUrl);
+        ZmpSDK.downloadFile(downloadUrl);
       } else {
         openSnackbar({
           text: t("download_fail"), 
@@ -303,6 +303,7 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
       };
     }
     FamilyTreeApi.exportSVG(phoneNumber, blob, success);
+    // TestApi.exportSVG("0942659016", blob, success);
   }
 
   const style = {
