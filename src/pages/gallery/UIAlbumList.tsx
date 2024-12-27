@@ -7,17 +7,17 @@ import { AlbumApi } from "api";
 import { FailResponse, ServerResponse } from "server";
 import { useRouteNavigate } from "hooks";
 
-export function UIAlbum() {
+export function UIAlbumList() {
   return (
     <div className="container">
       <Header title={t("album")}/>
       
-      <UIAlbumList />
+      <UIAlbumListContainer />
     </div>
   )
 }
 
-function UIAlbumList() {
+function UIAlbumListContainer() {
   const { goTo } = useRouteNavigate();
   const { phoneNumber } = React.useContext(AppContext);
 

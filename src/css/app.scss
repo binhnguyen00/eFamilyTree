@@ -38,6 +38,11 @@ body {
   }
 }
 
+.container-padding {
+  padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + (var(--header-height) + 10px)) !important;
+  padding-bottom: calc(var(--zaui-safe-area-inset-bottom, 0px) + (var(--footer-height) + 10px)) !important;
+}
+
 // text
 .zaui-text-title {
   font-weight: bolder !important;
@@ -232,4 +237,13 @@ button, .button {
     - var(--zaui-safe-area-inset-bottom, 0px) 
     - (var(--footer-height) + 17px)
   ) !important;
+}
+
+// tabs
+.zaui-tabs-tabbar {
+  justify-content: center !important;
+  text-align: center;
+}
+.zaui-tabs-tabbar-item {
+  width: 100%;
 }

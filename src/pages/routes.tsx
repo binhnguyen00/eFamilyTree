@@ -4,8 +4,8 @@ import { Route, Routes } from "react-router-dom";
 import { Loading } from "components";
 
 import { UIAbout } from "pages/about/UIAbout";
-import { UIAlbum } from "pages/album/UIAlbum";
-import { UIImageList } from "pages/album/UIImageList";
+import { UIAlbumList } from "pages/gallery/UIAlbumList";
+import { UIImageList } from "pages/gallery/UIImageList";
 import { UIBlog } from "pages/blog/UIBlog";
 import { UIBlogDetail } from "pages/blog/UIBlogDetail";
 import { UICalendar } from "pages/calendar/UICalendar";
@@ -22,6 +22,7 @@ import { UITheme } from "pages/theme/UITheme";
 import { UIAccount } from "pages/user/UIAccount";
 import { UIRegister } from "pages/user/UIRegister";
 import { UIRegisterClan } from "pages/user/UIRegisterClan";
+import { UIGallery } from 'pages/gallery/UIGallery';
 
 import { useRouteNavigate } from "hooks";
 
@@ -51,7 +52,9 @@ export function AppRoutes() {
       {/* APP */}
       <Route path={createPath("about")} element={<UIAbout />} />
 
-      <Route path={createPath("album")} element={<UIAlbum />}/>
+      <Route path={createPath("gallery")} element={<UIGallery />}/>
+
+      <Route path={createPath("album")} element={<UIAlbumList />}/>
       <Route path={createPath("album/images")} element={<UIImageList />} />
 
       <Route path={createPath("calendar")} element={<UICalendar />} />
@@ -103,9 +106,9 @@ export function AppRoutes() {
           <UIDummyBlog />
         </React.Suspense>
       } />
-      <Route path="/dev/album" element={
+      <Route path="/dev/gallery" element={
         <React.Suspense fallback={<Loading />}>
-          <UIDummyAlbum />
+          <UIGallery />
         </React.Suspense>
       } />
       <Route path="/dev/dummy-detail" element={

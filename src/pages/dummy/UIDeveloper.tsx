@@ -11,20 +11,16 @@ import { Header } from "components";
 import { useRouteNavigate } from "hooks";
 
 export function UIDeveloper() {
-  // keys should be same as Route in ../main.tsx
+  // keys should be same as Route in routes.tsx
   const funcKeyMap = {
     "dev/playground": t("playground"),
-    "dev/album": t("album"),
+    "dev/gallery": t("gallery"),
     "dev/funds": t("demo_funds"),
     "dev/tree": t("demo_tree"),
     "dev/calendar": t("demo_calendar"),
     "dev/blogs": t("demo_blogs"),
   }
   const { jumpTo } = useRouteNavigate();
-
-  const navigatePage = (pageKey: string) => {
-    jumpTo(`${pageKey}`);
-  };
 
   const renderFunctions = () => {
     let html = [] as React.ReactNode[];
@@ -39,7 +35,7 @@ export function UIDeveloper() {
               height: 120, 
               borderRadius: 30, 
             }} 
-            onClick={() => navigatePage(key)}
+            onClick={() => jumpTo(key)}
           >
             {renderIcon(key)}
           </Button>
@@ -82,7 +78,7 @@ function renderIcon(iconKey: string) {
       return <FcCalendar size={"4.5rem"}/>
     case "dev/blogs":
       return <FcTemplate size={"4.5rem"}/>
-    case "dev/album":
+    case "dev/gallery":
       return <FcStackOfPhotos size={"4.5rem"}/>
     default: 
       return <FcApproval size={"4.5rem"}/>

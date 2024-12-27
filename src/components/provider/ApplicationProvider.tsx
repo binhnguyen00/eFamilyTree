@@ -7,6 +7,7 @@ export interface AppCtx {
   appId: string;
   logedIn: boolean;
   phoneNumber: string;
+  serverBaseUrl: string;
   userInfo: {
     id: string;
     name: string;
@@ -32,6 +33,7 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
     phoneNumber: phoneNumber,
     userInfo: userInfo,
     settings: settings,
+    serverBaseUrl: "https://giapha.mobifone5.vn"
   }
   console.log("App Context:\n", ctxInfo); 
 
