@@ -60,6 +60,7 @@ export type Node = {
   id: string;
   gender: Gender;
   name?: string;
+  generation?: number;
   avatar?: string;
   parents: Relation[];
   children: Relation[];

@@ -67,6 +67,7 @@ export function UIFundDetail() {
         >
           <Stack space="0.5rem">
             <Text.Title> {`${isIncome ? "+" : "-"} ${formatted}`} </Text.Title>
+            <Text> {item["name"] || ""} </Text>
             <Text> {item["note"] || ""} </Text>
           </Stack>
           <Text> {item["date"]} </Text>

@@ -9,6 +9,7 @@ interface Person {
   img: string;
   pids: number[];
   phone: string;
+  generation: number;
   is_alive: boolean;
 }
 
@@ -27,6 +28,7 @@ export class TreeDataProcessor {
       this.nodes = [{
         id: "0",
         name: "Thành Viên",
+        generation: 0,
         gender: Gender.male,
         parents: [],
         children: [],
@@ -74,6 +76,7 @@ export class TreeDataProcessor {
       gender: person.gender === "1" ? Gender.male : Gender.female,
       name: person.name,
       avatar: person.img,
+      generation: person.generation,
       parents: this.getParentRelations(person),
       children: this.getChildrenRelations(person),
       siblings: this.getSiblingRelations(person),

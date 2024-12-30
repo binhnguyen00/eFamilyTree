@@ -345,12 +345,12 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
         children={<CommonIcon.PNG size={32}/>}
       />
 
-      <SizedBox
+      {/* <SizedBox
         className='bg-secondary mb-1 p-1 button border-primary'
         width={"fit-content"} height={"fit-content"}
         onClick={exportSVG}
         children={<CommonIcon.SVG size={32}/>}
-      />
+      /> */}
 
       {onReset && (
         <SizedBox 
