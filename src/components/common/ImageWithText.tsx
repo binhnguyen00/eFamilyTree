@@ -6,10 +6,12 @@ interface ImageWithTextProps {
   textStyle?: React.CSSProperties;
   width?: number | string;
   height?: number | string;
+  className?: string;
+  onClick?: () => void;
 }
 
 export function ImageWithText(props: ImageWithTextProps) {
-  const { src, text, textStyle, width, height } = props;
+  const { src, text, textStyle, width, height, onClick, className } = props;
 
   const overlayTextStyle = {
     position: 'absolute',
@@ -28,9 +30,9 @@ export function ImageWithText(props: ImageWithTextProps) {
   } as React.CSSProperties;
 
   return (
-    <div style={{ position: 'relative', width: width, height: height }}>
+    <div style={{ position: 'relative', width: width, height: height }} onClick={onClick}>
       <img
-        src={src}
+        src={src} className={className ? className : ''}
         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
       />
       <div style={overlayTextStyle}> {text} </div>

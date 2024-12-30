@@ -43,8 +43,8 @@ export function UICertificateDetail() {
       <Stack space="0.5rem">
         <Input label={t("clan")} value={certificate.clan} name="clan"/>
         <Input label={t("family_member")} value={certificate.member} name="member"/>
-        <Input label={t("date")} value={certificate.recordeddate} name="recordeddate"/>
-        <Input label={t("achivement")} value={certificate.achivement} name="achivement"/>
+        <Input label={t("date")} value={certificate.recognition_date} name="recognition date"/>
+        <Input label={t("achivement")} value={certificate.achievement} name="achievement"/>
         <Input label={t("ranking")} value={certificate.ranking} name="ranking"/>
       </Stack>
     </div>

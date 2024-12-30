@@ -4,8 +4,14 @@ import { Stack, Text } from "zmp-ui";
 
 import { CertificateApi } from "api";
 import { FailResponse, ServerResponse } from "server";
-import { AppContext, Header, SizedBox } from "components";
+import { AppContext, Header, ImageWithText, SizedBox } from "components";
 import { useRouteNavigate } from "hooks";
+
+import nguoi_co_cong from "assets/img/certificate/người-có-công.jpg";
+import nguoi_hieu_hoc from "assets/img/certificate/người-hiếu-học.jpg";
+import nguoi_thanh_dat from "assets/img/certificate/người-thành-công.jpg";
+import nhan_vat_lich_su from "assets/img/certificate/nhân-vật-lịch-sử.jpg";
+import tam_long_vang from "assets/img/certificate/tấm-lòng-vàng.jpg"
 
 /** Bảng Vàng */
 export function UICerificateGroup() {
@@ -34,24 +40,35 @@ export function UICerificateGroup() {
     goTo("certificate/list", { certificateGroupId, certificateGroupName });
   }
 
+  const sortGroupBgByName = (name: string) => {
+    switch (name) {
+      case "Nhân Vật Lịch Sử":
+        return nhan_vat_lich_su;
+      case "Người Thành Đạt":
+        return nguoi_thanh_dat;
+      case "Người Hiếu Học":
+        return nguoi_hieu_hoc;
+      case "Người Có Công":
+        return nguoi_co_cong;
+      case "Tấm Lòng Vàng":
+        return tam_long_vang;
+      default:
+        return nhan_vat_lich_su;
+    }
+  }
+
   const renderCertificateGroup = () => {
     let html = [] as React.ReactNode[];
     if (groups.length) 
       groups.forEach((group, index) => {
         html.push(
-          <SizedBox 
-            key={index} 
-            width={"100%"} 
-            height={150} 
-            border 
-            center
-            className="button" 
+          <ImageWithText
+            className="border rounded button"
+            text={<h1 className="text-capitalize"> {group.name} </h1>}
+            textStyle={{ fontSize: "1.5rem" }}
+            src={sortGroupBgByName(group.name)}
             onClick={onSelectGroup(group.id, group.name)}
-          >
-            <Text className="text-capitalize">
-              {group.name}
-            </Text>
-          </SizedBox>
+          />
         )
       })
     if (html.length) {
