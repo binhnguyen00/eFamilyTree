@@ -1,12 +1,15 @@
 import React from "react";
 import { t } from "i18next";
-import { Sheet, Grid, Button, Box, Input } from "zmp-ui";
+import { Grid, Button, Box, Input } from "zmp-ui";
 
 import { CommonUtils } from "utils";
 import { FamilyTreeApi } from "api";
 import { useAppContext } from "hooks";
 import { ServerResponse, FailResponse } from "server";
-import { Header, CommonIcon, TreeNode, FamilyTree, TreeConfig, Loading, AppContext } from "components";
+import { 
+  Header, CommonIcon, TreeNode, FamilyTree, TreeConfig, 
+  Loading, AppContext, SlidingPanel, SlidingPanelOrient 
+} from "components";
 
 import { TreeUtils } from "./TreeUtils";
 import { TreeDataProcessor } from "./TreeDataProcessor";
@@ -90,7 +93,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
     } 
     const memberId: number = +selectId;
     FamilyTreeApi.getMemberInfo(props.phoneNumber, memberId, success, fail);
-    setSelectId(""); // hide the sheet
+    setSelectId(""); // hide the sliding panel
   }
 
   const renderTreeBranch = () => {
@@ -98,7 +101,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
     setNodes(treeBranch);
     setRootId(selectId);
     setResetBtn(true);
-    setSelectId(""); // hide the sheet
+    setSelectId(""); // hide the sliding panel
   }
 
   const treeContainer = () => {
@@ -169,14 +172,11 @@ interface UITreeOptionsProps {
 function UITreeOptions(props: UITreeOptionsProps) {
   const { visible, onClose, showMemberDetail, renderTreeBranch, title } = props;
   return (
-    <Sheet
+    <SlidingPanel
+      orient={SlidingPanelOrient.BottomToTop}
       visible={visible}
-      onClose={onClose}
-      mask
-      autoHeight
-      handler
-      swipeToClose
-      title={title}
+      close={onClose}
+      header={title}
     >
       <div className="p-2">
         <Grid columnCount={2} columnSpace="0.2rem">
@@ -188,7 +188,7 @@ function UITreeOptions(props: UITreeOptionsProps) {
           </Button>
         </Grid>
       </div>
-    </Sheet>
+    </SlidingPanel>
   )
 }
 
@@ -201,18 +201,19 @@ function UIMemberDetail(props: UIMemberDetailProps) {
   const { visible, info, onClose } = props;
 
   return (
-    <Sheet
-      visible={visible} mask autoHeight handler swipeToClose
-      onClose={onClose} 
-      title={info["name"] || t("member_info")}
+    <SlidingPanel
+      orient={SlidingPanelOrient.BottomToTop}
+      visible={visible}
+      close={onClose}
+      header={info["name"] || t("member_info")}
     >
       <Box className="p-2" style={{ maxHeight: "50vh" }}>
-        <Input label={"Họ Tên"} value={info["name"]} />
-        <Input label={"Giới tính"} value={info["gender"] === "1" ? t("male") : t("female")} />
-        <Input label={"Điện thoại"} value={info["phoneNumber"]} />
-        <Input label={"Bố"} value={info["father"]} />
-        <Input label={"Mẹ"} value={info["mother"]} />
+        <Input label={"Họ Tên"} value={info["name"]} />
+        <Input label={"Giới tính"} value={info["gender"] === "1" ? t("male") : t("female")} />
+        <Input label={"Điện thoại"} value={info["phoneNumber"]} />
+        <Input label={"Bố"} value={info["father"]} />
+        <Input label={"Mẹ"} value={info["mother"]} />
       </Box>
-    </Sheet>
+    </SlidingPanel>
   )
 }

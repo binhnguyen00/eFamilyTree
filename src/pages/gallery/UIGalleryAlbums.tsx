@@ -1,12 +1,12 @@
 import React from "react";
 import { t } from "i18next";
-import { Box, Sheet, Stack, Text } from "zmp-ui";
+import { Box, Stack, Text } from "zmp-ui";
 
 import { GalleryApi } from "api";
 import { useAppContext } from "hooks";
 import { ServerResponse } from "server";
 import { UIGalleryImages } from "./UIGalleryImages";
-import { Loading } from "components";
+import { Loading, SlidingPanel, SlidingPanelOrient } from "components";
 
 interface UIGalleryAlbumsProps {
   getQuantity?: (quantity: number) => void
@@ -33,19 +33,19 @@ export function UIGalleryAlbums(props: UIGalleryAlbumsProps) {
   return (
     <>
       <UIGalleryAlbumsContainer albums={albums} onSelectAlbum={select}/>
-      <Sheet
+      <SlidingPanel
+        orient={SlidingPanelOrient.BottomToTop}
         visible={show}
-        onClose={close}
-        height={"95%"}
-        swipeToClose
-        title={album ? `${album.name}` : t("album")}
+        close={close}
+        height={window.innerHeight * 0.95} // Height: 95%
+        header={album ? `${album.name}` : t("album")}
       >
         {album && album.id ? (
           <UIGalleryImages albumId={album && album.id}/>
         ) : (
           <Loading/>
         )}
-      </Sheet>
+      </SlidingPanel>
     </>
   )
 }

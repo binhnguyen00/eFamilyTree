@@ -38,7 +38,7 @@ export function UIPlayground() {
 
       <UITheme/>
 
-      {/* <Loading/> */}
+      <Loading/>
 
       <UISlidePanel/>
 
@@ -269,7 +269,7 @@ function UISlidePanel() {
       <SlidingPanel 
         header={<p style={{ fontSize: "large" }}> Header </p>} 
         visible={visible} 
-        height={450}
+        height={550}
         orient={SlidingPanelOrient.BottomToTop}
         close={() => setVisible(false)}
       >

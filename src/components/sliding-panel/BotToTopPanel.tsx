@@ -14,14 +14,14 @@ export function BotToTopPanel(props: PanelProps) {
   const [ springs, api ] = useSpring(() => ({
     y: height, 
     opacity: 0,
-    config: { tension: 220, friction: 15 },
+    config: { tension: 120, friction: 15 },
   }));
 
   const reverseOpen = () => {
     setBackdrop(false);
     if (close) {
       api.start({
-        y: height || 220,
+        y: height,
         opacity: 0,
         onRest: close,
       });
@@ -50,7 +50,6 @@ export function BotToTopPanel(props: PanelProps) {
           width: "100%",
           height: `${height ?  `${height}px` : "fit-content"}`,
           overflowY: "auto",
-          backgroundColor: "white",
           zIndex: 9999,
           ...springs,
         }}

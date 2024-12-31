@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Avatar, Button, Grid, Select, Sheet } from "zmp-ui";
+import { Button, Grid, Select } from "zmp-ui";
 
 import average from "pages/family-tree/sample/average.json";
 import divorced from "pages/family-tree/sample/divorced.json";
@@ -8,10 +8,9 @@ import severalSprouses from "pages/family-tree/sample/several-sprouses.json";
 import odooSample from "pages/family-tree/sample/odoo-sample.json";
 
 import { CommonUtils } from "utils";
-import { Header, CommonIcon, FamilyTree, TreeNode, TreeConfig } from "components";
+import { Header, CommonIcon, FamilyTree, TreeNode, TreeConfig, SlidingPanel, SlidingPanelOrient } from "components";
 import { TreeDataProcessor } from 'pages/family-tree/TreeDataProcessor';
 import { TreeUtils } from 'pages/family-tree/TreeUtils';
-import { useAppContext } from "hooks";
 
 export default function UIDummyTree() {
   const dataSrcKey = {
@@ -37,7 +36,7 @@ export default function UIDummyTree() {
   const showMemberDetail = () => {
     const data = nodes.find((m: any) => m.id === selectId);
     setMemberInfo(data);
-    setSelectId(""); // hide the sheet
+    setSelectId(""); // hide the sliding panel
   }
 
   const renderTreeBranch = () => {
@@ -45,7 +44,7 @@ export default function UIDummyTree() {
     setRootId(selectId);
     setNodes(treeBranch);
     setResetBtn(true);
-    setSelectId(""); // hide the sheet
+    setSelectId(""); // hide the sliding panel
   }
 
   const onReset = resetBtn ? () => {
@@ -143,14 +142,11 @@ interface UITreeOptionsProps {
 function UITreeOptions(props: UITreeOptionsProps) {
   const { visible, onClose, showMemberDetail, renderTreeBranch, title } = props;
   return (
-    <Sheet
+    <SlidingPanel
+      orient={SlidingPanelOrient.BottomToTop}
       visible={visible}
-      onClose={onClose}
-      mask
-      autoHeight
-      handler
-      swipeToClose
-      title={title}
+      close={onClose}
+      header={title}
     >
       <div className="p-2">
         <Grid columnCount={2} columnSpace="0.2rem">
@@ -162,7 +158,7 @@ function UITreeOptions(props: UITreeOptionsProps) {
           </Button>
         </Grid>
       </div>
-    </Sheet>
+    </SlidingPanel>
   )
 }
 
@@ -175,14 +171,15 @@ function UIMemberDetail(props: UIMemberDetailProps) {
   const { visible, info, onClose } = props;
 
   return (
-    <Sheet
-      visible={visible} mask autoHeight handler swipeToClose
-      onClose={onClose} 
-      title={info["name"] || t("member_info")}
+    <SlidingPanel
+      orient={SlidingPanelOrient.BottomToTop}
+      visible={visible}
+      close={onClose}
+      header={info["name"] || t("member_info")}
     >
       <pre className="scroll-h" style={{ maxHeight: "50vh" }}>
         {JSON.stringify(info, null, 2)}
       </pre>
-    </Sheet>
+    </SlidingPanel>
   )
 }

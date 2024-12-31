@@ -1,10 +1,10 @@
 import React from "react";
 import { t } from "i18next";
-import { Box, Button, Sheet, Stack, Text } from "zmp-ui";
+import { Box, Button, Stack, Text } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
-import { CommonIcon } from "components";
 import { useAppContext } from "hooks";
+import { CommonIcon, SlidingPanel, SlidingPanelOrient } from "components";
 
 export function RequestPhone(props: { visible: boolean, closeSheet: () => void }) {
   const { updatePhoneNumber, updateUserInfo } = useAppContext();
@@ -29,14 +29,11 @@ export function RequestPhone(props: { visible: boolean, closeSheet: () => void }
   };
 
   return (
-    <Sheet
-      visible={visible}
-      autoHeight
-      mask
-      handler
-      swipeToClose
-      onClose={closeSheet}
-      title={t("need_access")}
+    <SlidingPanel 
+      header={t("need_access")} 
+      visible={visible} 
+      orient={SlidingPanelOrient.BottomToTop}
+      close={closeSheet}
     >
       <Stack space="1rem" className="p-3">
         <Box flex flexDirection="row" alignItems="center">
@@ -57,6 +54,6 @@ export function RequestPhone(props: { visible: boolean, closeSheet: () => void }
           </Button>
         </Stack>
       </Stack>
-    </Sheet>
+    </SlidingPanel>
   )
 }

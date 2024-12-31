@@ -1,11 +1,11 @@
 import React from "react";
 import { t } from "i18next";
 
-import { Button, Grid, Input, Sheet, Stack, Text } from "zmp-ui";
+import { Button, Grid, Input, Stack, Text } from "zmp-ui";
 
-import { Header } from "components";
-import { FailResponse, ServerResponse } from "server";
 import { AccountApi } from "api";
+import { FailResponse, ServerResponse } from "server";
+import { Header, SlidingPanel, SlidingPanelOrient } from "components";
 
 export type RegisterForm = {
   mobile: string;
@@ -49,35 +49,27 @@ export function UIRegister() {
 
       <UIRegisterForm formData={formData} onChange={onChange} submit={submit}/>
 
-      <Sheet
-        visible={successPop}
-        autoHeight
-        mask
-        handler
-        swipeToClose
-        onClose={() => setSuccessPop(false)}
-        title={t("register")}
-        className="text-capitalize"
+      <SlidingPanel
+        header={t("need_access")} 
+        visible={successPop} 
+        orient={SlidingPanelOrient.BottomToTop}
+        close={() => setSuccessPop(false)}
       >
         <Stack space="1rem" className="p-3">
           <Text.Title size="xLarge" style={{ color: "green" }} className="center">{`${t("success")}`}</Text.Title>
         </Stack>
-      </Sheet>
+      </SlidingPanel>
 
-      <Sheet
-        visible={failPop}
-        autoHeight
-        mask
-        handler
-        swipeToClose
-        onClose={() => setFailPop(false)}
-        title={t("register")}
-        className="text-capitalize"
+      <SlidingPanel
+        header={t("need_access")} 
+        visible={failPop} 
+        orient={SlidingPanelOrient.BottomToTop}
+        close={() => setFailPop(false)}
       >
         <Stack space="1rem" className="p-3">
           <Text.Title size="xLarge" style={{ color: "red" }} className="center">{`${t("fail")}`}</Text.Title>
         </Stack>
-      </Sheet>
+      </SlidingPanel>
     </div>
   );
 }

@@ -1,9 +1,9 @@
 import React from "react";
 import { t } from "i18next";
 
-import { Box, Button, Input, Stack, Text, Sheet } from "zmp-ui";
+import { Box, Button, Input, Stack, Text } from "zmp-ui";
 
-import { Header } from "components";
+import { Header, SlidingPanel, SlidingPanelOrient } from "components";
 import { FailResponse, ServerResponse } from "server";
 import { AccountApi } from "api";
 
@@ -46,37 +46,29 @@ export function UIRegisterClan() {
 
       <UIRegisterClanForm formData={formData} setFormData={setFormData} submit={submit}/>
 
-      <Sheet
+      <SlidingPanel
+        orient={SlidingPanelOrient.BottomToTop}
         visible={successPop}
-        autoHeight
-        mask
-        handler
-        swipeToClose
-        onClose={() => setSuccessPop(false)}
-        title={t("register_clan")}
-        className="text-capitalize"
+        close={() => setSuccessPop(false)}
+        header={t("register_clan")}
       >
         <Stack space="1rem" className="p-3">
           <Text size="large" style={{ color: "#3cb371" }} className="center">{`${t("submit")} ${t("success")}`}</Text>
           <p style={{ textTransform: "none" }}>{t("register_clan_success")}</p>
         </Stack>
-      </Sheet>
+      </SlidingPanel>
       
-      <Sheet
+      <SlidingPanel
+        orient={SlidingPanelOrient.BottomToTop}
         visible={failPop}
-        autoHeight
-        mask
-        handler
-        swipeToClose
-        onClose={() => setFailPop(false)}
-        title={t("register_clan")}
-        className="text-capitalize"
+        close={() => setFailPop(false)}
+        header={t("register_clan")}
       >
         <Stack space="1rem" className="p-3">
           <Text size="large" style={{ color: "#3cb371" }} className="center">{`${t("submit")} ${t("fail")}`}</Text>
-          <p style={{ textTransform: "none" }}>{t("register_clan_success")}</p>
+          <p style={{ textTransform: "none" }}>{t("register_clan_fail")}</p>
         </Stack>
-      </Sheet>
+      </SlidingPanel>
     </div>
   )
 }

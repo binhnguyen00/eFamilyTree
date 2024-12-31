@@ -1,9 +1,9 @@
 import React from "react";
-import { Box, Input, List, Sheet, Stack, Text } from "zmp-ui";
+import { Box, Input, Stack, Text } from "zmp-ui";
 
 import { CertificateApi } from "api";
 import { FailResponse, ServerResponse } from "server";
-import { Header, CommonIcon, AppContext } from "components";
+import { Header, CommonIcon, AppContext, SlidingPanel, SlidingPanelOrient } from "components";
 import { useRouteNavigate } from "hooks";
 import { t } from "i18next";
 import { CommonUtils } from "utils";
@@ -104,10 +104,11 @@ function UICertificateDetail(props: UICertificateDetailProps) {
   const { visible, info, onClose } = props;
 
   return (
-    <Sheet
-      visible={visible} mask autoHeight handler swipeToClose
-      onClose={onClose} 
-      title={info["name"] || t("member_info")}
+    <SlidingPanel
+      orient={SlidingPanelOrient.BottomToTop}
+      visible={visible}
+      close={onClose}
+      header={info["name"] || t("member_info")}
     >
       <Box className="p-2" style={{ maxHeight: "50vh" }}>
         <Input label={t("clan")} value={info.clan} name="clan"/>
@@ -116,6 +117,6 @@ function UICertificateDetail(props: UICertificateDetailProps) {
         <Input label={t("achivement")} value={info.achievement} name="achievement"/>
         <Input label={t("ranking")} value={info.ranking} name="ranking"/>
       </Box>
-    </Sheet>
+    </SlidingPanel>
   )
 }
