@@ -5,7 +5,7 @@ import { Button, Text, Stack, Grid } from "zmp-ui";
 
 import { TestApi } from "api";
 import { useAppContext } from "hooks";
-import { Header, Loading, SizedBox } from "components";
+import { Header, Loading, SizedBox, SlidingPanel, SlidingPanelOrient } from "components";
 import { FailResponse, ServerResponse } from "server";
 
 import themeRed from "assets/img/theme/theme-red.jpeg";
@@ -38,7 +38,9 @@ export function UIPlayground() {
 
       <UITheme/>
 
-      <Loading/>
+      {/* <Loading/> */}
+
+      <UISlidePanel/>
 
     </Stack>
   )
@@ -254,5 +256,26 @@ function UIUploadImageFile() {
         </Button>
       </Grid>
     </Stack>
+  )
+}
+
+function UISlidePanel() {
+  let [ visible, setVisible ] = React.useState(false); 
+  return (
+    <>
+      <Button variant="secondary" onClick={() => setVisible(true)}>
+        {t("open")}
+      </Button>
+      <SlidingPanel 
+        header={<p style={{ fontSize: "large" }}> Header </p>} 
+        visible={visible} 
+        orient={SlidingPanelOrient.BottomToTop}
+        close={() => setVisible(false)}
+      >
+        <div>
+          Test 1
+        </div>
+      </SlidingPanel>
+    </>
   )
 }

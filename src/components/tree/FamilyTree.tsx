@@ -11,8 +11,8 @@ import calcTree from 'components/tree-relatives';
 import { Gender, Node } from 'components/tree-relatives/types';
 import { SizedBox, CommonIcon } from 'components';
 import { useAppContext } from 'hooks';
-import { CommonUtils, ZmpSDK } from 'utils';
-import { FamilyTreeApi, TestApi } from 'api';
+import { ZmpSDK } from 'utils';
+import { FamilyTreeApi } from 'api';
 import { ServerResponse } from 'server';
 
 // ============================================

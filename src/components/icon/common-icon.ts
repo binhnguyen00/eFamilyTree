@@ -13,6 +13,8 @@ import { FaFilePdf } from "react-icons/fa6";
 import { BiSolidFilePng, BiSolidFileJpg } from "react-icons/bi";
 import { BsFiletypeSvg } from "react-icons/bs";
 import { FaCloudDownloadAlt } from "react-icons/fa";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { IoIosCloseCircle } from "react-icons/io";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -26,6 +28,8 @@ export const CommonIcon = {
   ZoomOut: TiZoomOutOutline,
   ChevonRight: IoIosArrowForward,
   ChevonLeft: IoIosArrowBack,
+  ChevonDown: FaChevronDown,
+  ChevonUp: FaChevronUp,
   Plus: IoMdAdd,
   Minus: LuMinus,
   Login: IoMdLogIn,
@@ -38,4 +42,5 @@ export const CommonIcon = {
   JPG: BiSolidFileJpg,
   SVG: BsFiletypeSvg,
   CloudDownload: FaCloudDownloadAlt,
+  CloseCircle: IoIosCloseCircle,
 };
