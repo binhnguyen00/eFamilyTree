@@ -10,8 +10,6 @@ interface TreeNodeProps {
 }
 
 export function TreeNode({ node, displayField, isRoot, onSelectNode }: TreeNodeProps) {
-  console.log(node);
-  
   const nodeColor = node.gender === "male" ? "#112D4E" : "#7D0A0A";
   const nodePosition = TreeUtils.calculateNodePosition(node as any);
 
