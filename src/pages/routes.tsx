@@ -25,6 +25,7 @@ import { UIRegisterClan } from "pages/user/UIRegisterClan";
 import { UIGallery } from 'pages/gallery/UIGallery';
 
 import { useRouteNavigate } from "hooks";
+import { UITree2 } from "./dummy/UITree2.0";
 
 // Demo components (React.lazy loaded)
 const UIDummyFund = React.lazy(() => import("./dummy/UIDummyFund"));
@@ -32,7 +33,6 @@ const UIDummyFundDetail = React.lazy(() => import("./dummy/UIDummyFundDetail"));
 const UIDummyTree = React.lazy(() => import("./dummy/UIDummyTree"));
 const UIDummyCalendar = React.lazy(() => import("./dummy/UIDummyCalendar"));
 const UIDummyBlog = React.lazy(() => import("./dummy/UIDummyBlog"));
-const UIDummyAlbum = React.lazy(() => import("./dummy/UIDummyAlbum"));
 const UIDummyNavigate = React.lazy(() => import("./dummy/UIDummyNavigate"));
 
 export function AppRoutes() {
@@ -93,7 +93,8 @@ export function AppRoutes() {
       } />
       <Route path="/dev/tree" element={
         <React.Suspense fallback={<Loading />}>
-          <UIDummyTree />
+          {/* <UIDummyTree /> */}
+          <UITree2/>
         </React.Suspense>
       } />
       <Route path="/dev/calendar" element={
