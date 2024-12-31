@@ -264,11 +264,12 @@ function UISlidePanel() {
   return (
     <>
       <Button variant="secondary" onClick={() => setVisible(true)}>
-        {t("open")}
+        {t("sliding panel")}
       </Button>
       <SlidingPanel 
         header={<p style={{ fontSize: "large" }}> Header </p>} 
         visible={visible} 
+        height={450}
         orient={SlidingPanelOrient.BottomToTop}
         close={() => setVisible(false)}
       >

@@ -7,7 +7,7 @@ import { PanelBackdrop } from "./PanelBackdrop";
 import { PanelCloseButton } from "./PanelCloseButton";
 
 export function BotToTopPanel(props: PanelProps) {
-  const { children, height = 220, visible, header, close } = props;
+  const { children, height, visible, header, close } = props;
   const [ backdrop, setBackdrop ] = React.useState(visible);
 
   // Define animation
@@ -48,7 +48,7 @@ export function BotToTopPanel(props: PanelProps) {
           bottom: 0,
           left: 0,
           width: "100%",
-          height: `${height ? height + "px" : "fit-content"}`,
+          height: `${height ?  `${height}px` : "fit-content"}`,
           overflowY: "auto",
           backgroundColor: "white",
           zIndex: 9999,
@@ -59,7 +59,7 @@ export function BotToTopPanel(props: PanelProps) {
         <div className="text-primary">
           <PanelCloseButton close={reverseOpen}/>
           <div className="p-2 flex-v text-primary">
-            <div className="text-center">
+            <div className="text-center mb-2">
               {header}
             </div>
             {children}
