@@ -13,10 +13,11 @@ export function useRouteNavigate() {
    * @param path is a relative path. Ex: "home", "about", "/account", "/list"
    * @param data is your data object. Can be get and use in the target path. Ex { images, records }
    */
-  const goTo = (path: string, data?: any) => {
+  const goTo = (path: string, replace?: boolean, data?: any) => {
     let options = {
       preventScrollReset: true,
       viewTransition: true,
+      replace: replace,
       state: data,
     } as NavigateOptions;
     if (!path) {
@@ -46,7 +47,7 @@ export function useRouteNavigate() {
     navigate(path, options);
   }
 
-  const goHome = () => goTo(`${rootPath}`);
+  const goHome = () => goTo(`${rootPath}`, true);
 
   const goBack = () => navigate(-1);
 

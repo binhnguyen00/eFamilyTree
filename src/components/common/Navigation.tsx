@@ -50,15 +50,23 @@ interface NavItemProps {
 }
 function NavItem(props: NavItemProps) {
   const { path, label, icon, activeIcon, className = "" } = props;
-  const { currentPath, goTo, createPath } = useRouteNavigate();
+  const { rootPath, currentPath, goTo, goHome, createPath } = useRouteNavigate();
   const isActive = currentPath === createPath(path);
+
+  const handleNavigate = () => {
+    if (path === rootPath) {
+      goHome(); 
+    } else {
+      goTo(path, true);
+    }
+  }
 
   return (
     <>
       <Box 
         className={`center text-primary button ${className}`}
         flex flexDirection="column" justifyContent="center"
-        onClick={() => goTo(path)}
+        onClick={handleNavigate}
       >
         {isActive ? activeIcon || icon : icon}
         <Text.Title size={"small"}>
