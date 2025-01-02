@@ -1,4 +1,4 @@
-import { Position } from "@xyflow/react";
+import { Position, ConnectionLineType } from "@xyflow/react";
 import { layoutFromMap, TreeNode } from 'entitree-flex';
 
 import { TreeConfig } from "./Config";
@@ -16,7 +16,7 @@ enum Orientation {
 
 const ENTITREE_SETTINGS = {
   clone: true,                       // returns a copy of the input, if your application does not allow editing the original object
-  enableFlex: true,                  // has slightly better perfomance if turned off (node.width, node.height will not be read)
+  enableFlex: false,                 // has slightly better perfomance if turned off (node.width, node.height will not be read)
   firstDegreeSpacing: 100,           // spacing in px between nodes belonging to the same source, eg children with same parent
   nextAfterAccessor: 'spouses',      // the side node prop used to go sideways, AFTER the current node
   nextAfterSpacing: 100,             // the spacing of the "side" nodes AFTER the current node
@@ -35,7 +35,7 @@ const ENTITREE_SETTINGS = {
 
 const { Top, Bottom, Left, Right } = Position;
 
-export function positioning(tree, rootId, direction = 'TB') {
+export function positioning(tree: any, rootId: number, direction = 'TB') {
   const isTreeHorizontal = direction === 'LR';
 
   const { nodes: entitreeNodes, rels: entitreeEdges } = layoutFromMap(
@@ -61,8 +61,8 @@ export function positioning(tree, rootId, direction = 'TB') {
     newEdge.id = 'e' + sourceNode + targetNode;
     newEdge.source = sourceNode;
     newEdge.target = targetNode;
-    newEdge.type = 'smoothstep';
-    newEdge.animated = 'true';
+    newEdge.type = ConnectionLineType.SmoothStep;
+    newEdge.animated = false;
 
     // Check if target node is spouse or sibling
     const isTargetSpouse = !!edge.target.isSpouse;
@@ -102,10 +102,10 @@ export function positioning(tree, rootId, direction = 'TB') {
 
     newNode.data = { label: node.name, direction, isRoot, ...node };
     newNode.id = node.id;
-    newNode.type = 'custom';
-
     newNode.width = TreeConfig.nodeWidth;
     newNode.height = TreeConfig.nodeHeight;
+    newNode.type = 'node';
+    newNode.animate = false
 
     newNode.position = {
       x: node.x,

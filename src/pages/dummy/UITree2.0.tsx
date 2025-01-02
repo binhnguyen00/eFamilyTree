@@ -1,9 +1,16 @@
 import React from "react";
 
+import { t } from "i18next";
+
+import { Header } from "components";
 import { Tree } from "components/tree-2.0/Tree";
 
-export function UITree2() {
+export function UITree() {
   return (
-    <Tree/>
+    <>
+      <Header title={t("tree")}/>
+
+      <Tree />
+    </>
   )
 }

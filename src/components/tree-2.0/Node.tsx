@@ -1,9 +1,10 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { Handle, Position } from '@xyflow/react';
+import { TreeConfig } from './Config';
 
 const { Top, Bottom, Left, Right } = Position;
 
-export default memo(({ data }: any) => {
+export default React.memo(function Node({ data }: any) {
   const { isSpouse, isSibling, label, direction } = data;
 
   const isTreeHorizontal = direction === 'LR';
@@ -22,8 +23,17 @@ export default memo(({ data }: any) => {
   const hasSiblings = !!data?.siblings?.length;
   const hasSpouses = !!data?.spouses?.length;
 
+  /**
+   * @HtmlTag <Handle/> are the dots appear on the edge of the Node
+   */
   return (
-    <div className="border-primary text-center">
+    <div 
+      className="border-primary text-center rounded"
+      style={{
+        width: TreeConfig.nodeWidth,
+        height: TreeConfig.nodeHeight
+      }}
+    >
       {/* For children */}
       {hasChildren && (
         <Handle
