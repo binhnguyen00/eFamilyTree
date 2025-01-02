@@ -98,28 +98,34 @@ export default React.memo<TreeProps>(function FamilyTree(props) {
     )
   }
 
+  const calTreeWraperWidthAndHeight = (): React.CSSProperties => {
+    const headerHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height') || "0");
+    const safeAreaInsetTop = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--zaui-safe-area-inset-top') || "0");
+    const totalHeaderHeight = safeAreaInsetTop + headerHeight;
+    return {
+      width: "100%",
+      height: `${window.innerHeight - totalHeaderHeight}px`,
+      paddingTop: `${totalHeaderHeight}px`
+    } as React.CSSProperties;
+  }
+
   return (
       <div>
 
-        <Box 
-          className='ml-1 mr-1'
-          flex flexDirection='row' justifyContent='space-between' 
-        >
+        <Box  className='ml-1 mr-1' flex flexDirection='row' justifyContent='space-between' >
           <FamilyTreeSearch 
             searchFields={searchFields}
             displayField={props.searchDisplayField}
             nodes={props.nodes}
             onSelect={(xPos, yPos, scale) => {
+              // TODO
             }}
           />
           <FamilyTreeController/>
         </Box>
 
         <div
-          style={{
-            height: "900px",
-            width: "100%"
-          }}
+          style={{...calTreeWraperWidthAndHeight()}}
         >
           <TransformWrapper
             minScale={0.1}
@@ -183,7 +189,10 @@ function FamilyTreeController(props: FamilyTreeControllerProps) {
 
   const style = {
     color: "var(--primary-color)",
-    zIndex: 2,
+    zIndex: 9999,
+    position: "fixed",
+    right: 5,
+    paddingTop: "calc(var(--header-height) + 10px)",
   } as React.CSSProperties;
 
   return (
@@ -262,6 +271,16 @@ function FamilyTreeSearch(props: FamilyTreeSearchProps) {
     }
   }
 
+  const style = {
+    color: "var(--primary-color)",
+    fontSize: "1.2rem",
+    width: "80vw",
+    zIndex: 9999,
+    position: "fixed",
+    left: 5,
+    marginTop: "calc(var(--header-height) + 10px)",
+  } as React.CSSProperties;
+
   const renderFilterdNodes = () => {
     let html = [] as React.ReactNode[];
     if (filteredNodes.length) {
@@ -297,13 +316,6 @@ function FamilyTreeSearch(props: FamilyTreeSearchProps) {
       </div>
     );
   }
-
-  const style = {
-    color: "var(--primary-color)",
-    fontSize: "1.2rem",
-    width: "80vw",
-    zIndex: 2,
-  } as React.CSSProperties;
 
   return (
     <div style={style}>
