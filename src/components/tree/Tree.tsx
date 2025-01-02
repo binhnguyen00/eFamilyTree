@@ -2,14 +2,14 @@ import React from 'react';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { Box } from 'zmp-ui';
 
-import Connector from './Connector';
+import Connector from './TreeConnector';
 import calcTree from 'components/tree-relatives';
 import { Gender, Node } from 'components/tree-relatives/types';
 import { useAppContext } from 'hooks';
 import { TreeSearchBar } from './TreeSearchBar';
 import { TreeController } from './TreeController';
 
-import "./transform-wrapper.scss";
+import "./css/transform-wrapper.scss";
 
 interface TreeProps {
   nodes: Node[];
