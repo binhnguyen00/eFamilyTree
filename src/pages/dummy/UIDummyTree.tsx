@@ -2,10 +2,10 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Grid, Select } from "zmp-ui";
 
-import average from "pages/family-tree/sample/average.json";
-import divorced from "pages/family-tree/sample/divorced.json";
-import severalSprouses from "pages/family-tree/sample/several-sprouses.json";
-import odooSample from "pages/family-tree/sample/odoo-sample.json";
+import average from "./sample/average.json";
+import divorced from "./sample/divorced.json";
+import odooSample from "./sample/odoo-sample.json";
+import severalSprouses from "./sample/several-sprouses.json";
 
 import { CommonUtils } from "utils";
 import { Header, CommonIcon, FamilyTree, TreeNode, TreeConfig, SlidingPanel, SlidingPanelOrient } from "components";
