@@ -2,7 +2,7 @@ import React from 'react';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { Box } from 'zmp-ui';
 
-import Connector from '../tree/Connector';
+import Connector from './Connector';
 import calcTree from 'components/tree-relatives';
 import { Gender, Node } from 'components/tree-relatives/types';
 import { useAppContext } from 'hooks';
@@ -11,9 +11,6 @@ import { TreeController } from './TreeController';
 
 import "./transform-wrapper.scss";
 
-// ============================================
-// Tree
-// ============================================
 interface TreeProps {
   nodes: Node[];
   rootId: string;
@@ -97,7 +94,6 @@ export default React.memo<TreeProps>(function Tree(props) {
     const headerHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height') || "0");
     const safeAreaInsetTop = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--zaui-safe-area-inset-top') || "0");
     const totalHeaderHeight = safeAreaInsetTop + headerHeight;
-
     return {
       width: `${window.innerWidth}px`,
       height: `${window.innerHeight - totalHeaderHeight}px`,
@@ -106,7 +102,7 @@ export default React.memo<TreeProps>(function Tree(props) {
   }
 
   return (
-    <div style={{...calTreeWraperWidthAndHeight()}}>
+    <div>
       <TransformWrapper 
         minScale={0.2}
         centerOnInit

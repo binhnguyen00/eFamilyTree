@@ -24,14 +24,12 @@ import { UIRegister } from "pages/user/UIRegister";
 import { UIRegisterClan } from "pages/user/UIRegisterClan";
 import { UIGallery } from 'pages/gallery/UIGallery';
 
-import { UIDummyTree } from "./dummy/UITree";
-
 import { useRouteNavigate } from "hooks";
 
 // Demo components (React.lazy loaded)
 const UIDummyFund = React.lazy(() => import("./dummy/UIDummyFund"));
 const UIDummyFundDetail = React.lazy(() => import("./dummy/UIDummyFundDetail"));
-// const UIDummyTree = React.lazy(() => import("./dummy/UIDummyTree"));
+const UIDummyTree = React.lazy(() => import("./dummy/UIDummyTree"));
 const UIDummyCalendar = React.lazy(() => import("./dummy/UIDummyCalendar"));
 const UIDummyBlog = React.lazy(() => import("./dummy/UIDummyBlog"));
 const UIDummyNavigate = React.lazy(() => import("./dummy/UIDummyNavigate"));

@@ -89,7 +89,6 @@ export default function UIDummyTree() {
           nodeHeight={TreeConfig.nodeHeight}
           searchFields={["id", "name"]}
           searchDisplayField="name"
-          statsForNerds
           onReset={onReset}
           renderNode={(node: any) => (
             <TreeNode
