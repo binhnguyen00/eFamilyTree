@@ -9,16 +9,13 @@ import {
   useNodesState,
   useEdgesState,
   BackgroundVariant,
-  ConnectionMode,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 
 import Node from "./Node";
-import ConnectionLine from "./ConnectionLine";
 
 import { positioning } from "./Positioning";
 import { initialTree, treeRootId } from "./Init";
-import { animated } from '@react-spring/web';
 
 const { nodes: layoutedNodes, edges: layoutedEdges } = positioning(
   initialTree,
@@ -63,8 +60,6 @@ export function Tree(props: TreeProps) {
       onConnect={onConnect}
       fitView
       connectionLineType={ConnectionLineType.Bezier}
-      connectionLineComponent={ConnectionLine}
-      connectionMode={ConnectionMode.Strict}
       nodeTypes={{
         node: Node,
       }}

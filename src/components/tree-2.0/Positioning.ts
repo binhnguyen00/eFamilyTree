@@ -58,7 +58,7 @@ export function positioning(tree: any, rootId: number, direction = 'TB') {
 
     const newEdge = {} as any;
 
-    newEdge.id = 'e' + sourceNode + targetNode;
+    newEdge.id = 'ed' + sourceNode + targetNode;
     newEdge.source = sourceNode;
     newEdge.target = targetNode;
     newEdge.type = ConnectionLineType.SmoothStep;
@@ -100,7 +100,12 @@ export function positioning(tree: any, rootId: number, direction = 'TB') {
       newNode.targetPosition = isTreeHorizontal ? Left : Top;
     }
 
-    newNode.data = { label: node.name, direction, isRoot, ...node };
+    newNode.data = { 
+      label: node.name, 
+      direction, 
+      isRoot, 
+      ...node 
+    };
     newNode.id = node.id;
     newNode.width = TreeConfig.nodeWidth;
     newNode.height = TreeConfig.nodeHeight;
