@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 
 import { Header, TreeConfig, TreeNode } from "components";
-import FamilyTree from "../../components/tree-new/Tree";
+import Tree from "../../components/tree-new/Tree";
 
 import average from "pages/family-tree/sample/average.json";
 
@@ -14,14 +14,13 @@ export function UIDummyTree() {
     <>
       <Header title={t("tree")}/>
 
-      <FamilyTree
+      <Tree
         nodes={nodes as any}
         rootId={rootId}
         nodeWidth={TreeConfig.nodeWidth}
           nodeHeight={TreeConfig.nodeHeight}
           searchFields={["id", "name"]}
           searchDisplayField="name"
-          statsForNerds
           renderNode={(node: any) => (
             <TreeNode
               key={node.id}
