@@ -255,7 +255,14 @@ button, .button {
 .zaui-tabs-tabbar {
   justify-content: center !important;
   text-align: center;
+  position: fixed !important;
+  z-index: 999;
 }
+
+.zaui-tab-content {
+  margin-top: 44px; // Height of the tab bar
+}
+
 .zaui-tabs-tabbar-item {
   width: 100%;
 }
