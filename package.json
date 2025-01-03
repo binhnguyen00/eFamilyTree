@@ -41,8 +41,8 @@
     "yet-another-react-lightbox": "^3.21.7",
     "html2canvas": "^1.4.1",
     "zmp-cli": "^3.15.10",
-    "zmp-sdk": "^2.44.0-19",
-    "zmp-ui": "^1.11.5"
+    "zmp-sdk": "latest",
+    "zmp-ui": "latest"
   },
   "devDependencies": {
     "@types/react": "^18.3.1",
@@ -56,7 +56,7 @@
     "sass": "^1.76.0",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.7.2",
-    "vite": "^2.6.14",
+    "vite": "^5.0.0",
     "vite-tsconfig-paths": "^4.0.5",
     "zmp-cli": "^3.15.9"
   }

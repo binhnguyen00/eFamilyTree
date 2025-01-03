@@ -3,7 +3,6 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import react from "@vitejs/plugin-react";
 import path from 'path';
 
-// https://vitejs.dev/config/
 export default () => {
   return defineConfig({
     root: path.resolve(__dirname),
@@ -12,8 +11,18 @@ export default () => {
       tsconfigPaths()
     ],
     build: {
-      outDir: path.resolve(__dirname, './dist'),              // this is default, dont have to add
+      outDir: path.resolve(__dirname, './www'),
       emptyOutDir: true,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            // Split vendor code into a separate chunk
+            if (id.includes('node_modules')) {
+              return 'vendor';
+            }
+          },
+        }
+      }
     },
     css: {
       preprocessorOptions: {
