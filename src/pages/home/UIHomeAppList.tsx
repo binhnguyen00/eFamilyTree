@@ -29,7 +29,7 @@ export function UIHomeAppList() {
     if (requirePhone && !logedIn) {
       setRequestPhone(true);
     } else {
-      goTo(appKey)
+      goTo({ path: appKey })
       return;
     }
   }
