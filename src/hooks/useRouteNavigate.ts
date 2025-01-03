@@ -17,7 +17,7 @@ export function useRouteNavigate() {
     let options = {
       preventScrollReset: true,
       viewTransition: true,
-      replace: replace ? true : false,
+      replace: replace,
       state: data,
     } as NavigateOptions;
     if (!path) {

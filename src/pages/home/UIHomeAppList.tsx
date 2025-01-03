@@ -30,7 +30,6 @@ export function UIHomeAppList() {
       setRequestPhone(true);
     } else {
       goTo({ path: appKey })
-      return;
     }
   }
 

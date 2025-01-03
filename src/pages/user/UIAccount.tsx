@@ -13,7 +13,7 @@ import { useRouteNavigate } from "hooks";
 export function UIAccount() { 
   return (
     <div className="container">
-      <Header title={t("account")} />
+      <Header title={t("account")} showBackIcon={false}/>
 
       <UIAccountContainer />
     </div>
