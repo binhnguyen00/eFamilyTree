@@ -46,7 +46,7 @@ export class TestApi extends BaseApi {
     const formData = new FormData();
     formData.append("phone_number", phoneNumber);
     formData.append("background", image);
-    this.server.postWithFormData("test/account/setting/background/save", formData, successCB, failCB);
+    this.server.postWithFormData("account/setting/background/save", formData, successCB, failCB);
   }
 
   public static exportSVG(phoneNumber: string, blob: Blob, successCB: SuccessCB, failCB?: FailCB) {
