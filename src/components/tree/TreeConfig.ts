@@ -16,7 +16,7 @@ class FamilyTreeConfig {
     const headerHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height') || "0");
     const safeAreaInsetTop = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--zaui-safe-area-inset-top') || "0");
     const totalHeaderHeight = safeAreaInsetTop + headerHeight;
-    return window.innerHeight - totalHeaderHeight - 100;
+    return window.innerHeight - totalHeaderHeight - 20;
   }
 }
 
