@@ -7,7 +7,7 @@ import { Box, useSnackbar } from "zmp-ui";
 import { ZmpSDK } from "utils";
 import { useAppContext } from "hooks";
 import { SizedBox, CommonIcon } from "components";
-import { FamilyTreeApi } from "api";
+import { FamilyTreeApi, TestApi } from "api";
 import { ServerResponse } from "server";
 
 interface TreeControllerProps {
@@ -23,7 +23,7 @@ interface TreeControllerProps {
 }
 
 export function TreeController(props: TreeControllerProps) {
-  const { phoneNumber } = useAppContext();
+  const { phoneNumber, serverBaseUrl } = useAppContext();
   const { openSnackbar } = useSnackbar();
   const { onCenter, onZoomIn, onZoomOut, onReset, html2export } = props;
 
@@ -95,8 +95,8 @@ export function TreeController(props: TreeControllerProps) {
     const blob = new Blob([svg], { type: 'image/svg+xml' });
     const success = (result: ServerResponse) => {
       if (result.status === "success") {
-        let downloadUrl = result.data;
-        ZmpSDK.downloadFile(downloadUrl);
+        let downloadPath = result.data;
+        ZmpSDK.openWebview(`${serverBaseUrl}/${downloadPath}`);
       } else {
         openSnackbar({
           text: t("download_fail"), 

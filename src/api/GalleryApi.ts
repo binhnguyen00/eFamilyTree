@@ -1,5 +1,4 @@
 import { BaseApi } from "./BaseApi";
-import { TestApi } from "./TestApi";
 import { SuccessCB, FailCB } from "server"
 
 export class GalleryApi extends BaseApi {
