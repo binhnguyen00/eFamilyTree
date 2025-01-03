@@ -6,6 +6,7 @@ import Connector from './TreeConnector';
 import calcTree from 'components/tree-relatives';
 import { Gender, Node } from 'components/tree-relatives/types';
 import { useAppContext } from 'hooks';
+import { TreeConfig } from './TreeConfig';
 import { TreeSearchBar } from './TreeSearchBar';
 import { TreeController } from './TreeController';
 
@@ -25,7 +26,6 @@ interface TreeProps {
 }
 
 export default React.memo<TreeProps>(function Tree(props) {
-  let { settings } = useAppContext();
   let { searchFields = [ "id" ], nodes, rootId } = props;
 
   if (!nodes.length || !rootId) {
@@ -55,13 +55,17 @@ export default React.memo<TreeProps>(function Tree(props) {
   const treeWidth = data.canvas.width * nodeWidth;
   const treeHeight = data.canvas.height * nodeHeight;
 
+  let { settings, serverBaseUrl } = useAppContext();
   let treeRef = React.useRef<HTMLDivElement | null>(null);
   const tree = () => {
-    let background: any;
+    let background = {} as React.CSSProperties;
     if (settings.background && settings.background.id) {
+      // backgroundImage: `url(http://localhost:8069/${settings.background.path})`,
       background = {
-        backgroundImage: `url(http://giapha.mobifone5.vn${settings.background.path})`,
-      }
+        backgroundImage: `url(${serverBaseUrl}/${settings.background.path})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+      };
     } else background = {
       backgroundColor: `var(--tree-background-color)`,
     }
@@ -70,10 +74,11 @@ export default React.memo<TreeProps>(function Tree(props) {
       <div
         id="tree-canvas"
         ref={treeRef}
-        className={`${props.className ? props.className : ""}`}
+        className={`border-primary ${props.className ? props.className : ""}`}
         style={{
           width: treeWidth,
           height: treeHeight,
+          borderRadius: "2rem",
           ...background,
         }}
       >
@@ -90,24 +95,18 @@ export default React.memo<TreeProps>(function Tree(props) {
     )
   }
 
-  const calTreeWraperWidthAndHeight = (): React.CSSProperties => {
-    const headerHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height') || "0");
-    const safeAreaInsetTop = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--zaui-safe-area-inset-top') || "0");
-    const totalHeaderHeight = safeAreaInsetTop + headerHeight;
-    return {
-      width: `${window.innerWidth}px`,
-      height: `${window.innerHeight - totalHeaderHeight}px`,
-      paddingTop: `${totalHeaderHeight + 5}px`,
-    } as React.CSSProperties;
-  }
-
   return (
-    <div>
+    <div 
+      style={{ // Tree needs to know it's w & h or the pinch-zoom-pan would be buggy.
+        width: TreeConfig.treeWidth,
+        height: TreeConfig.treeHeight,
+      }}
+    >
       <TransformWrapper 
-        minScale={0.2}
+        initialScale={0.5}
+        minScale={0.1}
         centerOnInit
         centerZoomedOut
-        initialScale={0.5}
       >
         {({ zoomIn, zoomOut, resetTransform, zoomToElement }) => (
           <React.Fragment>
