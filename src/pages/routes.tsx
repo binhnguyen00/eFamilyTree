@@ -4,8 +4,6 @@ import { Route, Routes } from "react-router-dom";
 import { Loading } from "components";
 
 import { UIAbout } from "pages/about/UIAbout";
-import { UIAlbumList } from "pages/gallery/UIAlbumList";
-import { UIImageList } from "pages/gallery/UIImageList";
 import { UIBlog } from "pages/blog/UIBlog";
 import { UIBlogDetail } from "pages/blog/UIBlogDetail";
 import { UICalendar } from "pages/calendar/UICalendar";
@@ -52,9 +50,6 @@ export function AppRoutes() {
       <Route path={createPath("about")} element={<UIAbout />} />
 
       <Route path={createPath("gallery")} element={<UIGallery />}/>
-
-      <Route path={createPath("album")} element={<UIAlbumList />}/>
-      <Route path={createPath("album/images")} element={<UIImageList />} />
 
       <Route path={createPath("calendar")} element={<UICalendar />} />
 

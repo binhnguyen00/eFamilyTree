@@ -6,7 +6,7 @@ import { GalleryApi } from "api";
 import { useAppContext } from "hooks";
 import { ServerResponse } from "server";
 import { UIGalleryImages } from "./UIGalleryImages";
-import { Loading, SlidingPanel, SlidingPanelOrient } from "components";
+import { Loading, ScrollableDiv, SlidingPanel, SlidingPanelOrient } from "components";
 
 interface UIGalleryAlbumsProps {
   getQuantity?: (quantity: number) => void
@@ -31,7 +31,7 @@ export function UIGalleryAlbums(props: UIGalleryAlbumsProps) {
   const close = () => { setShow(false) }
 
   return (
-    <>
+    <ScrollableDiv height={albums.length ? "auto" : "100vh"} width={"auto"} className="bg-white">
       <UIGalleryAlbumsContainer albums={albums} onSelectAlbum={select}/>
       <SlidingPanel
         orient={SlidingPanelOrient.BottomToTop}
@@ -46,7 +46,7 @@ export function UIGalleryAlbums(props: UIGalleryAlbumsProps) {
           <Loading/>
         )}
       </SlidingPanel>
-    </>
+    </ScrollableDiv>
   )
 }
 

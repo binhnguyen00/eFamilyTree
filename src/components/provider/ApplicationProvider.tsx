@@ -30,7 +30,7 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
   const ctxInfo = {
     appId: appId,
     logedIn: logedIn,
-    phoneNumber: phoneNumber,
+    phoneNumber: phoneNumber ? phoneNumber : "0942659016",
     userInfo: userInfo,
     settings: settings,
     serverBaseUrl: "https://giapha.mobifone5.vn"

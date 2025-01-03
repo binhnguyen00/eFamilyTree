@@ -9,6 +9,7 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { GalleryApi } from "api";
 import { useAppContext } from "hooks";
 import { ServerResponse } from "server";
+import { ScrollableDiv } from "components";
 
 interface UIGalleryImagesProps {
   albumId?: number;
@@ -31,7 +32,7 @@ export function UIGalleryImages(props: UIGalleryImagesProps) {
   const close = () => setIndex(-1);
 
   return (
-    <>
+    <ScrollableDiv height={images.length ? "auto" : "100vh"} width={"auto"} className="bg-white">
       <Gallery 
         images={images}
         onClick={select}
@@ -48,7 +49,7 @@ export function UIGalleryImages(props: UIGalleryImagesProps) {
         }}
         plugins={[Zoom, Thumbnails, Counter]}
       />
-    </>
+    </ScrollableDiv>
   )
 }
 

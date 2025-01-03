@@ -9,7 +9,7 @@ import { Header } from "components";
 
 export function UIGallery() {
   return (
-    <div className="container bg-white text-base max-h">
+    <div className="container-padding text-base">
       <Header title={t("gallery")}/>
 
       <UIGalleryContainer/>
