@@ -15,7 +15,7 @@ export function UIHomeTheme() {
       <Box flex flexDirection="row" justifyContent="space-between">
         <Text.Title size="xLarge" className="text-capitalize text-shadow"> {t("theme")} </Text.Title>
         <Box flex flexDirection="row" alignItems="center" alignContent="center" className="button">
-          <Button size="small" variant="secondary" suffixIcon={<CommonIcon.ChevonRight size={"1rem"}/>} onClick={() => goTo("theme")}>
+          <Button size="small" variant="secondary" suffixIcon={<CommonIcon.ChevonRight size={"1rem"}/>} onClick={() => goTo({ path: "theme" })}>
             <Text> {t("more")} </Text>
           </Button>
         </Box>

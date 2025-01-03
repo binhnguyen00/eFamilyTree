@@ -54,10 +54,12 @@ function NavItem(props: NavItemProps) {
   const isActive = currentPath === createPath(path);
 
   const handleNavigate = () => {
-    if (path === rootPath) {
+    if (path === rootPath) { // Home
       goHome(); 
-    } else {
-      goTo(path, true);
+    } else if (path.includes("family-tree")) { 
+      goTo({ path: path, replace: false }); // Family Tree
+    } else { 
+      goTo({ path: path, replace: true }); // Account
     }
   }
 

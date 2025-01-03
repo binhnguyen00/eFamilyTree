@@ -13,9 +13,9 @@ import { useRouteNavigate } from "hooks";
 export function UIHomeBanner() {
   const { goTo } = useRouteNavigate();
 
-  const onRegister = () => goTo("register");
-  const onRegisterClan = () => goTo("register/clan");
-  const navigateAbout = () => goTo("about");
+  const onRegister = () => goTo({ path: "register" });
+  const onRegisterClan = () => goTo({ path: "register/clan" });
+  const navigateAbout = () => goTo({ path: "about" });
 
   return (
     <Stack space="0.5rem">

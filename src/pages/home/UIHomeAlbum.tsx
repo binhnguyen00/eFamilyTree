@@ -31,11 +31,11 @@ export function UIHomeAlbum() {
 
   const goToImageList = (album: any) => {
     const images = album["image"] || [] as any[];
-    goTo("album/images", { images });
+    goTo({ path: "album/images", data: {images} });
   }
 
   const goToAlbumList = () => {
-    goTo("album");
+    goTo({ path: "album" });
   }
 
   const renderAlbums = () => {

@@ -33,7 +33,7 @@ export function UIFund() {
 
   const navigateToFundDetail = (fund: any = null) => {
     if (!fund) return;
-    goTo("funds/detail", { fund });
+    goTo({ path: "funds/detail", data: {fund} });
   }
 
   const renderFundList = () => {

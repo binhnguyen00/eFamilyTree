@@ -44,7 +44,7 @@ function UIAlbumListContainer() {
 
   const goToImageList = (album: any) => {
     const images: any[] = album["image"] || [];
-    goTo("album/images", { images });
+    goTo({ path: "album/images", data: { images } });
   }
 
   const renderAlbums = () => {

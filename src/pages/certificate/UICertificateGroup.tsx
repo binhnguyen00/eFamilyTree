@@ -37,7 +37,10 @@ export function UICerificateGroup() {
   }, [ reload ])
 
   const onSelectGroup = (certificateGroupId: number, certificateGroupName: string) => () => {
-    goTo("certificate/list", { certificateGroupId, certificateGroupName });
+    goTo({ 
+      path:"certificate/list", 
+      data: { certificateGroupId, certificateGroupName }
+    });
   }
 
   const sortGroupBgByName = (name: string) => {

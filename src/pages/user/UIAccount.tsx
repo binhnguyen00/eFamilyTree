@@ -43,15 +43,15 @@ function UIAccountContainer() {
         <Text.Title className="text-capitalize text-shadow"> {userInfo.name} </Text.Title>
       </Box>
 
-      <Button variant="secondary" onClick={() => goTo("register") }>
+      <Button variant="secondary" onClick={() => goTo({ path: "register" }) }>
         {t("register")}
       </Button>
 
-      <Button variant="secondary" onClick={() => goTo("register/clan")}>
+      <Button variant="secondary" onClick={() => goTo({ path: "register/clan" })}>
         {t("register_clan")}
       </Button>
 
-      <Button variant="secondary" onClick={() => goTo("about")}>
+      <Button variant="secondary" onClick={() => goTo({ path: "about" })}>
         {t("about")}
       </Button>
 
