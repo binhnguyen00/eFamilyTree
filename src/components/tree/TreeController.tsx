@@ -7,11 +7,12 @@ import { Box, useSnackbar } from "zmp-ui";
 import { ZmpSDK } from "utils";
 import { useAppContext } from "hooks";
 import { SizedBox, CommonIcon } from "components";
-import { FamilyTreeApi, TestApi } from "api";
+import { FamilyTreeApi } from "api";
 import { ServerResponse } from "server";
 
 interface TreeControllerProps {
-  onCenter: () => void;
+  rootId: string;
+  onZoomToRoot: (root: HTMLElement, scale?: number) => void;
   onZoomIn: () => void;
   onZoomOut: () => void;
   html2export: {
@@ -25,7 +26,7 @@ interface TreeControllerProps {
 export function TreeController(props: TreeControllerProps) {
   const { phoneNumber, serverBaseUrl } = useAppContext();
   const { openSnackbar } = useSnackbar();
-  const { onCenter, onZoomIn, onZoomOut, onReset, html2export } = props;
+  const { rootId, onZoomToRoot, onZoomIn, onZoomOut, onReset, html2export } = props;
 
   const exportPNG = async () => {
     const element = document.getElementById('tree-canvas');
@@ -94,8 +95,7 @@ export function TreeController(props: TreeControllerProps) {
     const success = (result: ServerResponse) => {
       if (result.status === "success") {
         let downloadPath = result.data;
-        // ZmpSDK.openWebview(`${serverBaseUrl}/${downloadPath}`);
-        window.open(`http://localhost:8069/${downloadPath}`);
+        ZmpSDK.openWebview(`${serverBaseUrl}/${downloadPath}`);
       } else {
         openSnackbar({
           text: t("download_fail"), 
@@ -105,8 +105,14 @@ export function TreeController(props: TreeControllerProps) {
         })
       };
     }
-    // FamilyTreeApi.exportSVG(phoneNumber, blob, success);
-    TestApi.exportSVG("0942659016", blob, success);
+    FamilyTreeApi.exportSVG(phoneNumber, blob, success);
+  }
+
+  const findRoot = () => {
+    const root = document.querySelector<HTMLDivElement>(`#node-${rootId}`);
+    if (root) {
+      onZoomToRoot(root);
+    }
   }
 
   const style = {
@@ -124,7 +130,7 @@ export function TreeController(props: TreeControllerProps) {
       <SizedBox 
         className='bg-secondary mb-1 p-1 button border-primary'
         width={"fit-content"} height={"fit-content"}
-        onClick={() => onCenter()}
+        onClick={findRoot}
         children={<CommonIcon.Home size={32}/>}
       />
 

@@ -108,7 +108,7 @@ export default React.memo<TreeProps>(function Tree(props) {
         centerOnInit
         centerZoomedOut
       >
-        {({ zoomIn, zoomOut, resetTransform, zoomToElement }) => (
+        {({ zoomIn, zoomOut, zoomToElement }) => (
           <React.Fragment>
             <Box flex flexDirection='row' justifyContent='space-between'>
               <TreeSearchBar 
@@ -118,9 +118,10 @@ export default React.memo<TreeProps>(function Tree(props) {
                 onSelect={zoomToElement}
               />
               <TreeController
+                rootId={rootId}
                 onZoomIn={zoomIn}
                 onZoomOut={zoomOut}
-                onCenter={resetTransform}
+                onZoomToRoot={zoomToElement}
                 html2export={{
                   content: tree(),
                   width: treeWidth,

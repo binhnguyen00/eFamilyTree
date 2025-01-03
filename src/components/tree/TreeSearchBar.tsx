@@ -9,7 +9,7 @@ interface TreeSearchBarProps {
   nodes: Node[];
   searchFields?: string[];
   displayField?: string;
-  onSelect: (node: HTMLElement) => void;
+  onSelect: (node: HTMLElement, scale?: number) => void;
 }
 
 export function TreeSearchBar(props: TreeSearchBarProps) {
@@ -20,7 +20,7 @@ export function TreeSearchBar(props: TreeSearchBarProps) {
   const onSelectNode = (node: any) => {
     const div = document.querySelector<HTMLDivElement>(`#node-${node.id}`);
     if (div) {
-      onSelect(div);
+      onSelect(div, 0.5);
     }
   };
 
