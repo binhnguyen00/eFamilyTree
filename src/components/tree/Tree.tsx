@@ -98,7 +98,7 @@ export default React.memo<TreeProps>(function Tree(props) {
   return (
     <div 
       style={{ // Tree needs to know it's w & h or the pinch-zoom-pan would be buggy.
-        width: TreeConfig.treeWidth,
+        width: window.innerWidth,
         height: TreeConfig.treeHeight,
       }}
     >

@@ -1,13 +1,12 @@
 class FamilyTreeConfig {
   nodeWidth: number; 
   nodeHeight: number;
-  treeWidth: number;
+
   treeHeight: number;
 
   constructor() {
     this.nodeWidth = 150;
     this.nodeHeight = 200;
-    this.treeWidth = window.innerWidth;
     this.treeHeight = this.calculateTreeHeight();
 
     console.log("Init tree config:\n", this);
