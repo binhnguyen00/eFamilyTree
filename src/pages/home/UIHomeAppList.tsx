@@ -17,7 +17,7 @@ export function UIHomeAppList() {
 
   const apps: App[] = [
     { key: "family-tree", label: t("family_tree"), requirePhone: true },
-    { key: "album", label: t("album"), requirePhone: true },
+    { key: "gallery", label: t("gallery"), requirePhone: true },
     { key: "calendar", label: t("calendar"), requirePhone: true },
     { key: "blogs", label: t("blogs"), requirePhone: true },
     { key: "funds", label: t("funds"), requirePhone: true },
@@ -88,8 +88,8 @@ function AppSymbol({ iconKey }: { iconKey: string }) {
   switch (iconKey) {
     case "family-tree":
       return <img key={`ico-${iconKey}`} src={AppLogo.FamilyTree} alt="family tree"/>
-    case "album":
-      return <img key={`ico-${iconKey}`} src={AppLogo.Album} alt="album"/>
+    case "gallery":
+      return <img key={`ico-${iconKey}`} src={AppLogo.Album} alt="gallery"/>
     case "calendar":
       return <img key={`ico-${iconKey}`} src={AppLogo.Calendar} alt="calendar"/>
     case "blogs":
