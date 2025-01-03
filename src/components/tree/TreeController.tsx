@@ -72,13 +72,11 @@ export function TreeController(props: TreeControllerProps) {
     const svg = `
       <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
         <style>
-          .center {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          }
-          .border {
-            border: 1px solid black;
+          #tree-canvas {
+            position: relative !important;
+            transform: unset !important;
+            left: unset !important;
+            top: unset !important;
           }
           .svg-node {
             width: 100px !important;
@@ -86,7 +84,7 @@ export function TreeController(props: TreeControllerProps) {
           }
         </style>
         <foreignObject class="" width="${width}" height="${height}">
-          <div xmlns="http://www.w3.org/1999/xhtml" class="center">
+          <div xmlns="http://www.w3.org/1999/xhtml">
             ${content}
           </div>
         </foreignObject>
@@ -96,7 +94,8 @@ export function TreeController(props: TreeControllerProps) {
     const success = (result: ServerResponse) => {
       if (result.status === "success") {
         let downloadPath = result.data;
-        ZmpSDK.openWebview(`${serverBaseUrl}/${downloadPath}`);
+        // ZmpSDK.openWebview(`${serverBaseUrl}/${downloadPath}`);
+        window.open(`http://localhost:8069/${downloadPath}`);
       } else {
         openSnackbar({
           text: t("download_fail"), 
@@ -106,7 +105,8 @@ export function TreeController(props: TreeControllerProps) {
         })
       };
     }
-    FamilyTreeApi.exportSVG(phoneNumber, blob, success);
+    // FamilyTreeApi.exportSVG(phoneNumber, blob, success);
+    TestApi.exportSVG("0942659016", blob, success);
   }
 
   const style = {
