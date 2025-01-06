@@ -14,6 +14,7 @@ export interface AppCtx {
     avatar: string;
   };
   settings: Settings;
+  getTreeBackgroundPath: () => string,
   updatePhoneNumber: (phoneNumber: string) => void,
   updateUserInfo: (userInfo: any) => void,
   updateSettings: (settings: any) => void
@@ -37,11 +38,20 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
   }
   console.log("App Context:\n", ctxInfo); 
 
+  const getTreeBackgroundPath = () => {
+    if (settings.background && settings.background.id !== 0) {
+      return `${ctxInfo.serverBaseUrl}/${settings.background.path}`;
+    } else {
+      return "";
+    }
+  }
+
   const appCtx = {
     ...ctxInfo,
     updatePhoneNumber: updatePhoneNumber,
     updateUserInfo: updateUserInfo,
-    updateSettings: updateSettings
+    updateSettings: updateSettings,
+    getTreeBackgroundPath: getTreeBackgroundPath,
   } as AppCtx;
 
   return (

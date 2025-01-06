@@ -11,6 +11,7 @@ import { TreeSearchBar } from './TreeSearchBar';
 import { TreeController } from './TreeController';
 
 import "./css/transform-wrapper.scss";
+import { CommonUtils } from 'utils';
 
 interface TreeProps {
   nodes: Node[];
@@ -55,14 +56,14 @@ export default React.memo<TreeProps>(function Tree(props) {
   const treeWidth = data.canvas.width * nodeWidth;
   const treeHeight = data.canvas.height * nodeHeight;
 
-  let { settings, serverBaseUrl } = useAppContext();
+  let { getTreeBackgroundPath } = useAppContext();
   let treeRef = React.useRef<HTMLDivElement | null>(null);
   const tree = () => {
+    let treeBgImgPath = getTreeBackgroundPath();
     let background = {} as React.CSSProperties;
-    if (settings.background && settings.background.id) {
-      // backgroundImage: `url(http://localhost:8069/${settings.background.path})`,
+    if (!CommonUtils.isStringEmpty(treeBgImgPath)) {
       background = {
-        backgroundImage: `url(${serverBaseUrl}/${settings.background.path})`,
+        backgroundImage: `url(${treeBgImgPath})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       };
