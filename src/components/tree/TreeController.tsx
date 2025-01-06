@@ -4,7 +4,7 @@ import { t } from "i18next";
 import html2canvas, { Options } from "html2canvas";
 import { Box, useSnackbar } from "zmp-ui";
 
-import { ZmpSDK } from "utils";
+import { CommonUtils, ZmpSDK } from "utils";
 import { useAppContext } from "hooks";
 import { SizedBox, CommonIcon } from "components";
 import { FamilyTreeApi } from "api";
@@ -91,28 +91,32 @@ export function TreeController(props: TreeControllerProps) {
         </foreignObject>
       </svg>
     `;
-    const blob = new Blob([svg], { type: 'image/svg+xml' });
-    const success = (result: ServerResponse) => {
-      if (result.status === "success") {
-        let downloadPath = result.data;
-        ZmpSDK.openWebview(`${serverBaseUrl}/${downloadPath}`);
-      } else {
-        openSnackbar({
-          text: t("download_fail"), 
-          type: "error",
-          position: "bottom",
-          duration: 3000, 
-        })
-      };
+
+    const svg2Base64Success = (base64: string) => {
+
+      const success = (result: ServerResponse) => {
+        if (result.status === "success") {
+          let data = result.data as { id: number; path: string; };
+          ZmpSDK.openWebview(`${serverBaseUrl}/${data.path}`);
+        } else {
+          openSnackbar({
+            text: t("download_fail"), 
+            type: "error",
+            position: "bottom",
+            duration: 3000, 
+          })
+        };
+      }
+      FamilyTreeApi.exportSVG(phoneNumber, base64, success);
     }
-    FamilyTreeApi.exportSVG(phoneNumber, blob, success);
+
+    const blob = new Blob([svg], { type: 'image/svg+xml' });
+    CommonUtils.objToBase64(blob, svg2Base64Success)
   }
 
   const findRoot = () => {
     const root = document.querySelector<HTMLDivElement>(`#node-${rootId}`);
-    if (root) {
-      onZoomToRoot(root);
-    }
+    if (root) onZoomToRoot(root);
   }
 
   const style = {

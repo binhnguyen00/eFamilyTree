@@ -3,7 +3,7 @@ import { t } from "i18next";
 
 import { Avatar, Box, Button, Grid, Stack, Text } from "zmp-ui";
 
-import { TestApi, UserSettingApi } from "api";
+import { UserSettingApi } from "api";
 import { ServerResponse } from "server";
 import { AppContext, Header } from "components";
 
