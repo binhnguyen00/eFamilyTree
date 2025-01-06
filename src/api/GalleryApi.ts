@@ -29,4 +29,4 @@ export class GalleryApi extends BaseApi {
     })
     return this.server.POST("gallery/images-by-album", header, body, successCB, failCB);
   }
-}  
+}
