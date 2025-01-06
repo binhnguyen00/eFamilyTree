@@ -97,7 +97,7 @@ export function useGalleryImages(from: string = "", to: string = "", albumId?: n
         setImages(remap);
       }
     }
-    GalleryApi.getImagesByAlbum(albumId, success);
+    GalleryApi.getImagesByAlbum(phoneNumber, albumId, success);
   }
 
   React.useEffect(() => {

@@ -110,27 +110,4 @@ export class OdooRESTful extends Api {
       } as FailResponse);
     });
   }
-
-  public exportPDF(path: string, formData: FormData, successCB: SuccessCB, failCB?: FailCB) {
-    var url = this.serverUrl + '/' + path;
-    if (!failCB) failCB = (response: any) => {
-      console.log(response);
-    }
-    fetch(url, {
-      method: HttpMethod.POST,
-      body: formData
-    }).then((res: Response) => {
-      if (res.ok) return res.blob();
-      else return null;
-    }).then((res: any) => {
-      successCB(res);
-    }).catch((error: Error) => {
-      console.error(`eFamilyTree UI error: \n\t${error.stack}`);
-      failCB({
-        status: "error",
-        message: error.message,
-        stackTrace: error.stack || ""
-      } as FailResponse);
-    });
-  }
 }
