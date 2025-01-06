@@ -1,7 +1,7 @@
 import React from "react";
 
 import { t } from "i18next";
-import { Button, Text, Stack, Grid } from "zmp-ui";
+import { Button, Text, Stack } from "zmp-ui";
 
 import { TestApi } from "api";
 import { useAppContext } from "hooks";
@@ -32,121 +32,12 @@ export function UIPlayground() {
         </Button>
       </Stack>
 
-      <UIUserSetting/>
-
-      <UIUploadImageFile/>
-
       <UITheme/>
 
       <Loading/>
 
       <UISlidePanel/>
 
-    </Stack>
-  )
-}
-
-function UIUserSetting() {
-  const { settings, updateSettings } = useAppContext();
-
-  return (
-    <Stack space="1rem">
-      <Text.Title size="large" className="text-capitalize"> {t("setting")} </Text.Title>
-      <Grid columnCount={2} columnSpace="0.5rem" rowSpace="0.5rem">
-
-        <Button variant="secondary" onClick={() => {
-          const success = (result: ServerResponse) => { console.log(result); } 
-          const fail = (error: FailResponse) => { console.error(error); }
-          TestApi.getDefault(success, fail);
-        }}>
-          {"Get Default"}
-        </Button>
-
-        <Button variant="secondary" onClick={() => {
-          const success = (result: ServerResponse) => { console.log(result); } 
-          const fail = (error: FailResponse) => { console.error(error); }
-          TestApi.getOrDefault("0942659016", success, fail);
-        }}>
-          {"Get Settings"}
-        </Button>
-
-        <Button variant="secondary" onClick={() => {
-          const success = (result: ServerResponse) => { updateSettings({
-            ...settings,
-            theme: result.data.theme,
-            language: result.data.language,
-          }) } 
-          const fail = (error: FailResponse) => { console.error(error); }
-          TestApi.updateOrCreate("0942659016", {
-            language: settings.language,
-            theme: "default",
-          }, success, fail);
-        }}>
-          {"Default Theme"}
-        </Button>
-
-        <Button variant="secondary" onClick={() => {
-          const success = (result: ServerResponse) => { updateSettings({
-            ...settings,
-            theme: result.data.theme,
-            language: result.data.language,
-          }) } 
-          const fail = (error: FailResponse) => { console.error(error); }
-          TestApi.updateOrCreate("0942659016", {
-            language: settings.language,
-            theme: "blue",
-          }, success, fail);
-        }}>
-          {"Blue Theme"}
-        </Button>
-
-        <Button variant="secondary" onClick={() => {
-          const success = (result: ServerResponse) => { updateSettings({
-            ...settings,
-            theme: result.data.theme,
-            language: result.data.language,
-          }) } 
-          const fail = (error: FailResponse) => { console.error(error); }
-          TestApi.updateOrCreate("0942659016", {
-            theme: settings.theme,
-            language: "vi",
-          }, success, fail);
-        }}>
-          {t("vietnamese")}
-        </Button>
-
-        <Button variant="secondary" onClick={() => {
-          const success = (result: ServerResponse) => { updateSettings({
-            ...settings,
-            theme: result.data.theme,
-            language: result.data.language,
-          }) } 
-          const fail = (error: FailResponse) => { console.error(error); }
-          TestApi.updateOrCreate("0942659016", {
-            theme: settings.theme,
-            language: "en",
-          }, success, fail);
-        }}>
-          {t("english")}
-        </Button>
-
-        <Button variant="secondary" onClick={() => {
-          const success = (result: ServerResponse) => {
-            const bg = result.data;
-            updateSettings({
-              ...settings,
-              background: {
-                id: bg["id"],
-                path: bg["path"]
-              }
-            })
-          }
-          TestApi.updateBackground("0942659016", undefined, success);
-        }}>
-          {t("reset_background")}
-        </Button>
-
-      </Grid>
     </Stack>
   )
 }
@@ -199,66 +90,6 @@ function UITheme() {
   )
 }
 
-function UIUploadImageFile() {
-  let { settings, updateSettings } = useAppContext();
-
-  const getImage = () => {
-    const fileInput = (document.getElementById('ftree-bg') as HTMLInputElement).files?.[0];
-    return fileInput || null;
-  }
-
-  const upload = (event: any) => {
-    const image = getImage();
-    console.log(image);
-    if (!image) return;
-
-    const success = (result: ServerResponse) => {
-      const bg = result.data; 
-      updateSettings({
-        ...settings,
-        background: {
-          id: bg["id"],
-          path: bg["path"]
-        }
-      })
-    }
-    const fail = (error: FailResponse) => {
-      console.error(error);
-    }
-    TestApi.updateBackground("0942659016", image, success, fail);
-  }
-
-  const get = () => {
-    const success = (result: ServerResponse) => {
-      console.log(result.data);
-    }
-    const fail = (error: FailResponse) => {
-      console.error(error);
-    }
-    TestApi.getBackground("0942659016", success, fail);
-  }
-
-  return (
-    <Stack space="1rem">
-      <Text.Title size="large" className="text-capitalize"> {t("Change Tree Background")} </Text.Title>
-
-      <input
-        type="file"
-        id="ftree-bg" accept="image/*"
-      />
-
-      <Grid columnCount={2} columnSpace="0.5rem">
-        <Button variant="secondary" onClick={upload}> 
-          upload 
-        </Button>
-        <Button variant="secondary" onClick={get}> 
-          get
-        </Button>
-      </Grid>
-    </Stack>
-  )
-}
-
 function UISlidePanel() {
   let [ visible, setVisible ] = React.useState(false); 
   return (
@@ -274,7 +105,7 @@ function UISlidePanel() {
         close={() => setVisible(false)}
       >
         <div>
-          Test 1
+          This is Content
         </div>
       </SlidingPanel>
     </>

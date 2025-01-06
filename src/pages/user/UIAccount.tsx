@@ -3,12 +3,13 @@ import { t } from "i18next";
 
 import { Avatar, Box, Button, Grid, Stack, Text } from "zmp-ui";
 
-import { UserSettingApi } from "api";
+import { TestApi, UserSettingApi } from "api";
 import { ServerResponse } from "server";
 import { AppContext, Header } from "components";
 
 import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
 import { useRouteNavigate } from "hooks";
+import { CommonUtils } from "utils";
 
 export function UIAccount() { 
   return (
@@ -85,23 +86,23 @@ function UISettings() {
   }
 
   const changeBackground = () => {
-    const getImage = () => {
-      const fileInput = (document.getElementById('ftree-bg') as HTMLInputElement).files?.[0];
-      return fileInput || null;
+
+    const getImgSuccess = (base64: string) => {
+      const success = (result: ServerResponse) => {
+        const background = result.data;
+        updateSettings({
+          ...settings,
+          background: {
+            id: background["id"],
+            path: background["path"]
+          }
+        })
+      }
+      UserSettingApi.updateBackground(phoneNumber, base64, success);
     }
-    const image = getImage();
-    if (!image) return;
-    const success = (result: ServerResponse) => {
-      const background = result.data;
-      updateSettings({
-        ...settings,
-        background: {
-          id: background["id"],
-          path: background["path"]
-        }
-      })
-    }
-    UserSettingApi.updateBackground(phoneNumber, image, success);
+
+    const background = (document.getElementById('ftree-bg') as HTMLInputElement).files?.[0];
+    CommonUtils.objToBase64(background, getImgSuccess);
   } 
 
   const resetBackground = () => {
@@ -115,7 +116,7 @@ function UISettings() {
         }
       })
     }
-    UserSettingApi.updateBackground(phoneNumber, null, success);
+    UserSettingApi.resetBackground(phoneNumber, success);
   }
 
   return (

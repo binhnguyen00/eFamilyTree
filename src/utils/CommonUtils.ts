@@ -8,15 +8,16 @@ export class CommonUtils {
     return token.trim().length === 0;
   }
 
-  static blobToBase64(
-    blob: Blob, 
+  static objToBase64(
+    obj: File | Blob | undefined, 
     success: (base64: string) => void, 
-    fail?: (error: ProgressEvent<FileReader>) => void
-  ): void {
+    fail?: (error: ProgressEvent<FileReader>) => void)
+  : void {
     const reader = new FileReader();
 
     reader.onload = () => {
-      let base64 = reader.result as string
+      let base64 = reader.result as string;
+      base64 = base64.split(',')[1];
       success(base64);
     }
 
@@ -24,6 +25,9 @@ export class CommonUtils {
       if (fail) fail(error);
     }
 
-    reader.readAsDataURL(blob);
+    if (!obj) {
+      console.error(`${this.name}: \n\t obj is undefined`);
+      return;
+    } else reader.readAsDataURL(obj);
   }
 }

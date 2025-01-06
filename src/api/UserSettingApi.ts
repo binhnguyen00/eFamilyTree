@@ -1,4 +1,4 @@
-import { BaseApi } from "./BaseApi";
+import { BaseApi } from "api";
 import { SuccessCB, FailCB } from "server"
 
 export class UserSettingApi extends BaseApi {
@@ -42,10 +42,20 @@ export class UserSettingApi extends BaseApi {
     this.server.POST("account/setting/background", header, body, successCB, failCB);
   }
 
-  public static updateBackground(phoneNumber: string, image: any, successCB: SuccessCB, failCB?: FailCB) {
-    const formData = new FormData();
-    formData.append("phone_number", phoneNumber);
-    formData.append("background", image);
-    this.server.postWithFormData("account/setting/background/save", formData, successCB, failCB);
+  public static updateBackground(phoneNumber: string, base64: string, successCB: SuccessCB, failCB?: FailCB) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      phone_number: phoneNumber,
+      base64: base64
+    })
+    this.server.POST("account/setting/background/save", header, body, successCB, failCB);
+  }
+
+  public static resetBackground(phoneNumber: string, successCB: SuccessCB, failCB?: FailCB) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      phone_number: phoneNumber,
+    })
+    this.server.POST("account/setting/background/reset", header, body, successCB, failCB);
   }
 }
