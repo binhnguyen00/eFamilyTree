@@ -16,7 +16,7 @@ export function TreeNode({ node, displayField, isRoot, onSelectNode }: TreeNodeP
   return (
     <div
       id={`node-${node.id}`}
-      className='svg-node' // Singular purpose: Check FamilyTree.tsx, in the part where export svg
+      className='svg-node button' // Singular purpose: Check FamilyTree.tsx, in the part where export svg
       style={{
         ...nodePosition,
         position: "absolute",

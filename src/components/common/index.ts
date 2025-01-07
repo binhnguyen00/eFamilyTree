@@ -10,9 +10,10 @@ import { RequestPhone } from "./RequestPhone";
 import { PagePositionSaver } from "./PagePositionSaver";
 import { Info } from "./Info";
 import { ScrollableDiv } from "./ScrollableDiv";
+import { Card } from "./Card";
 
 export { 
   Error, Loading, Retry, Info,
   Divider, ImageWithText, Navigation, RequestPhone, SearchBar,
-  SizedBox, PagePositionSaver, ScrollableDiv
+  SizedBox, PagePositionSaver, ScrollableDiv, Card
 };

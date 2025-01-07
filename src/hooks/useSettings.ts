@@ -46,7 +46,7 @@ export function useSettings(userId: number | any, clanId: number | any): Setting
 
   // Get user settings
   React.useEffect(() => {
-    if (userId && !CommonUtils.isStringEmpty(userId)) {
+    if (userId) {
       // Get theme, language
       const success = (result: ServerResponse) => {
         const settings = result.data;
