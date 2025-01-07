@@ -3,14 +3,14 @@ import { t } from "i18next";
 import { Box, Button, Grid, Stack, Text } from "zmp-ui";
 
 import { AlbumApi } from "api";
+import { ServerResponse } from "server";
 import { CommonIcon } from "components";
-import { FailResponse, ServerResponse } from "server";
 import { useAppContext, useRouteNavigate } from "hooks";
 
 export function UIHomeAlbum() {
   const { goTo } = useRouteNavigate();
   const [ albums, setAlbums ] = React.useState<any[]>([]);
-  const { logedIn, phoneNumber } = useAppContext();
+  const { logedIn, userInfo } = useAppContext();
 
   React.useEffect(() => {
     if (logedIn) {
@@ -22,10 +22,7 @@ export function UIHomeAlbum() {
           setAlbums(data);
         }
       };
-      const fail = (error: FailResponse) => {
-        console.error("UIHomeAlbum:\n\t", error.stackTrace);
-      }
-      AlbumApi.getAlbums(phoneNumber, success, fail);
+      AlbumApi.getAlbums(userInfo.id, userInfo.clanId, success);
     }
   }, [ logedIn ]);
 

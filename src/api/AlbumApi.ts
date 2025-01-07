@@ -3,10 +3,11 @@ import { SuccessCB, FailCB } from "server"
 
 export class AlbumApi extends BaseApi {
 
-  public static getAlbums(phoneNumber, successCB: SuccessCB, failCB?: FailCB) {
+  public static getAlbums(userId: number, clanId: number, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
     const body = this.initBody({
-      phone: phoneNumber
+      user_id: userId,
+      clan_id: clanId
     });
     return this.server.POST("get/album", header, body, successCB, failCB);
   }

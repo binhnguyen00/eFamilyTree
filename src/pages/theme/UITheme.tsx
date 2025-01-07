@@ -25,7 +25,7 @@ export function UITheme() {
 }
 
 export function UIThemeList() {
-  const { phoneNumber, settings, updateSettings } = useAppContext();
+  const { userInfo, settings, updateSettings } = useAppContext();
 
   const saveTheme = (theme: Theme) => {
     const success = (result: ServerResponse) => {
@@ -39,7 +39,7 @@ export function UIThemeList() {
       ...settings,
       theme: theme
     }
-    UserSettingApi.updateOrCreate(phoneNumber, target, success, fail);
+    UserSettingApi.updateOrCreate(userInfo.id, userInfo.clanId, target, success, fail);
   }
 
   return (

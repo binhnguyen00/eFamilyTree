@@ -2,15 +2,15 @@ import React from "react";
 import { t } from "i18next";
 import { Box, Button, Stack, Text } from "zmp-ui";
 
-import { AppContext, CommonIcon } from "components";
 import { SocialPostApi } from "api";
-import { FailResponse, ServerResponse } from "server";
+import { ServerResponse } from "server";
 import { useRouteNavigate } from "hooks";
+import { AppContext, CommonIcon } from "components";
 
 export function UIHomeBlog() {
   const { goTo } = useRouteNavigate();
   const [ blogs, setBlogs ] = React.useState<any[]>([]);
-  const { logedIn, phoneNumber } = React.useContext(AppContext);
+  const { logedIn, userInfo } = React.useContext(AppContext);
 
   React.useEffect(() => {
     if (logedIn) {
@@ -22,10 +22,7 @@ export function UIHomeBlog() {
           setBlogs(data);
         }
       };
-      const fail = (error: FailResponse) => {
-        console.error("UIHomeBlog:\n\t", error.stackTrace);
-      }
-      SocialPostApi.getSocialPosts(phoneNumber, success, fail);
+      SocialPostApi.getSocialPosts(userInfo.id, userInfo.clanId, success);
     }
   }, [ logedIn ]);
 

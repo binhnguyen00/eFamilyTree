@@ -71,7 +71,7 @@ function UIAccountContainer() {
 }
 
 function UISettings() {
-  const { phoneNumber, settings, updateSettings } = React.useContext(AppContext);
+  const { userInfo, settings, updateSettings } = React.useContext(AppContext);
 
   const changeLang = (langCode: "vi" | "en") => {
     const success = (result: ServerResponse) => {
@@ -82,7 +82,7 @@ function UISettings() {
       theme: settings.theme, 
       language: langCode 
     }
-    UserSettingApi.updateOrCreate(phoneNumber, target, success);
+    UserSettingApi.updateOrCreate(userInfo.id, userInfo.clanId, target, success);
   }
 
   const changeBackground = () => {
@@ -98,7 +98,7 @@ function UISettings() {
           }
         })
       }
-      UserSettingApi.updateBackground(phoneNumber, base64, success);
+      UserSettingApi.updateBackground(userInfo.id, userInfo.clanId, base64, success);
     }
 
     const background = (document.getElementById('ftree-bg') as HTMLInputElement).files?.[0];
@@ -116,7 +116,7 @@ function UISettings() {
         }
       })
     }
-    UserSettingApi.resetBackground(phoneNumber, success);
+    UserSettingApi.resetBackground(userInfo.id, userInfo.clanId, success);
   }
 
   return (

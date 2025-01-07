@@ -21,7 +21,7 @@ export function UIBlog() {
 
 function UIBlogList() {
   const { goTo } = useRouteNavigate();
-  const { phoneNumber } = React.useContext(AppContext);
+  const { userInfo } = React.useContext(AppContext);
 
   const [ blogs, setBlogs ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);
@@ -41,7 +41,7 @@ function UIBlogList() {
       setLoading(false);
       console.error("UIBlogList:\n\t", error.stackTrace);
     };
-    SocialPostApi.getSocialPosts(phoneNumber, success, fail);
+    SocialPostApi.getSocialPosts(userInfo.id, userInfo.clanId, success, fail);
   }, [ reload ]);
 
   const navigateToBlog = (title: string, content: string) => {
