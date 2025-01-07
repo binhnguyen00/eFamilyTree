@@ -9,7 +9,7 @@ import { useRouteNavigate } from "hooks";
 
 export function UIFund() {
   const { goTo } = useRouteNavigate();
-  const { phoneNumber } = React.useContext(AppContext);
+  const { userInfo } = React.useContext(AppContext);
   const [ funds, setFunds ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);
   const [ loading, setLoading ] = React.useState(true);
@@ -28,7 +28,7 @@ export function UIFund() {
       setLoading(false);
       console.error("UIFund:\n\t", error.stackTrace);
     };
-    FundApi.getFunds(phoneNumber, success, fail);
+    FundApi.getFunds(userInfo.id, userInfo.clanId, success, fail);
   }, [ reload ]);
 
   const navigateToFundDetail = (fund: any = null) => {
