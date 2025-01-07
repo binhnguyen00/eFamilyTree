@@ -24,7 +24,7 @@ interface TreeControllerProps {
 }
 
 export function TreeController(props: TreeControllerProps) {
-  const { phoneNumber, userInfo, serverBaseUrl } = useAppContext();
+  const { userInfo, serverBaseUrl } = useAppContext();
   const { openSnackbar } = useSnackbar();
   const { rootId, onZoomToRoot, onZoomIn, onZoomOut, onReset, html2export } = props;
 
@@ -97,7 +97,7 @@ export function TreeController(props: TreeControllerProps) {
       const success = (result: ServerResponse) => {
         if (result.status === "success") {
           let data = result.data as { id: number; path: string; };
-          ZmpSDK.openWebview(`${serverBaseUrl}/${data.path}`);
+          ZmpSDK.downloadFile(`${serverBaseUrl}/${data.path}`);
         } else {
           openSnackbar({
             text: t("download_fail"), 

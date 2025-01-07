@@ -20,7 +20,7 @@ export function TreeSearchBar(props: TreeSearchBarProps) {
   const onSelectNode = (node: any) => {
     const div = document.querySelector<HTMLDivElement>(`#node-${node.id}`);
     if (div) {
-      onSelect(div, 0.5);
+      onSelect(div);
     }
   };
 

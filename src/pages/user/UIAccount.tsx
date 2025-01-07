@@ -27,9 +27,9 @@ function UIAccountContainer() {
 
   // Temporary methods
   const devs = [ 
-    "0942659016", 
-    "0936952262",
-    "0899096788"
+    "+84942659016", 
+    "+84936952262",
+    "+84899096788"
   ] as string[];
 
   return (

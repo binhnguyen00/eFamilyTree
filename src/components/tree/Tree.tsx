@@ -128,6 +128,7 @@ export default React.memo<TreeProps>(function Tree(props) {
                   width: treeWidth,
                   height: treeHeight,
                 }}
+                onReset={props.onReset}
               />
             </Box>
             <TransformComponent>
