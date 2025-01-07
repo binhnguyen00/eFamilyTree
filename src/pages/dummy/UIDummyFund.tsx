@@ -1,150 +1,121 @@
 import React from "react";
 
 import { t } from "i18next";
-import { Box, Text } from "zmp-ui";
+import { Grid } from "zmp-ui";
 
-import { CommonIcon, Header } from "components";
-import { SearchBar } from "components/common/SearchBar";
 import { useRouteNavigate } from "hooks";
+import { Card, Header, Loading, ScrollableDiv, SearchBar } from "components";
 
-const data = [
-  {
-    "name": "Quỹ Đám Giỗ",
-    "dong_ho": "Phạm Khắc",
-    "total_amount": 1850000,
-    "income_ids": [
-      {
-        "id": 6,
-        "nguoi_nop": [
-          23,
-          "Hoàng Thị Hoa"
-        ],
-        "amount": 5000000,
-        "date": "2024-10-29",
-        "note": "Đóng tiền quỹ Đám Giỗ"
-      },
-      {
-        "id": 7,
-        "nguoi_nop": [
-          23,
-          "Hoàng Thị Hoa"
-        ],
-        "amount": 5000000,
-        "date": "2024-10-31",
-        "note": "Đóng tiền quỹ Đám Giỗ"
-      }
-    ],
-    "expense_ids": [
-      {
-        "id": 2,
-        "amount": 150000,
-        "date": "2024-10-31",
-        "note": "Mua nhang"
-      },
-      {
-        "id": 3,
-        "amount": 200000,
-        "date": "2024-10-31",
-        "note": "mua tiền vàng"
-      },
-      {
-        "id": 4,
-        "amount": 7800000,
-        "date": "2024-11-26",
-        "note": "xây mộ"
-      },
-    ]
-  },
-  {
-    "name": "Quỹ Sinh Nhật",
-    "dong_ho": "Dòng họ Phạm Khắc",
-    "total_amount": 5500000,
-    "income_ids": [
-      {
-        "id": 7,
-        "nguoi_nop": [
-          1,
-          "Phạm Khắc Hoàng"
-        ],
-        "amount": 3500000,
-        "date": "2024-01-01",
-        "note": "Đóng tiền quỹ Sinh nhật"
-      },
-      {
-        "id": 8,
-        "nguoi_nop": [
-          1,
-          "Phạm Khắc Hoàng"
-        ],
-        "amount": 3500000,
-        "date": "2024-01-02",
-        "note": "Đóng tiền quỹ Sinh nhật"
-      }
-    ],
-    "expense_ids": [
-      {
-        "id": 2,
-        "amount": 500000,
-        "date": "2024-05-25",
-        "note": "mua quà cho bé Hoa"
-      },
-      {
-        "id": 3,
-        "amount": 1000000,
-        "date": "2024-05-25",
-        "note": "thuê trang trí"
-      },
-    ]
-  }
-]
+import data from "./sample/fund.json";
 
 export default function UIDummyFund() {
-  const { jumpTo } = useRouteNavigate();
-  const [funds, setFunds] = React.useState<any[]>(data);
-
-  const navigateToFundDetail = (fund: any = null) => {
-    if (!fund) return;
-    jumpTo("dev/funds/detail", { fund });
-  }
-
-  const renderFunds = () => {
-    let html = [] as React.ReactNode[];
-
-    funds.map((item, index) => {
-      const totalAmount = Number.parseFloat(item["total_amount"]);
-      const formatted = new Intl.NumberFormat('id-ID').format(totalAmount)
-      html.push(
-        <Box
-          onClick={() => navigateToFundDetail(item)}
-          flex flexDirection="row" justifyContent="space-between"
-          className="bg-secondary text-primary p-3 rounded mt-2"
-        >
-          <div>
-            <Text.Title> {item["name"]} </Text.Title>
-            <Text> {formatted} </Text>
-          </div>
-          <CommonIcon.ChevonRight size={20}/>
-        </Box>
-      )
-    })
-
-    return (
-      <div className="flex-v">
-        {html}
-      </div>
-    )
-  }
+  const { funds, loading } = useFunds();
 
   return (
     <div className="container">
       <Header title={t("funds")}/>
 
+      <UIFundContainer funds={funds} loading={loading}/>
+    </div>
+  )
+}
+
+function useFunds() {
+  const [ funds, setFunds ] = React.useState<any[]>(data);
+  const [ reload, setReload ] = React.useState(false);
+  const [ loading, setLoading ] = React.useState(false);
+
+  React.useEffect(() => {
+  }, [ reload ]);
+
+  return { 
+    loading: loading, funds: funds, reload: reload,
+    updateFunds: setFunds, refresh: () => setReload(!reload)
+  }
+}
+
+// ==========================
+// FUND CONTAINER
+// ==========================
+function UIFundContainer(props: { funds: any[], loading: boolean }) {
+  let { funds, loading } = props;
+  if (loading) {
+    return (
+      <div>
+        <Header title={t("funds")}/>
+        <Loading/>
+      </div>
+    )
+  }
+  return (
+    <div>
+      <UIFundList funds={funds}/>
+    </div>
+  )
+}
+
+// ==========================
+// FUND LIST
+// ==========================
+function UIFundList(props: { funds: any[] }) {
+  let { funds } = props;
+
+  let { jumpTo } = useRouteNavigate();
+  let html = [] as React.ReactNode[];
+
+  const navigateToFundDetail = (fund: any) => {
+    if (!fund) return;
+    jumpTo("dev/funds/detail", { fund });
+  }
+
+  funds.map((item, index) => {
+    html.push(
+      <UIFundCard
+        info={item}
+        onClick={() => navigateToFundDetail(item)}  
+      />
+    )
+  })
+
+  return (
+    <div style={{ height: `${funds.length} ? "auto" : "100%"` }}>
       <SearchBar 
         placeholder={t("search_funds")}
         onSearch={(text, event) => console.log(text)}
       />
-
-      {renderFunds()}
+      <ScrollableDiv height={"100%"} width={"auto"} className="mt-2">
+        <Grid columnCount={2} columnSpace="10px" rowSpace="10px" >
+          {html}
+        </Grid>
+      </ScrollableDiv>
     </div>
+  )
+}
+
+// ==========================
+// FUND CARD
+// ==========================
+interface UIFundCardProps {
+  info: any,
+  onClick?: () => void;
+}
+function UIFundCard(props: UIFundCardProps) {
+  const  { info, onClick } = props;
+
+  const totalAmount = Number.parseFloat(info["total_amount"]);
+  const formatted = new Intl.NumberFormat('id-ID').format(totalAmount)
+
+  return (
+    <Card
+      // src={info.thumbnail}
+      width={"auto"}
+      height={150}
+      title={info.name}
+      content={(
+        <p style={{ fontSize: "1.2rem" }}> {formatted} </p>
+      )}
+      onClick={onClick}
+      className="button"
+    />  
   )
 }

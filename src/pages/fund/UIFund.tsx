@@ -5,12 +5,13 @@ import { FundApi } from "api";
 import { useRouteNavigate } from "hooks";
 import { FailResponse, ServerResponse } from "server";
 import { Header, Loading, SearchBar, AppContext, ScrollableDiv, Card } from "components";
+import { Grid } from "zmp-ui";
 
 export function UIFund() {
   const { funds, loading } = useFunds();
 
   return (
-    <div className="bg-white">
+    <div className="container">
       <Header title={t("funds")}/>
 
       <UIFundContainer funds={funds} loading={loading}/>
@@ -54,14 +55,14 @@ function UIFundContainer(props: { funds: any[], loading: boolean }) {
   let { funds, loading } = props;
   if (loading) {
     return (
-      <div className="container-padding">
+      <div>
         <Header title={t("funds")}/>
         <Loading/>
       </div>
     )
   }
   return (
-    <div className="container-padding">
+    <div>
       <UIFundList funds={funds}/>
     </div>
   )
@@ -82,8 +83,6 @@ function UIFundList(props: { funds: any[] }) {
   }
 
   funds.map((item, index) => {
-    const totalAmount = Number.parseFloat(item["total_amount"]);
-    const formatted = new Intl.NumberFormat('id-ID').format(totalAmount)
     html.push(
       <UIFundCard
         info={item}
@@ -99,7 +98,9 @@ function UIFundList(props: { funds: any[] }) {
         onSearch={(text, event) => console.log(text)}
       />
       <ScrollableDiv height={"100%"} width={"auto"}>
-        {html}
+        <Grid columnCount={2} columnSpace="10px" rowSpace="10px" >
+          {html}
+        </Grid>
       </ScrollableDiv>
     </div>
   )
@@ -119,7 +120,10 @@ function UIFundCard(props: UIFundCardProps) {
   const formatted = new Intl.NumberFormat('id-ID').format(totalAmount)
 
   return (
-    <Card 
+    <Card
+      // src={info.thumbnail}
+      width={"auto"}
+      height={"auto"}
       title={info.name}
       content={(
         <p> {formatted} </p>

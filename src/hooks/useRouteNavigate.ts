@@ -43,7 +43,6 @@ export function useRouteNavigate() {
       return;
     }
     path = path.startsWith("/") ? path : `/${path}`;
-    console.log(path);
     navigate(path, options);
   }
 

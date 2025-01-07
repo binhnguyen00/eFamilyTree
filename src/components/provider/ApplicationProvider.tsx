@@ -36,7 +36,7 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
   const ctxInfo = {
     appId: appId,
     logedIn: logedIn,
-    phoneNumber: phoneNumber ? phoneNumber : "0942659016",
+    phoneNumber: phoneNumber ? phoneNumber : "+84942659016",
     zaloUserInfo: zaloUserInfo,
     userInfo: userInfo,
     settings: settings,
