@@ -27,6 +27,141 @@
     ]
   },
   {
+    "name": "Quỹ khuyến học",
+    "clan": "Nguyễn Đình",
+    "total_amount": 5000000.0,
+    "income_ids": [
+      {
+        "name": "Phạm Khắc Phú",
+        "amount": 5000000.0,
+        "date": "12/12/2024",
+        "note": false
+      },
+      {
+        "name": "Phạm Thị Đỏ",
+        "amount": 2000000.0,
+        "date": "12/12/2024",
+        "note": false
+      }
+    ],
+    "expense_ids": [
+      {
+        "name": "Phạm Khắc Thành",
+        "amount": 2000000.0,
+        "date": "12/12/2024",
+        "note": "Chi cho mua le"
+      }
+    ]
+  },
+  {
+    "name": "Quỹ khuyến học",
+    "clan": "Nguyễn Đình",
+    "total_amount": 5000000.0,
+    "income_ids": [
+      {
+        "name": "Phạm Khắc Phú",
+        "amount": 5000000.0,
+        "date": "12/12/2024",
+        "note": false
+      },
+      {
+        "name": "Phạm Thị Đỏ",
+        "amount": 2000000.0,
+        "date": "12/12/2024",
+        "note": false
+      }
+    ],
+    "expense_ids": [
+      {
+        "name": "Phạm Khắc Thành",
+        "amount": 2000000.0,
+        "date": "12/12/2024",
+        "note": "Chi cho mua le"
+      }
+    ]
+  },
+  {
+    "name": "Quỹ khuyến học",
+    "clan": "Nguyễn Đình",
+    "total_amount": 5000000.0,
+    "income_ids": [
+      {
+        "name": "Phạm Khắc Phú",
+        "amount": 5000000.0,
+        "date": "12/12/2024",
+        "note": false
+      },
+      {
+        "name": "Phạm Thị Đỏ",
+        "amount": 2000000.0,
+        "date": "12/12/2024",
+        "note": false
+      }
+    ],
+    "expense_ids": [
+      {
+        "name": "Phạm Khắc Thành",
+        "amount": 2000000.0,
+        "date": "12/12/2024",
+        "note": "Chi cho mua le"
+      }
+    ]
+  },
+  {
+    "name": "Quỹ khuyến học",
+    "clan": "Nguyễn Đình",
+    "total_amount": 5000000.0,
+    "income_ids": [
+      {
+        "name": "Phạm Khắc Phú",
+        "amount": 5000000.0,
+        "date": "12/12/2024",
+        "note": false
+      },
+      {
+        "name": "Phạm Thị Đỏ",
+        "amount": 2000000.0,
+        "date": "12/12/2024",
+        "note": false
+      }
+    ],
+    "expense_ids": [
+      {
+        "name": "Phạm Khắc Thành",
+        "amount": 2000000.0,
+        "date": "12/12/2024",
+        "note": "Chi cho mua le"
+      }
+    ]
+  },
+  {
+    "name": "Quỹ khuyến học",
+    "clan": "Nguyễn Đình",
+    "total_amount": 5000000.0,
+    "income_ids": [
+      {
+        "name": "Phạm Khắc Phú",
+        "amount": 5000000.0,
+        "date": "12/12/2024",
+        "note": false
+      },
+      {
+        "name": "Phạm Thị Đỏ",
+        "amount": 2000000.0,
+        "date": "12/12/2024",
+        "note": false
+      }
+    ],
+    "expense_ids": [
+      {
+        "name": "Phạm Khắc Thành",
+        "amount": 2000000.0,
+        "date": "12/12/2024",
+        "note": "Chi cho mua le"
+      }
+    ]
+  },
+  {
     "name": "Quỹ Giỗ tổ",
     "clan": "Nguyễn Đình",
     "total_amount": 5000000.0,

@@ -126,9 +126,10 @@ function UIFundCard(props: UIFundCardProps) {
       height={"auto"}
       title={info.name}
       content={(
-        <p> {formatted} </p>
+        <p style={{ fontSize: "1.2rem" }}> {formatted} </p>
       )}
       onClick={onClick}
+      className="button"
     />  
   )
 }
