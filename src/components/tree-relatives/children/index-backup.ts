@@ -6,37 +6,27 @@ import { createFamilyFunc } from './create';
 import { updateFamilyFunc } from './update';
 import { arrangeFamiliesFunc } from './arrange';
 
-const getUnitsWithChildren = (family: Family): Unit[] => {
-  return family.children.filter(hasChildren).reverse();
-}
+const getUnitsWithChildren = (family: Family): Unit[] => family.children.filter(hasChildren).reverse();
 
 export const inChildDirection = (store: Store): Store => {
   const createFamily = createFamilyFunc(store);
   const updateFamily = updateFamilyFunc(store);
   const arrangeFamilies = arrangeFamiliesFunc(store);
 
-  const rootFamilies = store.familiesArray.filter(withType(FamilyType.root));
-
-  rootFamilies.forEach((rootFamily) => {
+  store.familiesArray.filter(withType(FamilyType.root)).forEach((rootFamily) => {
     let stack: Unit[] = getUnitsWithChildren(rootFamily);
-    const visitedUnits = new Set<Unit>(); // Track processed units to avoid duplicates
 
     while (stack.length) {
-      console.log(stack);
       const parentUnit = stack.pop()!;
-
-      if (visitedUnits.has(parentUnit)) continue;
-      visitedUnits.add(parentUnit);
-
       const family = createFamily(nodeIds(parentUnit), FamilyType.child);
+
       updateFamily(family, parentUnit);
       arrangeFamilies(family);
 
       store.families.set(family.id, family);
-
-      const newChildren = getUnitsWithChildren(family).filter(unit => !visitedUnits.has(unit));
-      stack = stack.concat(newChildren);
+      stack = stack.concat(getUnitsWithChildren(family));
     }
+
   });
 
   return store;

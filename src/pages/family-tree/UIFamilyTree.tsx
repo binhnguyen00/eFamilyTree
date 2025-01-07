@@ -4,7 +4,6 @@ import { Grid, Button, Box, Input } from "zmp-ui";
 
 import { CommonUtils } from "utils";
 import { FamilyTreeApi } from "api";
-import { useAppContext } from "hooks";
 import { ServerResponse, FailResponse } from "server";
 import { 
   Header, CommonIcon, TreeNode, FamilyTree, TreeConfig, 
@@ -13,9 +12,10 @@ import {
 
 import { TreeUtils } from "./TreeUtils";
 import { TreeDataProcessor } from "./TreeDataProcessor";
+import { ClanMemberInfo } from "hooks/useClanMemberInfo";
 
 export function UIFamilyTree() {
-  const { phoneNumber } = React.useContext(AppContext);
+  const { userInfo } = React.useContext(AppContext);
   let [ reload, setReload ] = React.useState(false);
   let [ loading, setLoading ] = React.useState(true);
   let [ processor, setProcessor ] = React.useState<TreeDataProcessor>(new TreeDataProcessor([]));
@@ -27,15 +27,15 @@ export function UIFamilyTree() {
         console.error("UIFamilyTree:\n\t", result.message);
       } else {
         const data = result.data as any;
-        const processor = new TreeDataProcessor(data);
-        setProcessor(processor);
+        const newProcessor = new TreeDataProcessor(data);
+        setProcessor(newProcessor);
       }
     }
     const fail = (error: FailResponse) => {
       setLoading(false);
       console.error("UIFamilyTree:\n\t", error.message, "\n", error.stackTrace);
     } 
-    FamilyTreeApi.getMembers(phoneNumber, success, fail);
+    FamilyTreeApi.getMembers(userInfo.id, userInfo.clanId, success, fail);
   }, [ reload ]);
 
   if (loading) return (
@@ -48,7 +48,7 @@ export function UIFamilyTree() {
     <UIFamilyTreeContainer 
       nodes={processor.nodes}
       rootId={processor.rootId}
-      phoneNumber={phoneNumber}
+      userInfo={userInfo}
       onReload={() => setReload(!reload)}
     />
   )
@@ -57,13 +57,12 @@ export function UIFamilyTree() {
 interface UIFamilyTreeContainerProps {
   nodes: any[];
   rootId: string;
-  phoneNumber: any;
+  userInfo: ClanMemberInfo;
   onReload?: () => void;
 }
 export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) { 
-  // settings
-  const { settings } = useAppContext();
-
+  let { userInfo } = props;
+  
   // tree
   const [ nodes, setNodes ] = React.useState<any[]>(props.nodes);
   const [ rootId, setRootId ] = React.useState<string>(props.rootId);
@@ -92,7 +91,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
       console.error("showMemberDetail:\n\t", error.message, "\n", "error.stackTrace");
     } 
     const memberId: number = +selectId;
-    FamilyTreeApi.getMemberInfo(props.phoneNumber, memberId, success, fail);
+    FamilyTreeApi.getMemberInfo(memberId, userInfo.clanId, success, fail);
     setSelectId(""); // hide the sliding panel
   }
 

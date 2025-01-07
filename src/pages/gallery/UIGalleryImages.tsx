@@ -60,7 +60,7 @@ interface GalleryImage {
   imageFit: "contain" | "cover";
 }
 export function useGalleryImages(from: string = "", to: string = "", albumId?: number) {
-  let { phoneNumber, serverBaseUrl } = useAppContext();
+  let { userInfo, serverBaseUrl } = useAppContext();
   let [ images, setImages ] = React.useState<GalleryImage[]>([]);
   let [ reload, setReload ] = React.useState(false);
 
@@ -87,7 +87,7 @@ export function useGalleryImages(from: string = "", to: string = "", albumId?: n
         setImages(remap);
       }
     }
-    GalleryApi.getImages(phoneNumber, from, to, success);
+    GalleryApi.getImages(userInfo.id, userInfo.clanId, from, to, success);
   }
 
   const getImagesByAlbum = (albumId: number) => {
@@ -97,7 +97,7 @@ export function useGalleryImages(from: string = "", to: string = "", albumId?: n
         setImages(remap);
       }
     }
-    GalleryApi.getImagesByAlbum(phoneNumber, albumId, success);
+    GalleryApi.getImagesByAlbum(userInfo.id, userInfo.clanId, albumId, success);
   }
 
   React.useEffect(() => {

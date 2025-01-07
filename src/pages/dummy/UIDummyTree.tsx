@@ -4,7 +4,7 @@ import { Button, Grid, Select } from "zmp-ui";
 
 import average from "./sample/average.json";
 import divorced from "./sample/divorced.json";
-import odooSample from "./sample/odoo-sample.json";
+import odooSample from "./sample/odoo-sample-backup.json";
 import severalSprouses from "./sample/several-sprouses.json";
 
 import { CommonUtils } from "utils";
@@ -62,6 +62,9 @@ export default function UIDummyTree() {
               if (val === 4) {
                 const odooData = dataSrcKey[Number(val)];
                 const processor = new TreeDataProcessor(odooData);
+
+                console.log(processor);
+
                 const ancestor = processor.getAncestor();
                 setNodes(processor.peopleToNodes());
                 setRootId(ancestor?.id);

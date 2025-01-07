@@ -48,8 +48,8 @@ export class ZmpSDK {
       success({ number, token }) {
         if (token) {
           const successPhone = (response) => {
-            const number: string = response.data.number.replace(/\+84|84/g, '0');
-            successCB(number);
+            const number: string = response.data.number;
+            successCB(`+${number}`); // output: +84942...
           }
           ZmpSDK.getPhoneNumberByToken(token, successPhone, failCB);
         }

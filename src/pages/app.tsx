@@ -1,4 +1,4 @@
-import React from "react";
+import React, { StrictMode } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { App as ZaloApp, SnackbarProvider } from "zmp-ui";
 
@@ -13,19 +13,21 @@ import "../i18n";
 
 function Application() {
   return (
-    <ZaloApp>
-      <SnackbarProvider zIndex={999}>
-        <ThemeProvider>
-          <ApplicationProvider>
-            <Router>
-              <AppRoutes/>
-              <Navigation/>
-              <PagePositionSaver />
-            </Router>
-          </ApplicationProvider>
-        </ThemeProvider>
-      </SnackbarProvider>
-    </ZaloApp>
+    <React.StrictMode>
+      <ZaloApp>
+        <SnackbarProvider zIndex={999}>
+          <ThemeProvider>
+            <ApplicationProvider>
+              <Router>
+                <AppRoutes/>
+                <Navigation/>
+                <PagePositionSaver />
+              </Router>
+            </ApplicationProvider>
+          </ThemeProvider>
+        </SnackbarProvider>
+      </ZaloApp>
+    </React.StrictMode>
   );
 };
 

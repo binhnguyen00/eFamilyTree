@@ -2,7 +2,7 @@ import Store from './store';
 import { placeholders } from './middle/placeholders';
 import { inMiddleDirection } from './middle';
 import { inParentDirection } from './parents';
-import { inChildDirection } from './children';
+import { inChildDirection } from './children/index';
 import { connectors } from './connectors';
 import { correctPositions } from './utils/correctPositions';
 import { getCanvasSize } from './utils/getCanvasSize';
@@ -12,8 +12,8 @@ import type { Node, Options, RelData } from './types';
 
 const calcFamilies = pipe(inMiddleDirection, inParentDirection, inChildDirection, correctPositions);
 
-export default (nodes: readonly Node[], options: Options): RelData => {
-  const store = new Store(nodes, options.rootId);
+export default (nodes: readonly Node[], options: Options): RelData | any => {
+  let store = new Store(nodes, options.rootId);
   if (options.placeholders) placeholders(store);
 
   const families = calcFamilies(store).familiesArray;
@@ -23,5 +23,5 @@ export default (nodes: readonly Node[], options: Options): RelData => {
     canvas: getCanvasSize(families),
     nodes: getExtendedNodes(families),
     connectors: connectors(families),
-  };
+  }
 };

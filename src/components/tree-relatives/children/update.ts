@@ -4,7 +4,7 @@ import { heightOf } from '../utils/family';
 import { getUnitX } from '../utils/units';
 import type { Family, Unit } from '../types';
 
-export const updateFamilyFunc =
+export const updateFamilyFunc = 
   (store: Store) =>
   (family: Family, parentUnit: Unit): void => {
     const parentFamily = store.getFamily(parentUnit.fid);

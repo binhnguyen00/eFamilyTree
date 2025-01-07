@@ -91,7 +91,7 @@ function UIGalleryAlbumsContainer(props: UIGalleryAlbumsContainerProps) {
 }
 
 function useGalleryAlbums() {
-  let { phoneNumber } = useAppContext();
+  let { userInfo } = useAppContext();
   let [ albums, setAlbums ] = React.useState<any[]>(new Array());
   let [ reload, setReload ] = React.useState(false);
 
@@ -105,7 +105,7 @@ function useGalleryAlbums() {
         setAlbums(result.data);
       }
     }
-    GalleryApi.getAlbums(phoneNumber, success);
+    GalleryApi.getAlbums(userInfo.id, userInfo.clanId, success);
   }, [ reload ] ); 
 
   return { albums, deleteAlbum, addAlbum, refresh }

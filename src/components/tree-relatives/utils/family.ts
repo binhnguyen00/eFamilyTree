@@ -14,9 +14,10 @@ export const newFamily = (id: number, type: FamilyType, main = false): Family =>
 });
 
 export const withType =
-  (...types: readonly Family['type'][]) =>
-  (item: Family) =>
-    types.includes(item.type);
+  (...types: readonly Family['type'][]) => {
+    const typesSet = new Set(types);
+    return (item: Family) => typesSet.has(item.type);
+  };
 
 export const widthOf = (family: Family): number => max([...family.parents, ...family.children].map(rightSide));
 export const heightOf = (family: Family): number =>

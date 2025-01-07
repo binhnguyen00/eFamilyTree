@@ -1,4 +1,4 @@
-import { OdooRESTful } from "server";
+import { FailCB, OdooRESTful, SuccessCB } from "server";
 
 export class BaseApi {
   public static server = new OdooRESTful("https://giapha.mobifone5.vn");
@@ -20,5 +20,13 @@ export class BaseApi {
     return {
       'Content-Type': 'application/json; charset=UTF-8',
     }
+  }
+
+  public static getClanMemberInfo(phoneNumber: string, successCB: SuccessCB, failCB?: FailCB) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      phone_number: phoneNumber,
+    });
+    this.server.POST("context/user/info", header, body, successCB, failCB);
   }
 }

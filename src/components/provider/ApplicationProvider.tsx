@@ -1,14 +1,16 @@
 import React from "react";
 
 import { Settings } from "hooks/useSettings";
-import { useAutoLogin, useSettings } from "hooks";
+import { ClanMemberInfo } from "hooks/useClanMemberInfo";
+import { useAutoLogin, useClanMemberInfo, useSettings } from "hooks";
 
 export interface AppCtx {
   appId: string;
   logedIn: boolean;
   phoneNumber: string;
   serverBaseUrl: string;
-  userInfo: {
+  userInfo: ClanMemberInfo,
+  zaloUserInfo: {
     id: string;
     name: string;
     avatar: string;
@@ -27,12 +29,14 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
 
   const { phoneNumber, userInfo, logedIn, updatePhoneNumber, updateUserInfo } = useAutoLogin();
   const { settings, updateSettings } = useSettings(phoneNumber);
+  const info = useClanMemberInfo(phoneNumber);
   
   const ctxInfo = {
     appId: appId,
     logedIn: logedIn,
     phoneNumber: phoneNumber ? phoneNumber : "0942659016",
-    userInfo: userInfo,
+    zaloUserInfo: userInfo,
+    userInfo: info,
     settings: settings,
     serverBaseUrl: "https://giapha.mobifone5.vn"
   }
