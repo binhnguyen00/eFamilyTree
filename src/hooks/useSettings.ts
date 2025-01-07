@@ -21,7 +21,7 @@ interface SettingCtx {
   updateSettings: (settings: Settings) => void
 }
 
-export function useSettings(phoneNumber: string): SettingCtx {
+export function useSettings(userId: number | any, clanId: number | any): SettingCtx {
   let { i18n } = useTranslation();
   let { toggleTheme } = useTheme();
   let [ settings, setSetting ] = React.useState<Settings>({
@@ -46,13 +46,13 @@ export function useSettings(phoneNumber: string): SettingCtx {
 
   // Get user settings
   React.useEffect(() => {
-    if (phoneNumber && !CommonUtils.isStringEmpty(phoneNumber)) {
+    if (userId && !CommonUtils.isStringEmpty(userId)) {
       // Get theme, language
       const success = (result: ServerResponse) => {
         const settings = result.data;
         // Get background
         UserSettingApi.getBackground(
-          phoneNumber, 
+          userId, clanId, 
           (result: ServerResponse) => {
             const bg = result.data;
             setSetting({
@@ -67,10 +67,10 @@ export function useSettings(phoneNumber: string): SettingCtx {
         )
       }
       const fail = (error: FailResponse) => console.error(error)
-      UserSettingApi.getOrDefault(phoneNumber, success, fail);
+      UserSettingApi.getOrDefault(userId, clanId, success, fail);
 
     }
-  }, [phoneNumber])
+  }, [ userId, clanId ])
 
   return {
     settings: settings,

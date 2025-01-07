@@ -7,11 +7,11 @@ import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
 import { t } from "i18next";
 
 export function HeaderUser() {
-  const { logedIn, userInfo } = React.useContext(AppContext);
+  const { logedIn, zaloUserInfo } = React.useContext(AppContext);
   const [ userName, setUserName ] = React.useState("");
 
   React.useEffect(() => {
-    if (userInfo) setUserName(userInfo.name);
+    if (zaloUserInfo) setUserName(zaloUserInfo.name);
   }, [ logedIn ]);
 
   return (
@@ -19,7 +19,7 @@ export function HeaderUser() {
       showBackIcon={false}
       logo={
         <Avatar 
-          src={logedIn ? userInfo.avatar : UNKNOWN_AVATAR} 
+          src={logedIn ? zaloUserInfo.avatar : UNKNOWN_AVATAR} 
           size={40} 
           className="border-secondary"
         />

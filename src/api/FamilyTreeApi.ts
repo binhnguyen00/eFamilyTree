@@ -21,10 +21,11 @@ export class FamilyTreeApi extends BaseApi {
     return this.server.POST("get/info/member", header, body, successCB, failCB);
   }
 
-  public static exportSVG(phoneNumber: string, base64: string, successCB: SuccessCB, failCB?: FailCB) {
+  public static exportSVG(userId: number, clanId: number, base64: string, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
     const body = this.initBody({
-      phone_number: phoneNumber,
+      user_id: userId,
+      clan_id: clanId,
       base64: base64
     })
     return this.server.POST("tree/export/svg", header, body, successCB, failCB);

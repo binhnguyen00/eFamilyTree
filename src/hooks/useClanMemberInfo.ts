@@ -12,7 +12,12 @@ export interface ClanMemberInfo {
 }
 
 export function useClanMemberInfo(phoneNumber: string) {
-  let [ info, setInfo ] = React.useState<ClanMemberInfo>()
+  let [ info, setInfo ] = React.useState<ClanMemberInfo>({
+    id: 0,
+    name: "unknown",
+    clanId: 0,
+    generation: 0
+  })
 
   React.useEffect(() => {
     if (phoneNumber && !CommonUtils.isStringEmpty(phoneNumber)) {

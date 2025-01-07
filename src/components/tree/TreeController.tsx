@@ -24,7 +24,7 @@ interface TreeControllerProps {
 }
 
 export function TreeController(props: TreeControllerProps) {
-  const { phoneNumber, serverBaseUrl } = useAppContext();
+  const { phoneNumber, userInfo, serverBaseUrl } = useAppContext();
   const { openSnackbar } = useSnackbar();
   const { rootId, onZoomToRoot, onZoomIn, onZoomOut, onReset, html2export } = props;
 
@@ -107,7 +107,7 @@ export function TreeController(props: TreeControllerProps) {
           })
         };
       }
-      FamilyTreeApi.exportSVG(phoneNumber, base64, success);
+      FamilyTreeApi.exportSVG(userInfo.id, userInfo.clanId, base64, success);
     }
 
     const blob = new Blob([svg], { type: 'image/svg+xml' });

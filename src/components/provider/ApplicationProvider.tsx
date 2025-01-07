@@ -27,16 +27,18 @@ export const AppContext = React.createContext({} as AppCtx);
 export function ApplicationProvider({ children }: { children: React.ReactNode }) {
   const appId = import.meta.env.VITE_APP_ZALO_APP_ID;
 
-  const { phoneNumber, userInfo, logedIn, updatePhoneNumber, updateUserInfo } = useAutoLogin();
-  const { settings, updateSettings } = useSettings(phoneNumber);
-  const info = useClanMemberInfo(phoneNumber);
+  const { phoneNumber, zaloUserInfo, logedIn, updatePhoneNumber, updateUserInfo } = useAutoLogin();
+
+  const userInfo = useClanMemberInfo(phoneNumber);
+  
+  const { settings, updateSettings } = useSettings(userInfo.id, userInfo.clanId);
   
   const ctxInfo = {
     appId: appId,
     logedIn: logedIn,
     phoneNumber: phoneNumber ? phoneNumber : "0942659016",
-    zaloUserInfo: userInfo,
-    userInfo: info,
+    zaloUserInfo: zaloUserInfo,
+    userInfo: userInfo,
     settings: settings,
     serverBaseUrl: "https://giapha.mobifone5.vn"
   }

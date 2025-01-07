@@ -22,7 +22,7 @@ export function UIAccount() {
 }
 
 function UIAccountContainer() {
-  const { userInfo, phoneNumber } = React.useContext(AppContext);
+  const { zaloUserInfo, phoneNumber } = React.useContext(AppContext);
   const { goTo, jumpTo } = useRouteNavigate();
 
   // Temporary methods
@@ -38,10 +38,10 @@ function UIAccountContainer() {
       <Box flex flexDirection="column" alignItems="center">
         <Avatar
           size={120}
-          src={userInfo.avatar ? userInfo.avatar : UNKNOWN_AVATAR}
+          src={zaloUserInfo.avatar ? zaloUserInfo.avatar : UNKNOWN_AVATAR}
           className="border-secondary"
         />
-        <Text.Title className="text-capitalize text-shadow"> {userInfo.name} </Text.Title>
+        <Text.Title className="text-capitalize text-shadow"> {zaloUserInfo.name} </Text.Title>
       </Box>
 
       <Button variant="secondary" onClick={() => goTo({ path: "register" }) }>
