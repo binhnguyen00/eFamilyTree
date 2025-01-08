@@ -1,11 +1,10 @@
 import React from "react";
-
 import { t } from "i18next";
-import { Grid } from "zmp-ui";
+import { Button, Grid } from "zmp-ui";
 
 import { StyleUtils } from "utils";
 import { useRouteNavigate } from "hooks";
-import { Card, Header, Loading, ScrollableDiv, SearchBar } from "components";
+import { Card, Header, Loading, ScrollableDiv } from "components";
 
 import data from "./sample/funds.json";
 
@@ -79,10 +78,13 @@ function UIFundList(props: { funds: any[] }) {
 
   return (
     <div>
-      <SearchBar 
-        placeholder={t("search_funds")}
-        onSearch={(text, event) => console.log(text)}
-      />
+      <ScrollableDiv direction="horizontal">
+        <div className="flex-h">
+          <Button variant="secondary"> Create </Button>
+          <Button variant="secondary"> Edit </Button>
+          <Button variant="secondary"> Delete </Button>
+        </div>
+      </ScrollableDiv>
       <ScrollableDiv direction="vertical" height={StyleUtils.calComponentRemainingHeight(85)} className="mt-2">
         <Grid columnCount={2} columnSpace="10px" rowSpace="10px" >
           {html}
@@ -102,20 +104,16 @@ interface UIFundCardProps {
 function UIFundCard(props: UIFundCardProps) {
   const  { info, onClick } = props;
 
-  const totalAmount = Number.parseFloat(info["total"]);
-  const formatted = new Intl.NumberFormat('id-ID').format(totalAmount)
-
   return (
     <Card
       // src={info.thumbnail}
-      width={"auto"}
       height={150}
       title={info.name}
       content={(
-        <p style={{ fontSize: "1.2rem" }}> {formatted} </p>
+        <p style={{ fontSize: "1.2rem" }}> {info["balance"]} </p>
       )}
       onClick={onClick}
-      className="button"
+      className="button bg-secondary text-primary"
     />  
   )
 }

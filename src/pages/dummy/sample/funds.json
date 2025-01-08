@@ -1,161 +1,25 @@
 [
   {
     "name": "Quỹ khuyến học",
-    "clan": "Nguyễn Đình",
-    "total": 5000000.0,
+    "balance": "5.000.000.000.000",
     "incomes": [
       {
         "name": "Phạm Khắc Phú",
-        "amount": 5000000.0,
+        "amount": "5.000.000",
         "date": "12/12/2024",
-        "note": false
+        "note": ""
       },
       {
         "name": "Phạm Thị Đỏ",
-        "amount": 2000000.0,
+        "amount": "2.000.000",
         "date": "12/12/2024",
-        "note": false
+        "note": ""
       }
     ],
     "expenses": [
       {
         "name": "Phạm Khắc Thành",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": "Chi cho mua le"
-      }
-    ]
-  },
-  {
-    "name": "Quỹ khuyến học",
-    "clan": "Nguyễn Đình",
-    "total": 5000000.0,
-    "incomes": [
-      {
-        "name": "Phạm Khắc Phú",
-        "amount": 5000000.0,
-        "date": "12/12/2024",
-        "note": false
-      },
-      {
-        "name": "Phạm Thị Đỏ",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": false
-      }
-    ],
-    "expenses": [
-      {
-        "name": "Phạm Khắc Thành",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": "Chi cho mua le"
-      }
-    ]
-  },
-  {
-    "name": "Quỹ khuyến học",
-    "clan": "Nguyễn Đình",
-    "total": 5000000.0,
-    "incomes": [
-      {
-        "name": "Phạm Khắc Phú",
-        "amount": 5000000.0,
-        "date": "12/12/2024",
-        "note": false
-      },
-      {
-        "name": "Phạm Thị Đỏ",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": false
-      }
-    ],
-    "expenses": [
-      {
-        "name": "Phạm Khắc Thành",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": "Chi cho mua le"
-      }
-    ]
-  },
-  {
-    "name": "Quỹ khuyến học",
-    "clan": "Nguyễn Đình",
-    "total": 5000000.0,
-    "incomes": [
-      {
-        "name": "Phạm Khắc Phú",
-        "amount": 5000000.0,
-        "date": "12/12/2024",
-        "note": false
-      },
-      {
-        "name": "Phạm Thị Đỏ",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": false
-      }
-    ],
-    "expenses": [
-      {
-        "name": "Phạm Khắc Thành",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": "Chi cho mua le"
-      }
-    ]
-  },
-  {
-    "name": "Quỹ khuyến học",
-    "clan": "Nguyễn Đình",
-    "total": 5000000.0,
-    "incomes": [
-      {
-        "name": "Phạm Khắc Phú",
-        "amount": 5000000.0,
-        "date": "12/12/2024",
-        "note": false
-      },
-      {
-        "name": "Phạm Thị Đỏ",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": false
-      }
-    ],
-    "expenses": [
-      {
-        "name": "Phạm Khắc Thành",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": "Chi cho mua le"
-      }
-    ]
-  },
-  {
-    "name": "Quỹ khuyến học",
-    "clan": "Nguyễn Đình",
-    "total": 5000000.0,
-    "incomes": [
-      {
-        "name": "Phạm Khắc Phú",
-        "amount": 5000000.0,
-        "date": "12/12/2024",
-        "note": false
-      },
-      {
-        "name": "Phạm Thị Đỏ",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": false
-      }
-    ],
-    "expenses": [
-      {
-        "name": "Phạm Khắc Thành",
-        "amount": 2000000.0,
+        "amount": "2.000.000",
         "date": "12/12/2024",
         "note": "Chi cho mua le"
       }
@@ -163,42 +27,13 @@
   },
   {
     "name": "Quỹ Giỗ tổ",
-    "clan": "Nguyễn Đình",
-    "total": 5000000.0,
+    "balance": "5.000.000.000.000.000.000",
     "incomes": [
       {
         "name": "Phạm Thị Hiên",
-        "amount": 5000000.0,
+        "amount": "5.000.000",
         "date": "23/12/2024",
-        "note": false
-      }
-    ],
-    "expenses": []
-  },
-  {
-    "name": "Quỹ Giỗ tổ",
-    "clan": "Nguyễn Đình",
-    "total": 5000000.0,
-    "incomes": [
-      {
-        "name": "Phạm Thị Hiên",
-        "amount": 5000000.0,
-        "date": "23/12/2024",
-        "note": false
-      }
-    ],
-    "expenses": []
-  },
-  {
-    "name": "Quỹ Giỗ tổ",
-    "clan": "Nguyễn Đình",
-    "total": 5000000.0,
-    "incomes": [
-      {
-        "name": "Phạm Thị Hiên",
-        "amount": 5000000.0,
-        "date": "23/12/2024",
-        "note": false
+        "note": ""
       }
     ],
     "expenses": []

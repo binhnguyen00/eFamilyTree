@@ -32,8 +32,6 @@ public static calComponentRemainingHeight(otherComponentHeight: number) {
     otherComponentHeight
   );
 
-  console.log("Remaining Height:", result);
-
   return result;
 }
 }

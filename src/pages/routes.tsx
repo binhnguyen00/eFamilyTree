@@ -57,7 +57,7 @@ export function AppRoutes() {
       <Route path={createPath("blogs/detail")} element={<UIBlogDetail />} />
 
       <Route path={createPath("funds")} element={<UIFund />}/>
-      <Route path={createPath("funds/detail")} element={<UIFundInfo />} />
+      <Route path={createPath("fund/info")} element={<UIFundInfo />} />
 
       <Route path={createPath("register")} element={<UIRegister />} />
       <Route path={createPath("register/clan")} element={<UIRegisterClan />} />

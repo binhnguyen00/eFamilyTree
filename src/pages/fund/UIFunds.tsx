@@ -61,11 +61,7 @@ function UIFundContainer(props: { funds: any[], loading: boolean }) {
       </div>
     )
   }
-  return (
-    <div>
-      <UIFundList funds={funds}/>
-    </div>
-  )
+  return <UIFundList funds={funds}/>
 }
 
 // ==========================
@@ -73,15 +69,17 @@ function UIFundContainer(props: { funds: any[], loading: boolean }) {
 // ==========================
 function UIFundList(props: { funds: any[] }) {
   let { funds } = props;
-
   let { goTo } = useRouteNavigate();
-  let html = [] as React.ReactNode[];
 
   const navigateToFundDetail = (fund: any) => {
     if (!fund) return;
-    goTo({ path: "funds/detail", data: {fund} });
+    else {
+      const fundId = fund.id;
+      goTo({ path: "fund/info", data: { fundId } });
+    }
   }
 
+  let html = [] as React.ReactNode[];
   funds.map((item, index) => {
     html.push(
       <UIFundCard
@@ -118,14 +116,13 @@ function UIFundCard(props: UIFundCardProps) {
   return (
     <Card
       // src={info.thumbnail}
-      width={"auto"}
       height={"auto"}
       title={info.name}
       content={(
-        <p style={{ fontSize: "1.5rem" }}> {Number.parseFloat(info["balance"])} </p>
+        <p style={{ fontSize: "1.5rem" }}> {info["balance"]} </p>
       )}
       onClick={onClick}
-      className="button"
+      className="button bg-secondary text-primary"
     />  
   )
 }

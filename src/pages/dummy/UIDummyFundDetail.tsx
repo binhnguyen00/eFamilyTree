@@ -56,101 +56,138 @@ interface UIFundDetailContainerProps {
 function UIFundDetailContainer(props: UIFundDetailContainerProps) {
   const { fundInfo, loading } = props;
 
+  // Lift the state up to the container
+  const [currentView, setCurrentView] = React.useState<'all' | 'incomes' | 'expenses'>('all');
+  const [sortedTransactions, setSortedTransactions] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    if (fundInfo) {
+      updateTransactions(currentView);
+    }
+  }, [fundInfo, currentView]);
+
+  const updateTransactions = (view: 'all' | 'incomes' | 'expenses') => {
+    const sortedIncomes = DateTimeUtils.sortByDate([...fundInfo.incomes], "date").map(item => ({
+      ...item,
+      type: 'income'
+    }));
+    
+    const sortedExpenses = DateTimeUtils.sortByDate([...fundInfo.expenses], "date").map(item => ({
+      ...item,
+      type: 'expense'
+    }));
+
+    switch (view) {
+      case 'incomes':
+        setSortedTransactions(sortedIncomes);
+        break;
+      case 'expenses':
+        setSortedTransactions(sortedExpenses);
+        break;
+      case 'all':
+        setSortedTransactions(DateTimeUtils.sortByDate([...sortedIncomes, ...sortedExpenses], "date"));
+        break;
+    }
+  };
+
   if (loading) {
     return (
       <div>
         <Header title={t("funds")}/>
         <Loading/>
       </div>
-    )
+    );
   }
 
   return (
     <div>
-      <UIFundInfo summary={fundInfo}/>
+      <UIFundSummary 
+        summary={fundInfo}
+        onViewChange={setCurrentView}
+      />
 
       <Divider/>
 
-      <UIFundFlow 
-        incomes={fundInfo?.["incomes"] || []} 
-        expenses={fundInfo?.["expenses"] || []}
-      />
+      <UIFundFlow transactions={sortedTransactions} />
     </div>
-  )
+  );
 }
 
-function UIFundInfo(props: { summary: any }) {
-  let { summary } = props;
-
+interface UIFundSummaryProps {
+  summary: any;
+  onViewChange: (view: 'all' | 'incomes' | 'expenses') => void;
+}
+function UIFundSummary({ summary, onViewChange }: UIFundSummaryProps) {
   return (
     <div className="flex-v">
-      <Card className="mb-2 bg-primary" title={t("balance")} content={
-        <p style={{ fontSize: "1.5rem", fontWeight: "bold" }}>{summary["balance"]}</p>
-      }/>
+      <Card 
+        onClick={() => onViewChange('all')}
+        className="mb-2 bg-primary" 
+        title={t("balance")} 
+        content={
+          <p style={{ fontSize: "1.5rem", fontWeight: "bold" }}>
+            {summary.balance}
+          </p>
+        }
+      />
 
       <Grid columnCount={2} columnSpace="0.5rem">
-        <Card title={t("incomes")} className="bg-primary" content={
-          <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>{summary["total_incomes"]}</p>
-        }/>
-        <Card title={t("expenses")} className="bg-primary" content={
-          <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>{summary["total_expenses"]}</p>
-        }/>
+        <Card 
+          onClick={() => onViewChange('incomes')}
+          className="bg-primary" 
+          title={t("incomes")} 
+          content={
+            <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+              {summary.total_incomes}
+            </p>
+          }
+        />
+        <Card 
+          onClick={() => onViewChange('expenses')}
+          className="bg-primary" 
+          title={t("expenses")} 
+          content={
+            <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+              {summary.total_expenses}
+            </p>
+          }
+        />
       </Grid>
     </div>
-  )
+  );
 }
 
-function UIFundFlow(props: { incomes: any[], expenses: any[] }) {
-  let { incomes, expenses } = props;
+interface UIFundFlowProps {
+  transactions: any[];
+}
 
-  enum Type {
-    INCOME = "income",
-    EXPENSE= "expense"
-  }
-
-  const markIncome = (incomes: any[]) => {
-    if (incomes.length === 0) return [];
-    incomes.forEach((item) => item["type"] = Type.INCOME)
-    return incomes;
-  }
-
-  const markExpense = (expends: any[]) => {
-    if (expends.length === 0) return [];
-    expends.forEach((item) => item["type"] = Type.EXPENSE)
-    return expends;
-  }
-
-  incomes = markIncome(incomes);
-  expenses = markExpense(expenses);
-  const flow = DateTimeUtils.sortByDate([...incomes, ...expenses], "date");
-
-  let html = [] as React.ReactNode[];
-  if (flow.length === 0) return html;
-
-  flow.map((item, index) => {
-    const isIncome = item["type"] === Type.INCOME;
-    const totalAmount = Number.parseFloat(item["amount"]);
-    const formatted = new Intl.NumberFormat('id-ID').format(totalAmount)
-    html.push(
-      <Box 
-        flex flexDirection="row" justifyContent="space-between"
-        className="mt-2 p-3 bg-secondary text-primary rounded"
-      >
-        <Stack space="0.5rem">
-          <Text.Title> {`${isIncome ? "+" : "-"} ${formatted}`} </Text.Title>
-          <Text> {item["note"] || ""} </Text>
-        </Stack>
-        <Text> {item["date"]} </Text>
-      </Box>
-    )
-  })
+function UIFundFlow({ transactions }: UIFundFlowProps) {
+  if (transactions.length === 0) return null;
 
   return (
     <div className="flex-v">
-      <span> {t("transaction_history")} </span>
+      <span>{t("transaction_history")}</span>
       <ScrollableDiv direction="vertical" height={StyleUtils.calComponentRemainingHeight(250)}>
-        {html}  
+        {transactions.map((item, index) => (
+          <Box 
+            key={index}
+            flex 
+            flexDirection="row" 
+            justifyContent="space-between"
+            className="mt-2 p-3 bg-secondary text-primary rounded"
+          >
+            <Stack space="0.5rem">
+              <div className="flex-h justify-between">
+                <p style={{ fontSize: "1.2rem" }}>
+                  {`${item.type === 'income' ? '+' : '-'} ${item.amount}`}
+                </p>
+                <p>{item.date}</p>
+              </div>
+              <p>{item.note || ""}</p>
+            </Stack>
+          </Box>
+        ))}
       </ScrollableDiv>
     </div>
-  )
+  );
 }
