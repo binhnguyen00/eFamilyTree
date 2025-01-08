@@ -4,37 +4,25 @@ import { Box, Grid, Stack, Text } from "zmp-ui";
 
 import { FundApi } from "api";
 import { DateTimeUtils } from "utils";
+import { ServerResponse } from "server";
 import { useAppContext, useRouteNavigate } from "hooks";
 import { Card, Divider, Header, Loading, ScrollableDiv } from "components";
-
-import data from "./sample/fund.json";
-
-export default function UIDummyFundDetail() {
-  const { belongings } = useRouteNavigate();
-  const { fundId } = belongings;
-
-  const { info, loading } = useFund(fundId);
-
-  return (
-    <div className="container">
-      <Header title={t("funds")}/>
-        
-      <UIFundDetailContainer fundInfo={info} loading={loading}/>
-    </div>
-  )
-}
 
 function useFund(fundId: number) {
   const { userInfo } = useAppContext();
 
-  const [ info, setInfo ] = React.useState<any>(data);
+  const [ info, setInfo ] = React.useState<any>(undefined);
   const [ income, setIncome ] = React.useState([]);
   const [ expense, setExpense ] = React.useState([]);
-  const [ loading, setLoading ] = React.useState(false); // Change back to false
+  const [ loading, setLoading ] = React.useState(true);
   const [ reload, setReload ] = React.useState(false);
 
   React.useEffect(() => {
-    const success = () => {
+    const success = (result: ServerResponse) => {
+      setLoading(false);
+      if (result.status === "success") {
+        setInfo(result.data);
+      }
     }
     FundApi.getFundById(fundId, userInfo.id, userInfo.clanId, success);
   }, [ reload ])
@@ -49,16 +37,15 @@ function useFund(fundId: number) {
   } 
 }
 
-interface UIFundDetailContainerProps {
-  fundInfo: any;
-  loading: boolean;
-}
-function UIFundDetailContainer(props: UIFundDetailContainerProps) {
-  const { fundInfo, loading } = props;
+export function UIFundInfo() {
+  const { belongings } = useRouteNavigate();
+  const { fundId } = belongings;
 
+  const { info, loading } = useFund(fundId);
+  
   if (loading) {
     return (
-      <div>
+      <div className="container">
         <Header title={t("funds")}/>
         <Loading/>
       </div>
@@ -66,21 +53,25 @@ function UIFundDetailContainer(props: UIFundDetailContainerProps) {
   }
 
   return (
-    <div>
-      <UIFundInfo summary={fundInfo}/>
+    <div className="container">
+      <UIFundSummary summary={info}/>
 
       <Divider/>
 
       <UIFundFlow 
-        incomes={fundInfo?.["incomes"] || []} 
-        expenses={fundInfo?.["expenses"] || []}
+        incomes={info?.["incomes"] || []} 
+        expenses={info?.["expenses"] || []}
       />
     </div>
   )
 }
 
-function UIFundInfo(props: { summary: any }) {
+// ======================================
+// SUMS
+// ======================================
+function UIFundSummary(props: { summary: any }) {
   let { summary } = props;
+  if (!summary) return <></>;
 
   return (
     <div className="flex-v">
@@ -89,10 +80,10 @@ function UIFundInfo(props: { summary: any }) {
       }/>
 
       <Grid columnCount={2} columnSpace="0.5rem">
-        <Card title={t("incomes")} className="bg-primary" content={
+        <Card title={t("incomes")} content={
           <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>{summary["total_incomes"]}</p>
         }/>
-        <Card title={t("expenses")} className="bg-primary" content={
+        <Card title={t("expenses")} content={
           <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>{summary["total_expenses"]}</p>
         }/>
       </Grid>
@@ -100,6 +91,9 @@ function UIFundInfo(props: { summary: any }) {
   )
 }
 
+// ======================================
+// MONEY FLOW
+// ======================================
 function UIFundFlow(props: { incomes: any[], expenses: any[] }) {
   let { incomes, expenses } = props;
 
@@ -129,18 +123,17 @@ function UIFundFlow(props: { incomes: any[], expenses: any[] }) {
 
   flow.map((item, index) => {
     const isIncome = item["type"] === Type.INCOME;
-    const totalAmount = Number.parseFloat(item["amount"]);
-    const formatted = new Intl.NumberFormat('id-ID').format(totalAmount)
+    const amount = Number.parseFloat(item["amount"]);
     html.push(
       <Box 
         flex flexDirection="row" justifyContent="space-between"
         className="mt-2 p-3 bg-secondary text-primary rounded"
       >
         <Stack space="0.5rem">
-          <Text.Title> {`${isIncome ? "+" : "-"} ${formatted}`} </Text.Title>
-          <Text> {item["note"] || ""} </Text>
+          <h3> {`${isIncome ? "+" : "-"} ${amount}`} </h3>
+          <p> {item["note"] || ""} </p>
         </Stack>
-        <Text> {item["date"]} </Text>
+        <p> {item["date"]} </p>
       </Box>
     )
   })
@@ -148,7 +141,7 @@ function UIFundFlow(props: { incomes: any[], expenses: any[] }) {
   return (
     <div className="flex-v">
       <span> {t("transaction_history")} </span>
-      <ScrollableDiv direction="vertical" height={window.innerHeight - 350}>
+      <ScrollableDiv direction="vertical" height={window.innerHeight - 330}>
         {html}  
       </ScrollableDiv>
     </div>

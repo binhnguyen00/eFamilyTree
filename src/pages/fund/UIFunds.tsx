@@ -114,10 +114,6 @@ interface UIFundCardProps {
 }
 function UIFundCard(props: UIFundCardProps) {
   const  { info, onClick } = props;
-
-  const totalAmount = Number.parseFloat(info["total"]);
-  const formatted = new Intl.NumberFormat('id-ID').format(totalAmount)
-
   return (
     <Card
       // src={info.thumbnail}
@@ -125,7 +121,7 @@ function UIFundCard(props: UIFundCardProps) {
       height={"auto"}
       title={info.name}
       content={(
-        <p style={{ fontSize: "1.2rem" }}> {formatted} </p>
+        <p style={{ fontSize: "1.2rem" }}> {info["balance"]} </p>
       )}
       onClick={onClick}
       className="button"

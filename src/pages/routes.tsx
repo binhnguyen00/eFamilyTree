@@ -13,8 +13,8 @@ import { UICerificateGroup } from "pages/certificate/UICertificateGroup";
 import { UIDeveloper } from "pages/dummy/UIDeveloper";
 import { UIPlayground } from "pages/dummy/UIPlayground";
 import { UIFamilyTree } from "pages/family-tree/UIFamilyTree";
-import { UIFund } from "pages/fund/UIFund";
-import { UIFundDetail } from "pages/fund/UIFundDetail";
+import { UIFund } from "pages/fund/UIFunds";
+import { UIFundInfo } from "pages/fund/UIFundInfo";
 import { UIHome } from "pages/home/UIHome";
 import { UITheme } from "pages/theme/UITheme";
 import { UIAccount } from "pages/user/UIAccount";
@@ -57,7 +57,7 @@ export function AppRoutes() {
       <Route path={createPath("blogs/detail")} element={<UIBlogDetail />} />
 
       <Route path={createPath("funds")} element={<UIFund />}/>
-      <Route path={createPath("funds/detail")} element={<UIFundDetail />} />
+      <Route path={createPath("funds/detail")} element={<UIFundInfo />} />
 
       <Route path={createPath("register")} element={<UIRegister />} />
       <Route path={createPath("register/clan")} element={<UIRegisterClan />} />
