@@ -57,13 +57,13 @@ function CardContent(props: CardContentProps) {
 
   const fontStyle = { 
     fontWeight: "bold", 
-    fontSize: "1.5rem" 
+    fontSize: "1.2rem" 
   } as React.CSSProperties;
 
   if (typeof content !== "string") {
     return (
       <div> 
-        <p className="mb-2" style={{ ...fontStyle }}> {title} </p>
+        <p className="mb-2 text-capitalize" style={{ ...fontStyle }}> {title} </p>
         {content} 
       </div>
     );
@@ -71,7 +71,7 @@ function CardContent(props: CardContentProps) {
 
   return (
     <div> 
-      <p className="mb-2" style={{ ...fontStyle }}> {title} </p>
+      <p className="mb-2 text-capitalize" style={{ ...fontStyle }}> {title} </p>
       <p> {content} </p> 
     </div>
   )
