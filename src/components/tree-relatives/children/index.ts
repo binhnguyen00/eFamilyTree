@@ -22,7 +22,6 @@ export const inChildDirection = (store: Store): Store => {
     const visitedUnits = new Set<Unit>(); // Track processed units to avoid duplicates
 
     while (stack.length) {
-      console.log(stack);
       const parentUnit = stack.pop()!;
 
       if (visitedUnits.has(parentUnit)) continue;
