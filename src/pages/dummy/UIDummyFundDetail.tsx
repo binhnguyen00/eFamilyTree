@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { Box, Grid, Stack, Text } from "zmp-ui";
 
 import { FundApi } from "api";
-import { DateTimeUtils } from "utils";
+import { DateTimeUtils, StyleUtils } from "utils";
 import { useAppContext, useRouteNavigate } from "hooks";
 import { Card, Divider, Header, Loading, ScrollableDiv } from "components";
 
@@ -148,7 +148,7 @@ function UIFundFlow(props: { incomes: any[], expenses: any[] }) {
   return (
     <div className="flex-v">
       <span> {t("transaction_history")} </span>
-      <ScrollableDiv direction="vertical" height={window.innerHeight - 350}>
+      <ScrollableDiv direction="vertical" height={StyleUtils.calComponentRemainingHeight(250)}>
         {html}  
       </ScrollableDiv>
     </div>

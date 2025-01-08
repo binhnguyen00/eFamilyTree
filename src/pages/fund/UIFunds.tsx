@@ -3,6 +3,7 @@ import { t } from "i18next";
 import { Grid } from "zmp-ui";
 
 import { FundApi } from "api";
+import { StyleUtils } from "utils";
 import { useRouteNavigate } from "hooks";
 import { ServerResponse } from "server";
 import { 
@@ -96,7 +97,7 @@ function UIFundList(props: { funds: any[] }) {
         placeholder={t("search_funds")}
         onSearch={(text, event) => console.log(text)}
       />
-      <ScrollableDiv height={"100%"} width={"auto"}>
+      <ScrollableDiv height={StyleUtils.calComponentRemainingHeight(85)} width={"auto"}>
         <Grid columnCount={2} columnSpace="10px" rowSpace="10px" >
           {html}
         </Grid>
@@ -121,7 +122,7 @@ function UIFundCard(props: UIFundCardProps) {
       height={"auto"}
       title={info.name}
       content={(
-        <p style={{ fontSize: "1.2rem" }}> {info["balance"]} </p>
+        <p style={{ fontSize: "1.5rem" }}> {Number.parseFloat(info["balance"])} </p>
       )}
       onClick={onClick}
       className="button"

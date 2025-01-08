@@ -3,6 +3,7 @@ import React from "react";
 import { t } from "i18next";
 import { Grid } from "zmp-ui";
 
+import { StyleUtils } from "utils";
 import { useRouteNavigate } from "hooks";
 import { Card, Header, Loading, ScrollableDiv, SearchBar } from "components";
 
@@ -82,7 +83,7 @@ function UIFundList(props: { funds: any[] }) {
         placeholder={t("search_funds")}
         onSearch={(text, event) => console.log(text)}
       />
-      <ScrollableDiv direction="vertical" height={window.innerHeight - 220} className="mt-2">
+      <ScrollableDiv direction="vertical" height={StyleUtils.calComponentRemainingHeight(85)} className="mt-2">
         <Grid columnCount={2} columnSpace="10px" rowSpace="10px" >
           {html}
         </Grid>

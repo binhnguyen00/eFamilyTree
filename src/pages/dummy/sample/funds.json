@@ -174,5 +174,33 @@
       }
     ],
     "expenses": []
+  },
+  {
+    "name": "Quỹ Giỗ tổ",
+    "clan": "Nguyễn Đình",
+    "total": 5000000.0,
+    "incomes": [
+      {
+        "name": "Phạm Thị Hiên",
+        "amount": 5000000.0,
+        "date": "23/12/2024",
+        "note": false
+      }
+    ],
+    "expenses": []
+  },
+  {
+    "name": "Quỹ Giỗ tổ",
+    "clan": "Nguyễn Đình",
+    "total": 5000000.0,
+    "incomes": [
+      {
+        "name": "Phạm Thị Hiên",
+        "amount": 5000000.0,
+        "date": "23/12/2024",
+        "note": false
+      }
+    ],
+    "expenses": []
   }
 ]
