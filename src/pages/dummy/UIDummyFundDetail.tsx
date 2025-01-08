@@ -1,95 +1,154 @@
 import React from "react";
-import { useLocation } from 'react-router-dom';
 import { t } from "i18next";
+import { Box, Grid, Stack, Text } from "zmp-ui";
 
-import { Box, Stack, Text } from "zmp-ui";
-
+import { FundApi } from "api";
 import { DateTimeUtils } from "utils";
-import { Header, SearchBar } from "components";
+import { useAppContext, useRouteNavigate } from "hooks";
+import { Card, Divider, Header, Loading, ScrollableDiv } from "components";
+
+import data from "./sample/fund.json";
 
 export default function UIDummyFundDetail() {
-  const location = useLocation();
-  const { fund } = location.state || null;
+  const { belongings } = useRouteNavigate();
+  const { fundId } = belongings;
 
-  const type = {
-    1: "income",
-    0: "expense"
-  }
+  const { info, loading } = useFund(fundId);
 
-  const markIncome = (incomes: any[]) => {
-    if (incomes.length === 0) return [];
-    incomes.forEach((item) => {
-      item["type"] = type[1];
-    })
-    return incomes;
-  }
+  return (
+    <div className="container">
+      <Header title={t("funds")}/>
+        
+      <UIFundDetailContainer fundInfo={info} loading={loading}/>
+    </div>
+  )
+}
 
-  const markExpense = (expends: any[]) => {
-    if (expends.length === 0) return [];
-    expends.forEach((item) => {
-      item["type"] = type[0];
-    })
-    return expends;
-  }
+function useFund(fundId: number) {
+  const { userInfo } = useAppContext();
 
-  const renderIOComes = () => {
-    const incomes = markIncome(fund["income_ids"] || []);
-    const expends = markExpense(fund["expense_ids"] || []);
-    const flow = DateTimeUtils.sortByDate([...incomes, ...expends], "date");
-    const total = flow.reduce((acc, item) => {
-      const amount = Number.parseFloat(item["amount"]);
-      if (incomes.includes(item)) return acc + amount;
-      else return acc - amount;
-    }, 0);
+  const [ info, setInfo ] = React.useState<any>(data);
+  const [ income, setIncome ] = React.useState([]);
+  const [ expense, setExpense ] = React.useState([]);
+  const [ loading, setLoading ] = React.useState(false); // Change back to false
+  const [ reload, setReload ] = React.useState(false);
 
-    let html = [] as React.ReactNode[];
-    if (flow.length === 0) return html;
+  React.useEffect(() => {
+    const success = () => {
+    }
+    FundApi.getFundById(fundId, userInfo.id, userInfo.clanId, success);
+  }, [ reload ])
 
-    html.push(
-      <Box 
-        flex flexDirection="row" justifyContent="space-between"
-        className="p-3 bg-secondary text-primary rounded"
-      >
-        <Text.Title> 
-          {`${t("total")}: ${new Intl.NumberFormat('id-ID').format(Number.parseFloat(total))}`}
-        </Text.Title>
-      </Box>
-    )
-    flow.map((item, index) => {
-      const isIncome = item["type"] === "income";
-      const totalAmount = Number.parseFloat(item["amount"]);
-      const formatted = new Intl.NumberFormat('id-ID').format(totalAmount)
-      html.push(
-        <Box 
-          flex flexDirection="row" justifyContent="space-between"
-          className="mt-2 p-3 bg-secondary text-primary rounded"
-        >
-          <Stack space="0.5rem">
-            <Text.Title> {`${isIncome ? "+" : "-"} ${formatted}`} </Text.Title>
-            <Text> {item["note"] || ""} </Text>
-          </Stack>
-          <Text> {item["date"]} </Text>
-        </Box>
-      )
-    })
+  return {
+    info: info,
+    income: income,
+    expense: expense,
+    loading: loading,
+    update: setInfo,
+    refresh: () => setReload(!reload),
+  } 
+}
 
+interface UIFundDetailContainerProps {
+  fundInfo: any;
+  loading: boolean;
+}
+function UIFundDetailContainer(props: UIFundDetailContainerProps) {
+  const { fundInfo, loading } = props;
+
+  if (loading) {
     return (
-      <div className="flex-v">
-        {html}
+      <div>
+        <Header title={t("funds")}/>
+        <Loading/>
       </div>
     )
   }
 
   return (
-    <div className="container">
-      <Header title={fund["name"]}/>
-        
-      <SearchBar 
-        placeholder={t("search_funds")}
-        onSearch={(text, event) => console.log(text)}
-      />
+    <div>
+      <UIFundInfo info={fundInfo}/>
 
-      {renderIOComes()}
+      <Divider/>
+
+      <UIFundFlow 
+        incomes={fundInfo?.["incomes"] || []} 
+        expenses={fundInfo?.["expenses"] || []}
+      />
+    </div>
+  )
+}
+
+function UIFundInfo(props: { info: any }) {
+  let { info } = props;
+
+  return (
+    <div className="flex-v">
+      <Card className="mb-2" title="Tổng"/>
+
+      <Grid columnCount={2} columnSpace="0.5rem">
+        <Card 
+          title="Tổng Thu"
+        />
+        <Card
+          title="Tổng Chi"
+        />
+      </Grid>
+    </div>
+  )
+}
+
+function UIFundFlow(props: { incomes: any[], expenses: any[] }) {
+  let { incomes, expenses } = props;
+
+  enum Type {
+    INCOME = "income",
+    EXPENSE= "expense"
+  }
+
+  const markIncome = (incomes: any[]) => {
+    if (incomes.length === 0) return [];
+    incomes.forEach((item) => item["type"] = Type.INCOME)
+    return incomes;
+  }
+
+  const markExpense = (expends: any[]) => {
+    if (expends.length === 0) return [];
+    expends.forEach((item) => item["type"] = Type.EXPENSE)
+    return expends;
+  }
+
+  incomes = markIncome(incomes);
+  expenses = markExpense(expenses);
+  const flow = DateTimeUtils.sortByDate([...incomes, ...expenses], "date");
+
+  let html = [] as React.ReactNode[];
+  if (flow.length === 0) return html;
+
+  flow.map((item, index) => {
+    const isIncome = item["type"] === Type.INCOME;
+    const totalAmount = Number.parseFloat(item["amount"]);
+    const formatted = new Intl.NumberFormat('id-ID').format(totalAmount)
+    html.push(
+      <Box 
+        flex flexDirection="row" justifyContent="space-between"
+        className="mt-2 p-3 bg-secondary text-primary rounded"
+      >
+        <Stack space="0.5rem">
+          <Text.Title> {`${isIncome ? "+" : "-"} ${formatted}`} </Text.Title>
+          <Text> {item["note"] || ""} </Text>
+        </Stack>
+        <Text> {item["date"]} </Text>
+      </Box>
+    )
+  })
+
+  return (
+    <div className="flex-v">
+      <span> {t("transaction_history")} </span>
+      <ScrollableDiv direction="vertical" height={window.innerHeight - 330}>
+        {html}  
+      </ScrollableDiv>
     </div>
   )
 }

@@ -9,6 +9,16 @@ export class FundApi extends BaseApi {
       user_id: userId,
       clan_id: clanId
     });
-    return this.server.POST("get/fund", header, body, successCB, failCB);
+    return this.server.POST("/funds", header, body, successCB, failCB);
+  }
+
+  public static getFundById(fundId: number, userId: number, clanId: number, successCB: SuccessCB, failCB?: FailCB) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      id: fundId,
+      user_id: userId,
+      clan_id: clanId,
+    });
+    return this.server.POST("/fund/info", header, body, successCB, failCB);
   }
 }

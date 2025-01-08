@@ -1,11 +1,14 @@
 import React from "react";
 import { t } from "i18next";
+import { Grid } from "zmp-ui";
 
 import { FundApi } from "api";
 import { useRouteNavigate } from "hooks";
-import { FailResponse, ServerResponse } from "server";
-import { Header, Loading, SearchBar, AppContext, ScrollableDiv, Card } from "components";
-import { Grid } from "zmp-ui";
+import { ServerResponse } from "server";
+import { 
+  Header, Loading, SearchBar, 
+  AppContext, ScrollableDiv, Card,
+} from "components";
 
 export function UIFund() {
   const { funds, loading } = useFunds();
@@ -35,11 +38,7 @@ function useFunds() {
         setFunds(data);
       }
     };
-    const fail = (error: FailResponse) => {
-      setLoading(false);
-      console.error("UIFund:\n\t", error.stackTrace);
-    };
-    FundApi.getFunds(userInfo.id, userInfo.clanId, success, fail);
+    FundApi.getFunds(userInfo.id, userInfo.clanId, success);
   }, [ reload ]);
 
   return { 
@@ -92,7 +91,7 @@ function UIFundList(props: { funds: any[] }) {
   })
 
   return (
-    <div style={{ height: `${funds.length} ? "auto" : "100%"` }}>
+    <div>
       <SearchBar 
         placeholder={t("search_funds")}
         onSearch={(text, event) => console.log(text)}
@@ -116,7 +115,7 @@ interface UIFundCardProps {
 function UIFundCard(props: UIFundCardProps) {
   const  { info, onClick } = props;
 
-  const totalAmount = Number.parseFloat(info["total_amount"]);
+  const totalAmount = Number.parseFloat(info["total"]);
   const formatted = new Intl.NumberFormat('id-ID').format(totalAmount)
 
   return (

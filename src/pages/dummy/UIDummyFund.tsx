@@ -6,7 +6,7 @@ import { Grid } from "zmp-ui";
 import { useRouteNavigate } from "hooks";
 import { Card, Header, Loading, ScrollableDiv, SearchBar } from "components";
 
-import data from "./sample/fund.json";
+import data from "./sample/funds.json";
 
 export default function UIDummyFund() {
   const { funds, loading } = useFunds();
@@ -47,11 +47,7 @@ function UIFundContainer(props: { funds: any[], loading: boolean }) {
       </div>
     )
   }
-  return (
-    <div>
-      <UIFundList funds={funds}/>
-    </div>
-  )
+  return <UIFundList funds={funds}/>
 }
 
 // ==========================
@@ -65,7 +61,10 @@ function UIFundList(props: { funds: any[] }) {
 
   const navigateToFundDetail = (fund: any) => {
     if (!fund) return;
-    jumpTo("dev/funds/detail", { fund });
+    else {
+      const fundId = fund.id;
+      jumpTo("dev/funds/detail", { fundId });
+    }
   }
 
   funds.map((item, index) => {
@@ -78,12 +77,12 @@ function UIFundList(props: { funds: any[] }) {
   })
 
   return (
-    <div style={{ height: `${funds.length} ? "auto" : "100%"` }}>
+    <div>
       <SearchBar 
         placeholder={t("search_funds")}
         onSearch={(text, event) => console.log(text)}
       />
-      <ScrollableDiv height={"100%"} width={"auto"} className="mt-2">
+      <ScrollableDiv direction="vertical" height={window.innerHeight - 220} className="mt-2">
         <Grid columnCount={2} columnSpace="10px" rowSpace="10px" >
           {html}
         </Grid>
@@ -102,7 +101,7 @@ interface UIFundCardProps {
 function UIFundCard(props: UIFundCardProps) {
   const  { info, onClick } = props;
 
-  const totalAmount = Number.parseFloat(info["total_amount"]);
+  const totalAmount = Number.parseFloat(info["total"]);
   const formatted = new Intl.NumberFormat('id-ID').format(totalAmount)
 
   return (

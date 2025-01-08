@@ -1,178 +1,57 @@
-[
-  {
-    "name": "Quỹ khuyến học",
-    "clan": "Nguyễn Đình",
-    "total_amount": 5000000.0,
-    "income_ids": [
-      {
-        "name": "Phạm Khắc Phú",
-        "amount": 5000000.0,
-        "date": "12/12/2024",
-        "note": false
-      },
-      {
-        "name": "Phạm Thị Đỏ",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": false
-      }
-    ],
-    "expense_ids": [
-      {
-        "name": "Phạm Khắc Thành",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": "Chi cho mua le"
-      }
-    ]
-  },
-  {
-    "name": "Quỹ khuyến học",
-    "clan": "Nguyễn Đình",
-    "total_amount": 5000000.0,
-    "income_ids": [
-      {
-        "name": "Phạm Khắc Phú",
-        "amount": 5000000.0,
-        "date": "12/12/2024",
-        "note": false
-      },
-      {
-        "name": "Phạm Thị Đỏ",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": false
-      }
-    ],
-    "expense_ids": [
-      {
-        "name": "Phạm Khắc Thành",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": "Chi cho mua le"
-      }
-    ]
-  },
-  {
-    "name": "Quỹ khuyến học",
-    "clan": "Nguyễn Đình",
-    "total_amount": 5000000.0,
-    "income_ids": [
-      {
-        "name": "Phạm Khắc Phú",
-        "amount": 5000000.0,
-        "date": "12/12/2024",
-        "note": false
-      },
-      {
-        "name": "Phạm Thị Đỏ",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": false
-      }
-    ],
-    "expense_ids": [
-      {
-        "name": "Phạm Khắc Thành",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": "Chi cho mua le"
-      }
-    ]
-  },
-  {
-    "name": "Quỹ khuyến học",
-    "clan": "Nguyễn Đình",
-    "total_amount": 5000000.0,
-    "income_ids": [
-      {
-        "name": "Phạm Khắc Phú",
-        "amount": 5000000.0,
-        "date": "12/12/2024",
-        "note": false
-      },
-      {
-        "name": "Phạm Thị Đỏ",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": false
-      }
-    ],
-    "expense_ids": [
-      {
-        "name": "Phạm Khắc Thành",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": "Chi cho mua le"
-      }
-    ]
-  },
-  {
-    "name": "Quỹ khuyến học",
-    "clan": "Nguyễn Đình",
-    "total_amount": 5000000.0,
-    "income_ids": [
-      {
-        "name": "Phạm Khắc Phú",
-        "amount": 5000000.0,
-        "date": "12/12/2024",
-        "note": false
-      },
-      {
-        "name": "Phạm Thị Đỏ",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": false
-      }
-    ],
-    "expense_ids": [
-      {
-        "name": "Phạm Khắc Thành",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": "Chi cho mua le"
-      }
-    ]
-  },
-  {
-    "name": "Quỹ khuyến học",
-    "clan": "Nguyễn Đình",
-    "total_amount": 5000000.0,
-    "income_ids": [
-      {
-        "name": "Phạm Khắc Phú",
-        "amount": 5000000.0,
-        "date": "12/12/2024",
-        "note": false
-      },
-      {
-        "name": "Phạm Thị Đỏ",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": false
-      }
-    ],
-    "expense_ids": [
-      {
-        "name": "Phạm Khắc Thành",
-        "amount": 2000000.0,
-        "date": "12/12/2024",
-        "note": "Chi cho mua le"
-      }
-    ]
-  },
-  {
-    "name": "Quỹ Giỗ tổ",
-    "clan": "Nguyễn Đình",
-    "total_amount": 5000000.0,
-    "income_ids": [
-      {
-        "name": "Phạm Thị Hiên",
-        "amount": 5000000.0,
-        "date": "23/12/2024",
-        "note": false
-      }
-    ],
-    "expense_ids": []
-  }
-]
+{
+  "name": "Quỹ khuyến học",
+  "clan": "Nguyễn Đình",
+  "total": 5000000.0,
+  "incomes": [
+    {
+      "name": "Phạm Khắc Phú",
+      "amount": 99999999.0,
+      "date": "12/12/2024",
+      "note": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    },
+    {
+      "name": "Phạm Thị Đỏ",
+      "amount": 2000000.0,
+      "date": "12/12/2024",
+      "note": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    },
+    {
+      "name": "Phạm Thị Đỏ",
+      "amount": 123932.0,
+      "date": "12/12/2024",
+      "note": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    },
+    {
+      "name": "Phạm Thị Đỏ",
+      "amount": 3212234.0,
+      "date": "12/12/2024",
+      "note": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    }
+  ],
+  "expenses": [
+    {
+      "name": "Phạm Khắc Thành",
+      "amount": 2000000.0,
+      "date": "12/12/2024",
+      "note": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    },
+    {
+      "name": "Phạm Khắc Thành",
+      "amount": 12353212.0,
+      "date": "12/12/2024",
+      "note": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    },
+    {
+      "name": "Phạm Khắc Thành",
+      "amount": 23523122.0,
+      "date": "12/12/2024",
+      "note": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    },
+    {
+      "name": "Phạm Khắc Thành",
+      "amount": 7345234.0,
+      "date": "12/12/2024",
+      "note": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    }
+  ]
+}
