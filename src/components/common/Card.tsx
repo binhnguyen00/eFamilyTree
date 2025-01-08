@@ -60,19 +60,19 @@ function CardContent(props: CardContentProps) {
     fontSize: "1.2rem" 
   } as React.CSSProperties;
 
-  if (typeof content !== "string") {
+  if (typeof content === "string") {
     return (
-      <div> 
+      <div className="text-wrap"> 
         <p className="mb-2 text-capitalize" style={{ ...fontStyle }}> {title} </p>
-        {content} 
+        <p> {content} </p> 
       </div>
     );
   } 
 
   return (
-    <div> 
+    <div className="text-wrap"> 
       <p className="mb-2 text-capitalize" style={{ ...fontStyle }}> {title} </p>
-      <p> {content} </p> 
+      {content} 
     </div>
   )
 }
