@@ -1,7 +1,6 @@
 import React from "react";
 import { renderToString as reactDomToString } from 'react-dom/server';
 import { t } from "i18next";
-import html2canvas, { Options } from "html2canvas";
 import { Box, useSnackbar } from "zmp-ui";
 
 import { CommonUtils, ZmpSDK } from "utils";
@@ -27,44 +26,6 @@ export function TreeController(props: TreeControllerProps) {
   const { userInfo, serverBaseUrl } = useAppContext();
   const { openSnackbar } = useSnackbar();
   const { rootId, onZoomToRoot, onZoomIn, onZoomOut, onReset, html2export } = props;
-
-  const exportPNG = async () => {
-    const element = document.getElementById('tree-canvas');
-    if (!element) return;
-
-    const options = {
-      scale: 7, // for better image quality
-      useCORS: true,
-    } as Options;
-
-    const success = (result: any) => {
-      openSnackbar({
-        text: t("download_success"),
-        type: "success",
-        position: "bottom",
-        duration: 3000,
-      })
-    }
-    const fail = (error: any) => {
-      openSnackbar({
-        text: t("download_fail"),
-        type: "error",
-        position: "bottom",
-        duration: 3000
-      })
-    }
-    const onProgress = (progress: number) => {
-      console.log(progress);
-    }
-
-    try {
-      const canvas = await html2canvas(element, options);
-      const base64 = canvas.toDataURL(); // Default image format: PNG
-      ZmpSDK.saveImageToGallery(base64, success, fail, onProgress);
-    } catch (error) {
-      console.error('Error exporting image:', error);
-    }
-  }
 
   const exportSVG = () => {
     const content = reactDomToString(html2export.content);
@@ -150,13 +111,6 @@ export function TreeController(props: TreeControllerProps) {
         width={"fit-content"} height={"fit-content"}
         onClick={() => onZoomOut()}
         children={<CommonIcon.ZoomOut size={32}/>}
-      />
-
-      <SizedBox
-        className='bg-secondary mb-1 p-1 button border-primary'
-        width={"fit-content"} height={"fit-content"}
-        onClick={exportPNG}
-        children={<CommonIcon.PNG size={32}/>}
       />
 
       <SizedBox
