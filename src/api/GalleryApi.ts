@@ -39,4 +39,20 @@ export class GalleryApi extends BaseApi {
     })
     this.server.POST("gallery/images-by-album", header, body, successCB, failCB);
   }
+
+  public static getHttpImages(
+    userId: number, 
+    clanId: number, 
+    fromDate: string, 
+    toDate: string, 
+    successCB: SuccessCB, 
+    failCB?: FailCB
+  ) {
+    const body = new FormData();
+    body.append("user_id", userId.toString());
+    body.append("clan_id", clanId.toString());
+    body.append("from_date", fromDate);
+    body.append("to_date", toDate);
+    this.server.postWithFormData("/http/gallery/images", body, successCB, failCB);
+  }
 }
