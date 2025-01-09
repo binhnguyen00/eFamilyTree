@@ -10,8 +10,9 @@ export function PanelCloseButton(props: PanelCloseButtonProps) {
     return (
       <CommonIcon.CloseCircle 
         style={{
-          position: "fixed",
-          right: 1
+          position: "absolute",
+          right: 5,
+          zIndex: 999
         }}
         className="button-bounce"
         size={24} onClick={close}

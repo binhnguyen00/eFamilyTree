@@ -56,15 +56,35 @@ export function BotToTopPanel(props: PanelProps) {
         className={"rounded bg-secondary"}
       >
         <div className="text-primary">
-          <PanelCloseButton close={reverseOpen}/>
+          <HeaderSection header={header} close={reverseOpen}/>
           <div className="p-2 flex-v text-primary">
-            <div className="text-center mb-2">
-              {header}
-            </div>
             {children}
           </div>
         </div>
       </animated.div>
     </>, document.body // Render as a portal
   );
+}
+
+interface HeaderSectionProps {
+  header: string | React.ReactNode;
+  close: () => void;
+}
+function HeaderSection(props: HeaderSectionProps) {
+  return (
+    <div
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 9999,
+        height: "fit-content",
+      }}
+      className="bg-secondary p-2 rounded"
+    >
+      <PanelCloseButton close={props.close}/>
+      <div className="text-center mb-2">
+        {props.header}
+      </div>
+    </div>
+  )
 }

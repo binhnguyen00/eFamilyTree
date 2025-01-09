@@ -24,7 +24,7 @@ export function Card(props: CardProps) {
       }}
     >
       <CardImage src={src}/>
-
+      <div className="mb-2"/>
       <CardContent title={title} content={content} />
     </div>
   )
@@ -41,7 +41,7 @@ function CardImage(props: CardImageProps) {
   const { src, onClick } = props;
   if (!src) return <></>;
   return (
-    <ImageWithText src={src} text="" onClick={onClick}/>
+    <ImageWithText src={src} height={"70%"} text="" onClick={onClick}/>
   )
 }
 
