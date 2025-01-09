@@ -13,5 +13,5 @@ export {
   useGetPhonePermission,
   useAppContext,
   useRouteNavigate,
-  useClanMemberContext as useClanMemberInfo
+  useClanMemberContext
 };

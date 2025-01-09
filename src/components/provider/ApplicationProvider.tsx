@@ -2,7 +2,7 @@ import React from "react";
 
 import { Settings } from "hooks/useSettings";
 import { ClanMemberInfo } from "hooks/useClanMemberCtx";
-import { useAutoLogin, useClanMemberInfo, useSettings } from "hooks";
+import { useAutoLogin, useClanMemberContext, useSettings } from "hooks";
 
 export interface AppCtx {
   appId: string;
@@ -30,7 +30,7 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
 
   const { phoneNumber, zaloUserInfo, logedIn, updatePhoneNumber, updateUserInfo } = useAutoLogin();
 
-  const { userInfo, userPermissions } = useClanMemberInfo(phoneNumber);
+  const { userInfo, userPermissions } = useClanMemberContext(phoneNumber);
   
   const { settings, updateSettings } = useSettings(userInfo.id, userInfo.clanId);
   
