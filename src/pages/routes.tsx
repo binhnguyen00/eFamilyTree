@@ -21,6 +21,7 @@ import { UIAccount } from "pages/user/UIAccount";
 import { UIRegister } from "pages/user/UIRegister";
 import { UIRegisterClan } from "pages/user/UIRegisterClan";
 import { UIGallery } from 'pages/gallery/UIGallery';
+import { UIDummyGallery } from "./dummy/UIDummyGallery";
 
 import { useRouteNavigate } from "hooks";
 
@@ -102,7 +103,7 @@ export function AppRoutes() {
       } />
       <Route path="/dev/gallery" element={
         <React.Suspense fallback={<Loading />}>
-          <UIGallery />
+          <UIDummyGallery />
         </React.Suspense>
       } />
       <Route path="/dev/dummy-detail" element={
