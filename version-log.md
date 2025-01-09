@@ -5,7 +5,7 @@
   - Sửa bug giao diện xem ảnh bị tràn ra khỏi màn hình (dài hơn chiều dài của điện thoại).
   - Sửa bug ấn vào album không popup lên ảnh trong album đó.
   - Sửa giao diện trong Tab Album: Mỗi album giờ sẽ là một thẻ. 2 thẻ xếp thành một hàng.
-- Link Test Zalo: https://zalo.me/s/3044106383419412609/?env=TESTING&version=12
+- Link Test Zalo: https://zalo.me/s/3044106383419412609/?env=TESTING&version=14
 
 # Version 1.0.5
 - Nâng cấp giao diện cho Quỹ Gia Tộc

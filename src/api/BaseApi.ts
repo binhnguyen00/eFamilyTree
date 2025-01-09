@@ -28,6 +28,6 @@ export class BaseApi {
     const body = this.initBody({
       phone_number: phoneNumber,
     });
-    this.server.POST("context/user/info", header, body, successCB, failCB);
+    this.server.POST("context/user", header, body, successCB, failCB);
   }
 }
