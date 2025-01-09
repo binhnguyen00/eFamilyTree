@@ -20,7 +20,7 @@ export function UIHomeAppList() {
     { key: "gallery", label: t("gallery"), requirePhone: true },
     { key: "calendar", label: t("calendar"), requirePhone: true },
     { key: "blogs", label: t("blogs"), requirePhone: true },
-    { key: "funds", label: t("funds"), requirePhone: false },
+    { key: "funds", label: t("funds"), requirePhone: true },
     { key: "certificate", label: t("certificates"), requirePhone: true },
     { key: "theme", label: t("theme"), requirePhone: false },
   ];

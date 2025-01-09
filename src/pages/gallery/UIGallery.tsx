@@ -1,11 +1,12 @@
 import React from "react";
 import { t } from "i18next";
-import { Tabs as ZTabs } from "zmp-ui";
+import { Tabs } from "zmp-ui";
 
 import { UIGalleryImages } from './UIGalleryImages';
 import { UIGalleryAlbums } from "./UIGalleryAlbums";
 
-import { Header } from "components";
+import { Header, ScrollableDiv } from "components";
+import { StyleUtils } from "utils";
 
 export function UIGallery() {
   return (
@@ -19,27 +20,26 @@ export function UIGallery() {
 
 function UIGalleryContainer() {
   let [ totalImages, setTotalImages ] = React.useState<number>(0);
-  let [ totalAlbums, setTotalAlbums ] = React.useState<number>(0);
 
   const getImagesQuantity = (quantity: number) => {
     setTotalImages(quantity);
   }
 
-  const getAlbumsQuantity = (quantity: number) => {
-    setTotalAlbums(quantity);
-  }
-
   return (
-    <ZTabs defaultActiveKey="images">
+    <Tabs defaultActiveKey="images">
 
-      <ZTabs.Tab key={"images"} label={<p className="text-capitalize"> {`${totalImages} ${t("image_list")}`} </p>}>
-        <UIGalleryImages getQuantity={getImagesQuantity}/>
-      </ZTabs.Tab>
+      <Tabs.Tab key={"images"} label={<p className="text-capitalize"> {`${totalImages} ${t("image_list")}`} </p>}>
+        <ScrollableDiv className="bg-white" direction="vertical" height={StyleUtils.calComponentRemainingHeight(44)}>
+          <UIGalleryImages getQuantity={getImagesQuantity}/>
+        </ScrollableDiv>
+      </Tabs.Tab>
       
-      <ZTabs.Tab key={"albums"} label={<p className="text-capitalize"> {`${t("albums")}`} </p>}>
-        <UIGalleryAlbums getQuantity={getAlbumsQuantity}/>
-      </ZTabs.Tab>
+      <Tabs.Tab key={"albums"} label={<p className="text-capitalize"> {`${t("album")}`} </p>}>
+        <ScrollableDiv direction="vertical" height={StyleUtils.calComponentRemainingHeight(44)}>
+          <UIGalleryAlbums/>
+        </ScrollableDiv>
+      </Tabs.Tab>
 
-    </ZTabs>
+    </Tabs>
   )
 }

@@ -9,103 +9,74 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { GalleryApi } from "api";
 import { useAppContext } from "hooks";
 import { ServerResponse } from "server";
-import { ScrollableDiv } from "components";
 
 interface UIGalleryImagesProps {
-  albumId?: number;
   getQuantity?: (quantity: number) => void;
 }
-export function UIGalleryImages(props: UIGalleryImagesProps) { 
-  let { albumId, getQuantity } = props;
+export function UIGalleryImages({ getQuantity }: UIGalleryImagesProps) {
+  const { images, refresh } = useGalleryImages();
+  const [index, setIndex] = React.useState(-1);
 
-  let [ to, setToDate ] = React.useState<string>("");
-  let [ from, setFromDate ] = React.useState<string>("");
-  let { images } = useGalleryImages(from, to, albumId);
-
-  if (getQuantity) {
-    if (images.length) getQuantity(images.length);
-  }
-
-  let [ index, setIndex ] = React.useState(-1);
-
-  const select = (index: number, item: any) => { setIndex(index); }
-  const close = () => setIndex(-1);
+  React.useEffect(() => {
+    if (getQuantity) {
+      getQuantity(images.length);
+    }
+  }, [images, getQuantity]);
 
   return (
-    <ScrollableDiv height={images.length ? "auto" : "100vh"} width={"auto"} className="bg-white">
+    <div>
       <Gallery 
-        images={images}
-        onClick={select}
-        enableImageSelection={false}
+        images={images} 
+        onClick={(index) => setIndex(index)} 
+        enableImageSelection={false} 
       />
       <Lightbox
         slides={images}
         open={index >= 0}
         index={index}
-        close={close}
+        close={() => setIndex(-1)}
+        plugins={[Zoom, Thumbnails, Counter]}
         zoom={{
           scrollToZoom: true,
           maxZoomPixelRatio: 50,
         }}
-        plugins={[Zoom, Thumbnails, Counter]}
       />
-    </ScrollableDiv>
-  )
+    </div>
+  );
 }
 
-interface GalleryImage {
+export interface GalleryImage {
   src: string;
   width: number;
   height: number;
   imageFit: "contain" | "cover";
 }
-export function useGalleryImages(from: string = "", to: string = "", albumId?: number) {
-  let { userInfo, serverBaseUrl } = useAppContext();
-  let [ images, setImages ] = React.useState<GalleryImage[]>([]);
-  let [ reload, setReload ] = React.useState(false);
 
-  const deleteImage = (id: number) => {}
-  const addImage = (data: any) => {}
+export function useGalleryImages() {
+  const { userInfo, serverBaseUrl } = useAppContext();
+  const [images, setImages] = React.useState<GalleryImage[]>([]);
+  const [reload, setReload] = React.useState(false);
 
-  const refresh = () => { setReload(!reload); }
+  const refresh = () => setReload(!reload);
 
-  const remapImgs = (images: string[]) => {
-    return images.map((imgPath: string) => {
-      return {
-        src: `${serverBaseUrl}/${imgPath}`,
-        width: 320,
-        height: 240,
-        imageFit: "cover",
-      } as GalleryImage
-    })
-  }
-
-  const getImages = () => {
-    const success = (result: ServerResponse) => {
-      if (result.status === "success") {
-        const remap = remapImgs(result.data);
-        setImages(remap);
-      }
-    }
-    GalleryApi.getImages(userInfo.id, userInfo.clanId, from, to, success);
-  }
-
-  const getImagesByAlbum = (albumId: number) => {
-    const success = (result: ServerResponse) => {
-      if (result.status === "success") {
-        const remap = remapImgs(result.data);
-        setImages(remap);
-      }
-    }
-    GalleryApi.getImagesByAlbum(userInfo.id, userInfo.clanId, albumId, success);
-  }
+  const remapImgs = (images: string[] | any) => 
+    images.map((imgPath: string) => ({
+      src: `${serverBaseUrl}/${imgPath}`,
+      width: 320,
+      height: 240,
+      imageFit: "cover",
+  }));
 
   React.useEffect(() => {
-    if (albumId) 
-      getImagesByAlbum(albumId);
-    else 
-      getImages();
-  }, [ reload ])
+    const success = (result: ServerResponse) => {
+      if (result.status === "success") {
+        const imgs: string[] = result.data;
+        setImages(remapImgs(imgs));
+      }
+    };
 
-  return { images, deleteImage, addImage, refresh }
+    GalleryApi.getImages(userInfo.id, userInfo.clanId, "", "", success);
+  }, [reload]);
+
+  return { images, refresh };
 }

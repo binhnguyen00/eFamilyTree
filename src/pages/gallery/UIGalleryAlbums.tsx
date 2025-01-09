@@ -1,112 +1,140 @@
 import React from "react";
 import { t } from "i18next";
-import { Box, Stack, Text } from "zmp-ui";
+import { Grid } from "zmp-ui";
+import { Gallery } from "react-grid-gallery";
 
 import { GalleryApi } from "api";
+import { StyleUtils } from "utils";
 import { useAppContext } from "hooks";
 import { ServerResponse } from "server";
-import { UIGalleryImages } from "./UIGalleryImages";
-import { Loading, ScrollableDiv, SlidingPanel, SlidingPanelOrient } from "components";
+import { Card, Loading, SlidingPanel, SlidingPanelOrient } from "components";
+import { GalleryImage } from "./UIGalleryImages";
 
-interface UIGalleryAlbumsProps {
-  getQuantity?: (quantity: number) => void
-}
-export function UIGalleryAlbums(props: UIGalleryAlbumsProps) {
-  let { getQuantity } = props;
+import Lightbox from "yet-another-react-lightbox";
+import { Zoom } from "yet-another-react-lightbox/plugins";
 
-  let { albums } = useGalleryAlbums();
-  
-  let [ show, setShow ] = React.useState(false);
-  let [ album, setAlbum ] = React.useState<any>(null);
+export function UIGalleryAlbums() {
+  const { albums } = useGalleryAlbums();
+  const { userInfo, serverBaseUrl } = useAppContext();
 
-  if (getQuantity) {
-    if (albums.length) getQuantity(albums.length);
-  }
-  
-  const select = (album: any, index: number) => {
-    setAlbum(album);
+  const [show, setShow] = React.useState(false);
+  const [albumId, setAlbumId] = React.useState<number | null>(null); // Store albumId only
+
+  const selectAlbum = (album: any) => {
     setShow(true);
-  }
+    setAlbumId(album.id);
+  };
 
-  const close = () => { setShow(false) }
+  const closePanel = () => {
+    setShow(false);
+    setAlbumId(null);
+  };
+
+  if (!albums || !albums.length) return <></>;
 
   return (
-    <ScrollableDiv height={albums.length ? "auto" : "100vh"} width={"auto"} className="bg-white">
-      <UIGalleryAlbumsContainer albums={albums} onSelectAlbum={select}/>
+    <>
+      <Grid className="p-2" columnCount={2} rowSpace="0.5rem" columnSpace="0.5rem">
+        {albums.map((album, index) => (
+          <Card
+            key={`album-${index}`}
+            onClick={() => selectAlbum(album)}
+            src={`${serverBaseUrl}/${album.thumbnail}`}
+            height={"auto"}
+            title={album.name}
+            className="button bg-secondary text-primary"
+          />
+        ))}
+      </Grid>
       <SlidingPanel
         orient={SlidingPanelOrient.BottomToTop}
         visible={show}
-        close={close}
-        height={window.innerHeight * 0.95} // Height: 95%
-        header={album ? `${album.name}` : t("album")}
+        close={closePanel}
+        height={StyleUtils.calComponentRemainingHeight(0)}
+        header={
+          <p style={{ fontSize: "1.2rem" }}>
+            {albums.find((a) => a.id === albumId)?.name || t("album")}
+          </p>
+        }
       >
-        {album && album.id ? (
-          <UIGalleryImages albumId={album && album.id}/>
+        {albumId ? (
+          <UIGalleryImagesByAlbum albumId={albumId} userInfo={userInfo} serverBaseUrl={serverBaseUrl}/>
         ) : (
-          <Loading/>
+          <Loading />
         )}
       </SlidingPanel>
-    </ScrollableDiv>
-  )
+    </>
+  );
 }
-
-interface UIGalleryAlbumsContainerProps {
-  albums: any[],
-  onSelectAlbum: (album: any, index: number) => void;
-}
-function UIGalleryAlbumsContainer(props: UIGalleryAlbumsContainerProps) {
-  let { serverBaseUrl } = useAppContext();
-  let { albums, onSelectAlbum } = props;
-
-  if (!albums || !albums.length) return <></>;
-  
-  let html = [] as React.ReactNode[];
-
-  albums.map((album, index) => {
-    html.push(
-      <Box 
-        key={index} 
-        className="button rounded border-primary text-primary mb-2 mt-2" 
-        flex flexDirection="row" 
-        onClick={() => onSelectAlbum(album, index)}
-      >
-        <div className="album-left">
-          <img 
-            src={`${serverBaseUrl}/${album["thumbnail"]}`} 
-            className="button rounded"
-          />
-        </div>
-        <Stack className="album-right">
-          <Text.Title>{album["name"]}</Text.Title>
-          <Text> {`${album["total_images"] || 0} ${t("image_list")}`} </Text>
-          <Text> {album["date"]} </Text>
-          <Text> {album["address"]} </Text>
-          <Text> {album["description"]} </Text>
-        </Stack>
-      </Box>
-    )
-  })
-
-  return html;
-}
-
 function useGalleryAlbums() {
-  let { userInfo } = useAppContext();
-  let [ albums, setAlbums ] = React.useState<any[]>(new Array());
-  let [ reload, setReload ] = React.useState(false);
+  const { userInfo } = useAppContext();
+  const [albums, setAlbums] = React.useState<any[]>([]);
+  const [reload, setReload] = React.useState(false);
 
-  const deleteAlbum = (id: number) => {}
-  const addAlbum = (data: any) => {}
-  const refresh = () => { setReload(!reload); }
+  const refresh = () => setReload(!reload);
 
   React.useEffect(() => {
     const success = (result: ServerResponse) => {
       if (result.status === "success") {
         setAlbums(result.data);
       }
-    }
+    };
     GalleryApi.getAlbums(userInfo.id, userInfo.clanId, success);
-  }, [ reload ] ); 
+  }, [reload]);
 
-  return { albums, deleteAlbum, addAlbum, refresh }
+  return { albums, refresh };
+}
+
+
+// ========================
+// IMAGE BY ALBUM ID
+// ========================
+interface UIGalleryImagesProps {
+  albumId: number;
+  userInfo: any;
+  serverBaseUrl: string
+}
+
+function UIGalleryImagesByAlbum({ albumId, userInfo, serverBaseUrl }: UIGalleryImagesProps) {
+  const [ images, setImages ] = React.useState<GalleryImage[]>([]);
+  const [ index, setIndex ] = React.useState(-1);
+
+  const remapImgs = (images: string[] | any) => 
+    images.map((imgPath: string) => ({
+      src: `${serverBaseUrl}/${imgPath}`,
+      width: 320,
+      height: 240,
+      imageFit: "cover",
+  }));
+
+  React.useEffect(() => {
+    const success = (result: ServerResponse) => {
+      if (result.status === "success") {
+        const imgs: string[] = result.data;
+        setImages(remapImgs(imgs));
+      }
+    };
+    GalleryApi.getImagesByAlbum(userInfo.id, userInfo.clanId, albumId, success);
+  }, [ albumId ]);
+
+  return (
+    <div>
+      <Gallery 
+        images={images} 
+        onClick={(index) => setIndex(index)} 
+        enableImageSelection={false} 
+      />
+      <Lightbox
+        slides={images}
+        open={index >= 0}
+        index={index}
+        close={() => setIndex(-1)}
+        plugins={[Zoom]}
+        zoom={{
+          scrollToZoom: true,
+          maxZoomPixelRatio: 50,
+        }}
+      />
+    </div>
+  );
 }

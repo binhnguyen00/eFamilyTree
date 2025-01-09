@@ -255,14 +255,20 @@ button, .button {
 .zaui-tabs-tabbar {
   justify-content: center !important;
   text-align: center;
-  position: fixed !important;
-  z-index: 999;
-}
-
-.zaui-tab-content {
-  margin-top: 44px; // Height of the tab bar
+  background-color: var(--primary-color) !important;
 }
 
 .zaui-tabs-tabbar-item {
-  width: 100%;
+  width: 100%; // width of tab bar title
+  color: var(--secondary-color) !important;
+
+}
+
+// yet-another-light-box
+.yarl__root {
+  height: calc(100vh - var(--zaui-safe-area-inset-top, 0px) - (var(--header-height) - 5px)) !important;
+}
+
+.yarl__portal {
+  top: unset !important;
 }
