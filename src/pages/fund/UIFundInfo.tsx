@@ -39,9 +39,7 @@ function useFund(fundId: number) {
 
 export function UIFundInfo() {
   const { belongings } = useRouteNavigate();
-  const { fundId } = belongings;
-
-  const { info, loading } = useFund(fundId);
+  const { info, loading } = useFund(belongings.fundId);
   
   return (
     <div className="container">

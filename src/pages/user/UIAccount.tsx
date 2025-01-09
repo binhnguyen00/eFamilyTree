@@ -57,7 +57,7 @@ function UIAccountContainer() {
       </Button>
 
       {!phoneNumber || devs.includes(phoneNumber) ? (
-        <Button variant="secondary" onClick={() => jumpTo("dev")}>
+        <Button variant="secondary" onClick={() => jumpTo({ path: "dev" })}>
           {t("developer")}
         </Button>
       ): null}

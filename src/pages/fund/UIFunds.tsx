@@ -75,7 +75,12 @@ function UIFundList(props: { funds: any[] }) {
     if (!fund) return;
     else {
       const fundId = fund.id;
-      goTo({ path: "fund/info", data: { fundId } });
+      goTo({ 
+        path: "fund/info", 
+        data: { 
+          fundId: fundId 
+        }
+      });
     }
   }
 

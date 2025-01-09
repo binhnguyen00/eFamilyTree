@@ -32,7 +32,7 @@ export function useRouteNavigate() {
    * @param path 
    * @param data is your data object. Can be get and use in the target path. Ex { images, records }
    */
-  const jumpTo = (path: string, data?: any) => {
+  const jumpTo = ({ path, data }: { path: string, data?: any }) => {
     let options = {
       preventScrollReset: true,
       viewTransition: true,

@@ -35,7 +35,7 @@ export function UIDeveloper() {
               height: 120, 
               borderRadius: 30, 
             }} 
-            onClick={() => jumpTo(key)}
+            onClick={() => jumpTo({path: key})}
           >
             {renderIcon(key)}
           </Button>

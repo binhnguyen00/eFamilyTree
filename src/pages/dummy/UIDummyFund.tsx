@@ -63,7 +63,7 @@ function UIFundList(props: { funds: any[] }) {
     if (!fund) return;
     else {
       const fundId = fund.id;
-      jumpTo("dev/funds/detail", { fundId });
+      jumpTo({path: "dev/funds/detail", data: { fundId: fundId, name: "test" }});
     }
   }
 

@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "name": "Quỹ khuyến học",
     "balance": "5.000.000.000.000",
     "incomes": [
@@ -26,6 +27,7 @@
     ]
   },
   {
+    "id": 2,
     "name": "Quỹ Giỗ tổ",
     "balance": "5.000.000.000.000.000.000",
     "incomes": [

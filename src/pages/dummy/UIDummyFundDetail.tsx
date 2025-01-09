@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Box, Grid, Stack, Text } from "zmp-ui";
+import { Box, Grid, Stack } from "zmp-ui";
 
 import { FundApi } from "api";
 import { DateTimeUtils, StyleUtils } from "utils";
@@ -11,9 +11,7 @@ import data from "./sample/fund.json";
 
 export default function UIDummyFundDetail() {
   const { belongings } = useRouteNavigate();
-  const { fundId } = belongings;
-
-  const { info, loading } = useFund(fundId);
+  const { info, loading } = useFund(belongings.fundId);
 
   return (
     <div className="container">
