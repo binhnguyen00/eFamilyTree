@@ -11,25 +11,28 @@ export interface ClanMemberInfo {
   generation: number
 }
 
-export function useClanMemberInfo(phoneNumber: string) {
+export function useClanMemberContext(phoneNumber: string) {
   let [ info, setInfo ] = React.useState<ClanMemberInfo>({
     id: 0,
     name: "unknown",
     clanId: 0,
     generation: 0
   })
+  let [ permissions, setPermissions ] = React.useState([]);
 
   React.useEffect(() => {
     if (phoneNumber && !CommonUtils.isStringEmpty(phoneNumber)) {
       const success = (result: ServerResponse) => {
         if (result.status === "success") {
           const data = result.data;
+          const info = data.info;
           setInfo({
-            id: data["id"],
-            name: data["name"],
-            clanId: data["clan_id"],
-            generation: data["generation"]
+            id: info["id"],
+            name: info["name"],
+            clanId: info["clan_id"],
+            generation: info["generation"]
           } as ClanMemberInfo);
+          setPermissions(data.permissions);
         } else {
           console.warn(result.message);
         }
@@ -38,5 +41,8 @@ export function useClanMemberInfo(phoneNumber: string) {
     }
   }, [phoneNumber])
 
-  return info;
+  return {
+    userInfo: info,
+    userPermissions: permissions
+  };
 }

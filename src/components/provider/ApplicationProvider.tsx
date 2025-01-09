@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Settings } from "hooks/useSettings";
-import { ClanMemberInfo } from "hooks/useClanMemberInfo";
+import { ClanMemberInfo } from "hooks/useClanMemberCtx";
 import { useAutoLogin, useClanMemberInfo, useSettings } from "hooks";
 
 export interface AppCtx {
@@ -10,6 +10,7 @@ export interface AppCtx {
   phoneNumber: string;
   serverBaseUrl: string;
   userInfo: ClanMemberInfo,
+  userPerms: any[],
   zaloUserInfo: {
     id: string;
     name: string;
@@ -29,16 +30,17 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
 
   const { phoneNumber, zaloUserInfo, logedIn, updatePhoneNumber, updateUserInfo } = useAutoLogin();
 
-  const userInfo = useClanMemberInfo(phoneNumber);
+  const { userInfo, userPermissions } = useClanMemberInfo(phoneNumber);
   
   const { settings, updateSettings } = useSettings(userInfo.id, userInfo.clanId);
   
   const ctxInfo = {
     appId: appId,
     logedIn: logedIn,
-    phoneNumber: phoneNumber ? phoneNumber : "+84942659016",
+    phoneNumber: phoneNumber,
     zaloUserInfo: zaloUserInfo,
     userInfo: userInfo,
+    userPerms: userPermissions,
     settings: settings,
     serverBaseUrl: "https://giapha.mobifone5.vn"
   }

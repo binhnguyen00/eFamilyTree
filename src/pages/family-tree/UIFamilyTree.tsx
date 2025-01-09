@@ -12,7 +12,7 @@ import {
 
 import { TreeUtils } from "./TreeUtils";
 import { TreeDataProcessor } from "./TreeDataProcessor";
-import { ClanMemberInfo } from "hooks/useClanMemberInfo";
+import { ClanMemberInfo } from "hooks/useClanMemberCtx";
 
 export function UIFamilyTree() {
   const { userInfo } = React.useContext(AppContext);
