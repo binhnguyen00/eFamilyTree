@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "name": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+    "thumbnail": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+    "album_type": "clan",
+    "date": "10/12/2024@03:00:00",
+    "address": "Nhà thờ họ",
+    "event_id": 1,
+    "description": "giỗ tổ 2023",
+    "total_images": 16
+  },
+  {
+    "id": 10,
+    "name": "Album 2",
+    "thumbnail": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+    "album_type": "clan",
+    "date": "10/12/2024@03:00:00",
+    "address": "Nhà thờ họ",
+    "event_id": 1,
+    "description": "giỗ tổ 2023",
+    "total_images": 11
+  },
+  {
+    "id": 11,
+    "name": "Album 3",
+    "thumbnail": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+    "album_type": "clan",
+    "date": "10/12/2024@03:00:00",
+    "address": "Nhà thờ họ",
+    "event_id": 1,
+    "description": "giỗ tổ 2023",
+    "total_images": 11
+  },
+  {
+    "id": 12,
+    "name": "Album 4",
+    "thumbnail": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+    "album_type": "clan",
+    "date": "10/12/2024@03:00:00",
+    "address": "Nhà thờ họ",
+    "event_id": 1,
+    "description": "giỗ tổ 2023",
+    "total_images": 11
+  },
+  {
+    "id": 13,
+    "name": "Album 5",
+    "thumbnail": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+    "album_type": "clan",
+    "date": "10/12/2024@03:00:00",
+    "address": "Nhà thờ họ",
+    "event_id": 1,
+    "description": "giỗ tổ 2023",
+    "total_images": 11
+  },
+  {
+    "id": 14,
+    "name": "Album 6",
+    "thumbnail": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+    "album_type": "clan",
+    "date": "10/12/2024@03:00:00",
+    "address": "Nhà thờ họ",
+    "event_id": 1,
+    "description": "giỗ tổ 2023",
+    "total_images": 11
+  },
+  {
+    "id": 15,
+    "name": "Album 7",
+    "thumbnail": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+    "album_type": "clan",
+    "date": "10/12/2024@03:00:00",
+    "address": "Nhà thờ họ",
+    "event_id": 1,
+    "description": "giỗ tổ 2023",
+    "total_images": 11
+  },
+  {
+    "id": 16,
+    "name": "Album 8",
+    "thumbnail": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+    "album_type": "clan",
+    "date": "10/12/2024@03:00:00",
+    "address": "Nhà thờ họ",
+    "event_id": 1,
+    "description": "giỗ tổ 2023",
+    "total_images": 11
+  }
+]
