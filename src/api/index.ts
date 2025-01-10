@@ -1,6 +1,6 @@
 import { FamilyTreeApi } from "./FamilyTreeApi";
 import { SocialPostApi } from "./SocialPostApi";
-import { LifeEventApi } from './LifeEventApi';
+import { CalendarApi } from './CalendarApi';
 import { FundApi } from './FundApi';
 import { CertificateApi } from './CertificateApi';
 import { UserSettingApi } from './UserSettingApi';
@@ -13,7 +13,7 @@ export {
   BaseApi,
   FamilyTreeApi, 
   SocialPostApi, 
-  LifeEventApi, 
+  CalendarApi,
   FundApi, 
   CertificateApi,
   UserSettingApi, 

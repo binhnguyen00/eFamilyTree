@@ -3,12 +3,12 @@ import { t } from "i18next";
 import { Box, Calendar, Text } from "zmp-ui";
 
 import { CalendarUtils } from "utils";
-import { LifeEventApi } from "api";
+import { CalendarApi } from "api";
 import { FailResponse, ServerResponse } from "server"
 import { AppContext, Header, SizedBox } from "components";
 
 export function UICalendar() {
-  const { phoneNumber } = React.useContext(AppContext);
+  const { userInfo } = React.useContext(AppContext);
 
   const [ eventOnDate, setEventOnDate ] = React.useState<any[]>([]);
   const [ events, setEvents ] = React.useState<any[]>([]);
@@ -26,7 +26,7 @@ export function UICalendar() {
     const fail = (error: FailResponse) => {
       console.error("UICalendar:\n\t", error.stackTrace);
     }
-    LifeEventApi.getLifeEvents(phoneNumber, success, fail);
+    CalendarApi.getClanEvents(userInfo.id, userInfo.clanId, success, fail);
   }, [ reload ]);
 
   const handleDateSelect = (selectedDate: Date) => {

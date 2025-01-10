@@ -1,12 +1,13 @@
 import { BaseApi } from "./BaseApi";
 import { SuccessCB, FailCB } from "server"
 
-export class LifeEventApi extends BaseApi {
+export class CalendarApi extends BaseApi {
 
-  public static getLifeEvents(phoneNumber, successCB: SuccessCB, failCB?: FailCB) {
+  public static getClanEvents(userId: number, clanId: number, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
     const body = this.initBody({
-      phone: phoneNumber
+      user_id: userId,
+      clan_id: clanId,
     });
     return this.server.POST("get/list/event", header, body, successCB, failCB);
   }
