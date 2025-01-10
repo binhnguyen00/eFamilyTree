@@ -4,7 +4,7 @@ import { Box, Button, Grid, Input, Select } from "zmp-ui";
 
 import average from "./sample/average.json";
 import divorced from "./sample/divorced.json";
-import odooSample from "./sample/odoo-sample-backup.json";
+import odooSample from "./sample/odoo-sample.json";
 import severalSprouses from "./sample/several-sprouses.json";
 
 import { CommonUtils } from "utils";
