@@ -40,9 +40,9 @@ export function UIHome() {
 
         <Divider/>
 
-        <React.Suspense fallback={<Loading message={t("loading")}/>}>
+        {/* <React.Suspense fallback={<Loading message={t("loading")}/>}>
           <UIHomeAlbum/>
-        </React.Suspense>
+        </React.Suspense> */}
 
         <Divider/>
 

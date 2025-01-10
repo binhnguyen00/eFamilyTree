@@ -1,6 +1,5 @@
 import { FamilyTreeApi } from "./FamilyTreeApi";
 import { SocialPostApi } from "./SocialPostApi";
-import { AlbumApi } from './AlbumApi';
 import { LifeEventApi } from './LifeEventApi';
 import { FundApi } from './FundApi';
 import { CertificateApi } from './CertificateApi';
@@ -14,7 +13,6 @@ export {
   BaseApi,
   FamilyTreeApi, 
   SocialPostApi, 
-  AlbumApi, 
   LifeEventApi, 
   FundApi, 
   CertificateApi,

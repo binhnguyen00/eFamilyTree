@@ -7,7 +7,8 @@ import { FamilyTreeApi } from "api";
 import { ServerResponse, FailResponse } from "server";
 import { 
   Header, CommonIcon, TreeNode, FamilyTree, TreeConfig, 
-  Loading, AppContext, SlidingPanel, SlidingPanelOrient 
+  Loading, AppContext, SlidingPanel, SlidingPanelOrient, 
+  ScrollableDiv
 } from "components";
 
 import { TreeUtils } from "./TreeUtils";
@@ -206,12 +207,14 @@ function UIMemberDetail(props: UIMemberDetailProps) {
       close={onClose}
       header={info["name"] || t("member_info")}
     >
-      <Box className="p-2" style={{ maxHeight: "50vh" }}>
-        <Input label={"Họ Tên"} value={info["name"]} />
-        <Input label={"Giới tính"} value={info["gender"] === "1" ? t("male") : t("female")} />
-        <Input label={"Điện thoại"} value={info["phoneNumber"]} />
-        <Input label={"Bố"} value={info["father"]} />
-        <Input label={"Mẹ"} value={info["mother"]} />
+      <Box className="p-2 text-primary" style={{ maxHeight: "50vh" }}>
+        <ScrollableDiv direction="vertical">
+          <Input label={"Họ Tên"} value={info["name"]} />
+          <Input label={"Giới tính"} value={info["gender"] === "1" ? t("male") : t("female")} />
+          <Input label={"Điện thoại"} value={info["phoneNumber"]} />
+          <Input label={"Bố"} value={info["father"]} />
+          <Input label={"Mẹ"} value={info["mother"]} />
+        </ScrollableDiv>
       </Box>
     </SlidingPanel>
   )

@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 import { Box, Button, Grid, Stack, Text } from "zmp-ui";
 
-import { AlbumApi } from "api";
+import { GalleryApi } from "api";
 import { ServerResponse } from "server";
 import { CommonIcon } from "components";
 import { useAppContext, useRouteNavigate } from "hooks";
@@ -10,7 +10,7 @@ import { useAppContext, useRouteNavigate } from "hooks";
 export function UIHomeAlbum() {
   const { goTo } = useRouteNavigate();
   const [ albums, setAlbums ] = React.useState<any[]>([]);
-  const { logedIn, userInfo } = useAppContext();
+  const { logedIn, userInfo, serverBaseUrl } = useAppContext();
 
   React.useEffect(() => {
     if (logedIn) {
@@ -22,7 +22,7 @@ export function UIHomeAlbum() {
           setAlbums(data);
         }
       };
-      AlbumApi.getAlbums(userInfo.id, userInfo.clanId, success);
+      GalleryApi.getAlbums(userInfo.id, userInfo.clanId, success);
     }
   }, [ logedIn ]);
 
@@ -32,7 +32,7 @@ export function UIHomeAlbum() {
   }
 
   const goToAlbumList = () => {
-    goTo({ path: "album" });
+    goTo({ path: "gallery" });
   }
 
   const renderAlbums = () => {
@@ -56,14 +56,14 @@ export function UIHomeAlbum() {
           >
             <div className="album-left">
               <img 
-                src={`https://${album["avatar"]}`} 
+                src={`${serverBaseUrl}/${album.thumbnail}`} 
                 alt={album.name} 
                 className="button rounded"
               />
             </div>
             <Stack className="album-right">
               <Text.Title size="small">{album.name}</Text.Title>
-              <Text>{`${album["image"].length || 0} ${t("image_list")}`}</Text>
+              <Text>{`${album["total_images"].length || 0} ${t("image_list")}`}</Text>
               <Text>{album["address"]}</Text>
               <Text>{album["desciption"]}</Text>
             </Stack>

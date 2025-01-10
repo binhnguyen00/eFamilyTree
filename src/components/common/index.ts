@@ -1,6 +1,4 @@
-import { Error } from "./Error";
 import { Loading } from "./Loading";
-import { Retry } from "./Retry";
 import { Divider } from "./Divider";
 import { ImageWithText } from "./ImageWithText";
 import { SearchBar } from "./SearchBar";
@@ -13,7 +11,7 @@ import { ScrollableDiv } from "./ScrollableDiv";
 import { Card } from "./Card";
 
 export { 
-  Error, Loading, Retry, Info,
+  Loading, Info,
   Divider, ImageWithText, Navigation, RequestPhone, SearchBar,
   SizedBox, PagePositionSaver, ScrollableDiv, Card
 };
