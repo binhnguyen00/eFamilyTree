@@ -1,3 +1,9 @@
+# Version 1.0.8-beta
+- Thay thế giao diện Sự kiện bằng Lịch dòng họ.
+  - Lịch dòng họ có 2 phần là Sự kiện và Lịch Vạn Niên (sau này có thể dùng cho chức năng xem ngày tốt/xấu).
+  - Chưa đổ dữ liệu.
+  - Qua quá trình test, các tính năng tỏ ra rất tiềm năng. 
+
 # Version 1.0.7
 - Sửa các lỗi nhỏ trên toàn hệ thống:
   - Thay đổi màu sliding panel.
