@@ -38,6 +38,7 @@
     "react-router-dom": "^7.0.2",
     "react-grid-gallery": "^1.0.1",
     "react-zoom-pan-pinch": "3.6.0",
+    "react-calendar": "^5.1.0",
     "yet-another-react-lightbox": "^3.21.7",
     "zmp-cli": "^3.15.10",
     "zmp-sdk": "latest",
@@ -57,6 +58,7 @@
     "typescript": "^5.7.2",
     "vite": "^5.0.0",
     "vite-tsconfig-paths": "^4.0.5",
+    "zmp-vite-plugin": "^1.1.4",
     "zmp-cli": "^3.15.9"
   }
 }
