@@ -3,8 +3,8 @@ import { Box, Input, Stack, Text } from "zmp-ui";
 
 import { CertificateApi } from "api";
 import { FailResponse, ServerResponse } from "server";
-import { Header, CommonIcon, AppContext, SlidingPanel, SlidingPanelOrient } from "components";
-import { useRouteNavigate } from "hooks";
+import { Header, CommonIcon, SlidingPanel, SlidingPanelOrient } from "components";
+import { useRouteNavigate, useAppContext } from "hooks";
 import { t } from "i18next";
 import { CommonUtils } from "utils";
 
@@ -14,7 +14,7 @@ export function UICertificate() {
     certificateGroupId: 0, 
     certificateGroupName: ""
   };
-  const { phoneNumber } = React.useContext(AppContext);
+  const { userInfo } = useAppContext();
   const [ certificates, setCertificates ] = React.useState<any[]>([]);
   const [ certificate, setCertificate ] = React.useState<any>(null);
   
@@ -33,7 +33,7 @@ export function UICertificate() {
       console.error("UICertificate:\n\t", error.stackTrace);
     }
 
-    CertificateApi.getByGroup(phoneNumber, certificateGroupId, success, fail);
+    CertificateApi.getByGroup(userInfo.id, userInfo.clanId, certificateGroupId, success, fail);
   }, [ reload ])
 
   const showCeriticateInfo = (id: number) => {
@@ -48,7 +48,7 @@ export function UICertificate() {
     const fail = (error: FailResponse) => {
       console.error("UICertificateDetail:\n\t", error.stackTrace);
     }
-    CertificateApi.getInfo(phoneNumber, id, success, fail);
+    CertificateApi.getInfo(userInfo.id, userInfo.clanId, id, success, fail);
   }
 
   const renderCertificate = () => {

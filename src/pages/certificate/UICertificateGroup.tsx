@@ -16,7 +16,7 @@ import tam_long_vang from "assets/img/certificate/tấm-lòng-vàng.jpg"
 /** Bảng Vàng */
 export function UICerificateGroup() {
   const { goTo } = useRouteNavigate();
-  const { phoneNumber } = React.useContext(AppContext);
+  const { userInfo } = React.useContext(AppContext);
   const [ groups, setGroups ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);
 
@@ -33,7 +33,7 @@ export function UICerificateGroup() {
       console.error(error.stackTrace);
     }
 
-    CertificateApi.getGroups(phoneNumber, success, fail);
+    CertificateApi.getGroups(userInfo.id, userInfo.clanId, success, fail);
   }, [ reload ])
 
   const onSelectGroup = (certificateGroupId: number, certificateGroupName: string) => () => {

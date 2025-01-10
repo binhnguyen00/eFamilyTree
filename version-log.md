@@ -1,3 +1,10 @@
+# Version 1.0.7
+- Sửa các lỗi nhỏ trên toàn hệ thống:
+  - Thay đổi màu sliding panel.
+  - Xoá Album khỏi màn hình chính.
+  - Sửa các lỗi gọi api ở Bảng Vàng.
+- Link Test Zalo: https://zalo.me/s/3044106383419412609/?env=TESTING&version=15
+
 # Version 1.0.6
 - Nâng cấp giao diện Thư viện ảnh:
   - Thay đổi màu thanh Tab từ trắng sang màu primary.

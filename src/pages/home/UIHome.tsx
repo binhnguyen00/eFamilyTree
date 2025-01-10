@@ -8,7 +8,6 @@ import { Header, HeaderUser, Divider, Loading } from 'components';
 
 import { UIHomeBanner } from './UIHomeBanner';
 import { UIHomeAppList } from './UIHomeAppList';
-import { UIHomeAlbum } from './UIHomeAlbum';
 import { UIHomeBlog } from './UIHomeBlog';
 import { UIHomeTheme } from './UIHomeTheme';
 
@@ -37,12 +36,6 @@ export function UIHome() {
         <React.Suspense fallback={<Loading message={t("loading")}/>}>
           <UIHomeTheme/>
         </React.Suspense>
-
-        <Divider/>
-
-        {/* <React.Suspense fallback={<Loading message={t("loading")}/>}>
-          <UIHomeAlbum/>
-        </React.Suspense> */}
 
         <Divider/>
 

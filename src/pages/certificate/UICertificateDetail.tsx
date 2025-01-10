@@ -4,13 +4,14 @@ import { useLocation } from "react-router-dom";
 import { Input, Stack } from "zmp-ui";
 
 import { CertificateApi } from "api";
-import { AppContext, Header } from "components";
+import { Header } from "components";
+import { useAppContext } from "hooks";
 import { FailResponse, ServerResponse } from "server";
 
 export function UICertificateDetail() {
   const location = useLocation();
   const { certificateId } = location.state || null;
-  const { phoneNumber } = React.useContext(AppContext);
+  const { userInfo } = useAppContext();
   const [ certificate, setCertificate ] = React.useState<any>({
     name: "",
     clan: "",
@@ -33,7 +34,7 @@ export function UICertificateDetail() {
     const fail = (error: FailResponse) => {
       console.error("UICertificateDetail:\n\t", error.stackTrace);
     }
-    CertificateApi.getInfo(phoneNumber, certificateId, success, fail);
+    CertificateApi.getInfo(userInfo.id, userInfo.clanId, certificateId, success, fail);
   }, [ reload ])
 
   return (
