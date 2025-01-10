@@ -1,12 +1,11 @@
 import React from "react";
 import { t } from "i18next";
-import { Calendar, Text, Box, Stack, List } from "zmp-ui";
+import { Calendar, Text, Box, Stack } from "zmp-ui";
 
 import { CalendarUtils, Event } from "utils/CalendarUtils";
-
 import { Header, SizedBox } from "components";
 
-import data from "pages/calendar/sample/events.json";
+import data from "./sample/events.json";
 
 export default function UIDummyCalendar() {
   const [selectedInfo, setSelectedInfo] = React.useState<Event[]>([]);
