@@ -11,5 +11,5 @@ export {
   ZmpSDK, 
   HttpMethod, 
   CommonUtils,
-  StyleUtils
+  StyleUtils,
 };

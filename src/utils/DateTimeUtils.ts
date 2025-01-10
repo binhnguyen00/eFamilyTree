@@ -96,4 +96,13 @@ export class DateTimeUtils {
     if (reverse) return array.reverse();
     else return array;
   }
+
+  public static toCalendarDate(date: Date): { day: number; month: number; year: number } {
+    const momentDate = moment(date);
+    return {
+      day: momentDate.date(),         // Day of the month
+      month: momentDate.month() + 1,  // Months are 0-based, so add 1
+      year: momentDate.year()         // Full year
+    };
+  };
 }

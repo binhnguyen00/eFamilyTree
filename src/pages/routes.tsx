@@ -6,7 +6,7 @@ import { Loading } from "components";
 import { UIAbout } from "pages/about/UIAbout";
 import { UIBlog } from "pages/blog/UIBlog";
 import { UIBlogDetail } from "pages/blog/UIBlogDetail";
-import { UICalendar } from "pages/calendar/UICalendar";
+import { UICalendarDeprecated } from "pages/calendar/UICalendarDeprecated";
 import { UICertificate } from "pages/certificate/UICertificate";
 import { UICertificateDetail } from "pages/certificate/UICertificateDetail";
 import { UICerificateGroup } from "pages/certificate/UICertificateGroup";
@@ -22,6 +22,7 @@ import { UIRegister } from "pages/user/UIRegister";
 import { UIRegisterClan } from "pages/user/UIRegisterClan";
 import { UIGallery } from 'pages/gallery/UIGallery';
 import { UIDummyGallery } from "./dummy/UIDummyGallery";
+import { UICalendar } from "./calendar/UICalendar";
 
 import { useRouteNavigate } from "hooks";
 
@@ -29,7 +30,6 @@ import { useRouteNavigate } from "hooks";
 const UIDummyFund = React.lazy(() => import("./dummy/UIDummyFund"));
 const UIDummyFundDetail = React.lazy(() => import("./dummy/UIDummyFundDetail"));
 const UIDummyTree = React.lazy(() => import("./dummy/UIDummyTree"));
-const UIDummyCalendar = React.lazy(() => import("./dummy/UIDummyCalendar"));
 const UIDummyBlog = React.lazy(() => import("./dummy/UIDummyBlog"));
 const UIDummyNavigate = React.lazy(() => import("./dummy/UIDummyNavigate"));
 
@@ -52,7 +52,7 @@ export function AppRoutes() {
 
       <Route path={createPath("gallery")} element={<UIGallery />}/>
 
-      <Route path={createPath("calendar")} element={<UICalendar />} />
+      <Route path={createPath("calendar")} element={<UICalendarDeprecated />} />
 
       <Route path={createPath("blogs")} element={<UIBlog />}/>
       <Route path={createPath("blogs/detail")} element={<UIBlogDetail />} />
@@ -93,7 +93,7 @@ export function AppRoutes() {
       } />
       <Route path="/dev/calendar" element={
         <React.Suspense fallback={<Loading />}>
-          <UIDummyCalendar />
+          <UICalendar />
         </React.Suspense>
       } />
       <Route path="/dev/blogs" element={

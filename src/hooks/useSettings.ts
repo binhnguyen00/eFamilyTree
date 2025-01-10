@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 
 import { useTheme } from "hooks";
 import { UserSettingApi } from "api";
-import { CommonUtils } from "utils";
 import { Theme } from "components";
 import { FailResponse, ServerResponse } from "server";
 
