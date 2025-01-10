@@ -180,10 +180,10 @@ function UITreeOptions(props: UITreeOptionsProps) {
     >
       <div className="p-2">
         <Grid columnCount={2} columnSpace="0.2rem">
-          <Button variant="primary" onClick={showMemberDetail} prefixIcon={<CommonIcon.User size={"1.5rem"}/>}>
+          <Button variant="secondary" onClick={showMemberDetail} prefixIcon={<CommonIcon.User size={"1.5rem"}/>}>
             {t("btn_tree_member_info")}
           </Button>
-          <Button variant="primary" onClick={renderTreeBranch} prefixIcon={<CommonIcon.Tree size={"1.5rem"}/>}>
+          <Button variant="secondary" onClick={renderTreeBranch} prefixIcon={<CommonIcon.Tree size={"1.5rem"}/>}>
             {t("btn_tree_member_detail")}
           </Button>
         </Grid>
@@ -207,14 +207,12 @@ function UIMemberDetail(props: UIMemberDetailProps) {
       close={onClose}
       header={info["name"] || t("member_info")}
     >
-      <Box className="p-2 text-primary" style={{ maxHeight: "50vh" }}>
-        <ScrollableDiv direction="vertical">
-          <Input label={"Họ Tên"} value={info["name"]} />
-          <Input label={"Giới tính"} value={info["gender"] === "1" ? t("male") : t("female")} />
-          <Input label={"Điện thoại"} value={info["phoneNumber"]} />
-          <Input label={"Bố"} value={info["father"]} />
-          <Input label={"Mẹ"} value={info["mother"]} />
-        </ScrollableDiv>
+      <Box className="p-2" style={{ maxHeight: "50vh" }}>
+        <Input label={"Họ Tên"} value={info["name"]} />
+        <Input label={"Giới tính"} value={info["gender"] === "1" ? t("male") : t("female")} />
+        <Input label={"Điện thoại"} value={info["phoneNumber"]} />
+        <Input label={"Bố"} value={info["father"]} />
+        <Input label={"Mẹ"} value={info["mother"]} />
       </Box>
     </SlidingPanel>
   )

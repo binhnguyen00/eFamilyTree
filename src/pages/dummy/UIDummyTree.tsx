@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Grid, Select } from "zmp-ui";
+import { Box, Button, Grid, Input, Select } from "zmp-ui";
 
 import average from "./sample/average.json";
 import divorced from "./sample/divorced.json";
@@ -8,7 +8,7 @@ import odooSample from "./sample/odoo-sample-backup.json";
 import severalSprouses from "./sample/several-sprouses.json";
 
 import { CommonUtils } from "utils";
-import { Header, CommonIcon, FamilyTree, TreeNode, TreeConfig, SlidingPanel, SlidingPanelOrient } from "components";
+import { Header, CommonIcon, FamilyTree, TreeNode, TreeConfig, SlidingPanel, SlidingPanelOrient, ScrollableDiv } from "components";
 import { TreeDataProcessor } from 'pages/family-tree/TreeDataProcessor';
 import { TreeUtils } from 'pages/family-tree/TreeUtils';
 
@@ -152,10 +152,10 @@ function UITreeOptions(props: UITreeOptionsProps) {
     >
       <div className="p-2">
         <Grid columnCount={2} columnSpace="0.2rem">
-          <Button variant="primary" onClick={showMemberDetail} prefixIcon={<CommonIcon.User size={"1.5rem"}/>}>
+          <Button variant="secondary" onClick={showMemberDetail} prefixIcon={<CommonIcon.User size={"1.5rem"}/>}>
             {t("btn_tree_member_info")}
           </Button>
-          <Button variant="primary" onClick={renderTreeBranch} prefixIcon={<CommonIcon.Tree size={"1.5rem"}/>}>
+          <Button variant="secondary" onClick={renderTreeBranch} prefixIcon={<CommonIcon.Tree size={"1.5rem"}/>}>
             {t("btn_tree_member_detail")}
           </Button>
         </Grid>
@@ -179,9 +179,13 @@ function UIMemberDetail(props: UIMemberDetailProps) {
       close={onClose}
       header={info["name"] || t("member_info")}
     >
-      <pre className="scroll-h" style={{ maxHeight: "50vh" }}>
-        {JSON.stringify(info, null, 2)}
-      </pre>
+    <Box className="p-2" style={{ maxHeight: "50vh", color: `cal(var(--primary-color))` }}>
+      <Input label={"Họ Tên"} value={info["name"]} />
+      <Input label={"Giới tính"} value={info["gender"] === "1" ? t("male") : t("female")} />
+      <Input label={"Điện thoại"} value={info["phoneNumber"]} />
+      <Input label={"Bố"} value={info["father"]} />
+      <Input label={"Mẹ"} value={info["mother"]} />
+    </Box>
     </SlidingPanel>
   )
 }

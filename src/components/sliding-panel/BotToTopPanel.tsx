@@ -53,9 +53,9 @@ export function BotToTopPanel(props: PanelProps) {
           zIndex: 9999,
           ...springs,
         }}
-        className={"rounded bg-secondary"}
+        className={"rounded bg-primary"}
       >
-        <div className="text-primary">
+        <div className="text-secondary">
           <HeaderSection header={header} close={reverseOpen}/>
           <div className="p-2 flex-v text-primary">
             {children}
@@ -79,7 +79,7 @@ function HeaderSection(props: HeaderSectionProps) {
         zIndex: 9999,
         height: "fit-content",
       }}
-      className="bg-secondary p-2 rounded"
+      className="bg-primary p-2 rounded"
     >
       <PanelCloseButton close={props.close}/>
       <div className="text-center mb-2">
