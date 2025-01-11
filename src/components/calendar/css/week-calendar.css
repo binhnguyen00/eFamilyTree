@@ -1,12 +1,15 @@
 /* VARIABLES */
 
 :root {
-  --main-color: #1a8fff;
-  --text-color: #777;
-  --text-color-light: #ccc;
-  --border-color: #eee;
-  --bg-color: #f9f9f9;
-  --neutral-color: #fff;
+  --calendar-main-color: #1a8fff;
+  --calendar-today-color: var(--primary-color);
+  --calendar-day-selected-color: var(--secondary-color);
+  --calendar-text-color: #777;
+  --calendar-text-color-light: #ccc;
+
+  --calendar-bg-color: #f9f9f9;
+  --calendar-border-color: #eee;
+  --calendar-neutral-color: #fff;
 }
 
 /* GENERAL */
@@ -15,8 +18,8 @@ header {
   display: block;
   width: 100%;
   padding: 1.75em 0;
-  border-bottom: 1px solid var(--border-color);
-  background: var(--neutral-color);
+  border-bottom: 1px solid var(--calendar-border-color);
+  background: var(--calendar-neutral-color);
 }
 
 /* GRID */
@@ -57,42 +60,38 @@ header {
   display: block;
   position: relative;
   width: 100%;
-  background: var(--neutral-color);
-  border: 1px solid var(--border-color);
+  background: var(--calendar-neutral-color);
 }
 
 .calendar .header {
   font-size: 1.2rem;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--calendar-border-color);
 }
 
 .calendar .days {
   font-weight: 400;
-  color: var(--text-color-light);
-  border-bottom: 1px solid var(--border-color);
+  color: var(--calendar-text-color-light);
+  border-bottom: 1px solid var(--calendar-border-color);
 }
 
 .calendar .body .cell {
   position: relative;
   min-height: 4em;
-  border-right: 1px solid var(--border-color);
+  border-right: 1px solid var(--calendar-border-color);
+  border-top: 1px solid var(--calendar-border-color);
   overflow: hidden;
-  background: var(--neutral-color);
+  background: var(--calendar-neutral-color);
   transition: 0.25s ease-out;
 }
 
 .calendar .body .selected {
-  border-left: 10px solid transparent;
-  border-image: linear-gradient(45deg, #1a8fff 0%, #53cbf1 40%);
-  border-image-slice: 1;
+  border-bottom: 10px solid var(--calendar-day-selected-color);
 }
 .calendar .body .today {
-  border-left: 10px solid transparent;
-  border-image: linear-gradient(45deg, #ff1a79 0%, #eb82b3 40%);
-  border-image-slice: 1;
+  border-bottom: 10px solid var(--calendar-today-color);
 }
 .calendar .body .row {
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--calendar-border-color);
 }
 
 .calendar .body .cell .number {
@@ -105,14 +104,14 @@ header {
 }
 
 .calendar .body .disabled {
-  color: var(--text-color-light);
+  color: var(--calendar-text-color-light);
   pointer-events: none;
 }
 
 .calendar .body .cell .bg {
   font-weight: 700;
   line-height: 1;
-  color: var(--main-color);
+  color: var(--calendar-main-color);
   opacity: 0;
   font-size: 8em;
   position: absolute;

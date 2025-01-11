@@ -113,7 +113,7 @@ function Header(props: HeaderProps) {
   }
 
   return (
-    <div className="flex-h justify-between">
+    <div className="flex-h justify-between pb-2 pt-1">
       <HeaderButton func="prev"/>
       <HeaderTitle/>
       <HeaderButton func="next"/>
@@ -141,12 +141,18 @@ function Footer(props: FooterProps) {
     )
   }
 
-  return (
-    <div className="flex-h justify-between">
-      <FooterButton func="prev"/>
+  const FooterTitle = () => {
+    return (
       <span className="text-capitalize">
         {`${t("week")} ${currentWeek}`}
       </span>
+    )
+  }
+
+  return (
+    <div className="flex-h justify-between p-1">
+      <FooterButton func="prev"/>
+      <FooterTitle/>
       <FooterButton func="next"/>
     </div>
   );
