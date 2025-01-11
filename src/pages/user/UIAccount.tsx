@@ -3,12 +3,12 @@ import { t } from "i18next";
 
 import { Avatar, Box, Button, Grid, Stack, Text } from "zmp-ui";
 
+import { Header } from "components";
 import { UserSettingApi } from "api";
 import { ServerResponse } from "server";
-import { AppContext, Header } from "components";
 
 import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
-import { useRouteNavigate } from "hooks";
+import { useAppContext, useRouteNavigate } from "hooks";
 import { CommonUtils } from "utils";
 
 export function UIAccount() { 
@@ -22,7 +22,7 @@ export function UIAccount() {
 }
 
 function UIAccountContainer() {
-  const { zaloUserInfo, phoneNumber } = React.useContext(AppContext);
+  const { zaloUserInfo, phoneNumber } = useAppContext();
   const { goTo, jumpTo } = useRouteNavigate();
 
   // Temporary methods
@@ -71,7 +71,7 @@ function UIAccountContainer() {
 }
 
 function UISettings() {
-  const { userInfo, settings, updateSettings } = React.useContext(AppContext);
+  const { userInfo, settings, updateSettings } = useAppContext();
 
   const changeLang = (langCode: "vi" | "en") => {
     const success = (result: ServerResponse) => {

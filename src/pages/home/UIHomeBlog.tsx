@@ -4,13 +4,13 @@ import { Box, Button, Stack, Text } from "zmp-ui";
 
 import { SocialPostApi } from "api";
 import { ServerResponse } from "server";
-import { useRouteNavigate } from "hooks";
-import { AppContext, CommonIcon } from "components";
+import { CommonIcon } from "components";
+import { useAppContext, useRouteNavigate } from "hooks";
 
 export function UIHomeBlog() {
   const { goTo } = useRouteNavigate();
   const [ blogs, setBlogs ] = React.useState<any[]>([]);
-  const { logedIn, userInfo } = React.useContext(AppContext);
+  const { logedIn, userInfo } = useAppContext();
 
   React.useEffect(() => {
     if (logedIn) {

@@ -7,16 +7,16 @@ import { FamilyTreeApi } from "api";
 import { ServerResponse, FailResponse } from "server";
 import { 
   Header, CommonIcon, TreeNode, FamilyTree, TreeConfig, 
-  Loading, AppContext, SlidingPanel, SlidingPanelOrient, 
-  ScrollableDiv
+  Loading, SlidingPanel, SlidingPanelOrient, 
 } from "components";
 
 import { TreeUtils } from "./TreeUtils";
 import { TreeDataProcessor } from "./TreeDataProcessor";
 import { ClanMemberInfo } from "hooks/useClanMemberCtx";
+import { useAppContext } from "hooks";
 
 export function UIFamilyTree() {
-  const { userInfo } = React.useContext(AppContext);
+  const { userInfo } = useAppContext();
   let [ reload, setReload ] = React.useState(false);
   let [ loading, setLoading ] = React.useState(true);
   let [ processor, setProcessor ] = React.useState<TreeDataProcessor>(new TreeDataProcessor([]));

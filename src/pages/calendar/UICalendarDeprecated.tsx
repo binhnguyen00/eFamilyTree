@@ -5,11 +5,12 @@ import { Box, Calendar, Text } from "zmp-ui";
 import { CalendarUtils } from "utils";
 import { CalendarApi } from "api";
 import { FailResponse, ServerResponse } from "server"
-import { AppContext, Header, SizedBox } from "components";
+import { Header, SizedBox } from "components";
+import { useAppContext } from "hooks";
 
 /** @deprecated */
 export function UICalendarDeprecated() {
-  const { userInfo } = React.useContext(AppContext);
+  const { userInfo } = useAppContext();
 
   const [ eventOnDate, setEventOnDate ] = React.useState<any[]>([]);
   const [ events, setEvents ] = React.useState<any[]>([]);

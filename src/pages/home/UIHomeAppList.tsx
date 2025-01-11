@@ -2,8 +2,8 @@ import React from "react";
 import { t } from "i18next";
 import { Grid, Stack, Text } from "zmp-ui";
 
-import { useRouteNavigate } from "hooks";
-import { AppLogo, AppContext, RequestPhone, SizedBox } from "components";
+import { useAppContext, useRouteNavigate } from "hooks";
+import { AppLogo, RequestPhone, SizedBox } from "components";
 
 interface App {
   key: string;
@@ -12,7 +12,7 @@ interface App {
 }
 export function UIHomeAppList() {
   const { goTo } = useRouteNavigate();
-  const { logedIn } = React.useContext(AppContext);
+  const { logedIn } = useAppContext();
   const [ requestPhone, setRequestPhone ] = React.useState(false); 
 
   const apps: App[] = [

@@ -14,11 +14,13 @@ import Cells from "./Cells";
 import DaysInWeek from "./Day";
 
 import "../css/week-calendar.css"
+import { useAppContext } from "hooks";
 
 interface WeekCalendarProps {
   onSelectDay?: (date: Date) => void
 }
 export default function WeekCalendar(props: WeekCalendarProps) {
+  const { settings } = useAppContext();
   const { onSelectDay } = props;
 
   const [ currentMonth, setCurrentMonth ] = React.useState(new Date());
@@ -80,7 +82,7 @@ interface HeaderProps {
 }
 function Header(props: HeaderProps) {
   const { currentMonth, navigateMonth } = props;
-  const dateFormat = "MM yyyy";
+  const dateFormat = "MMM yyyy";
 
   let month: number = currentMonth.getMonth() + 1;
 

@@ -2,10 +2,10 @@ import React from "react";
 import { t } from "i18next";
 import { Box, Stack, Text } from "zmp-ui";
 
-import { Header, Loading, Info, AppContext } from "components";
 import { SocialPostApi } from "api";
+import { useAppContext, useRouteNavigate } from "hooks";
+import { Header, Loading, Info } from "components";
 import { FailResponse, ServerResponse } from "server";
-import { useRouteNavigate } from "hooks";
 
 export function UIBlog() {
   return (
@@ -21,7 +21,7 @@ export function UIBlog() {
 
 function UIBlogList() {
   const { goTo } = useRouteNavigate();
-  const { userInfo } = React.useContext(AppContext);
+  const { userInfo } = useAppContext();
 
   const [ blogs, setBlogs ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);

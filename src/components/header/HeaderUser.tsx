@@ -1,13 +1,14 @@
 import React from "react";
+import { t } from "i18next";
 import { Avatar } from "zmp-ui";
 
-import { AppContext, Header } from "components";
+import { Header } from "components";
+import { useAppContext } from "hooks";
 
 import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
-import { t } from "i18next";
 
 export function HeaderUser() {
-  const { logedIn, zaloUserInfo } = React.useContext(AppContext);
+  const { logedIn, zaloUserInfo } = useAppContext();
   const [ userName, setUserName ] = React.useState("");
 
   React.useEffect(() => {

@@ -4,8 +4,8 @@ import { Stack, Text } from "zmp-ui";
 
 import { CertificateApi } from "api";
 import { FailResponse, ServerResponse } from "server";
-import { AppContext, Header, ImageWithText, SizedBox } from "components";
-import { useRouteNavigate } from "hooks";
+import { Header, ImageWithText, SizedBox } from "components";
+import { useAppContext, useRouteNavigate } from "hooks";
 
 import nguoi_co_cong from "assets/img/certificate/người-có-công.jpg";
 import nguoi_hieu_hoc from "assets/img/certificate/người-hiếu-học.jpg";
@@ -16,7 +16,7 @@ import tam_long_vang from "assets/img/certificate/tấm-lòng-vàng.jpg"
 /** Bảng Vàng */
 export function UICerificateGroup() {
   const { goTo } = useRouteNavigate();
-  const { userInfo } = React.useContext(AppContext);
+  const { userInfo } = useAppContext();
   const [ groups, setGroups ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);
 

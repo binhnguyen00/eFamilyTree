@@ -4,11 +4,10 @@ import { Grid } from "zmp-ui";
 
 import { FundApi } from "api";
 import { StyleUtils } from "utils";
-import { useRouteNavigate } from "hooks";
+import { useAppContext, useRouteNavigate } from "hooks";
 import { ServerResponse } from "server";
 import { 
-  Header, Loading, SearchBar, 
-  AppContext, ScrollableDiv, Card,
+  Header, Loading, SearchBar, ScrollableDiv, Card,
 } from "components";
 
 export function UIFund() {
@@ -24,7 +23,7 @@ export function UIFund() {
 }
 
 function useFunds() {
-  const { userInfo } = React.useContext(AppContext);
+  const { userInfo } = useAppContext();
   const [ funds, setFunds ] = React.useState<any[]>([]);
   const [ reload, setReload ] = React.useState(false);
   const [ loading, setLoading ] = React.useState(true);
