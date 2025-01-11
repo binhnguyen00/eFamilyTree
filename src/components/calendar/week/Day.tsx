@@ -7,7 +7,7 @@ interface DaysInWeekProps {
   currentMonth: any;
 }
 
-export default function DaysInWeek(props: DaysInWeekProps) {
+export function DaysInWeek(props: DaysInWeekProps) {
   const { currentMonth } = props;
 
   const dateFormat = "EEE";

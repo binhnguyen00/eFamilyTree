@@ -1,26 +1,19 @@
 import React from "react";
-
-import {
-  format,
-  getWeek,
-  addWeeks,
-  subWeeks,
-  subMonths,
-  addMonths
-} from "date-fns";
+import { t } from "i18next";
 import { vi, enUS } from 'date-fns/locale'
+import { format, getWeek, addWeeks, subWeeks, subMonths, addMonths } from "date-fns";
 
-import Cells from "./Cells";
-import DaysInWeek from "./Day";
+import { Cells } from "./Cells";
+import { DaysInWeek } from "./Day";
+import { useAppContext } from "hooks";
 
 import "../css/week-calendar.css"
-import { useAppContext } from "hooks";
+import { CommonIcon } from "components/icon";
 
 interface WeekCalendarProps {
   onSelectDay?: (date: Date) => void
 }
 export default function WeekCalendar(props: WeekCalendarProps) {
-  const { settings } = useAppContext();
   const { onSelectDay } = props;
 
   const [ currentMonth, setCurrentMonth ] = React.useState(new Date());
@@ -55,8 +48,9 @@ export default function WeekCalendar(props: WeekCalendarProps) {
   return (
     <div className="calendar">
       <Header 
-        navigateMonth={navigateMonth}
         currentMonth={currentMonth}
+        navigateMonth={navigateMonth}
+        navigateCurrentMonth={() => setCurrentMonth(new Date())}
       />
       <DaysInWeek currentMonth={currentMonth}/>
       <Cells 
@@ -79,12 +73,14 @@ interface HeaderProps {
   currentMonth: Date;
   onClick?: () => void;
   navigateMonth?: (type: "prev" | "next") => void;
+  navigateCurrentMonth?: () => void;
 }
 function Header(props: HeaderProps) {
-  const { currentMonth, navigateMonth } = props;
+  const { settings } = useAppContext();
+  const { currentMonth, navigateMonth, navigateCurrentMonth } = props;
   const dateFormat = "MMM yyyy";
 
-  let month: number = currentMonth.getMonth() + 1;
+  const month: number = currentMonth.getMonth() + 1;
 
   let prevMonth: number = 1;
   if (month === 1 && currentMonth.getMonth() + 1 === 1) prevMonth = 12; 
@@ -93,17 +89,34 @@ function Header(props: HeaderProps) {
   let nextMonth: number = month + 1;
   if (nextMonth === 13 && month === 12) nextMonth = 1;
 
+  const HeaderButton = ({ func }: { func: "prev" | "next" }) => {
+    const label = `${t("month")} ${func === "prev" ? prevMonth : nextMonth}`
+    return (
+      <div className="flex-h button" onClick={() => navigateMonth?.(func)}>
+        {func === "prev" && <CommonIcon.ChevonLeft size={20}/>}
+        {label}
+        {func === "next" && <CommonIcon.ChevonRight size={20}/>}
+      </div>
+    )
+  }
+
+  const HeaderTitle = () => {
+    const title = format(currentMonth, dateFormat, { locale: settings.language === "vi" ? vi : enUS })
+    return (
+      <span 
+        className="button text-capitalize"
+        onClick={navigateCurrentMonth}
+      >
+        {title}
+      </span>
+    )
+  }
+
   return (
     <div className="flex-h justify-between">
-      <div onClick={() => navigateMonth?.("prev")}>
-        {`< Tháng ${prevMonth}`}
-      </div>
-      <span>
-        {format(currentMonth, dateFormat, { locale: vi })}
-      </span>
-      <div onClick={() => navigateMonth?.("next")}>
-        {`Tháng ${nextMonth} >`}
-      </div>
+      <HeaderButton func="prev"/>
+      <HeaderTitle/>
+      <HeaderButton func="next"/>
     </div>
   );
 }
@@ -113,20 +126,28 @@ function Header(props: HeaderProps) {
 // ==========================================
 interface FooterProps {
   currentWeek: any;
-  navigateWeek: (buttonType: "prev" | "next") => void;
+  navigateWeek?: (buttonType: "prev" | "next") => void;
 }
 function Footer(props: FooterProps) {
   const { currentWeek, navigateWeek } = props;
 
+  const FooterButton = ({ func }: { func: "prev" | "next" }) => {
+    return (
+      <div className="flex-h button" onClick={() => navigateWeek?.(func)}>
+        {func === "prev" && <CommonIcon.ChevonLeft size={20}/>}
+        {`${t("week")} ${func === "prev" ? currentWeek - 1 : currentWeek + 1}`}
+        {func === "next" && <CommonIcon.ChevonRight size={20}/>}
+      </div>
+    )
+  }
+
   return (
     <div className="flex-h justify-between">
-      <div onClick={() => navigateWeek("prev")}> 
-        {"< Trước"}
-      </div>
-      <div>{currentWeek}</div>
-      <div onClick={() => navigateWeek("next")}>
-        {"Sau >"}
-      </div>
+      <FooterButton func="prev"/>
+      <span className="text-capitalize">
+        {`${t("week")} ${currentWeek}`}
+      </span>
+      <FooterButton func="next"/>
     </div>
   );
 }

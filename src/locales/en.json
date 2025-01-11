@@ -77,6 +77,7 @@
   "male": "Nam",
   "member_info": "member info",
   "mobile": "mobile",
+  "month": "month",
   "more": "more",
   "mother_code": "Mother Code",
   "mother_name": "Mother Name",
@@ -139,6 +140,7 @@
   "user": "User",
   "utilities": "utilities",
   "vietnamese": "Vietnamese",
+  "week": "week",
   "welcome_message": "Wellcome",
   "you_need_phone_in_order_to_process": "you need phone number in order to process",
   "zalo_user": "Zalo User"

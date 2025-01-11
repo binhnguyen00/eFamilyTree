@@ -10,7 +10,7 @@ interface CellsProps {
   onSelectCell: (day: Date, dayStr: string) => void;
 }
 
-export default function Cells(props: CellsProps) {
+export function Cells(props: CellsProps) {
   const { currentMonth, selectedDate, onSelectCell } = props;
 
   const dateFormat = "d";
