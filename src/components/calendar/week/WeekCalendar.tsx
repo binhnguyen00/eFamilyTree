@@ -2,19 +2,18 @@ import React from "react";
 
 import {
   format,
-  startOfWeek,
-  addDays,
-  isSameDay,
-  lastDayOfWeek,
   getWeek,
   addWeeks,
   subWeeks,
   subMonths,
   addMonths
 } from "date-fns";
-import { vi } from 'date-fns/locale/vi'
+import { vi, enUS } from 'date-fns/locale'
 
-import "./css/week-calendar.css"
+import Cells from "./Cells";
+import DaysInWeek from "./Day";
+
+import "../css/week-calendar.css"
 
 interface WeekCalendarProps {
   onSelectDay?: (date: Date) => void
@@ -105,90 +104,6 @@ function Header(props: HeaderProps) {
       </div>
     </div>
   );
-}
-
-// ==========================================
-// Day / Thứ Ngày
-// ==========================================
-interface DaysInWeekProps {
-  currentMonth: any;
-}
-function DaysInWeek(props: DaysInWeekProps) {
-  const { currentMonth } = props;
-
-  const dateFormat = "EEE";
-  const days: React.ReactNode[] = [];
-
-  let startDate = startOfWeek(currentMonth, { weekStartsOn: 1 });
-  for (let i = 0; i < 7; i++) {
-    days.push(
-      <div className="col col-center" key={i}>
-        {format(addDays(startDate, i), dateFormat, { locale: vi })}
-      </div>
-    );
-  }
-  return (
-    <div className="flex-h">
-      {days}
-    </div>
-  );
-}
-
-// ==========================================
-// Cells
-// ==========================================
-interface CellsProps {
-  currentMonth: any;
-  selectedDate: Date;
-  onSelectCell: (day: Date, dayStr: string) => void;
-}
-function Cells(props: CellsProps) {
-  const { currentMonth, selectedDate, onSelectCell } = props;
-
-  const dateFormat = "d";
-  const startDate: Date = startOfWeek(currentMonth, { weekStartsOn: 1 });
-  const endDate: Date = lastDayOfWeek(currentMonth, { weekStartsOn: 1 });
-
-  let rows: React.ReactNode[]  = [];
-  let days: React.ReactNode[] = [];
-  let day = startDate;
-  let formattedDate = "";
-
-  while (day <= endDate) {
-    for (let i = 0; i < 7; i++) {
-      formattedDate = format(day, dateFormat);
-      const cloneDay = day;
-      days.push(
-        <div
-          className={`col cell ${
-            isSameDay(day, new Date())
-              ? "today"
-              : isSameDay(day, selectedDate)
-              ? "selected"
-              : ""
-          }`}
-          key={day.toISOString()}
-          onClick={() => {
-            const dayStr = format(cloneDay, "ccc dd MMM yy");
-            onSelectCell(cloneDay, dayStr);
-          }}
-        >
-          <span className="number">{formattedDate}</span>
-          <span className="bg">{formattedDate}</span>
-        </div>
-      );
-      day = addDays(day, 1);
-    }
-
-    rows.push(
-      <div className="row" key={day.toISOString()}>
-        {days}
-      </div>
-    );
-    days = [];
-  }
-
-  return <div className="body">{rows}</div>;
 }
 
 // ==========================================

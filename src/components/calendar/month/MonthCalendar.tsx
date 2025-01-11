@@ -6,8 +6,8 @@ import { SolarDate } from "@nghiavuive/lunar_date_vi";
 import { useAppContext } from "hooks";
 import { DateTimeUtils } from "utils";
 
-import './css/month-calendar.css';
 import 'react-calendar/dist/Calendar.css';
+import '../css/month-calendar.css';
 
 export default function MonthCalendar() {
   const { settings } = useAppContext();
