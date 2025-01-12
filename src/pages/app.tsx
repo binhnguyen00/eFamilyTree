@@ -1,6 +1,7 @@
-import React, { StrictMode } from "react";
+import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { App as ZaloApp, SnackbarProvider } from "zmp-ui";
+import { ToastContainer, toast } from "react-toastify";
+import { App as ZaloApp } from "zmp-ui";
 
 import { AppRoutes } from "./routes";
 import { 
@@ -15,17 +16,16 @@ function Application() {
   return (
     <React.StrictMode>
       <ZaloApp>
-        <SnackbarProvider zIndex={999}>
-          <ThemeProvider>
-            <ApplicationProvider>
-              <Router>
-                <AppRoutes/>
-                <Navigation/>
-                <PagePositionSaver />
-              </Router>
-            </ApplicationProvider>
-          </ThemeProvider>
-        </SnackbarProvider>
+        <ThemeProvider>
+          <ApplicationProvider>
+            <Router>
+              <AppRoutes/>
+              <Navigation/>
+              <PagePositionSaver />
+            </Router>
+          </ApplicationProvider>
+        </ThemeProvider>
+        <ToastContainer/>
       </ZaloApp>
     </React.StrictMode>
   );
