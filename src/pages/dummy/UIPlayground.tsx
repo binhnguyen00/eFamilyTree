@@ -1,5 +1,5 @@
 import React from "react";
-
+import { toast, Flip } from "react-toastify";
 import { t } from "i18next";
 import { Button, Text, Stack } from "zmp-ui";
 
@@ -12,10 +12,24 @@ import themeRed from "assets/img/theme/theme-red.jpeg";
 import themeBlue from "assets/img/theme/theme-blue.jpeg";
 
 export function UIPlayground() {
-
   return (
     <Stack space="1rem" className="container">
       <Header title={t("playground")}/>
+
+      <Button 
+        variant="secondary" 
+        onClick={() => toast("Wow so easy!", {
+          autoClose: 3000,
+          hideProgressBar: true,
+          pauseOnFocusLoss: false,
+          type: "success",
+          transition: Flip,
+          draggable: true,
+          draggableDirection: "x"
+        })}
+      > 
+        Toasty 
+      </Button>
 
       <Stack space="1rem">
         <Text.Title size="large"> {"Mock CORS"} </Text.Title>
