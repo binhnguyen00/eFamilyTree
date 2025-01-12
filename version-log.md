@@ -1,6 +1,12 @@
 # Version 1.0.8
 - Bổ sung hệ thống Thông báo theo hành động của người dùng: 
   - success, danger, warning.
+- Nâng cấp giao diện Lịch tuần:
+  - Bổ sung ngày âm lịch.
+  - Bổ sung dấu chấm đỏ nếu ngày đó có sự kiện.
+  - Bo tròn lịch.
+- Nâng cấp giao diện lịch tháng:
+  - Bo tròn lịch.
 
 # Version 1.0.8-beta
 - Thay thế giao diện Sự kiện bằng Lịch dòng họ.

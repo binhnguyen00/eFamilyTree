@@ -1,48 +1,63 @@
 import React from "react";
-
+import { SolarDate } from "@nghiavuive/lunar_date_vi";
 import { 
   addDays, format, isSameDay, lastDayOfWeek, startOfWeek 
 } from "date-fns";
+import { DateTimeUtils } from "utils";
 
 interface CellsProps {
-  currentMonth: any;
+  daysWithEvents?: any[];
+  currentDay: Date;
   selectedDate: Date;
   onSelectCell: (day: Date, dayStr: string) => void;
 }
 
 export function Cells(props: CellsProps) {
-  const { currentMonth, selectedDate, onSelectCell } = props;
+  const { currentDay, selectedDate, onSelectCell, daysWithEvents } = props;
 
-  const dateFormat = "d";
-  const startDate: Date = startOfWeek(currentMonth, { weekStartsOn: 1 });
-  const endDate: Date = lastDayOfWeek(currentMonth, { weekStartsOn: 1 });
+  const startDate: Date = startOfWeek(currentDay, { weekStartsOn: 1 });
+  const endDate: Date = lastDayOfWeek(currentDay, { weekStartsOn: 1 });
 
   let rows: React.ReactNode[]  = [];
   let days: React.ReactNode[] = [];
   let day = startDate;
   let formattedDate = "";
 
+  const onClickCell = (day: Date) => {
+    const dayFomart = format(day, DateTimeUtils.DEFAULT_FORMAT);
+    onSelectCell(day, dayFomart);
+  }
+
+  const calCellClassName = (day: Date) => {
+    if (isSameDay(day, new Date())) 
+      return "today";
+    else if (isSameDay(day, selectedDate)) 
+      return "selected";
+    else return "";
+  }
+
+  const dateFormat = "d";
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, dateFormat);
-      const cloneDay = day;
+      const cloneDay: Date = day;
+      const calendarDate = DateTimeUtils.toCalendarDate(cloneDay);
+      const solar = new SolarDate(calendarDate);
+      const lunar = solar.toLunarDate();
       days.push(
         <div
-          className={`col cell ${
-            isSameDay(day, new Date())
-              ? "today"
-              : isSameDay(day, selectedDate)
-              ? "selected"
-              : ""
-          }`}
           key={day.toISOString()}
-          onClick={() => {
-            const dayStr = format(cloneDay, "ccc dd MMM yy");
-            onSelectCell(cloneDay, dayStr);
-          }}
+          className={`col text-center flex-v ${calCellClassName(day)}`}
+          onClick={() => onClickCell(cloneDay)}
         >
-          <span className="number">{formattedDate}</span>
-          <span className="bg">{formattedDate}</span>
+          {/* render dot */}
+          {daysWithEvents?.includes(cloneDay) && (
+            <div className="callendar-dot"/>
+          )}
+          {/* render date */}
+          <span className="number"> {formattedDate} </span>
+          {/* render lunar day */}
+          <small> {lunar.get().day} </small>
         </div>
       );
       day = addDays(day, 1);

@@ -1,30 +1,32 @@
 import moment from "moment";
+import { format, isSameDay } from "date-fns";
 
 export class DateTimeUtils {
   static DATE = "DD/MM/YYYY";
   static DATE_TIME = `${this.DATE} HH:mm:ss`;
+  static DEFAULT_FORMAT = "dd/MM/yyyy@HH:mm:ss";
+
+  public static formatDefault(target: Date) {
+    return format(target, this.DEFAULT_FORMAT);
+  }
 
   public static getNow() {
     return moment().format(this.DATE_TIME);
   }
 
-  public static areSameDay(date1: Date, date2: Date): boolean {
-    return (
-      date1.getFullYear() === date2.getFullYear() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getDate() === date2.getDate()
-    );
+  public static isSameDay(date1: Date, date2: Date): boolean {
+    return isSameDay(date1, date2);
   }
 
   public static isToday(date: Date): boolean {
     const today = new Date();
-    return this.areSameDay(date, today);
+    return this.isSameDay(date, today);
   }
 
   public static isTomorrow(date: Date): boolean {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    return this.areSameDay(date, tomorrow);
+    return this.isSameDay(date, tomorrow);
   }
 
   public static formatTo(format: string) {

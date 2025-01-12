@@ -45,7 +45,7 @@ export default function MonthCalendar() {
 
   return (
     <Calendar
-      className={"text-base"}
+      className={"text-base rounded"}
       navigationLabel={navigationLabel}
       view="month"
       locale={settings.language}

@@ -5,58 +5,70 @@ import { format, getWeek, addWeeks, subWeeks, subMonths, addMonths } from "date-
 
 import { Cells } from "./Cells";
 import { DaysInWeek } from "./Day";
-import { useAppContext } from "hooks";
 
-import "../css/week-calendar.css"
-import { CommonIcon } from "components/icon";
+import { useAppContext } from "hooks";
+import { CommonIcon } from "components";
+import { DateTimeUtils } from "utils";
+
+import "../css/calendar.css";
+import "../css/week-calendar.css";
 
 interface WeekCalendarProps {
-  onSelectDay?: (date: Date) => void
+  onCurrentDay?: (formattedDay: string) => void;
+  onSelectDay?: (formattedDay: string) => void;
+  daysWithEvent?: Date[];
 }
 export default function WeekCalendar(props: WeekCalendarProps) {
-  const { onSelectDay } = props;
+  const { onSelectDay, onCurrentDay, daysWithEvent } = props;
 
-  const [ currentMonth, setCurrentMonth ] = React.useState(new Date());
-  const [ currentWeek, setCurrentWeek ] = React.useState(getWeek(currentMonth));
+  const [ now, setNow ] = React.useState<Date>(new Date());
+  const [ currentWeek, setCurrentWeek ] = React.useState(getWeek(now));
   const [ selectedDate, setSelectedDate ] = React.useState(new Date());
+
+  React.useEffect(() => {
+    if (onCurrentDay) {
+      onCurrentDay(format(now, DateTimeUtils.DEFAULT_FORMAT));
+    }
+  }, [])
 
   const navigateMonth = (type: "prev" | "next") => {
     if (type === "prev") {
-      setCurrentMonth(subMonths(currentMonth, 1));
+      setNow(subMonths(now, 1));
     }
     if (type === "next") {
-      setCurrentMonth(addMonths(currentMonth, 1));
+      setNow(addMonths(now, 1));
     }
   };
 
   const navigateWeek = (type: "prev" | "next") => {
     if (type === "prev") {
-      setCurrentMonth(subWeeks(currentMonth, 1));
-      setCurrentWeek(getWeek(subWeeks(currentMonth, 1)));
+      setNow(subWeeks(now, 1));
+      setCurrentWeek(getWeek(subWeeks(now, 1)));
     }
     if (type === "next") {
-      setCurrentMonth(addWeeks(currentMonth, 1));
-      setCurrentWeek(getWeek(addWeeks(currentMonth, 1)));
+      setNow(addWeeks(now, 1));
+      setCurrentWeek(getWeek(addWeeks(now, 1)));
     }
   };
 
   const onSelectCell = (day: Date, dayStr: string) => {
     setSelectedDate(day);
-    // onSelectDay(dayStr);
+    if (onSelectDay) onSelectDay(dayStr);
   }
 
   return (
-    <div className="calendar">
+    <div className="calendar rounded">
       <Header 
-        currentMonth={currentMonth}
+        currentMonth={now}
         navigateMonth={navigateMonth}
-        navigateCurrentMonth={() => setCurrentMonth(new Date())}
+        navigateCurrentMonth={() => setNow(new Date())}
       />
-      <DaysInWeek currentMonth={currentMonth}/>
+      <DaysInWeek currentMonth={now}/>
       <Cells 
         selectedDate={selectedDate}
-        currentMonth={currentMonth}
+        currentDay={now}
         onSelectCell={onSelectCell}
+        daysWithEvents={daysWithEvent}
       />
       <Footer 
         currentWeek={currentWeek}
