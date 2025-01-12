@@ -1,3 +1,7 @@
+# Version 1.0.8
+- Bổ sung hệ thống Thông báo theo hành động của người dùng: 
+  - success, danger, warning.
+
 # Version 1.0.8-beta
 - Thay thế giao diện Sự kiện bằng Lịch dòng họ.
   - Lịch dòng họ có 2 phần là Sự kiện và Lịch Vạn Niên (sau này có thể dùng cho chức năng xem ngày tốt/xấu).
