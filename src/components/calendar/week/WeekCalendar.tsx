@@ -27,7 +27,7 @@ export default function WeekCalendar(props: WeekCalendarProps) {
 
   React.useEffect(() => {
     if (onCurrentDay) {
-      onCurrentDay(format(now, DateTimeUtils.DEFAULT_FORMAT));
+      onCurrentDay(DateTimeUtils.formatDefault(now));
     }
   }, [])
 

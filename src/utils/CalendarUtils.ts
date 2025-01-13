@@ -20,8 +20,8 @@ export class CalendarUtils {
   public static filterEventsByDate(events: Event[], date: Date) {
     date = DateTimeUtils.setToMidnight(date);
     const filteredEvents = events.filter((event: Event) => {
-      const eventStart = DateTimeUtils.formatFromString(event.date_begin.substring(0, 10));
-      const eventEnd = DateTimeUtils.formatFromString(event.date_end.substring(0, 10));
+      const eventStart = DateTimeUtils.toDate(event.date_begin.substring(0, 10));
+      const eventEnd = DateTimeUtils.toDate(event.date_end.substring(0, 10));
       if (date >= eventStart && date <= eventEnd) return event;
       else return;
     });
@@ -45,13 +45,13 @@ export class CalendarUtils {
 
     const filteredDates: Date[] = events
       .filter((event: Event) => {
-        const eventStart = DateTimeUtils.formatFromString(event.date_begin.substring(0, 10));
-        const eventEnd = DateTimeUtils.formatFromString(event.date_end.substring(0, 10));
+        const eventStart = DateTimeUtils.toDate(event.date_begin.substring(0, 10));
+        const eventEnd = DateTimeUtils.toDate(event.date_end.substring(0, 10));
         return startDate <= eventStart && endDate >= eventEnd;
       })
       .flatMap((event: Event) => {
-        const eventStart = DateTimeUtils.formatFromString(event.date_begin.substring(0, 10));
-        const eventEnd = DateTimeUtils.formatFromString(event.date_end.substring(0, 10));
+        const eventStart = DateTimeUtils.toDate(event.date_begin.substring(0, 10));
+        const eventEnd = DateTimeUtils.toDate(event.date_end.substring(0, 10));
 
         // Collect all dates from eventStart to eventEnd
         const dates: Date[] = [];

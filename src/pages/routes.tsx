@@ -22,7 +22,6 @@ import { UIRegister } from "pages/user/UIRegister";
 import { UIRegisterClan } from "pages/user/UIRegisterClan";
 import { UIGallery } from 'pages/gallery/UIGallery';
 import { UIDummyGallery } from "./dummy/UIDummyGallery";
-import { UICalendar } from "./calendar/UICalendar";
 
 import { useRouteNavigate } from "hooks";
 
@@ -32,6 +31,7 @@ const UIDummyFundDetail = React.lazy(() => import("./dummy/UIDummyFundDetail"));
 const UIDummyTree = React.lazy(() => import("./dummy/UIDummyTree"));
 const UIDummyBlog = React.lazy(() => import("./dummy/UIDummyBlog"));
 const UIDummyNavigate = React.lazy(() => import("./dummy/UIDummyNavigate"));
+const UIDummyCalendar = React.lazy(() => import("./dummy/UIDummyCalendar"));
 
 export function AppRoutes() {
   const { createPath, rootPath } = useRouteNavigate();
@@ -93,7 +93,7 @@ export function AppRoutes() {
       } />
       <Route path="/dev/calendar" element={
         <React.Suspense fallback={<Loading />}>
-          <UICalendar />
+          <UIDummyCalendar />
         </React.Suspense>
       } />
       <Route path="/dev/blogs" element={

@@ -54,8 +54,6 @@ header {
   text-align: right;
 }
 
-/* Calendar */
-
 .calendar {
   display: block;
   position: relative;
@@ -85,10 +83,10 @@ header {
 }
 
 .calendar .body .selected {
-  border-bottom: 10px solid var(--calendar-day-selected-color);
+  border-bottom: 10px solid var(--calendar-day-selected-color) !important;
 }
 .calendar .body .today {
-  border-bottom: 10px solid var(--calendar-today-color);
+  border-bottom: 10px solid var(--calendar-today-color) !important;
 }
 .calendar .body .row {
   border-bottom: 1px solid var(--calendar-border-color);
@@ -119,10 +117,12 @@ header {
   right: -0.05em;
   transition: 0.25s ease-out;
   letter-spacing: -0.07em;
+  border-bottom: 1px solid var(--calendar-border-color);
 }
 
 .calendar .body .col {
   flex-grow: 0;
   flex-basis: calc(100% / 7);
   width: calc(100% / 7);
+  border: 1px solid var(--calendar-border-color);
 }

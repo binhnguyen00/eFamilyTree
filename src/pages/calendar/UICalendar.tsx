@@ -77,7 +77,7 @@ function UIWeekCalendarContainer() {
     CalendarApi.getClanEventInWeek(userInfo.id, userInfo.clanId, firstDayOfWeek, lastDayOfWeek, success);
   }, [])
 
-  const scrollDivHeight = StyleUtils.calComponentRemainingHeight(157 + 44);
+  const scrollDivHeight = StyleUtils.calComponentRemainingHeight(157 + 44 + 20);
   return (
     <div className="flex-v">
       <WeekCalendar 

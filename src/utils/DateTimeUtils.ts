@@ -2,12 +2,11 @@ import moment from "moment";
 import { format, isSameDay } from "date-fns";
 
 export class DateTimeUtils {
-  static DATE = "DD/MM/YYYY";
-  static DATE_TIME = `${this.DATE} HH:mm:ss`;
-  static DEFAULT_FORMAT = "dd/MM/yyyy@HH:mm:ss";
+  static DATE = "dd/MM/yyyy";
+  static DATE_TIME = `${this.DATE}@HH:mm:ss`;
 
   public static formatDefault(target: Date) {
-    return format(target, this.DEFAULT_FORMAT);
+    return format(target, this.DATE_TIME);
   }
 
   public static getNow() {
@@ -23,25 +22,15 @@ export class DateTimeUtils {
     return this.isSameDay(date, today);
   }
 
-  public static isTomorrow(date: Date): boolean {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    return this.isSameDay(date, tomorrow);
-  }
-
-  public static formatTo(format: string) {
-    return moment().format(format);
-  }
-
   public static formatToDate(date: Date) {
-    return moment(date).format(this.DATE);
+    return format(date, this.DATE);
   }
 
   public static formatToDateTime(date: Date) {
-    return moment(date).format(this.DATE_TIME);
+    return format(date, this.DATE_TIME);
   }
 
-  public static formatFromString(dateStr: string) {
+  public static toDate(dateStr: string) {
     const possibleFormats = [
       "YYYY-MM-DD",
       "YYYY/MM/DD",
@@ -49,6 +38,12 @@ export class DateTimeUtils {
       "MM/DD/YYYY",
       "DD-MM-YYYY",
       "MM-DD-YYYY",
+      "YYYY-MM-DD@HH:mm:ss",
+      "YYYY/MM/DD@HH:mm:ss",
+      "DD/MM/YYYY@HH:mm:ss",
+      "MM/DD/YYYY@HH:mm:ss",
+      "DD-MM-YYYY@HH:mm:ss",
+      "MM-DD-YYYY@HH:mm:ss",
     ];
     const parsedMoment = moment(dateStr, possibleFormats, true);
     if (parsedMoment.isValid()) return parsedMoment.toDate();
@@ -56,7 +51,7 @@ export class DateTimeUtils {
       throw new Error(`DateTimeUtils: Invalid date string "${dateStr}"`);
   }
 
-  public static formatDate(dateStr: string, format: string) {
+  public static formatDateString(dateStr: string, format: string) {
     const parsedMoment = moment(dateStr, moment.ISO_8601, true); 
     if (!parsedMoment.isValid()) {
       const fallbackMoment = moment(dateStr);
@@ -69,7 +64,7 @@ export class DateTimeUtils {
     throw new Error(`DateTimeUtils: Invalid date string "${dateStr}"`);
   }
 
-  public static formatFromDate(date: Date, format: "DD/MM/YYYY" | "DD/MM/YYYY HH:mm:ss") {
+  public static formatFromDate(date: Date, format: "dd/MM/yyyy" | "dd/MM/yyyy@HH:mm:ss") {
     const parsedMoment = moment(date, format, true);
     if (parsedMoment.isValid()) return parsedMoment.toDate();
     else throw new Error("DateTimeUtils: Format Date failed");

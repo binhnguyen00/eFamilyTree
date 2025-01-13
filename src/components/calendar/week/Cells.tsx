@@ -15,6 +15,8 @@ interface CellsProps {
 export function Cells(props: CellsProps) {
   const { currentDay, selectedDate, onSelectCell, daysWithEvents } = props;
 
+  console.log("daysWithEvents", daysWithEvents);
+
   const startDate: Date = startOfWeek(currentDay, { weekStartsOn: 1 });
   const endDate: Date = lastDayOfWeek(currentDay, { weekStartsOn: 1 });
 
@@ -24,7 +26,7 @@ export function Cells(props: CellsProps) {
   let formattedDate = "";
 
   const onClickCell = (day: Date) => {
-    const dayFomart = format(day, DateTimeUtils.DEFAULT_FORMAT);
+    const dayFomart = DateTimeUtils.formatDefault(day);
     onSelectCell(day, dayFomart);
   }
 
@@ -36,11 +38,16 @@ export function Cells(props: CellsProps) {
     else return "";
   }
 
+  const isDayHaveEvent = (day: Date) => {
+    return daysWithEvents?.some(eventDay => isSameDay(eventDay, day)) 
+  }
+
   const dateFormat = "d";
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, dateFormat);
       const cloneDay: Date = day;
+
       const calendarDate = DateTimeUtils.toCalendarDate(cloneDay);
       const solar = new SolarDate(calendarDate);
       const lunar = solar.toLunarDate();
@@ -51,7 +58,7 @@ export function Cells(props: CellsProps) {
           onClick={() => onClickCell(cloneDay)}
         >
           {/* render dot */}
-          {daysWithEvents?.includes(cloneDay) && (
+          {isDayHaveEvent(cloneDay) && (
             <div className="callendar-dot"/>
           )}
           {/* render date */}
@@ -71,5 +78,9 @@ export function Cells(props: CellsProps) {
     days = [];
   }
 
-  return <div className="body">{rows}</div>;
+  return (
+    <div className="body">
+      {rows}
+    </div>
+  );
 }
