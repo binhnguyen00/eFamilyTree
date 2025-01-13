@@ -14,9 +14,6 @@ interface CellsProps {
 
 export function Cells(props: CellsProps) {
   const { currentDay, selectedDate, onSelectCell, daysWithEvents } = props;
-
-  console.log("daysWithEvents", daysWithEvents);
-
   const startDate: Date = startOfWeek(currentDay, { weekStartsOn: 1 });
   const endDate: Date = lastDayOfWeek(currentDay, { weekStartsOn: 1 });
 
@@ -26,6 +23,7 @@ export function Cells(props: CellsProps) {
   let formattedDate = "";
 
   const onClickCell = (day: Date) => {
+    day = DateTimeUtils.setToMidnight(day);
     const dayFomart = DateTimeUtils.formatDefault(day);
     onSelectCell(day, dayFomart);
   }

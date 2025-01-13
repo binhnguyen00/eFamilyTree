@@ -1,12 +1,12 @@
 import React from "react";
 import { t } from "i18next";
-import { Tabs } from "zmp-ui";
+import { Grid, Tabs } from "zmp-ui";
 
 import { CalendarApi } from "api";
 import { useAppContext } from "hooks";
 import { ServerResponse } from "server";
 import { CalendarUtils, DateTimeUtils, StyleUtils } from "utils";
-import { Header, MonthCalendar, ScrollableDiv, WeekCalendar } from "components";
+import { Card, Header, MonthCalendar, ScrollableDiv, WeekCalendar } from "components";
 
 export function UICalendar() {
   return (
@@ -52,14 +52,35 @@ function UIWeekCalendarContainer() {
   }
 
   const ClanEvents = () => {
-    const html = events.map((event, intex) => {
+    const html = events.map((event, idx) => {
       return (
-        <div>
-          {event}
-        </div>
+        <Card
+          key={idx} title={event.name}          
+          content={
+            <div key={idx} className="rounded flex-v">
+              {event["date_begin"] && <small> {`${t("from")}: ${DateTimeUtils.toDisplayDate(event["date_begin"])}`} </small>}
+              {event["date_end"] && <small> {`${t("to")}: ${DateTimeUtils.toDisplayDate(event["date_end"])}`} </small>}
+              {event["place"] && <small> {`${t("place")}: ${event["place"]}`} </small>}
+              {event["note"] && <small> {`${t("note")}: ${event["note"]}`} </small>}
+            </div>
+          }
+        />
       )
     }) as React.ReactNode[];
-    return html;
+    return (
+      <Grid 
+        className="p-2"
+        rowSpace="0.5rem" 
+        columnSpace="0.5rem" 
+        columnCount={html.length > 2 ? 2 : 1} 
+      >
+        {html.length ? (
+          <> {html} </>
+        ): (
+          <span className="center"> {t("no_calendar_events")} </span>
+        )}
+      </Grid>
+    )
   }
 
   React.useEffect(() => {

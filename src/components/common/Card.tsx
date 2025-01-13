@@ -3,7 +3,7 @@ import React from "react";
 import { ImageWithText } from "components";
 
 interface CardProps {
-  title: string;
+  title: string | React.ReactNode;
   src?: string;
   content?: string | React.ReactNode;
   onClick?: () => void;
@@ -49,7 +49,7 @@ function CardImage(props: CardImageProps) {
 // CardContent
 // ==========================
 interface CardContentProps {
-  title: string;
+  title: string | React.ReactNode;
   content?: string | React.ReactNode;
 }
 function CardContent(props: CardContentProps) {
@@ -57,13 +57,13 @@ function CardContent(props: CardContentProps) {
 
   const fontStyle = { 
     fontWeight: "bold", 
-    fontSize: "1.2rem" 
+    fontSize: "1rem" 
   } as React.CSSProperties;
 
   if (typeof content === "string") {
     return (
       <div className="text-wrap"> 
-        <p className="mb-2 text-capitalize" style={{ ...fontStyle }}> {title} </p>
+        <p className="p-1 text-capitalize" style={{ ...fontStyle }}> {title} </p>
         <p> {content} </p> 
       </div>
     );
@@ -71,7 +71,7 @@ function CardContent(props: CardContentProps) {
 
   return (
     <div className="text-wrap"> 
-      <p className="mb-2 text-capitalize" style={{ ...fontStyle }}> {title} </p>
+      <p className="p-1 text-capitalize" style={{ ...fontStyle }}> {title} </p>
       {content} 
     </div>
   )

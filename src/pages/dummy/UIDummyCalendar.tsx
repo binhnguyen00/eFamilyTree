@@ -1,10 +1,10 @@
 import React from "react";
 import { t } from "i18next";
-import { Tabs } from "zmp-ui";
+import { Grid, Tabs } from "zmp-ui";
 
 import { CalendarUtils } from "utils/CalendarUtils";
-import { StyleUtils } from "utils";
-import { Divider, Header, MonthCalendar, ScrollableDiv, WeekCalendar } from "components";
+import { DateTimeUtils, StyleUtils } from "utils";
+import { Card, Divider, Header, MonthCalendar, ScrollableDiv, WeekCalendar } from "components";
 
 import datas from "./sample/events.json";
 
@@ -55,17 +55,34 @@ function UIWeekCalendarContainer() {
   }
 
   const ClanEvents = () => {
-    const html = events.map((event, index) => {
+    const html: React.ReactNode[] = events.map((event, idx) => {
       return (
-        <div key={index}>
-          {event.name}
-        </div>
+        <Card
+          key={idx} title={event.name}          
+          content={
+            <div key={idx} className="rounded flex-v">
+              {event["date_begin"] && <small> {`${t("from")}: ${DateTimeUtils.toDisplayDate(event["date_begin"])}`} </small>}
+              {event["date_end"] && <small> {`${t("to")}: ${DateTimeUtils.toDisplayDate(event["date_end"])}`} </small>}
+              {event["place"] && <small> {`${t("place")}: ${event["place"]}`} </small>}
+              {event["note"] && <small> {event["note"]} </small>}
+            </div>
+          }
+        />
       )
     }) as React.ReactNode[];
     return (
-      <React.Fragment>
-        {html}
-      </React.Fragment>
+      <Grid 
+        className="p-2"
+        rowSpace="0.5rem" 
+        columnSpace="0.5rem" 
+        columnCount={html.length > 2 ? 2 : 1} 
+      >
+        {html.length ? (
+          <> {html} </>
+        ): (
+          <span className="center"> {t("no_calendar_events")} </span>
+        )}
+      </Grid>
     )
   }
 
@@ -84,7 +101,7 @@ function UIWeekCalendarContainer() {
         daysWithEvent={daysWithEvent}
       />
       <Divider/>
-      <ScrollableDiv className="rounded-top bg-white p-2" direction="vertical" height={scrollDivHeight}>
+      <ScrollableDiv className="rounded-top bg-white" direction="vertical" height={scrollDivHeight}>
         <ClanEvents/>
       </ScrollableDiv>
     </div>

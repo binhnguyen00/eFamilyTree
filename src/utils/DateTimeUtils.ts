@@ -30,6 +30,13 @@ export class DateTimeUtils {
     return format(date, this.DATE_TIME);
   }
 
+  public static toDisplayDate(dateStr: string) {
+    dateStr = dateStr
+      .replace("@", " ")
+      .substring(0, 16) // Remove seconds
+    return dateStr.replace("@", " ");
+  }
+
   public static toDate(dateStr: string) {
     const possibleFormats = [
       "YYYY-MM-DD",
