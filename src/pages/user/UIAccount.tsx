@@ -139,7 +139,7 @@ function UISettings() {
       })
       successToast(t("update_success"));
     }
-    UserSettingApi.resetBackground(userInfo.id, userInfo.clanId, success, () => dangerToast(t("update_fail")));
+    UserSettingApi.resetBackground(userInfo.id, userInfo.clanId, success, () => dangerToast(t("update_success")));
   }
 
   return (
