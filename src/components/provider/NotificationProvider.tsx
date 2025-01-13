@@ -88,23 +88,26 @@ function loadingToast(
     onFail: (errorMessage: ToastContent) => void
   ) => void,
 ) {
-  const toastId = toast.loading(content, createToastConfig());
-  operation(
-    (successMessage: ToastContent) => {
-      toast.update(toastId, {
-        render: successMessage,
-        type: "success",
-        isLoading: false,
-        ...createToastConfig(),
-      });
-    },
-    (errorMessage: ToastContent) => {
-      toast.update(toastId, {
-        render: errorMessage,
-        type: "error",
-        isLoading: false,
-        ...createToastConfig(),
-      });
-    }
-  );
+  const config = createToastConfig()
+  const toastId = toast.loading(content, config);
+
+  const success = (successMessage: ToastContent) => {
+    toast.update(toastId, {
+      render: successMessage,
+      type: "success",
+      isLoading: false,
+      ...config,
+    });
+  }
+
+  const fail = (errorMessage: ToastContent) => {
+    toast.update(toastId, {
+      render: errorMessage,
+      type: "error",
+      isLoading: false,
+      ...config,
+    });
+  }
+
+  operation(success, fail);
 }

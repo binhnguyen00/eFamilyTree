@@ -6,7 +6,7 @@ import { CalendarApi } from "api";
 import { useAppContext } from "hooks";
 import { ServerResponse } from "server";
 import { CalendarUtils, DateTimeUtils, StyleUtils } from "utils";
-import { Card, Header, MonthCalendar, ScrollableDiv, WeekCalendar } from "components";
+import { Card, Divider, Header, MonthCalendar, ScrollableDiv, WeekCalendar } from "components";
 
 export function UICalendar() {
   return (
@@ -109,6 +109,9 @@ function UIWeekCalendarContainer() {
         onNavigateMonth={() => setNavigate(!navigate)}
         daysWithEvent={daysWithEvent}
       />
+
+      <Divider/>
+
       <ScrollableDiv className="rounded-top bg-white" direction="vertical" height={scrollDivHeight}>
         <ClanEvents/>
       </ScrollableDiv>

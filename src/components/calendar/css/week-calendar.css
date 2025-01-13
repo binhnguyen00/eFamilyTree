@@ -98,7 +98,7 @@ header {
   line-height: 1;
   top: 0.75em;
   right: 0.75em;
-  font-weight: 700;
+  font-weight: bold !important;
 }
 
 .calendar .body .disabled {

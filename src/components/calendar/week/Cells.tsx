@@ -20,7 +20,6 @@ export function Cells(props: CellsProps) {
   let rows: React.ReactNode[]  = [];
   let days: React.ReactNode[] = [];
   let day = startDate;
-  let formattedDate = "";
 
   const onClickCell = (day: Date) => {
     day = DateTimeUtils.setToMidnight(day);
@@ -40,10 +39,11 @@ export function Cells(props: CellsProps) {
     return daysWithEvents?.some(eventDay => isSameDay(eventDay, day)) 
   }
 
+  let dayNumber = "";
   const dateFormat = "d";
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
-      formattedDate = format(day, dateFormat);
+      dayNumber = format(day, dateFormat);
       const cloneDay: Date = day;
 
       const calendarDate = DateTimeUtils.toCalendarDate(cloneDay);
@@ -60,7 +60,7 @@ export function Cells(props: CellsProps) {
             <div className="callendar-dot"/>
           )}
           {/* render date */}
-          <span className="number"> {formattedDate} </span>
+          <span className="number"> {dayNumber} </span>
           {/* render lunar day */}
           <small> {lunar.get().day} </small>
         </div>
