@@ -69,10 +69,10 @@ export function TreeController(props: TreeControllerProps) {
               ZmpSDK.downloadFile(`${serverBaseUrl}/${data.path}`);
               onSuccess(t("download_success"));
             } else {
-              onFail(t("download_failed"));
+              onFail(t("download_fail"));
             };
           }
-          FamilyTreeApi.exportSVG(userInfo.id, userInfo.clanId, base64, success);
+          FamilyTreeApi.exportSVG(userInfo.id, userInfo.clanId, base64, success, () => onFail(t("download_fail")));
         }
       );
     }

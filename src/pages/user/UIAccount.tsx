@@ -8,7 +8,7 @@ import { UserSettingApi } from "api";
 import { ServerResponse } from "server";
 
 import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
-import { useAppContext, useRouteNavigate } from "hooks";
+import { useAppContext, useNotification, useRouteNavigate } from "hooks";
 import { CommonUtils } from "utils";
 
 export function UIAccount() { 
@@ -71,12 +71,18 @@ function UIAccountContainer() {
 }
 
 function UISettings() {
+  const { loadingToast, successToast, dangerToast } = useNotification();
   const { userInfo, settings, updateSettings } = useAppContext();
 
   const changeLang = (langCode: "vi" | "en") => {
     const success = (result: ServerResponse) => {
-      const settings = result.data;
-      updateSettings(settings);
+      if (result.status === "success") {
+        const settings = result.data;        
+        updateSettings(settings);
+        successToast(t("update_success"));
+      } else {
+        dangerToast(t("update_fail"))
+      }
     }
     const target = { 
       theme: settings.theme, 
@@ -86,23 +92,39 @@ function UISettings() {
   }
 
   const changeBackground = () => {
-
-    const getImgSuccess = (base64: string) => {
-      const success = (result: ServerResponse) => {
-        const background = result.data;
-        updateSettings({
-          ...settings,
-          background: {
-            id: background["id"],
-            path: background["path"]
+    loadingToast(
+      t("updating_background"),
+      (onSuccess, onFail) => {
+        const getImgSuccess = (base64: string) => {
+          const success = (result: ServerResponse) => {
+            const background = result.data;
+            if (background["id"] !== 0) {
+              onSuccess(t("update_success"));
+            } else {
+              onFail(t("update_failed"));
+            }
+            updateSettings({
+              ...settings,
+              background: {
+                id: background["id"],
+                path: background["path"]
+              }
+            })
           }
-        })
+          UserSettingApi.updateBackground(userInfo.id, userInfo.clanId, base64, success, () => onFail(t("update_fail")));
+        }
+        const background = (document.getElementById('ftree-bg') as HTMLInputElement).files?.[0];
+        if (!background) {
+          onFail(t("file_require"));
+        }
+        CommonUtils.objToBase64(
+          background, 
+          getImgSuccess, 
+          () => onFail(t("update_fail"))
+        );
       }
-      UserSettingApi.updateBackground(userInfo.id, userInfo.clanId, base64, success);
-    }
-
-    const background = (document.getElementById('ftree-bg') as HTMLInputElement).files?.[0];
-    CommonUtils.objToBase64(background, getImgSuccess);
+    )
+    
   } 
 
   const resetBackground = () => {
@@ -115,8 +137,9 @@ function UISettings() {
           path: background["path"]
         }
       })
+      successToast(t("update_success"));
     }
-    UserSettingApi.resetBackground(userInfo.id, userInfo.clanId, success);
+    UserSettingApi.resetBackground(userInfo.id, userInfo.clanId, success, () => dangerToast(t("update_fail")));
   }
 
   return (

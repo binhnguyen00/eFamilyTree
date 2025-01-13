@@ -1,12 +1,13 @@
 # Version 1.0.8
 1. Bổ sung hệ thống Thông báo theo hành động của người dùng: 
-  - success, danger, warning.
+  - success, danger, warning, loading.
 2. Nâng cấp giao diện Lịch tuần:
   - Bổ sung ngày âm lịch.
   - Bổ sung dấu chấm đỏ nếu ngày đó có sự kiện.
   - Bo tròn lịch.
 - Nâng cấp giao diện lịch tháng:
   - Bo tròn lịch.
+3. Sử dụng notification khi xuất SVG phả đồ.
 
 # Version 1.0.8-beta
 - Thay thế giao diện Sự kiện bằng Lịch dòng họ.
