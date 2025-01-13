@@ -22,10 +22,14 @@ export function UIPlayground() {
           autoClose: 3000,
           hideProgressBar: true,
           pauseOnFocusLoss: false,
+          position: "top-center",
           type: "success",
           transition: Flip,
           draggable: true,
-          draggableDirection: "x"
+          draggableDirection: "x",
+          style: {
+            width: "95vw"
+          }
         })}
       > 
         Toasty 

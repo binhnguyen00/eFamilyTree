@@ -1,13 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 import { App as ZaloApp } from "zmp-ui";
 
 import { AppRoutes } from "./routes";
 import { 
   Navigation, 
   PagePositionSaver,
-  ThemeProvider, ApplicationProvider 
+  ThemeProvider, ApplicationProvider, NotificationProvider
 } from "components";
 
 import "../i18n";
@@ -17,15 +16,16 @@ function Application() {
     <React.StrictMode>
       <ZaloApp>
         <ThemeProvider>
-          <ApplicationProvider>
-            <Router>
-              <AppRoutes/>
-              <Navigation/>
-              <PagePositionSaver />
-            </Router>
-          </ApplicationProvider>
+            <ApplicationProvider>
+              <NotificationProvider>
+                <Router>
+                  <AppRoutes/>
+                  <Navigation/>
+                  <PagePositionSaver />
+                </Router>
+              </NotificationProvider>
+            </ApplicationProvider>
         </ThemeProvider>
-        <ToastContainer/>
       </ZaloApp>
     </React.StrictMode>
   );
