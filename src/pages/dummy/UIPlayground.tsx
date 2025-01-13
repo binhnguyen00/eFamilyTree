@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Text, Stack } from "zmp-ui";
+import { Button, Text, Stack, Grid } from "zmp-ui";
 
 import { TestApi } from "api";
 import { FailResponse, ServerResponse } from "server";
@@ -11,32 +11,12 @@ import themeRed from "assets/img/theme/theme-red.jpeg";
 import themeBlue from "assets/img/theme/theme-blue.jpeg";
 
 export function UIPlayground() {
-  const { successToast, dangerToast, warningToast } = useNotification();
 
   return (
     <Stack space="1rem" className="container">
       <Header title={t("playground")}/>
 
-      <Button 
-        variant="secondary" 
-        onClick={() => successToast("Wow so easy")}
-      > 
-        Success Toast
-      </Button>
-
-      <Button 
-        variant="secondary" 
-        onClick={() => dangerToast("Wow so easy")}
-      > 
-        Danger Toast
-      </Button>
-
-      <Button 
-        variant="secondary" 
-        onClick={() => warningToast("Wow so easy")}
-      > 
-        Warning Toast
-      </Button>
+      <UIToastButtons/>
 
       <Stack space="1rem">
         <Text.Title size="large"> {"Mock CORS"} </Text.Title>
@@ -130,5 +110,25 @@ function UISlidePanel() {
         </div>
       </SlidingPanel>
     </>
+  )
+}
+
+function UIToastButtons() {
+  const { successToast, dangerToast, warningToast, infoToast } = useNotification();
+  return (
+    <Grid columnCount={2} columnSpace="1rem" rowSpace="1rem">
+      <Button variant="secondary" onClick={() => successToast("success")}> 
+        Success Toast
+      </Button>
+      <Button variant="secondary" onClick={() => dangerToast("danger")}> 
+        Danger Toast
+      </Button>
+      <Button variant="secondary" onClick={() => warningToast("warning")}>  
+        Warning Toast
+      </Button>
+      <Button variant="secondary" onClick={() => infoToast("warning")}>  
+        Info Toast
+      </Button>
+    </Grid>
   )
 }

@@ -11,7 +11,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   const ctx = {
     successToast: successToast,
     dangerToast: dangerToast,
-    warningToast: warningToast
+    warningToast: warningToast,
+    infoToast: infoToast
   } as NotificationCtx;
 
   return (
@@ -26,18 +27,14 @@ export type NotificationCtx = {
   successToast: (content: ToastContent) => void;
   dangerToast: (content: ToastContent) => void;
   warningToast: (content: ToastContent) => void;
+  infoToast: (content: ToastContent) => void;
 }
 
 export const NotificationContext = React.createContext({
-  successToast(content) {
-    console.warn("successToast is not implemented")
-  },
-  dangerToast(content) {
-    console.warn("dangerToast is not implemented")
-  },
-  warningToast(content) {
-    console.warn("warningToast is not implemented")
-  }
+  successToast: () => console.warn("successToast is not implemented"),
+  dangerToast: () => console.warn("dangerToast is not implemented"),
+  warningToast: () => console.warn("warningToast is not implemented"),
+  infoToast: () => console.warn("infoToast is not implemented")
 } as NotificationCtx);
 
 // ================================
@@ -56,6 +53,10 @@ function createToastConfig() {
       width: "95vw"
     }
   } as ToastOptions;
+}
+
+function infoToast(content: ToastContent) {
+  toast.info(content, createToastConfig())
 }
 
 function successToast(content: ToastContent) {
