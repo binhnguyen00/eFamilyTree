@@ -32,7 +32,7 @@ function UIWeekCalendarContainer() {
   const { userInfo } = useAppContext();
   const [ events, setEvents ] = React.useState<any[]>([]);
   const [ daysWithEvent, setDaysWithEvent ] = React.useState<Date[]>([]);
-  const [ navigate, setNavigate ] = React.useState(false);
+  const [ navigateDay, setNavigateDay ] = React.useState<Date>(new Date());
 
   const getEventsByDay = (day: string) => {
     const success = (result: ServerResponse) => {
@@ -59,8 +59,8 @@ function UIWeekCalendarContainer() {
           key={idx} title={event.name}          
           content={
             <div key={idx} className="rounded flex-v">
-              {event["date_begin"] && <small> {`${t("from")}: ${DateTimeUtils.toDisplayDate(event["date_begin"])}`} </small>}
-              {event["date_end"] && <small> {`${t("to")}: ${DateTimeUtils.toDisplayDate(event["date_end"])}`} </small>}
+              {event["from_date"] && <small> {`${t("from")}: ${DateTimeUtils.toDisplayDate(event["from_date"])}`} </small>}
+              {event["to_date"] && <small> {`${t("to")}: ${DateTimeUtils.toDisplayDate(event["to_date"])}`} </small>}
               {event["place"] && <small> {`${t("place")}: ${event["place"]}`} </small>}
               {event["note"] && <small> {`${t("note")}: ${event["note"]}`} </small>}
             </div>
@@ -84,20 +84,27 @@ function UIWeekCalendarContainer() {
     )
   }
 
+  const onNavigate = (day: Date) => {
+    setNavigateDay(day);
+  }
+
   React.useEffect(() => {
     // Get all days events from this week
-    const now  = DateTimeUtils.setToMidnight(new Date());
+    const now  = DateTimeUtils.setToMidnight(navigateDay);
     const firstDayOfWeek = DateTimeUtils.formatDefault(CalendarUtils.firstDayOfWeek(now));
     const lastDayOfWeek = DateTimeUtils.formatDefault(CalendarUtils.lastDayOfWeek(now));
     const success = (result: ServerResponse) => {
       if (result.status === "success") {
         const events: any[] = result.data;
-        const days: Date[] = CalendarUtils.getDaysInWeekWithEvent(events, now);
+        const days: Date[] = CalendarUtils.getDaysInWeekWithEvent(events, DateTimeUtils.setToMidnight(navigateDay));
+
+        console.log(days);
+        
         setDaysWithEvent(days);
       } else setDaysWithEvent([]);
     }
     CalendarApi.getClanEventInWeek(userInfo.id, userInfo.clanId, firstDayOfWeek, lastDayOfWeek, success);
-  }, [ navigate ]) // When user hit next/prev, fetch events for the whole week.
+  }, [ navigateDay ]) // When user hit next/prev, fetch events for the whole week.
 
   const scrollDivHeight = StyleUtils.calComponentRemainingHeight(157 + 44 + 20);
   return (
@@ -105,8 +112,8 @@ function UIWeekCalendarContainer() {
       <WeekCalendar 
         onSelectDay={onSelectDay}
         onCurrentDay={onCurrentDay}
-        onNavigateWeek={() => setNavigate(!navigate)}
-        onNavigateMonth={() => setNavigate(!navigate)}
+        onNavigateWeek={onNavigate}
+        onNavigateMonth={onNavigate}
         daysWithEvent={daysWithEvent}
       />
 

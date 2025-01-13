@@ -31,12 +31,13 @@ export default function UIDummyCalendar() {
 function UIWeekCalendarContainer() {
   const [ events, setEvents ] = React.useState<any[]>(datas);
   const [ daysWithEvent, setDaysWithEvent ] = React.useState<Date[]>([]);
+  const [ navigateDay, setNavigateDay ] = React.useState<Date>(new Date());
 
   const onSelectDay = (selectedDay: string) => {
     selectedDay = selectedDay.substring(0, 10);
     const filtered: any[] = [];
     datas.map((event) => {
-      if (event.date_begin.substring(0, 10) === selectedDay) {
+      if (event.from_date.substring(0, 10) === selectedDay) {
         filtered.push(event);
       }
     })
@@ -47,7 +48,7 @@ function UIWeekCalendarContainer() {
     day = day.substring(0, 10);
     const filtered: any[] = [];
     datas.map((event) => {
-      if (event.date_begin.substring(0, 10) === day) {
+      if (event.from_date.substring(0, 10) === day) {
         filtered.push(event);
       }
     })
@@ -86,6 +87,11 @@ function UIWeekCalendarContainer() {
     )
   }
 
+  const onNavigate = (day: Date) => {
+    console.log(day);
+    setNavigateDay(day);
+  }
+
   React.useEffect(() => {
     const now  = new Date();
     const days: Date[] = CalendarUtils.getDaysInWeekWithEvent(events, now);
@@ -99,6 +105,8 @@ function UIWeekCalendarContainer() {
         onSelectDay={onSelectDay}
         onCurrentDay={onCurrentDay}
         daysWithEvent={daysWithEvent}
+        onNavigateMonth={onNavigate}
+        onNavigateWeek={onNavigate}
       />
       <Divider/>
       <ScrollableDiv className="rounded-top bg-white" direction="vertical" height={scrollDivHeight}>

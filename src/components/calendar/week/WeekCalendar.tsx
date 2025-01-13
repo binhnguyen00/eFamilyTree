@@ -16,8 +16,8 @@ import "../css/week-calendar.css";
 interface WeekCalendarProps {
   onCurrentDay?: (formattedDay: string) => void;
   onSelectDay?: (formattedDay: string) => void;
-  onNavigateMonth?: () => void;
-  onNavigateWeek?: () => void;
+  onNavigateMonth?: (day: Date) => void;
+  onNavigateWeek?: (day: Date) => void;
   daysWithEvent?: Date[];
 }
 export default function WeekCalendar(props: WeekCalendarProps) {
@@ -34,25 +34,31 @@ export default function WeekCalendar(props: WeekCalendarProps) {
   }, [])
 
   const navigateMonth = (type: "prev" | "next") => {
+    let clone = new Date(now);
     if (type === "prev") {
-      setNow(subMonths(now, 1));
+      clone = subMonths(now, 1) 
+      setNow(clone);
     }
     if (type === "next") {
-      setNow(addMonths(now, 1));
+      clone = addMonths(now, 1);
+      setNow(clone);
     }
-    if (onNavigateMonth) onNavigateMonth();
+    if (onNavigateMonth) onNavigateMonth(clone);
   };
 
   const navigateWeek = (type: "prev" | "next") => {
+    let clone = new Date(now);
     if (type === "prev") {
-      setNow(subWeeks(now, 1));
+      clone = subWeeks(now, 1); 
+      setNow(clone);
       setCurrentWeek(getWeek(subWeeks(now, 1)));
     }
     if (type === "next") {
-      setNow(addWeeks(now, 1));
+      clone = addWeeks(now, 1) 
+      setNow(clone);
       setCurrentWeek(getWeek(addWeeks(now, 1)));
     }
-    if (onNavigateWeek) onNavigateWeek();
+    if (onNavigateWeek) onNavigateWeek(clone);
   };
 
   const onSelectCell = (day: Date, dayStr: string) => {
