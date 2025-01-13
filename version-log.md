@@ -9,6 +9,7 @@
   - Bo tròn lịch.
 3. Sử dụng notification khi xuất SVG phả đồ.
 4. Sử dụng notification khi cập nhật cài đặt người dùngg.
+5. Link Test Zalo: https://zalo.me/s/3044106383419412609/?env=TESTING&version=17
 
 # Version 1.0.8-beta
 - Thay thế giao diện Sự kiện bằng Lịch dòng họ.
