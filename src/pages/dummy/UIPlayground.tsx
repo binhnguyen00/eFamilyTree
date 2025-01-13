@@ -11,7 +11,7 @@ import themeRed from "assets/img/theme/theme-red.jpeg";
 import themeBlue from "assets/img/theme/theme-blue.jpeg";
 
 export function UIPlayground() {
-  const { successToast } = useNotification();
+  const { successToast, dangerToast, warningToast } = useNotification();
 
   return (
     <Stack space="1rem" className="container">
@@ -21,7 +21,21 @@ export function UIPlayground() {
         variant="secondary" 
         onClick={() => successToast("Wow so easy")}
       > 
-        Toasty 
+        Success Toast
+      </Button>
+
+      <Button 
+        variant="secondary" 
+        onClick={() => dangerToast("Wow so easy")}
+      > 
+        Danger Toast
+      </Button>
+
+      <Button 
+        variant="secondary" 
+        onClick={() => warningToast("Wow so easy")}
+      > 
+        Warning Toast
       </Button>
 
       <Stack space="1rem">
