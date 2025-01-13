@@ -5,6 +5,7 @@ import { useGetPhonePermission } from './useGetPhonePermission';
 import { useAppContext } from './useAppContext';
 import { useRouteNavigate } from "./useRouteNavigate";
 import { useClanMemberContext } from "./useClanMemberCtx";
+import { useNotification } from "./useNotification";
 
 export { 
   useTheme, 
@@ -13,5 +14,6 @@ export {
   useGetPhonePermission,
   useAppContext,
   useRouteNavigate,
-  useClanMemberContext
+  useClanMemberContext,
+  useNotification
 };

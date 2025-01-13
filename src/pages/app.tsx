@@ -16,15 +16,15 @@ function Application() {
     <React.StrictMode>
       <ZaloApp>
         <ThemeProvider>
-            <ApplicationProvider>
-              <NotificationProvider>
-                <Router>
-                  <AppRoutes/>
-                  <Navigation/>
-                  <PagePositionSaver />
-                </Router>
-              </NotificationProvider>
-            </ApplicationProvider>
+          <ApplicationProvider>
+            <NotificationProvider>
+              <Router>
+                <AppRoutes/>
+                <Navigation/>
+                <PagePositionSaver />
+              </Router>
+            </NotificationProvider>
+          </ApplicationProvider>
         </ThemeProvider>
       </ZaloApp>
     </React.StrictMode>

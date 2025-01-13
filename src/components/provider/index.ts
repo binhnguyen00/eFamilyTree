@@ -1,7 +1,7 @@
 import { AppContext, ApplicationProvider } from "./ApplicationProvider";
-import { NotificationProvider } from "./NotificationProvider";
+import { NotificationContext, NotificationProvider } from "./NotificationProvider";
 
 export { 
   AppContext, ApplicationProvider,
-  NotificationProvider
+  NotificationContext, NotificationProvider
 }

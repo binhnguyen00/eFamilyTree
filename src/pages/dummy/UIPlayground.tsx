@@ -1,36 +1,25 @@
 import React from "react";
-import { toast, Flip } from "react-toastify";
 import { t } from "i18next";
 import { Button, Text, Stack } from "zmp-ui";
 
 import { TestApi } from "api";
-import { useAppContext } from "hooks";
-import { Header, Loading, SizedBox, SlidingPanel, SlidingPanelOrient } from "components";
 import { FailResponse, ServerResponse } from "server";
+import { useNotification, useAppContext } from "hooks";
+import { Header, Loading, SizedBox, SlidingPanel, SlidingPanelOrient } from "components";
 
 import themeRed from "assets/img/theme/theme-red.jpeg";
 import themeBlue from "assets/img/theme/theme-blue.jpeg";
 
 export function UIPlayground() {
+  const { successToast } = useNotification();
+
   return (
     <Stack space="1rem" className="container">
       <Header title={t("playground")}/>
 
       <Button 
         variant="secondary" 
-        onClick={() => toast("Wow so easy!", {
-          autoClose: 3000,
-          hideProgressBar: true,
-          pauseOnFocusLoss: false,
-          position: "top-center",
-          type: "success",
-          transition: Flip,
-          draggable: true,
-          draggableDirection: "x",
-          style: {
-            width: "95vw"
-          }
-        })}
+        onClick={() => successToast("Wow so easy")}
       > 
         Toasty 
       </Button>
