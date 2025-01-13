@@ -4,7 +4,7 @@ import { t } from "i18next";
 import { Box, useSnackbar } from "zmp-ui";
 
 import { CommonUtils, ZmpSDK } from "utils";
-import { useAppContext } from "hooks";
+import { useAppContext, useNotification } from "hooks";
 import { SizedBox, CommonIcon } from "components";
 import { FamilyTreeApi } from "api";
 import { ServerResponse } from "server";
@@ -24,7 +24,7 @@ interface TreeControllerProps {
 
 export function TreeController(props: TreeControllerProps) {
   const { userInfo, serverBaseUrl } = useAppContext();
-  const { openSnackbar } = useSnackbar();
+  const { loadingToast } = useNotification();
   const { rootId, onZoomToRoot, onZoomIn, onZoomOut, onReset, html2export } = props;
 
   const exportSVG = () => {
@@ -54,21 +54,27 @@ export function TreeController(props: TreeControllerProps) {
     `;
 
     const svg2Base64Success = (base64: string) => {
-
-      const success = (result: ServerResponse) => {
-        if (result.status === "success") {
-          let data = result.data as { id: number; path: string; };
-          ZmpSDK.downloadFile(`${serverBaseUrl}/${data.path}`);
-        } else {
-          openSnackbar({
-            text: t("download_fail"), 
-            type: "error",
-            position: "bottom",
-            duration: 3000, 
-          })
-        };
-      }
-      FamilyTreeApi.exportSVG(userInfo.id, userInfo.clanId, base64, success);
+      const loadingContent = (
+        <div>
+          <p> {t("preparing_data")} </p>
+          <p> {t("please_wait")} </p>
+        </div>
+      )
+      loadingToast(
+        loadingContent, 
+        (onSuccess, onFail) => {
+          const success = (result: ServerResponse) => {
+            if (result.status === "success") {
+              let data = result.data as { id: number; path: string; };
+              ZmpSDK.downloadFile(`${serverBaseUrl}/${data.path}`);
+              onSuccess(t("download_success"));
+            } else {
+              onFail(t("download_failed"));
+            };
+          }
+          FamilyTreeApi.exportSVG(userInfo.id, userInfo.clanId, base64, success);
+        }
+      );
     }
 
     const blob = new Blob([svg], { type: 'image/svg+xml' });

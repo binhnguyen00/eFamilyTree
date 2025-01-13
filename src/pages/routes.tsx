@@ -6,7 +6,6 @@ import { Loading } from "components";
 import { UIAbout } from "pages/about/UIAbout";
 import { UIBlog } from "pages/blog/UIBlog";
 import { UIBlogDetail } from "pages/blog/UIBlogDetail";
-import { UICalendarDeprecated } from "pages/calendar/UICalendarDeprecated";
 import { UICalendar } from "pages/calendar/UICalendar";
 import { UICertificate } from "pages/certificate/UICertificate";
 import { UICertificateDetail } from "pages/certificate/UICertificateDetail";

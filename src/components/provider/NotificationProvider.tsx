@@ -1,5 +1,5 @@
 import React from "react";
-import { ToastContainer, ToastOptions, Flip, toast } from "react-toastify";
+import { ToastContainer, ToastOptions, Slide, toast } from "react-toastify";
 
 
 // ================================
@@ -12,7 +12,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     successToast: successToast,
     dangerToast: dangerToast,
     warningToast: warningToast,
-    infoToast: infoToast
+    infoToast: infoToast,
+    loadingToast: loadingToast,
   } as NotificationCtx;
 
   return (
@@ -28,13 +29,21 @@ export type NotificationCtx = {
   dangerToast: (content: ToastContent) => void;
   warningToast: (content: ToastContent) => void;
   infoToast: (content: ToastContent) => void;
+  loadingToast: (
+    content: ToastContent, 
+    operation: (
+      onSuccess: (successMessage: ToastContent) => void, 
+      onFail: (errorMessage: ToastContent) => void
+    ) => void,
+  ) => void;
 }
 
 export const NotificationContext = React.createContext({
   successToast: () => console.warn("successToast is not implemented"),
   dangerToast: () => console.warn("dangerToast is not implemented"),
   warningToast: () => console.warn("warningToast is not implemented"),
-  infoToast: () => console.warn("infoToast is not implemented")
+  infoToast: () => console.warn("infoToast is not implemented"),
+  loadingToast: () => console.warn("loadingToast is not implemented"),
 } as NotificationCtx);
 
 // ================================
@@ -46,12 +55,13 @@ function createToastConfig() {
     hideProgressBar: true,
     pauseOnFocusLoss: false,
     position: "top-center",
-    transition: Flip,
+    transition: Slide,
     draggable: true,
+    draggablePercent: 60,
     draggableDirection: "x",
     style: {
       width: "95vw"
-    }
+    },
   } as ToastOptions;
 }
 
@@ -69,4 +79,32 @@ function dangerToast(content: ToastContent) {
 
 function warningToast(content: ToastContent) {
   toast.warning(content, createToastConfig());
+}
+
+function loadingToast(
+  content: ToastContent, 
+  operation: (
+    onSuccess: (successMessage: ToastContent) => void, 
+    onFail: (errorMessage: ToastContent) => void
+  ) => void,
+) {
+  const toastId = toast.loading(content, createToastConfig());
+  operation(
+    (successMessage: ToastContent) => {
+      toast.update(toastId, {
+        render: successMessage,
+        type: "success",
+        isLoading: false,
+        ...createToastConfig(),
+      });
+    },
+    (errorMessage: ToastContent) => {
+      toast.update(toastId, {
+        render: errorMessage,
+        type: "error",
+        isLoading: false,
+        ...createToastConfig(),
+      });
+    }
+  );
 }
