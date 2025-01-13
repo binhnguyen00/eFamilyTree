@@ -8,6 +8,7 @@
 - Nâng cấp giao diện lịch tháng:
   - Bo tròn lịch.
 3. Sử dụng notification khi xuất SVG phả đồ.
+4. Sử dụng notification khi cập nhật cài đặt người dùngg.
 
 # Version 1.0.8-beta
 - Thay thế giao diện Sự kiện bằng Lịch dòng họ.
