@@ -7,6 +7,7 @@ import { UIAbout } from "pages/about/UIAbout";
 import { UIBlog } from "pages/blog/UIBlog";
 import { UIBlogDetail } from "pages/blog/UIBlogDetail";
 import { UICalendarDeprecated } from "pages/calendar/UICalendarDeprecated";
+import { UICalendar } from "pages/calendar/UICalendar";
 import { UICertificate } from "pages/certificate/UICertificate";
 import { UICertificateDetail } from "pages/certificate/UICertificateDetail";
 import { UICerificateGroup } from "pages/certificate/UICertificateGroup";
@@ -52,7 +53,7 @@ export function AppRoutes() {
 
       <Route path={createPath("gallery")} element={<UIGallery />}/>
 
-      <Route path={createPath("calendar")} element={<UICalendarDeprecated />} />
+      <Route path={createPath("calendar")} element={<UICalendar />} />
 
       <Route path={createPath("blogs")} element={<UIBlog />}/>
       <Route path={createPath("blogs/detail")} element={<UIBlogDetail />} />

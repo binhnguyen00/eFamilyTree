@@ -32,6 +32,7 @@ function UIWeekCalendarContainer() {
   const { userInfo } = useAppContext();
   const [ events, setEvents ] = React.useState<any[]>([]);
   const [ daysWithEvent, setDaysWithEvent ] = React.useState<Date[]>([]);
+  const [ navigate, setNavigate ] = React.useState(false);
 
   const getEventsByDay = (day: string) => {
     const success = (result: ServerResponse) => {
@@ -85,7 +86,7 @@ function UIWeekCalendarContainer() {
 
   React.useEffect(() => {
     // Get all days events from this week
-    const now  = new Date();
+    const now  = DateTimeUtils.setToMidnight(new Date());
     const firstDayOfWeek = DateTimeUtils.formatDefault(CalendarUtils.firstDayOfWeek(now));
     const lastDayOfWeek = DateTimeUtils.formatDefault(CalendarUtils.lastDayOfWeek(now));
     const success = (result: ServerResponse) => {
@@ -96,7 +97,7 @@ function UIWeekCalendarContainer() {
       } else setDaysWithEvent([]);
     }
     CalendarApi.getClanEventInWeek(userInfo.id, userInfo.clanId, firstDayOfWeek, lastDayOfWeek, success);
-  }, [])
+  }, [ navigate ]) // When user hit next/prev, fetch events for the whole week.
 
   const scrollDivHeight = StyleUtils.calComponentRemainingHeight(157 + 44 + 20);
   return (
@@ -104,9 +105,11 @@ function UIWeekCalendarContainer() {
       <WeekCalendar 
         onSelectDay={onSelectDay}
         onCurrentDay={onCurrentDay}
+        onNavigateWeek={() => setNavigate(!navigate)}
+        onNavigateMonth={() => setNavigate(!navigate)}
         daysWithEvent={daysWithEvent}
       />
-      <ScrollableDiv direction="vertical" height={scrollDivHeight}>
+      <ScrollableDiv className="rounded-top bg-white" direction="vertical" height={scrollDivHeight}>
         <ClanEvents/>
       </ScrollableDiv>
     </div>

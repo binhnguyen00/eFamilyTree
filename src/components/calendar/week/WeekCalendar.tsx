@@ -16,10 +16,12 @@ import "../css/week-calendar.css";
 interface WeekCalendarProps {
   onCurrentDay?: (formattedDay: string) => void;
   onSelectDay?: (formattedDay: string) => void;
+  onNavigateMonth?: () => void;
+  onNavigateWeek?: () => void;
   daysWithEvent?: Date[];
 }
 export default function WeekCalendar(props: WeekCalendarProps) {
-  const { onSelectDay, onCurrentDay, daysWithEvent } = props;
+  const { onSelectDay, onCurrentDay, onNavigateWeek, onNavigateMonth, daysWithEvent } = props;
 
   const [ now, setNow ] = React.useState<Date>(new Date());
   const [ currentWeek, setCurrentWeek ] = React.useState(getWeek(now));
@@ -38,6 +40,7 @@ export default function WeekCalendar(props: WeekCalendarProps) {
     if (type === "next") {
       setNow(addMonths(now, 1));
     }
+    if (onNavigateMonth) onNavigateMonth();
   };
 
   const navigateWeek = (type: "prev" | "next") => {
@@ -49,6 +52,7 @@ export default function WeekCalendar(props: WeekCalendarProps) {
       setNow(addWeeks(now, 1));
       setCurrentWeek(getWeek(addWeeks(now, 1)));
     }
+    if (onNavigateWeek) onNavigateWeek();
   };
 
   const onSelectCell = (day: Date, dayStr: string) => {
