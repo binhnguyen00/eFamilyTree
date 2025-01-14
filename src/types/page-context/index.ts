@@ -1,6 +1,6 @@
-import { Permission } from "./Permission";
+import { Capability } from "./Capability";
 import type { PageContext } from "./PageContext";
 
 export { 
-  Permission, PageContext
+  Capability, PageContext
 }

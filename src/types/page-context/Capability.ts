@@ -1,4 +1,4 @@
-export enum Permission {
+export enum Capability {
   READ = "read",
   WRITE = "write",
   MODERATOR = "moderator",

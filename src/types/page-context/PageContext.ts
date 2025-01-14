@@ -1,4 +1,4 @@
-import { Permission } from "./Permission";
+import { Capability } from "./Capability";
 
 import { Module } from "types/app-context";
 
@@ -7,7 +7,7 @@ import { Module } from "types/app-context";
  */
 export type PageContext = {
   module: Module;
-  accessRight: Permission;
+  accessRight: Capability;
   canRead: boolean;
   canWrite: boolean;
   canModerate: boolean;

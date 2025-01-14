@@ -5,7 +5,7 @@ import { useAppContext } from "hooks";
 
 import { Module } from "types/app-context";
 import { ServerResponse } from "types/server";
-import { PageContext, Permission } from "types/page-context";
+import { PageContext, Capability } from "types/page-context";
 
 export function usePageContext(module: Module) {
   const { userInfo }  = useAppContext();
@@ -24,16 +24,19 @@ export function usePageContext(module: Module) {
 function useGetContext(userId: number, clanId: number, module: Module) {
   const [ context, setContext ] = React.useState<any>({
     module: "",
-    accessRight: Permission.READ
+    accessRight: Capability.READ
   });
 
   React.useEffect(() => {
     const success = (result: ServerResponse) => {
       if (result.status === "success") {
-        const ctx = result.data;
+        const ctx: {
+          module: string,
+          access_right: Capability
+        } = result.data;
         setContext({
-          module: ctx["module"],
-          accessRight: ctx["access_right"]
+          module: ctx.module,
+          accessRight: ctx.access_right
         });
       }
     }
@@ -46,35 +49,35 @@ function useGetContext(userId: number, clanId: number, module: Module) {
 // ====================================
 // utilities
 // ====================================
-function analyzePerms(ctx: PageContext): Permission[] {
+function analyzePerms(ctx: PageContext): Capability[] {
   switch (ctx.accessRight) {
-    case Permission.READ:
-      return [ Permission.READ ]
-    case Permission.WRITE:
-      return [ Permission.READ, Permission.WRITE ]
-    case Permission.MODERATOR:
-      return [ Permission.READ, Permission.WRITE, Permission.MODERATOR ]
-    case Permission.ADMIN:
-      return [ Permission.READ, Permission.WRITE, Permission.MODERATOR, Permission.ADMIN ]
+    case Capability.READ:
+      return [ Capability.READ ]
+    case Capability.WRITE:
+      return [ Capability.READ, Capability.WRITE ]
+    case Capability.MODERATOR:
+      return [ Capability.READ, Capability.WRITE, Capability.MODERATOR ]
+    case Capability.ADMIN:
+      return [ Capability.READ, Capability.WRITE, Capability.MODERATOR, Capability.ADMIN ]
   }
 }
 
 function canRead(ctx: PageContext) {
   const perms = analyzePerms(ctx);
-  return perms.includes(Permission.READ);
+  return perms.includes(Capability.READ);
 }
 
 function canWrite(ctx: PageContext) {
   const perms = analyzePerms(ctx);
-  return perms.includes(Permission.WRITE);
+  return perms.includes(Capability.WRITE);
 }
 
 function canModerate(ctx: PageContext) {
   const perms = analyzePerms(ctx);
-  return perms.includes(Permission.MODERATOR);
+  return perms.includes(Capability.MODERATOR);
 }
 
 function canAdmin(ctx: PageContext) {
   const perms = analyzePerms(ctx);
-  return perms.includes(Permission.ADMIN);
+  return perms.includes(Capability.ADMIN);
 }
