@@ -2,7 +2,9 @@
 1. Thêm hệ thống phân quyền.
   - read/write/moderator/admin.
   - Chưa triển khai trên toàn hệ thống. 
-2. Thay đổi icon trong phả đồ.
+2. Thay đổi nhỏ trong phả đồ
+  - icon mới.
+  - Thẻ thành viên đã gọn hơn, giảm chiều rộng của phả đồ.
 
 # Version 1.0.8
 1. Bổ sung hệ thống Thông báo theo hành động của người dùng: 
