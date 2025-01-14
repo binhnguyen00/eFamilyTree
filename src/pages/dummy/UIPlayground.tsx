@@ -3,10 +3,11 @@ import { t } from "i18next";
 import { Button, Text, Stack, Grid } from "zmp-ui";
 
 import { TestApi } from "api";
-import { useNotification, useAppContext } from "hooks";
+import { useNotification, useAppContext, usePageContext } from "hooks";
 import { Header, Loading, SizedBox, SlidingPanel, SlidingPanelOrient } from "components";
 
 import { Theme } from "types/user-settings";
+import { Module } from "types/app-context";
 import { FailResponse, ServerResponse } from "types/server";
 
 import themeRed from "assets/img/theme/theme-red.jpeg";
@@ -19,6 +20,8 @@ export function UIPlayground() {
       <Header title={t("playground")}/>
 
       <UIToastButtons/>
+
+      <UIPermissionButtons/>
 
       <Stack space="1rem">
         <Text.Title size="large"> {"Mock CORS"} </Text.Title>
@@ -132,5 +135,13 @@ function UIToastButtons() {
         Info Toast
       </Button>
     </Grid>
+  )
+}
+
+function UIPermissionButtons() {
+  const { canRead, canWrite, canModerate, canAdmin } = usePageContext(Module.THEME);
+  console.table({ canRead, canWrite, canModerate, canAdmin });
+  return (
+    <></>
   )
 }

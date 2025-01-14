@@ -35,6 +35,10 @@ export class BaseApi {
     this.server.POST("context/user", header, body, successCB, failCB);
   }
 
+  /**
+   * @usage Get user context inside of a Module
+   * @return module code, user's permission in that module 
+   */
   public static getUserPageContext(
     userId: number, 
     clanId: number, 

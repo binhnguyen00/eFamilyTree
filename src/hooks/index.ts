@@ -3,7 +3,7 @@ import { useAutoLogin } from "./useAutoLogin";
 import { useSettings } from "./useSettings";
 import { useGetPhonePermission } from './useGetPhonePermission';
 import { useAppContext } from './context/useAppContext';
-import {  } from "./context/usePageContext";
+import { usePageContext } from "./context/usePageContext";
 import { useRouteNavigate } from "./useRouteNavigate";
 import { useNotification } from "./useNotification";
 
@@ -12,7 +12,7 @@ export {
   useAutoLogin, 
   useSettings,
   useGetPhonePermission,
-  useAppContext,
+  useAppContext, usePageContext,
   useRouteNavigate,
   useNotification
 };

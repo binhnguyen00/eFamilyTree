@@ -1,7 +1,9 @@
-import { AppContext, ZaloUserInfo, UserInfo } from "./AppContext";
+import { Module } from "./AppContext";
+import type { AppContext, ZaloUserInfo, UserInfo } from "./AppContext";
 
 export { 
   AppContext, 
   ZaloUserInfo, 
-  UserInfo 
+  UserInfo,
+  Module
 };

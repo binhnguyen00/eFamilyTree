@@ -27,3 +27,13 @@ export type UserInfo = {
   clanId: number;
   generation: number
 }
+
+export enum Module {
+  FUND = "module-fund",
+  THEME = "module-theme",
+  GALLERY = "module-gallery",
+  CALENDAR = "module-calendar",
+  CERTIFICATE = "module-certificate",
+  FAMILY_TREE = "module-family-tree",
+  SOCIAL_POST = "module-social-post",
+}
