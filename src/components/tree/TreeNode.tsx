@@ -14,7 +14,12 @@ interface TreeNodeProps {
 
 export function TreeNode(props: TreeNodeProps) {
   const { node, displayField, isRoot, onSelectNode } = props;
-  const nodeColor = node.gender === "male" ? TreeConfig.nodeMaleColor : TreeConfig.nodeFemaleColor;
+
+  const nodeColor 
+    = node.gender === "male" 
+    ? TreeConfig.nodeMaleColor 
+    : TreeConfig.nodeFemaleColor;
+
   const nodePosition = TreeUtils.calculateNodePosition(node as ExtNode);
 
   return (
