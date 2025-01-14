@@ -18,7 +18,7 @@ export function usePageContext(module: Module) {
     canWrite: canWrite(context),
     canModerate: canModerate(context),
     canAdmin: canAdmin(context)
-  }
+  } as PageContext;
 }
 
 function useGetContext(userId: number, clanId: number, module: Module) {
@@ -29,8 +29,13 @@ function useGetContext(userId: number, clanId: number, module: Module) {
 
   React.useEffect(() => {
     const success = (result: ServerResponse) => {
-      const ctx = result.data;
-      setContext(ctx);
+      if (result.status === "success") {
+        const ctx = result.data;
+        setContext({
+          module: ctx["module"],
+          accessRight: ctx["access_right"]
+        });
+      }
     }
     BaseApi.getUserPageContext(userId, clanId, module, success);
   }, [ module ])
