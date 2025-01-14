@@ -18,7 +18,7 @@ export type UserSettings = {
   };
 }
 
-export type UserSettingsCtx = {
+export type UserSettingsContext = {
   settings: UserSettings,
   updateSettings: (settings: UserSettings) => void
 }

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Theme, ThemeCtx } from "types/user-settings";
+import { Theme, ThemeContext as ThemeCtx } from "types/user-settings";
 
 export const ThemeContext = React.createContext({ 
   theme: Theme.DEFAULT, 

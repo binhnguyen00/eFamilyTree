@@ -5,9 +5,9 @@ import { useTheme } from "hooks";
 import { UserSettingApi } from "api";
 
 import { FailResponse, ServerResponse } from "types/server";
-import { UserSettings, UserSettingsCtx, Language, Theme } from "types/user-settings";
+import { UserSettings, UserSettingsContext, Language, Theme } from "types/user-settings";
 
-export function useSettings(userId: number | any, clanId: number | any): UserSettingsCtx {
+export function useSettings(userId: number | any, clanId: number | any): UserSettingsContext {
   let { i18n } = useTranslation();
   let { toggleTheme } = useTheme();
   let [ settings, setSetting ] = React.useState<UserSettings>({
