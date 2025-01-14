@@ -1,31 +1,22 @@
 import React from "react";
+
 import { ZmpSDK } from "utils";
 import { useGetPhonePermission } from "hooks";
 
-interface ZaloUserInfo {
-  id: string;
-  name: string;
-  avatar: string;
-}
+import { ZaloUserInfo } from "types/app-context";
+import { AutoLoginContext } from "types/auto-login";
 
-interface AutoLoginCtx {
-  zaloUserInfo: ZaloUserInfo;
-  phoneNumber: string;
-  logedIn: boolean;
-  updatePhoneNumber: (phoneNumber: string) => void;
-  updateUserInfo: (zaloUserInfo: ZaloUserInfo) => void;
-}
-
-export function useAutoLogin(): AutoLoginCtx {
-  const [ user, setUser ] = React.useState<ZaloUserInfo>({ id: "", name: "", avatar: "" });
+export function useAutoLogin(): AutoLoginContext {
   const [ phone, setPhoneNumber ] = React.useState<string>("");
+  const [ user, setUser ]         = React.useState<ZaloUserInfo>({ id: "", name: "", avatar: "" });
+
   const hasPermission = useGetPhonePermission();
 
   const updatePhoneNumber = (phoneNumber: string) => {
     setPhoneNumber(phoneNumber);
   }
 
-  const updateUserInfo = (zaloUserInfo: ZaloUserInfo) => {
+  const updateZaloUserInfo = (zaloUserInfo: ZaloUserInfo) => {
     setUser(zaloUserInfo);
   }
 
@@ -47,6 +38,6 @@ export function useAutoLogin(): AutoLoginCtx {
     phoneNumber: phone,
     logedIn: phone.length > 0,
     updatePhoneNumber: updatePhoneNumber,
-    updateUserInfo: updateUserInfo
+    updateZaloUserInfo: updateZaloUserInfo
   };
 }

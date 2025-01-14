@@ -7,7 +7,7 @@ import { useAppContext } from "hooks";
 import { CommonIcon, SlidingPanel, SlidingPanelOrient } from "components";
 
 export function RequestPhone(props: { visible: boolean, closeSheet: () => void }) {
-  const { updatePhoneNumber, updateUserInfo } = useAppContext();
+  const { updatePhoneNumber, updateZaloUserInfo } = useAppContext();
   const { visible, closeSheet } = props;
   const [ request, setRequest ] = React.useState(false);
 
@@ -15,9 +15,9 @@ export function RequestPhone(props: { visible: boolean, closeSheet: () => void }
     const success = (number: string) => { 
       setRequest(false);
       ZmpSDK.getUserInfo(
-        (userInfo: any) => {
+        (zaloUser: any) => {
           updatePhoneNumber(number);
-          updateUserInfo(userInfo);
+          updateZaloUserInfo(zaloUser);
         }
       )
     }

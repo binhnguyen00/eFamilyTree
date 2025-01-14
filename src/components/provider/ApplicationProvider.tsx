@@ -2,33 +2,15 @@ import React from "react";
 
 import { BaseApi } from "api";
 import { CommonUtils } from "utils";
-import { UserSettings } from "types/user-settings";
 import { ServerResponse } from "server";
-
 import { useAutoLogin, useSettings } from "hooks";
+
+import { UserSettings } from "types/user-settings";
+import { AppContext as AppCtx, UserInfo } from "types/app-context";
 
 // =======================================
 // APP CTX
 // =======================================
-export interface AppCtx {
-  appId: string;
-  logedIn: boolean;
-  phoneNumber: string;
-  serverBaseUrl: string;
-  userInfo: ClanMemberInfo,
-  modules: string[],
-  zaloUserInfo: {
-    id: string;
-    name: string;
-    avatar: string;
-  };
-  settings: UserSettings;
-  treeBackgroundPath: string,
-  updatePhoneNumber: (phoneNumber: string) => void,
-  updateUserInfo: (userInfo: any) => void,
-  updateSettings: (settings: any) => void
-}
-
 export const AppContext = React.createContext({} as AppCtx);
 
 export function ApplicationProvider({ children }: { children: React.ReactNode }) {
@@ -39,7 +21,7 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
     logedIn,
     phoneNumber, 
     zaloUserInfo, 
-    updateUserInfo,
+    updateZaloUserInfo,
     updatePhoneNumber, 
   }                                   = useAutoLogin();
   const { userInfo, modules }         = useUserAppContext(phoneNumber);
@@ -55,15 +37,15 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
     settings: settings,
     serverBaseUrl: BaseApi.getServerBaseUrl(),
     treeBackgroundPath: getTreeBackgroundPath(settings, BaseApi.getServerBaseUrl()),
-  };
+  } as any;
   console.log("App Context:\n", ctxInfo); 
 
-  const appCtx = {
+  const appCtx: AppCtx = {
     ...ctxInfo,
     updatePhoneNumber: updatePhoneNumber,
-    updateUserInfo: updateUserInfo,
+    updateZaloUserInfo: updateZaloUserInfo,
     updateSettings: updateSettings,
-  } as AppCtx;
+  };
 
   return (
     <AppContext.Provider value={appCtx}>
@@ -83,18 +65,12 @@ function getTreeBackgroundPath(settings: UserSettings, serverBaseUrl: string) {
 // =======================================
 // USER INFO CTX
 // =======================================
-interface ClanMemberInfo {
-  id: number;
-  name: string;
-  clanId: number;
-  generation: number
-}
 function useUserAppContext(phoneNumber: string) {
-  let [ info, setInfo ] = React.useState<ClanMemberInfo>({
+  let [ info, setInfo ] = React.useState<UserInfo>({
     id: 0,
     name: "unknown",
     clanId: 0,
-    generation: 0
+    generation: 0,
   })
   let [ modules, setModules ] = React.useState<string[]>([]);
 
@@ -109,7 +85,7 @@ function useUserAppContext(phoneNumber: string) {
             name: info["name"],
             clanId: info["clan_id"],
             generation: info["generation"]
-          } as ClanMemberInfo);
+          } as UserInfo);
           setModules(data.modules);
         } else {
           console.warn(result.message);
