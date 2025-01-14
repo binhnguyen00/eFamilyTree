@@ -12,16 +12,15 @@ interface TreeNodeProps {
   onSelectNode: (id: string) => void;
 }
 
-export function TreeNode(props: TreeNodeProps) {
+export default React.memo<TreeNodeProps>(function TreeNode(props: TreeNodeProps) {
   const { node, displayField, isRoot, onSelectNode } = props;
-
   const nodeColor 
     = node.gender === "male" 
     ? TreeConfig.nodeMaleColor 
     : TreeConfig.nodeFemaleColor;
 
   const nodePosition = TreeUtils.calculateNodePosition(node as ExtNode);
-
+  
   return (
     <div
       id={`node-${node.id}`}
@@ -97,5 +96,5 @@ export function TreeNode(props: TreeNodeProps) {
 
       </div>
     </div>
-  );
-}
+  )
+})
