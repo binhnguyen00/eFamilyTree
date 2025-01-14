@@ -61,8 +61,8 @@ export default React.memo<TreeProps>(function Tree(props) {
     >
       <TransformWrapper 
         initialScale={0.5}
-        minScale={0.1}
-        centerOnInit
+        minScale={0.01}
+        smooth
         centerZoomedOut
       >
         {({ zoomIn, zoomOut, zoomToElement }) => {
