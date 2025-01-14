@@ -1,3 +1,8 @@
+# Version 1.0.9
+1. Thêm hệ thống phân quyền.
+  - read/write/moderator/admin.
+  - Chưa triển khai trên toàn hệ thống. 
+
 # Version 1.0.8
 1. Bổ sung hệ thống Thông báo theo hành động của người dùng: 
   - success, danger, warning, loading.
