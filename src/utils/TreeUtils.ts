@@ -48,6 +48,14 @@ export class TreeUtils {
     };
   }
 
+  public static calculateFounderNodePosition({ left, top }: { left: number; top: number }): React.CSSProperties {
+    return {
+      width: TreeConfig.founderNodeWidth,
+      height: TreeConfig.founderNodeHeight,
+      transform: `translate(${left * (TreeConfig.founderNodeWidth / 2)}px, ${top * (TreeConfig.founderNodeHeight / 2)}px)`
+    };
+  }
+
   public static getMemberById(id: string, members: Node[]): Node | undefined {
     return members.find(member => member.id === id);
   }

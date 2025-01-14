@@ -3,6 +3,9 @@ import { DateTimeUtils } from "./DateTimeUtils";
 import { CalendarUtils } from "./CalendarUtils";
 import { CommonUtils } from "./CommonUtils";
 import { StyleUtils } from "./StyleUtils";
+import { TreeUtils } from "./TreeUtils";
+import { TreeDataAnalyzer } from "./TreeDataAnalyzer";
+import { TreeDataProcessor } from "./TreeDataProcessor"
 import { getAppConfig } from "./AppConfig";
 
 export { 
@@ -11,5 +14,6 @@ export {
   CalendarUtils, 
   CommonUtils,
   StyleUtils,
+  TreeUtils, TreeDataAnalyzer, TreeDataProcessor,
   getAppConfig
 };

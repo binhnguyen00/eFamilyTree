@@ -7,10 +7,8 @@ import divorced from "./sample/divorced.json";
 import odooSample from "./sample/odoo-sample.json";
 import severalSprouses from "./sample/several-sprouses.json";
 
-import { CommonUtils } from "utils";
-import { Header, CommonIcon, FamilyTree, TreeNode, TreeConfig, SlidingPanel, SlidingPanelOrient, ScrollableDiv } from "components";
-import { TreeDataProcessor } from 'pages/family-tree/TreeDataProcessor';
-import { TreeUtils } from 'pages/family-tree/TreeUtils';
+import { CommonUtils, TreeUtils, TreeDataProcessor} from "utils";
+import { Header, CommonIcon, FamilyTree, TreeNode, TreeConfig, SlidingPanel, SlidingPanelOrient } from "components";
 
 export default function UIDummyTree() {
   const dataSrcKey = {

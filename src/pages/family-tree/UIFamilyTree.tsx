@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 import { Grid, Button, Box, Input } from "zmp-ui";
 
-import { CommonUtils } from "utils";
+import { CommonUtils, TreeUtils, TreeDataProcessor } from "utils";
 import { FamilyTreeApi } from "api";
 import { useAppContext } from "hooks";
 import { 
@@ -12,9 +12,6 @@ import {
 
 import { UserInfo } from "types/app-context";
 import { ServerResponse, FailResponse } from "types/server";
-
-import { TreeUtils } from "./TreeUtils";
-import { TreeDataProcessor } from "./TreeDataProcessor";
 
 export function UIFamilyTree() {
   const { userInfo } = useAppContext();

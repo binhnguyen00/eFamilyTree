@@ -27,7 +27,6 @@ export function TreeSearchBar(props: TreeSearchBarProps) {
   return (
     <div
       style={{
-        color: "var(--primary-color)",
         fontSize: "1.2rem",
         width: "80vw",
         zIndex: 9999,
@@ -64,13 +63,12 @@ function FilteredNodes(props: FilteredNodesProps) {
 
   return (
     <div
-      className="flex-v bg-secondary p-2 rounded"
+      className="flex-v bg-white p-2 rounded border"
       style={{
         position: "fixed",
         height: "fit-content",
         overflow: "auto",
         maxHeight: "300px",
-        color: "var(--primary-color)",
         fontSize: "1.2rem",
         width: "80vw",
         zIndex: 9999,
@@ -104,15 +102,15 @@ function SearchInput(props: SearchInputProps) {
   const { nodes, searchFields, setFilteredNodes } = props;
 
   return (
-    <div className="flex-h border-primary bg-secondary rounded p-1">
+    <div className="flex-h border-primary bg-white rounded p-1">
       <input
         type="text"
-        placeholder={t("search")}
+        placeholder={`${t("search")} ${t("family_member")}...`}
         style={{
           border: "none",
           width: "80vw",
           outline: "none",
-          background: "transparent",
+          paddingLeft: 10
         }}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           const value = e.target.value;
@@ -129,7 +127,7 @@ function SearchInput(props: SearchInputProps) {
           }
         }}
       />
-      <CommonIcon.SearchPerson size={30} />
+      <CommonIcon.SearchPerson size={26} style={{ color: `var(--primary-color)` }}/>
     </div>
   );
 }

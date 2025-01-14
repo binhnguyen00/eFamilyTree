@@ -2,6 +2,7 @@
 1. Thêm hệ thống phân quyền.
   - read/write/moderator/admin.
   - Chưa triển khai trên toàn hệ thống. 
+2. Thay đổi icon trong phả đồ.
 
 # Version 1.0.8
 1. Bổ sung hệ thống Thông báo theo hành động của người dùng: 

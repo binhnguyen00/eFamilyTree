@@ -1,6 +1,9 @@
 import React from 'react';
+
 import { Node } from 'components/tree-relatives/types';
-import { TreeUtils } from 'pages/family-tree/TreeUtils';
+import { TreeUtils } from 'utils';
+
+import { TreeConfig } from './TreeConfig';
 
 interface TreeNodeProps {
   node: Node;
@@ -10,7 +13,7 @@ interface TreeNodeProps {
 }
 
 export function TreeNode({ node, displayField, isRoot, onSelectNode }: TreeNodeProps) {
-  const nodeColor = node.gender === "male" ? "#112D4E" : "#7D0A0A";
+  const nodeColor = node.gender === "male" ? TreeConfig.nodeMaleColor : TreeConfig.nodeFemaleColor;
   const nodePosition = TreeUtils.calculateNodePosition(node as any);
 
   return (
@@ -20,8 +23,7 @@ export function TreeNode({ node, displayField, isRoot, onSelectNode }: TreeNodeP
       style={{
         ...nodePosition,
         position: "absolute",
-        padding: 20,
-        borderRadius: "0.5rem",
+        padding: TreeConfig.nodePadding,
       }}
       onClick={() => onSelectNode(node.id)}
     >
@@ -29,7 +31,6 @@ export function TreeNode({ node, displayField, isRoot, onSelectNode }: TreeNodeP
         style={{
           background: `linear-gradient(to bottom, ${nodeColor} 25%, #FEF3E2 25%)`,
           color: `${nodeColor}`,
-          borderRadius: "0.5rem",
           position: "relative",
           width: "100%",
           height: "100%",
@@ -51,26 +52,20 @@ export function TreeNode({ node, displayField, isRoot, onSelectNode }: TreeNodeP
             width: "100%",
             height: "25%",
             background: nodeColor,
-            borderRadius: "0.5rem",
             zIndex: 0, // Ensure it's behind other content
           }}
         />
 
-        <img
+        {/* <img
           src={node.avatar && `http://${node.avatar}`}
           style={{
-            width: 80,
-            height: 80,
+            width: 60,
+            height: 60,
             objectFit: "cover",
             borderRadius: "50%",
             zIndex: 1, // Ensure it appears above the background
           }}
-        />
-
-        {/* TODO: Traslate this */}
-        <p>
-          {`Đời ${node.generation}`}
-        </p>
+        /> */}
 
         <h3
           style={{
@@ -86,6 +81,12 @@ export function TreeNode({ node, displayField, isRoot, onSelectNode }: TreeNodeP
         >
           {node[displayField]}
         </h3>
+
+        {/* TODO: Traslate this */}
+        <p>
+          {`Đời ${node.generation}`}
+        </p>
+        
       </div>
     </div>
   );

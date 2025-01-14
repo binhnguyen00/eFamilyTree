@@ -36,6 +36,7 @@ export default React.memo<TreeProps>(function Tree(props) {
       id: "0",
       gender: Gender.male,
       name: "Thành Viên",
+      generation: 0,
       parents: [],
       children: [],
       siblings: [],
