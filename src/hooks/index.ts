@@ -2,9 +2,9 @@ import { useTheme } from "./useTheme";
 import { useAutoLogin } from "./useAutoLogin";
 import { useSettings } from "./useSettings";
 import { useGetPhonePermission } from './useGetPhonePermission';
-import { useAppContext } from './useAppContext';
+import { useAppContext } from './context/useAppContext';
+import {  } from "./context/usePageContext";
 import { useRouteNavigate } from "./useRouteNavigate";
-import { useClanMemberContext } from "./useClanMemberCtx";
 import { useNotification } from "./useNotification";
 
 export { 
@@ -14,6 +14,5 @@ export {
   useGetPhonePermission,
   useAppContext,
   useRouteNavigate,
-  useClanMemberContext,
   useNotification
 };

@@ -12,7 +12,7 @@ import {
 
 import { TreeUtils } from "./TreeUtils";
 import { TreeDataProcessor } from "./TreeDataProcessor";
-import { ClanMemberInfo } from "hooks/useClanMemberCtx";
+import { ClanMemberInfo } from "hooks/useUserContext";
 import { useAppContext } from "hooks";
 
 export function UIFamilyTree() {

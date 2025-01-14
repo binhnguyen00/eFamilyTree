@@ -1,29 +1,16 @@
 import React from "react";
 import { useTranslation } from 'react-i18next';
 
+import { Theme } from "components";
 import { useTheme } from "hooks";
 import { UserSettingApi } from "api";
-import { Theme } from "components";
 import { FailResponse, ServerResponse } from "server";
+import { UserSettings, UserSettingsCtx } from "types/user-settings";
 
-export interface Settings {
-  theme: Theme,
-  language: "vi" | "en"
-  background?: {
-    id: number,
-    path: string
-  };
-}
-
-interface SettingCtx {
-  settings: Settings,
-  updateSettings: (settings: Settings) => void
-}
-
-export function useSettings(userId: number | any, clanId: number | any): SettingCtx {
+export function useSettings(userId: number | any, clanId: number | any): UserSettingsCtx {
   let { i18n } = useTranslation();
   let { toggleTheme } = useTheme();
-  let [ settings, setSetting ] = React.useState<Settings>({
+  let [ settings, setSetting ] = React.useState<UserSettings>({
     theme: Theme.DEFAULT,
     language: "vi",
     background: {
@@ -32,7 +19,7 @@ export function useSettings(userId: number | any, clanId: number | any): Setting
     }
   });
 
-  const updateSettings = (userSettings: Settings) => {
+  const updateSettings = (userSettings: UserSettings) => {
     console.log("Update Settings", userSettings);
     setSetting(userSettings);
   }

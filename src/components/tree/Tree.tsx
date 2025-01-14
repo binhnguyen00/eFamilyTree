@@ -58,7 +58,7 @@ export default React.memo<TreeProps>(function Tree(props) {
   const treeWidth = data.canvas.width * nodeWidth;
   const treeHeight = data.canvas.height * nodeHeight;
   const treeRef = React.useRef<HTMLDivElement | null>(null);
-  const { getTreeBackgroundPath } = useAppContext();
+  const { treeBackgroundPath } = useAppContext();
 
   return (
     <div 
@@ -97,7 +97,7 @@ export default React.memo<TreeProps>(function Tree(props) {
                         nodeHeight={nodeHeight}
                         calculatedData={data}
                         renderNode={props.renderNode}
-                        backgroundPath={getTreeBackgroundPath()}
+                        backgroundPath={treeBackgroundPath}
                       />
                     ),
                     width: treeWidth,
@@ -115,7 +115,7 @@ export default React.memo<TreeProps>(function Tree(props) {
                   calculatedData={data}
                   renderNode={props.renderNode}
                   zoomToRoot={zoomToElement}
-                  backgroundPath={getTreeBackgroundPath()}
+                  backgroundPath={treeBackgroundPath}
                 />
               </TransformComponent>
             </React.Fragment>
