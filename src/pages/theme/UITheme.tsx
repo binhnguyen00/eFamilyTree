@@ -4,9 +4,10 @@ import { t } from "i18next";
 import { Grid, Stack, Text } from "zmp-ui";
 
 import { UserSettingApi } from "api";
-import { Header, SizedBox, Theme } from "components";
 import { useAppContext } from "hooks";
+import { Header, SizedBox } from "components";
 import { FailResponse, ServerResponse } from "server";
+import { Theme } from "types/user-settings";
 
 import themeRed from "assets/img/theme/theme-red.jpeg";
 import themeGreen from "assets/img/theme/theme-green.jpeg";

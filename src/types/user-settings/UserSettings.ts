@@ -1,8 +1,17 @@
-import { Theme } from "components"; 
+export enum Language {
+  VI = "vi",
+  EN = "en"
+}
+
+export enum Theme {
+  DEFAULT = "default",
+  BLUE = "blue",
+  GREEN = "green",
+}
 
 export type UserSettings = {
   theme: Theme,
-  language: "vi" | "en"
+  language: Language,
   background?: {
     id: number,
     path: string

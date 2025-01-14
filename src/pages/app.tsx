@@ -4,8 +4,7 @@ import { App as ZaloApp } from "zmp-ui";
 
 import { AppRoutes } from "./routes";
 import { 
-  Navigation, 
-  PagePositionSaver,
+  Navigation, PagePositionSaver,
   ThemeProvider, ApplicationProvider, NotificationProvider
 } from "components";
 

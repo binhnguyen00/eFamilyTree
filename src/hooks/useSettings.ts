@@ -1,18 +1,17 @@
 import React from "react";
 import { useTranslation } from 'react-i18next';
 
-import { Theme } from "components";
 import { useTheme } from "hooks";
 import { UserSettingApi } from "api";
 import { FailResponse, ServerResponse } from "server";
-import { UserSettings, UserSettingsCtx } from "types/user-settings";
+import { UserSettings, UserSettingsCtx, Language, Theme } from "types/user-settings";
 
 export function useSettings(userId: number | any, clanId: number | any): UserSettingsCtx {
   let { i18n } = useTranslation();
   let { toggleTheme } = useTheme();
   let [ settings, setSetting ] = React.useState<UserSettings>({
     theme: Theme.DEFAULT,
-    language: "vi",
+    language: Language.VI,
     background: {
       id: 0,
       path: ""
