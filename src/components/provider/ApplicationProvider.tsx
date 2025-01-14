@@ -1,7 +1,7 @@
 import React from "react";
 
 import { BaseApi } from "api";
-import { CommonUtils } from "utils";
+import { CommonUtils, getAppConfig } from "utils";
 import { useAutoLogin, useSettings } from "hooks";
 
 import { ServerResponse } from "types/server";
@@ -14,7 +14,9 @@ import { AppContext as AppCtx, UserInfo } from "types/app-context";
 export const AppContext = React.createContext({} as AppCtx);
 
 export function ApplicationProvider({ children }: { children: React.ReactNode }) {
-  const ZALO_APP_ID = import.meta.env.VITE_APP_ZALO_APP_ID;
+  const ZALO_APP_ID = getAppConfig((config) => {
+    return config.app.id;
+  });
 
   // use hooks
   const { 

@@ -1,7 +1,8 @@
 {
   "app": {
-    "title": "Cây Gia Phả",
-    "headerTitle": "Cây Gia Phả",
+    "id": "3044106383419412609",
+    "title": "Gia Phả Số",
+    "headerTitle": "Gia Phả Số",
     "textColor": "white",
     "leftButton": "back",
     "statusBar": "transparent",
