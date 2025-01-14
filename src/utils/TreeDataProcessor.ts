@@ -149,4 +149,9 @@ export class TreeDataProcessor {
     })
     return spouses;
   }
+
+  public getMaxGeneration(): number {
+    const generations = Array.from(this.people.values()).map(person => person.generation);
+    return generations.length > 0 ? Math.max(...generations) : 0;
+  }
 }

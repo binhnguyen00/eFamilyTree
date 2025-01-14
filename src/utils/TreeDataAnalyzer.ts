@@ -8,6 +8,7 @@ interface Person {
   pids: number[];
   phone: string;
   is_alive: boolean;
+  generation: number;
 }
 
 /**

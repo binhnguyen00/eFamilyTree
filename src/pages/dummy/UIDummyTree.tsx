@@ -23,6 +23,7 @@ export default function UIDummyTree() {
   const [ selectNameField, setSelectNameField ] = React.useState<string>("id");
   const [ resetBtn, setResetBtn ] = React.useState<boolean>(false);
   const [ reload, setReload ] = React.useState(false);
+  const [ processor, setProcessor ] = React.useState<TreeDataProcessor>(new TreeDataProcessor([]));
 
   const [ memberInfo, setMemberInfo ] = React.useState<any>(null);
 
@@ -60,9 +61,7 @@ export default function UIDummyTree() {
               if (val === 4) {
                 const odooData = dataSrcKey[Number(val)];
                 const processor = new TreeDataProcessor(odooData);
-
-                console.log(processor);
-
+                setProcessor(processor);
                 const ancestor = processor.getAncestor();
                 setNodes(processor.peopleToNodes());
                 setRootId(ancestor?.id);
@@ -91,6 +90,7 @@ export default function UIDummyTree() {
           searchFields={["gid", "name"]}
           searchDisplayField="name"
           onReset={onReset}
+          processor={processor}
           renderNode={(node: any) => (
             <TreeNode
               key={node.id}

@@ -3,17 +3,26 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { Box } from 'zmp-ui';
 
 import calcTree from 'components/tree-relatives';
-import { Gender, Node } from 'components/tree-relatives/types';
+import { Gender, Node, RelData } from 'components/tree-relatives/types';
 
 import { useAppContext } from 'hooks';
-import { CommonUtils } from 'utils';
+import { CommonUtils, TreeDataProcessor } from 'utils';
 
 import Connector from './TreeConnector';
+import { TreeNode } from './TreeNode';
 import { TreeConfig } from './TreeConfig';
 import { TreeSearchBar } from './TreeSearchBar';
 import { TreeController } from './TreeController';
 
 import "./css/transform-wrapper.scss";
+
+const initNode = { 
+  id: "0", 
+  gender: Gender.male, 
+  name: "Thành Viên", 
+  generation: 0, 
+  parents: [], children: [], siblings: [], spouses: []
+}
 
 interface TreeProps {
   nodes: Node[];
@@ -21,43 +30,24 @@ interface TreeProps {
   nodeWidth: number;
   nodeHeight: number;
   renderNode: (node: any) => React.ReactNode;
-  placeholders?: boolean;
+  onReset?: () => void;
   className?: string;
   searchFields?: string[];
   searchDisplayField?: string;
-  onReset?: () => void;
+  processor?: TreeDataProcessor;
 }
 
 export default React.memo<TreeProps>(function Tree(props) {
-  let { searchFields = [ "id" ], nodes, rootId } = props;
+  const { 
+    rootId = "0", 
+    searchFields = [ "id" ], 
+    nodes = [ initNode as Node ],
+    processor, nodeWidth, nodeHeight, searchDisplayField, renderNode, onReset
+  } = props;
 
-  if (!nodes.length || !rootId) {
-    nodes = [{
-      id: "0",
-      gender: Gender.male,
-      name: "Thành Viên",
-      generation: 0,
-      parents: [],
-      children: [],
-      siblings: [],
-      spouses: []
-    }]
-    rootId = "0";
-  }
-
-
-  let data = calcTree(
-    props.nodes, 
-    {
-      rootId: props.rootId,
-      placeholders: props.placeholders,
-    }
-  );
-
-  const nodeWidth = props.nodeWidth / 2;
-  const nodeHeight = props.nodeHeight / 2;
-  const treeWidth = data.canvas.width * nodeWidth;
-  const treeHeight = data.canvas.height * nodeHeight;
+  const data = calcTree(nodes, { rootId: rootId });
+  const treeWidth = data.canvas.width * (nodeWidth / 2);
+  const treeHeight = data.canvas.height * (nodeHeight / 2);
   const treeRef = React.useRef<HTMLDivElement | null>(null);
   const { treeBackgroundPath } = useAppContext();
 
@@ -80,8 +70,8 @@ export default React.memo<TreeProps>(function Tree(props) {
               <Box flex flexDirection='row' justifyContent='space-between'>
                 <TreeSearchBar 
                   searchFields={searchFields}
-                  displayField={props.searchDisplayField}
-                  nodes={props.nodes}
+                  displayField={searchDisplayField}
+                  nodes={nodes}
                   onSelect={zoomToElement}
                 />
                 <TreeController
@@ -97,14 +87,14 @@ export default React.memo<TreeProps>(function Tree(props) {
                         nodeWidth={nodeWidth}
                         nodeHeight={nodeHeight}
                         calculatedData={data}
-                        renderNode={props.renderNode}
+                        renderNode={renderNode}
                         backgroundPath={treeBackgroundPath}
                       />
                     ),
                     width: treeWidth,
                     height: treeHeight,
                   }}
-                  onReset={props.onReset}
+                  onReset={onReset}
                 />
               </Box>
               <TransformComponent>
@@ -114,9 +104,10 @@ export default React.memo<TreeProps>(function Tree(props) {
                   nodeWidth={nodeWidth}
                   nodeHeight={nodeHeight}
                   calculatedData={data}
-                  renderNode={props.renderNode}
+                  renderNode={renderNode}
                   zoomToRoot={zoomToElement}
                   backgroundPath={treeBackgroundPath}
+                  processor={processor}
                 />
               </TransformComponent>
             </React.Fragment>
@@ -131,16 +122,17 @@ interface TreeContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   rootId: string;
   nodeWidth: number;
   nodeHeight: number;
-  calculatedData: any;
+  calculatedData: RelData;
   treeRef: any;
   backgroundPath: string;
   renderNode: (node: any) => React.ReactNode;
   zoomToRoot?: (root: HTMLElement, scale?: number) => void;
+  processor?: TreeDataProcessor;
 }
 function TreeContainer(props: TreeContainerProps) {
   const { 
-    calculatedData, treeRef, nodeHeight, nodeWidth, backgroundPath, rootId,
-    renderNode, zoomToRoot,
+    calculatedData, treeRef, backgroundPath, rootId, 
+    renderNode, zoomToRoot, processor
   } = props;
 
   const handleBackground = () => {
@@ -157,6 +149,8 @@ function TreeContainer(props: TreeContainerProps) {
     return background;
   }
 
+  const nodeWidth = props.nodeWidth / 2;
+  const nodeHeight = props.nodeHeight / 2;
   const treeWidth = calculatedData.canvas.width * nodeWidth;
   const treeHeight = calculatedData.canvas.height * nodeHeight;
 
@@ -188,6 +182,26 @@ function TreeContainer(props: TreeContainerProps) {
         ...handleBackground(),
       }}
     >
+      <NodeAndConnector 
+        calculatedData={calculatedData}
+        nodeHeight={nodeHeight}
+        nodeWidth={nodeWidth}
+        renderNode={renderNode}
+      />
+    </div>
+  )
+}
+
+interface NodeAndConntectorProps {
+  calculatedData: RelData, 
+  nodeWidth: number,
+  nodeHeight: number,
+  renderNode: (node: any) => React.ReactNode,
+}
+function NodeAndConnector(props: NodeAndConntectorProps) {
+  const { calculatedData, nodeHeight, nodeWidth, renderNode } = props;
+  return (
+    <>
       {calculatedData.connectors.map((connector, idx) => (
         <Connector
           key={idx}
@@ -196,7 +210,19 @@ function TreeContainer(props: TreeContainerProps) {
           height={nodeHeight}
         />
       ))}
-      {calculatedData.nodes.map(renderNode)}
-    </div>
+      {calculatedData.nodes.map((node, idx) => {
+        if (node.generation === 1) {
+          return (
+            <TreeNode
+              key={node.id}
+              node={node}
+              displayField="name"
+              isRoot={true}
+              onSelectNode={(id: string) => {}}
+            />
+          )
+        } else return renderNode(node)
+      })}
+    </>
   )
 }

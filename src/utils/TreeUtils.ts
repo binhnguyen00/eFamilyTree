@@ -1,5 +1,5 @@
 import { TreeConfig } from "components";
-import { RelType, Node } from "components/tree-relatives/types";
+import { RelType, Node, ExtNode } from "components/tree-relatives/types";
 
 export class TreeUtils {
 
@@ -40,19 +40,12 @@ export class TreeUtils {
     return filteredMembers;
   }
 
-  public static calculateNodePosition({ left, top }: { left: number; top: number }): React.CSSProperties {
+  public static calculateNodePosition(node: ExtNode): React.CSSProperties {
+    const { left, top } = node;
+    const width = TreeConfig.nodeWidth / 2;
+    const height = TreeConfig.nodeHeight / 2;
     return {
-      width: TreeConfig.nodeWidth,
-      height: TreeConfig.nodeHeight,
-      transform: `translate(${left * (TreeConfig.nodeWidth / 2)}px, ${top * (TreeConfig.nodeHeight / 2)}px)`
-    };
-  }
-
-  public static calculateFounderNodePosition({ left, top }: { left: number; top: number }): React.CSSProperties {
-    return {
-      width: TreeConfig.founderNodeWidth,
-      height: TreeConfig.founderNodeHeight,
-      transform: `translate(${left * (TreeConfig.founderNodeWidth / 2)}px, ${top * (TreeConfig.founderNodeHeight / 2)}px)`
+      transform: `translate(${left * width}px, ${top * height}px)`
     };
   }
 

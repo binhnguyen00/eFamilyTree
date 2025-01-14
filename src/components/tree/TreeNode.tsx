@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Node } from 'components/tree-relatives/types';
+import { Node, ExtNode } from 'components/tree-relatives/types';
 import { TreeUtils } from 'utils';
 
 import { TreeConfig } from './TreeConfig';
@@ -12,18 +12,21 @@ interface TreeNodeProps {
   onSelectNode: (id: string) => void;
 }
 
-export function TreeNode({ node, displayField, isRoot, onSelectNode }: TreeNodeProps) {
+export function TreeNode(props: TreeNodeProps) {
+  const { node, displayField, isRoot, onSelectNode } = props;
   const nodeColor = node.gender === "male" ? TreeConfig.nodeMaleColor : TreeConfig.nodeFemaleColor;
-  const nodePosition = TreeUtils.calculateNodePosition(node as any);
+  const nodePosition = TreeUtils.calculateNodePosition(node as ExtNode);
 
   return (
     <div
       id={`node-${node.id}`}
       className='svg-node button' // Singular purpose: Check FamilyTree.tsx, in the part where export svg
       style={{
-        ...nodePosition,
         position: "absolute",
+        width: TreeConfig.nodeWidth,
+        height: TreeConfig.nodeHeight,
         padding: TreeConfig.nodePadding,
+        ...nodePosition,
       }}
       onClick={() => onSelectNode(node.id)}
     >
@@ -86,7 +89,7 @@ export function TreeNode({ node, displayField, isRoot, onSelectNode }: TreeNodeP
         <p>
           {`Đời ${node.generation}`}
         </p>
-        
+
       </div>
     </div>
   );
