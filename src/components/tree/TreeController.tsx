@@ -1,13 +1,14 @@
 import React from "react";
 import { renderToString as reactDomToString } from 'react-dom/server';
 import { t } from "i18next";
-import { Box, useSnackbar } from "zmp-ui";
+import { Box } from "zmp-ui";
 
-import { CommonUtils, ZmpSDK } from "utils";
-import { useAppContext, useNotification } from "hooks";
-import { SizedBox, CommonIcon } from "components";
 import { FamilyTreeApi } from "api";
-import { ServerResponse } from "server";
+import { CommonUtils, ZmpSDK } from "utils";
+import { SizedBox, CommonIcon } from "components";
+import { useAppContext, useNotification } from "hooks";
+
+import { ServerResponse } from "types/server";
 
 interface TreeControllerProps {
   rootId: string;

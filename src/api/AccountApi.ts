@@ -1,7 +1,9 @@
-import { BaseApi } from "./BaseApi";
-import { SuccessCB, FailCB } from "server"
 import { RegisterForm } from 'pages/user/UIRegister';
 import { RegisterClanForm } from "pages/user/UIRegisterClan";
+
+import { SuccessCB, FailCB } from "types/server"
+
+import { BaseApi } from "./BaseApi";
 
 export class AccountApi extends BaseApi {
 

@@ -3,9 +3,10 @@ import { t } from "i18next";
 import { Box, Button, Grid, Stack, Text } from "zmp-ui";
 
 import { GalleryApi } from "api";
-import { ServerResponse } from "server";
 import { CommonIcon } from "components";
 import { useAppContext, useRouteNavigate } from "hooks";
+
+import { ServerResponse } from "types/server";
 
 export function UIHomeAlbum() {
   const { goTo } = useRouteNavigate();

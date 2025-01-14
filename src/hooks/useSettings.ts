@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 
 import { useTheme } from "hooks";
 import { UserSettingApi } from "api";
-import { FailResponse, ServerResponse } from "server";
+
+import { FailResponse, ServerResponse } from "types/server";
 import { UserSettings, UserSettingsCtx, Language, Theme } from "types/user-settings";
 
 export function useSettings(userId: number | any, clanId: number | any): UserSettingsCtx {

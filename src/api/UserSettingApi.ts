@@ -1,5 +1,5 @@
 import { BaseApi } from "api";
-import { SuccessCB, FailCB } from "server"
+import { SuccessCB, FailCB } from "types/server"
 
 export class UserSettingApi extends BaseApi {
 

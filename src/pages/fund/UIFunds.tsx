@@ -5,10 +5,9 @@ import { Grid } from "zmp-ui";
 import { FundApi } from "api";
 import { StyleUtils } from "utils";
 import { useAppContext, useRouteNavigate } from "hooks";
-import { ServerResponse } from "server";
-import { 
-  Header, Loading, SearchBar, ScrollableDiv, Card,
-} from "components";
+import { Header, Loading, SearchBar, ScrollableDiv, Card } from "components";
+
+import { ServerResponse } from "types/server";
 
 export function UIFund() {
   const { funds, loading } = useFunds();

@@ -1,5 +1,5 @@
 import { BaseApi } from "./BaseApi";
-import { SuccessCB, FailCB } from "server"
+import { SuccessCB, FailCB } from "types/server"
 
 export class SocialPostApi extends BaseApi {
 

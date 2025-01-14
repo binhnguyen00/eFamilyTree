@@ -2,9 +2,9 @@ import React from "react";
 
 import { BaseApi } from "api";
 import { CommonUtils } from "utils";
-import { ServerResponse } from "server";
 import { useAutoLogin, useSettings } from "hooks";
 
+import { ServerResponse } from "types/server";
 import { UserSettings } from "types/user-settings";
 import { AppContext as AppCtx, UserInfo } from "types/app-context";
 

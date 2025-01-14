@@ -3,9 +3,10 @@ import { t } from "i18next";
 import { Box, Stack, Text } from "zmp-ui";
 
 import { SocialPostApi } from "api";
-import { useAppContext, useRouteNavigate } from "hooks";
 import { Header, Loading, Info } from "components";
-import { FailResponse, ServerResponse } from "server";
+import { useAppContext, useRouteNavigate } from "hooks";
+
+import { FailResponse, ServerResponse } from "types/server";
 
 export function UIBlog() {
   return (

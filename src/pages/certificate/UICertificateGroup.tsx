@@ -3,9 +3,10 @@ import { t } from "i18next";
 import { Stack, Text } from "zmp-ui";
 
 import { CertificateApi } from "api";
-import { FailResponse, ServerResponse } from "server";
-import { Header, ImageWithText, SizedBox } from "components";
 import { useAppContext, useRouteNavigate } from "hooks";
+import { Header, ImageWithText, SizedBox } from "components";
+
+import { FailResponse, ServerResponse } from "types/server";
 
 import nguoi_co_cong from "assets/img/certificate/người-có-công.jpg";
 import nguoi_hieu_hoc from "assets/img/certificate/người-hiếu-học.jpg";

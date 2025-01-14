@@ -1,5 +1,6 @@
 import { Api } from "./Api";
-import { SuccessCB, FailCB, FailResponse, HttpMethod } from "server/type";
+
+import { SuccessCB, FailCB, FailResponse, HttpMethod } from "types/server";
 
 export class OdooRESTful extends Api {
 

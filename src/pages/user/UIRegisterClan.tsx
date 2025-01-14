@@ -1,11 +1,11 @@
 import React from "react";
 import { t } from "i18next";
-
 import { Box, Button, Input, Stack, Text } from "zmp-ui";
 
-import { Header, SlidingPanel, SlidingPanelOrient } from "components";
-import { FailResponse, ServerResponse } from "server";
 import { AccountApi } from "api";
+import { Header, SlidingPanel, SlidingPanelOrient } from "components";
+
+import { FailResponse, ServerResponse } from "types/server";
 
 export type RegisterClanForm = {
   clanName: string;

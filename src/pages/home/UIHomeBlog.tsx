@@ -3,9 +3,10 @@ import { t } from "i18next";
 import { Box, Button, Stack, Text } from "zmp-ui";
 
 import { SocialPostApi } from "api";
-import { ServerResponse } from "server";
 import { CommonIcon } from "components";
 import { useAppContext, useRouteNavigate } from "hooks";
+
+import { ServerResponse } from "types/server";
 
 export function UIHomeBlog() {
   const { goTo } = useRouteNavigate();

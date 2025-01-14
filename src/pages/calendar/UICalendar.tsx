@@ -4,9 +4,10 @@ import { Grid, Tabs } from "zmp-ui";
 
 import { CalendarApi } from "api";
 import { useAppContext } from "hooks";
-import { ServerResponse } from "server";
 import { CalendarUtils, DateTimeUtils, StyleUtils } from "utils";
 import { Card, Divider, Header, MonthCalendar, ScrollableDiv, WeekCalendar } from "components";
+
+import { ServerResponse } from "types/server";
 
 export function UICalendar() {
   return (

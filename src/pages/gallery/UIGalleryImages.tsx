@@ -8,7 +8,8 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 
 import { GalleryApi } from "api";
 import { useAppContext } from "hooks";
-import { ServerResponse } from "server";
+
+import { ServerResponse } from "types/server";
 
 interface UIGalleryImagesProps {
   getQuantity?: (quantity: number) => void;

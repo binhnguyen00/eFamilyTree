@@ -1,12 +1,13 @@
 import React from "react";
+import { t } from "i18next";
 import { Box, Input, Stack, Text } from "zmp-ui";
 
-import { CertificateApi } from "api";
-import { FailResponse, ServerResponse } from "server";
-import { Header, CommonIcon, SlidingPanel, SlidingPanelOrient } from "components";
-import { useRouteNavigate, useAppContext } from "hooks";
-import { t } from "i18next";
 import { CommonUtils } from "utils";
+import { CertificateApi } from "api";
+import { useRouteNavigate, useAppContext } from "hooks";
+import { Header, CommonIcon, SlidingPanel, SlidingPanelOrient } from "components";
+
+import { FailResponse, ServerResponse } from "types/server";
 
 export function UICertificate() {
   const { belongings } = useRouteNavigate();

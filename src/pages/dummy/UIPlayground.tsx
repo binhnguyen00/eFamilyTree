@@ -3,9 +3,11 @@ import { t } from "i18next";
 import { Button, Text, Stack, Grid } from "zmp-ui";
 
 import { TestApi } from "api";
-import { FailResponse, ServerResponse } from "server";
 import { useNotification, useAppContext } from "hooks";
 import { Header, Loading, SizedBox, SlidingPanel, SlidingPanelOrient } from "components";
+
+import { Theme } from "types/user-settings";
+import { FailResponse, ServerResponse } from "types/server";
 
 import themeRed from "assets/img/theme/theme-red.jpeg";
 import themeBlue from "assets/img/theme/theme-blue.jpeg";
@@ -60,7 +62,7 @@ function UITheme() {
             onClick={() => {
               updateSettings({
                 ...settings,
-                theme: "default"
+                theme: Theme.DEFAULT
               })
             }}
           >
@@ -78,7 +80,7 @@ function UITheme() {
             onClick={() => {
               updateSettings({
                 ...settings,
-                theme: "blue"
+                theme: Theme.BLUE
               })
             }}
           >

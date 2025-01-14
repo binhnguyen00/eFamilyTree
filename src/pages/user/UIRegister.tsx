@@ -1,11 +1,11 @@
 import React from "react";
 import { t } from "i18next";
-
 import { Button, Grid, Input, Stack, Text } from "zmp-ui";
 
 import { AccountApi } from "api";
-import { FailResponse, ServerResponse } from "server";
 import { Header, SlidingPanel, SlidingPanelOrient } from "components";
+
+import { FailResponse, ServerResponse } from "types/server";
 
 export type RegisterForm = {
   mobile: string;

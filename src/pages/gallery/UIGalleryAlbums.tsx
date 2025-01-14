@@ -6,8 +6,10 @@ import { Gallery } from "react-grid-gallery";
 import { GalleryApi } from "api";
 import { StyleUtils } from "utils";
 import { useAppContext } from "hooks";
-import { ServerResponse } from "server";
 import { Card, Loading, SlidingPanel, SlidingPanelOrient } from "components";
+
+import { ServerResponse } from "types/server";
+
 import { GalleryImage } from "./UIGalleryImages";
 
 import Lightbox from "yet-another-react-lightbox";

@@ -3,10 +3,11 @@ import { t } from "i18next";
 import { Box, Grid, Stack } from "zmp-ui";
 
 import { FundApi } from "api";
-import { ServerResponse } from "server";
 import { DateTimeUtils, StyleUtils } from "utils";
 import { useAppContext, useRouteNavigate } from "hooks";
 import { Card, Divider, Header, Loading, ScrollableDiv } from "components";
+
+import { ServerResponse } from "types/server";
 
 function useFund(fundId: number) {
   const { userInfo } = useAppContext();

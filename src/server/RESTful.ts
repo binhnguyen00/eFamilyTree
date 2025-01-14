@@ -1,6 +1,6 @@
 import { Api } from "./Api";
-import { HttpMethod } from "utils";
-import { FailCB, SuccessCB } from "./type";
+
+import { FailCB, SuccessCB, HttpMethod } from "types/server";
 
 
 export class RESTful extends Api {

@@ -2,11 +2,12 @@ import React from "react";
 import { t } from "i18next";
 import { Box, Calendar, Text } from "zmp-ui";
 
-import { CalendarUtils } from "utils";
 import { CalendarApi } from "api";
-import { FailResponse, ServerResponse } from "server"
-import { Header, SizedBox } from "components";
+import { CalendarUtils } from "utils";
 import { useAppContext } from "hooks";
+import { Header, SizedBox } from "components";
+
+import { FailResponse, ServerResponse } from "types/server"
 
 /** @deprecated */
 export function UICalendarDeprecated() {

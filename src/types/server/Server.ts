@@ -13,13 +13,13 @@ export type FailCB = (response: FailResponse) => void;
  */
 export type CallBack = (response: any) => void;             
 
-export interface FailResponse {
+export type FailResponse = {
   status: "success" | "error";
   message: string;
   stackTrace: string;
 }
 
-export interface ServerResponse {
+export type ServerResponse = {
   status: "success" | "error";
   message: string;
   data: any;

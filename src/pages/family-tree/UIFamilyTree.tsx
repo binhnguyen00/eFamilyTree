@@ -4,16 +4,17 @@ import { Grid, Button, Box, Input } from "zmp-ui";
 
 import { CommonUtils } from "utils";
 import { FamilyTreeApi } from "api";
-import { ServerResponse, FailResponse } from "server";
+import { useAppContext } from "hooks";
 import { 
   Header, CommonIcon, TreeNode, FamilyTree, TreeConfig, 
-  Loading, SlidingPanel, SlidingPanelOrient, 
+  Loading, SlidingPanel, SlidingPanelOrient,
 } from "components";
+
+import { UserInfo } from "types/app-context";
+import { ServerResponse, FailResponse } from "types/server";
 
 import { TreeUtils } from "./TreeUtils";
 import { TreeDataProcessor } from "./TreeDataProcessor";
-import { ClanMemberInfo } from "hooks/useUserContext";
-import { useAppContext } from "hooks";
 
 export function UIFamilyTree() {
   const { userInfo } = useAppContext();
@@ -58,7 +59,7 @@ export function UIFamilyTree() {
 interface UIFamilyTreeContainerProps {
   nodes: any[];
   rootId: string;
-  userInfo: ClanMemberInfo;
+  userInfo: UserInfo;
   onReload?: () => void;
 }
 export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) { 

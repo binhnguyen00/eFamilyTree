@@ -1,4 +1,6 @@
-import { FailCB, OdooRESTful, SuccessCB } from "server";
+import { OdooRESTful } from "server";
+
+import { FailCB, SuccessCB } from "types/server";
 
 export class BaseApi {
   // public static server = new OdooRESTful("http://localhost:8069");

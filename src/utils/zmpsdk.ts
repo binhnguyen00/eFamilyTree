@@ -7,7 +7,8 @@ import {
   saveImageToGallery,
   downloadFile
 } from 'zmp-sdk/apis';
-import { CallBack, ExternalRESTful } from "server";
+import { ExternalRESTful } from "server";
+import { CallBack } from "types/server";
 
 export class ZmpSDK {
   

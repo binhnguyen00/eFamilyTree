@@ -1,15 +1,15 @@
 import React from "react";
 import { t } from "i18next";
-
 import { Avatar, Box, Button, Grid, Stack, Text } from "zmp-ui";
 
 import { Header } from "components";
 import { UserSettingApi } from "api";
-import { ServerResponse } from "server";
+import { CommonUtils } from "utils";
+import { useAppContext, useNotification, useRouteNavigate } from "hooks";
+
+import { ServerResponse } from "types/server";
 
 import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
-import { useAppContext, useNotification, useRouteNavigate } from "hooks";
-import { CommonUtils } from "utils";
 
 export function UIAccount() { 
   return (

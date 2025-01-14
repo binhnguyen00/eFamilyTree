@@ -1,8 +1,8 @@
 import React from "react";
 import { t } from "i18next";
-import { Stack, Text, Swiper, Grid, Box } from "zmp-ui";
+import { Stack, Text, Swiper, Grid } from "zmp-ui";
 
-import { Header, ImageWithText, SizedBox } from "components";
+import { Header, ImageWithText } from "components";
 
 import slide_01 from "assets/img/about/about-swiper-1.jpg";
 import slide_02 from "assets/img/about/about-swiper-2.jpg";

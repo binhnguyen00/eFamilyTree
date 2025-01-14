@@ -3,10 +3,11 @@ import { t } from "i18next";
 import { useLocation } from "react-router-dom";
 import { Input, Stack } from "zmp-ui";
 
-import { CertificateApi } from "api";
 import { Header } from "components";
+import { CertificateApi } from "api";
 import { useAppContext } from "hooks";
-import { FailResponse, ServerResponse } from "server";
+
+import { FailResponse, ServerResponse } from "types/server";
 
 export function UICertificateDetail() {
   const location = useLocation();
