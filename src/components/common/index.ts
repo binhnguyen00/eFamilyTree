@@ -9,9 +9,10 @@ import { PagePositionSaver } from "./PagePositionSaver";
 import { Info } from "./Info";
 import { ScrollableDiv } from "./ScrollableDiv";
 import { Card } from "./Card";
+import { Popover } from "./Popover";
 
 export { 
   Loading, Info,
   Divider, ImageWithText, Navigation, RequestPhone, SearchBar,
-  SizedBox, PagePositionSaver, ScrollableDiv, Card
+  SizedBox, PagePositionSaver, ScrollableDiv, Card, Popover
 };

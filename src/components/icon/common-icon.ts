@@ -15,6 +15,7 @@ import { BsFiletypeSvg } from "react-icons/bs";
 import { FaCloudDownloadAlt } from "react-icons/fa";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { IoIosCloseCircle } from "react-icons/io";
+import { HiOutlineDotsVertical } from "react-icons/hi";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -43,4 +44,5 @@ export const CommonIcon = {
   SVG: BsFiletypeSvg,
   CloudDownload: FaCloudDownloadAlt,
   CloseCircle: IoIosCloseCircle,
+  VerticalDots: HiOutlineDotsVertical,
 };

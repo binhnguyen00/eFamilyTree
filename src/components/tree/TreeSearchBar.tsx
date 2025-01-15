@@ -3,7 +3,7 @@ import { t } from "i18next";
 
 import { Node } from 'components/tree-relatives/types';
 
-import { CommonIcon } from "components/icon";
+import { Popover, CommonIcon } from "components";
 
 interface TreeSearchBarProps {
   nodes: Node[];
@@ -127,7 +127,13 @@ function SearchInput(props: SearchInputProps) {
           }
         }}
       />
-      <CommonIcon.SearchPerson size={26} style={{ color: `var(--primary-color)` }}/>
+      <Popover 
+        open={false} 
+        childPosition={"bottom"}
+        content={<CommonIcon.VerticalDots size={26} style={{ color: `var(--primary-color)` }}/>}
+      >
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, neque commodi deserunt in voluptatibus delectus sunt suscipit cupiditate ullam, harum ipsa eius doloribus animi dolores at repudiandae fuga accusantium reiciendis earum architecto adipisci beatae. Suscipit mollitia nobis fugit accusantium veritatis architecto nostrum eum ipsum, ab repellendus explicabo expedita est, maxime eius debitis repudiandae. Magnam debitis aliquam vero ratione, veniam vitae consequatur totam, dolor asperiores incidunt repudiandae molestias magni illo culpa eius, perspiciatis quibusdam est. Minus doloremque suscipit aliquid totam ad veniam, ratione aspernatur exercitationem quaerat sit labore ipsam distinctio tempore beatae cum numquam vero architecto eaque perferendis praesentium. Ipsam, debitis!
+      </Popover>
     </div>
   );
 }
