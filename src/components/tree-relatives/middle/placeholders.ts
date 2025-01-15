@@ -8,6 +8,7 @@ const createNode = (gender: Gender): Mutable<Node> => ({
   id: `${gender}-ph`,
   placeholder: true,
   gender: gender,
+  generation: 1,
   parents: [],
   siblings: [],
   spouses: [],
