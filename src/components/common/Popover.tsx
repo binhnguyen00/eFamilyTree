@@ -12,6 +12,7 @@ export function Popover(props: PopoverProps) {
   const [ isOpen, setIsOpen ] = React.useState(open);
 
   const renderPopover = ({ position, childRect, popoverRect }: PopoverState) => {
+    if (children === null) return <></>;
     return (
       <ArrowContainer
         position={position}
@@ -21,7 +22,7 @@ export function Popover(props: PopoverProps) {
         arrowSize={9}
         className="p-1 mt-1"
       >
-        <div className="bg-white p-2 rounded border"> {children} </div>
+        <div className="bg-white p-2 rounded border text-base"> {children} </div>
       </ArrowContainer>
     )
   }
@@ -35,7 +36,7 @@ export function Popover(props: PopoverProps) {
       isOpen={isOpen}
       positions={childPosition}
       content={renderPopover}
-      onClickOutside={closePopover} 
+      // onClickOutside={closePopover} 
     >
       <div 
         className="button" 

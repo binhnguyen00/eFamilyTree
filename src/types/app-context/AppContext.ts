@@ -21,6 +21,7 @@ export type ZaloUserInfo = {
   avatar: string;
 }
 
+// TODO: add clanName
 export type UserInfo = {
   id: number;
   name: string;

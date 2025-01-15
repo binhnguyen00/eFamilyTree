@@ -96,6 +96,18 @@
   border: 1px solid var(--secondary-color);
 }
 
+.border-right {
+  border-right: 1px solid var(--primary-color);
+}
+
+.border-left {
+  border-left: 1px solid var(--primary-color);
+}
+
+.border-bottom {
+  border-bottom: 1px solid var(--primary-color);
+}
+
 .rounded {
   border-radius: 15px;
 }

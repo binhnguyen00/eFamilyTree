@@ -42,6 +42,11 @@ export class TreeDataProcessor {
     }
   }
 
+  public setNodes(nodes: any[]) {
+    this.nodes = nodes;
+    this.rootId = this.getAncestor().id;
+  }
+
   public peopleToNodes(): Node[] {
     let nodes: Node[] = [];
     this.people.map((person: Person) => {
@@ -151,7 +156,11 @@ export class TreeDataProcessor {
   }
 
   public getMaxGeneration(): number {
-    const generations = Array.from(this.people.values()).map(person => person.generation);
+    const generations = Array.from(this.nodes.values()).map(node => node.generation);
     return generations.length > 0 ? Math.max(...generations) : 0;
+  }
+
+  public getNodesByGeneration(generation: number) {
+    return this.nodes.filter(node => node.generation === generation);
   }
 }

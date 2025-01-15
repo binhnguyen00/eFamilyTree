@@ -2,8 +2,9 @@ import React from "react";
 import { t } from "i18next";
 
 import { Node } from 'components/tree-relatives/types';
-
-import { Popover, CommonIcon } from "components";
+import { TreeDataProcessor } from "utils";
+import { Popover, CommonIcon, ScrollableDiv, Divider } from "components";
+import { Button, Text } from "zmp-ui";
 
 interface TreeSearchBarProps {
   nodes: Node[];
@@ -37,6 +38,7 @@ export function TreeSearchBar(props: TreeSearchBarProps) {
       <SearchInput
         nodes={nodes}
         searchFields={searchFields}
+        onSelectNode={onSelectNode}
         setFilteredNodes={setFilteredNodes}
       />
       <FilteredNodes
@@ -95,11 +97,14 @@ function FilteredNodes(props: FilteredNodesProps) {
 interface SearchInputProps {
   nodes: any[];
   searchFields?: string[];
+  onSelectNode: (node: any) => void;
   setFilteredNodes: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 function SearchInput(props: SearchInputProps) {
-  const { nodes, searchFields, setFilteredNodes } = props;
+  const { nodes, searchFields, setFilteredNodes, onSelectNode } = props;
+  const processor = new TreeDataProcessor([]);
+  processor.setNodes(nodes);
 
   return (
     <div className="flex-h border-primary bg-white rounded p-1">
@@ -132,8 +137,69 @@ function SearchInput(props: SearchInputProps) {
         childPosition={"bottom"}
         content={<CommonIcon.VerticalDots size={26} style={{ color: `var(--primary-color)` }}/>}
       >
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, neque commodi deserunt in voluptatibus delectus sunt suscipit cupiditate ullam, harum ipsa eius doloribus animi dolores at repudiandae fuga accusantium reiciendis earum architecto adipisci beatae. Suscipit mollitia nobis fugit accusantium veritatis architecto nostrum eum ipsum, ab repellendus explicabo expedita est, maxime eius debitis repudiandae. Magnam debitis aliquam vero ratione, veniam vitae consequatur totam, dolor asperiores incidunt repudiandae molestias magni illo culpa eius, perspiciatis quibusdam est. Minus doloremque suscipit aliquid totam ad veniam, ratione aspernatur exercitationem quaerat sit labore ipsam distinctio tempore beatae cum numquam vero architecto eaque perferendis praesentium. Ipsam, debitis!
+        <SearchFilter processor={processor} onSelectNode={onSelectNode}/>
       </Popover>
+    </div>
+  );
+}
+
+interface SearchFilterProps {
+  onSelectNode: (node: any) => void;
+  processor: TreeDataProcessor;
+}
+function SearchFilter(props: SearchFilterProps) {
+  const { processor, onSelectNode} = props;
+
+  const maxGeneration: number = processor.getMaxGeneration();
+
+  const Generation = React.memo(({ onSelectGeneration }: { onSelectGeneration: (generation: number) => void }) => {
+    const renderGenerationNumbers = () => {
+      const html: JSX.Element[] = [];
+      for (let i = 1; i <= maxGeneration; i++) {
+        html.push(
+          <Button className="mb-1" size="small" key={i} onClick={() => onSelectGeneration(i)}>
+            {`Đời ${i}`}
+          </Button>
+        );
+      }
+      return html;
+    };
+
+    return (
+      <ScrollableDiv className="border-right pr-1" direction="vertical" height={300} width={100}>
+        {renderGenerationNumbers()}
+      </ScrollableDiv>
+    );
+  });
+
+  const MembersInGeneration = React.memo(({ generation }: { generation: number }) => {
+    const nodes: Node[] = processor.getNodesByGeneration(generation);
+    return (
+      <ScrollableDiv direction="vertical" height={300} width={"100%"} className="rounded">
+        <Text.Title className="text-primary"> {`Đời ${generation}`} </Text.Title>
+        {nodes.map((node) => (
+          <div
+            key={node.id}
+            onClick={() => {
+              onSelectNode(node);
+            }}
+            className="mb-1 p-1"
+            style={{ borderBottom: "1px solid var(--primary-color)" }}
+          >
+            <span>{node["name"] || node.id}</span>
+          </div>
+        ))}
+      </ScrollableDiv>
+    );
+  });
+
+  const [ generation, setGeneration ] = React.useState<number>(1);
+
+  if (!maxGeneration) return <p> {t("data_not_available")} </p>
+  return (
+    <div style={{ height: "100%", width: "92vw" }} className="flex-h">
+      <Generation onSelectGeneration={setGeneration}/>
+      <MembersInGeneration generation={generation}/>
     </div>
   );
 }

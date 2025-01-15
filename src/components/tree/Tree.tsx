@@ -201,7 +201,9 @@ interface NodeAndConntectorProps {
   renderNode: (node: any) => React.ReactNode,
 }
 function NodeAndConnector(props: NodeAndConntectorProps) {
+  const { userInfo } = useAppContext();
   const { calculatedData, connectorHeight, connectorWidth, renderNode, rootId } = props;
+
   const root = calculatedData.nodes.find(node => node.id === rootId);
   const { left, top } = root as ExtNode;
   const width = TreeConfig.nodeWidth / 2;
@@ -218,8 +220,8 @@ function NodeAndConnector(props: NodeAndConntectorProps) {
         }}
       >
         <ImageWithText 
-          src={roll} text={"Họ Nguyễn"}  
-          textStyle={{ fontSize: "3rem"}}      
+          src={roll} text={"Họ Nguyễn Đình"}  
+          textStyle={{ fontSize: "2.7rem" }}      
           width={680} 
           height={TreeConfig.nodeHeight}
         />
