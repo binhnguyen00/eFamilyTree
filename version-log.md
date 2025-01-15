@@ -9,7 +9,7 @@
   - Thanh tìm kiếm trohng phả đồ đã có thể tìm kiếm theo số đời.
 4. Component mới
   - Popover.
-5. Link Test Zalo: https://zalo.me/s/3044106383419412609/?env=TESTING&version=18
+5. Link Test Zalo: https://zalo.me/s/3044106383419412609/?env=TESTING&version=19
 
 # Version 1.0.8
 1. Bổ sung hệ thống Thông báo theo hành động của người dùng: 
