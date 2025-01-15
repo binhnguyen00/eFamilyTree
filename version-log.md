@@ -5,6 +5,10 @@
 2. Thay đổi nhỏ trong phả đồ
   - icon mới.
   - Thẻ thành viên đã gọn hơn, giảm chiều rộng của phả đồ.
+3. Tính năng mới
+  - Thanh tìm kiếm trohng phả đồ đã có thể tìm kiếm theo số đời.
+4. Component mới
+  - Popover.
 
 # Version 1.0.8
 1. Bổ sung hệ thống Thông báo theo hành động của người dùng: 
