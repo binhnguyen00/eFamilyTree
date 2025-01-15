@@ -7,14 +7,14 @@ import { PanelBackdrop } from "./PanelBackdrop";
 import { PanelCloseButton } from "./PanelCloseButton";
 
 export function BotToTopPanel(props: PanelProps) {
-  const { children, height, visible, header, close } = props;
+  const { children, height, visible, header, close, className } = props;
   const [ backdrop, setBackdrop ] = React.useState(visible);
 
   // Define animation
   const [ springs, api ] = useSpring(() => ({
     y: height, 
     opacity: 0,
-    config: { tension: 120, friction: 15 },
+    config: { tension: 100, friction: 18 },
   }));
 
   const reverseOpen = () => {
@@ -33,7 +33,7 @@ export function BotToTopPanel(props: PanelProps) {
     api.start({
       y: visible ? 0 : height,
       opacity: visible ? 1 : 0,
-      config: { tension: 220, friction: 15 },
+      config: { tension: 100, friction: 18 },
     });
   }, [ visible, height ]);
 
@@ -53,11 +53,11 @@ export function BotToTopPanel(props: PanelProps) {
           zIndex: 9999,
           ...springs,
         }}
-        className={"rounded bg-primary"}
+        className={`rounded-top bg-primary ${className ? className : ""}`}
       >
         <div className="text-secondary">
           <HeaderSection header={header} close={reverseOpen}/>
-          <div className="p-2 flex-v text-primary">
+          <div className={`p-2 flex-v text-primary ${className ? className : ""}`}>
             {children}
           </div>
         </div>
@@ -79,7 +79,7 @@ function HeaderSection(props: HeaderSectionProps) {
         zIndex: 9999,
         height: "fit-content",
       }}
-      className="bg-primary p-2 rounded"
+      className="bg-primary p-2 rounded-top"
     >
       <PanelCloseButton close={props.close}/>
       <div className="text-center mb-2">

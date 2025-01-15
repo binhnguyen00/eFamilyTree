@@ -24,7 +24,7 @@ interface SlidingPanelProps extends PanelProps {
   orient: SlidingPanelOrient;
 }
 export function SlidingPanel(props: SlidingPanelProps) {
-  const { visible, height, children, header, close, orient } = props;
+  const { visible, height, children, header, close, orient, className } = props;
 
   const randomId = () => Math.random().toString(36).substring(2, 9);
   const ID = `sliding-panel-${randomId()}`;
@@ -33,25 +33,25 @@ export function SlidingPanel(props: SlidingPanelProps) {
     switch (orient) {
       case SlidingPanelOrient.LeftToRight:
         return (
-          <BotToTopPanel header={header} visible={visible} height={height} close={close} >
+          <BotToTopPanel className={className ? className : ""} header={header} visible={visible} height={height} close={close} >
             {children}
           </BotToTopPanel>
         );
       case SlidingPanelOrient.RightToLeft:
         return (
-          <BotToTopPanel header={header} visible={visible} height={height} close={close} >
+          <BotToTopPanel className={className ? className : ""} header={header} visible={visible} height={height} close={close} >
             {children}
           </BotToTopPanel>
         );
       case SlidingPanelOrient.TopToBottom:
         return (
-          <BotToTopPanel header={header} visible={visible} height={height} close={close} >
+          <BotToTopPanel className={className ? className : ""} header={header} visible={visible} height={height} close={close} >
             {children}
           </BotToTopPanel>
         );
       case SlidingPanelOrient.BottomToTop:
         return (
-          <BotToTopPanel header={header} visible={visible} height={height} close={close} >
+          <BotToTopPanel className={className ? className : ""} header={header} visible={visible} height={height} close={close} >
             {children}
           </BotToTopPanel>
         );

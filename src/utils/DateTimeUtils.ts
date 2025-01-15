@@ -31,10 +31,18 @@ export class DateTimeUtils {
   }
 
   public static toDisplayDate(dateStr: string) {
-    dateStr = dateStr
+    if (!dateStr) return dateStr;
+    const clone = dateStr;
+    return clone.substring(0, 10);
+  }
+
+  public static toDisplayTime(dateStr: string) {
+    if (!dateStr) return dateStr;
+    let clone = dateStr;
+    clone = clone
       .replace("@", " ")
-      .substring(0, 16) // Remove seconds
-    return dateStr.replace("@", " ");
+      .substring(11, 16) // Remove seconds
+    return clone;
   }
 
   public static toDate(dateStr: string) {

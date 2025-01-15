@@ -132,6 +132,18 @@
   justify-content: space-around !important;
 }
 
+.align-center {
+  align-items: center !important;
+}
+
+.align-end {
+  align-items: flex-end !important;
+}
+
+.align-start {
+  align-items: flex-start !important;
+}
+
 .circle {
   border-radius: 50%;
 }

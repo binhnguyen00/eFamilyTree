@@ -48,7 +48,7 @@ body {
 
 .container-padding {
   padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + (var(--header-height))) !important;
-  padding-bottom: calc(var(--zaui-safe-area-inset-bottom, 0px) + (var(--footer-height))) !important;
+  padding-bottom: calc(var(--zaui-safe-area-inset-bottom, 0px) + (var(--footer-height)) - 20px) !important;
 
   @media (min-width: 640px) {
     max-width: 100%;

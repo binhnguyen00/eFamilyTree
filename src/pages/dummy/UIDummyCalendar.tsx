@@ -1,10 +1,10 @@
 import React from "react";
 import { t } from "i18next";
-import { Grid, Tabs } from "zmp-ui";
+import { Grid, Stack, Tabs, Text } from "zmp-ui";
 
 import { CalendarUtils } from "utils/CalendarUtils";
 import { DateTimeUtils, StyleUtils } from "utils";
-import { Card, Divider, Header, MonthCalendar, ScrollableDiv, WeekCalendar } from "components";
+import { Card, Divider, Header, MonthCalendar, ScrollableDiv, SlidingPanel, SlidingPanelOrient, WeekCalendar } from "components";
 
 import datas from "./sample/events.json";
 
@@ -55,35 +55,73 @@ function UIWeekCalendarContainer() {
     setEvents(filtered);
   }
 
+  const [ selectedEvent, setSelectedEvent ] = React.useState<any>();
   const ClanEvents = () => {
     const html: React.ReactNode[] = events.map((event, idx) => {
       return (
-        <Card
-          key={idx} title={event.name}          
-          content={
-            <div key={idx} className="rounded flex-v">
-              {event["date_begin"] && <small> {`${t("from")}: ${DateTimeUtils.toDisplayDate(event["date_begin"])}`} </small>}
-              {event["date_end"] && <small> {`${t("to")}: ${DateTimeUtils.toDisplayDate(event["date_end"])}`} </small>}
-              {event["place"] && <small> {`${t("place")}: ${event["place"]}`} </small>}
-              {event["note"] && <small> {event["note"]} </small>}
-            </div>
-          }
-        />
+        <div className="flex-h justify-between border-bottom align-center" onClick={() => setSelectedEvent(event)}>
+          <Text size="large" className="bold button">
+            {event.name}
+          </Text>
+          <div className="flex-v align-end">
+            <small className="bold"> {DateTimeUtils.toDisplayTime(event["from_date"])} </small>
+            <small> {DateTimeUtils.toDisplayTime(event["to_date"])} </small>
+          </div>
+        </div>
       )
     }) as React.ReactNode[];
+
     return (
-      <Grid 
-        className="p-2"
-        rowSpace="0.5rem" 
-        columnSpace="0.5rem" 
-        columnCount={html.length > 2 ? 2 : 1} 
-      >
-        {html.length ? (
-          <> {html} </>
-        ): (
-          <span className="center"> {t("no_calendar_events")} </span>
-        )}
-      </Grid>
+      <>
+        <Stack space="0.5rem" className="p-2">
+          {html.length ? (
+            <> {html} </>
+          ): (
+            <span className="center"> {t("no_calendar_events")} </span>
+          )}
+        </Stack>
+        <SlidingPanel
+          visible={selectedEvent ? true : false}
+          className="bg-white text-base"
+          close={() => setSelectedEvent(null)}
+          orient={SlidingPanelOrient.BottomToTop}
+          height={StyleUtils.calComponentRemainingHeight(0)}
+          header={t("event_details")}
+        >
+          <EventDetails event={selectedEvent}/>
+        </SlidingPanel>
+      </>
+    )
+  }
+
+  const EventDetails = ({ event }: { event: any }) => {
+    return (
+      <div>
+        <Text.Title>
+          {event?.name}
+        </Text.Title>
+        <Divider size={0}/>
+
+        <div>
+          <p> {`
+            ${t("from")} 
+            ${DateTimeUtils.toDisplayTime(event?.["from_date"])}, 
+            ${DateTimeUtils.toDisplayDate(event?.["from_date"])}`} </p>
+          <p> {`
+            ${t("to")} 
+            ${DateTimeUtils.toDisplayTime(event?.["to_date"])}, 
+            ${DateTimeUtils.toDisplayDate(event?.["to_date"])}
+          `} </p>
+
+          <Divider size={0}/>
+          <strong> {t("place")} </strong>
+          <p> {event?.["place"]} </p>
+
+          <Divider size={0}/>
+          <strong> {t("note")} </strong>
+          <p> {event?.["note"]} </p>
+        </div>
+      </div>
     )
   }
 
