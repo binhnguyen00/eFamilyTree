@@ -8,7 +8,6 @@ import "./css/album.scss";
 import "./css/family-tree.scss";
 import "./css/font/font.scss";
 import "./css/bootstrap.scss";
-import "./css/stylesheet.scss";
 import "./css/app.scss";
 
 // ZaUI stylesheet

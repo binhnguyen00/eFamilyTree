@@ -147,3 +147,55 @@
 .circle {
   border-radius: 50%;
 }
+
+.flex-v {
+  display: flex;
+  flex-direction: column !important;
+  flex-grow: 1;
+  gap: 0.5rem;
+}
+
+.flex-h {
+  display: flex;
+  flex-direction: row !important;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+.center {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  align-content: center !important;
+  text-align: center !important;
+  width: 100%;
+}
+
+.scrollable {
+  display: flex;
+  overflow: auto;
+  width: 100vh;
+  scroll-behavior: smooth;
+}
+
+.scroll-h {
+  display: flex;
+  overflow-x: auto; /* Enable horizontal scrolling only */
+  width: 100%;
+  scroll-behavior: smooth;
+  gap: 1rem; /* Optional: Adds space between items */
+  scrollbar-width: none;
+}
+
+.scroll-v {
+  display: flex;
+  overflow-y: scroll; /* Enable vertical scrolling only */
+  height: 100%;
+  scroll-behavior: smooth;
+  gap: 1rem; /* Optional: Adds space between items */
+  scrollbar-width: none;
+}
