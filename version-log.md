@@ -9,7 +9,11 @@
   - Thanh tìm kiếm trohng phả đồ đã có thể tìm kiếm theo số đời.
 4. Component mới
   - Popover.
-5. Link Test Zalo: https://zalo.me/s/3044106383419412609/?env=TESTING&version=19
+5. Cập nhật giao diện Lịch tuần
+  - Các thẻ sự kiện gọn hơn, hiển thị thông tin tối giản.
+  - Khi select mở ra thông tin chi tiết.
+  - Thông tin chi tiết được chia làm các mục dễ dàng quan sát.  
+6. Link Test Zalo: https://zalo.me/s/3044106383419412609/?env=TESTING&version=20
 
 # Version 1.0.8
 1. Bổ sung hệ thống Thông báo theo hành động của người dùng: 
