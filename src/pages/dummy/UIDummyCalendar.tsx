@@ -1,10 +1,10 @@
 import React from "react";
 import { t } from "i18next";
-import { Grid, Stack, Tabs, Text } from "zmp-ui";
+import { Stack, Tabs, Text } from "zmp-ui";
 
 import { CalendarUtils } from "utils/CalendarUtils";
 import { DateTimeUtils, StyleUtils } from "utils";
-import { Card, Divider, Header, MonthCalendar, ScrollableDiv, SlidingPanel, SlidingPanelOrient, WeekCalendar } from "components";
+import { Divider, Header, MonthCalendar, ScrollableDiv, SlidingPanel, SlidingPanelOrient, WeekCalendar } from "components";
 
 import datas from "./sample/events.json";
 
@@ -37,6 +37,7 @@ function UIWeekCalendarContainer() {
     selectedDay = selectedDay.substring(0, 10);
     const filtered: any[] = [];
     datas.map((event) => {
+      console.log(event.from_date.substring(0, 10), selectedDay);
       if (event.from_date.substring(0, 10) === selectedDay) {
         filtered.push(event);
       }
@@ -126,13 +127,15 @@ function UIWeekCalendarContainer() {
   }
 
   const onNavigate = (day: Date) => {
-    console.log(day);
     setNavigateDay(day);
   }
 
   React.useEffect(() => {
     const now  = new Date();
     const days: Date[] = CalendarUtils.getDaysInWeekWithEvent(events, now);
+
+    console.log(days);
+    
     setDaysWithEvent(days)
   }, [])
 

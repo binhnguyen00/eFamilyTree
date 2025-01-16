@@ -1,11 +1,11 @@
 import React from "react";
 import { t } from "i18next";
-import { Grid, Stack, Text } from "zmp-ui";
+import { Stack, Text } from "zmp-ui";
 
 import { CalendarApi } from "api";
 import { useAppContext } from "hooks";
 import { CalendarUtils, DateTimeUtils, StyleUtils } from "utils";
-import { Card, Divider, ScrollableDiv, SlidingPanel, SlidingPanelOrient, WeekCalendar } from "components";
+import { Divider, ScrollableDiv, SlidingPanel, SlidingPanelOrient, WeekCalendar } from "components";
 
 import { ServerResponse } from "types/server";
 
@@ -50,7 +50,7 @@ export function UIWeekCalendar() {
         setEvents(data);
       } else setEvents([]);
     }
-    CalendarApi.getClanEventsByDate(userInfo.id, userInfo.clanId, day, success);
+    CalendarApi.getClanEventInDate(userInfo.id, userInfo.clanId, day, success);
   }
 
   const onSelectDay = (selectedDay: string) => {

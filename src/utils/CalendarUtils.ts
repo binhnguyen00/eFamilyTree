@@ -47,7 +47,7 @@ export class CalendarUtils {
       .filter((event: Event) => {
         const eventStart = DateTimeUtils.toDate(event.from_date.substring(0, 10));
         const eventEnd = DateTimeUtils.toDate(event.to_date.substring(0, 10));
-        return startDate <= eventStart && endDate >= eventEnd;
+        return eventStart <= endDate && eventEnd >= startDate;
       })
       .flatMap((event: Event) => {
         const eventStart = DateTimeUtils.toDate(event.from_date.substring(0, 10));
