@@ -13,6 +13,10 @@ import { AppContext as AppCtx, UserInfo } from "types/app-context";
 // =======================================
 export const AppContext = React.createContext({} as AppCtx);
 
+export function useAppContext() {
+  return React.useContext(AppContext);
+}
+
 export function ApplicationProvider({ children }: { children: React.ReactNode }) {
   const ZALO_APP_ID = getAppConfig((config) => {
     return config.app.id;
