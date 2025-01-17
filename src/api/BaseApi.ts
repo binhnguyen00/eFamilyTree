@@ -25,14 +25,12 @@ export class BaseApi {
     } as const;
   }
 
-  /** @deprecated */
-  /** @todo: change to app/context/user. change after launch day 16/01 */
   public static getUserAppContext(phoneNumber: string, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
     const body = this.initBody({
       phone_number: phoneNumber,
     });
-    this.server.POST("context/user", header, body, successCB, failCB);
+    this.server.POST("app/context/user", header, body, successCB, failCB);
   }
 
   /**

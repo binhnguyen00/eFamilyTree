@@ -76,6 +76,7 @@ function useUserAppContext(phoneNumber: string) {
     id: 0,
     name: "unknown",
     clanId: 0,
+    clanName: "",
     generation: 0,
   })
   let [ modules, setModules ] = React.useState<string[]>([]);
@@ -90,6 +91,7 @@ function useUserAppContext(phoneNumber: string) {
             id: info["id"],
             name: info["name"],
             clanId: info["clan_id"],
+            clanName: info["clan_name"],
             generation: info["generation"]
           } as UserInfo);
           setModules(data.modules);

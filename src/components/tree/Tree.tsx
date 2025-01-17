@@ -1,9 +1,8 @@
 import React from 'react';
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { Box } from 'zmp-ui';
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import calcTree from 'components/tree-relatives';
-import { ImageWithText } from "components";
 import { ExtNode, Gender, Node, RelData } from 'components/tree-relatives/types';
 
 import { useAppContext } from 'hooks';
@@ -11,11 +10,11 @@ import { CommonUtils, TreeDataProcessor } from 'utils';
 
 import Connector from './TreeConnector';
 import { TreeConfig } from './TreeConfig';
+import { TreeHeader } from './TreeHeader';
 import { TreeSearchBar } from './TreeSearchBar';
 import { TreeController } from './TreeController';
 
 import "./css/transform-wrapper.scss";
-import roll from "assets/img/tree/roll.png";
 
 const initNode = { 
   id: "0", 
@@ -133,7 +132,7 @@ interface TreeContainerProps extends React.HTMLAttributes<HTMLDivElement> {
 function TreeContainer(props: TreeContainerProps) {
   const { 
     calculatedData, treeRef, backgroundPath, rootId, 
-    renderNode, zoomToRoot, processor
+    renderNode, zoomToRoot
   } = props;
 
   const handleBackground = () => {
@@ -175,10 +174,10 @@ function TreeContainer(props: TreeContainerProps) {
     <div
       id="tree-canvas"
       ref={treeRef}
-      className={`border-primary rounded ${props.className ? props.className : ""}`}
+      className={`rounded ${props.className ? props.className : ""}`}
       style={{
-        width: calculatedData.nodes.length > 10 ? treeWidth : 1000,
-        height: calculatedData.nodes.length > 10 ? treeHeight + 200 : 1000, 
+        width: treeWidth + TreeConfig.headerHeight,
+        height: treeHeight + TreeConfig.headerHeight, 
         ...handleBackground(),
       }}
     >
@@ -201,31 +200,13 @@ interface NodeAndConntectorProps {
   renderNode: (node: any) => React.ReactNode,
 }
 function NodeAndConnector(props: NodeAndConntectorProps) {
-  const { userInfo } = useAppContext();
   const { calculatedData, connectorHeight, connectorWidth, renderNode, rootId } = props;
 
   const root = calculatedData.nodes.find(node => node.id === rootId);
-  const { left, top } = root as ExtNode;
-  const width = TreeConfig.nodeWidth / 2;
 
   return (
     <>
-      <div 
-        className='text-center'
-        style={{
-          zIndex: 9999,
-          width: 680,
-          height: TreeConfig.nodeHeight,
-          transform: `translate(${(left * width) - (root?.spouses.length ? 680 / 3 : 680 / 2.5 )}px, 10px)`
-        }}
-      >
-        <ImageWithText 
-          src={roll} text={"Họ Nguyễn Đình"}  
-          textStyle={{ fontSize: "2.7rem" }}      
-          width={680} 
-          height={TreeConfig.nodeHeight}
-        />
-      </div>
+      <TreeHeader rootNode={root as ExtNode}/>
       {calculatedData.connectors.map((connector, idx) => (
         <Connector
           key={idx}
