@@ -4,7 +4,7 @@ import { Button, Text, Stack, Grid } from "zmp-ui";
 
 import { TestApi } from "api";
 import { useNotification, useAppContext, usePageContext } from "hooks";
-import { Header, Loading, SizedBox, SlidingPanel, SlidingPanelOrient } from "components";
+import { Header, Loading, SizedBox, SlidingPanel, SlidingPanelOrient, NewsPaperSkeleton } from "components";
 
 import { Theme } from "types/user-settings";
 import { Module } from "types/app-context";
@@ -18,6 +18,8 @@ export function UIPlayground() {
   return (
     <Stack space="1rem" className="container">
       <Header title={t("playground")}/>
+
+      <UISkeletonLoading/>
 
       <UIToastButtons/>
 
@@ -143,5 +145,29 @@ function UIPermissionButtons() {
   console.table({ canRead, canWrite, canModerate, canAdmin });
   return (
     <></>
+  )
+}
+
+function UISkeletonLoading() {
+  const [ loading, setLoading ] = React.useState(true);
+
+  return (
+    <div className="flex-v">
+      <Button size="small" variant="secondary" onClick={() => setLoading(!loading)}> {"Skeleton Loading"} </Button>
+      <NewsPaperSkeleton 
+        loading={loading} 
+        content={
+          <div className="flex-v"> 
+            <img className="rounded" src={themeBlue} style={{ height: 100, width: "100%" }}/>
+            <p className="bold"> Lorem ipsum dolor sit amet. </p>
+            <div>
+              <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+              <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+              <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+            </div>
+          </div>
+        }
+      />
+    </div>
   )
 }

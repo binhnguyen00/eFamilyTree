@@ -5,3 +5,4 @@ export * from "./tree";
 export * from "./provider";
 export * from "./sliding-panel";
 export * from "./calendar";
+export * from "./skeleton-loading";
