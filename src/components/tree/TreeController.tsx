@@ -130,7 +130,7 @@ export function TreeController(props: TreeControllerProps) {
       {onReset && (
         <SizedBox 
           className='bg-white p-1 button border-primary'
-          width={"fit-content"} height={"fit-content"} border
+          width={"fit-content"} height={"fit-content"}
           onClick={() => onReset()}
           children={<CommonIcon.Reset size={26}/>}
         />
