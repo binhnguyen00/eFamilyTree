@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOMClient from "react-dom/client";
 
+import { Divider } from "components";
+
 import { BotToTopPanel } from "./BotToTopPanel";
 
 let activePanels: string[] = []; // Track active panels
@@ -35,24 +37,28 @@ export function SlidingPanel(props: SlidingPanelProps) {
         return (
           <BotToTopPanel className={className ? className : ""} header={header} visible={visible} height={height} close={close} >
             {children}
+            <Divider size={0}/>
           </BotToTopPanel>
         );
       case SlidingPanelOrient.RightToLeft:
         return (
           <BotToTopPanel className={className ? className : ""} header={header} visible={visible} height={height} close={close} >
             {children}
+            <Divider size={0}/>
           </BotToTopPanel>
         );
       case SlidingPanelOrient.TopToBottom:
         return (
           <BotToTopPanel className={className ? className : ""} header={header} visible={visible} height={height} close={close} >
             {children}
+            <Divider size={0}/>
           </BotToTopPanel>
         );
       case SlidingPanelOrient.BottomToTop:
         return (
           <BotToTopPanel className={className ? className : ""} header={header} visible={visible} height={height} close={close} >
             {children}
+            <Divider size={0}/>
           </BotToTopPanel>
         );
     }
