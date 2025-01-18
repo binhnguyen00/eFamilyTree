@@ -1,3 +1,7 @@
+# Version 1.1.0
+1. Sửa giao diện Thông tin chi tiết của thành viên trong phả đồ.
+2. Thêm Bảng hiện tên dòng họ trong phả đồ.
+
 # Version 1.0.9
 1. Thêm hệ thống phân quyền.
   - read/write/moderator/admin.
