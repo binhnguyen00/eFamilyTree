@@ -1,4 +1,7 @@
 import React from "react";
+import Handlebars from "handlebars";
+import DOMPurify from "dompurify";
+
 import { t } from "i18next";
 import { Button, Text, Stack, Grid } from "zmp-ui";
 
@@ -12,6 +15,7 @@ import { FailResponse, ServerResponse } from "types/server";
 
 import themeRed from "assets/img/theme/theme-red.jpeg";
 import themeBlue from "assets/img/theme/theme-blue.jpeg";
+import petitionLetter from "assets/template/petition-letter.hbs?raw";
 
 export function UIPlayground() {
 
@@ -19,11 +23,11 @@ export function UIPlayground() {
     <Stack space="1rem" className="container">
       <Header title={t("playground")}/>
 
+      <UIPetitionLetter/>
+
       <UISkeletonLoading/>
 
       <UIToastButtons/>
-
-      <UIPermissionButtons/>
 
       <Stack space="1rem">
         <Text.Title size="large"> {"Mock CORS"} </Text.Title>
@@ -170,4 +174,28 @@ function UISkeletonLoading() {
       />
     </div>
   )
+}
+
+function UIPetitionLetter() {
+  Handlebars.registerHelper('textVertical', function(text) {
+    return text.split(' ').map(function(word) {
+      return `<p>${word}</p>`;
+    }).join('');
+  });
+  
+  const compiledTemplate = Handlebars.compile(petitionLetter);
+  const filledTemplate = compiledTemplate({
+    title: "Dynamic Handlebars Title",
+    content: "This content is injected using Handlebars in React.",
+    footer: "Handlebars Footer",
+  });
+
+
+  const purified = DOMPurify.sanitize(filledTemplate);
+  return (
+    <div
+      dangerouslySetInnerHTML={{ __html: purified }}
+      className="text-base bg-secondary"
+    />
+  );
 }
