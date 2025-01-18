@@ -30,11 +30,12 @@ interface TreeProps {
   nodeWidth: number;
   nodeHeight: number;
   renderNode: (node: any) => React.ReactNode;
-  onReset?: () => void;
   className?: string;
-  searchFields?: string[];
-  searchDisplayField?: string;
   processor?: TreeDataProcessor;
+  searchFields?: string[];
+  zoomElement?: HTMLElement;
+  searchDisplayField?: string;
+  onReset?: () => void;
 }
 
 export default React.memo<TreeProps>(function Tree(props) {
@@ -44,7 +45,7 @@ export default React.memo<TreeProps>(function Tree(props) {
     searchFields = [ "id" ], 
     nodes = [ initNode as Node ],
     processor, nodeWidth, nodeHeight, searchDisplayField, 
-    renderNode, onReset
+    renderNode, onReset, zoomElement
   } = props;
 
   const data = calcTree(nodes, { rootId: rootId });
@@ -77,6 +78,7 @@ export default React.memo<TreeProps>(function Tree(props) {
                   onSelect={zoomToElement}
                 />
                 <TreeController
+                  zoomElement={zoomElement}
                   rootId={rootId}
                   onZoomIn={zoomIn}
                   onZoomOut={zoomOut}
@@ -159,6 +161,7 @@ function TreeContainer(props: TreeContainerProps) {
   const treeWidth = calculatedData.canvas.width * connectorWidth;
   const treeHeight = calculatedData.canvas.height * connectorHeight;
 
+  // keep trying to zoom to root until TreeContainer is rendered
   React.useEffect(() => {
     if (!treeRef.current || !zoomToRoot) return;
     const root = document.querySelector<HTMLDivElement>(`#node-${rootId}`);
@@ -166,7 +169,7 @@ function TreeContainer(props: TreeContainerProps) {
       if (root) {
         zoomToRoot(root, 2);
       } else {
-        requestAnimationFrame(checkRender); // Keep checking until rendered
+        requestAnimationFrame(checkRender);
       }
     };
     requestAnimationFrame(checkRender);

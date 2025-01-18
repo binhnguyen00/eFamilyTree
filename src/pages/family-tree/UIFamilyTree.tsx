@@ -66,22 +66,31 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
   const [ node, setNode ] = React.useState<ExtNode | any>({});
   const [ nodes, setNodes ] = React.useState<any[]>(props.nodes);
 
+  const [ zoomElement, setZoomElement ] = React.useState<HTMLElement>();
+
   React.useEffect(() => {
     setNodes(props.nodes);
     setRootId(props.rootId);
   }, [ reload ]);
 
-  const toBranch = () => {
-    setNode({}); // To close slider when select branch
+  const toBranch = (nodeId: string) => {
     const treeBranch = TreeUtils.getBranch(node.id, nodes);
     setNodes(treeBranch);
     setRootId(node.id);
     setResetBtn(true);
+    setNode({}); // To close slider when select branch
+
+    // wait for 0.5s for the tree to finish rendering. this wont work everytime!
+    setTimeout(() => {
+      const element = document.getElementById(`node-${nodeId}`);
+      setZoomElement(element!);
+    }, 500); 
   }
 
   const onReset = resetBtn ? () => {
     setReload(!reload);
     setResetBtn(false);
+    setZoomElement(undefined);
   } : undefined;
 
   return (
@@ -105,6 +114,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
             onSelectNode={(node: ExtNode) => setNode(node)}
           />
         )}
+        zoomElement={zoomElement}
       />
 
       {node.id && (

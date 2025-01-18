@@ -11,7 +11,7 @@ interface UINodeDetailsPanelProps {
   id: string;
   visible: boolean;
   onClose: () => void;
-  onSelectBranch?: () => void;
+  onSelectBranch?: (nodeId: string) => void;
 }
 export function UINodeDetailsPanel(props: UINodeDetailsPanelProps) {
   const { id, visible, onClose, onSelectBranch } = props;
@@ -48,7 +48,7 @@ export function UINodeDetailsPanel(props: UINodeDetailsPanelProps) {
                 variant="secondary" 
                 size="small" 
                 prefixIcon={<CommonIcon.Tree size={16}/>}
-                onClick={onSelectBranch}
+                onClick={() => onSelectBranch?.(info["id"] as string)}
               >
                 {t("btn_tree_member_detail")}
               </Button>

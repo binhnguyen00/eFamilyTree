@@ -7,7 +7,7 @@ import divorced from "./sample/divorced.json";
 import odooSample from "./sample/odoo-sample.json";
 import severalSprouses from "./sample/several-sprouses.json";
 
-import { CommonUtils, TreeUtils, TreeDataProcessor} from "utils";
+import { TreeUtils, TreeDataProcessor} from "utils";
 import { Header, FamilyTree, TreeNode, TreeConfig, SlidingPanel, SlidingPanelOrient, CommonIcon } from "components";
 
 export default function UIDummyTree() {
@@ -27,17 +27,25 @@ export default function UIDummyTree() {
   const [ nodes, setNodes ] = React.useState<any[]>(average);
   const [ rootId, setRootId ] = React.useState(nodes[0].id);
 
+  const [ zoomElement, setZoomElement ] = React.useState<HTMLElement>();
+
   React.useEffect(() => {
     setNodes(average);
     setRootId(average[0].id);
   }, [ reload ])
 
-  const toBranch = () => {
-    setNode({}); // To close slider when select branch
+  const toBranch = (nodeId: string) => {
     const treeBranch = TreeUtils.getBranch(node.id, nodes);
     setRootId(node.id);
     setNodes(treeBranch);
     setResetBtn(true);
+    setNode({}); // To close slider when select branch
+    
+    // wait for 0.5s for the tree to finish rendering. this wont work everytime!
+    setTimeout(() => {
+      const element = document.getElementById(`node-${nodeId}`);
+      setZoomElement(element!);
+    }, 500); 
   }
 
   const renderContainer = () => {
@@ -94,6 +102,7 @@ export default function UIDummyTree() {
               onSelectNode={(node: any) => setNode(node)}
             />
           )}
+          zoomElement={zoomElement}
         />
       </div>
     )
@@ -121,13 +130,10 @@ interface UINodeDetailsPanelProps {
   info: any;
   visible: boolean;
   onClose: () => void;
-  onSelectBranch?: () => void;
+  onSelectBranch?: (nodeId: string) => void;
 }
 export function UINodeDetailsPanel(props: UINodeDetailsPanelProps) {
   const { info, visible, onClose, onSelectBranch } = props;
-
-  console.log(info);
-  
 
   const height = "70vh";
   return (
@@ -156,7 +162,7 @@ export function UINodeDetailsPanel(props: UINodeDetailsPanelProps) {
             variant="secondary" 
             size="small" 
             prefixIcon={<CommonIcon.Tree size={16}/>}
-            onClick={onSelectBranch}
+            onClick={() => onSelectBranch?.(info.id)}
           >
             {t("btn_tree_member_detail")}
           </Button>

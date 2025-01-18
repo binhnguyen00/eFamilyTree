@@ -21,12 +21,20 @@ interface TreeControllerProps {
     height: number;
   };
   onReset?: () => void;
+  zoomElement?: HTMLElement;
 }
 
 export function TreeController(props: TreeControllerProps) {
   const { userInfo, serverBaseUrl } = useAppContext();
   const { loadingToast } = useNotification();
-  const { rootId, onZoomToRoot, onZoomIn, onZoomOut, onReset, html2export } = props;
+  const { rootId, onZoomToRoot, onZoomIn, onZoomOut, onReset, html2export, zoomElement } = props;
+
+  // zoom to a specific element as will
+  React.useEffect(() => {
+    if (zoomElement) {
+      onZoomToRoot(zoomElement);
+    }
+  }, [ zoomElement ]);
 
   const exportSVG = () => {
     const content = reactDomToString(html2export.content);
@@ -99,32 +107,32 @@ export function TreeController(props: TreeControllerProps) {
       flex flexDirection='column' alignItems='flex-end'
       style={style}
     >
+      <SizedBox
+        className='bg-white mb-1 p-1 button border-primary'
+        width={"fit-content"} height={"fit-content"}
+        onClick={exportSVG}
+        children={<CommonIcon.CloudDownload size={22}/>}
+      />
+
       <SizedBox 
         className='bg-white mb-1 p-1 button border-primary'
         width={"fit-content"} height={"fit-content"}
         onClick={findRoot}
-        children={<CommonIcon.Tree size={26}/>}
+        children={<CommonIcon.Tree size={22}/>}
       />
 
       <SizedBox 
         className='bg-white mb-1 p-1 button border-primary'
         width={"fit-content"} height={"fit-content"}
         onClick={() => onZoomIn()}
-        children={<CommonIcon.Plus size={26}/>}
+        children={<CommonIcon.Plus size={22}/>}
       />
 
       <SizedBox 
         className='bg-white mb-1 p-1 button border-primary'
         width={"fit-content"} height={"fit-content"}
         onClick={() => onZoomOut()}
-        children={<CommonIcon.Minus size={26}/>}
-      />
-
-      <SizedBox
-        className='bg-white mb-1 p-1 button border-primary'
-        width={"fit-content"} height={"fit-content"}
-        onClick={exportSVG}
-        children={<CommonIcon.CloudDownload size={26}/>}
+        children={<CommonIcon.Minus size={22}/>}
       />
 
       {onReset && (
@@ -132,7 +140,7 @@ export function TreeController(props: TreeControllerProps) {
           className='bg-white p-1 button border-primary'
           width={"fit-content"} height={"fit-content"}
           onClick={() => onReset()}
-          children={<CommonIcon.Reset size={26}/>}
+          children={<CommonIcon.Reset size={22}/>}
         />
       )}
     </Box>
