@@ -1,4 +1,6 @@
 # Version 1.1.0 (Thứ 7, 18/01/2025)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=21)
+### Thay đổi
 1. Sửa giao diện Thông tin chi tiết của thành viên trong phả đồ.
   - Giao diện sliding panel.
   - Chia phần thông tin và nút bấm riêng. Hiện tại có 1 nút xem nhánh của thành viên được chọn. Tương lai sẽ có các nút CRUD.
