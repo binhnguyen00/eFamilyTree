@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Node, ExtNode } from 'components/tree-relatives/types';
 import { TreeUtils } from 'utils';
+import { Node, ExtNode } from 'components/tree-relatives/types';
 
 import { TreeConfig } from './TreeConfig';
 
@@ -9,7 +9,7 @@ interface TreeNodeProps {
   node: Node;
   displayField: string;
   isRoot: boolean;
-  onSelectNode: (id: string) => void;
+  onSelectNode?: (node: ExtNode) => void;
 }
 
 export default React.memo<TreeNodeProps>(function TreeNode(props: TreeNodeProps) {
@@ -32,7 +32,7 @@ export default React.memo<TreeNodeProps>(function TreeNode(props: TreeNodeProps)
         padding: TreeConfig.nodePadding,
         ...nodePosition,
       }}
-      onClick={() => onSelectNode(node.id)}
+      onClick={() => onSelectNode?.(node as ExtNode)}
     >
       <div
         style={{

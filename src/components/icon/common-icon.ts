@@ -7,7 +7,6 @@ import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { IoMdLogIn, IoMdAdd, IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { LuMinus } from "react-icons/lu";
 import { MdPersonSearch } from "react-icons/md";
-import { GrPowerReset } from "react-icons/gr";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaFilePdf } from "react-icons/fa6";
 import { BiSolidFilePng, BiSolidFileJpg } from "react-icons/bi";
@@ -16,6 +15,7 @@ import { FaCloudDownloadAlt } from "react-icons/fa";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { IoIosCloseCircle } from "react-icons/io";
 import { HiOutlineDotsVertical } from "react-icons/hi";
+import { RiResetRightLine } from "react-icons/ri";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -36,7 +36,7 @@ export const CommonIcon = {
   Login: IoMdLogIn,
   Logout: TbLogout,
   SearchPerson: MdPersonSearch,
-  Reset: GrPowerReset,
+  Reset: RiResetRightLine,
   Phone: FaPhoneAlt,
   PDF: FaFilePdf,
   PNG: BiSolidFilePng,

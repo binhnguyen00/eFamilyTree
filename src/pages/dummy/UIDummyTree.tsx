@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Box, Button, Grid, Input, Select } from "zmp-ui";
+import { Box, Button, Input, Select, Text } from "zmp-ui";
 
 import average from "./sample/average.json";
 import divorced from "./sample/divorced.json";
@@ -8,7 +8,7 @@ import odooSample from "./sample/odoo-sample.json";
 import severalSprouses from "./sample/several-sprouses.json";
 
 import { CommonUtils, TreeUtils, TreeDataProcessor} from "utils";
-import { Header, CommonIcon, FamilyTree, TreeNode, TreeConfig, SlidingPanel, SlidingPanelOrient } from "components";
+import { Header, FamilyTree, TreeNode, TreeConfig, SlidingPanel, SlidingPanelOrient, CommonIcon } from "components";
 
 export default function UIDummyTree() {
   const dataSrcKey = {
@@ -17,41 +17,35 @@ export default function UIDummyTree() {
     3: divorced,
     4: odooSample
   }
-  const [ nodes, setNodes ] = React.useState<any[]>(average);
-  const [ rootId, setRootId ] = React.useState(nodes[0].id);
-  const [ selectId, setSelectId ] = React.useState<string>("");
   const [ selectNameField, setSelectNameField ] = React.useState<string>("id");
-  const [ resetBtn, setResetBtn ] = React.useState<boolean>(false);
-  const [ reload, setReload ] = React.useState(false);
   const [ processor, setProcessor ] = React.useState<TreeDataProcessor>(new TreeDataProcessor([]));
 
-  const [ memberInfo, setMemberInfo ] = React.useState<any>(null);
+  const [ reload, setReload ] = React.useState(false);
+  const [ resetBtn, setResetBtn ] = React.useState<boolean>(false);
+
+  const [ node, setNode ] = React.useState<any>({});
+  const [ nodes, setNodes ] = React.useState<any[]>(average);
+  const [ rootId, setRootId ] = React.useState(nodes[0].id);
 
   React.useEffect(() => {
     setNodes(average);
     setRootId(average[0].id);
   }, [ reload ])
 
-  const showMemberDetail = () => {
-    const data = nodes.find((m: any) => m.id === selectId);
-    setMemberInfo(data);
-    setSelectId(""); // hide the sliding panel
-  }
-
-  const renderTreeBranch = () => {
-    const treeBranch = TreeUtils.getBranch(selectId, nodes);
-    setRootId(selectId);
+  const toBranch = () => {
+    setNode({}); // To close slider when select branch
+    const treeBranch = TreeUtils.getBranch(node.id, nodes);
+    setRootId(node.id);
     setNodes(treeBranch);
     setResetBtn(true);
-    setSelectId(""); // hide the sliding panel
   }
 
-  const onReset = resetBtn ? () => {
-    setReload(!reload);
-    setResetBtn(false);
-  } : undefined;
+  const renderContainer = () => {
+    const onReset = resetBtn ? () => {
+      setReload(!reload);
+      setResetBtn(false);
+    } : undefined;
 
-  const renderTree = () => {
     return (
       <div>
         <div className="ml-1 mr-1">
@@ -97,7 +91,7 @@ export default function UIDummyTree() {
               node={node}
               displayField={selectNameField}
               isRoot={node.id === rootId}
-              onSelectNode={(id: string) => setSelectId(id)}
+              onSelectNode={(node: any) => setNode(node)}
             />
           )}
         />
@@ -109,81 +103,65 @@ export default function UIDummyTree() {
     <div id="tree-container">
       <Header title={t("dummy_tree")}/>
       
-      {renderTree()}
+      {renderContainer()}
 
-      {!CommonUtils.isStringEmpty(selectId) && (
-        <UITreeOptions
-          visible={!CommonUtils.isStringEmpty(selectId)}
-          title={`${selectId}`}
-          onClose={() => { setSelectId("") }}
-          showMemberDetail={showMemberDetail}
-          renderTreeBranch={renderTreeBranch}
-        />
-      )}
-
-      {!CommonUtils.isNullOrUndefined(memberInfo) && (
-        <UIMemberDetail
-          visible={!CommonUtils.isNullOrUndefined(memberInfo)}
-          info={memberInfo}
-          onClose={() => { setMemberInfo(null) }}
+      {node.id && (
+        <UINodeDetailsPanel
+          info={node}
+          visible={node.id}
+          onClose={() => setNode({})}
+          onSelectBranch={toBranch}
         />
       )}
     </div>
   )
 }
 
-interface UITreeOptionsProps {
+interface UINodeDetailsPanelProps {
+  info: any;
   visible: boolean;
   onClose: () => void;
-  showMemberDetail: () => void;
-  renderTreeBranch: () => void;
-  title?: string;
+  onSelectBranch?: () => void;
 }
-function UITreeOptions(props: UITreeOptionsProps) {
-  const { visible, onClose, showMemberDetail, renderTreeBranch, title } = props;
+export function UINodeDetailsPanel(props: UINodeDetailsPanelProps) {
+  const { info, visible, onClose, onSelectBranch } = props;
+
+  console.log(info);
+  
+
+  const height = "70vh";
   return (
     <SlidingPanel
       orient={SlidingPanelOrient.BottomToTop}
       visible={visible}
       close={onClose}
-      header={title}
+      className="pb-3"
+      header={t("member_info")}
     >
-      <div className="p-2">
-        <Grid columnCount={2} columnSpace="0.2rem">
-          <Button variant="secondary" onClick={showMemberDetail} prefixIcon={<CommonIcon.User size={"1.5rem"}/>}>
-            {t("btn_tree_member_info")}
-          </Button>
-          <Button variant="secondary" onClick={renderTreeBranch} prefixIcon={<CommonIcon.Tree size={"1.5rem"}/>}>
+      <Box className="px-2" style={{ height: height }}>
+        <React.Fragment>
+          <Text.Title className="text-capitalize text-secondary py-2"> {t("info")} </Text.Title>
+          <div className="flex-h">
+            <Input size="small" label={"Giới tính"} value={info["gender"] === "1" ? t("male") : t("female")} />
+            <Input size="small" label={"Điện thoại"} value={info["phoneNumber"]} />
+          </div>
+          <Input size="small" label={"Họ Tên"} value={info["name"]} />
+          <Input size="small" label={"Bố"} value={info["father"]} />
+          <Input size="small" label={"Mẹ"} value={info["mother"]} />
+        </React.Fragment>
+
+        <React.Fragment>
+          <Text.Title className="text-capitalize text-secondary py-2"> {t("utilities")} </Text.Title>
+          <Button 
+            variant="secondary" 
+            size="small" 
+            prefixIcon={<CommonIcon.Tree size={16}/>}
+            onClick={onSelectBranch}
+          >
             {t("btn_tree_member_detail")}
           </Button>
-        </Grid>
-      </div>
-    </SlidingPanel>
-  )
-}
-
-interface UIMemberDetailProps {
-  visible: boolean;
-  info: any;
-  onClose: () => void;
-}
-function UIMemberDetail(props: UIMemberDetailProps) {
-  const { visible, info, onClose } = props;
-
-  return (
-    <SlidingPanel
-      orient={SlidingPanelOrient.BottomToTop}
-      visible={visible}
-      close={onClose}
-      header={info["name"] || t("member_info")}
-    >
-    <Box className="p-2" style={{ maxHeight: "50vh", color: `cal(var(--primary-color))` }}>
-      <Input label={"Họ Tên"} value={info["name"]} />
-      <Input label={"Giới tính"} value={info["gender"] === "1" ? t("male") : t("female")} />
-      <Input label={"Điện thoại"} value={info["phoneNumber"]} />
-      <Input label={"Bố"} value={info["father"]} />
-      <Input label={"Mẹ"} value={info["mother"]} />
-    </Box>
+        </React.Fragment>
+      </Box>
     </SlidingPanel>
   )
 }

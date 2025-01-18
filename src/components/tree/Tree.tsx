@@ -22,7 +22,7 @@ const initNode = {
   name: "Thành Viên", 
   generation: 0, 
   parents: [], children: [], siblings: [], spouses: []
-}
+} as Node;
 
 interface TreeProps {
   nodes: Node[];
@@ -38,11 +38,13 @@ interface TreeProps {
 }
 
 export default React.memo<TreeProps>(function Tree(props) {
+  const { userInfo } = useAppContext();
   const { 
     rootId = "0", 
     searchFields = [ "id" ], 
     nodes = [ initNode as Node ],
-    processor, nodeWidth, nodeHeight, searchDisplayField, renderNode, onReset
+    processor, nodeWidth, nodeHeight, searchDisplayField, 
+    renderNode, onReset
   } = props;
 
   const data = calcTree(nodes, { rootId: rootId });
@@ -82,6 +84,7 @@ export default React.memo<TreeProps>(function Tree(props) {
                   html2export={{
                     content: (                
                       <TreeContainer 
+                        title={userInfo.clanName}
                         rootId={rootId}
                         treeRef={treeRef}
                         nodeWidth={nodeWidth}
@@ -99,6 +102,7 @@ export default React.memo<TreeProps>(function Tree(props) {
               </Box>
               <TransformComponent>
                 <TreeContainer 
+                  title={userInfo.clanName}
                   rootId={rootId}
                   treeRef={treeRef}
                   nodeWidth={nodeWidth}
@@ -119,6 +123,7 @@ export default React.memo<TreeProps>(function Tree(props) {
 });
 
 interface TreeContainerProps extends React.HTMLAttributes<HTMLDivElement> {
+  title: string; // Clan Name
   treeRef: any;
   rootId: string;
   nodeWidth: number;
@@ -131,7 +136,7 @@ interface TreeContainerProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 function TreeContainer(props: TreeContainerProps) {
   const { 
-    calculatedData, treeRef, backgroundPath, rootId, 
+    calculatedData, treeRef, backgroundPath, rootId, title,
     renderNode, zoomToRoot
   } = props;
 
@@ -156,9 +161,7 @@ function TreeContainer(props: TreeContainerProps) {
 
   React.useEffect(() => {
     if (!treeRef.current || !zoomToRoot) return;
-    
     const root = document.querySelector<HTMLDivElement>(`#node-${rootId}`);
-
     const checkRender = () => {
       if (root) {
         zoomToRoot(root, 2);
@@ -166,10 +169,10 @@ function TreeContainer(props: TreeContainerProps) {
         requestAnimationFrame(checkRender); // Keep checking until rendered
       }
     };
-
     requestAnimationFrame(checkRender);
   }, [ ]);
 
+  const root = calculatedData.nodes.find(node => node.id === rootId);
   return (
     <div
       id="tree-canvas"
@@ -181,8 +184,11 @@ function TreeContainer(props: TreeContainerProps) {
         ...handleBackground(),
       }}
     >
+      <TreeHeader 
+        title={title}
+        rootNode={root as ExtNode} 
+      />
       <NodeAndConnector 
-        rootId={rootId}
         calculatedData={calculatedData}
         connectorHeight={connectorHeight}
         connectorWidth={connectorWidth}
@@ -193,20 +199,16 @@ function TreeContainer(props: TreeContainerProps) {
 }
 
 interface NodeAndConntectorProps {
-  rootId: string,
   calculatedData: RelData, 
   connectorWidth: number,
   connectorHeight: number,
   renderNode: (node: any) => React.ReactNode,
 }
 function NodeAndConnector(props: NodeAndConntectorProps) {
-  const { calculatedData, connectorHeight, connectorWidth, renderNode, rootId } = props;
-
-  const root = calculatedData.nodes.find(node => node.id === rootId);
+  const { calculatedData, connectorHeight, connectorWidth, renderNode } = props;
 
   return (
     <>
-      <TreeHeader rootNode={root as ExtNode}/>
       {calculatedData.connectors.map((connector, idx) => (
         <Connector
           key={idx}

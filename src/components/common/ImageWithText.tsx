@@ -26,6 +26,7 @@ export function ImageWithText(props: ImageWithTextProps) {
     wordWrap: 'break-word',
     overflowWrap: 'break-word',
     textAlign: 'center',
+    textTransform: "capitalize",
     ...textStyle
   } as React.CSSProperties;
 

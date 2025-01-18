@@ -1,15 +1,14 @@
 import React from "react";
+import { t } from "i18next";
 
 import { ExtNode } from "components/tree-relatives/types";
-import { useAppContext } from "hooks";
 import { TreeConfig } from "./TreeConfig";
 import { ImageWithText } from "components/common";
 
 import roll from "assets/img/tree/roll.png";
 
-export function TreeHeader({ rootNode }: { rootNode: ExtNode }) {
-  const { userInfo } = useAppContext();
-  if (!userInfo.clanName.length) return <></>;
+export function TreeHeader({ rootNode, title }: { rootNode: ExtNode, title?: string }) {
+  if (!title) return <></>;
 
   const { left } = rootNode as ExtNode;
   const width = TreeConfig.nodeWidth / 2;
@@ -30,7 +29,7 @@ export function TreeHeader({ rootNode }: { rootNode: ExtNode }) {
       }}
     >
       <ImageWithText 
-        src={roll} text={userInfo.clanName}  
+        src={roll} text={`${t("clan")} ${title}`}  
         textStyle={{ fontSize: "2.7rem" }}      
         width={TreeConfig.headerWidth} 
         height={TreeConfig.headerHeight}
