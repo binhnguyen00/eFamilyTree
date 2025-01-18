@@ -6,6 +6,7 @@
   - Chia phần thông tin và nút bấm riêng. Hiện tại có 1 nút xem nhánh của thành viên được chọn. Tương lai sẽ có các nút CRUD.
   - Khi xem nhánh của thành viên, giờ sẽ zoom vào thành viên đó sau 0.5s.
 2. Thêm Bảng hiện tên dòng họ trong phả đồ.
+3. Kiểm thử handlebars cho Module mới: Sớ Online.
 
 # Version 1.0.9
 1. Thêm hệ thống phân quyền.
