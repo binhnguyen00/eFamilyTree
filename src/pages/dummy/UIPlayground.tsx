@@ -7,7 +7,7 @@ import { Button, Text, Stack, Grid } from "zmp-ui";
 
 import { TestApi } from "api";
 import { useNotification, useAppContext, usePageContext } from "hooks";
-import { Header, Loading, SizedBox, SlidingPanel, SlidingPanelOrient, NewsPaperSkeleton } from "components";
+import { Header, Loading, SizedBox, SlidingPanel, SlidingPanelOrient, NewsPaperSkeleton, ScrollableDiv } from "components";
 
 import { Theme } from "types/user-settings";
 import { Module } from "types/app-context";
@@ -179,23 +179,38 @@ function UISkeletonLoading() {
 function UIPetitionLetter() {
   Handlebars.registerHelper('textVertical', function(text) {
     return text.split(' ').map(function(word) {
+      if (word === "/") return `<br/>`;
       return `<p>${word}</p>`;
     }).join('');
   });
   
   const compiledTemplate = Handlebars.compile(petitionLetter);
   const filledTemplate = compiledTemplate({
-    title: "Dynamic Handlebars Title",
-    content: "This content is injected using Handlebars in React.",
-    footer: "Handlebars Footer",
+    col1: "/ Khích Thiết Bình Doanh Chi Phí Cẩn Sơ",
+    col2: "/ Vô Xâm Phạm Chi Ngu Bách Phúc Thiên Tường Thưởng Hưởng Thọ Khang Chi Khánh Nhất Thiết Sở Cầu Vạn Ban Như Ý Đàn Thần Hạ Tình Vô Nhậm",
+    col3: "Đức Đại Khuông Phù Ân Hoàng Tế Độ Dáng Phúc Lưu Ân Trừ Tai Xá Quá Tỉ Thần Đẳng Gia Môn Hanh Thái Bản Mệnh Bình An Tam Tai Bát Nam",
+    col4: "Hồng Từ / / / / / / Đồng Thuỳ / / / / / / Chiếu Giám / / / / / / / Phục Nguyện",
+    col5: "/ Bản Điện Phụng Tự Nhất Thiết Uy Linh / / / / / / / / / / / / / / / / Vị Tiền Cung Vọng",
+    col6: "Tam Toà Vương Mẫu Ngũ Vị HOàng Thái Tử Vương Quan Khàm Sai Công Chúa / / / / / / / / / / Cung Quyết Hạ",
+    col7: "Tam Giới Thiên Chúa Tứ Phủ Vạn Linh Công Đồng Đại Đế / / / / / / / / / / / / / Ngọc Bệ Hạ",
+    col8: "Nam Mô Thập Phương Tam Bảo Chư Đại Bồ Tát / / / / / / / / / / / / / / / Kim Liên Toạ Hạ",
+    col9: "/ Tứ Thiết Kim Ngàn Hương Hoa Lễ Vật Tịnh Cúng Phu Trần Cụ Hữu Sớ Văn Kiền Thân / / Thượng Tẩu / / Cung Duy",
+    col10: "Phật Thánh Khuông Phù Chỉ Đức Tư Phùng Lệnh Tiết / Tiến Lễ Cờ An Giản Nhất Thiết Chi Tai Ương Cờ Vạn Ban Chi Cát Khánh Do Thị Kim Nguyệt",
+    col11: "Ngọc Bệ Phủ Giám PHàm Tâm Ngôn Niệm Thần Đẳng Sinh Cư Dương Thể Số Hệ / / Thiên Cung Hạ Càn Khỏn Phủ Tái Chi Ân Cảm",
+    col12: "",
   });
 
 
   const purified = DOMPurify.sanitize(filledTemplate);
   return (
-    <div
-      dangerouslySetInnerHTML={{ __html: purified }}
-      className="text-base bg-secondary"
-    />
+    <>
+      <Text.Title> {t("Handlebar Template")} </Text.Title>
+      <ScrollableDiv className="bg-secondary" direction="both" height={500}>
+        <div
+          dangerouslySetInnerHTML={{ __html: purified }}
+          className="text-base"
+        />
+      </ScrollableDiv>
+    </>
   );
 }

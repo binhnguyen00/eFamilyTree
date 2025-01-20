@@ -18,7 +18,7 @@ export function ScrollableDiv(props: ScrollableDivProps) {
       case 'horizontal':
         return { overflowX: 'auto', overflowY: 'hidden' };
       default:
-        return { overflow: 'auto' };
+        return { overflowX: 'auto', overflowY: 'auto' };
     }
   };
 
