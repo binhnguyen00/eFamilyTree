@@ -6,6 +6,7 @@ import { useAppContext } from './context/useAppContext';
 import { usePageContext } from "./context/usePageContext";
 import { useRouteNavigate } from "./useRouteNavigate";
 import { useNotification } from "./useNotification";
+import { useBeanObserver } from "./useBeanObserver";
 
 export { 
   useTheme, 
@@ -14,5 +15,6 @@ export {
   useGetPhonePermission,
   useAppContext, usePageContext,
   useRouteNavigate,
-  useNotification
+  useNotification,
+  useBeanObserver,
 };
