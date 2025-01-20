@@ -5,7 +5,7 @@ import { Grid, Stack, Text } from "zmp-ui";
 import { useAppContext, useRouteNavigate } from "hooks";
 import { AppLogo, RequestPhone, SizedBox } from "components";
 
-interface App {
+type App = {
   key: string;
   label: string;
   requirePhone: boolean;
@@ -22,6 +22,7 @@ export function UIHomeAppList() {
     { key: "blogs", label: t("blogs"), requirePhone: true },
     { key: "funds", label: t("funds"), requirePhone: true },
     { key: "certificate", label: t("certificates"), requirePhone: true },
+    { key: "petition-letter", label: t("petition_letter"), requirePhone: false },
     { key: "theme", label: t("theme"), requirePhone: false },
   ];
 
@@ -99,9 +100,9 @@ function AppSymbol({ iconKey }: { iconKey: string }) {
     case "theme":
       return <img key={`ico-${iconKey}`} src={AppLogo.Theme} alt="theme"/>
     case "certificate":
-      return <img key={`ico-${iconKey}`} src={AppLogo.Certificate} alt="theme"/>
-    case "upcoming":
-      return <AppLogo.Upcoming key={`ico-${iconKey}`} size={"3rem"}/>
+      return <img key={`ico-${iconKey}`} src={AppLogo.Certificate} alt="certificate"/>
+    case "petition-letter":
+      return <img key={`ico-${iconKey}`} src={AppLogo.Album} alt="petition-letter"/>
     default: 
       return <AppLogo.Approval key={`ico-${iconKey}`} size={"3rem"}/>
   }

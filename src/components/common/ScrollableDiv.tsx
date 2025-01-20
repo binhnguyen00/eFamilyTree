@@ -6,10 +6,11 @@ interface ScrollableDivProps {
   height?: number | string | "auto";
   direction?: "horizontal" | "vertical" | "both";
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export function ScrollableDiv(props: ScrollableDivProps) {
-  let { width = "auto", height = "auto", direction = "horizontal", children, className } = props; 
+  let { width = "auto", height = "auto", direction = "horizontal", children, className, style } = props; 
 
   const getScrollStyles = (direction: "horizontal" | "vertical" | "both") => {
     switch (direction) {
@@ -26,6 +27,7 @@ export function ScrollableDiv(props: ScrollableDivProps) {
     width: width,
     height: height,
     ...getScrollStyles(direction),
+    ...style
   } as React.CSSProperties;
 
   return (

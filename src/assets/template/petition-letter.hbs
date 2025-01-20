@@ -1,71 +1,112 @@
 <div id="petition-letter" class="flex-h">
-  <div class="text-center">
-    <p> Thiên </p>
-    <br>
-    <br>
-    <p> Vận </p>
-    <br>
-    <img src="src/assets/img/petition.png" style="width: 200px; height: 200px;">
-    <br>
-    <br>
-    <p> Niên </p>
-    <br>
-    <br>
-    <p> Nguyệt </p>
-    <br>
-    <br>
-    <p> Nhật </p>
-    <p> Thần </p>
-    <p> Khấu </p>
-    <p> Thủ </p>
-    <p> Hoà </p>
-    <p> Nam </p>
-    <p> Bách </p>
-    <p> Bái </p>
-    <p> Cụ </p>
-    <p> Sớ </p>
+  <div id="petition-letter-left" class="flex-h">
+    <div id="letter-stamp" class="text-center">
+      <p> Thiên </p>
+      <p> Vận </p>
+      {{{ textVertical "{năm cúng}" }}}
+      {{{ letterStamp }}}
+      <p> Niên </p>
+      {{{ textVertical "{tháng cúng}" }}}
+      <p> Nguyệt </p>
+      {{{ textVertical "{ngày cúng}" }}}
+      {{{ textVertical col0 }}}
+    </div>
+
+    <div>
+      {{{ textVertical col1 }}}
+    </div>
+    
+    <div>
+      {{{ textVertical col2 }}}
+    </div>
+
+    <div>
+      {{{ textVertical col3 }}}
+    </div>
+
+    <div>
+      {{{ textVertical col4 }}}
+    </div>
+
+    <div>
+      {{{ textVertical col5 }}}
+    </div>
+
+    <div>
+      {{{ textVertical col6 }}}
+    </div>
+
+    <div>
+      {{{ textVertical col7 }}}
+    </div>
+
+    <div>
+      {{{ textVertical col8 }}}
+    </div>
+
+    <div>
+      {{{ textVertical col9 }}}
+    </div>
+
+    <div>
+      {{{ textVertical col10 }}}
+    </div>
+
+    <div>
+      {{{ textVertical col11 }}}
+    </div>
   </div>
 
-  <div>
-    {{{ textVertical col1 }}}
-  </div>
-  
-  <div>
-    {{{ textVertical col2 }}}
-  </div>
+  <div id="petition-letter-right" class="flex-h">
+    <div>
+      {{{ textVertical col12 }}}
+      {{{ textVertical topDog }}}
+      {{{ textVertical familyMembers }}}
+    </div>
 
-  <div>
-    {{{ textVertical col3 }}}
-  </div>
+    <div>
+      <p> {{{ textVertical col13_1 }}} </p>
+      <p> {{{ textVertical workshipSeason }}} </p>
+      <p> {{{ textVertical col13_2 }}} </p>
+      <p> {{{ textVertical col13_3 }}} </p> {{!-- replace with actual wish --}}
+    </div>
 
-  <div>
-    {{{ textVertical col4 }}}
-  </div>
+    <div>
+      {{{ textVertical workshipPlace }}}
+      {{{ textVertical col14 }}}
+    </div>
 
-  <div>
-    {{{ textVertical col5 }}}
-  </div>
+    <div>
+      {{{ textVertical col15 }}}
+      {{{ textVertical liveAt }}}
+    </div>
 
-  <div>
-    {{{ textVertical col6 }}}
-  </div>
+    <div>
+      {{{ textVertical col16 }}}
+    </div>
 
-  <div>
-    {{{ textVertical col7 }}}
-  </div>
+    <div>
+      {{{ textVertical col17 }}}
+    </div>
 
-  <div>
-    {{{ textVertical col8 }}}
-  </div>
-
-  <div>
-    {{{ textVertical col9 }}}
-  </div>
-
-  <div>
-    {{{ textVertical col10 }}}
   </div>
 
   <style>
+    #petition-letter {
+      width: 1280px;
+      padding: 2rem;
+    }  
+
+    #petition-letter-left {
+    }
+
+    #petition-letter-right {
+      margin-left: 200px;
+      padding-right: 2rem;
+    }
+
+    #letter-stamp {
+      width: 220px !important;
+    }
   </style>
 </div>
