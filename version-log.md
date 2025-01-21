@@ -1,12 +1,15 @@
 # Version 1.1.0 (Thứ 7, 18/01/2025)
-### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=21)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=22)
 ### Thay đổi
 1. Sửa giao diện Thông tin chi tiết của thành viên trong phả đồ.
   - Giao diện sliding panel.
   - Chia phần thông tin và nút bấm riêng. Hiện tại có 1 nút xem nhánh của thành viên được chọn. Tương lai sẽ có các nút CRUD.
   - Khi xem nhánh của thành viên, giờ sẽ zoom vào thành viên đó sau 0.5s.
 2. Thêm Bảng hiện tên dòng họ trong phả đồ.
-3. Kiểm thử handlebars cho Module mới: Sớ Online.
+3. Thêm module mới: Sớ Online - Online Ritual Script
+ - Nhập nhanh thông tin, từ đó xuất ra một bản sớ dưới dạng ảnh JPG, lưu thẳng vào thư viện ảnh trong máy.
+ - Hiện tại mới chỉ có một loại sớ: Lễ Gia Viên.
+ - Tương lai bổ sung thêm sớ Phúc Lộc Thọ.
 
 # Version 1.0.9
 1. Thêm hệ thống phân quyền.
