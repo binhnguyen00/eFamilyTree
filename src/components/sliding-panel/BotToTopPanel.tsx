@@ -50,7 +50,7 @@ export function BotToTopPanel(props: PanelProps) {
           width: "100%",
           height: `${height ?  `${height}px` : "fit-content"}`,
           overflowY: "auto",
-          zIndex: 9999,
+          zIndex: 8888,
           ...springs,
         }}
         className={`rounded-top bg-primary ${className ? className : ""}`}
@@ -76,7 +76,7 @@ function HeaderSection(props: HeaderSectionProps) {
       style={{
         position: "sticky",
         top: 0,
-        zIndex: 9999,
+        zIndex: 8888,
         height: "fit-content",
       }}
       className="bg-primary p-2 rounded-top"

@@ -27,7 +27,7 @@ export function PanelBackdrop(props: PanelBackdropProps) {
         width: "100%",
         height: "100%",
         backgroundColor: "rgba(0, 0, 0, 0.4)",
-        zIndex: 9998, // Lower zIndex than the panel
+        zIndex: 8887, // Lower zIndex than the panel
         display: display ? "block" : "none",
       }}
       onClick={closeBackDrop}
