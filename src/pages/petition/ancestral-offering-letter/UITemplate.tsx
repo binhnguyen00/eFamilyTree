@@ -13,7 +13,7 @@ import petitionLetter from "assets/template/petition-ancestral-offering.hbs?raw"
 interface UIAncestralOfferingTemplateProps {
   form: RitualScriptForm;
 }
-export const UIAncestralOfferingTemplate = React.forwardRef<HTMLDivElement, UIAncestralOfferingTemplateProps>((props: UIAncestralOfferingTemplateProps, ref) =>  {
+export function UIAncestralOfferingTemplate(props: UIAncestralOfferingTemplateProps) {
   let { form } = props;
 
   Handlebars.registerHelper('textVertical', function(text) {
@@ -70,14 +70,14 @@ export const UIAncestralOfferingTemplate = React.forwardRef<HTMLDivElement, UIAn
   }
 
   const createPerson = (person?: RitualScriptMember) => {
+    let content: string = "";
     if (!person) return "";
     else {
-      let content: string = "";
-      if (person.name) content.concat(person.name);
-      if (person.birth) content.concat(` Bản Mệnh Sinh Hư ${person.birth}`);
-      if (person.age) content.concat(` Hành ${person.age}`);
-      return content;
+      if (person.name) content += person.name;
+      if (person.birth) content += ` Bản Mệnh Sinh Hư ${person.birth}`;
+      if (person.age) content += ` Hành ${person.age}`;
     }
+    return content;
   }
 
   const createFamilyMembers = (members?: RitualScriptMember[]) => {
@@ -100,7 +100,6 @@ export const UIAncestralOfferingTemplate = React.forwardRef<HTMLDivElement, UIAn
   return (
     <div 
       id="petition-ancestral-offering-letter"
-      ref={ref} 
       style={{ 
         backgroundImage: `url(${background})`,
         backgroundRepeat: "no-repeat",
@@ -120,4 +119,4 @@ export const UIAncestralOfferingTemplate = React.forwardRef<HTMLDivElement, UIAn
       </ScrollableDiv>
     </div>
   );
-});
+}

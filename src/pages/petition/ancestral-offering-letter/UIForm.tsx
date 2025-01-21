@@ -43,10 +43,8 @@ export function UIAncestralOfferingForm() {
   const membersObserver = useBeanObserver(form.familyMembers);
 
   const { loadingToast } = useNotification();
-  const { userInfo, serverBaseUrl } = useAppContext();
 
   const [ preview, setPreview ] = React.useState<boolean>(false);
-  const ref = React.createRef<HTMLDivElement>();
 
   const exportPNG = () => {
     loadingToast(
@@ -55,51 +53,33 @@ export function UIAncestralOfferingForm() {
         <p> {t("please_wait")} </p>
       </div>,
       (onSuccess, onFail) => {
-        if (!ref.current) return;
-
-        const originalStyles = {
-          width: ref.current.style.width,
-          height: ref.current.style.height,
-          overflow: ref.current.style.overflow,
-          borderRadius: ref.current.style.borderRadius,
-        };
-        // Set temporary styles for capturing the image
-        ref.current.style.width = "1920px";
-        ref.current.style.height = "1080px";
-        ref.current.style.overflow = "visible";
-
         const element = document.getElementById('petition-ancestral-offering-letter');
-        if (!element) {
-          onFail(t("download_fail"));
-          return;
+        if (!element) { 
+          onFail(t("download_fail")); return;
         };
 
-        html2canvas(element).then((canvas) => {
-          const base64 = canvas.toDataURL().split(",")[1];
-          RitualScriptApi.exportPNG(
-            userInfo.id, userInfo.clanId, base64, 
-            (result: ServerResponse) => { // success
-              if (result.status === "success") {
-                onSuccess(
-                  <div>
-                    <p> {t("download_success")} </p>
-                    <p> {t("check_your_gallery")} </p>
-                  </div>
-                );
-                const data = result.data;
-                ZmpSDK.downloadFile(`${serverBaseUrl}/${data.path}`);
-              }
-            },
+        html2canvas(element, { 
+          width: 1920, 
+          height: 1080, 
+          windowWidth: 1920, 
+          windowHeight: 1080, 
+          useCORS: true,
+        }).then((canvas) => {
+          const base64 = canvas.toDataURL("image/jpg", 70);
+          ZmpSDK.saveImageToGallery(
+            base64, 
+            () => onSuccess(
+              <div>
+                <p> {t("download_success")} </p>
+                <p> {t("check_your_gallery")} </p>
+              </div>
+            ), 
             () => onFail(t("download_fail"))
-          )
+          );
         }).catch((err) => {
           console.error("Error exporting to PNG:", err);
           onFail(t("download_fail"));
-        }).finally(() => {
-          ref.current!.style.width = originalStyles.width;
-          ref.current!.style.height = originalStyles.height;
-          ref.current!.style.overflow = originalStyles.overflow;
-        });
+        })
       }
     )
   }
@@ -131,7 +111,6 @@ export function UIAncestralOfferingForm() {
         close={() => setPreview(false)}
       >
         <UIAncestralOfferingTemplate 
-          ref={ref}
           form={{
             ...observer.getBean(),
             topDog: topDogObserver.getBean(),
