@@ -22,7 +22,7 @@ import { UIRegister } from "pages/user/UIRegister";
 import { UIRegisterClan } from "pages/user/UIRegisterClan";
 import { UIGallery } from 'pages/gallery/UIGallery';
 import { UIDummyGallery } from "./dummy/UIDummyGallery";
-import { UIPetitionLetter } from "pages/petition/UIPetitionLetter";
+import { UIRitualScript } from "pages/petition/UIRitualScript";
 
 import { useRouteNavigate } from "hooks";
 
@@ -70,7 +70,7 @@ export function AppRoutes() {
       <Route path={createPath("certificate/list")} element={<UICertificate />}/>
       <Route path={createPath("certificate/list/info")} element={<UICertificateDetail />} />
 
-      <Route path={createPath("petition-letter")} element={<UIPetitionLetter />}/>
+      <Route path={createPath("ritual-script")} element={<UIRitualScript />}/>
 
       {/* DEMO ROUTES */}
       <Route path="/dev" element={<UIDeveloper />}/>

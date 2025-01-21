@@ -22,7 +22,7 @@ export function UIHomeAppList() {
     { key: "blogs", label: t("blogs"), requirePhone: true },
     { key: "funds", label: t("funds"), requirePhone: true },
     { key: "certificate", label: t("certificates"), requirePhone: true },
-    { key: "petition-letter", label: t("petition_letter"), requirePhone: false },
+    { key: "ritual-script", label: t("ritual_script"), requirePhone: false },
     { key: "theme", label: t("theme"), requirePhone: false },
   ];
 
@@ -101,8 +101,8 @@ function AppSymbol({ iconKey }: { iconKey: string }) {
       return <img key={`ico-${iconKey}`} src={AppLogo.Theme} alt="theme"/>
     case "certificate":
       return <img key={`ico-${iconKey}`} src={AppLogo.Certificate} alt="certificate"/>
-    case "petition-letter":
-      return <img key={`ico-${iconKey}`} src={AppLogo.Album} alt="petition-letter"/>
+    case "ritual-script":
+      return <img key={`ico-${iconKey}`} src={AppLogo.RitualScript} alt="ritual-script"/>
     default: 
       return <AppLogo.Approval key={`ico-${iconKey}`} size={"3rem"}/>
   }

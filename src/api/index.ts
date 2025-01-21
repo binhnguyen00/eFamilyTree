@@ -8,7 +8,7 @@ import { GalleryApi } from "./GalleryApi";
 import { SocialPostApi } from "./SocialPostApi";
 import { TestApi } from "./TestApi";
 import { UserSettingApi } from './UserSettingApi';
-import { PetitionLetterApi } from "./PetitionLetterApi";
+import { RitualScriptApi } from "./RitualScriptApi";
 
 export {
   AccountApi, 
@@ -21,5 +21,5 @@ export {
   SocialPostApi, 
   TestApi, 
   UserSettingApi,
-  PetitionLetterApi,
+  RitualScriptApi,
 };

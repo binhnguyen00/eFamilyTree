@@ -1,7 +1,7 @@
 import { BaseApi } from "./BaseApi";
 import { SuccessCB, FailCB } from "types/server"
 
-export class PetitionLetterApi extends BaseApi {
+export class RitualScriptApi extends BaseApi {
 
   public static exportPNG(userId: number, clanId: number, base64: string, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();

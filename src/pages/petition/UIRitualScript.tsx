@@ -24,14 +24,14 @@ const colourStyles: StylesConfig<any> = {
   }
 }
 
-export function UIPetitionLetter() {
-  const [ petitionContainer, setContainer ] = React.useState<React.ReactNode>(
+export function UIRitualScript() {
+  const [ scriptContainer, setContainer ] = React.useState<React.ReactNode>(
     <UIAncestralOfferingForm/>
   );
 
   return (
     <div className="container">
-      <Header title={t("petition_letter")}/>
+      <Header title={t("ritual_script")}/>
 
       <div className="flex-v">
         <Text.Title>
@@ -50,7 +50,7 @@ export function UIPetitionLetter() {
       <Divider size={0}/>
 
       <React.Fragment>
-        {petitionContainer}
+        {scriptContainer}
       </React.Fragment>
     </div>
   )

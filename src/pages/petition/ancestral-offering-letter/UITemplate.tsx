@@ -3,7 +3,7 @@ import Handlebars from "handlebars";
 import DOMPurify from "dompurify";
 
 import { ScrollableDiv } from "components";
-import type { PetitionLetterForm, PetitionLetterPerson } from "./UIForm";
+import type { RitualScriptForm, RitualScriptMember } from "./UIForm";
 
 import stamp from "assets/img/petition/ancestral-offering/tam-bao.png";
 import background from "assets/img/petition/ancestral-offering/background.jpg"
@@ -11,7 +11,7 @@ import petitionLetter from "assets/template/petition-ancestral-offering.hbs?raw"
 
 /** Sớ Lễ Gia Tiên */
 interface UIAncestralOfferingTemplateProps {
-  form: PetitionLetterForm;
+  form: RitualScriptForm;
 }
 export const UIAncestralOfferingTemplate = React.forwardRef<HTMLDivElement, UIAncestralOfferingTemplateProps>((props: UIAncestralOfferingTemplateProps, ref) =>  {
   let { form } = props;
@@ -69,7 +69,7 @@ export const UIAncestralOfferingTemplate = React.forwardRef<HTMLDivElement, UIAn
     workshipPlace: "Tại Gia"
   }
 
-  const createPerson = (person?: PetitionLetterPerson) => {
+  const createPerson = (person?: RitualScriptMember) => {
     if (!person) return "";
     else {
       let content: string = "";
@@ -80,7 +80,7 @@ export const UIAncestralOfferingTemplate = React.forwardRef<HTMLDivElement, UIAn
     }
   }
 
-  const createFamilyMembers = (members?: PetitionLetterPerson[]) => {
+  const createFamilyMembers = (members?: RitualScriptMember[]) => {
     if (!members) return "";
     else return members.map((mem) => createPerson(mem)).join(",")
   }
@@ -102,7 +102,6 @@ export const UIAncestralOfferingTemplate = React.forwardRef<HTMLDivElement, UIAn
       id="petition-ancestral-offering-letter"
       ref={ref} 
       style={{ 
-        // backgroundColor: `rgb(235, 207, 25)`,
         backgroundImage: `url(${background})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",

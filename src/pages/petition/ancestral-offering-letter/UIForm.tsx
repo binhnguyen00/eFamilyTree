@@ -4,33 +4,31 @@ import html2canvas from "html2canvas";
 import { Button, Input, Text } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
-import { PetitionLetterApi } from "api";
+import { RitualScriptApi } from "api";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 import { BeanObserver, CommonIcon, Divider, SlidingPanel, SlidingPanelOrient } from "components";
+import { ServerResponse } from "types/server";
 
 import { UIAncestralOfferingTemplate } from "./UITemplate";
-
-import background from "assets/img/petition/ancestral-offering/background.jpg"
-import { FailResponse, ServerResponse } from "types/server";
 
 const Label = ({ label }: { label: string }) => <p className="text-primary"> {t(label)} </p>
 const Title = ({ label }: { label: string }) => <Text.Title className="text-primary"> {t(label)} </Text.Title>
 
 /** Sớ Lễ Gia Viên */
 
-export type PetitionLetterPerson = {
+export type RitualScriptMember = {
   name?: string;
   birth?: string;
   age?: string;
   address?: string;
 }
-export type PetitionLetterForm = {
+export type RitualScriptForm = {
   yearCreate?: string;
   monthCreate?: string;
   dayCreate?: string;
   liveAt?: string;
-  topDog: PetitionLetterPerson;
-  familyMembers: PetitionLetterPerson[];
+  topDog: RitualScriptMember;
+  familyMembers: RitualScriptMember[];
   workshipSeason?: string;
   workshipPlace?: string;
 }
@@ -38,7 +36,7 @@ export function UIAncestralOfferingForm() {
   const form = {
     topDog: {},
     familyMembers: []
-  } as PetitionLetterForm;
+  } as RitualScriptForm;
 
   const observer = useBeanObserver(form);
   const topDogObserver = useBeanObserver(form.topDog);
@@ -78,7 +76,7 @@ export function UIAncestralOfferingForm() {
 
         html2canvas(element).then((canvas) => {
           const base64 = canvas.toDataURL().split(",")[1];
-          PetitionLetterApi.exportPNG(
+          RitualScriptApi.exportPNG(
             userInfo.id, userInfo.clanId, base64, 
             (result: ServerResponse) => { // success
               if (result.status === "success") {
@@ -146,7 +144,7 @@ export function UIAncestralOfferingForm() {
 }
 
 function UIBasicForm({ observer } : {
-  observer: BeanObserver<PetitionLetterForm>, 
+  observer: BeanObserver<RitualScriptForm>, 
 }) {
   
   return (
@@ -196,7 +194,7 @@ function UIBasicForm({ observer } : {
 }
 
 function UIHouseOwnerForm({ observer }: { 
-  observer: BeanObserver<PetitionLetterPerson>, 
+  observer: BeanObserver<RitualScriptMember>, 
 }) {
 
   return (
@@ -245,7 +243,7 @@ function UIHouseOwnerForm({ observer }: {
 }
 
 function UIFamilyMembersForm({ observer }: { 
-  observer: BeanObserver<PetitionLetterPerson[]>, 
+  observer: BeanObserver<RitualScriptMember[]>, 
 }) {
   const [people, setPeople] = React.useState<number[]>([]);
   
