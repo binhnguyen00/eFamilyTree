@@ -30,4 +30,13 @@ export class CommonUtils {
       return;
     } else reader.readAsDataURL(obj);
   }
+
+  static getDivById(id: string): HTMLElement | null {
+    const div = document.getElementById(id);
+    if (!div) {
+      console.warn(`getDivById\n div with id ${id} is not found`);
+      return null;
+    }
+    return div;
+  }
 }

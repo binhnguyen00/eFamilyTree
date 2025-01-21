@@ -126,14 +126,27 @@ export class ZmpSDK {
     })
   }
 
-  public static saveImageToGallery(base64: string, successCB: CallBack, failCB?: CallBack, onProgress?: (progress: number) => void) {
+  public static saveImageToGallery(base64: string, successCB?: CallBack, failCB?: CallBack) {
     saveImageToGallery({
       imageBase64Data: base64,
-      onProgress: (progress: number) => {
-        if (onProgress) onProgress(progress)
-      },
       success() {
-        successCB({
+        if (successCB) successCB({
+          status: "success",
+          message: "download successfully",
+          data: null
+        });
+      },
+      fail: (error) => {
+        if (failCB) failCB(error)
+      },
+    })
+  }
+
+  public static downloadImageToGallery(path: string, successCB?: CallBack, failCB?: CallBack) {
+    saveImageToGallery({
+      imageUrl: path,
+      success() {
+        if (successCB) successCB({
           status: "success",
           message: "download successfully",
           data: null

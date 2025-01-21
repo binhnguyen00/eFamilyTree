@@ -11,7 +11,7 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { FaFilePdf } from "react-icons/fa6";
 import { BiSolidFilePng, BiSolidFileJpg } from "react-icons/bi";
 import { BsFiletypeSvg } from "react-icons/bs";
-import { FaCloudDownloadAlt } from "react-icons/fa";
+import { IoIosCloudDownload } from "react-icons/io";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { IoIosCloseCircle } from "react-icons/io";
 import { HiOutlineDotsVertical } from "react-icons/hi";
@@ -42,7 +42,7 @@ export const CommonIcon = {
   PNG: BiSolidFilePng,
   JPG: BiSolidFileJpg,
   SVG: BsFiletypeSvg,
-  CloudDownload: FaCloudDownloadAlt,
+  CloudDownload: IoIosCloudDownload,
   CloseCircle: IoIosCloseCircle,
   VerticalDots: HiOutlineDotsVertical,
 };

@@ -3,14 +3,19 @@ import Handlebars from "handlebars";
 import DOMPurify from "dompurify";
 
 import { ScrollableDiv } from "components";
-import type { PetitionLetterForm, PetitionLetterPerson } from "./UIPetitionLetterForm";
+import type { PetitionLetterForm, PetitionLetterPerson } from "./UIForm";
 
-import stamp from "assets/img/petition/tam-bao.png";
-import petitionLetter from "assets/template/petition-letter.hbs?raw";
+import stamp from "assets/img/petition/ancestral-offering/tam-bao.png";
+import background from "assets/img/petition/ancestral-offering/background.jpg"
+import petitionLetter from "assets/template/petition-ancestral-offering.hbs?raw";
 
-export function UIPetitionLetterTemplate({ form }: { form: PetitionLetterForm }) {
-  console.log(form);
-  
+/** Sớ Lễ Gia Tiên */
+interface UIAncestralOfferingTemplateProps {
+  form: PetitionLetterForm;
+}
+export const UIAncestralOfferingTemplate = React.forwardRef<HTMLDivElement, UIAncestralOfferingTemplateProps>((props: UIAncestralOfferingTemplateProps, ref) =>  {
+  let { form } = props;
+
   Handlebars.registerHelper('textVertical', function(text) {
     return text.split(' ').map(function(word) {
       if (word === "/") return `<br/>`;
@@ -66,16 +71,18 @@ export function UIPetitionLetterTemplate({ form }: { form: PetitionLetterForm })
 
   const createPerson = (person?: PetitionLetterPerson) => {
     if (!person) return "";
-    else 
-      return `${person.name} Bản Mệnh Sinh Hư ${person.birth} Hành ${person.age}`
+    else {
+      let content: string = "";
+      if (person.name) content.concat(person.name);
+      if (person.birth) content.concat(` Bản Mệnh Sinh Hư ${person.birth}`);
+      if (person.age) content.concat(` Hành ${person.age}`);
+      return content;
+    }
   }
 
   const createFamilyMembers = (members?: PetitionLetterPerson[]) => {
-    console.log(members);
-    
     if (!members) return "";
-    else 
-      return members.map((mem) => createPerson(mem)).join(", ")
+    else return members.map((mem) => createPerson(mem)).join(",")
   }
 
   // update template value
@@ -91,16 +98,27 @@ export function UIPetitionLetterTemplate({ form }: { form: PetitionLetterForm })
   const filledTemplate = compiledTemplate(templateData);
   const purified = DOMPurify.sanitize(filledTemplate);
   return (
-    <ScrollableDiv 
-      className="rounded" 
-      direction="both"
-      style={{ backgroundColor: `rgb(252, 219, 3)` }}
-      height={"80vh"}
+    <div 
+      id="petition-ancestral-offering-letter"
+      ref={ref} 
+      style={{ 
+        // backgroundColor: `rgb(235, 207, 25)`,
+        backgroundImage: `url(${background})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: "75vh"
+      }}
     >
-      <div
-        dangerouslySetInnerHTML={{ __html: purified }}
-        className="text-base"
-      />
-    </ScrollableDiv>
+      <ScrollableDiv 
+        direction="both"
+        height={"inherit"}
+      >
+        <div
+          dangerouslySetInnerHTML={{ __html: purified }}
+          className="text-base"
+        />
+      </ScrollableDiv>
+    </div>
   );
-}
+});

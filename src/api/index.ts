@@ -8,7 +8,18 @@ import { GalleryApi } from "./GalleryApi";
 import { SocialPostApi } from "./SocialPostApi";
 import { TestApi } from "./TestApi";
 import { UserSettingApi } from './UserSettingApi';
+import { PetitionLetterApi } from "./PetitionLetterApi";
 
 export {
-  AccountApi, BaseApi, CalendarApi, CertificateApi, FamilyTreeApi, FundApi, GalleryApi, SocialPostApi, TestApi, UserSettingApi
+  AccountApi, 
+  BaseApi, 
+  CalendarApi, 
+  CertificateApi, 
+  FamilyTreeApi, 
+  FundApi, 
+  GalleryApi, 
+  SocialPostApi, 
+  TestApi, 
+  UserSettingApi,
+  PetitionLetterApi,
 };
