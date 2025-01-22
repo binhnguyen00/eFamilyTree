@@ -12,21 +12,19 @@ import "../i18n";
 
 function Application() {
   return (
-    <React.StrictMode>
-      <ZaloApp>
-        <ThemeProvider>
-          <ApplicationProvider>
-            <NotificationProvider>
-              <Router>
-                <AppRoutes/>
-                <Navigation/>
-                <PagePositionSaver />
-              </Router>
-            </NotificationProvider>
-          </ApplicationProvider>
-        </ThemeProvider>
-      </ZaloApp>
-    </React.StrictMode>
+    <ZaloApp>
+      <ThemeProvider>
+        <ApplicationProvider>
+          <NotificationProvider>
+            <Router>
+              <AppRoutes/>
+              <Navigation/>
+              <PagePositionSaver />
+            </Router>
+          </NotificationProvider>
+        </ApplicationProvider>
+      </ThemeProvider>
+    </ZaloApp>
   );
 };
 

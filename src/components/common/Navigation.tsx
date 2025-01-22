@@ -8,13 +8,17 @@ import { useAppContext, useRouteNavigate } from "hooks";
 export function Navigation() {
   const { appId } = useAppContext();
   const { currentPath } = useRouteNavigate();
-  const NO_BOTTOM_NAVIGATION_PAGES = [`/zapps/${appId}/family-tree`, "/dev/tree"];
+
+  const REMOVE_NAVIGATION = [
+    `/zapps/${appId}/family-tree`, 
+    `/zapps/${appId}/dev/tree`,
+    `/zapps/${appId}/memorial-location`,
+  ];
 
   const noBottomNav = React.useMemo(() => {
-    return NO_BOTTOM_NAVIGATION_PAGES.includes(currentPath);
+    return REMOVE_NAVIGATION.includes(currentPath);
   }, [currentPath]);
   if (noBottomNav) return null;
-
 
   return (
     <div className="nav-bar flex-h">

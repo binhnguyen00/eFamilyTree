@@ -23,6 +23,7 @@ import { UIRegisterClan } from "pages/user/UIRegisterClan";
 import { UIGallery } from 'pages/gallery/UIGallery';
 import { UIDummyGallery } from "./dummy/UIDummyGallery";
 import { UIRitualScript } from "pages/ritual-script/UIRitualScript";
+import { UIMemorialMap } from "pages/memorial-map/UIMemorialMap"; 
 
 import { useRouteNavigate } from "hooks";
 
@@ -71,6 +72,7 @@ export function AppRoutes() {
       <Route path={createPath("certificate/list/info")} element={<UICertificateDetail />} />
 
       <Route path={createPath("ritual-script")} element={<UIRitualScript />}/>
+      <Route path={createPath("memorial-location")} element={<UIMemorialMap />}/>
 
       {/* DEMO ROUTES */}
       <Route path={createPath("/dev")} element={<UIDeveloper />}/>
