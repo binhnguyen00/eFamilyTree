@@ -10,24 +10,42 @@ type App = {
   label: string;
   requirePhone: boolean;
 }
+
+const apps: App[] = [
+  { key: "family-tree",       label: t("family_tree"),       requirePhone: true },
+  { key: "gallery",           label: t("gallery"),           requirePhone: true },
+  { key: "calendar",          label: t("calendar"),          requirePhone: true },
+  { key: "blogs",             label: t("blogs"),             requirePhone: true },
+  { key: "funds",             label: t("funds"),             requirePhone: true },
+  { key: "certificate",       label: t("certificates"),      requirePhone: true },
+  { key: "ritual-script",     label: t("ritual_script"),     requirePhone: false },
+  { key: "memorial-location", label: t("memorial_location"), requirePhone: false },
+  { key: "theme",             label: t("theme"),             requirePhone: false },
+];
+
 export function UIHomeAppList() {
+  return (
+    <Stack space="0.5rem">
+      <Text.Title 
+        size="xLarge" 
+        className="text-capitalize text-shadow"
+      > 
+        {t("utilities")} 
+      </Text.Title>
+
+      <Grid columnCount={4} rowSpace="0.5rem">
+        <AppList apps={apps}/>
+      </Grid>
+    </Stack>
+  )
+}
+
+function AppList({ apps }: { apps: App[] }) {
   const { goTo } = useRouteNavigate();
   const { logedIn } = useAppContext();
   const [ requestPhone, setRequestPhone ] = React.useState(false); 
 
-  const apps: App[] = [
-    { key: "family-tree", label: t("family_tree"), requirePhone: true },
-    { key: "gallery", label: t("gallery"), requirePhone: true },
-    { key: "calendar", label: t("calendar"), requirePhone: true },
-    { key: "blogs", label: t("blogs"), requirePhone: true },
-    { key: "funds", label: t("funds"), requirePhone: true },
-    { key: "certificate", label: t("certificates"), requirePhone: true },
-    { key: "ritual-script", label: t("ritual_script"), requirePhone: false },
-    { key: "memorial-location", label: t("memorial_location"), requirePhone: false },
-    { key: "theme", label: t("theme"), requirePhone: false },
-  ];
-
-  const handleUserSelectApp = (appKey: string, requirePhone: boolean) => {
+  const onSelectApp = (appKey: string, requirePhone: boolean) => {
     if (requirePhone && !logedIn) {
       setRequestPhone(true);
     } else {
@@ -35,33 +53,26 @@ export function UIHomeAppList() {
     }
   }
 
-  const renderApps = () => {
-    let html = [] as React.ReactNode[];
-    apps.map((app, index) => {
-      html.push(
-        <AppButton 
-          key={app.key} 
-          appKey={app.key} 
-          label={app.label} 
-          onClick={() => handleUserSelectApp(app.key, app.requirePhone)}
-        />
-      )
-    })
-    return html;
-  }
+  let html: React.ReactNode[] = [];
+  apps.map((app, index) => {
+    html.push(
+      <AppButton 
+        key={app.key} 
+        appKey={app.key} 
+        label={app.label} 
+        onClick={() => onSelectApp(app.key, app.requirePhone)}
+      />
+    )
+  })
 
   return (
-    <Stack space="0.5rem">
-
-      <Text.Title size="xLarge" className="text-capitalize text-shadow"> {t("utilities")} </Text.Title>
-
-      <Grid columnCount={4} rowSpace="0.5rem">
-        {renderApps()}
-      </Grid>
-
-      <RequestPhone visible={requestPhone} closeSheet={() => setRequestPhone(false)}/>
-
-    </Stack>
+    <React.Fragment>
+      {html}
+      <RequestPhone 
+        visible={requestPhone} 
+        closeSheet={() => setRequestPhone(false)}
+      />
+    </React.Fragment>
   )
 }
 
