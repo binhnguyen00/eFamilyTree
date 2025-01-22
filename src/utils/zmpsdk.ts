@@ -5,7 +5,8 @@ import {
   getUserInfo, 
   openWebview,
   saveImageToGallery,
-  downloadFile
+  downloadFile,
+  getLocation,
 } from 'zmp-sdk/apis';
 import { ExternalRESTful } from "server";
 import { CallBack } from "types/server";
@@ -154,6 +155,17 @@ export class ZmpSDK {
       },
       fail: (error) => {
         if (failCB) failCB(error)
+      },
+    })
+  }
+
+  public static getLocation(successCB: CallBack, failCB?: CallBack) {
+    getLocation({
+      success(res) {
+        successCB(res);
+      },
+      fail(err) {
+        if (failCB) failCB(err);
       },
     })
   }

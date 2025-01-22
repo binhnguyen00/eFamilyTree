@@ -3,6 +3,7 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Text, Stack, Grid } from "zmp-ui";
 
+import { ZmpSDK } from "utils";
 import { TestApi } from "api";
 import { useNotification, useAppContext, usePageContext } from "hooks";
 import { Header, Loading, SizedBox, SlidingPanel, SlidingPanelOrient, NewsPaperSkeleton } from "components";
@@ -19,6 +20,8 @@ export function UIPlayground() {
   return (
     <Stack space="1rem" className="container">
       <Header title={t("playground")}/>
+
+      <UILocationPermission/>
 
       <UISkeletonLoading/>
 
@@ -168,5 +171,23 @@ function UISkeletonLoading() {
         }
       />
     </div>
+  )
+}
+
+function UILocationPermission() {
+  const getLocation = () => {
+    const success = (location: any) => {
+      console.log(location);
+    } 
+    const fail = (error: any) => {
+      console.log(error);
+    }
+    ZmpSDK.getLocation(success, fail);
+  }
+
+  return (
+    <Button variant="secondary" size="small" onClick={getLocation}>
+      Get Location
+    </Button>
   )
 }

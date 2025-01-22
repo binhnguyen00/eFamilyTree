@@ -23,6 +23,7 @@ export function UIHomeAppList() {
     { key: "funds", label: t("funds"), requirePhone: true },
     { key: "certificate", label: t("certificates"), requirePhone: true },
     { key: "ritual-script", label: t("ritual_script"), requirePhone: false },
+    { key: "memorial-location", label: t("memorial_location"), requirePhone: false },
     { key: "theme", label: t("theme"), requirePhone: false },
   ];
 

@@ -20,7 +20,7 @@ export function UIDeveloper() {
     "dev/calendar": t("demo_calendar"),
     "dev/blogs": t("demo_blogs"),
   }
-  const { jumpTo } = useRouteNavigate();
+  const { goTo } = useRouteNavigate();
 
   const renderFunctions = () => {
     let html = [] as React.ReactNode[];
@@ -35,7 +35,7 @@ export function UIDeveloper() {
               height: 120, 
               borderRadius: 30, 
             }} 
-            onClick={() => jumpTo({path: key})}
+            onClick={() => goTo({path: key})}
           >
             {renderIcon(key)}
           </Button>

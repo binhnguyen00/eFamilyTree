@@ -73,43 +73,43 @@ export function AppRoutes() {
       <Route path={createPath("ritual-script")} element={<UIRitualScript />}/>
 
       {/* DEMO ROUTES */}
-      <Route path="/dev" element={<UIDeveloper />}/>
-      <Route path="/dev/playground" element={
+      <Route path={createPath("/dev")} element={<UIDeveloper />}/>
+      <Route path={createPath("/dev/playground")} element={
         <React.Suspense fallback={<Loading />}>
           <UIPlayground />
         </React.Suspense>
       } />
-      <Route path="/dev/funds" element={
+      <Route path={createPath("/dev/funds")} element={
         <React.Suspense fallback={<Loading />}>
           <UIDummyFund />
         </React.Suspense>
       }/>
-      <Route path="/dev/funds/detail" element={
+      <Route path={createPath("/dev/funds/detail")} element={
         <React.Suspense fallback={<Loading />}>
           <UIDummyFundDetail />
         </React.Suspense>
       } />
-      <Route path="/dev/tree" element={
+      <Route path={createPath("/dev/tree")} element={
         <React.Suspense fallback={<Loading />}>
           <UIDummyTree />
         </React.Suspense>
       } />
-      <Route path="/dev/calendar" element={
+      <Route path={createPath("/dev/calendar")} element={
         <React.Suspense fallback={<Loading />}>
           <UIDummyCalendar />
         </React.Suspense>
       } />
-      <Route path="/dev/blogs" element={
+      <Route path={createPath("/dev/blogs")} element={
         <React.Suspense fallback={<Loading />}>
           <UIDummyBlog />
         </React.Suspense>
       } />
-      <Route path="/dev/gallery" element={
+      <Route path={createPath("/dev/gallery")} element={
         <React.Suspense fallback={<Loading />}>
           <UIDummyGallery />
         </React.Suspense>
       } />
-      <Route path="/dev/dummy-detail" element={
+      <Route path={createPath("/dev/dummy-detail")} element={
         <React.Suspense fallback={<Loading />}>
           <UIDummyNavigate />
         </React.Suspense>
