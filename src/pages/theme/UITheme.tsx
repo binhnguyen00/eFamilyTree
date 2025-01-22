@@ -8,7 +8,7 @@ import { useAppContext } from "hooks";
 import { Header, SizedBox } from "components";
 
 import { Theme } from "types/user-settings";
-import { FailResponse, ServerResponse } from "types/server";
+import { ServerResponse } from "types/server";
 
 import themeRed from "assets/img/theme/theme-red.jpeg";
 import themeGreen from "assets/img/theme/theme-green.jpeg";
@@ -27,6 +27,16 @@ export function UITheme() {
 }
 
 export function UIThemeList() {
+  return (
+    <>
+      <ThemeCard theme={Theme.DEFAULT} src={themeRed}/>
+      <ThemeCard theme={Theme.BLUE} src={themeBlue}/>
+      <ThemeCard theme={Theme.GREEN} src={themeGreen}/>
+    </>
+  )
+}
+
+function ThemeCard({ theme, src }: { theme: Theme, src: string }) {
   const { userInfo, settings, updateSettings } = useAppContext();
 
   const saveTheme = (theme: Theme) => {
@@ -34,56 +44,23 @@ export function UIThemeList() {
       const settings = result.data;
       updateSettings(settings)
     }
-    const fail = (error: FailResponse) => {
-      console.error(error);
-    }
     const target = {
       ...settings,
       theme: theme
     }
-    UserSettingApi.updateOrCreate(userInfo.id, userInfo.clanId, target, success, fail);
+    UserSettingApi.updateOrCreate(userInfo.id, userInfo.clanId, target, success);
   }
 
   return (
-    <>
-      <Stack space="0.5rem" className="center text-capitalize">
-        <SizedBox 
-          className="button"
-          width={150} 
-          height={100} 
-          border
-          onClick={() => saveTheme(Theme.DEFAULT)}
-        >
-          <img src={themeRed} alt="theme red"/>
-        </SizedBox>
-        <Text> {t("theme_red")} </Text>
-      </Stack>
-
-      <Stack space="0.5rem" className="center text-capitalize">
-        <SizedBox 
-          className="button"
-          width={150} 
-          height={100} 
-          border
-          onClick={() => saveTheme(Theme.BLUE)}
-        >
-          <img src={themeBlue} alt="theme blue"/>
-        </SizedBox>
-        <Text> {t("theme_blue")} </Text>
-      </Stack>
-
-      <Stack space="0.5rem" className="center text-capitalize">
-        <SizedBox 
-          className="button"
-          width={150} 
-          height={100} 
-          border
-          onClick={() => saveTheme(Theme.GREEN)}
-        >
-          <img src={themeGreen} alt="theme green"/>
-        </SizedBox>
-        <Text> {t("theme_green")} </Text>
-      </Stack>
-    </>
+    <Stack space="0.5rem" className="center text-capitalize">
+      <SizedBox 
+        className="button"
+        width={150} height={100} border
+        onClick={() => saveTheme(theme)}
+      >
+        <img src={src} alt="theme green"/>
+      </SizedBox>
+      <Text className="text-primary bold"> {t("theme_green")} </Text>
+    </Stack>
   )
 }

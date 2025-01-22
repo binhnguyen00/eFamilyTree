@@ -11,19 +11,18 @@ type App = {
   requirePhone: boolean;
 }
 
-const apps: App[] = [
-  { key: "family-tree",       label: t("family_tree"),       requirePhone: true },
-  { key: "gallery",           label: t("gallery"),           requirePhone: true },
-  { key: "calendar",          label: t("calendar"),          requirePhone: true },
-  { key: "blogs",             label: t("blogs"),             requirePhone: true },
-  { key: "funds",             label: t("funds"),             requirePhone: true },
-  { key: "certificate",       label: t("certificates"),      requirePhone: true },
-  { key: "ritual-script",     label: t("ritual_script"),     requirePhone: false },
-  { key: "memorial-location", label: t("memorial_location"), requirePhone: false },
-  { key: "theme",             label: t("theme"),             requirePhone: false },
-];
-
 export function UIHomeAppList() {
+  const apps: App[] = [
+    { key: "family-tree",       label: t("family_tree"),       requirePhone: true },
+    { key: "gallery",           label: t("gallery"),           requirePhone: true },
+    { key: "calendar",          label: t("calendar"),          requirePhone: true },
+    { key: "blogs",             label: t("blogs"),             requirePhone: true },
+    { key: "funds",             label: t("funds"),             requirePhone: true },
+    { key: "certificate",       label: t("certificates"),      requirePhone: true },
+    { key: "ritual-script",     label: t("ritual_script"),     requirePhone: false },
+    { key: "memorial-location", label: t("memorial_location"), requirePhone: false },
+  ];
+
   return (
     <Stack space="0.5rem">
       <Text.Title 
@@ -86,9 +85,8 @@ function AppButton(props: { appKey: string; label: string; onClick: () => void }
           <AppSymbol key={`ico-${appKey}`} iconKey={appKey}/> 
         </SizedBox>
         <Text
-          key={`title-${appKey}`} 
-          size="small" 
-          className="mt-2 text-shadow text-capitalize text-center"
+          key={`title-${appKey}`}  
+          className="mt-2 text-shadow bold text-capitalize text-center"
         >
           {label}
         </Text>
@@ -109,8 +107,8 @@ function AppSymbol({ iconKey }: { iconKey: string }) {
       return <img key={`ico-${iconKey}`} src={AppLogo.Blogs} alt="blogs"/>
     case "funds":
       return <img key={`ico-${iconKey}`} src={AppLogo.Funds} alt="funds"/>
-    case "theme":
-      return <img key={`ico-${iconKey}`} src={AppLogo.Theme} alt="theme"/>
+    case "memorial-location":
+      return <img key={`ico-${iconKey}`} src={AppLogo.MemorialLocation} alt="memorial-location"/>
     case "certificate":
       return <img key={`ico-${iconKey}`} src={AppLogo.Certificate} alt="certificate"/>
     case "ritual-script":

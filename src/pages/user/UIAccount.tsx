@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 import { Avatar, Box, Button, Grid, Stack, Text } from "zmp-ui";
 
-import { Header } from "components";
+import { CommonIcon, Header } from "components";
 import { UserSettingApi } from "api";
 import { CommonUtils } from "utils";
 import { useAppContext, useNotification, useRouteNavigate } from "hooks";
@@ -10,6 +10,7 @@ import { useAppContext, useNotification, useRouteNavigate } from "hooks";
 import { ServerResponse } from "types/server";
 
 import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
+import { UIThemeList } from "pages/theme/UITheme";
 
 export function UIAccount() { 
   return (
@@ -71,8 +72,9 @@ function UIAccountContainer() {
 }
 
 function UISettings() {
-  const { loadingToast, successToast, dangerToast } = useNotification();
+  const { goTo } = useRouteNavigate();
   const { userInfo, settings, updateSettings } = useAppContext();
+  const { loadingToast, successToast, dangerToast } = useNotification();
 
   const changeLang = (langCode: "vi" | "en") => {
     const success = (result: ServerResponse) => {
@@ -146,6 +148,7 @@ function UISettings() {
     <Stack space="1rem">
       <Text.Title size="xLarge" className="text-primary text-capitalize center"> {t("settings")} </Text.Title>
       
+      {/* language */}
       <Text.Title className="text-capitalize text-primary"> {t("language")} </Text.Title>
       <Stack space="1rem">
         <Grid columnCount={2} columnSpace="0.5rem">
@@ -158,6 +161,7 @@ function UISettings() {
         </Grid>
       </Stack>
 
+      {/* tree background */}
       <Text.Title className="text-capitalize text-primary"> {t("tree_background")} </Text.Title>
       <Stack space="1rem">
         <input
@@ -177,6 +181,21 @@ function UISettings() {
           </Button>
         </Grid>
       </Stack>
+
+      {/* theme */}
+      <div className="flex-h justify-between">
+        <Text.Title className="text-primary text-capitalize"> {t("theme")} </Text.Title>
+        <Button 
+          size="small" variant="secondary" 
+          suffixIcon={<CommonIcon.ChevonRight size={"1rem"}/>} 
+          onClick={() => goTo({ path: "theme" })}
+        >
+          {t("more")}
+        </Button>
+      </div>
+      <div className="scroll-h">
+        <UIThemeList/>
+      </div>
     </Stack>
   )
 }

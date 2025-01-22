@@ -7,7 +7,7 @@ import APP_ALBUM from "assets/img/app/app-album.jpeg";
 import APP_CALENDAR from "assets/img/app/app-calendar.jpeg";
 import APP_BLOGS from "assets/img/app/app-post.jpeg";
 import APP_FUNDS from "assets/img/app/app-fund.jpeg";
-import APP_THEME from "assets/img/app/app-theme.jpeg";
+import APP_MEMORIAL_LOCATION from "assets/img/app/app-memorial-location.jpeg";
 import APP_CERTIFICATE from "assets/img/app/app-certificate.jpeg";
 import APP_RITUAL_SCRIPT from "assets/img/app/app-ritual-script.jpeg";
 
@@ -21,7 +21,7 @@ export const AppLogo = {
   Funds: APP_FUNDS,
   Album: APP_ALBUM,
   Blogs: APP_BLOGS,
-  Theme: APP_THEME,
   Certificate: APP_CERTIFICATE,
   RitualScript: APP_RITUAL_SCRIPT,
+  MemorialLocation: APP_MEMORIAL_LOCATION,
 };
