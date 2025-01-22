@@ -21,54 +21,17 @@ export function WorldMap(props: WorldMapProps) {
     zoom = 18,
     addMarker,
     onMarkerClick,
-    popupContent = "Hello, Leaflet!"
+    popupContent = "Toạ Độ"
   } = props;
 
-  const mapRef = React.useRef<Leaflet.Map | null>(null);
-  const markersRef = React.useRef<Leaflet.Marker[]>([]);
-
-  // INIT MAP
-  React.useEffect(() => {
-    mapRef.current = Leaflet
-      .map("map")
-      .setView([initLocation.lat, initLocation.lng], zoom);
-
-    Leaflet
-      .tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        detectRetina: true,
-        maxZoom: 23,
-        attribution: "Gia Phả Lạc Hồng"
-      })
-      .addTo(mapRef.current);
-
-    // Add initial marker
-    const initialMarker = Leaflet
-      .marker([initLocation.lat, initLocation.lng])
-      .bindPopup(typeof popupContent === 'function' ? popupContent(initLocation) : popupContent)
-      .addTo(mapRef.current);
-
-    markersRef.current.push(initialMarker);
-
-    // Remove attribution
-    const attribution = document.querySelector('a[href="https://leafletjs.com"]');
-    if (attribution) attribution.remove();
-
-    // Cleanup
-    return () => {
-      if (mapRef.current) {
-        mapRef.current.remove();
-        mapRef.current = null;
-        markersRef.current = [];
-      }
-    };
-  }, []);
+  const { mapRef, markersRef } = useMap({ initLocation, zoom });
 
   useAddMarkerListener({
     mapRef: mapRef,
     markersRef: markersRef,
     coordinate: addMarker,
+    popupContent: popupContent,
     onMarkerClick: onMarkerClick,
-    popupContent: popupContent
   })
 
   return (
@@ -82,6 +45,54 @@ export function WorldMap(props: WorldMapProps) {
   );
 }
 
+// ========================
+// useMap
+// ========================
+interface UseMapProps {
+  zoom: number;
+  initLocation: Coordinate;
+}
+function useMap(props: UseMapProps) {
+  const { initLocation, zoom } = props;
+
+  const mapRef = React.useRef<Leaflet.Map | null>(null);
+  const markersRef = React.useRef<Leaflet.Marker[]>([]);
+
+  React.useEffect(() => {
+    mapRef.current = Leaflet
+      .map("map")
+      .setView([initLocation.lat, initLocation.lng], zoom);
+
+    Leaflet
+      .tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        detectRetina: true,
+        maxZoom: 23,
+        attribution: "Gia Phả Lạc Hồng"
+      })
+      .addTo(mapRef.current);
+
+    // Remove attribution
+    const attribution = document.querySelector('a[href="https://leafletjs.com"]');
+    if (attribution) attribution.remove();
+
+    // Cleanup
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+        markersRef.current = [];
+      }
+    };
+  }, [ ])
+
+  return {
+    mapRef, markersRef
+  }
+}
+
+// ========================
+// use Add Marker
+// ========================
 interface UseAddMarkerProps {
   mapRef: React.RefObject<Leaflet.Map>;
   markersRef: React.RefObject<Leaflet.Marker[]>;
