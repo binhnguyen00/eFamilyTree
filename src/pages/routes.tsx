@@ -22,7 +22,7 @@ import { UIRegister } from "pages/user/UIRegister";
 import { UIRegisterClan } from "pages/user/UIRegisterClan";
 import { UIGallery } from 'pages/gallery/UIGallery';
 import { UIDummyGallery } from "./dummy/UIDummyGallery";
-import { UIRitualScript } from "pages/petition/UIRitualScript";
+import { UIRitualScript } from "pages/ritual-script/UIRitualScript";
 
 import { useRouteNavigate } from "hooks";
 
