@@ -12,6 +12,13 @@ export function useAutoLogin(): AutoLoginContext {
     id: "", 
     name: "", 
     avatar: "",
+    authSettings: {
+      "scope.camera": false,
+      "scope.micro": false,
+      "scope.userInfo": false,
+      "scope.userLocation": false,
+      "scope.userPhonenumber": false,
+    }
   });
 
   const hasPermission = useGetPhonePermission();
@@ -37,13 +44,9 @@ export function useAutoLogin(): AutoLoginContext {
     }
   }, [hasPermission]);
 
-  const authSettings = useZaloSettings();
 
   return {
-    zaloUserInfo: {
-      ...user,
-      ...authSettings
-    },
+    zaloUserInfo: user,
     phoneNumber: phone,
     logedIn: phone.length > 0,
     updatePhoneNumber: updatePhoneNumber,

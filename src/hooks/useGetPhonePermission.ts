@@ -11,7 +11,7 @@ export function useGetPhonePermission() {
     const fail = (error: any) => {
       console.error("useGetPhonePermission:\n\t", error);
     };
-    ZmpSDK.getSettings(success, fail);
+    ZmpSDK.getAuthSettings(success, fail);
   }, []); // Empty dependency array to avoid infinite loop.
 
   return permission;

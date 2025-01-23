@@ -34,6 +34,7 @@ export function WorldMap(props: WorldMapProps) {
 
   return (
     <div
+      className="rounded"
       id="map"
       style={{
         height: height,
@@ -51,7 +52,6 @@ interface UseMapProps {
 }
 function useMap(props: UseMapProps) {
   const { coordinates } = props;
-  console.log(coordinates);
 
   const mapRef = React.useRef<Leaflet.Map | null>(null);
   const markersRef = React.useRef<Leaflet.Marker[]>([]);

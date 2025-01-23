@@ -14,7 +14,7 @@ export function useZaloSettings() {
     const success = (authSettings: any) => {
       setSettings(authSettings);
     }
-    ZmpSDK.getSettings(success);
+    ZmpSDK.getAuthSettings(success);
   }, [ ]);
 
   return settings;

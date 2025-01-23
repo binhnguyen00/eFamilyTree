@@ -4,17 +4,29 @@ import { Box, Button, Stack, Text } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
 
-import { CommonIcon, SlidingPanel, SlidingPanelOrient } from "components";
+import { CommonIcon, SlidingPanel, SlidingPanelOrient, useAppContext } from "components";
 
 interface RequestLocationProps {
   visible: boolean;
   close: () => void;
 }
 export function RequestLocation({ visible, close }: RequestLocationProps) {
+  const { zaloUserInfo, updateZaloUserInfo } = useAppContext();
   const [ request, setRequest ] = React.useState(false);
+
+  const updateAuthSettings = () => {
+    const success = (authSettings) => {
+      updateZaloUserInfo({
+        ...zaloUserInfo,
+        authSettings: authSettings
+      })
+    }
+    ZmpSDK.getAuthSettings(success);
+  }
 
   if (request) {
     const success = (location: any) => { 
+      updateAuthSettings();
       setRequest(false);
     }
     const fail = (error: any) => { 

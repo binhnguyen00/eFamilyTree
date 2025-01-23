@@ -26,7 +26,7 @@ export class ZmpSDK {
     });
   }
 
-  public static getSettings(successCB: CallBack, failCB?: CallBack) {
+  public static getAuthSettings(successCB: CallBack, failCB?: CallBack) {
     getSetting({
       success(res) {
         let authSetting = res.authSetting;

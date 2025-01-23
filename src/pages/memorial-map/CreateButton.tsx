@@ -3,26 +3,27 @@ import { t } from "i18next";
 import { Button, Input } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
+import { MemorialMapApi } from "api";
 import { 
   CommonIcon, Coordinate, 
   RequestLocation, 
   SlidingPanel, SlidingPanelOrient } from "components";
-import { MemorialMapApi } from "api";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 
 import { ServerResponse } from "types/server";
 
 interface CreateButtonProps {
   onAdd?: (coor: Coordinate) => void;
-  locationPermission: boolean;
 }
-export function CreateButton({ onAdd, locationPermission }: CreateButtonProps) {
-  const { logedIn } = useAppContext();
+export function CreateButton({ onAdd }: CreateButtonProps) {
+  const { logedIn, zaloUserInfo } = useAppContext();
 
   const [ requestLoc, setRequestLoc ] = React.useState(false); 
   const [ addMarkerVisible, setAddMarkerVisible ] = React.useState(false);
 
   const onAddMarker = () => {
+    console.log(zaloUserInfo);
+    const locationPermission = zaloUserInfo.authSettings?.["scope.userLocation"];
     if (!locationPermission || !logedIn) {
       setRequestLoc(true);
     } else {
