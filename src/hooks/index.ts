@@ -7,6 +7,7 @@ import { usePageContext } from "./context/usePageContext";
 import { useRouteNavigate } from "./useRouteNavigate";
 import { useNotification } from "./useNotification";
 import { useBeanObserver } from "./useBeanObserver";
+import { useZaloSettings } from "./useZaloSettings";
 
 export { 
   useTheme, 
@@ -17,4 +18,5 @@ export {
   useRouteNavigate,
   useNotification,
   useBeanObserver,
+  useZaloSettings,
 };
