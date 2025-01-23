@@ -12,7 +12,7 @@ export function Navigation() {
   const REMOVE_NAVIGATION = [
     `/zapps/${appId}/family-tree`, 
     `/zapps/${appId}/dev/tree`,
-    `/zapps/${appId}/memorial-location`,
+    // `/zapps/${appId}/memorial-location`,
   ];
 
   const noBottomNav = React.useMemo(() => {

@@ -8,6 +8,7 @@ export interface Coordinate {
 }
 
 interface WorldMapProps {
+  height?: string | number;
   locations?: any[];
   addMarker?: Coordinate;
   onMarkerClick?: (coordinate: Coordinate) => void;
@@ -15,6 +16,7 @@ interface WorldMapProps {
 
 export function WorldMap(props: WorldMapProps) {
   const { 
+    height,
     locations,
     addMarker,
     onMarkerClick,
@@ -34,7 +36,7 @@ export function WorldMap(props: WorldMapProps) {
     <div
       id="map"
       style={{
-        height: "50vh",
+        height: height,
         width: "100%",
       }}
     />
@@ -49,6 +51,7 @@ interface UseMapProps {
 }
 function useMap(props: UseMapProps) {
   const { coordinates } = props;
+  console.log(coordinates);
 
   const mapRef = React.useRef<Leaflet.Map | null>(null);
   const markersRef = React.useRef<Leaflet.Marker[]>([]);
@@ -79,15 +82,9 @@ function useMap(props: UseMapProps) {
 
     // add marker for each locations found in database
     coordinates?.map((coor, idx) => {
-      useAddMarker({
-        mapRef: mapRef,
-        markersRef: markersRef,
-        coordinate: { 
-          lat: coor.latitude, 
-          lng: coor.longitude 
-        },
-        popupContent: coor.description,
-      })
+      const marker = Leaflet
+        .marker([coor.latitude, coor.longitude])
+        .addTo(mapRef.current!);
     })
 
     removeAttribution();

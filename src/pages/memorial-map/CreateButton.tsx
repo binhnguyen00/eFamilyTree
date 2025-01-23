@@ -33,6 +33,8 @@ export function CreateButton({ onAdd, locationPermission }: CreateButtonProps) {
   }
 
   const save = (record: any) => {
+    console.log(record);
+    
     const saveSuccess = (result: ServerResponse) => {
       if (result.status !== "error") {
         onAdd?.({

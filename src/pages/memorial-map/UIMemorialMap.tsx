@@ -1,29 +1,34 @@
 import React from "react";
 import { t } from "i18next";
 
-import { Header, WorldMap, Coordinate, useAppContext, SlidingPanel, SlidingPanelOrient } from "components";
+import { StyleUtils } from "utils";
+import { MemorialMapApi } from "api/MemorialMapApi";
+import { Header, WorldMap, Coordinate, useAppContext } from "components";
+
+import { ServerResponse } from "types/server";
 
 import { UIMemorialMapController } from "./UIMemorialMapController";
-import { ServerResponse } from "types/server";
-import { MemorialMapApi } from "api/MemorialMapApi";
+
+import coordinates from "./data.json";
 
 export function UIMemorialMap() {
   const [ newMarker, setNewMarker ] = React.useState<Coordinate>();
 
   const { locations } = useMap();
 
-  const onAddMarker = (coor: Coordinate) => {
-    console.log(coor);
+  const onAddMarker = (savedCoor: Coordinate) => {
+    setNewMarker(savedCoor);
   }
 
   return (
-    <div className="container">
+    <div className="container-padding">
       <Header title={t("memorial_location")}/>
       
-      <div className="flex-v">
+      <div className="flex-v py-2">
         <UIMemorialMapController onAdd={onAddMarker}/>
         <WorldMap
-          locations={locations}
+          height={StyleUtils.calComponentRemainingHeight(50)}
+          locations={coordinates}
           addMarker={newMarker}
         />
       </div>
