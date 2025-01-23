@@ -9,6 +9,7 @@ import { SocialPostApi } from "./SocialPostApi";
 import { TestApi } from "./TestApi";
 import { UserSettingApi } from './UserSettingApi';
 import { RitualScriptApi } from "./RitualScriptApi";
+import { MemorialMapApi } from "./MemorialMapApi";
 
 export {
   AccountApi, 
@@ -22,4 +23,5 @@ export {
   TestApi, 
   UserSettingApi,
   RitualScriptApi,
+  MemorialMapApi,
 };

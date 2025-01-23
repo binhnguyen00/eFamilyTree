@@ -15,7 +15,9 @@ import { IoIosCloudDownload } from "react-icons/io";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { IoIosCloseCircle } from "react-icons/io";
 import { HiOutlineDotsVertical } from "react-icons/hi";
+import { FaRegSave } from "react-icons/fa";
 import { RiResetRightLine } from "react-icons/ri";
+import { GrMap } from "react-icons/gr";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -45,4 +47,6 @@ export const CommonIcon = {
   CloudDownload: IoIosCloudDownload,
   CloseCircle: IoIosCloseCircle,
   VerticalDots: HiOutlineDotsVertical,
+  Save: FaRegSave,
+  Map: GrMap,
 };

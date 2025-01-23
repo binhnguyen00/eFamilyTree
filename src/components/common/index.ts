@@ -10,9 +10,10 @@ import { Info } from "./Info";
 import { ScrollableDiv } from "./ScrollableDiv";
 import { Card } from "./Card";
 import { Popover } from "./Popover";
+import { RequestLocation } from "./RequestLocation";
 
 export { 
   Loading, Info,
   Divider, ImageWithText, Navigation, RequestPhone, SearchBar,
-  SizedBox, PagePositionSaver, ScrollableDiv, Card, Popover
+  SizedBox, PagePositionSaver, ScrollableDiv, Card, Popover, RequestLocation
 };

@@ -9,12 +9,11 @@ import { MemorialMapApi } from "api/MemorialMapApi";
 
 export function UIMemorialMap() {
   const [ newMarker, setNewMarker ] = React.useState<Coordinate>();
-  const [ addMarkerVisible, setAddMarkerVisible ] = React.useState(false);
 
   const { locations } = useMap();
 
   const onAddMarker = (coor: Coordinate) => {
-    setAddMarkerVisible(true);
+    console.log(coor);
   }
 
   return (
@@ -28,15 +27,6 @@ export function UIMemorialMap() {
           addMarker={newMarker}
         />
       </div>
-
-      <SlidingPanel 
-        orient={SlidingPanelOrient.LeftToRight} 
-        visible={addMarkerVisible} 
-        header={"Thêm toạ độ mới"}      
-        close={() => setAddMarkerVisible(false)}
-      >
-        <UICreateMarker/>
-      </SlidingPanel>
     </div>
   )
 }
@@ -60,13 +50,4 @@ function useMap() {
   return {
     locations: locations
   }
-}
-
-function UICreateMarker() {
-
-  return (
-    <div className="flex-v">
-
-    </div>
-  )
 }
