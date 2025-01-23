@@ -1,14 +1,18 @@
 import React from "react";
 
 import { ZmpSDK } from "utils";
-import { useGetPhonePermission } from "hooks";
+import { useGetPhonePermission, useZaloSettings } from "hooks";
 
 import { ZaloUserInfo } from "types/app-context";
 import { AutoLoginContext } from "types/auto-login";
 
 export function useAutoLogin(): AutoLoginContext {
   const [ phone, setPhoneNumber ] = React.useState<string>("");
-  const [ user, setUser ]         = React.useState<ZaloUserInfo>({ id: "", name: "", avatar: "" });
+  const [ user, setUser ]         = React.useState<ZaloUserInfo>({ 
+    id: "", 
+    name: "", 
+    avatar: "",
+  });
 
   const hasPermission = useGetPhonePermission();
 
@@ -33,8 +37,13 @@ export function useAutoLogin(): AutoLoginContext {
     }
   }, [hasPermission]);
 
+  const authSettings = useZaloSettings();
+
   return {
-    zaloUserInfo: user,
+    zaloUserInfo: {
+      ...user,
+      ...authSettings
+    },
     phoneNumber: phone,
     logedIn: phone.length > 0,
     updatePhoneNumber: updatePhoneNumber,
