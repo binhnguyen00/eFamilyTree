@@ -8,29 +8,25 @@ export interface Coordinate {
 }
 
 interface WorldMapProps {
-  initLocation?: Coordinate;
-  zoom?: number;
+  locations?: any[];
   addMarker?: Coordinate;
   onMarkerClick?: (coordinate: Coordinate) => void;
-  popupContent?: string | ((coordinate: Coordinate) => string);
 }
 
 export function WorldMap(props: WorldMapProps) {
   const { 
-    initLocation = { lat: 20.81837730031204, lng: 106.69754943953069 },
-    zoom = 18,
+    locations,
     addMarker,
     onMarkerClick,
-    popupContent = "Toạ Độ"
   } = props;
 
-  const { mapRef, markersRef } = useMap({ initLocation, zoom });
+  const { mapRef, markersRef } = useMap({ coordinates: locations });
 
-  useAddMarkerListener({
+  useAddMarker({
     mapRef: mapRef,
     markersRef: markersRef,
     coordinate: addMarker,
-    popupContent: popupContent,
+    popupContent: "Toạ Độ",
     onMarkerClick: onMarkerClick,
   })
 
@@ -49,31 +45,52 @@ export function WorldMap(props: WorldMapProps) {
 // useMap
 // ========================
 interface UseMapProps {
-  zoom: number;
-  initLocation: Coordinate;
+  coordinates?: any[]
 }
 function useMap(props: UseMapProps) {
-  const { initLocation, zoom } = props;
+  const { coordinates } = props;
 
   const mapRef = React.useRef<Leaflet.Map | null>(null);
   const markersRef = React.useRef<Leaflet.Marker[]>([]);
 
+  // TODO: move to config.ts
+  const initZoom = 13;
+  const maxZoom = 23;
+  const credit: any = "Gia Phả Lạc Hồng";
+  const initLocation = { latitude: 20.81837730031204, longitude: 106.69754943953069 }
+
+  const removeAttribution = () => {
+    const attribution = document.querySelector('a[href="https://leafletjs.com"]');
+    if (attribution) attribution.remove();
+  }
+
   React.useEffect(() => {
     mapRef.current = Leaflet
       .map("map")
-      .setView([initLocation.lat, initLocation.lng], zoom);
+      .setView([initLocation.latitude, initLocation.longitude], initZoom);
 
     Leaflet
       .tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         detectRetina: true,
-        maxZoom: 23,
-        attribution: "Gia Phả Lạc Hồng"
+        maxZoom: maxZoom,
+        attribution: credit
       })
-      .addTo(mapRef.current);
+      .addTo(mapRef.current)
 
-    // Remove attribution
-    const attribution = document.querySelector('a[href="https://leafletjs.com"]');
-    if (attribution) attribution.remove();
+    // add marker for each locations found in database
+    coordinates?.map((coor, idx) => {
+      useAddMarker({
+        mapRef: mapRef,
+        markersRef: markersRef,
+        coordinate: { 
+          lat: coor.latitude, 
+          lng: coor.longitude 
+        },
+        popupContent: coor.description,
+      })
+    })
+
+    removeAttribution();
 
     // Cleanup
     return () => {
@@ -86,7 +103,8 @@ function useMap(props: UseMapProps) {
   }, [ ])
 
   return {
-    mapRef, markersRef
+    mapRef: mapRef, 
+    markersRef: markersRef
   }
 }
 
@@ -100,7 +118,7 @@ interface UseAddMarkerProps {
   onMarkerClick?: (coordinate: Coordinate) => void;
   popupContent?: string | ((coordinate: Coordinate) => string);
 }
-function useAddMarkerListener(props: UseAddMarkerProps) {
+function useAddMarker(props: UseAddMarkerProps) {
   const { mapRef, markersRef, coordinate, onMarkerClick, popupContent } = props;
 
   React.useEffect(() => {

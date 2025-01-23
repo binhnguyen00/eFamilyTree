@@ -1,49 +1,72 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Text } from "zmp-ui";
 
-import { Header, WorldMap, Coordinate } from "components";
+import { Header, WorldMap, Coordinate, useAppContext, SlidingPanel, SlidingPanelOrient } from "components";
+
+import { UIMemorialMapController } from "./UIMemorialMapController";
+import { ServerResponse } from "types/server";
+import { MemorialMapApi } from "api/MemorialMapApi";
 
 export function UIMemorialMap() {
   const [ newMarker, setNewMarker ] = React.useState<Coordinate>();
+  const [ addMarkerVisible, setAddMarkerVisible ] = React.useState(false);
+
+  const { locations } = useMap();
 
   const onAddMarker = (coor: Coordinate) => {
-    setNewMarker(coor)
+    setAddMarkerVisible(true);
   }
 
   return (
-    <div className="container-padding">
+    <div className="container">
       <Header title={t("memorial_location")}/>
       
       <div className="flex-v">
-        <Text.Title> {t("memorial_map")} </Text.Title>
+        <UIMemorialMapController onAdd={onAddMarker}/>
         <WorldMap
+          locations={locations}
           addMarker={newMarker}
         />
-        <UIMemorialMapController onAdd={onAddMarker}/>
       </div>
 
+      <SlidingPanel 
+        orient={SlidingPanelOrient.LeftToRight} 
+        visible={addMarkerVisible} 
+        header={"Thêm toạ độ mới"}      
+        close={() => setAddMarkerVisible(false)}
+      >
+        <UICreateMarker/>
+      </SlidingPanel>
     </div>
   )
 }
 
-interface UIMemorialMapControllerProps {
-  onAdd?: (coor: Coordinate) => void;
+function useMap() {
+  const { userInfo } = useAppContext();  
+  const [ locations, setLocations ] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    const success = (result: ServerResponse) => {
+      if (result.status === "success") {
+        setLocations(result.data);
+      }
+    }
+    const params = {
+      clan_id: userInfo.clanId
+    }
+    MemorialMapApi.search(params, success);
+  }, []);
+
+  return {
+    locations: locations
+  }
 }
-function UIMemorialMapController(props: UIMemorialMapControllerProps) {
-  const { onAdd } = props;
+
+function UICreateMarker() {
 
   return (
-    <div className="scroll-h">
-      <Button 
-        variant="secondary" size="small" 
-        onClick={() => {
-          onAdd?.({ lat: 20.818265595799424, lng: 106.69749335944385 })
-        }}
-      >
-        {t("create")}
-      </Button>
+    <div className="flex-v">
+
     </div>
   )
 }
-
