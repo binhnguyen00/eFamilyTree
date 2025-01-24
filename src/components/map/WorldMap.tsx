@@ -63,16 +63,16 @@ function useMap(props: UseMapProps) {
   const credit: any = "Gia Phả Lạc Hồng";
   const initLocation = { latitude: 20.81837730031204, longitude: 106.69754943953069 }
 
-  const removeAttribution = () => {
+  const removeLeafletLogo = () => {
     const attribution = document.querySelector('a[href="https://leafletjs.com"]');
     if (attribution) attribution.remove();
   }
 
   React.useEffect(() => {
+    // init map
     mapRef.current = Leaflet
       .map("map")
       .setView([initLocation.latitude, initLocation.longitude], initZoom);
-
     Leaflet
       .tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         detectRetina: true,
@@ -83,12 +83,11 @@ function useMap(props: UseMapProps) {
 
     // add marker for each locations found in database
     coordinates?.map((coor, idx) => {
-      const marker = Leaflet
-        .marker([coor.latitude, coor.longitude])
-        .addTo(mapRef.current!);
+      const marker = Leaflet.marker([coor.latitude, coor.longitude])
+      marker
+        .addTo(mapRef.current!)
+        .bindPopup(`${coor.latitude}, ${coor.longitude}`);
     })
-
-    removeAttribution();
 
     // click on map handler
     const onMapClick = (e) => {
@@ -98,6 +97,8 @@ function useMap(props: UseMapProps) {
         .openOn(mapRef.current!);
     }
     mapRef.current.on('click', onMapClick);
+
+    removeLeafletLogo();
 
     // prevent memory leak
     return () => {
