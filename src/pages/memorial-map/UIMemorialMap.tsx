@@ -3,7 +3,7 @@ import { t } from "i18next";
 
 import { StyleUtils } from "utils";
 import { MemorialMapApi } from "api/MemorialMapApi";
-import { Header, WorldMap, Coordinate, useAppContext } from "components";
+import { Header, WorldMap, Coordinate, useAppContext, Marker } from "components";
 
 import { ServerResponse } from "types/server";
 
@@ -12,12 +12,12 @@ import { UIMemorialMapController } from "./UIMemorialMapController";
 import coordinates from "./data.json";
 
 export function UIMemorialMap() {
-  const [ newMarker, setNewMarker ] = React.useState<Coordinate>();
+  const [ newMarker, setNewMarker ] = React.useState<Marker>();
 
   const { locations } = useMap();
 
-  const onAddMarker = (savedCoor: Coordinate) => {
-    setNewMarker(savedCoor);
+  const onAddMarker = (marker: Marker) => {
+    setNewMarker(marker);
   }
 
   return (
@@ -30,6 +30,9 @@ export function UIMemorialMap() {
           height={StyleUtils.calComponentRemainingHeight(50)}
           locations={coordinates}
           addMarker={newMarker}
+          onMarkerClick={(coor: Coordinate) => {
+            console.log(coor);
+          }}
         />
       </div>
     </div>

@@ -1,11 +1,11 @@
 import React from "react";
 
-import { Coordinate } from "components";
+import { Marker } from "components";
 
 import { CreateButton } from "./CreateButton";
 
 interface UIMemorialMapControllerProps {
-  onAdd?: (coor: Coordinate) => void;
+  onAdd?: (marker: Marker) => void;
 }
 export function UIMemorialMapController(props: UIMemorialMapControllerProps) {
   const { onAdd } = props;

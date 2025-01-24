@@ -1,4 +1,4 @@
-import { WorldMap, Coordinate } from "./WorldMap";
+import { WorldMap, Coordinate, Marker } from "./WorldMap";
 
 export { WorldMap }
-export type { Coordinate }
+export type { Coordinate, Marker }

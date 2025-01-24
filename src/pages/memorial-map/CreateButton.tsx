@@ -6,6 +6,7 @@ import { ZmpSDK } from "utils";
 import { MemorialMapApi } from "api";
 import { 
   CommonIcon, Coordinate, 
+  Marker, 
   RequestLocation, 
   SlidingPanel, SlidingPanelOrient } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
@@ -13,7 +14,7 @@ import { useAppContext, useBeanObserver, useNotification } from "hooks";
 import { ServerResponse } from "types/server";
 
 interface CreateButtonProps {
-  onAdd?: (coor: Coordinate) => void;
+  onAdd?: (marker: Marker) => void;
 }
 export function CreateButton({ onAdd }: CreateButtonProps) {
   const { logedIn, zaloUserInfo } = useAppContext();
@@ -39,8 +40,13 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
     const saveSuccess = (result: ServerResponse) => {
       if (result.status !== "error") {
         onAdd?.({
-          lat: result.data.latitude,
-          lng: result.data.longitude
+          label: record.label,
+          description: record.description,
+          coordinate: {
+            lat: record.latitude,
+            lng: record.longitude
+          },
+          images: record.images
         });
       }
     }

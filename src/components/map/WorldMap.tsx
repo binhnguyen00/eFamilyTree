@@ -1,8 +1,18 @@
 import React from "react";
+import ReactDOM from 'react-dom/client';
 import Leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-export interface Coordinate {
+import config from "./config";
+
+export type Marker = {
+  label: string;
+  description?: string;
+  coordinate: Coordinate;
+  images: string[]; // public paths
+}
+
+export type Coordinate = {
   lat: number;
   lng: number;
 }
@@ -10,7 +20,7 @@ export interface Coordinate {
 interface WorldMapProps {
   height?: string | number;
   locations?: any[];
-  addMarker?: Coordinate;
+  addMarker?: Marker;
   onMarkerClick?: (coordinate: Coordinate) => void;
 }
 
@@ -22,12 +32,15 @@ export function WorldMap(props: WorldMapProps) {
     onMarkerClick,
   } = props;
 
-  const { mapRef, markersRef } = useMap({ coordinates: locations });
+  const { mapRef, markersRef } = useMap({ 
+    coordinates: locations,
+    onMarkerClick: onMarkerClick
+  });
 
   useAddMarker({
     mapRef: mapRef,
     markersRef: markersRef,
-    coordinate: addMarker,
+    marker: addMarker,
     popupContent: "Toạ Độ",
     onMarkerClick: onMarkerClick,
   })
@@ -49,19 +62,14 @@ export function WorldMap(props: WorldMapProps) {
 // ========================
 interface UseMapProps {
   coordinates?: any[]
+  onMarkerClick?: (coordinate: Coordinate) => void;
 }
 function useMap(props: UseMapProps) {
-  const { coordinates } = props;
+  const { coordinates, onMarkerClick } = props;
 
   const mapRef = React.useRef<Leaflet.Map | null>(null);
   const markersRef = React.useRef<Leaflet.Marker[]>([]);
   const popup = Leaflet.popup();
-
-  // TODO: move to config.ts
-  const initZoom = 13;
-  const maxZoom = 23;
-  const credit: any = "Gia Phả Lạc Hồng";
-  const initLocation = { latitude: 20.81837730031204, longitude: 106.69754943953069 }
 
   const removeLeafletLogo = () => {
     const attribution = document.querySelector('a[href="https://leafletjs.com"]');
@@ -72,12 +80,12 @@ function useMap(props: UseMapProps) {
     // init map
     mapRef.current = Leaflet
       .map("map")
-      .setView([initLocation.latitude, initLocation.longitude], initZoom);
+      .setView([config.initLocation.latitude, config.initLocation.longitude], config.initZoom);
     Leaflet
       .tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         detectRetina: true,
-        maxZoom: maxZoom,
-        attribution: credit
+        maxZoom: config.maxZoom,
+        attribution: config.credit
       })
       .addTo(mapRef.current)
 
@@ -86,17 +94,47 @@ function useMap(props: UseMapProps) {
       const marker = Leaflet.marker([coor.latitude, coor.longitude])
       marker
         .addTo(mapRef.current!)
-        .bindPopup(`${coor.latitude}, ${coor.longitude}`);
+        .bindPopup(`
+          <div class="custom-popup">
+            <h3>Coordinates</h3>
+            <p>Lat: ${coor.latitude}</p>
+            <p>Lng: ${coor.longitude}</p>
+          </div>
+        `);
+      if (onMarkerClick) {
+        marker.on('click', () => {
+          onMarkerClick({
+            lat: coor.latitude,  // Convert to Coordinate interface format
+            lng: coor.longitude
+          });
+        });
+      }
     })
 
     // click on map handler
-    const onMapClick = (e) => {
+    mapRef.current.on('click', (e: Leaflet.LeafletMouseEvent) => {
+      const { lat, lng } = e.latlng;
+      const popupContainer = document.createElement('div');
+      const root = ReactDOM.createRoot(popupContainer);
+      root.render(
+        <>
+          <p>{e.latlng.toString()}</p>
+          <button 
+            className="add-marker-btn"
+            onClick={() => {
+              console.log('Add button clicked', e.latlng);
+            }}
+          >
+            Click
+          </button>
+        </>
+      );
+    
       popup
+        .setContent(popupContainer)
         .setLatLng(e.latlng)
-        .setContent(e.latlng.toString())
         .openOn(mapRef.current!);
-    }
-    mapRef.current.on('click', onMapClick);
+    });
 
     removeLeafletLogo();
 
@@ -108,7 +146,7 @@ function useMap(props: UseMapProps) {
         markersRef.current = [];
       }
     };
-  }, [ ])
+  }, [ coordinates ]);
 
   return {
     mapRef: mapRef, 
@@ -122,32 +160,37 @@ function useMap(props: UseMapProps) {
 interface UseAddMarkerProps {
   mapRef: React.RefObject<Leaflet.Map>;
   markersRef: React.RefObject<Leaflet.Marker[]>;
-  coordinate?: Coordinate;
+  marker?: Marker;
   onMarkerClick?: (coordinate: Coordinate) => void;
   popupContent?: string | ((coordinate: Coordinate) => string);
 }
 function useAddMarker(props: UseAddMarkerProps) {
-  const { mapRef, markersRef, coordinate, onMarkerClick, popupContent } = props;
+  const { mapRef, markersRef, marker, onMarkerClick, popupContent } = props;
 
   React.useEffect(() => {
-    if (!mapRef.current || !markersRef.current || !coordinate) return;
+    if (!mapRef.current || !markersRef.current || !marker) return;
 
-    const marker = Leaflet
-      .marker([coordinate.lat, coordinate.lng])
+    const newRecord = Leaflet
+      .marker([marker.coordinate.lat, marker.coordinate.lng])
       .addTo(mapRef.current);
 
     if (popupContent) {
-      marker.bindPopup(typeof popupContent === 'function' ? popupContent(coordinate) : popupContent)
+      newRecord.bindPopup(
+        typeof popupContent === 'function' 
+          ? popupContent(marker.coordinate) 
+          : popupContent
+      )
     }
 
     if (onMarkerClick) {
-      marker.on('click', () => onMarkerClick(coordinate));
+      // marker.on('click', () => onMarkerClick(coordinate));
+      newRecord.bindPopup(""+newRecord);
     }
 
     // Store marker reference
-    markersRef.current.push(marker);
+    markersRef.current.push(newRecord);
     // Center map on new marker
-    mapRef.current.setView([coordinate.lat, coordinate.lng], mapRef.current.getZoom());
+    mapRef.current.setView([marker.coordinate.lat, marker.coordinate.lng], mapRef.current.getZoom());
 
-  }, [ coordinate, onMarkerClick, popupContent ]);
+  }, [ marker, onMarkerClick, popupContent ]);
 }
