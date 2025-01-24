@@ -55,6 +55,7 @@ function useMap(props: UseMapProps) {
 
   const mapRef = React.useRef<Leaflet.Map | null>(null);
   const markersRef = React.useRef<Leaflet.Marker[]>([]);
+  const popup = Leaflet.popup();
 
   // TODO: move to config.ts
   const initZoom = 13;
@@ -89,7 +90,16 @@ function useMap(props: UseMapProps) {
 
     removeAttribution();
 
-    // Cleanup
+    // click on map handler
+    const onMapClick = (e) => {
+      popup
+        .setLatLng(e.latlng)
+        .setContent(e.latlng.toString())
+        .openOn(mapRef.current!);
+    }
+    mapRef.current.on('click', onMapClick);
+
+    // prevent memory leak
     return () => {
       if (mapRef.current) {
         mapRef.current.remove();

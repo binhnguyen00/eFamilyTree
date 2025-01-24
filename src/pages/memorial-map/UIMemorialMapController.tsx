@@ -1,6 +1,5 @@
 import React from "react";
 
-import { useAppContext, useZaloSettings } from "hooks";
 import { Coordinate } from "components";
 
 import { CreateButton } from "./CreateButton";
@@ -12,7 +11,7 @@ export function UIMemorialMapController(props: UIMemorialMapControllerProps) {
   const { onAdd } = props;
 
   return (
-    <div className="scroll-h">
+    <div className="scroll-h px-1">
       <CreateButton 
         onAdd={onAdd} 
       />
