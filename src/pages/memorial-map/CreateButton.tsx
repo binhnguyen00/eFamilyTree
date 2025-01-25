@@ -14,6 +14,7 @@ interface CreateButtonProps {
 }
 export function CreateButton({ onAdd }: CreateButtonProps) {
   const { logedIn, zaloUserInfo } = useAppContext();
+  const { successToast, dangerToast } = useNotification();
 
   const [ requestLoc, setRequestLoc ] = React.useState(false); 
   const [ addMarkerVisible, setAddMarkerVisible ] = React.useState(false);
@@ -30,17 +31,9 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
   }
 
   const save = (record: any) => {
-    console.log(record);
-    onAdd?.({
-      label: "New Marker",
-      description: "New Marker",
-      coordinate: {
-        lat: 20.810754465924028,
-        lng: 106.62409414154756
-      },
-      images: []
-    })
-    
+    const saveFail = (error: any) => {
+      dangerToast(`${t("save")} ${t("fail")}`)
+    }
     const saveSuccess = (result: ServerResponse) => {
       if (result.status !== "error") {
         onAdd?.({
@@ -52,9 +45,10 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
           },
           images: record.images
         });
-      }
+        successToast(`${t("save")} ${t("success")}`);
+      } else saveFail(null);
     }
-    MemorialMapApi.save(record, saveSuccess);
+    MemorialMapApi.save(record, saveSuccess, saveFail);
   }
 
   return (
