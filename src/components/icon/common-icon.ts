@@ -18,6 +18,7 @@ import { HiOutlineDotsVertical } from "react-icons/hi";
 import { FaRegSave } from "react-icons/fa";
 import { RiResetRightLine } from "react-icons/ri";
 import { GrMap } from "react-icons/gr";
+import { HiOutlineLightBulb } from "react-icons/hi";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -49,4 +50,5 @@ export const CommonIcon = {
   VerticalDots: HiOutlineDotsVertical,
   Save: FaRegSave,
   Map: GrMap,
+  LightBulb: HiOutlineLightBulb,
 };

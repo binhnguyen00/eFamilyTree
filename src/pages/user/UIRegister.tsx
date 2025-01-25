@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Grid, Input, Stack, Text } from "zmp-ui";
 import { AccountApi } from "api";
-import { BeanObserver, Header } from "components";
+import { BeanObserver, CommonIcon, Header } from "components";
 
 import { FailResponse, ServerResponse } from "types/server";
 import { useBeanObserver, useNotification } from "hooks";
@@ -130,13 +130,14 @@ function UIRegisterForm({ observer, submit }: {
 
 function UIRegisterNotice() {
   return (
-    <Stack space="1rem">
-      <Text.Title className="text-capitalize">
-        {t("notice")}
-      </Text.Title>
-      <Text>
-        {t("register_notice")}
-      </Text>
-    </Stack>
+    <div className="flex-v">
+      <div className="flex-h">
+        <CommonIcon.LightBulb size={22}/>
+        <Text.Title className="text-capitalize">
+          {t("notice")}
+        </Text.Title>
+      </div>
+      <p> {t("register_notice")} </p>
+    </div>
   )
 }
