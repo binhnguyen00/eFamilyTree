@@ -9,17 +9,13 @@ export class AccountApi extends BaseApi {
 
   public static register(registerForm: RegisterForm, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
-    const body = this.initBody({
-      ...registerForm
-    });
-    return this.server.POST("register", header, body, successCB, failCB);
+    const body = this.initBody(registerForm);
+    return this.server.POST("register/member", header, body, successCB, failCB);
   }
 
   public static registerClan(registerForm: RegisterClanForm, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
-    const body = this.initBody({
-      ...registerForm
-    });
+    const body = this.initBody(registerForm);
     return this.server.POST("register/clan", header, body, successCB, failCB);
   }
 }

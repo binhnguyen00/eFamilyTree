@@ -11,6 +11,11 @@ export class BeanObserver<T> {
 
   getFieldValue(field: string) { return this.getBean()[field]; }
 
+  getFields(): Array<keyof T> {
+    const clone = this.bean as object;
+    return Object.keys(clone) as Array<keyof T>;
+  }
+
   /**
    * @usage when your bean is an object
    */
@@ -31,4 +36,13 @@ export class BeanObserver<T> {
       return newArray as T;
     });
   }
+
+  watch = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const field = e.target.name as keyof T;
+    const value = e.target.type === 'checkbox' 
+      ? e.target.checked 
+      : e.target.value;
+
+    this.update(field, value as T[keyof T]);
+  };
 }
