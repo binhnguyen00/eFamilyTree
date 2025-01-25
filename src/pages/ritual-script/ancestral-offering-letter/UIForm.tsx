@@ -4,10 +4,8 @@ import html2canvas from "html2canvas";
 import { Button, Input, Text } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
-import { RitualScriptApi } from "api";
-import { useAppContext, useBeanObserver, useNotification } from "hooks";
+import { useBeanObserver, useNotification } from "hooks";
 import { BeanObserver, CommonIcon, Divider, SlidingPanel, SlidingPanelOrient } from "components";
-import { ServerResponse } from "types/server";
 
 import { UIAncestralOfferingTemplate } from "./UITemplate";
 

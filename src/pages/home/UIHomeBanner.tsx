@@ -2,13 +2,13 @@ import React from "react";
 import { t } from "i18next";
 import { Box, Button, Stack, Swiper, Text } from "zmp-ui";
 
+import { useRouteNavigate } from "hooks";
 import { ImageWithText } from "components";
 
 import banner_01 from "assets/img/banner/banner-01.jpg";
 import banner_02 from "assets/img/banner/banner-02.jpg";
 import banner_03 from "assets/img/banner/banner-03.jpg";
 import banner_04 from "assets/img/banner/banner-04.jpg";
-import { useRouteNavigate } from "hooks";
 
 export function UIHomeBanner() {
   const { goTo } = useRouteNavigate();
@@ -29,7 +29,7 @@ export function UIHomeBanner() {
                   <p>{t("share_to")}</p>
                   <p>{t("love_ones")}</p>
                   <Box flex flexDirection="row" justifyContent="center" className="box-shadow">
-                    <Button variant="primary" size="small" onClick={onRegister}>  {t("register")} </Button>
+                    <Button variant="primary" size="small" onClick={onRegister}>  {`${t("register")} ${t("member")}`} </Button>
                   </Box>
                 </Stack>
               }

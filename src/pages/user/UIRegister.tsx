@@ -1,11 +1,11 @@
 import React from "react";
 import { t } from "i18next";
 import { Button, Grid, Input, Stack, Text } from "zmp-ui";
-
 import { AccountApi } from "api";
-import { Header, SlidingPanel, SlidingPanelOrient } from "components";
+import { BeanObserver, Header } from "components";
 
 import { FailResponse, ServerResponse } from "types/server";
+import { useBeanObserver, useNotification } from "hooks";
 
 export type RegisterForm = {
   mobile: string;
@@ -19,104 +19,112 @@ export type RegisterForm = {
 }
 
 export function UIRegister() {
-  const [ successPop, setSuccessPop ] = React.useState(false);
-  const [ failPop, setFailPop ] = React.useState(false);
-  const [ formData, setFormData ] = React.useState({} as RegisterForm);
+  const { successToast, dangerToast } = useNotification();
+  const observer = useBeanObserver({} as RegisterForm);
 
-  const submit = (e: any) => {
-    console.log(formData);
-    console.log("Now clear the form data");
-    setFormData({ mobile: '', clanCode: '', fullName: '', email: '', motherName: '', motherCode: '', fatherName: '', fatherCode: '' });
+  const submit = () => {
+    console.log(observer.getBean());
     const success = (result: ServerResponse) => {
-      setSuccessPop(true);
-      console.log(result);
+      successToast(
+        <>
+          <p> {t("register")} {t("success")} </p>
+          <p> {t("register_pending")} </p>
+        </>
+      );
     }
     const fail = (error: FailResponse) => {
-      setFailPop(true);
-      console.error(error);
+      dangerToast(`${t("register")} ${t("fail")}`);
     }
-    AccountApi.register(formData, success, fail);
-  };
-
-  const onChange = (e: any) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    AccountApi.register(observer.getBean(), success, fail);
   };
 
   return (
     <div className="container">
-      <Header title={t("register")}/>
+      <Header title={`${t("register")} ${t("member")}`}/>
 
-      <UIRegisterForm formData={formData} onChange={onChange} submit={submit}/>
-
-      <SlidingPanel
-        header={t("need_access")} 
-        visible={successPop} 
-        orient={SlidingPanelOrient.BottomToTop}
-        close={() => setSuccessPop(false)}
-      >
-        <Stack space="1rem" className="p-3">
-          <Text.Title size="xLarge" style={{ color: "green" }} className="center">{`${t("success")}`}</Text.Title>
-        </Stack>
-      </SlidingPanel>
-
-      <SlidingPanel
-        header={t("need_access")} 
-        visible={failPop} 
-        orient={SlidingPanelOrient.BottomToTop}
-        close={() => setFailPop(false)}
-      >
-        <Stack space="1rem" className="p-3">
-          <Text.Title size="xLarge" style={{ color: "red" }} className="center">{`${t("fail")}`}</Text.Title>
-        </Stack>
-      </SlidingPanel>
+      <UIRegisterForm 
+        observer={observer}
+        submit={submit}
+      />
     </div>
   );
 }
 
-function UIRegisterForm({ formData, submit, onChange }: { 
-  formData: any, 
-  onChange: (e: any) => void,
-  submit: (e: any) => void 
+// ===============================
+// REGISTER FORM
+// ===============================
+function UIRegisterForm({ observer, submit }: { 
+  observer: BeanObserver<RegisterForm>;
+  submit: () => void 
 }) {
   const [ error, setError ] = React.useState('');
 
   const submitOrError = (e: any) => {
-    if (!formData.mobile || !formData.clanCode) {
+    if (!observer.getBean().mobile || !observer.getBean().clanCode) {
       setError(t("input_required"));
       return;
     } 
     setError(''); // Clear the error if validation passes
-    if (submit) submit(e);
+    if (submit) submit();
   };
 
   return (
-    <Stack space="1rem">
+    <div className="flex-v">
       <Grid columnSpace="0.5rem" columnCount={2}>
-        <Input label={t("mobile") + "*"} value={formData.mobile} name="mobile" onChange={onChange}/>
-        <Input label={t("clan_code") + "*"} value={formData.clanCode} name="clanCode" onChange={onChange}/>
+        <Input 
+          label={t("mobile") + "*"} size="small"
+          value={observer.getBean().mobile} 
+          onChange={(e) => observer.update("mobile", e.target.value)}
+        />
+        <Input 
+          label={t("clan_code") + "*"} size="small"
+          value={observer.getBean().clanCode} 
+          onChange={(e) => observer.update("clanCode", e.target.value)}
+        />
       </Grid>
       {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
 
-      <Input label={t("name") + "*"} value={formData.fullName} name="fullName" onChange={onChange}/>
+      <Input 
+        label={t("name") + "*"} size="small"
+        value={observer.getBean().fullName}
+        onChange={(e) => observer.update("fullName", e.target.value)}
+      />
       {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
 
-      <Input label={t("email")} value={formData.email} name="email" onChange={onChange}/>
+      <Input 
+        label={t("email")} size="small"
+        value={observer.getBean().email} 
+        onChange={(e) => observer.update("email", e.target.value)}
+      />
 
-      <Input label={t("mother_name")} value={formData.motherName} name="motherName" onChange={onChange}/>
+      <Input 
+        label={t("mother_name")} size="small"
+        value={observer.getBean().motherName} 
+        onChange={(e) => observer.update("motherName", e.target.value)}
+      />
+      <Input 
+        label={t("mother_code")} size="small"
+        value={observer.getBean().motherCode}
+        onChange={(e) => observer.update("motherCode", e.target.value)}
+      />
 
-      <Input label={t("mother_code")} value={formData.motherCode} name="motherCode" onChange={onChange}/>
+      <Input 
+        label={t("father_name")} size="small"
+        value={observer.getBean().fatherName} 
+        onChange={(e) => observer.update("fatherName", e.target.value)}
+      />
+      <Input 
+        label={t("father_code")} size="small"
+        value={observer.getBean().fatherCode}
+        onChange={(e) => observer.update("fatherCode", e.target.value)}
+      />
 
-      <Input label={t("father_name")} value={formData.fatherName} name="fatherName" onChange={onChange}/>
-
-      <Input label={t("father_code")} value={formData.fatherCode} name="fatherCode" onChange={onChange}/>
-
-      <Button variant="secondary" onClick={submitOrError}> 
+      <Button variant="secondary" size="medium" onClick={submitOrError}> 
         {t("register")}
       </Button>
-
+      
       <UIRegisterNotice/>
-    </Stack>
+    </div>
   );
 }
 
@@ -126,7 +134,7 @@ function UIRegisterNotice() {
       <Text.Title className="text-capitalize">
         {t("notice")}
       </Text.Title>
-      <Text size="xxSmall">
+      <Text>
         {t("register_notice")}
       </Text>
     </Stack>
