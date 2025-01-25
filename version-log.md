@@ -1,4 +1,6 @@
 # Version 1.2.0-beta (Thứ 7, 25/01/2025)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=23)
+### Thay đổi
 1. Tính năng mới: Bản đồ di tích lịch sử dòng họ
   - Tính năng đang trong quá trình kiểm thử.
   - Có thể thêm nhanh sử dụng vị trí hiện tại của thiết bị điện thoại.
