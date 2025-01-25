@@ -108,7 +108,7 @@ function Form({ onSave }: { onSave: (record: any) => void; }) {
   }
 
   return (
-    <div className="flex-v" style={{ height: "75vh" }}>
+    <div className="flex-v" style={{ height: "70vh" }}>
       <div>
         <Input 
           size="small" label={<InputLabel text="Tên Mộ" required/>}

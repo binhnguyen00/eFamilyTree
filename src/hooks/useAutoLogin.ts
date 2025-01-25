@@ -31,19 +31,25 @@ export function useAutoLogin(): AutoLoginContext {
     setUser(zaloUserInfo);
   }
 
+  const settings = useZaloSettings();
+
   React.useEffect(() => {
     if (hasPermission) {
-      ZmpSDK.getUserInfo(
-        (zaloUserInfo: any) => setUser(zaloUserInfo),
-        (error: any) => console.error("useAutoLogin User Info Error:\n\t", error)
-      );
       ZmpSDK.getPhoneNumber(
         (number: string) => setPhoneNumber(number),
         (error: any) => console.error("useAutoLogin Phone Error:\n\t", error)
       );
+      ZmpSDK.getUserInfo(
+        (zaloUserInfo: any) => setUser({
+          id: zaloUserInfo.id,
+          name: zaloUserInfo.name,
+          avatar: zaloUserInfo.avatar,
+          authSettings: settings
+        }),
+        (error: any) => console.error("useAutoLogin User Info Error:\n\t", error)
+      );
     }
-  }, [hasPermission]);
-
+  }, [ hasPermission ]);
 
   return {
     zaloUserInfo: user,
