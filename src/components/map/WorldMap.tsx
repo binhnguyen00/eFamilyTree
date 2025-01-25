@@ -107,7 +107,7 @@ function useMap(props: UseMapProps) {
       if (onMarkerClick) {
         marker.on('click', () => {
           onMarkerClick({
-            lat: coor.latitude,  // Convert to Coordinate interface format
+            lat: coor.latitude, // Convert to Coordinate interface format
             lng: coor.longitude
           });
         });
