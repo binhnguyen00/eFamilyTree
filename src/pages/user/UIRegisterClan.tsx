@@ -1,9 +1,10 @@
 import React from "react";
 import { t } from "i18next";
-import { Box, Button, Input, Stack, Text } from "zmp-ui";
+import { Button, Input, Stack, Text } from "zmp-ui";
 
 import { AccountApi } from "api";
-import { Header, SlidingPanel, SlidingPanelOrient } from "components";
+import { useBeanObserver, useNotification } from "hooks";
+import { BeanObserver, CommonIcon, Header } from "components";
 
 import { FailResponse, ServerResponse } from "types/server";
 
@@ -21,91 +22,68 @@ export type RegisterClanForm = {
 }
 
 export function UIRegisterClan() {
-  const [ successPop, setSuccessPop ] = React.useState(false);
-  const [ failPop, setFailPop ] = React.useState(false);
-  const [ formData, setFormData ] = React.useState({} as RegisterClanForm);
+  const observer = useBeanObserver({} as RegisterClanForm);
+  const { successToast, dangerToast } = useNotification();
 
-  const submit = (e: any) => {
-    console.log(formData);
-    console.log("Now clear the form data");
-    setFormData({ clanName: '', country: '', city: '', district: '', subDistrict: '', address: '', name: '', mobile: '', email: '', rollInClan: '' });
+  const submit = () => {
+    console.log(observer.getBean());
     const success = (result: ServerResponse) => {
-      setSuccessPop(true);
-      console.log(result);
+      successToast(
+        <>
+          <p> {t("register")} {t("success")}</p>
+          <p> {t("register_pending")} </p>
+        </>
+      );
     }
     const fail = (error: FailResponse) => {
-      setFailPop(true);
-      console.error(error);
+      dangerToast(`${t("register")} ${t("fail")}`);
     }
-    AccountApi.registerClan(formData, success, fail);
+    AccountApi.registerClan(observer.getBean(), success, fail);
   };
 
   return (
     <div className="container">
       <Header title={t("register_clan")}/>
 
-      <UIRegisterClanForm formData={formData} setFormData={setFormData} submit={submit}/>
-
-      <SlidingPanel
-        orient={SlidingPanelOrient.BottomToTop}
-        visible={successPop}
-        close={() => setSuccessPop(false)}
-        header={t("register_clan")}
-      >
-        <Stack space="1rem" className="p-3">
-          <Text size="large" style={{ color: "#3cb371" }} className="center">{`${t("submit")} ${t("success")}`}</Text>
-          <p style={{ textTransform: "none" }}>{t("register_clan_success")}</p>
-        </Stack>
-      </SlidingPanel>
-      
-      <SlidingPanel
-        orient={SlidingPanelOrient.BottomToTop}
-        visible={failPop}
-        close={() => setFailPop(false)}
-        header={t("register_clan")}
-      >
-        <Stack space="1rem" className="p-3">
-          <Text size="large" style={{ color: "#3cb371" }} className="center">{`${t("submit")} ${t("fail")}`}</Text>
-          <p style={{ textTransform: "none" }}>{t("register_clan_fail")}</p>
-        </Stack>
-      </SlidingPanel>
+      <UIRegisterClanForm 
+        observer={observer}
+        submit={submit}/>
     </div>
   )
 }
 
 
-function UIRegisterClanForm({ formData, setFormData, submit }: { 
-  formData: RegisterClanForm, 
-  setFormData: React.Dispatch<React.SetStateAction<RegisterClanForm>> 
+function UIRegisterClanForm({ observer, submit }: { 
+  observer: BeanObserver<RegisterClanForm>
   submit: (e: any) => void
 }) {
-
   const [ step, setStep ] = React.useState(1);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = (e) => {
-    submit(e);
-  };
-
   const nextStep = () => setStep((prevStep) => prevStep + 1);
   const prevStep = () => setStep((prevStep) => prevStep - 1);
 
   switch (step) {
     case 1:
-      return <ClanForm nextStep={nextStep} formData={formData} handleChange={handleChange} />;
+      return (
+        <ClanForm 
+          observer={observer}
+          nextStep={nextStep} 
+        />
+      )
     case 2:
-      return <AddressForm nextStep={nextStep} previousStep={prevStep} formData={formData} handleChange={handleChange} />;
+      return (
+        <AddressForm 
+          observer={observer}
+          nextStep={nextStep} 
+          previousStep={prevStep} 
+        />
+      );
     case 3:
       return (
         <PersionalForm 
+          observer={observer}
           nextStep={nextStep} 
           previousStep={prevStep} 
-          formData={formData} 
-          handleChange={handleChange} 
-          handleSubmit={handleSubmit}
+          handleSubmit={submit}
         />
       )
     default:
@@ -114,19 +92,17 @@ function UIRegisterClanForm({ formData, setFormData, submit }: {
 }
 
 interface StepProps {
+  observer: BeanObserver<RegisterClanForm>;
   nextStep: () => void, 
   previousStep?: () => void; 
-  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void; 
   handleSubmit?: (e: any) => void;
-  formData: RegisterClanForm;
 }
-
 function ClanForm(props: StepProps) {
-  const { formData, handleChange, nextStep } = props; 
+  const { observer, nextStep } = props; 
   const [ error, setError ] = React.useState('');
 
   const handleNextStep = () => {
-    if (!formData.clanName) {
+    if (!observer.getFieldValue("clanName")) {
       setError(t("clan_name_required"));
       return;
     }
@@ -135,87 +111,90 @@ function ClanForm(props: StepProps) {
   };
 
   return (
-    <Box flex flexDirection="column" justifyContent="center">
+    <div className="flex-v">
       <Text.Title size="xLarge" className="text-capitalize center">{t("clan_info")}</Text.Title>
 
-      <Stack space="1rem">
-        <Input label={t("clan") + "*"} name="clanName" value={formData.clanName} onChange={(e) => {
-          handleChange(e);
-          setError('');
-        }}/>
-        {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
+      <Input 
+        label={t("clan") + "*"} size="small" name="clanName" 
+        value={observer.getBean().clanName} 
+        onChange={observer.watch}
+      />
+      {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
 
-        <Button variant="secondary" onClick={handleNextStep}> 
-          {t("next")}
-        </Button>
-      </Stack>
-    </Box>
+      <Button variant="secondary" size="medium" onClick={handleNextStep}> 
+        {t("next")}
+      </Button>
+    </div>
   )
 }
 
 function AddressForm(props: StepProps) {
-  const { formData, handleChange, nextStep, previousStep } = props; 
+  const { observer, nextStep, previousStep } = props; 
   const [ error, setError ] = React.useState('');
 
   const handleNextStep = () => {
-    if (!formData.country || !formData.city || !formData.district) {
+    if (!observer.getFieldValue("country") 
+      || !observer.getFieldValue("city")
+      || !observer.getFieldValue("district")
+    ) {
       setError(t("input_required"));
       return;
-    } 
+    }
     setError(''); // Clear the error if validation passes
     nextStep();
   };
 
   return (
-    <Box flex flexDirection="column" justifyContent="center">
+    <div className="flex-v">
       <Text.Title size="xLarge" className="text-capitalize center">{t("address")}</Text.Title>
 
-      <Stack space="1rem">
-        <Input label={t("country") + "*"} name="country" value={formData.country} onChange={(e) => {
-          handleChange(e);
-          setError('');
-        }}/>
+      <Input 
+        label={t("country") + "*"} name="country" size="small"
+        value={observer.getBean().country} 
+        onChange={observer.watch}
+      />
+      <Input 
+        label={t("city") + "*"} name="city" size="small"
+        value={observer.getBean().city} onChange={observer.watch}
+      />
+      <Input 
+        label={t("district") + "*"} name="district" size="small"
+        value={observer.getBean().district} onChange={observer.watch}
+      />
+      <Input 
+        label={t("sub_district") + "*"} name="subDistrict" size="small"
+        value={observer.getBean().subDistrict} onChange={observer.watch}
+      />
+      <Input.TextArea 
+        label={t("address")} name="address" 
+        value={observer.getBean().address} 
+        onChange={(e) => {
+          observer.update("address", e.target.value);
+        }}
+      />
 
-        <Input label={t("city") + "*"} name="city" value={formData.city} onChange={(e) => {
-          handleChange(e);
-          setError('');
-        }}/>
+      {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
 
-        <Input label={t("district") + "*"} name="district" value={formData.district} onChange={(e) => {
-          handleChange(e);
-          setError('');
-        }}/>
+      <div className="flex-h justify-between">
+        <Button size="small" variant="secondary" onClick={previousStep}> 
+          {t("previous")}
+        </Button>
+        <Button size="small" variant="secondary" onClick={handleNextStep}> 
+          {t("next")}
+        </Button>
+      </div>
 
-        <Input label={t("sub_district") + "*"} name="subDistrict" value={formData.subDistrict} onChange={(e) => {
-          handleChange(e);
-          setError('');
-        }}/>
-
-        <Input.TextArea label={t("address")} name="address" value={formData.address} onChange={handleChange}/>
-
-        {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
-
-        <Box flex flexDirection="row" justifyContent="space-between">
-          <Button variant="secondary" onClick={previousStep}> 
-            {t("previous")}
-          </Button>
-          <Button variant="secondary" onClick={handleNextStep}> 
-            {t("next")}
-          </Button>
-        </Box>
-
-        <UIRegisterNotice/>
-      </Stack>
-    </Box>
+      <UIRegisterNotice/>
+    </div>
   )
 }
 
 function PersionalForm(props: StepProps) {
-  const { formData, handleChange, handleSubmit, previousStep } = props; 
+  const { observer, handleSubmit, previousStep } = props; 
   const [ error, setError ] = React.useState('');
 
   const submitOrError = (e: any) => {
-    if (!formData.country || !formData.city || !formData.district) {
+    if (!observer.getBean().name || !observer.getBean().mobile) {
       setError(t("input_required"));
       return;
     } 
@@ -224,50 +203,54 @@ function PersionalForm(props: StepProps) {
   };
 
   return (
-    <Box flex flexDirection="column" justifyContent="center">
-      <Text.Title size="xLarge" className="text-capitalize center">{t("personal_info")}</Text.Title>
+    <div className="flex-v">
+      <Text.Title size="xLarge" className="text-capitalize center">{t("clan_manager")}</Text.Title>
 
       <Stack space="1rem">
-        <Input label={t("name") + "*"} name="name" value={formData.name} onChange={(e) => {
-          handleChange(e);
-          setError('');
-        }}/>
-        <Input label={t("mobile") + "*"} name="mobile" value={formData.mobile} onChange={(e) => {
-          handleChange(e);
-          setError('');
-        }}/>
-        <Input label={t("email") + "*"}  name="email" value={formData.email} onChange={(e) => {
-          handleChange(e);
-          setError('');
-        }}/>
-        <Input label={t("roll_in_clan")} name="rollInClan" value={formData.rollInClan} onChange={handleChange}/>
+        <Input 
+          label={t("name") + "*"} name="name" size="small"
+          value={observer.getBean().name} onChange={observer.watch}
+        />
+        <Input 
+          label={t("mobile") + "*"} name="mobile" size="small"
+          value={observer.getBean().mobile} onChange={observer.watch}
+        />
+        <Input 
+          label={t("email")} name="email" size="small"
+          value={observer.getBean().email} onChange={observer.watch}
+        />
+        <Input 
+          label={t("roll_in_clan")} name="rollInClan" size="small"
+          value={observer.getBean().rollInClan} onChange={observer.watch}
+        />
 
         {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
 
-        <Box flex flexDirection="row" justifyContent="space-between">
-          <Button variant="secondary" onClick={previousStep}> 
+        <div className="flex-h justify-between">
+          <Button size="small" variant="secondary" onClick={previousStep}> 
             {t("previous")}
           </Button>
-          <Button variant="secondary" onClick={submitOrError}> 
+          <Button size="small" variant="secondary" onClick={submitOrError}> 
             {t("submit")}
           </Button>
-        </Box>
+        </div>
 
         <UIRegisterNotice/>
       </Stack>
-    </Box>
+    </div>
   )
 }
 
 function UIRegisterNotice() {
   return (
-    <Stack space="1rem">
-      <Text.Title className="text-capitalize">
-        {t("notice")}
-      </Text.Title>
-      <Text size="xxSmall">
-        {t("register_clan_notice")}
-      </Text>
-    </Stack>
+    <div className="flex-v">
+      <div className="flex-h">
+        <CommonIcon.LightBulb size={22}/>
+        <Text.Title className="text-capitalize">
+          {t("notice")}
+        </Text.Title>
+      </div>
+      <p> {t("register_clan_notice")} </p>
+    </div>
   )
 }

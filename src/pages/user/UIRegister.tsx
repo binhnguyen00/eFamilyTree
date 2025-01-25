@@ -1,11 +1,12 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Grid, Input, Text } from "zmp-ui";
+import { Button, Input, Text } from "zmp-ui";
+
 import { AccountApi } from "api";
+import { useBeanObserver, useNotification } from "hooks";
 import { BeanObserver, CommonIcon, Header, Selection } from "components";
 
 import { FailResponse, ServerResponse } from "types/server";
-import { useBeanObserver, useNotification } from "hooks";
 
 export type RegisterForm = {
   mobile: string;
@@ -63,8 +64,6 @@ function UIRegisterForm({ observer, submit }: {
   const [ error, setError ] = React.useState('');
 
   const submitOrError = (e: any) => {
-    console.log(observer.getBean());
-    
     const requireFields = [ "mobile", "clanCode", "fatherCode" ] as const;
     const hasMissingField = requireFields.some(field => {
       const value = observer.getFieldValue(field);
@@ -80,93 +79,101 @@ function UIRegisterForm({ observer, submit }: {
 
   return (
     <div className="flex-v">
-      <div className="flex-h">
-        <Input 
-          label={t("mobile") + "*"} size="small"
-          name={"mobile"}
-          value={observer.getBean().mobile} 
-          onChange={observer.watch}
-        />
-        <Input 
-          label={t("clan_code") + "*"} size="small"
-          name={"clanCode"}
-          value={observer.getBean().clanCode} 
-          onChange={observer.watch}
-        />
-      </div>
-      {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
+      <React.Fragment>
+        <Text.Title size="xLarge" className="text-capitalize text-shadow">{t("personal_info")}</Text.Title>
 
-      <div className="flex-h">
-        <Input 
-          label={t("name") + "*"} size="small"
-          name={"fullName"}
-          value={observer.getBean().fullName}
-          onChange={observer.watch}
-        />
-        <Selection
-          label={t("gender") + "*"}
-          observer={observer} field={"gender"}
-          defaultValue={{ value: "male", label: t("male") }}
-          options={[
-            { value: "male", label: t("male") },
-            { value: "female", label: t("female") },
-          ]}
-        />
-      </div>
-      {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
+        <div className="flex-h">
+          <Input 
+            label={t("mobile") + "*"} size="small"
+            name={"mobile"}
+            value={observer.getBean().mobile} 
+            onChange={observer.watch}
+          />
+          <Input 
+            label={t("clan_code") + "*"} size="small"
+            name={"clanCode"}
+            value={observer.getBean().clanCode} 
+            onChange={observer.watch}
+          />
+        </div>
+        {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
 
-      <Input 
-        label={t("email")} size="small"
-        name="email"
-        value={observer.getBean().email} 
-        onChange={observer.watch}
-      />
+        <div className="flex-h">
+          <Input 
+            label={t("name") + "*"} size="small"
+            name={"fullName"}
+            value={observer.getBean().fullName}
+            onChange={observer.watch}
+          />
+          <Selection
+            label={t("gender") + "*"}
+            observer={observer} field={"gender"}
+            defaultValue={{ value: "male", label: t("male") }}
+            options={[
+              { value: "male", label: t("male") },
+              { value: "female", label: t("female") },
+            ]}
+          />
+        </div>
+        {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
 
-      <div className="flex-h">
         <Input 
-          label={t("mother_name")} size="small"
-          name="motherName"
-          value={observer.getBean().motherName} 
+          label={t("email")} size="small"
+          name="email"
+          value={observer.getBean().email} 
           onChange={observer.watch}
         />
-        <Input 
-          label={t("mother_code")} size="small"
-          name="motherCode"
-          value={observer.getBean().motherCode}
-          onChange={observer.watch}
-        />
-      </div>
+      </React.Fragment>
 
-      <div className="flex-h">
-        <Input 
-          label={t("father_name")} size="small"
-          name="fatherName"
-          value={observer.getBean().fatherName} 
-          onChange={observer.watch}
-        />
-        <Input 
-          label={t("father_code")} size="small"
-          name="fatherCode"
-          value={observer.getBean().fatherCode}
-          onChange={observer.watch}
-        />
-      </div>
-      {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
+      <React.Fragment>
+        <Text.Title size="xLarge" className="text-capitalize text-shadow">{t("relations")}</Text.Title>
 
-      <div className="flex-h">
-        <Input 
-          label={`${t("spouse_name")}`} size="small"
-          name="spouseName"
-          value={observer.getBean().spouseName} 
-          onChange={observer.watch}
-        />
-        <Input 
-          label={`${t("spouse_code")}`} size="small"
-          name="spouseCode"
-          value={observer.getBean().spouseCode}
-          onChange={observer.watch}
-        />
-      </div>
+        <div className="flex-h">
+          <Input 
+            label={t("mother_name")} size="small"
+            name="motherName"
+            value={observer.getBean().motherName} 
+            onChange={observer.watch}
+          />
+          <Input 
+            label={t("mother_code")} size="small"
+            name="motherCode"
+            value={observer.getBean().motherCode}
+            onChange={observer.watch}
+          />
+        </div>
+
+        <div className="flex-h">
+          <Input 
+            label={t("father_name")} size="small"
+            name="fatherName"
+            value={observer.getBean().fatherName} 
+            onChange={observer.watch}
+          />
+          <Input 
+            label={t("father_code")} size="small"
+            name="fatherCode"
+            value={observer.getBean().fatherCode}
+            onChange={observer.watch}
+          />
+        </div>
+        {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
+
+        <div className="flex-h">
+          <Input 
+            label={`${t("spouse_name")}`} size="small"
+            name="spouseName"
+            value={observer.getBean().spouseName} 
+            onChange={observer.watch}
+          />
+          <Input 
+            label={`${t("spouse_code")}`} size="small"
+            name="spouseCode"
+            value={observer.getBean().spouseCode}
+            onChange={observer.watch}
+          />
+        </div>
+      </React.Fragment>
 
       <Button variant="secondary" size="medium" onClick={submitOrError}> 
         {t("register")}
