@@ -4,12 +4,8 @@ import { Button, Input } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
 import { MemorialMapApi } from "api";
-import { 
-  CommonIcon, Coordinate, 
-  Marker, 
-  RequestLocation, 
-  SlidingPanel, SlidingPanelOrient } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
+import { CommonIcon, Marker, RequestLocation, SlidingPanel, SlidingPanelOrient } from "components";
 
 import { ServerResponse } from "types/server";
 
@@ -23,7 +19,6 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
   const [ addMarkerVisible, setAddMarkerVisible ] = React.useState(false);
 
   const onAddMarker = () => {
-    console.log(zaloUserInfo);
     const locationPermission = zaloUserInfo.authSettings?.["scope.userLocation"];
     if (!locationPermission || !logedIn) {
       setRequestLoc(true);
@@ -36,6 +31,15 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
 
   const save = (record: any) => {
     console.log(record);
+    onAdd?.({
+      label: "New Marker",
+      description: "New Marker",
+      coordinate: {
+        lat: 20.810754465924028,
+        lng: 106.62409414154756
+      },
+      images: []
+    })
     
     const saveSuccess = (result: ServerResponse) => {
       if (result.status !== "error") {
@@ -111,7 +115,7 @@ function Form({ onSave }: { onSave: (record: any) => void; }) {
     <div className="flex-v" style={{ height: "70vh" }}>
       <div>
         <Input 
-          size="small" label={<InputLabel text="Tên Mộ" required/>}
+          size="small" label={<InputLabel text="Tên Di Tích" required/>}
           value={observer.getBean().name}
           onChange={(e) => observer.update("name", e.target.value)}
         />

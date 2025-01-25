@@ -2,8 +2,11 @@ import React from "react";
 import ReactDOM from 'react-dom/client';
 import Leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
+import "./css/leaflet.scss"
 
 import config from "./config";
+import { Button } from "zmp-ui";
+import { t } from "i18next";
 
 export type Marker = {
   label: string;
@@ -95,7 +98,7 @@ function useMap(props: UseMapProps) {
       marker
         .addTo(mapRef.current!)
         .bindPopup(`
-          <div class="custom-popup">
+          <div>
             <h3>Coordinates</h3>
             <p>Lat: ${coor.latitude}</p>
             <p>Lng: ${coor.longitude}</p>
@@ -115,19 +118,21 @@ function useMap(props: UseMapProps) {
     mapRef.current.on('click', (e: Leaflet.LeafletMouseEvent) => {
       const { lat, lng } = e.latlng;
       const popupContainer = document.createElement('div');
+
       const root = ReactDOM.createRoot(popupContainer);
       root.render(
-        <>
-          <p>{e.latlng.toString()}</p>
-          <button 
-            className="add-marker-btn"
+        <div className="flex-v">
+          <span> lat: {lat} </span>
+          <span> lng: {lng} </span>
+          <Button 
+            size="small"
             onClick={() => {
-              console.log('Add button clicked', e.latlng);
+              console.log('Add button clicked', lat, lng);
             }}
           >
-            Click
-          </button>
-        </>
+            {t("add")}
+          </Button>
+        </div>
       );
     
       popup
@@ -183,8 +188,13 @@ function useAddMarker(props: UseAddMarkerProps) {
     }
 
     if (onMarkerClick) {
-      // marker.on('click', () => onMarkerClick(coordinate));
-      newRecord.bindPopup(""+newRecord);
+      newRecord.bindPopup(`
+        <div>
+          <h3>Coordinates</h3>
+          <p>Lat: ${marker.coordinate.lat}</p>
+          <p>Lng: ${marker.coordinate.lng}</p>
+        </div>
+      `);
     }
 
     // Store marker reference

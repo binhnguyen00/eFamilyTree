@@ -3,7 +3,7 @@ import { t } from "i18next";
 
 import { Node } from 'components/tree-relatives/types';
 import { TreeDataProcessor } from "utils";
-import { Popover, CommonIcon, ScrollableDiv, Divider } from "components";
+import { Popover, CommonIcon, ScrollableDiv } from "components";
 import { Button, Text } from "zmp-ui";
 
 interface TreeSearchBarProps {
