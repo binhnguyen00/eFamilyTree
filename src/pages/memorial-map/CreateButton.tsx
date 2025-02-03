@@ -122,10 +122,10 @@ function Form({ onSave }: { onSave: (record: NewMarker) => void; }) {
   const save = async () => {
     const imgBase64s = await blobUrlsToBase64();
     const successLoc = (location: any) => {
-      observer.update("lat", location.latitude);
-      observer.update("lng", location.longitude);
       onSave({
         ...observer.getBean(),
+        lat: location.latitude,
+        lng: location.longitude,
         images: imgBase64s
       } as NewMarker);
     }
