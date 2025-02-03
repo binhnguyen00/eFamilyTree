@@ -1,5 +1,6 @@
 import React from "react";
 import { t } from "i18next";
+import { Button } from "zmp-ui";
 
 import { StyleUtils } from "utils";
 import { MemorialMapApi } from "api";
@@ -9,6 +10,7 @@ import { ServerResponse } from "types/server";
 import { CreateButton } from "./CreateButton";
 
 import coordinates from "./data.json";
+import newMarkers from "./new-marker.json";
 
 // ============================
 // Map
@@ -54,10 +56,7 @@ function useQueryMap() {
         setLocations(result.data);
       }
     }
-    const params = {
-      clan_id: userInfo.clanId
-    }
-    MemorialMapApi.search(params, success);
+    MemorialMapApi.search({clan_id: userInfo.clanId}, success);
   }, []);
 
   return {
@@ -74,11 +73,31 @@ interface UIMemorialMapControllerProps {
 export function UIMemorialMapController(props: UIMemorialMapControllerProps) {
   const { onAdd } = props;
 
+  const randomlyAddMarker = () => {
+    const randomIndex = Math.floor(Math.random() * newMarkers.length);
+    const randomMarker = newMarkers[randomIndex];
+    onAdd?.({
+      label: "test marker",
+      coordinate: {
+        lat: parseFloat(randomMarker.latitude),
+        lng: parseFloat(randomMarker.longitude)
+      },
+      images: []
+    });
+  }
+
   return (
     <div className="scroll-h px-1">
       <CreateButton
         onAdd={onAdd} 
       />
+
+      <Button
+        variant="secondary" size="small"
+        onClick={randomlyAddMarker}
+      >
+        {t("Thêm Dummy")}
+      </Button>
     </div>
   )
 }

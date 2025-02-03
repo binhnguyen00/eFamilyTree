@@ -20,19 +20,19 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
   const [ addMarkerVisible, setAddMarkerVisible ] = React.useState(false);
 
   const onAddMarker = () => {
-    // const locationPermission = zaloUserInfo.authSettings?.["scope.userLocation"];
-    // if (!locationPermission || !logedIn) {
-    //   setRequestLoc(true);
-    // } else {
-    //   if (onAdd) {
-    //     setAddMarkerVisible(true);
-    //   }
-    // }
+    const locationPermission = zaloUserInfo.authSettings?.["scope.userLocation"];
+    if (!locationPermission || !logedIn) {
+      setRequestLoc(true);
+    } else {
+      if (onAdd) {
+        setAddMarkerVisible(true);
+      }
+    }
 
     // Debug
-    if (onAdd) {
-      setAddMarkerVisible(true);
-    }
+    // if (onAdd) {
+    //   setAddMarkerVisible(true);
+    // }
   }
 
   const save = (record: NewMarker) => {
@@ -54,7 +54,7 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
     const saveFail = (error: any) => {
       dangerToast(`${t("save")} ${t("fail")}`)
     }
-    MemorialMapApi.save(record, saveSuccess, saveFail);
+    MemorialMapApi.create(record, saveSuccess, saveFail);
   }
 
   return (
@@ -95,16 +95,19 @@ type NewMarker = {
   lat: string;
   lng: string;
   images: string[];
+  clanId: number;
 }
 
 function Form({ onSave }: { onSave: (record: NewMarker) => void; }) {
   const { warningToast } = useNotification();
+  const { userInfo } = useAppContext();
   const observer = useBeanObserver({
     name: "",
     description: "",
     lat: "",
     lng: "",
     images: [],
+    clanId: userInfo.clanId,
   } as NewMarker);
 
   const blobUrlsToBase64 = async () => {
