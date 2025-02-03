@@ -12,7 +12,7 @@ import { UIAncestralOfferingTemplate } from "./UITemplate";
 const Label = ({ label }: { label: string }) => <p className="text-primary"> {t(label)} </p>
 const Title = ({ label }: { label: string }) => <Text.Title className="text-primary"> {t(label)} </Text.Title>
 
-/** Sớ Lễ Gia Viên */
+/** Sớ Lễ Gia Tiên */
 
 export type RitualScriptMember = {
   name?: string;
@@ -102,7 +102,7 @@ export function UIAncestralOfferingForm() {
         visible={preview} 
         header={
           <div className="flex-h">
-            <Text.Title className="text-center mr-1"> {"Sớ Lễ Gia Viên"} </Text.Title>
+            <Text.Title className="text-center mr-1"> {"Sớ Lễ Gia Tiên"} </Text.Title>
             <CommonIcon.CloudDownload className="button" size={24} onClick={exportPNG}/>
           </div>
         }        

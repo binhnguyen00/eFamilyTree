@@ -8,7 +8,7 @@ import { Divider, Header } from "components";
 import { UIAncestralOfferingForm } from "./ancestral-offering-letter/UIForm";
 
 const options: any[] = [
-  { value: 1, label: "Lễ Gia Viên" }
+  { value: 1, label: "Lễ Gia Tiên" }
 ]
 
 const colourStyles: StylesConfig<any> = {

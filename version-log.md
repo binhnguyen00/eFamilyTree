@@ -16,7 +16,7 @@
 2. Thêm Bảng hiện tên dòng họ trong phả đồ.
 3. Thêm module mới: Sớ Online - Online Ritual Script
  - Nhập nhanh thông tin, từ đó xuất ra một bản sớ dưới dạng ảnh JPG, lưu thẳng vào thư viện ảnh trong máy.
- - Hiện tại mới chỉ có một loại sớ: Lễ Gia Viên.
+ - Hiện tại mới chỉ có một loại sớ: Lễ Gia Tiên.
  - Tương lai bổ sung thêm sớ Phúc Lộc Thọ.
 
 # Version 1.0.9
