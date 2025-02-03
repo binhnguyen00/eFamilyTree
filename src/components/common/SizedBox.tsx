@@ -53,7 +53,7 @@ export function SizedBox(props: SizedBoxProps) {
         padding: `${padding}px`,
         paddingTop: `${paddingTop}px`,
         paddingBottom: `${paddingBottom}px`,
-        overflow: (requireBorder) ? "hidden" : undefined,
+        overflow: "hidden",
         ...style
       }}
       onClick={onClick}
