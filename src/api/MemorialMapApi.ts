@@ -15,8 +15,9 @@ export class MemorialMapApi extends BaseApi {
   public static save(params: {
     name: string,
     description: string,
-    latitude: string,
-    longitude: string,
+    lat: string,
+    lng: string,
+    images: string[],
   }, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
     const body = this.initBody(params);

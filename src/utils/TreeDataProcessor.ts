@@ -57,7 +57,11 @@ export class TreeDataProcessor {
 
   public getAncestor(): Node {
     const target = this.nodes.find((node: Node) => {
-      return node.parents.length === 0 && node.gender === Gender.male;
+      return (
+        node.parents.length === 0 
+          && node.gender === Gender.male 
+          && node.generation === 1
+      )
     })
     if (!target) return this.nodes[0];
     else return target;

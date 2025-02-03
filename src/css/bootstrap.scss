@@ -189,6 +189,10 @@
   gap: 0.5rem;
 }
 
+.flex-grow-0 {
+  flex-grow: 0;
+}
+
 .flex-h {
   display: flex;
   flex-direction: row !important;

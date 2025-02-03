@@ -2,19 +2,21 @@ import React from "react";
 import { t } from "i18next";
 
 import { StyleUtils } from "utils";
-import { MemorialMapApi } from "api/MemorialMapApi";
+import { MemorialMapApi } from "api";
 import { Header, WorldMap, Coordinate, useAppContext, Marker } from "components";
-
 import { ServerResponse } from "types/server";
 
-import { UIMemorialMapController } from "./UIMemorialMapController";
+import { CreateButton } from "./CreateButton";
 
 import coordinates from "./data.json";
 
+// ============================
+// Map
+// ============================
 export function UIMemorialMap() {
   const [ newMarker, setNewMarker ] = React.useState<Marker>();
 
-  const { locations } = useMap();
+  const { locations } = useQueryMap();
 
   const onAddMarker = (marker: Marker) => {
     setNewMarker(marker);
@@ -39,7 +41,10 @@ export function UIMemorialMap() {
   )
 }
 
-function useMap() {
+// ============================
+// Query
+// ============================
+function useQueryMap() {
   const { userInfo } = useAppContext();  
   const [ locations, setLocations ] = React.useState<any[]>([]);
 
@@ -58,4 +63,22 @@ function useMap() {
   return {
     locations: locations
   }
+}
+
+// ============================
+// Controller
+// ============================
+interface UIMemorialMapControllerProps {
+  onAdd?: (marker: Marker) => void;
+}
+export function UIMemorialMapController(props: UIMemorialMapControllerProps) {
+  const { onAdd } = props;
+
+  return (
+    <div className="scroll-h px-1">
+      <CreateButton
+        onAdd={onAdd} 
+      />
+    </div>
+  )
 }

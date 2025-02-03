@@ -66,7 +66,7 @@ export default function UIDummyTree() {
                 setProcessor(processor);
                 const ancestor = processor.getAncestor();
                 setNodes(processor.peopleToNodes());
-                setRootId(ancestor?.id);
+                setRootId(ancestor.id);
                 setSelectNameField("name");
               } else {
                 const members = dataSrcKey[Number(val)];

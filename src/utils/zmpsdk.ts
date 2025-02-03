@@ -7,6 +7,7 @@ import {
   saveImageToGallery,
   downloadFile,
   getLocation,
+  chooseImage,
 } from 'zmp-sdk/apis';
 import { ExternalRESTful } from "server";
 import { CallBack } from "types/server";
@@ -192,5 +193,18 @@ export class ZmpSDK {
     }
 
     this.getAccessToken(success, fail);
+  }
+
+  public static chooseImage(howMany: number, successCB: CallBack, failCB?: CallBack) {
+    chooseImage({
+      count: howMany,
+      sourceType: ["album"],
+      success(res) {
+        successCB(res.tempFiles);
+      },
+      fail(err) {
+        if (failCB) failCB(err);
+      },
+    })
   }
 }

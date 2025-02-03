@@ -31,12 +31,19 @@ export class CommonUtils {
     } else reader.readAsDataURL(obj);
   }
 
-  static getDivById(id: string): HTMLElement | null {
-    const div = document.getElementById(id);
-    if (!div) {
-      console.warn(`getDivById\n div with id ${id} is not found`);
-      return null;
-    }
-    return div;
+  static blobUrlToBase64(
+    blobUrl: string,
+    success: (base64: string) => void,
+    fail?: (error: any) => void
+  ) {
+    fetch(blobUrl)
+      .then((response) => {
+        if (!response.ok) throw new Error(`Failed to fetch blob: ${response.statusText}`);
+        return response.blob();
+      })
+      .then((blob) => {
+        this.objToBase64(blob, success, fail);
+      })
+      .catch((error) => fail?.(error));
   }
 }

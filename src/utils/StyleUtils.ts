@@ -34,5 +34,12 @@ export class StyleUtils {
     return result;
   }
 
-  
+  static getDivById(id: string): HTMLElement | null {
+    const div = document.getElementById(id);
+    if (!div) {
+      console.warn(`getDivById\n div with id ${id} is not found`);
+      return null;
+    }
+    return div;
+  }
 }
