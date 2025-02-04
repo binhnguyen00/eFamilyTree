@@ -6,8 +6,9 @@ import "./css/leaflet.scss"
 
 import config from "./config";
 
-import { SlidingPanel, SlidingPanelOrient, useAppContext } from "components";
+import { RequestLocation, SlidingPanel, SlidingPanelOrient, useAppContext } from "components";
 import { CreateLocationForm } from "./CreateLocationForm";
+import { useNotification } from "hooks";
 
 export type Marker = {
   label: string;
@@ -73,8 +74,11 @@ interface UseMapProps {
 }
 function useMap(props: UseMapProps) {
   const { coordinates, onMarkerClick } = props;
-  const { userInfo } = useAppContext();
+  const { userInfo, zaloUserInfo, logedIn } = useAppContext();
+  const { successToast, dangerToast } = useNotification();
+
   const [ addMarkerVisible, setAddMarkerVisible ] = React.useState(true);
+  const [ requestLoc, setRequestLoc ] = React.useState(true);
 
   const mapRef = React.useRef<Leaflet.Map | null>(null);
   const markersRef = React.useRef<Leaflet.Marker[]>([]);
@@ -130,56 +134,74 @@ function useMap(props: UseMapProps) {
 
     // click on map handler
     mapRef.current.on('click', (e: Leaflet.LeafletMouseEvent) => {
-      const { lat, lng } = e.latlng;
-      const popupContainer = document.createElement('div');
-
-      const saveSuccess = (record: Marker) => {
-        const marker = Leaflet.marker([record.coordinate.lat, record.coordinate.lng])
-        marker
-          .addTo(mapRef.current!)
-          .setIcon(icon)
-          .bindPopup(`
-            <div>
-              <h3>Coordinates</h3>
-              <p>Lat: ${record.coordinate.lat}</p>
-              <p>Lng: ${record.coordinate.lng}</p>
-            </div>
-          `)
-        if (onMarkerClick) {
-          marker.on('click', () => {
-            onMarkerClick({
-              lat: record.coordinate.lat, // Convert to Coordinate interface format
-              lng: record.coordinate.lng
-            });
-          });
-        }
-
-        setAddMarkerVisible(false);
-        root.unmount();
-      }
-
-      const root = ReactDOM.createRoot(popupContainer);
-      root.render((
-        <div className="flex-v">
-          <SlidingPanel
-            className="bg-white"
-            orient={SlidingPanelOrient.LeftToRight} 
-            visible={addMarkerVisible} 
-            header={"Thêm toạ độ mới"}      
+      // Check Location Permission
+      const locationPermission = zaloUserInfo.authSettings?.["scope.userLocation"];
+      if (!locationPermission || !logedIn) {
+        const popupContainer = document.createElement('div');
+        const root = ReactDOM.createRoot(popupContainer);
+        root.render(
+          <RequestLocation
+            visible={true}
             close={() => {
               setAddMarkerVisible(false);
               root.unmount();
             }}
-          >
-            <CreateLocationForm 
-              lat={lat.toString()}
-              lng={lng.toString()}
-              clanId={userInfo.clanId}
-              saveSuccess={saveSuccess}
-            />
-          </SlidingPanel>
-        </div>
-      ));
+          />
+        )
+      } else {
+        const { lat, lng } = e.latlng;
+        const popupContainer = document.createElement('div');
+
+        const saveSuccess = (record: Marker) => {
+          const marker = Leaflet.marker([record.coordinate.lat, record.coordinate.lng])
+          marker
+            .addTo(mapRef.current!)
+            .setIcon(icon)
+            .bindPopup(`
+              <div>
+                <h3>Coordinates</h3>
+                <p>Lat: ${record.coordinate.lat}</p>
+                <p>Lng: ${record.coordinate.lng}</p>
+              </div>
+            `)
+          if (onMarkerClick) {
+            marker.on('click', () => {
+              onMarkerClick({
+                lat: record.coordinate.lat, // Convert to Coordinate interface format
+                lng: record.coordinate.lng
+              });
+            });
+          }
+
+          setAddMarkerVisible(false);
+          root.unmount();
+        }
+
+        const root = ReactDOM.createRoot(popupContainer);
+        root.render((
+          <div className="flex-v">
+            <SlidingPanel
+              className="bg-white"
+              orient={SlidingPanelOrient.LeftToRight} 
+              visible={addMarkerVisible} 
+              header={"Thêm toạ độ mới"}      
+              close={() => {
+                setAddMarkerVisible(false);
+                root.unmount();
+              }}
+            >
+              <CreateLocationForm 
+                lat={lat.toString()}
+                lng={lng.toString()}
+                clanId={userInfo.clanId}
+                saveSuccess={saveSuccess}
+                successToast={successToast}
+                dangerToast={dangerToast}
+              />
+            </SlidingPanel>
+          </div>
+        ));
+      }
     });
 
     removeLeafletLogo();

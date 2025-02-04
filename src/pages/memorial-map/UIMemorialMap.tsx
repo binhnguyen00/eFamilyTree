@@ -1,6 +1,5 @@
 import React from "react";
 import { t } from "i18next";
-import { Button } from "zmp-ui";
 
 import { StyleUtils } from "utils";
 import { MemorialMapApi } from "api";
@@ -92,12 +91,12 @@ export function UIMemorialMapController(props: UIMemorialMapControllerProps) {
         onAdd={onAdd} 
       />
 
-      <Button
+      {/* <Button
         variant="secondary" size="small"
         onClick={randomlyAddMarker}
       >
         {t("Thêm Dummy")}
-      </Button>
+      </Button> */}
     </div>
   )
 }

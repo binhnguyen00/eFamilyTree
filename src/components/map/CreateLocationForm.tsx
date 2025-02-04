@@ -13,6 +13,8 @@ interface CreateLocationFormProps {
   lng: string;
   clanId: number;
   saveSuccess: (record: Marker) => void;
+  successToast: (content: any) => void;
+  dangerToast: (content: any) => void;
 }
 
 type NewMarker = {
@@ -28,7 +30,7 @@ function InputLabel({ text, required }: { text: string, required?: boolean }) {
   return <span className="text-primary"> {`${t(text)} ${required ? "*" : ""}`} </span>
 }
 
-export function CreateLocationForm({ lat, lng, clanId, saveSuccess }: CreateLocationFormProps) {
+export function CreateLocationForm({ lat, lng, clanId, saveSuccess, successToast, dangerToast }: CreateLocationFormProps) {
   const [ error, setError ] = React.useState("");
   const observer = useBeanObserver({
     name: "",
@@ -52,7 +54,10 @@ export function CreateLocationForm({ lat, lng, clanId, saveSuccess }: CreateLoca
   };
 
   const onSave = async () => {
-    if (!observer.getBean().name) setError("Nhập đủ thông tin")
+    if (!observer.getBean().name) {
+      setError("Nhập đủ thông tin");
+      return;
+    }
 
     const imgBase64s = await blobUrlsToBase64();
     const success = (result: ServerResponse) => {
@@ -67,9 +72,11 @@ export function CreateLocationForm({ lat, lng, clanId, saveSuccess }: CreateLoca
             lng: parseFloat(record.lng)
           }
         } as Marker);
+        successToast(`${t("save")} ${t("success")}`);
       } else fail(null);
     }
     const fail = (error: any) => {
+      dangerToast(`${t("save")} ${t("fail")}`)
     }
     MemorialMapApi.create({
       clanId: clanId,
@@ -125,7 +132,7 @@ function ImageSelector({ observer }: ImageSelectorProps) {
         {images.map((image, index) => {
           return (
             <SizedBox 
-              className="button"
+              className="button" key={index}
               width={100} height={100}
             >
               <img src={image} onClick={() => remove(index)}/>

@@ -2,8 +2,8 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Grid, Input } from "zmp-ui";
 
-import { CommonUtils, ZmpSDK } from "utils";
 import { MemorialMapApi } from "api";
+import { CommonUtils, ZmpSDK } from "utils";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 import { BeanObserver, CommonIcon, Marker, RequestLocation, SizedBox, SlidingPanel, SlidingPanelOrient } from "components";
 
@@ -20,22 +20,23 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
   const [ addMarkerVisible, setAddMarkerVisible ] = React.useState(false);
 
   const onAddMarker = () => {
-    // const locationPermission = zaloUserInfo.authSettings?.["scope.userLocation"];
-    // if (!locationPermission || !logedIn) {
-    //   setRequestLoc(true);
-    // } else {
-    //   if (onAdd) {
-    //     setAddMarkerVisible(true);
-    //   }
-    // }
-
-    // Debug
-    if (onAdd) {
-      setAddMarkerVisible(true);
+    const locationPermission = zaloUserInfo.authSettings?.["scope.userLocation"];
+    if (!locationPermission || !logedIn) {
+      setRequestLoc(true);
+    } else {
+      if (onAdd) {
+        setAddMarkerVisible(true);
+      }
     }
+    // Debug
+    // if (onAdd) {
+    //   setAddMarkerVisible(true);
+    // }
   }
 
   const onSave = (record: NewMarker | any) => {
+    console.log(record);
+    
     if (!record) {
       dangerToast(`${t("save")} ${t("fail")}`)
       return;
