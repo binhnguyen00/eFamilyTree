@@ -59,4 +59,24 @@ export class MemorialMapApi extends BaseApi {
     });
     this.server.POST("memorial/location/save", header, body, successCB, failCB);
   }
+
+  public static get(userId: number, clanId: number, targetId: number, successCB: SuccessCB, failCB?: FailCB) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      user_id: userId,
+      clan_id: clanId,
+      id: targetId,
+    })
+    this.server.POST("memorial/location/get", header, body, successCB, failCB);
+  }
+
+  public static delete(userId: number, clanId: number, targetId: number, successCB: SuccessCB, failCB?: FailCB) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      user_id: userId,
+      clan_id: clanId,
+      id: targetId,
+    })
+    this.server.POST("memorial/location/delete", header, body, successCB, failCB);
+  }
 }

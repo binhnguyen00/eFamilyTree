@@ -3,19 +3,21 @@ import { t } from "i18next";
 
 import { StyleUtils } from "utils";
 import { MemorialMapApi } from "api";
-import { Header, WorldMap, Coordinate, useAppContext, Marker } from "components";
+import { Header, WorldMap, useAppContext, Marker, SlidingPanel, SlidingPanelOrient } from "components";
 import { ServerResponse } from "types/server";
 
 import { CreateButton } from "./CreateButton";
 
 import coordinates from "./data.json";
 import newMarkers from "./new-marker.json";
+import { UIMemorialLocation } from "./UIMemorialLocation";
 
 // ============================
 // Map
 // ============================
 export function UIMemorialMap() {
   const [ newMarker, setNewMarker ] = React.useState<Marker>();
+  const [ selectedLocation, setSelectedLocation ] = React.useState<any>(null);
 
   const { locations } = useQueryMap();
 
@@ -26,18 +28,27 @@ export function UIMemorialMap() {
   return (
     <div className="container-padding">
       <Header title={t("memorial_location")}/>
-      
+
       <div className="flex-v py-2">
         <UIMemorialMapController onAdd={onAddMarker}/>
         <WorldMap
           height={StyleUtils.calComponentRemainingHeight(50)}
           locations={coordinates}
           addMarker={newMarker}
-          onMarkerClick={(coor: Coordinate) => {
-            console.log(coor);
+          onMarkerClick={(location: any) => {
+            console.log(location);
+            setSelectedLocation(location);
           }}
         />
       </div>
+
+      {selectedLocation && (
+        <UIMemorialLocation
+          id={selectedLocation.id}
+          visible={selectedLocation !== null}
+          onClose={() => setSelectedLocation(null)}
+        />
+      )}
     </div>
   )
 }

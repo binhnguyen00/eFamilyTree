@@ -26,7 +26,7 @@ interface WorldMapProps {
   height?: string | number;
   locations?: any[];
   addMarker?: Marker;
-  onMarkerClick?: (coordinate: Coordinate) => void;
+  onMarkerClick?: (location: any) => void;
   markerContent?: string | React.ReactNode;
 }
 
@@ -40,7 +40,8 @@ export function WorldMap(props: WorldMapProps) {
 
   const { mapRef, markersRef, icon } = useMap({ 
     coordinates: locations,
-    onMarkerClick: onMarkerClick, markerContent: markerContent,
+    onMarkerClick: onMarkerClick, 
+    markerContent: markerContent,
   });
 
   useAddMarker({
@@ -69,7 +70,7 @@ export function WorldMap(props: WorldMapProps) {
 // ========================
 interface UseMapProps {
   coordinates?: any[]
-  onMarkerClick?: (coordinate: Coordinate) => void;
+  onMarkerClick?: (location: any) => void;
   markerContent?: string | React.ReactNode;
 }
 function useMap(props: UseMapProps) {
@@ -78,7 +79,6 @@ function useMap(props: UseMapProps) {
   const { successToast, dangerToast } = useNotification();
 
   const [ addMarkerVisible, setAddMarkerVisible ] = React.useState(true);
-  const [ requestLoc, setRequestLoc ] = React.useState(true);
 
   const mapRef = React.useRef<Leaflet.Map | null>(null);
   const markersRef = React.useRef<Leaflet.Marker[]>([]);
@@ -110,24 +110,14 @@ function useMap(props: UseMapProps) {
       .addTo(mapRef.current)
 
     // add marker for each locations found in database
-    coordinates?.map((coor, idx) => {
-      const marker = Leaflet.marker([coor.latitude, coor.longitude])
+    coordinates?.map((loc, idx) => {
+      const marker = Leaflet.marker([loc.lat, loc.lng])
       marker
         .addTo(mapRef.current!)
         .setIcon(icon)
-        .bindPopup(`
-          <div>
-            <h3>Coordinates</h3>
-            <p>Lat: ${coor.latitude}</p>
-            <p>Lng: ${coor.longitude}</p>
-          </div>
-        `);
       if (onMarkerClick) {
         marker.on('click', () => {
-          onMarkerClick({
-            lat: coor.latitude, // Convert to Coordinate interface format
-            lng: coor.longitude
-          });
+          onMarkerClick(loc);
         });
       }
     })
@@ -157,19 +147,10 @@ function useMap(props: UseMapProps) {
           marker
             .addTo(mapRef.current!)
             .setIcon(icon)
-            .bindPopup(`
-              <div>
-                <h3>Coordinates</h3>
-                <p>Lat: ${record.coordinate.lat}</p>
-                <p>Lng: ${record.coordinate.lng}</p>
-              </div>
-            `)
+
           if (onMarkerClick) {
             marker.on('click', () => {
-              onMarkerClick({
-                lat: record.coordinate.lat, // Convert to Coordinate interface format
-                lng: record.coordinate.lng
-              });
+              onMarkerClick(record);
             });
           }
 
@@ -230,7 +211,7 @@ interface UseAddMarkerProps {
   mapRef: React.RefObject<Leaflet.Map>;
   markersRef: React.RefObject<Leaflet.Marker[]>;
   marker?: Marker;
-  onMarkerClick?: (coordinate: Coordinate) => void;
+  onMarkerClick?: (marker: Marker) => void;
   popupContent?: string | ((coordinate: Coordinate) => string);
   icon: any;
 }
@@ -254,13 +235,8 @@ function useAddMarker(props: UseAddMarkerProps) {
     }
 
     if (onMarkerClick) {
-      newRecord.bindPopup(`
-        <div>
-          <h3>Coordinates</h3>
-          <p>Lat: ${marker.coordinate.lat}</p>
-          <p>Lng: ${marker.coordinate.lng}</p>
-        </div>
-      `);
+      const popupContainer = document.createElement('div');
+      const root = ReactDOM.createRoot(popupContainer);
     }
 
     // Store marker reference
