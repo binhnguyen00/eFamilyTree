@@ -67,9 +67,15 @@ export function SlidingPanel(props: SlidingPanelProps) {
   React.useEffect(() => {
     if (!visible) return; // Only create the panel when visible is true
 
+    const appContainer = document.getElementById('app');
+    if (!appContainer) {
+      console.error('Container with id "app" not found.');
+      return;
+    }
+
     const panel = document.createElement("div");
     panel.setAttribute("id", ID);
-    document.body.appendChild(panel);
+    appContainer.appendChild(panel);
 
     const root = ReactDOMClient.createRoot(panel);
     root.render(
@@ -79,9 +85,14 @@ export function SlidingPanel(props: SlidingPanelProps) {
     activePanels.push(ID);
 
     return () => {
-      root.unmount();
-      document.body.removeChild(panel);
-      activePanels = activePanels.filter((panelId) => panelId !== ID);
+      // Defer unmounting to avoid race conditions
+      setTimeout(() => {
+        root.unmount();
+        if (panel.parentNode === appContainer) {
+          appContainer.removeChild(panel);
+        }
+        activePanels = activePanels.filter((panelId) => panelId !== ID);
+      }, 0); // 0ms delay ensures it runs after the current render
     };
   }, [ visible ]);
 

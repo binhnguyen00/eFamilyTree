@@ -13,29 +13,29 @@ interface CreateButtonProps {
   onAdd?: (marker: Marker) => void;
 }
 export function CreateButton({ onAdd }: CreateButtonProps) {
-  const { logedIn, zaloUserInfo } = useAppContext();
+  const { logedIn, zaloUserInfo, userInfo } = useAppContext();
   const { successToast, dangerToast } = useNotification();
 
   const [ requestLoc, setRequestLoc ] = React.useState(false); 
   const [ addMarkerVisible, setAddMarkerVisible ] = React.useState(false);
 
   const onAddMarker = () => {
-    const locationPermission = zaloUserInfo.authSettings?.["scope.userLocation"];
-    if (!locationPermission || !logedIn) {
-      setRequestLoc(true);
-    } else {
-      if (onAdd) {
-        setAddMarkerVisible(true);
-      }
-    }
+    // const locationPermission = zaloUserInfo.authSettings?.["scope.userLocation"];
+    // if (!locationPermission || !logedIn) {
+    //   setRequestLoc(true);
+    // } else {
+    //   if (onAdd) {
+    //     setAddMarkerVisible(true);
+    //   }
+    // }
 
     // Debug
-    // if (onAdd) {
-    //   setAddMarkerVisible(true);
-    // }
+    if (onAdd) {
+      setAddMarkerVisible(true);
+    }
   }
 
-  const save = (record: NewMarker) => {
+  const onSave = (record: NewMarker) => {
     const saveSuccess = (result: ServerResponse) => {
       if (!onAdd) return;
       if (result.status !== "error") {
@@ -74,7 +74,10 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
         header={"Thêm toạ độ mới"}      
         close={() => setAddMarkerVisible(false)}
       >
-        <Form onSave={(record: NewMarker) => save(record)}/>
+        <Form 
+          clanId={userInfo.clanId}
+          onSave={onSave}
+        />
       </SlidingPanel>
 
       <RequestLocation
@@ -98,16 +101,18 @@ type NewMarker = {
   clanId: number;
 }
 
-function Form({ onSave }: { onSave: (record: NewMarker) => void; }) {
-  const { warningToast } = useNotification();
-  const { userInfo } = useAppContext();
+function Form({ onSave, clanId }: { 
+  // have to provide these due to there is no provider in sliding panel
+  clanId: number;
+  onSave: (record: NewMarker) => void; 
+}) {
   const observer = useBeanObserver({
     name: "",
     description: "",
     lat: "",
     lng: "",
     images: [],
-    clanId: userInfo.clanId,
+    clanId: clanId,
   } as NewMarker);
 
   const blobUrlsToBase64 = async () => {
@@ -133,7 +138,7 @@ function Form({ onSave }: { onSave: (record: NewMarker) => void; }) {
       } as NewMarker);
     }
     const failLoc = (error: any) => { // could be user decline location access
-      warningToast("Chưa lấy được toạ độ của bạn");
+    
     }
     ZmpSDK.getLocation(successLoc, failLoc);
   }

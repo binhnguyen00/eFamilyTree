@@ -29,6 +29,7 @@ export function PanelBackdrop(props: PanelBackdropProps) {
         backgroundColor: "rgba(0, 0, 0, 0.4)",
         zIndex: 8887, // Lower zIndex than the panel
         display: display ? "block" : "none",
+        transition: 'opacity 0.3s ease'
       }}
       onClick={closeBackDrop}
     >

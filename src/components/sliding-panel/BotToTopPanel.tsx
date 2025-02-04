@@ -14,7 +14,12 @@ export function BotToTopPanel(props: PanelProps) {
   const [ springs, api ] = useSpring(() => ({
     y: height, 
     opacity: 0,
-    config: { tension: 160, friction: 10 },
+    config: { 
+      mass: 1,
+      tension: 300,  // Increased for snappier movement
+      friction: 30,  // Reduced for smoother deceleration
+      clamp: true    // Prevents overshooting
+    },
   }));
 
   const reverseOpen = () => {
@@ -33,7 +38,10 @@ export function BotToTopPanel(props: PanelProps) {
     api.start({
       y: visible ? 0 : height,
       opacity: visible ? 1 : 0,
-      config: { tension: 160, friction: 10 },
+      config: {
+        tension: 300,
+        friction: 30
+      }
     });
   }, [ visible, height ]);
 
