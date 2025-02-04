@@ -35,7 +35,11 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
     }
   }
 
-  const onSave = (record: NewMarker) => {
+  const onSave = (record: NewMarker | any) => {
+    if (!record) {
+      dangerToast(`${t("save")} ${t("fail")}`)
+      return;
+    };
     const saveSuccess = (result: ServerResponse) => {
       if (!onAdd) return;
       if (result.status !== "error") {
@@ -138,7 +142,7 @@ function Form({ onSave, clanId }: {
       } as NewMarker);
     }
     const failLoc = (error: any) => { // could be user decline location access
-    
+      onSave(null as any);
     }
     ZmpSDK.getLocation(successLoc, failLoc);
   }
