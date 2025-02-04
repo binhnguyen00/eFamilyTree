@@ -48,8 +48,8 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
           description: record.description,
           images: record.images,
           coordinate: {
-            lat: record.lat as any,
-            lng: record.lng as any
+            lat: parseFloat(record.lat),
+            lng: parseFloat(record.lng)
           }
         });
         successToast(`${t("save")} ${t("success")}`);
@@ -154,10 +154,10 @@ function Form({ onSave, clanId }: {
         value={observer.getBean().name} name="name"
         onChange={observer.watch}
       />
-      <Input 
-        size="small" label={<InputLabel text="Mô Tả"/>}
+      <Input.TextArea
+        size="large" label={<InputLabel text="Mô Tả"/>}
         value={observer.getBean().description} name="description"
-        onChange={observer.watch}
+        onChange={(e) => observer.update("description", e.target.value)}
       />
 
       <ImageSelector observer={observer}/>
