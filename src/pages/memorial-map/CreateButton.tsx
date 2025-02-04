@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Grid, Input } from "zmp-ui";
+import { Button, Grid, Input, Text } from "zmp-ui";
 
 import { MemorialMapApi } from "api";
 import { CommonUtils, ZmpSDK } from "utils";
@@ -154,22 +154,27 @@ function Form({ onSave, clanId }: {
 
   return (
     <div className="flex-v" style={{ height: "70vh" }}>
-      <Input 
-        size="small" label={<InputLabel text="Tên Di Tích" required/>}
-        value={observer.getBean().name} name="name"
-        onChange={observer.watch}
-      />
-      <Input.TextArea
-        size="large" label={<InputLabel text="Mô Tả"/>}
-        value={observer.getBean().description} name="description"
-        onChange={(e) => observer.update("description", e.target.value)}
-      />
+      <>
+        <Text.Title className="text-capitalize text-primary py-2"> {t("info")} </Text.Title>
+        <Input 
+          size="small" label={<InputLabel text="Tên Di Tích" required/>}
+          value={observer.getBean().name} name="name"
+          onChange={observer.watch}
+        />
+        <Input.TextArea
+          size="large" label={<InputLabel text="Mô Tả"/>}
+          value={observer.getBean().description} name="description"
+          onChange={(e) => observer.update("description", e.target.value)}
+        />
+        <ImageSelector observer={observer}/>
+      </>
 
-      <ImageSelector observer={observer}/>
-
-      <Button variant="primary" size="small" onClick={save} prefixIcon={<CommonIcon.Save/>}>
-        {t("save")}
-      </Button>
+      <>
+        <Text.Title className="text-capitalize text-primary py-2"> {t("utilities")} </Text.Title>
+        <Button variant="primary" size="small" style={{ width: "fit-content" }} onClick={save} prefixIcon={<CommonIcon.Save/>}>
+          {t("save")}
+        </Button>
+      </>
 
       <span>
         {"Toạ độ sẽ được lấy tại nơi bạn đang đứng"}

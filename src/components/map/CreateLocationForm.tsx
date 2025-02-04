@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Grid, Input } from "zmp-ui";
+import { Button, Grid, Input, Text } from "zmp-ui";
 
 import { useBeanObserver } from "hooks";
 import { CommonUtils, ZmpSDK } from "utils";
@@ -90,24 +90,28 @@ export function CreateLocationForm({ lat, lng, clanId, saveSuccess, successToast
 
   return (
     <div className="flex-v" style={{ height: "70vh" }}>
-      {error && <p className="text-primary"> {error} </p>}
-      <Input 
-        size="small" label={<InputLabel text="Tên Di Tích" required/>}
-        value={observer.getBean().name} name="name"
-        onChange={observer.watch}
-      />
+      <>
+        <Text.Title className="text-capitalize text-primary py-2"> {t("info")} </Text.Title>
+        {error && <p className="text-primary"> {error} </p>}
+        <Input 
+          size="small" label={<InputLabel text="Tên Di Tích" required/>}
+          value={observer.getBean().name} name="name"
+          onChange={observer.watch}
+        />
+        <Input.TextArea
+          size="large" label={<InputLabel text="Mô Tả"/>}
+          value={observer.getBean().description} name="description"
+          onChange={(e) => observer.update("description", e.target.value)}
+        />
+        <ImageSelector observer={observer}/>
+      </>
 
-      <Input.TextArea
-        size="large" label={<InputLabel text="Mô Tả"/>}
-        value={observer.getBean().description} name="description"
-        onChange={(e) => observer.update("description", e.target.value)}
-      />
-
-      <ImageSelector observer={observer}/>
-
-      <Button variant="primary" size="small" onClick={onSave} prefixIcon={<CommonIcon.Save/>}>
-        {t("save")}
-      </Button>
+      <>
+        <Text.Title className="text-capitalize text-primary py-2"> {t("utilities")} </Text.Title>
+        <Button variant="primary" size="small" style={{ width: "fit-content" }} onClick={onSave} prefixIcon={<CommonIcon.Save/>}>
+          {t("save")}
+        </Button>
+      </>
     </div>
   )
 }

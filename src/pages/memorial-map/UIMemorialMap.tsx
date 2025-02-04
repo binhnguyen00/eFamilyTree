@@ -3,7 +3,7 @@ import { t } from "i18next";
 
 import { StyleUtils } from "utils";
 import { MemorialMapApi } from "api";
-import { Header, WorldMap, useAppContext, Marker, SlidingPanel, SlidingPanelOrient } from "components";
+import { Header, WorldMap, useAppContext, Marker } from "components";
 import { ServerResponse } from "types/server";
 
 import { CreateButton } from "./CreateButton";

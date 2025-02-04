@@ -19,6 +19,7 @@ import { FaRegSave } from "react-icons/fa";
 import { RiResetRightLine } from "react-icons/ri";
 import { GrMap } from "react-icons/gr";
 import { HiOutlineLightBulb } from "react-icons/hi";
+import { IoTrash } from "react-icons/io5";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -51,4 +52,5 @@ export const CommonIcon = {
   Save: FaRegSave,
   Map: GrMap,
   LightBulb: HiOutlineLightBulb,
+  Trash: IoTrash
 };
