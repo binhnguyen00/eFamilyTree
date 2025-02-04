@@ -40,6 +40,10 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
       dangerToast(`${t("save")} ${t("fail")}`)
       return;
     };
+    if (!record.name) {
+      dangerToast("Nhập đủ thông tin")
+      return;
+    };
     const saveSuccess = (result: ServerResponse) => {
       if (!onAdd) return;
       if (result.status !== "error") {
@@ -193,7 +197,7 @@ function ImageSelector({ observer }: ImageSelectorProps) {
         {images.map((image, index) => {
           return (
             <SizedBox 
-              className="button"
+              className="button" key={index}
               width={100} height={100}
             >
               <img src={image} onClick={() => remove(index)}/>

@@ -29,6 +29,7 @@ function InputLabel({ text, required }: { text: string, required?: boolean }) {
 }
 
 export function CreateLocationForm({ lat, lng, clanId, saveSuccess }: CreateLocationFormProps) {
+  const [ error, setError ] = React.useState("");
   const observer = useBeanObserver({
     name: "",
     description: "",
@@ -51,6 +52,8 @@ export function CreateLocationForm({ lat, lng, clanId, saveSuccess }: CreateLoca
   };
 
   const onSave = async () => {
+    if (!observer.getBean().name) setError("Nhập đủ thông tin")
+
     const imgBase64s = await blobUrlsToBase64();
     const success = (result: ServerResponse) => {
       if (result.status !== "error") {
@@ -80,11 +83,13 @@ export function CreateLocationForm({ lat, lng, clanId, saveSuccess }: CreateLoca
 
   return (
     <div className="flex-v" style={{ height: "70vh" }}>
+      {error && <p className="text-primary"> {error} </p>}
       <Input 
         size="small" label={<InputLabel text="Tên Di Tích" required/>}
         value={observer.getBean().name} name="name"
         onChange={observer.watch}
       />
+
       <Input.TextArea
         size="large" label={<InputLabel text="Mô Tả"/>}
         value={observer.getBean().description} name="description"
