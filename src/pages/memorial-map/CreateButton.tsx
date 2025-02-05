@@ -80,7 +80,7 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
         className="bg-white"
         orient={SlidingPanelOrient.LeftToRight} 
         visible={addMarkerVisible} 
-        header={"Thêm toạ độ mới"}      
+        header={"Thêm di tích mới"}      
         close={() => setAddMarkerVisible(false)}
       >
         <Form 

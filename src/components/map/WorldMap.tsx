@@ -165,7 +165,7 @@ function useMap(props: UseMapProps) {
               className="bg-white"
               orient={SlidingPanelOrient.LeftToRight} 
               visible={addMarkerVisible} 
-              header={"Thêm toạ độ mới"}      
+              header={"Thêm Di tích tại điểm chọn"}      
               close={() => {
                 setAddMarkerVisible(false);
                 root.unmount();

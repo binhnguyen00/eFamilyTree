@@ -70,12 +70,14 @@ export class MemorialMapApi extends BaseApi {
     this.server.POST("memorial/location/get", header, body, successCB, failCB);
   }
 
-  public static delete(userId: number, clanId: number, targetId: number, successCB: SuccessCB, failCB?: FailCB) {
+  public static delete(params: {
+    userId: number, clanId: number, targetId: number
+  }, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
     const body = this.initBody({
-      user_id: userId,
-      clan_id: clanId,
-      id: targetId,
+      user_id: params.userId,
+      clan_id: params.clanId,
+      id: params.targetId,
     })
     this.server.POST("memorial/location/delete", header, body, successCB, failCB);
   }

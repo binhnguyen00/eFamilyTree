@@ -1,16 +1,15 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Grid, Input, Text } from "zmp-ui";
+import { Button, Input, Text } from "zmp-ui";
 import { Gallery } from "react-grid-gallery";
 import { Lightbox } from "yet-another-react-lightbox";
 import { Zoom, Thumbnails, Counter } from "yet-another-react-lightbox/plugins";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 
-import { ZmpSDK } from "utils";
 import { MemorialMapApi } from "api";
-import { useBeanObserver } from "hooks";
-import { BeanObserver, CommonIcon, Loading, SizedBox, SlidingPanel, SlidingPanelOrient, useAppContext } from "components";
+import { useBeanObserver, useNotification } from "hooks";
+import { BeanObserver, CommonIcon, Loading, SlidingPanel, SlidingPanelOrient, useAppContext } from "components";
 import { FailResponse, ServerResponse } from "types/server";
 import { GalleryImage } from "pages/gallery/UIGalleryImages";
 
@@ -21,19 +20,39 @@ interface UIMemorialLocationProps {
 }
 export function UIMemorialLocation({ id, visible, onClose }: UIMemorialLocationProps) {
   const { info, loading } = useQueryInfo(id)
+  const { userInfo, serverBaseUrl } = useAppContext();
+  const { successToast, dangerToast } = useNotification();
 
   const [ container, setContainer ] = React.useState<React.ReactNode>(<Loading/>);
+  const [ panelVisible, setPanelVisible ] = React.useState(visible);
+
+  const onDelete = () => {
+    const success = (res: ServerResponse) => {
+      if (res.status === "error") fail(null as any);
+      successToast(`${t("delete")} ${t("success")}`);
+      setPanelVisible(false);
+    }
+    const fail = (res: FailResponse) => {
+      dangerToast(`${t("delete")} ${t("fail")}`);
+      setPanelVisible(false);
+    }
+    MemorialMapApi.delete({userId: userInfo.id, clanId: userInfo.clanId, targetId: id}, success, fail);
+  }
 
   React.useEffect(() => {
     if (!loading) setContainer(
       <SlidingPanel
         orient={SlidingPanelOrient.LeftToRight} 
-        visible={visible} 
+        visible={panelVisible} 
         className="bg-white pb-3"
         header={"Di Tích"}      
         close={onClose}
       >
-        <Form info={info}/>
+        <Form 
+          info={info} 
+          serverBaseUrl={serverBaseUrl} 
+          onDelete={onDelete}
+        />
       </SlidingPanel>
     )
   }, [ loading, info ])
@@ -54,19 +73,13 @@ type Location = {
   clanId: number;
 }
 
-function Form({ info }: { info: any }) {
+interface FormProps {
+  info: any;
+  serverBaseUrl: string;
+  onDelete: () => void;
+}
+function Form({ info, serverBaseUrl, onDelete }: FormProps) {
   const observer = useBeanObserver(info);
-
-  const success = (res: ServerResponse) => {
-
-  }
-  const fail = (res: FailResponse) => {
-
-  }
-
-  const onDelete = () => {
-
-  }
 
   return (
     <div className="flex-v" style={{ height: "70vh" }}>
@@ -82,7 +95,7 @@ function Form({ info }: { info: any }) {
           value={observer.getBean().description} name="description"
           onChange={(e) => observer.update("description", e.target.value)}
         />
-        <ImageSelector observer={observer}/>
+        <ImageSelector observer={observer} serverBaseUrl={serverBaseUrl}/>
       </>
 
       <>
@@ -97,12 +110,11 @@ function Form({ info }: { info: any }) {
 
 interface ImageSelectorProps {
   observer: BeanObserver<Location>;
+  serverBaseUrl: string;
 }
-function ImageSelector({ observer }: ImageSelectorProps) {
+function ImageSelector({ observer, serverBaseUrl }: ImageSelectorProps) {
   const [ images, setImages ] = React.useState<GalleryImage[]>([]);
   const [ index, setIndex ] = React.useState(-1);
-
-  const { serverBaseUrl } = useAppContext();
 
   const remapImgs = (images: string[] | any) => {
     if (!images) return [];
