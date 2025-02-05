@@ -12,13 +12,20 @@ export function MapTypeButtons(props: MapTypeButtonsProps) {
   const { onSelect } = props;
 
   return (
-    <div className="flex-h">
-      <Button size="small" onClick={() => onSelect(WorldMapConfig.defaultTileLayer)} prefixIcon={<CommonIcon.Map/>}>
+    <>
+      <Button 
+        style={{ minWidth: 120 }}
+        size="small" onClick={() => onSelect(WorldMapConfig.defaultTileLayer)} prefixIcon={<CommonIcon.Map/>}
+      >
         {t("Mặc Định")}
       </Button>
-      <Button size="small" onClick={() => onSelect(WorldMapConfig.satelliteTileLayer)} prefixIcon={<CommonIcon.Map/>}>
+      <Button 
+        style={{ minWidth: 120 }}
+        size="small" 
+        onClick={() => onSelect(WorldMapConfig.satelliteTileLayer)} prefixIcon={<CommonIcon.Map/>}
+      >
         {t("Vệ Tinh")}
       </Button>
-    </div>
+    </>
   )
 }

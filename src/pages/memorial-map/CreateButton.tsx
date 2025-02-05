@@ -71,6 +71,7 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
   return (
     <>
       <Button
+        style={{ minWidth: 120 }}
         size="small" 
         onClick={onAddMarker}
         prefixIcon={<CommonIcon.Plus/>}

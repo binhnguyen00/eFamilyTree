@@ -4,11 +4,12 @@ import { t } from "i18next";
 import { StyleUtils, ZmpSDK } from "utils";
 import { MemorialMapApi } from "api";
 import { FailResponse, ServerResponse } from "types/server";
-import { Header, WorldMap, useAppContext, Marker, Loading, Coordinate, WorldMapConfig } from "components";
+import { Header, WorldMap, useAppContext, Marker, Loading, Coordinate, WorldMapConfig, ScrollableDiv } from "components";
 
 import { CreateButton } from "./CreateButton";
 import { MapTypeButtons } from "./SelectMapTypeButton";
 import { UIMemorialLocation } from "./UIMemorialLocation";
+import { CurrentPositionButton } from "./CurrentPositionButton";
 
 
 // ============================
@@ -53,6 +54,10 @@ export function UIMemorialMap() {
     setMapTile(type);
   }
 
+  const onCurrentPosition = (coordinate: Coordinate) => {
+    setCurrentLoc(coordinate);
+  }
+
   if (loading) return <Loading/>
 
   return (
@@ -64,6 +69,7 @@ export function UIMemorialMap() {
           <UIMemorialMapController 
             onAdd={onAddMarker}
             onSelectMapType={onSelectMapType}
+            onCurrentPosition={onCurrentPosition}
           />
           <WorldMap
             tileLayer={mapTile}
@@ -125,18 +131,25 @@ function useQueryMap() {
 interface UIMemorialMapControllerProps {
   onAdd?: (marker: Marker) => void;
   onSelectMapType?: (type: string) => void;
+  onCurrentPosition?: (coordinate: Coordinate) => void;
 }
 export function UIMemorialMapController(props: UIMemorialMapControllerProps) {
-  const { onAdd, onSelectMapType } = props;
+  const { onAdd, onSelectMapType, onCurrentPosition } = props;
 
   return (
-    <div className="scroll-h px-1">
+    <ScrollableDiv 
+      direction="horizontal"
+      className="flex-h"
+    >
       <CreateButton
         onAdd={onAdd} 
+      />
+      <CurrentPositionButton
+        onClick={onCurrentPosition!}
       />
       <MapTypeButtons
         onSelect={onSelectMapType!}
       />
-    </div>
+    </ScrollableDiv>
   )
 }

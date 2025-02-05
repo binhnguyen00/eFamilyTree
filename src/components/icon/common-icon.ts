@@ -20,6 +20,7 @@ import { RiResetRightLine } from "react-icons/ri";
 import { GrMap } from "react-icons/gr";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { IoTrash } from "react-icons/io5";
+import { FaMapLocationDot } from "react-icons/fa6";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -51,6 +52,7 @@ export const CommonIcon = {
   VerticalDots: HiOutlineDotsVertical,
   Save: FaRegSave,
   Map: GrMap,
+  CurrentPosition: FaMapLocationDot,
   LightBulb: HiOutlineLightBulb,
   Trash: IoTrash
 };

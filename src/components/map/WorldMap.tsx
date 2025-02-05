@@ -92,7 +92,6 @@ interface UseMapProps {
 }
 function useMap(props: UseMapProps) {
   const { coordinates, onMarkerClick, currentCoord, tileLayer } = props;
-  console.log(tileLayer);
 
   const { userInfo, zaloUserInfo, logedIn } = useAppContext();
   const { successToast, dangerToast } = useNotification();
@@ -122,7 +121,10 @@ function useMap(props: UseMapProps) {
       .setView([
         currentCoord?.lat || config.initLocation.latitude,
         currentCoord?.lng || config.initLocation.longitude
-      ], config.initZoom);
+      ], config.initZoom, {
+        animate: true,
+        duration: 1500
+      });
     Leaflet
       .tileLayer(config.defaultTileLayer, {
         detectRetina: true,
@@ -209,8 +211,6 @@ function useMap(props: UseMapProps) {
 
     removeLeafletLogo();
 
-    console.log(tileLayer);
-
     // prevent memory leak
     return () => {
       if (mapRef.current) {
@@ -221,6 +221,7 @@ function useMap(props: UseMapProps) {
     };
   }, [ coordinates, currentCoord ]);
 
+  // Change map tile layer
   React.useEffect(() => {
     Leaflet
       .tileLayer(tileLayer ? tileLayer : config.defaultTileLayer, {
@@ -229,6 +230,23 @@ function useMap(props: UseMapProps) {
       })
       .addTo(mapRef.current!)
   }, [ tileLayer ])
+
+  // Go to current location
+  React.useEffect(() => {
+    if (currentCoord) {
+      Leaflet
+        .marker([currentCoord.lat, currentCoord.lng])
+        .addTo(mapRef.current!)
+        .setIcon(icon)
+      mapRef.current!.setView([
+        currentCoord.lat,
+        currentCoord.lng
+      ], 17.5, { 
+        animate: true,
+        duration: 1500
+      });
+    }
+  }, [ currentCoord ])
 
   return {
     mapRef: mapRef, 
