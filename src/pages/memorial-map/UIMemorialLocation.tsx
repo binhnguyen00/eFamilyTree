@@ -112,8 +112,6 @@ interface FormProps {
   onSave: (observer: BeanObserver<any>) => void;
 }
 function Form({ serverBaseUrl, onDelete, onSave, deadMembers, observer }: FormProps) {
-  console.log(observer.getBean().name);
-
   return (
     <div className="flex-v" style={{ height: "70vh" }}>
       <>

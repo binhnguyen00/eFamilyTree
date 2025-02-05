@@ -1,5 +1,4 @@
 import React from "react";
-import Select, { StylesConfig } from "react-select";
 import { t } from "i18next";
 import { Button, Grid, Input, Text } from "zmp-ui";
 

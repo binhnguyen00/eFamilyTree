@@ -30,6 +30,8 @@ interface WorldMapProps {
   removeMarker?: Marker;
   onMarkerClick?: (location: any) => void;
   markerContent?: string | React.ReactNode;
+  currentLocation?: Coordinate;
+  tileLayer?: string;
 }
 
 export function WorldMap(props: WorldMapProps) {
@@ -38,10 +40,14 @@ export function WorldMap(props: WorldMapProps) {
     locations,
     addMarker,
     removeMarker,
+    currentLocation,
+    tileLayer,
     onMarkerClick, markerContent,
   } = props;
 
   const { mapRef, markersRef, icon } = useMap({ 
+    tileLayer: tileLayer,
+    currentCoord: currentLocation,
     coordinates: locations,
     onMarkerClick: onMarkerClick, 
     markerContent: markerContent,
@@ -78,12 +84,16 @@ export function WorldMap(props: WorldMapProps) {
 // useMap
 // ========================
 interface UseMapProps {
-  coordinates?: any[]
+  coordinates?: any[];
+  currentCoord?: Coordinate;
   onMarkerClick?: (location: any) => void;
   markerContent?: string | React.ReactNode;
+  tileLayer?: string;
 }
 function useMap(props: UseMapProps) {
-  const { coordinates, onMarkerClick } = props;
+  const { coordinates, onMarkerClick, currentCoord, tileLayer } = props;
+  console.log(tileLayer);
+
   const { userInfo, zaloUserInfo, logedIn } = useAppContext();
   const { successToast, dangerToast } = useNotification();
 
@@ -109,9 +119,12 @@ function useMap(props: UseMapProps) {
     // init map
     mapRef.current = Leaflet
       .map("map")
-      .setView([config.initLocation.latitude, config.initLocation.longitude], config.initZoom);
+      .setView([
+        currentCoord?.lat || config.initLocation.latitude,
+        currentCoord?.lng || config.initLocation.longitude
+      ], config.initZoom);
     Leaflet
-      .tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      .tileLayer(tileLayer ? tileLayer : config.defaultTileLayer, {
         detectRetina: true,
         maxZoom: config.maxZoom,
       })
@@ -196,6 +209,8 @@ function useMap(props: UseMapProps) {
 
     removeLeafletLogo();
 
+    console.log(tileLayer);
+
     // prevent memory leak
     return () => {
       if (mapRef.current) {
@@ -204,7 +219,7 @@ function useMap(props: UseMapProps) {
         markersRef.current = [];
       }
     };
-  }, [ coordinates ]);
+  }, [ coordinates, currentCoord, tileLayer ]);
 
   return {
     mapRef: mapRef, 

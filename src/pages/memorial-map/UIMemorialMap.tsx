@@ -1,23 +1,43 @@
 import React from "react";
 import { t } from "i18next";
 
-import { StyleUtils } from "utils";
+import { StyleUtils, ZmpSDK } from "utils";
 import { MemorialMapApi } from "api";
 import { FailResponse, ServerResponse } from "types/server";
-import { Header, WorldMap, useAppContext, Marker, Loading } from "components";
+import { Header, WorldMap, useAppContext, Marker, Loading, Coordinate, WorldMapConfig } from "components";
 
 import { CreateButton } from "./CreateButton";
+import { MapTypeButtons } from "./SelectMapTypeButton";
 import { UIMemorialLocation } from "./UIMemorialLocation";
 
-import coordinates from "./data.json";
 
 // ============================
 // Map
 // ============================
 export function UIMemorialMap() {
+  const { zaloUserInfo, logedIn } = useAppContext();
+  const locationPermission = zaloUserInfo.authSettings?.["scope.userLocation"];
+
+  const [ currentLoc, setCurrentLoc ] = React.useState<Coordinate>();
+
+  const [ mapTile, setMapTile ] = React.useState<string>(WorldMapConfig.defaultTileLayer);
   const [ newMarker, setNewMarker ] = React.useState<Marker>();
   const [ removeMarker, setRemoveMarker ] = React.useState<Marker>();
   const [ selectedLocation, setSelectedLocation ] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    if (locationPermission && logedIn) {
+      const successLoc = (location: any) => {
+        setCurrentLoc({
+          lat: parseFloat(location.latitude),
+          lng: parseFloat(location.longitude)
+        })
+      }
+      const failLoc = (error: any) => { // could be user decline location access
+      }
+      ZmpSDK.getLocation(successLoc, failLoc);
+    }
+  }, [ zaloUserInfo ])
 
   const { locations, loading } = useQueryMap();
 
@@ -29,6 +49,10 @@ export function UIMemorialMap() {
     setRemoveMarker(marker);
   }
 
+  const onSelectMapType = (type: string) => {
+    setMapTile(type);
+  }
+
   if (loading) return <Loading/>
 
   return (
@@ -37,8 +61,13 @@ export function UIMemorialMap() {
 
       <div className="container-padding max-h bg-white">
         <div className="flex-v flex-grow-0">
-          <UIMemorialMapController onAdd={onAddMarker}/>
+          <UIMemorialMapController 
+            onAdd={onAddMarker}
+            onSelectMapType={onSelectMapType}
+          />
           <WorldMap
+            tileLayer={mapTile}
+            currentLocation={currentLoc}
             height={StyleUtils.calComponentRemainingHeight(45)}
             locations={locations}
             addMarker={newMarker}
@@ -95,14 +124,18 @@ function useQueryMap() {
 // ============================
 interface UIMemorialMapControllerProps {
   onAdd?: (marker: Marker) => void;
+  onSelectMapType?: (type: string) => void;
 }
 export function UIMemorialMapController(props: UIMemorialMapControllerProps) {
-  const { onAdd } = props;
+  const { onAdd, onSelectMapType } = props;
 
   return (
     <div className="scroll-h px-1">
       <CreateButton
         onAdd={onAdd} 
+      />
+      <MapTypeButtons
+        onSelect={onSelectMapType!}
       />
     </div>
   )
