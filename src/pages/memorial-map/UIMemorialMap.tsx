@@ -3,8 +3,8 @@ import { t } from "i18next";
 
 import { StyleUtils } from "utils";
 import { MemorialMapApi } from "api";
-import { ServerResponse } from "types/server";
-import { Header, WorldMap, useAppContext, Marker } from "components";
+import { FailResponse, ServerResponse } from "types/server";
+import { Header, WorldMap, useAppContext, Marker, Loading } from "components";
 
 import { CreateButton } from "./CreateButton";
 import { UIMemorialLocation } from "./UIMemorialLocation";
@@ -18,37 +18,41 @@ export function UIMemorialMap() {
   const [ newMarker, setNewMarker ] = React.useState<Marker>();
   const [ selectedLocation, setSelectedLocation ] = React.useState<any>(null);
 
-  const { locations } = useQueryMap();
+  const { locations, loading } = useQueryMap();
 
   const onAddMarker = (marker: Marker) => {
     setNewMarker(marker);
   }
 
+  if (loading) return <Loading/>
+
   return (
-    <div className="container-padding">
+    <>
       <Header title={t("memorial_location")}/>
 
-      <div className="flex-v py-2">
-        <UIMemorialMapController onAdd={onAddMarker}/>
-        <WorldMap
-          height={StyleUtils.calComponentRemainingHeight(50)}
-          locations={coordinates}
-          addMarker={newMarker}
-          onMarkerClick={(location: any) => {
-            console.log(location);
-            setSelectedLocation(location);
-          }}
-        />
-      </div>
+      <div className="container-padding max-h bg-white">
+        <div className="flex-v flex-grow-0">
+          <UIMemorialMapController onAdd={onAddMarker}/>
+          <WorldMap
+            height={StyleUtils.calComponentRemainingHeight(45)}
+            locations={locations.length ? locations : new Array()}
+            addMarker={newMarker}
+            onMarkerClick={(location: any) => {
+              console.log(location);
+              setSelectedLocation(location);
+            }}
+          />
+        </div>
 
-      {selectedLocation && (
-        <UIMemorialLocation
-          id={selectedLocation.id}
-          visible={selectedLocation !== null}
-          onClose={() => setSelectedLocation(null)}
-        />
-      )}
-    </div>
+        {selectedLocation && (
+          <UIMemorialLocation
+            id={selectedLocation.id}
+            visible={selectedLocation !== null}
+            onClose={() => setSelectedLocation(null)}
+          />
+        )}
+      </div>
+    </>
   )
 }
 
@@ -58,18 +62,24 @@ export function UIMemorialMap() {
 function useQueryMap() {
   const { userInfo } = useAppContext();  
   const [ locations, setLocations ] = React.useState<any[]>([]);
+  const [ loading, setLoading ] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     const success = (result: ServerResponse) => {
+      setLoading(false);
       if (result.status === "success") {
         setLocations(result.data);
       }
     }
-    MemorialMapApi.search({clan_id: userInfo.clanId}, success);
+    const fail = (res: FailResponse) => {
+      setLoading(false);
+    }
+    MemorialMapApi.search({clan_id: userInfo.clanId}, success, fail);
   }, []);
 
   return {
-    locations: locations
+    loading: loading,
+    locations: locations,
   }
 }
 

@@ -69,11 +69,11 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
   return (
     <>
       <Button
-        variant="secondary" size="small" 
+        size="small" 
         onClick={onAddMarker}
         prefixIcon={<CommonIcon.Plus/>}
       >
-        {t("Thêm Nhanh")}
+        {t("Tạo nhanh")}
       </Button>
 
       <SlidingPanel 
