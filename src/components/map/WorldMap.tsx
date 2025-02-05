@@ -11,6 +11,7 @@ import { CreateLocationForm } from "./CreateLocationForm";
 import { useNotification } from "hooks";
 
 export type Marker = {
+  id: number;
   label: string;
   description?: string;
   coordinate: Coordinate;
@@ -26,6 +27,7 @@ interface WorldMapProps {
   height?: string | number;
   locations?: any[];
   addMarker?: Marker;
+  removeMarker?: Marker;
   onMarkerClick?: (location: any) => void;
   markerContent?: string | React.ReactNode;
 }
@@ -35,6 +37,7 @@ export function WorldMap(props: WorldMapProps) {
     height,
     locations,
     addMarker,
+    removeMarker,
     onMarkerClick, markerContent,
   } = props;
 
@@ -48,9 +51,15 @@ export function WorldMap(props: WorldMapProps) {
     mapRef: mapRef,
     markersRef: markersRef,
     marker: addMarker,
-    popupContent: "Toạ Độ",
+    popupContent: "Di tích",
     onMarkerClick: onMarkerClick,
     icon: icon
+  })
+
+  useRemoveMarker({
+    mapRef: mapRef,
+    markersRef: markersRef,
+    marker: removeMarker,
   })
 
   return (
@@ -114,6 +123,7 @@ function useMap(props: UseMapProps) {
       marker
         .addTo(mapRef.current!)
         .setIcon(icon)
+      markersRef.current.push(marker);
       if (onMarkerClick) {
         marker.on('click', () => {
           onMarkerClick(loc);
@@ -233,10 +243,44 @@ function useAddMarker(props: UseAddMarkerProps) {
       )
     }
 
+    if (onMarkerClick) {
+      newRecord.on('click', () => onMarkerClick(marker));
+    }
+
     // Store marker reference
     markersRef.current.push(newRecord);
     // Center map on new marker
     mapRef.current.setView([marker.coordinate.lat, marker.coordinate.lng], mapRef.current.getZoom());
 
   }, [ marker, onMarkerClick, popupContent ]);
+}
+
+// ========================
+// use remove Marker
+// ========================
+interface UseRemoveMarkerProps {
+  mapRef: React.RefObject<Leaflet.Map>;
+  markersRef: React.RefObject<Leaflet.Marker[]>;
+  marker?: Marker;
+}
+function useRemoveMarker(props: UseRemoveMarkerProps) {
+  const { mapRef, markersRef, marker } = props;
+
+  React.useEffect(() => {
+    if (!mapRef.current || !markersRef.current || !marker) return;
+
+    const index = markersRef.current.findIndex(
+      (m) => {
+        return (
+          m.getLatLng().lat.toString() === marker.coordinate.lat.toString()
+          && m.getLatLng().lng.toString() === marker.coordinate.lng.toString())
+      }
+    );
+
+    if (index !== -1) {
+      mapRef.current.removeLayer(markersRef.current[index]);
+      markersRef.current.splice(index, 1);
+      mapRef.current.setView([marker.coordinate.lat, marker.coordinate.lng], mapRef.current.getZoom());
+    }
+  }, [ marker ])
 }

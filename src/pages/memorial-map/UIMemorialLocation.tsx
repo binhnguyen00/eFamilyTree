@@ -22,8 +22,6 @@ interface UIMemorialLocationProps {
   onRemove: (marker: Marker) => void;
 }
 export function UIMemorialLocation({ id, visible, onClose, onRemove }: UIMemorialLocationProps) {
-  console.log(id);
-  
   const { bean, setBean, loading, deadMembers } = useQueryInfo(id)
 
   const { userInfo, serverBaseUrl } = useAppContext();
@@ -37,6 +35,7 @@ export function UIMemorialLocation({ id, visible, onClose, onRemove }: UIMemoria
       successToast(`${t("delete")} ${t("success")}`);
       onClose();
       onRemove({
+        id: bean.id,
         label: bean.name,
         coordinate: {
           lat: bean.lat,

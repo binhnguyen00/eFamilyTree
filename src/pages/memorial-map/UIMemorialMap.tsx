@@ -15,24 +15,18 @@ import coordinates from "./data.json";
 // Map
 // ============================
 export function UIMemorialMap() {
-  console.log(coordinates);
-  
   const [ newMarker, setNewMarker ] = React.useState<Marker>();
   const [ removeMarker, setRemoveMarker ] = React.useState<Marker>();
   const [ selectedLocation, setSelectedLocation ] = React.useState<any>(null);
-  const [ reload, setReload ] = React.useState<boolean>(false);
 
-  const { locations, loading } = useQueryMap({ dependencies: [ reload ]});
+  const { locations, loading } = useQueryMap();
 
   const onAddMarker = (marker: Marker) => {
-    console.log(marker);
     setNewMarker(marker);
   }
 
   const onRemoveMarker = (marker: Marker) => {
-    console.log(marker);
     setRemoveMarker(marker);
-    setReload(!reload);
   }
 
   if (loading) return <Loading/>
@@ -48,6 +42,7 @@ export function UIMemorialMap() {
             height={StyleUtils.calComponentRemainingHeight(45)}
             locations={locations}
             addMarker={newMarker}
+            removeMarker={removeMarker}
             onMarkerClick={(location: any) => {
               console.log(location);
               setSelectedLocation(location);
@@ -71,7 +66,7 @@ export function UIMemorialMap() {
 // ============================
 // Query
 // ============================
-function useQueryMap({ dependencies = [] }: { dependencies?: Array<any> }) {
+function useQueryMap() {
   const { userInfo } = useAppContext();  
   const [ locations, setLocations ] = React.useState<any[]>([]);
   const [ loading, setLoading ] = React.useState<boolean>(true);
@@ -87,7 +82,7 @@ function useQueryMap({ dependencies = [] }: { dependencies?: Array<any> }) {
       setLoading(false);
     }
     MemorialMapApi.search({clan_id: userInfo.clanId}, success, fail);
-  }, [ ...dependencies ]);
+  }, [ ]);
 
   return {
     loading: loading,

@@ -21,19 +21,19 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
   const [ addMarkerVisible, setAddMarkerVisible ] = React.useState(false);
 
   const onAddMarker = () => {
-    // const locationPermission = zaloUserInfo.authSettings?.["scope.userLocation"];
-    // if (!locationPermission || !logedIn) {
-    //   setRequestLoc(true);
-    // } else {
-    //   if (onAdd) {
-    //     setAddMarkerVisible(true);
-    //   }
-    // }
+    const locationPermission = zaloUserInfo.authSettings?.["scope.userLocation"];
+    if (!locationPermission || !logedIn) {
+      setRequestLoc(true);
+    } else {
+      if (onAdd) {
+        setAddMarkerVisible(true);
+      }
+    }
 
     // Debug
-    if (onAdd) {
-      setAddMarkerVisible(true);
-    }
+    // if (onAdd) {
+    //   setAddMarkerVisible(true);
+    // }
   }
 
   const onSave = (record: NewMarker | any) => {
@@ -51,6 +51,7 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
       if (!onAdd) return;
       if (result.status !== "error") {
         onAdd({
+          id: record.id,
           label: record.name,
           description: record.description,
           images: record.images,

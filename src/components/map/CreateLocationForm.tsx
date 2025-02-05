@@ -64,6 +64,7 @@ export function CreateLocationForm({ lat, lng, clanId, saveSuccess, successToast
       if (result.status !== "error") {
         const record = result.data;
         saveSuccess({
+          id: record.id,
           label: record.name,
           description: record.description,
           images: record.images,
