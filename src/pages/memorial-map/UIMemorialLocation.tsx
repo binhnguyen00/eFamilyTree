@@ -7,9 +7,11 @@ import { Zoom, Thumbnails, Counter } from "yet-another-react-lightbox/plugins";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 
-import { MemorialMapApi } from "api";
-import { useBeanObserver, useNotification } from "hooks";
-import { BeanObserver, CommonIcon, Loading, SlidingPanel, SlidingPanelOrient, useAppContext } from "components";
+import { FamilyTreeApi, MemorialMapApi } from "api";
+import { useNotification } from "hooks";
+import { 
+  BeanObserver, CommonIcon, Loading, Marker, Selection, 
+  SlidingPanel, SlidingPanelOrient, useAppContext } from "components";
 import { FailResponse, ServerResponse } from "types/server";
 import { GalleryImage } from "pages/gallery/UIGalleryImages";
 
@@ -17,46 +19,76 @@ interface UIMemorialLocationProps {
   id: number;
   visible: boolean;
   onClose: () => void;
+  onRemove: (marker: Marker) => void;
 }
-export function UIMemorialLocation({ id, visible, onClose }: UIMemorialLocationProps) {
-  const { info, loading } = useQueryInfo(id)
+export function UIMemorialLocation({ id, visible, onClose, onRemove }: UIMemorialLocationProps) {
+  console.log(id);
+  
+  const { bean, setBean, loading, deadMembers } = useQueryInfo(id)
+
   const { userInfo, serverBaseUrl } = useAppContext();
   const { successToast, dangerToast } = useNotification();
 
   const [ container, setContainer ] = React.useState<React.ReactNode>(<Loading/>);
-  const [ panelVisible, setPanelVisible ] = React.useState(visible);
 
   const onDelete = () => {
     const success = (res: ServerResponse) => {
       if (res.status === "error") fail(null as any);
       successToast(`${t("delete")} ${t("success")}`);
-      setPanelVisible(false);
+      onClose();
+      onRemove({
+        label: bean.name,
+        coordinate: {
+          lat: bean.lat,
+          lng: bean.lng
+        },
+        images: bean.images,
+        description: bean.desscription
+      })
     }
     const fail = (res: FailResponse) => {
       dangerToast(`${t("delete")} ${t("fail")}`);
-      setPanelVisible(false);
+      onClose();
     }
     MemorialMapApi.delete({userId: userInfo.id, clanId: userInfo.clanId, targetId: id}, success, fail);
   }
 
+  const onSave = (observer: BeanObserver<any>) => {
+    const success = (res: ServerResponse) => {
+      if (res.status === "error") fail(null as any);
+      successToast(`${t("save")} ${t("success")}`);
+      onClose();
+    }
+    const fail = (res: FailResponse) => {
+      dangerToast(`${t("save")} ${t("fail")}`);
+      onClose();
+    }
+    MemorialMapApi.save(observer.getBean(), success, fail);
+  }
+
   React.useEffect(() => {
-    if (!loading) setContainer(
-      <SlidingPanel
-        orient={SlidingPanelOrient.LeftToRight} 
-        visible={panelVisible} 
-        className="bg-white pb-3"
-        header={"Di Tích"}      
-        close={onClose}
-      >
-        <Form 
-          info={info} 
-          serverBaseUrl={serverBaseUrl} 
-          onDelete={onDelete}
-        />
-      </SlidingPanel>
-    )
-  }, [ loading, info ])
-  
+    if (!loading) {
+      const newObserver = new BeanObserver(bean, setBean);
+      setContainer(
+        <SlidingPanel
+          orient={SlidingPanelOrient.BottomToTop} 
+          visible={visible} 
+          className="bg-white pb-3"
+          header={"Di Tích"}      
+          close={onClose}
+        >
+          <Form 
+            observer={newObserver} 
+            serverBaseUrl={serverBaseUrl} 
+            deadMembers={deadMembers}
+            onDelete={onDelete}
+            onSave={onSave}
+          />
+        </SlidingPanel>
+      )
+    } 
+  }, [ loading, visible, bean ])
+
   return container;
 }
 
@@ -74,12 +106,14 @@ type Location = {
 }
 
 interface FormProps {
-  info: any;
   serverBaseUrl: string;
+  deadMembers: any[];
+  observer: BeanObserver<any>;
   onDelete: () => void;
+  onSave: (observer: BeanObserver<any>) => void;
 }
-function Form({ info, serverBaseUrl, onDelete }: FormProps) {
-  const observer = useBeanObserver(info);
+function Form({ serverBaseUrl, onDelete, onSave, deadMembers, observer }: FormProps) {
+  console.log(observer.getBean().name);
 
   return (
     <div className="flex-v" style={{ height: "70vh" }}>
@@ -89,6 +123,15 @@ function Form({ info, serverBaseUrl, onDelete }: FormProps) {
           size="small" label={<InputLabel text="Tên Di Tích" required/>}
           value={observer.getBean().name} name="name"
           onChange={observer.watch}
+        />
+        <Selection
+          label={t("Người đã khuất")}
+          observer={observer} field={"memberId"}
+          defaultValue={{ 
+            value: observer.getBean().member_id, 
+            label: observer.getBean().member_name 
+          }}
+          options={deadMembers}
         />
         <Input.TextArea
           size="large" label={<InputLabel text="Mô Tả"/>}
@@ -100,9 +143,17 @@ function Form({ info, serverBaseUrl, onDelete }: FormProps) {
 
       <>
         <Text.Title className="text-capitalize text-primary py-2"> {t("utilities")} </Text.Title>
-        <Button variant="primary" size="small" style={{ width: "fit-content" }} onClick={onDelete} prefixIcon={<CommonIcon.Trash/>}>
-          {t("delete")}
-        </Button>
+        <div className="flex-h">
+          <Button variant="primary" size="small" style={{ width: "fit-content" }} onClick={() => onSave(observer)} prefixIcon={<CommonIcon.Save/>}>
+            {t("save")}
+          </Button>
+          <Button 
+            variant="primary" size="small" style={{ width: "fit-content" }} 
+            onClick={onDelete} prefixIcon={<CommonIcon.Trash/>}
+          >
+            {t("delete")}
+          </Button>
+        </div>
       </>
     </div>
   )
@@ -169,8 +220,10 @@ function ImageSelector({ observer, serverBaseUrl }: ImageSelectorProps) {
 // ===================================
 function useQueryInfo(id: number) {
   const { userInfo } = useAppContext();
-  const [ info, setInfo ] = React.useState<any>({});
+  const [ deadMembers, setDeadMembers ] = React.useState<any[]>([]);
   const [ loading, setLoading ] = React.useState(true);
+
+  const [ bean, setBean ] = React.useState<any>({});
 
   React.useEffect(() => {
     const success = (result: ServerResponse) => {
@@ -179,15 +232,33 @@ function useQueryInfo(id: number) {
         console.error(result.message);
       } else {
         const data = result.data as any;
-        setInfo(data);
+        setBean(data);
       }
     }
     const fail = (error: any) => setLoading(false);
     MemorialMapApi.get(userInfo.id, userInfo.clanId, id, success, fail)
   }, [ id ]);
 
+  React.useEffect(() => {
+    const success = (result: ServerResponse) => {
+      if (result.status === "success") {
+        const data = result.data as any[];
+        const deadMembers = data.map((dead, idx) => {
+          return {
+            value: dead.id,
+            label: `${dead.name}`,
+          }
+        })
+        setDeadMembers(deadMembers);
+      }
+    }
+    const fail = (error: FailResponse) => console.error(error);
+    FamilyTreeApi.searchDeadMember({userId: userInfo.id, clanId: userInfo.clanId}, success, fail);
+  }, []);
+
   return {
-    info: info,
+    bean: bean, setBean: setBean,
+    deadMembers: deadMembers,
     loading: loading
   }
 }

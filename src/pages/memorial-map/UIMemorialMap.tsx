@@ -15,13 +15,24 @@ import coordinates from "./data.json";
 // Map
 // ============================
 export function UIMemorialMap() {
+  console.log(coordinates);
+  
   const [ newMarker, setNewMarker ] = React.useState<Marker>();
+  const [ removeMarker, setRemoveMarker ] = React.useState<Marker>();
   const [ selectedLocation, setSelectedLocation ] = React.useState<any>(null);
+  const [ reload, setReload ] = React.useState<boolean>(false);
 
-  const { locations, loading } = useQueryMap();
+  const { locations, loading } = useQueryMap({ dependencies: [ reload ]});
 
   const onAddMarker = (marker: Marker) => {
+    console.log(marker);
     setNewMarker(marker);
+  }
+
+  const onRemoveMarker = (marker: Marker) => {
+    console.log(marker);
+    setRemoveMarker(marker);
+    setReload(!reload);
   }
 
   if (loading) return <Loading/>
@@ -35,7 +46,7 @@ export function UIMemorialMap() {
           <UIMemorialMapController onAdd={onAddMarker}/>
           <WorldMap
             height={StyleUtils.calComponentRemainingHeight(45)}
-            locations={locations.length ? locations : new Array()}
+            locations={locations}
             addMarker={newMarker}
             onMarkerClick={(location: any) => {
               console.log(location);
@@ -49,6 +60,7 @@ export function UIMemorialMap() {
             id={selectedLocation.id}
             visible={selectedLocation !== null}
             onClose={() => setSelectedLocation(null)}
+            onRemove={onRemoveMarker}
           />
         )}
       </div>
@@ -59,7 +71,7 @@ export function UIMemorialMap() {
 // ============================
 // Query
 // ============================
-function useQueryMap() {
+function useQueryMap({ dependencies = [] }: { dependencies?: Array<any> }) {
   const { userInfo } = useAppContext();  
   const [ locations, setLocations ] = React.useState<any[]>([]);
   const [ loading, setLoading ] = React.useState<boolean>(true);
@@ -75,7 +87,7 @@ function useQueryMap() {
       setLoading(false);
     }
     MemorialMapApi.search({clan_id: userInfo.clanId}, success, fail);
-  }, []);
+  }, [ ...dependencies ]);
 
   return {
     loading: loading,

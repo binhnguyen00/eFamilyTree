@@ -1,13 +1,14 @@
 import React from "react";
+import Select, { StylesConfig } from "react-select";
 import { t } from "i18next";
 import { Button, Grid, Input, Text } from "zmp-ui";
 
-import { MemorialMapApi } from "api";
+import { FamilyTreeApi, MemorialMapApi } from "api";
 import { CommonUtils, ZmpSDK } from "utils";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
-import { BeanObserver, CommonIcon, Marker, RequestLocation, SizedBox, SlidingPanel, SlidingPanelOrient } from "components";
+import { BeanObserver, CommonIcon, Marker, RequestLocation, Selection, SizedBox, SlidingPanel, SlidingPanelOrient } from "components";
 
-import { ServerResponse } from "types/server";
+import { FailResponse, ServerResponse } from "types/server";
 
 interface CreateButtonProps {
   onAdd?: (marker: Marker) => void;
@@ -20,18 +21,19 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
   const [ addMarkerVisible, setAddMarkerVisible ] = React.useState(false);
 
   const onAddMarker = () => {
-    const locationPermission = zaloUserInfo.authSettings?.["scope.userLocation"];
-    if (!locationPermission || !logedIn) {
-      setRequestLoc(true);
-    } else {
-      if (onAdd) {
-        setAddMarkerVisible(true);
-      }
-    }
-    // Debug
-    // if (onAdd) {
-    //   setAddMarkerVisible(true);
+    // const locationPermission = zaloUserInfo.authSettings?.["scope.userLocation"];
+    // if (!locationPermission || !logedIn) {
+    //   setRequestLoc(true);
+    // } else {
+    //   if (onAdd) {
+    //     setAddMarkerVisible(true);
+    //   }
     // }
+
+    // Debug
+    if (onAdd) {
+      setAddMarkerVisible(true);
+    }
   }
 
   const onSave = (record: NewMarker | any) => {
@@ -84,6 +86,7 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
         close={() => setAddMarkerVisible(false)}
       >
         <Form 
+          userId={userInfo.id}
           clanId={userInfo.clanId}
           onSave={onSave}
         />
@@ -110,11 +113,32 @@ type NewMarker = {
   clanId: number;
 }
 
-function Form({ onSave, clanId }: { 
+function Form({ onSave, userId, clanId }: { 
   // have to provide these due to there is no provider in sliding panel
   clanId: number;
+  userId: number;
   onSave: (record: NewMarker) => void; 
 }) {
+
+  const [ deadMembers, setDeadMembers ] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    const success = (result: ServerResponse) => {
+      if (result.status === "success") {
+        const data = result.data as any[];
+        const deadMembers = data.map((dead, idx) => {
+          return {
+            value: dead.id,
+            label: `${dead.name}`,
+          }
+        })
+        setDeadMembers(deadMembers);
+      }
+    }
+    const fail = (error: FailResponse) => console.error(error);
+    FamilyTreeApi.searchDeadMember({userId, clanId}, success, fail);
+  }, []);
+
   const observer = useBeanObserver({
     name: "",
     description: "",
@@ -160,6 +184,13 @@ function Form({ onSave, clanId }: {
           size="small" label={<InputLabel text="Tên Di Tích" required/>}
           value={observer.getBean().name} name="name"
           onChange={observer.watch}
+        />
+        <Selection
+          label={t("Người đã khuất")}
+          observer={observer} field={"memberId"}
+          options={deadMembers}
+          isSearchable
+          isClearable
         />
         <Input.TextArea
           size="large" label={<InputLabel text="Mô Tả"/>}

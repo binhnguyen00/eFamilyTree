@@ -18,7 +18,7 @@ export class FamilyTreeApi extends BaseApi {
       member_id: userId,
       clan_id: clanId
     });
-    return this.server.POST("get/info/member", header, body, successCB, failCB);
+    this.server.POST("get/info/member", header, body, successCB, failCB);
   }
 
   public static exportSVG(userId: number, clanId: number, base64: string, successCB: SuccessCB, failCB?: FailCB) {
@@ -28,6 +28,15 @@ export class FamilyTreeApi extends BaseApi {
       clan_id: clanId,
       base64: base64
     })
-    return this.server.POST("tree/export/svg", header, body, successCB, failCB);
+    this.server.POST("tree/export/svg", header, body, successCB, failCB);
+  }
+
+  public static searchDeadMember(params: { userId: number, clanId: number }, successCB: SuccessCB, failCB?: FailCB) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      user_id: params.userId,
+      clan_id: params.clanId
+    })
+    this.server.POST("tree/member/dead", header, body, successCB, failCB);
   }
 }

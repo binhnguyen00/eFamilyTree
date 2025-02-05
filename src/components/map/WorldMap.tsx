@@ -105,7 +105,6 @@ function useMap(props: UseMapProps) {
       .tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         detectRetina: true,
         maxZoom: config.maxZoom,
-        attribution: config.credit
       })
       .addTo(mapRef.current)
 
@@ -232,11 +231,6 @@ function useAddMarker(props: UseAddMarkerProps) {
           ? popupContent(marker.coordinate) 
           : popupContent
       )
-    }
-
-    if (onMarkerClick) {
-      const popupContainer = document.createElement('div');
-      const root = ReactDOM.createRoot(popupContainer);
     }
 
     // Store marker reference
