@@ -124,7 +124,7 @@ function useMap(props: UseMapProps) {
         currentCoord?.lng || config.initLocation.longitude
       ], config.initZoom);
     Leaflet
-      .tileLayer(tileLayer ? tileLayer : config.defaultTileLayer, {
+      .tileLayer(config.defaultTileLayer, {
         detectRetina: true,
         maxZoom: config.maxZoom,
       })
@@ -219,7 +219,16 @@ function useMap(props: UseMapProps) {
         markersRef.current = [];
       }
     };
-  }, [ coordinates, currentCoord, tileLayer ]);
+  }, [ coordinates, currentCoord ]);
+
+  React.useEffect(() => {
+    Leaflet
+      .tileLayer(tileLayer ? tileLayer : config.defaultTileLayer, {
+        detectRetina: true,
+        maxZoom: config.maxZoom,
+      })
+      .addTo(mapRef.current!)
+  }, [ tileLayer ])
 
   return {
     mapRef: mapRef, 
