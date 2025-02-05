@@ -1,3 +1,12 @@
+# Version 1.2.0 (Thứ 4, 05/02/2025)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=25)
+### Thay đổi
+1. Nâng cấp tính năng: Bản đồ di tích lịch sử dòng họ
+  - Bản đồ có 2 chế độ: Xem đường và Vệ tinh
+  - Có thể thêm nhanh sử dụng vị trí hiện tại của thiết bị điện thoại.
+  - Có thể thêm di tích bằng cách chấm trên bản đồ.
+  - Thêm di tích kèm theo thông tin và ảnh (tối đa 5 ảnh).
+
 # Version 1.2.0-beta (Thứ 7, 25/01/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=23)
 ### Thay đổi
