@@ -60,8 +60,10 @@ function createToastConfig() {
     draggablePercent: 60,
     draggableDirection: "x",
     style: {
-      width: "95vw"
+      width: "95vw",
+      marginTop: 5
     },
+    className: "rounded"
   } as ToastOptions;
 }
 
