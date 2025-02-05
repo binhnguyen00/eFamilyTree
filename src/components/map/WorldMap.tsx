@@ -123,7 +123,7 @@ function useMap(props: UseMapProps) {
         currentCoord?.lng || config.initLocation.longitude
       ], config.initZoom, {
         animate: true,
-        duration: 1500
+        duration: 10
       });
     Leaflet
       .tileLayer(config.defaultTileLayer, {
@@ -219,7 +219,7 @@ function useMap(props: UseMapProps) {
         markersRef.current = [];
       }
     };
-  }, [ coordinates, currentCoord ]);
+  }, [ coordinates ]);
 
   // Change map tile layer
   React.useEffect(() => {
@@ -243,7 +243,7 @@ function useMap(props: UseMapProps) {
         currentCoord.lng
       ], 17.5, { 
         animate: true,
-        duration: 1500
+        duration: 10
       });
     }
   }, [ currentCoord ])
