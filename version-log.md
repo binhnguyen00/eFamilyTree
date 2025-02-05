@@ -1,5 +1,5 @@
 # Version 1.2.0 (Thứ 4, 05/02/2025)
-### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=26)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=27)
 ### Thay đổi
 1. Nâng cấp tính năng: Bản đồ di tích lịch sử dòng họ
   - Bản đồ có 2 chế độ: Xem đường và Vệ tinh
