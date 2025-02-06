@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Box, Button, Stack, Text } from "zmp-ui";
+import { Button } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
 
