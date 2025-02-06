@@ -7,7 +7,7 @@ import divorced from "./sample/divorced.json";
 import odooSample from "./sample/odoo-sample.json";
 import severalSprouses from "./sample/several-sprouses.json";
 
-import { TreeUtils, TreeDataProcessor} from "utils";
+import { TreeUtils, TreeDataProcessor, StyleUtils} from "utils";
 import { Header, FamilyTree, TreeNode, TreeConfig, SlidingPanel, SlidingPanelOrient, CommonIcon } from "components";
 
 export default function UIDummyTree() {
@@ -109,20 +109,20 @@ export default function UIDummyTree() {
   }
 
   return (
-    <div id="tree-container">
+    <>
       <Header title={t("dummy_tree")}/>
-      
-      {renderContainer()}
 
-      {node.id && (
-        <UINodeDetailsPanel
-          info={node}
-          visible={node.id}
-          onClose={() => setNode({})}
-          onSelectBranch={toBranch}
-        />
-      )}
-    </div>
+      <div id="tree-container">  
+        {renderContainer()}
+      </div>
+
+      <UINodeDetailsPanel
+        info={node}
+        visible={node.id ? true : false}
+        onClose={() => setNode({})}
+        onSelectBranch={toBranch}
+      />
+    </>
   )
 }
 
@@ -141,12 +141,13 @@ export function UINodeDetailsPanel(props: UINodeDetailsPanelProps) {
       orient={SlidingPanelOrient.BottomToTop}
       visible={visible}
       close={onClose}
-      className="pb-3"
+      className="pb-3 bg-white"
+      // height={StyleUtils.calComponentRemainingHeight(0)}
       header={t("member_info")}
     >
       <Box className="px-2" style={{ height: height }}>
         <React.Fragment>
-          <Text.Title className="text-capitalize text-secondary py-2"> {t("info")} </Text.Title>
+          <Text.Title className="text-capitalize text-base py-2"> {t("info")} </Text.Title>
           <div className="flex-h">
             <Input size="small" label={"Giới tính"} value={info["gender"] === "1" ? t("male") : t("female")} />
             <Input size="small" label={"Điện thoại"} value={info["phoneNumber"]} />
@@ -157,7 +158,7 @@ export function UINodeDetailsPanel(props: UINodeDetailsPanelProps) {
         </React.Fragment>
 
         <React.Fragment>
-          <Text.Title className="text-capitalize text-secondary py-2"> {t("utilities")} </Text.Title>
+          <Text.Title className="text-capitalize text-base py-2"> {t("utilities")} </Text.Title>
           <Button 
             variant="secondary" 
             size="small" 

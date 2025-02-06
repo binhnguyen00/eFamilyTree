@@ -14,6 +14,7 @@ import {
   SlidingPanel, SlidingPanelOrient, useAppContext } from "components";
 import { FailResponse, ServerResponse } from "types/server";
 import { GalleryImage } from "pages/gallery/UIGalleryImages";
+import { StyleUtils } from "utils";
 
 interface UIMemorialLocationProps {
   id: number;
@@ -75,6 +76,7 @@ export function UIMemorialLocation({ id, visible, onClose, onRemove }: UIMemoria
           className="bg-white pb-3"
           header={"Di Tích"}      
           close={onClose}
+          height={StyleUtils.calComponentRemainingHeight(0)}
         >
           <Form 
             observer={newObserver} 

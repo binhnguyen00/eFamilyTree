@@ -3,14 +3,14 @@ import { t } from "i18next";
 
 import { FamilyTreeApi } from "api";
 import { useAppContext } from "hooks";
-import { CommonUtils, TreeUtils, TreeDataProcessor } from "utils";
-import { Header, TreeNode, FamilyTree, TreeConfig, Loading } from "components";
+import { TreeUtils, TreeDataProcessor } from "utils";
+import { Header, TreeNode, FamilyTree, TreeConfig, Loading, BeanObserver } from "components";
 
 import { UserInfo } from "types/app-context";
 import { ExtNode } from "components/tree-relatives/types";
 import { ServerResponse, FailResponse } from "types/server";
 
-import { UINodeDetailsPanel } from "./UINodeDetails";
+import { Member, UITreeMemberDetailsPanel } from "./UITreeMemberDetails";
 
 export function UIFamilyTree() {
   const { userInfo } = useAppContext();
@@ -59,11 +59,13 @@ interface UIFamilyTreeContainerProps {
   onReload?: () => void;
 }
 export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) { 
+  const { userInfo } = useAppContext();
+
   const [ reload, setReload ] = React.useState(false);
   const [ resetBtn, setResetBtn ] = React.useState<boolean>(false);
 
   const [ rootId, setRootId ] = React.useState<string>(props.rootId);
-  const [ node, setNode ] = React.useState<ExtNode | any>({});
+  const [ node, setNode ] = React.useState<Member | null>(null);
   const [ nodes, setNodes ] = React.useState<any[]>(props.nodes);
 
   const [ zoomElement, setZoomElement ] = React.useState<HTMLElement>();
@@ -73,16 +75,16 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
     setRootId(props.rootId);
   }, [ reload ]);
 
-  const toBranch = (nodeId: string) => {
-    const treeBranch = TreeUtils.getBranch(node.id, nodes);
+  const toBranch = () => {
+    const treeBranch = TreeUtils.getBranch(node!.id.toString(), nodes);
     setNodes(treeBranch);
-    setRootId(node.id);
+    setRootId(node!.id.toString());
     setResetBtn(true);
-    setNode({}); // To close slider when select branch
+    setNode({} as Member); // To close slider when select branch
 
     // wait for 0.5s for the tree to finish rendering. this wont work everytime!
     setTimeout(() => {
-      const element = document.getElementById(`node-${nodeId}`);
+      const element = document.getElementById(`node-${node!.id}`);
       setZoomElement(element!);
     }, 500); 
   }
@@ -93,38 +95,55 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
     setZoomElement(undefined);
   } : undefined;
 
-  return (
-    <div id="tree-container">
-      <Header title={t("family_tree")}/>
-      
-      <FamilyTree
-        nodes={nodes}
-        rootId={rootId}
-        nodeHeight={TreeConfig.nodeHeight}
-        nodeWidth={TreeConfig.nodeWidth}
-        searchFields={["id", "name"]}
-        searchDisplayField="name"
-        onReset={onReset}
-        renderNode={(node: any) => (
-          <TreeNode
-            key={node.id}
-            node={node}
-            displayField="name"
-            isRoot={node.id === rootId}
-            onSelectNode={(node: ExtNode) => setNode(node)}
-          />
-        )}
-        zoomElement={zoomElement}
-      />
+  const onSelect = (node: ExtNode) => {
+    FamilyTreeApi.getMember({
+      userId: parseInt(node.id), 
+      clanId: userInfo.clanId,
+      success: (result: ServerResponse) => {
+        if (result.status === "error") {
+          console.error("UINodeDetailsPanel:\n\t", result.message);
+        } else {
+          const data = result.data as Member;
+          setNode(data);
+        }
+      },
+    });
+  }
 
-      {node.id && (
-        <UINodeDetailsPanel
-          id={node.id}
-          visible={!CommonUtils.isNullOrUndefined(node)} 
-          onClose={() => setNode({})}
-          onSelectBranch={toBranch}
+  return (
+    <>
+      <Header title={t("family_tree")}/>
+
+      <div id="tree-container">
+        <FamilyTree
+          nodes={nodes}
+          rootId={rootId}
+          nodeHeight={TreeConfig.nodeHeight}
+          nodeWidth={TreeConfig.nodeWidth}
+          searchFields={["id", "name"]}
+          searchDisplayField="name"
+          onReset={onReset}
+          renderNode={(node: any) => (
+            <TreeNode
+              key={node.id}
+              node={node}
+              displayField="name"
+              isRoot={node.id === rootId}
+              onSelectNode={onSelect}
+            />
+          )}
+          zoomElement={zoomElement}
+        />
+      </div>
+
+      {node !== null && (
+        <UITreeMemberDetailsPanel
+          info={node}
+          visible={node !== null ? true : false} 
+          onClose={() => setNode(null)}
+          toBranch={toBranch}
         />
       )}
-    </div>
+    </>
   )
 }
