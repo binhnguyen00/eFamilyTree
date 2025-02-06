@@ -43,14 +43,14 @@ export function RequestLocation({ visible, close }: RequestLocationProps) {
       orient={SlidingPanelOrient.BottomToTop}
       close={close}
     >
-      <Stack space="1rem" className="p-3 text-secondary">
-        <Box flexDirection="row" alignItems="center">
+      <div className="flex-v p-3">
+        <div className="flex-h">
           <CommonIcon.Map size={20}/>
-          <Text className="ml-2"> {t("location_requirement")} </Text>
-        </Box>
+          <p className="ml-2"> {t("location_requirement")} </p>
+        </div>
         <p> {t("request_location_explaination")} </p>
         <p> {t("commitment")} </p>
-        <Stack>
+        <div className="flex-v pt-3">
           <Button variant="secondary" size="medium" onClick={() => {
             close();
             setRequest(true);
@@ -58,10 +58,10 @@ export function RequestLocation({ visible, close }: RequestLocationProps) {
             {t("allow")}
           </Button>
           <Button onClick={close}>
-            <Text> {t("decline")} </Text>
+            {t("decline")}
           </Button>
-        </Stack>
-      </Stack>
+        </div>
+      </div>
     </SlidingPanel>
   )
 }

@@ -10,7 +10,7 @@ import { UserInfo } from "types/app-context";
 import { ExtNode } from "components/tree-relatives/types";
 import { ServerResponse, FailResponse } from "types/server";
 
-import { Member, UITreeMemberDetailsPanel } from "./UITreeMemberDetails";
+import { Member, UITreeMemberDetailsPanel } from "./UIFamilyTreeDetails";
 
 export function UIFamilyTree() {
   const { userInfo } = useAppContext();

@@ -35,25 +35,25 @@ export function RequestPhone(props: { visible: boolean, closeSheet: () => void }
       orient={SlidingPanelOrient.BottomToTop}
       close={closeSheet}
     >
-      <Stack space="1rem" className="p-3 text-secondary">
-        <Box flexDirection="row" alignItems="center">
+      <div className="flex-v p-3">
+        <div className="flex-h">
           <CommonIcon.Phone size={16}/>
-          <Text className="ml-2"> {t("phone_requirement")} </Text>
-        </Box>
+          <p className="ml-2"> {t("phone_requirement")} </p>
+        </div>
         <p> {t("request_phone_explaination")} </p>
         <p> {t("commitment")} </p>
-        <Stack>
-          <Button variant="secondary" size="medium" onClick={() => {
+        <div className="flex-v pt-3">
+          <Button variant="primary" size="medium" onClick={() => {
             closeSheet();
             setRequest(true);
           }}>
             {t("allow")}
           </Button>
-          <Button onClick={closeSheet}>
-            <Text> {t("decline")} </Text>
+          <Button variant="tertiary" size="medium" onClick={closeSheet}>
+            {t("decline")}
           </Button>
-        </Stack>
-      </Stack>
+        </div>
+      </div>
     </SlidingPanel>
   )
 }

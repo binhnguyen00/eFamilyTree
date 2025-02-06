@@ -21,6 +21,7 @@ import { GrMap } from "react-icons/gr";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { IoTrash } from "react-icons/io5";
 import { FaMapLocationDot } from "react-icons/fa6";
+import { BsArchiveFill } from "react-icons/bs";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -54,5 +55,6 @@ export const CommonIcon = {
   Map: GrMap,
   CurrentPosition: FaMapLocationDot,
   LightBulb: HiOutlineLightBulb,
-  Trash: IoTrash
+  Trash: IoTrash,
+  Archive: BsArchiveFill,
 };

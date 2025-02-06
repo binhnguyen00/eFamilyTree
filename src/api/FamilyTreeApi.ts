@@ -72,4 +72,14 @@ export class FamilyTreeApi extends BaseApi {
     });
     this.server.POST("tree/member/delete", header, body, success, fail);
   }
+
+  public static archiveMember({ userId, clanId, id, success, fail }: { userId: number, clanId: number, id: number, success: SuccessCB, fail?: FailCB }) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      user_id: userId,
+      clan_id: clanId,
+      id: id
+    });
+    this.server.POST("tree/member/archive", header, body, success, fail);
+  }
 }

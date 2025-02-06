@@ -16,6 +16,10 @@ export class BeanObserver<T> {
     return Object.keys(clone) as Array<keyof T>;
   }
 
+  updateBean(bean: T) {
+    this.setBean(bean);
+  }
+
   /**
    * @usage when your bean is an object
    */

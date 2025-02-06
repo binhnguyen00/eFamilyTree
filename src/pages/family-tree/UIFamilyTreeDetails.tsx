@@ -33,7 +33,7 @@ interface UITreeMemberDetailsPanelProps {
 }
 export function UITreeMemberDetailsPanel(props: UITreeMemberDetailsPanelProps) {
   const { info, visible, onClose, toBranch } = props;
-  
+
   const observer = useBeanObserver(info);
   const { userInfo } = useAppContext();
   const { successToast, dangerToast } = useNotification();
@@ -48,6 +48,8 @@ export function UITreeMemberDetailsPanel(props: UITreeMemberDetailsPanelProps) {
           dangerToast(`${t("save")} ${t("fail")}`)
         } else {
           successToast(`${t("save")} ${t("success")}`)
+          const bean = result.data as Member;
+          observer.updateBean(bean)
         }
         onClose();
       },
