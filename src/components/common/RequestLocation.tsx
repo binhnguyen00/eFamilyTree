@@ -51,13 +51,13 @@ export function RequestLocation({ visible, close }: RequestLocationProps) {
         <p> {t("request_location_explaination")} </p>
         <p> {t("commitment")} </p>
         <div className="flex-v pt-3">
-          <Button variant="secondary" size="medium" onClick={() => {
+          <Button variant="primary" size="medium" onClick={() => {
             close();
             setRequest(true);
           }}>
             {t("allow")}
           </Button>
-          <Button onClick={close}>
+          <Button variant="tertiary" size="medium" onClick={close}>
             {t("decline")}
           </Button>
         </div>

@@ -96,9 +96,10 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
   } : undefined;
 
   const onSelect = (node: ExtNode) => {
-    FamilyTreeApi.getMember({
-      userId: parseInt(node.id), 
+    FamilyTreeApi.getMemberInfo({
+      userId: userInfo.id, 
       clanId: userInfo.clanId,
+      id: parseInt(node.id),
       success: (result: ServerResponse) => {
         if (result.status === "error") {
           console.error("UINodeDetailsPanel:\n\t", result.message);
