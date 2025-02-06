@@ -7,7 +7,7 @@ import { PanelBackdrop } from "./PanelBackdrop";
 import { PanelCloseButton } from "./PanelCloseButton";
 
 export function BotToTopPanel(props: PanelProps) {
-  const { children, height, visible, header, close, className } = props;
+  const { children, height = 450, visible, header, close, className } = props;
   const [ backdrop, setBackdrop ] = React.useState(visible);
 
   // Define animation
