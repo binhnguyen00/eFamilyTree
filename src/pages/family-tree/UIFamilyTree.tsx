@@ -4,7 +4,7 @@ import { t } from "i18next";
 import { FamilyTreeApi } from "api";
 import { useAppContext } from "hooks";
 import { TreeUtils, TreeDataProcessor } from "utils";
-import { Header, TreeNode, FamilyTree, TreeConfig, Loading, BeanObserver } from "components";
+import { Header, TreeNode, FamilyTree, TreeConfig, Loading } from "components";
 
 import { UserInfo } from "types/app-context";
 import { ExtNode } from "components/tree-relatives/types";
@@ -33,14 +33,20 @@ export function UIFamilyTree() {
       setLoading(false);
       console.error("UIFamilyTree:\n\t", error.message, "\n", error.stackTrace);
     } 
-    FamilyTreeApi.getMembers(userInfo.id, userInfo.clanId, success, fail);
+    FamilyTreeApi.searchMembers({
+      userId: userInfo.id,
+      clanId: userInfo.clanId,
+      success, fail
+    });
   }, [ reload ]);
 
   if (loading) return (
-    <div className="container">
+    <>
       <Header title={t("family_tree")} />
-      <Loading message={t("loading_family_tree")} />      
-    </div>
+      <div className="container">
+        <Loading message={t("loading_family_tree")} />      
+      </div>
+    </>
   ) 
   else return (
     <UIFamilyTreeContainer 

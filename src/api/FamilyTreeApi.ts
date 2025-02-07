@@ -3,13 +3,13 @@ import { SuccessCB, FailCB } from "types/server"
 
 export class FamilyTreeApi extends BaseApi {
 
-  public static getMembers(userId: number, clanId: number, successCB: SuccessCB, failCB?: FailCB) {
+  public static searchMembers({ userId, clanId, success, fail }: { userId: number, clanId: number, success: SuccessCB, fail?: FailCB }) {
       const header = this.initHeader();
       const body = this.initBody({
         user_id: userId,
         clan_id: clanId
       });
-      this.server.POST("get/member", header, body, successCB, failCB);
+      this.server.POST("tree/member/search", header, body, success, fail);
     }
   
   public static getMemberInfo({ userId, clanId, id, success, fail }: {
@@ -22,18 +22,6 @@ export class FamilyTreeApi extends BaseApi {
       clan_id: clanId,
     });
     this.server.POST("tree/member/info", header, body, success, fail);
-  }
-
-  /** @deprecated */
-  public static getMember({ userId, clanId, success, fail }: {
-    userId: number, clanId: number, success: SuccessCB, fail?: FailCB
-  }) {
-    const header = this.initHeader();
-    const body = this.initBody({
-      member_id: userId,
-      clan_id: clanId,
-    });
-    this.server.POST("get/info/member", header, body, success, fail);
   }
 
   public static exportSVG(userId: number, clanId: number, base64: string, successCB: SuccessCB, failCB?: FailCB) {
@@ -63,14 +51,6 @@ export class FamilyTreeApi extends BaseApi {
       info: member
     });
     this.server.POST("tree/member/save", header, body, success, fail);
-  }
-
-  public static deleteMember({ id, success, fail }: { id: number, success: SuccessCB, fail?: FailCB }) {
-    const header = this.initHeader();
-    const body = this.initBody({
-      id: id
-    });
-    this.server.POST("tree/member/delete", header, body, success, fail);
   }
 
   public static archiveMember({ userId, clanId, id, success, fail }: { userId: number, clanId: number, id: number, success: SuccessCB, fail?: FailCB }) {

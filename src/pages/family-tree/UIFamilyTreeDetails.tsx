@@ -57,8 +57,10 @@ export function UITreeMemberDetailsPanel(props: UITreeMemberDetailsPanelProps) {
     })
   }
 
-  const onDelete = () => {
-    FamilyTreeApi.deleteMember({
+  const onArchive = () => {
+    FamilyTreeApi.archiveMember({
+      userId: userInfo.id,
+      clanId: userInfo.clanId,
       id: observer.getBean().id,
       success: (result: ServerResponse) => {
         if (result.status === "error") {
@@ -120,7 +122,7 @@ export function UITreeMemberDetailsPanel(props: UITreeMemberDetailsPanelProps) {
             <Button size="small" prefixIcon={<CommonIcon.Save size={16}/>} onClick={onSave}> 
               {t("save")}
             </Button>
-            <Button size="small" prefixIcon={<CommonIcon.Trash size={16}/>} onClick={onDelete}>
+            <Button size="small" prefixIcon={<CommonIcon.Trash size={16}/>} onClick={onArchive}>
               {t("delete")}
             </Button>
           </div>
