@@ -128,7 +128,7 @@ export function TreeController(props: TreeControllerProps) {
         children={<CommonIcon.Plus size={22}/>}
       />
 
-      <SizedBox 
+      <SizedBox
         className='bg-white mb-1 p-1 button border-primary'
         width={"fit-content"} height={"fit-content"}
         onClick={() => onZoomOut()}

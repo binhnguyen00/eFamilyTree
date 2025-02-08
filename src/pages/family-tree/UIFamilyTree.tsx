@@ -6,7 +6,6 @@ import { useAppContext } from "hooks";
 import { TreeUtils, TreeDataProcessor } from "utils";
 import { Header, TreeNode, FamilyTree, TreeConfig, Loading } from "components";
 
-import { UserInfo } from "types/app-context";
 import { ExtNode } from "components/tree-relatives/types";
 import { ServerResponse, FailResponse } from "types/server";
 
@@ -43,16 +42,13 @@ export function UIFamilyTree() {
   if (loading) return (
     <>
       <Header title={t("family_tree")} />
-      <div className="container">
-        <Loading message={t("loading_family_tree")} />      
-      </div>
+      <Loading message={t("loading_family_tree")} />      
     </>
   ) 
   else return (
     <UIFamilyTreeContainer 
       nodes={processor.nodes}
       rootId={processor.rootId}
-      userInfo={userInfo}
       onReload={() => setReload(!reload)}
     />
   )
@@ -61,7 +57,6 @@ export function UIFamilyTree() {
 interface UIFamilyTreeContainerProps {
   nodes: any[];
   rootId: string;
-  userInfo: UserInfo;
   onReload?: () => void;
 }
 export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) { 
@@ -86,7 +81,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
     setNodes(treeBranch);
     setRootId(node!.id.toString());
     setResetBtn(true);
-    setNode({} as Member); // To close slider when select branch
+    setNode(null); // To close slider when select branch
 
     // wait for 0.5s for the tree to finish rendering. this wont work everytime!
     setTimeout(() => {

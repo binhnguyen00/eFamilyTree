@@ -1,5 +1,4 @@
 import React from 'react';
-import { Box } from 'zmp-ui';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import calcTree from 'components/tree-relatives';
@@ -15,14 +14,9 @@ import { TreeSearchBar } from './TreeSearchBar';
 import { TreeController } from './TreeController';
 
 import "./css/transform-wrapper.scss";
-
-const initNode = { 
-  id: "0", 
-  gender: Gender.male, 
-  name: "Thành Viên", 
-  generation: 0, 
-  parents: [], children: [], siblings: [], spouses: []
-} as Node;
+import TreeNode from './TreeNode';
+import { SlidingPanel, SlidingPanelOrient } from 'components/sliding-panel';
+import { UITreeMemberDetailsPanel } from 'pages/family-tree/UIFamilyTreeDetails';
 
 interface TreeProps {
   nodes: Node[];
@@ -43,12 +37,23 @@ export default React.memo<TreeProps>(function Tree(props) {
   const { 
     rootId = "0", 
     searchFields = [ "id" ], 
-    nodes = [ initNode as Node ],
+    nodes = [],
     processor, nodeWidth, nodeHeight, searchDisplayField, 
     renderNode, onReset, zoomElement
   } = props;
 
-  const data = calcTree(nodes, { rootId: rootId });
+  let data: any;
+  if (nodes.length === 0) {
+    data = {
+      families: [],
+      canvas: [],
+      nodes: [],
+      connectors: [],
+    }
+  } else {
+    data = calcTree(nodes, { rootId: rootId });
+  } 
+
   const treeWidth = data.canvas.width * (nodeWidth / 2);
   const treeHeight = data.canvas.height * (nodeHeight / 2);
   const treeRef = React.useRef<HTMLDivElement | null>(null);
@@ -70,7 +75,7 @@ export default React.memo<TreeProps>(function Tree(props) {
         {({ zoomIn, zoomOut, zoomToElement }) => {
           return (
             <React.Fragment>
-              <Box flex flexDirection='row' justifyContent='space-between'>
+              <div className='flex-h justify-between'>
                 <TreeSearchBar 
                   searchFields={searchFields}
                   displayField={searchDisplayField}
@@ -101,7 +106,7 @@ export default React.memo<TreeProps>(function Tree(props) {
                   }}
                   onReset={onReset}
                 />
-              </Box>
+              </div>
               <TransformComponent>
                 <TreeContainer 
                   title={userInfo.clanName}
@@ -209,6 +214,47 @@ interface NodeAndConntectorProps {
 }
 function NodeAndConnector(props: NodeAndConntectorProps) {
   const { calculatedData, connectorHeight, connectorWidth, renderNode } = props;
+  const [ visible, setVisible ] = React.useState(false);
+
+  const onSelectRootNode = () => setVisible(true);
+  const onClose = () => setVisible(false);
+
+  const node = {
+    id: "1",
+    gender: Gender.male,
+    name: "Thuỷ tổ",
+    children: [],
+    parents: [],
+    spouses: [],
+    siblings: [],
+    generation: 1,
+  }
+
+  if (!calculatedData.nodes.length) {
+    return (
+      <>
+        <TreeNode
+          isRoot
+          node={node}
+          displayField='name'
+          onSelectNode={onSelectRootNode}
+        />
+        <UITreeMemberDetailsPanel
+          info={{
+            id: parseInt(node.id),
+            name: node.name,
+            gender: "1",
+            father: "",
+            mother: "",
+            phone: "",
+            spouses: []
+          }}
+          visible={visible} 
+          onClose={onClose}
+        />
+      </>
+    )
+  }
 
   return (
     <>

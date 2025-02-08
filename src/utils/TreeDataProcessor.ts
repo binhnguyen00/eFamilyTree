@@ -25,16 +25,7 @@ export class TreeDataProcessor {
   constructor(data: Person[]) {
     this.people = data;
     if (!data.length) {
-      this.nodes = [{
-        id: "0",
-        name: "Thành Viên",
-        generation: 0,
-        gender: Gender.male,
-        parents: [],
-        children: [],
-        siblings: [],
-        spouses: []
-      }];
+      this.nodes = [];
       this.rootId = "0";
     } else {
       this.nodes = this.peopleToNodes();
@@ -44,7 +35,7 @@ export class TreeDataProcessor {
 
   public setNodes(nodes: any[]) {
     this.nodes = nodes;
-    this.rootId = this.getAncestor().id;
+    if (this.nodes.length) this.rootId = this.getAncestor().id;
   }
 
   public peopleToNodes(): Node[] {

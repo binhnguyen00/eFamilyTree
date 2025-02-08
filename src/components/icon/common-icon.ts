@@ -22,6 +22,7 @@ import { HiOutlineLightBulb } from "react-icons/hi";
 import { IoTrash } from "react-icons/io5";
 import { FaMapLocationDot } from "react-icons/fa6";
 import { BsArchiveFill } from "react-icons/bs";
+import { MdAddLocationAlt } from "react-icons/md";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -57,4 +58,5 @@ export const CommonIcon = {
   LightBulb: HiOutlineLightBulb,
   Trash: IoTrash,
   Archive: BsArchiveFill,
+  AddMarker: MdAddLocationAlt,
 };

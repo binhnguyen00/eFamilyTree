@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Spinner, Stack, Text } from "zmp-ui";
+import { Spinner, Text } from "zmp-ui";
 import { SizedBox } from "./SizedBox";
 
 interface LoadingProps {
@@ -21,7 +21,7 @@ export function Loading(props: LoadingProps) {
   return (
     <div className="container center">
       <SizedBox width={width} height={width}>
-        <Stack space="0.5rem" className="center">
+        <div className="flex-v center">
           <Spinner visible/>
           <Text.Title 
             style={{
@@ -31,7 +31,7 @@ export function Loading(props: LoadingProps) {
           > 
             {message} 
           </Text.Title>
-        </Stack>
+        </div>
       </SizedBox>
     </div>
   )

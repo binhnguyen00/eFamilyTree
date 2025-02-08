@@ -23,6 +23,7 @@ export default React.memo<TreeNodeProps>(function TreeNode(props: TreeNodeProps)
   
   return (
     <div
+      // Container
       id={`node-${node.id}`}
       className='svg-node button' // Singular purpose: Check FamilyTree.tsx, in the part where export svg
       style={{
@@ -34,47 +35,27 @@ export default React.memo<TreeNodeProps>(function TreeNode(props: TreeNodeProps)
       }}
       onClick={() => onSelectNode?.(node as ExtNode)}
     >
+      <p
+        // Generation
+        style={{
+          background: `${nodeColor}`,
+          height: "25%",
+          color: "white",
+        }}
+        className='center'
+      >
+        {`Đời ${node.generation}`}
+      </p>
       <div
         style={{
-          background: `linear-gradient(to bottom, ${nodeColor} 25%, #FEF3E2 25%)`,
-          color: `${nodeColor}`,
+          background: "#FEF3E2",
           position: "relative",
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          alignContent: "center",
-          padding: "0.5rem",
+          width: "100%", height: "75%",
+          padding: "0.5rem 0",
         }}
       >
-        {/* This wrapper div acts as the ::before pseudo-element */}
-        <div
-          style={{
-            content: "", // Acts as a pseudo-element
-            position: "absolute",
-            top: "0",
-            left: "0",
-            width: "100%",
-            height: "25%",
-            background: nodeColor,
-            zIndex: 0, // Ensure it's behind other content
-          }}
-        />
-
-        {/* <img
-          src={node.avatar && `http://${node.avatar}`}
-          style={{
-            width: 60,
-            height: 60,
-            objectFit: "cover",
-            borderRadius: "50%",
-            zIndex: 1, // Ensure it appears above the background
-          }}
-        /> */}
-
         <h3
+          // Name
           style={{
             color: "black",
             textAlign: "center",
@@ -88,12 +69,6 @@ export default React.memo<TreeNodeProps>(function TreeNode(props: TreeNodeProps)
         >
           {node[displayField]}
         </h3>
-
-        {/* TODO: Traslate this */}
-        <p>
-          {`Đời ${node.generation}`}
-        </p>
-
       </div>
     </div>
   )
