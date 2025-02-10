@@ -128,7 +128,7 @@ function useMap(props: UseMapProps) {
     Leaflet
       .tileLayer(config.defaultTileLayer, {
         detectRetina: true,
-        maxZoom: config.maxZoom,
+        maxZoom: config.defaultMaxZoom,
       })
       .addTo(mapRef.current)
 
@@ -223,12 +223,28 @@ function useMap(props: UseMapProps) {
 
   // Change map tile layer
   React.useEffect(() => {
-    Leaflet
-      .tileLayer(tileLayer ? tileLayer : config.defaultTileLayer, {
-        detectRetina: true,
-        maxZoom: config.maxZoom,
-      })
-      .addTo(mapRef.current!)
+    if (!tileLayer) {
+      Leaflet
+        .tileLayer(config.defaultTileLayer, {
+          detectRetina: true,
+          maxZoom: 20,
+        })
+        .addTo(mapRef.current!)
+    } else if (tileLayer.startsWith("http://server.arcgisonline.com")) {
+      Leaflet
+        .tileLayer(config.satelliteTileLayer, {
+          detectRetina: true,
+          maxZoom: config.satelliteMaxZoom,
+        })
+        .addTo(mapRef.current!)
+    } else {
+      Leaflet
+        .tileLayer(config.defaultTileLayer, {
+          detectRetina: true,
+          maxZoom: config.defaultMaxZoom,
+        })
+        .addTo(mapRef.current!)
+    }
   }, [ tileLayer ])
 
   // Go to current location
