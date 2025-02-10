@@ -152,7 +152,6 @@ button, .button {
 // zaui sheet
 .zaui-sheet-content {
   @extend .text-primary;
-  @extend .bg-secondary;
   .zaui-input-label {
     @extend .text-primary;
     text-transform: capitalize;

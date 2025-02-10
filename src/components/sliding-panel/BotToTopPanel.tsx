@@ -70,7 +70,7 @@ export function BotToTopPanel(props: PanelProps) {
           </div>
         </div>
       </animated.div>
-    </>, document.body // Render as a portal
+    </>, document.getElementById("app")! // Render as a portal
   );
 }
 

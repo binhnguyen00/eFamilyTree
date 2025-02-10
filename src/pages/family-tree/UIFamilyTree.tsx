@@ -9,7 +9,9 @@ import { Header, TreeNode, FamilyTree, TreeConfig, Loading } from "components";
 import { ExtNode } from "components/tree-relatives/types";
 import { ServerResponse, FailResponse } from "types/server";
 
-import { Member, UITreeMemberDetailsPanel } from "./UIFamilyTreeDetails";
+import { UICreateSpouse } from "./UICreateSpouse";
+import { CreateMode, Member, UITreeMemberDetailsPanel } from "./UIFamilyTreeDetails";
+import { UICreateChild } from "./UICreateChild";
 
 export function UIFamilyTree() {
   const { userInfo } = useAppContext();
@@ -47,33 +49,35 @@ export function UIFamilyTree() {
   ) 
   else return (
     <UIFamilyTreeContainer 
-      nodes={processor.nodes}
-      rootId={processor.rootId}
+      processor={processor}
       onReload={() => setReload(!reload)}
     />
   )
 }
 
 interface UIFamilyTreeContainerProps {
-  nodes: any[];
-  rootId: string;
+  processor: TreeDataProcessor;
   onReload?: () => void;
 }
 export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) { 
+  const { processor, onReload } = props;
+
   const { userInfo } = useAppContext();
 
   const [ reload, setReload ] = React.useState(false);
   const [ resetBtn, setResetBtn ] = React.useState<boolean>(false);
 
-  const [ rootId, setRootId ] = React.useState<string>(props.rootId);
+  const [ rootId, setRootId ] = React.useState<string>(processor.rootId);
   const [ node, setNode ] = React.useState<Member | null>(null);
-  const [ nodes, setNodes ] = React.useState<any[]>(props.nodes);
+  const [ nodes, setNodes ] = React.useState<any[]>(processor.nodes);
 
   const [ zoomElement, setZoomElement ] = React.useState<HTMLElement>();
 
+  const [ createMode, setCreateMode ] = React.useState<CreateMode | null>(null);
+
   React.useEffect(() => {
-    setNodes(props.nodes);
-    setRootId(props.rootId);
+    setNodes(processor.nodes);
+    setRootId(processor.rootId);
   }, [ reload ]);
 
   const toBranch = () => {
@@ -97,6 +101,8 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
   } : undefined;
 
   const onSelect = (node: ExtNode) => {
+    console.log(node);
+    
     FamilyTreeApi.getMemberInfo({
       userId: userInfo.id, 
       clanId: userInfo.clanId,
@@ -109,6 +115,10 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
           setNode(data);
         }
       },
+      // Debug
+      fail: () => {
+        setNode(node as any);
+      }
     });
   }
 
@@ -138,14 +148,34 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
         />
       </div>
 
-      {node !== null && (
-        <UITreeMemberDetailsPanel
-          info={node}
-          visible={node !== null ? true : false} 
-          onClose={() => setNode(null)}
-          toBranch={toBranch}
-        />
-      )}
+      <UITreeMemberDetailsPanel
+        info={node}
+        visible={node !== null ? true : false} 
+        onClose={() => setNode(null)}
+        toBranch={toBranch}
+        processor={processor}
+        onCreateChild={() => setCreateMode(CreateMode.CHILD)}
+        onCreateSpouse={() => setCreateMode(CreateMode.SPOUSE)}
+        onCreateSibling={() => setCreateMode(CreateMode.SIBLING)}
+      />
+
+      {/* <UICreateRoot 
+        visible={nodes.length ? false : true}
+      /> */}
+
+      <UICreateSpouse 
+        spouse={node} 
+        visible={createMode && createMode === CreateMode.SPOUSE ? true : false}
+        onClose={() => setCreateMode(null)} 
+      />
+
+      <UICreateChild
+        dad={node}
+        visible={createMode && createMode === CreateMode.CHILD ? true : false}
+        onClose={() => setCreateMode(null)} 
+        processor={processor}
+      />
+
     </>
   )
 }

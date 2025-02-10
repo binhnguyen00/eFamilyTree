@@ -1,11 +1,11 @@
 import React from "react";
 
 import { t } from "i18next";
-import { Button, Text, Stack, Grid } from "zmp-ui";
+import { Button, Text, Stack, Grid, Sheet, Input } from "zmp-ui";
 
-import { ZmpSDK } from "utils";
+import { StyleUtils, ZmpSDK } from "utils";
 import { TestApi } from "api";
-import { useNotification, useAppContext, usePageContext } from "hooks";
+import { useNotification, useAppContext, usePageContext, useBeanObserver } from "hooks";
 import { Header, Loading, SizedBox, SlidingPanel, SlidingPanelOrient, NewsPaperSkeleton } from "components";
 
 import { Theme } from "types/user-settings";
@@ -16,10 +16,26 @@ import themeRed from "assets/img/theme/theme-red.jpeg";
 import themeBlue from "assets/img/theme/theme-blue.jpeg";
 
 export function UIPlayground() {
+  const observer = useBeanObserver({} as any);
+  const [ visible, setVisible ] = React.useState(false);
 
   return (
     <Stack space="1rem" className="container">
       <Header title={t("playground")}/>
+
+      <Button variant="secondary" size="small" onClick={() => setVisible(true)}> Sheet </Button>
+
+      <Sheet
+        visible={visible} height={StyleUtils.calComponentRemainingHeight(0)}
+        swipeToClose onClose={() => setVisible(false)}
+      >
+        <div>
+          <Input label="name" name="name" value={observer.getFieldValue("name") || ""} onChange={observer.watch}/>
+          <Button onClick={() => console.log(observer.getBean())}>
+            Save
+          </Button>
+        </div>
+      </Sheet>
 
       <UILocationPermission/>
 

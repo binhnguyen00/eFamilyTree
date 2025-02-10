@@ -67,6 +67,18 @@ export class TreeDataProcessor {
     return node;
   }
 
+  public getSpouses(id: number) {
+    const targetPerson = this.people.find((person: Person) => person.id === id);
+    if (!targetPerson) return [];
+
+    const spouses = targetPerson.pids
+      .map((spouseId: number) => this.people.find((person: Person) => person.id === spouseId))
+      .filter((spouse: Person | undefined) => spouse !== undefined)
+      .map((spouse: Person) => this.personToNode(spouse));
+
+    return spouses || [];
+  }
+
   // ============================================
   // Private
   // ============================================

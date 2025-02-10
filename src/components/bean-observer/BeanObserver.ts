@@ -1,3 +1,5 @@
+import React from "react";
+
 export class BeanObserver<T> {
   private bean: T;
   private setBean: React.Dispatch<React.SetStateAction<T>>;
@@ -25,9 +27,9 @@ export class BeanObserver<T> {
    */
   update(field: keyof T, value: T[keyof T]) {
     this.setBean((prev) => ({ 
-      ...prev, 
+      ...(prev as Record<string, any>), 
       [field]: value 
-    }));
+    }) as T);
   }
 
   /**

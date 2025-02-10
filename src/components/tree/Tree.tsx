@@ -14,9 +14,6 @@ import { TreeSearchBar } from './TreeSearchBar';
 import { TreeController } from './TreeController';
 
 import "./css/transform-wrapper.scss";
-import TreeNode from './TreeNode';
-import { SlidingPanel, SlidingPanelOrient } from 'components/sliding-panel';
-import { UITreeMemberDetailsPanel } from 'pages/family-tree/UIFamilyTreeDetails';
 
 interface TreeProps {
   nodes: Node[];
@@ -182,27 +179,29 @@ function TreeContainer(props: TreeContainerProps) {
 
   const root = calculatedData.nodes.find(node => node.id === rootId);
   return (
-    <div
-      id="tree-canvas"
-      ref={treeRef}
-      className={`rounded ${props.className ? props.className : ""}`}
-      style={{
-        width: treeWidth + TreeConfig.headerHeight,
-        height: treeHeight + TreeConfig.headerHeight, 
-        ...handleBackground(),
-      }}
-    >
-      <TreeHeader 
-        title={title}
-        rootNode={root as ExtNode} 
-      />
-      <NodeAndConnector 
-        calculatedData={calculatedData}
-        connectorHeight={connectorHeight}
-        connectorWidth={connectorWidth}
-        renderNode={renderNode}
-      />
-    </div>
+    <>
+      <div
+        id="tree-canvas"
+        ref={treeRef}
+        className={`rounded ${props.className ? props.className : ""}`}
+        style={{
+          width: treeWidth + TreeConfig.headerHeight,
+          height: treeHeight + TreeConfig.headerHeight, 
+          ...handleBackground(),
+        }}
+      >
+        <TreeHeader 
+          title={title}
+          rootNode={root as ExtNode} 
+        />
+        <NodeAndConnector 
+          calculatedData={calculatedData}
+          connectorHeight={connectorHeight}
+          connectorWidth={connectorWidth}
+          renderNode={renderNode}
+        />
+      </div>
+    </>
   )
 }
 
@@ -214,10 +213,6 @@ interface NodeAndConntectorProps {
 }
 function NodeAndConnector(props: NodeAndConntectorProps) {
   const { calculatedData, connectorHeight, connectorWidth, renderNode } = props;
-  const [ visible, setVisible ] = React.useState(false);
-
-  const onSelectRootNode = () => setVisible(true);
-  const onClose = () => setVisible(false);
 
   const node = {
     id: "1",
@@ -231,29 +226,8 @@ function NodeAndConnector(props: NodeAndConntectorProps) {
   }
 
   if (!calculatedData.nodes.length) {
-    return (
-      <>
-        <TreeNode
-          isRoot
-          node={node}
-          displayField='name'
-          onSelectNode={onSelectRootNode}
-        />
-        <UITreeMemberDetailsPanel
-          info={{
-            id: parseInt(node.id),
-            name: node.name,
-            gender: "1",
-            father: "",
-            mother: "",
-            phone: "",
-            spouses: []
-          }}
-          visible={visible} 
-          onClose={onClose}
-        />
-      </>
-    )
+    // Debug
+    return renderNode(node)
   }
 
   return (

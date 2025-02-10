@@ -16,20 +16,27 @@ interface SelectionProps {
   observer: BeanObserver<any>;
   placeHolder?: string;
   defaultValue?: SelectionDefaultValue;
+  multiDefaultValue?: SelectionDefaultValue[];
   isClearable?: boolean;
   isSearchable?: boolean;
+  isMulti?: boolean;
+  isDisabled?: boolean;
+  onChange?: (value: any, action: ActionMeta<any>) => void;
 }
 export function Selection(props: SelectionProps) {
   const { 
     options = [ { value: "", label: t("unknown") } ], 
     defaultValue = options[0], 
+    multiDefaultValue = options,
     isClearable = false, 
     isSearchable = false,
     placeHolder = `${t("select")}...`,
-    observer, field, label
+    observer, field, label, isMulti, isDisabled,
+    onChange,
   } = props;
 
   const onSelect = (value: any, action: ActionMeta<any>) => {
+    console.log(value);
     observer.update(field, value.value);
   }
 
@@ -37,18 +44,25 @@ export function Selection(props: SelectionProps) {
     <div className="flex-v flex-grow-0">
       <p> {t(label)} </p>
       <Select 
+        isMulti={isMulti}
         options={options}
         placeholder={placeHolder}
         defaultValue={() => {
-          if (defaultValue) {
-            observer.update(field, defaultValue.value)
-            return defaultValue;
-          } else return null;
+          if (isMulti) {
+            observer.update(field, multiDefaultValue);
+            return multiDefaultValue;
+          } else {
+            if (defaultValue) {
+              observer.update(field, defaultValue.value)
+              return defaultValue;
+            } else return null;
+          }
         }}
         isClearable={isClearable}
         isSearchable={isSearchable}
         styles={colourStyles}
-        onChange={onSelect}
+        onChange={onChange ? onChange : onSelect}
+        isDisabled={isDisabled}
       />
     </div>
   )

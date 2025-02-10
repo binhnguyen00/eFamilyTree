@@ -1,5 +1,6 @@
 import { BaseApi } from "./BaseApi";
 import { SuccessCB, FailCB } from "types/server"
+import { Member } from "pages/family-tree/UIFamilyTreeDetails";
 
 export class FamilyTreeApi extends BaseApi {
 
@@ -48,7 +49,7 @@ export class FamilyTreeApi extends BaseApi {
     const body = this.initBody({
       user_id: userId,
       clan_id: clanId,
-      info: member
+      member: member
     });
     this.server.POST("tree/member/save", header, body, success, fail);
   }
@@ -61,5 +62,24 @@ export class FamilyTreeApi extends BaseApi {
       id: id
     });
     this.server.POST("tree/member/archive", header, body, success, fail);
+  }
+
+  public static createMember({ userId, clanId, member, success, fail }: { 
+    userId: number, clanId: number, member: Member, success: SuccessCB, fail?: FailCB 
+  }) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      user_id: userId,
+      clan_id: clanId,
+      member: {
+        name: member.name,
+        phone: member.phone,
+        gender: member.gender,
+        birthday: member.birthDay,
+        spouses: member.spouses,
+        // TODO: add more fields
+      }
+    });
+    this.server.POST("tree/member/create", header, body, success, fail);
   }
 }
