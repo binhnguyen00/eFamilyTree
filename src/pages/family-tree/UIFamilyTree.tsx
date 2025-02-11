@@ -185,6 +185,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
         spouse={node} 
         visible={createMode && createMode === CreateMode.SPOUSE ? true : false}
         onClose={() => setCreateMode(null)} 
+        onReloadParent={onReload}
       />
 
       <UICreateChild
@@ -192,12 +193,14 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
         visible={createMode && createMode === CreateMode.CHILD ? true : false}
         onClose={() => setCreateMode(null)} 
         processor={processor}
+        onReloadParent={onReload}
       />
 
       <UICreateSibling
         sibling={node}
         visible={createMode && createMode === CreateMode.SIBLING ? true : false}
         onClose={() => setCreateMode(null)} 
+        onReloadParent={onReload}
       />
     </>
   )

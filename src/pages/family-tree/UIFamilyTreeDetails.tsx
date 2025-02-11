@@ -40,7 +40,7 @@ export type Member = {
     date: string,
     description: string
   }[]
-  avatar: string;
+  avatar?: string;
 }
 
 interface UITreeMemberDetailsProps {
