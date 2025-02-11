@@ -1,3 +1,15 @@
+# Version 1.3.0 (Thứ 3, 11/02/2025)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=28)
+### Thay đổi
+1. Giờ đã có thể Thêm, Sửa, Xoá thành viên trong phả đồ
+  - Có thể Thêm con, vợ/chồng, anh/chị/em.
+  - Thành viên Nam mới có thể tạo Con.
+  - Không thể xoá thành viên cha/mẹ đang có con trong phả đồ.
+2. Chức năng "Đăng ký thành viên" giờ sẽ là "Đăng ký tạo tài khoản"
+  - Tài khoản dùng để truy cập trên [Gia Phả Lạc Hồng](https://giapha.mobifone5.vn/).
+3. Đơn giản hoá Đăng ký dòng họ và Đăng ký tạo tài khoản
+  - Nhập thông tin tối thiểu, hiệu quả tối đa. 
+
 # Version 1.2.0 (Thứ 4, 05/02/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=27)
 ### Thay đổi
