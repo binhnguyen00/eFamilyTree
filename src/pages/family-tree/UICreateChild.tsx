@@ -16,10 +16,11 @@ interface UICreateChildProps {
   dad: Member | null;
   processor: TreeDataProcessor;
   onClose: () => void;
+  onReloadParent?: () => void;
 } 
 
 export function UICreateChild(props: UICreateChildProps) {
-  const { visible, dad, processor, onClose } = props;
+  const { visible, dad, processor, onClose, onReloadParent } = props;
   const { userInfo } = useAppContext();
   const { successToast, dangerToast } = useNotification();
 
@@ -49,11 +50,10 @@ export function UICreateChild(props: UICreateChildProps) {
       member: observer.getBean(),
       success: (result: ServerResponse) => {
         if (result.status === "error") {
-          dangerToast?.(`${t("save")} ${t("fail")}`)
+          dangerToast?.(`${t("save")} ${t("fail")}`);
         } else {
-          successToast?.(`${t("save")} ${t("success")}`)
-          const bean = result.data as Member;
-          onClose();
+          successToast?.(`${t("save")} ${t("success")}`);
+          if (onReloadParent) onReloadParent();
         }
         onClose();
       },

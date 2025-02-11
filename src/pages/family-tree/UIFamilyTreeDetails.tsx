@@ -91,9 +91,9 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
           observer.update("phone", bean.phone);
           observer.update("gender", bean.gender);
           observer.update("birthday", bean.birthday);
+          if (onReloadParent) onReloadParent();
         }
         onClose();
-        if (onReloadParent) onReloadParent();
       },
       fail: (error: FailResponse) => {
         dangerToast(`${t("save")} ${t("fail")}`)

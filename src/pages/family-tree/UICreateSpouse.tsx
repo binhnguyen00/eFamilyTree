@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { Button, Input, Sheet, Text } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
-import { StyleUtils, TreeDataProcessor } from "utils";
+import { StyleUtils } from "utils";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 import { BeanObserver, CommonIcon, Selection, DatePicker } from "components";
 
@@ -15,10 +15,11 @@ interface UICreateSpouseProps {
   spouse: Member | null;
   visible: boolean;
   onClose: () => void;
+  onReloadParent?: () => void;
 } 
 
 export function UICreateSpouse(props: UICreateSpouseProps) {
-  const { onClose, spouse, visible } = props;
+  const { onClose, spouse, visible, onReloadParent } = props;
 
   if (spouse === null) return;
 
@@ -37,9 +38,7 @@ export function UICreateSpouse(props: UICreateSpouseProps) {
           dangerToast?.(`${t("save")} ${t("fail")}`)
         } else {
           successToast?.(`${t("save")} ${t("success")}`)
-          const bean = result.data as Member;
-          console.log(bean);
-          onClose();
+          if (onReloadParent) onReloadParent();
         }
         onClose();
       },

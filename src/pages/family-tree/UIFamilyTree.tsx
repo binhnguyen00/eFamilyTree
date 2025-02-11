@@ -64,6 +64,8 @@ interface UIFamilyTreeContainerProps {
 export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) { 
   const { processor, onReload } = props;
 
+  console.log(processor);
+
   const { userInfo } = useAppContext();
 
   const [ reload, setReload ] = React.useState(false);
@@ -80,7 +82,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
   React.useEffect(() => {
     setNodes(processor.nodes);
     setRootId(processor.rootId);
-  }, [ reload ]);
+  }, [ reload, onReload ]);
 
   React.useEffect(() => {
     if (!nodes.length) setCreateMode(CreateMode.ROOT);
@@ -176,6 +178,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
       <UICreateRoot
         visible={createMode && createMode === CreateMode.ROOT ? true : false}
         onClose={() => setCreateMode(null)} 
+        onReloadParent={onReload}
       />
 
       <UICreateSpouse 

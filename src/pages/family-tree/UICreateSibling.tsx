@@ -14,16 +14,17 @@ interface UICreateSiblingProps {
   sibling: Member | null;
   visible: boolean;
   onClose: () => void;
+  onReloadParent?: () => void;
 }
 
 export function UICreateSibling(props: UICreateSiblingProps) {
-  const { sibling, visible, onClose } = props;
+  const { sibling, visible, onClose, onReloadParent } = props;
   const { userInfo } = useAppContext();
   const { successToast, dangerToast } = useNotification();
 
   if (!sibling) return;
-  if (visible && (!sibling.fatherId || !sibling.motherId)) {
-    dangerToast(t("Thành viên cần có Bố/Mẹ để tạo Anh/Chị/Em"));
+  if (visible && (!sibling.fatherId)) {
+    dangerToast(t("Thành viên cần có Bố để tạo Anh/Chị/Em"));
     return;
   }
 
@@ -47,9 +48,7 @@ export function UICreateSibling(props: UICreateSiblingProps) {
           dangerToast?.(`${t("save")} ${t("fail")}`)
         } else {
           successToast?.(`${t("save")} ${t("success")}`)
-          const bean = result.data as Member;
-          console.log(bean);
-          onClose();
+          if (onReloadParent) onReloadParent()
         }
         onClose();
       },

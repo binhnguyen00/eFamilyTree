@@ -13,9 +13,10 @@ import { Member } from "./UIFamilyTreeDetails";
 interface UICreateRootProps {
   visible: boolean;
   onClose: () => void;
+  onReloadParent?: () => void;
 }
 export function UICreateRoot(props: UICreateRootProps) {
-  const { visible, onClose } = props;
+  const { visible, onClose, onReloadParent } = props;
 
   const observer = useBeanObserver({} as Member)
   const { userInfo } = useAppContext();
@@ -33,9 +34,9 @@ export function UICreateRoot(props: UICreateRootProps) {
           dangerToast(`${t("save")} ${t("fail")}`)
         } else {
           successToast(`${t("save")} ${t("success")}`)
-          const bean = result.data as Member;
-          // observer.updateBean(bean)
+          if (onReloadParent) onReloadParent();
         }
+        onClose();
       },
       fail: (error: FailResponse) => {
         dangerToast(`${t("save")} ${t("fail")}`)
