@@ -1,13 +1,12 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Input, Stack, Text } from "zmp-ui";
+import { Button, Input, Text } from "zmp-ui";
 
 import { AccountApi } from "api";
 import { useBeanObserver, useNotification } from "hooks";
 import { BeanObserver, CommonIcon, Header } from "components";
 
 import { FailResponse, ServerResponse } from "types/server";
-import { StyleUtils } from "utils";
 
 export type RegisterClanForm = {
   clanName: string;
@@ -200,11 +199,7 @@ function PersionalForm(props: StepProps) {
   const [ error, setError ] = React.useState('');
 
   const submitOrError = (e: any) => {
-    if (
-      !observer.getBean().name 
-      || !observer.getBean().mobile
-      || !observer.getBean().rollInClan
-    ) {
+    if (!observer.getBean().name || !observer.getBean().mobile) {
       setError(t("input_required"));
       return;
     } 
