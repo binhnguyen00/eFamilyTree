@@ -12,9 +12,10 @@ import { Member } from "./UIFamilyTreeDetails";
 
 interface UICreateRootProps {
   visible: boolean;
+  onClose: () => void;
 }
 export function UICreateRoot(props: UICreateRootProps) {
-  const { visible } = props;
+  const { visible, onClose } = props;
 
   const observer = useBeanObserver({} as Member)
   const { userInfo } = useAppContext();
@@ -44,7 +45,7 @@ export function UICreateRoot(props: UICreateRootProps) {
 
   return (
     <Sheet
-      visible={visible}
+      visible={visible} onClose={onClose}
       height={StyleUtils.calComponentRemainingHeight(0)}
       title={t("Tạo Thành Viên Đầu Tiên")}
       swipeToClose={false}
@@ -73,8 +74,8 @@ export function UICreateRoot(props: UICreateRootProps) {
             />
             <DatePicker
               label={t("Ngày Sinh")}
-              field="birthDay" observer={observer}
-              defaultValue={observer.getBean().birthDay ? new Date(observer.getBean().birthDay) : undefined} 
+              field="birthday" observer={observer}
+              defaultValue={observer.getBean().birthday ? new Date(observer.getBean().birthday) : undefined} 
             />
           </div>
         </div>

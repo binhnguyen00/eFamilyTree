@@ -226,8 +226,9 @@ function NodeAndConnector(props: NodeAndConntectorProps) {
   }
 
   if (!calculatedData.nodes.length) {
+    return;
     // Debug
-    return renderNode(node)
+    // return renderNode(node)
   }
 
   return (

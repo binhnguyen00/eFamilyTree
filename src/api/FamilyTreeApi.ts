@@ -18,7 +18,7 @@ export class FamilyTreeApi extends BaseApi {
   }) {
     const header = this.initHeader();
     const body = this.initBody({
-      member_id: id,
+      id: id,
       user_id: userId,
       clan_id: clanId,
     });
@@ -75,7 +75,7 @@ export class FamilyTreeApi extends BaseApi {
         name: member.name,
         phone: member.phone,
         gender: member.gender,
-        birthday: member.birthDay,
+        birthday: member.birthday,
         spouses: member.spouses,
         father: member.father!,
         father_id: member.fatherId!,

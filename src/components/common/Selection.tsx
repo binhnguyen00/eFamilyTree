@@ -14,6 +14,7 @@ interface SelectionProps {
   field: string;
   options: SelectionDefaultValue[];
   observer: BeanObserver<any>;
+  value?: any;
   placeHolder?: string;
   defaultValue?: SelectionDefaultValue;
   multiDefaultValue?: SelectionDefaultValue[];
@@ -32,11 +33,10 @@ export function Selection(props: SelectionProps) {
     isSearchable = false,
     placeHolder = `${t("select")}...`,
     observer, field, label, isMulti, isDisabled,
-    onChange,
+    onChange, value
   } = props;
 
   const onSelect = (value: any, action: ActionMeta<any>) => {
-    console.log(value);
     observer.update(field, value.value);
   }
 
@@ -58,6 +58,7 @@ export function Selection(props: SelectionProps) {
             } else return null;
           }
         }}
+        value={value}
         isClearable={isClearable}
         isSearchable={isSearchable}
         styles={colourStyles}

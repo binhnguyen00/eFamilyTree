@@ -53,7 +53,6 @@ export function UICreateChild(props: UICreateChildProps) {
         } else {
           successToast?.(`${t("save")} ${t("success")}`)
           const bean = result.data as Member;
-          console.log(bean);
           onClose();
         }
         onClose();
@@ -90,8 +89,8 @@ export function UICreateChild(props: UICreateChildProps) {
           />
           <DatePicker
             label={t("Ngày Sinh")}
-            field="birthDay" observer={observer}
-            defaultValue={observer.getBean().birthDay ? new Date(observer.getBean().birthDay) : undefined} 
+            field="birthday" observer={observer}
+            defaultValue={observer.getBean().birthday ? new Date(observer.getBean().birthday) : undefined} 
           />
           <Input 
             size="small" label={<Label text="Bố"/>} 

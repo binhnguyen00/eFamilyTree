@@ -9,6 +9,7 @@ import { CommonIcon, DatePicker, Selection, useAppContext } from "components";
 import { FailResponse, ServerResponse } from "types/server";
 
 export enum CreateMode {
+  ROOT = "root",
   CHILD = "child",
   SPOUSE = "spouse",
   SIBLING = "sibling",
@@ -19,16 +20,26 @@ export type Member = {
   name: string;
   gender: "0" | "1";
   phone: string;
-  birthDay: string;
+  birthday: string;
+  generation: number;
   spouses: {
     id: number;
     name: string;
     gender: "0" | "1";
   }[]
+  children: {
+    id: number;
+    name: string;
+  }[]
   father: string;
   fatherId: number;
   mother: string;
   motherId: number;
+  achievements: {
+    name: string,
+    date: string,
+    description: string
+  }[]
 }
 
 interface UITreeMemberDetailsProps {
@@ -36,16 +47,15 @@ interface UITreeMemberDetailsProps {
   visible: boolean;
   onClose: () => void;
   toBranch?: () => void;
-  processor?: TreeDataProcessor;
-  onSave?: (bean: Member) => void;
   onCreateSpouse?: () => void;
   onCreateChild?: () => void;
   onCreateSibling?: () => void;
+  onReloadParent?: () => void;
 }
 export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
   const { 
-    info, visible, onClose, toBranch, processor, 
-    onCreateSpouse, onCreateChild, onCreateSibling
+    info, visible, onClose, toBranch, 
+    onCreateSpouse, onCreateChild, onCreateSibling, onReloadParent
   } = props;
 
   if (info === null) return;
@@ -54,13 +64,15 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
   const { successToast, dangerToast } = useNotification();
   const [ deleteWarning, setDeleteWarning ] = React.useState(false);
 
+  const observer = useBeanObserver(info || {} as Member);
+
   const isRoot = (): boolean => {
-    if (!observer.getBean().id) return true; 
-    if (observer.getBean().id === 1) return true;
+    if (!observer.getBean().generation) return true; 
+    if (observer.getBean().generation === 1) return true;
     return false;
   }
 
-  const observer = useBeanObserver(info || {} as Member);
+  console.log("is root", isRoot());
 
   const onSave = () => {
     console.log(observer.getBean());
@@ -75,9 +87,13 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
         } else {
           successToast(`${t("save")} ${t("success")}`)
           const bean = result.data as Member;
-          // observer.updateBean(bean)
+          observer.update("name", bean.name);
+          observer.update("phone", bean.phone);
+          observer.update("gender", bean.gender);
+          observer.update("birthday", bean.birthday);
         }
         onClose();
+        if (onReloadParent) onReloadParent();
       },
       fail: (error: FailResponse) => {
         dangerToast(`${t("save")} ${t("fail")}`)
@@ -86,6 +102,10 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
   }
 
   const onArchive = () => {
+    if (isRoot()) {
+      dangerToast(t("Không thể xoá Thành viên Thuỷ Tổ"))
+      return;
+    }
     FamilyTreeApi.archiveMember({
       userId: userInfo.id,
       clanId: userInfo.clanId,
@@ -98,6 +118,7 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
         }
         setDeleteWarning(false);
         onClose();
+        if (onReloadParent) onReloadParent();
       },
       fail: (error: FailResponse) => {
         dangerToast(`${t("delete")} ${t("fail")}`)
@@ -105,6 +126,11 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
       }
     })
   }
+
+  const genderOpts = [
+    { value: "1", label: t("male") },
+    { value: "0", label: t("female") }
+  ]
 
   return (
     <Sheet
@@ -116,10 +142,12 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
           <Text.Title className="py-2"> {t("info")} </Text.Title>
           <div className="flex-h justify-between">
             <Selection
-              options={[
-                { value: "1", label: t("male") },
-                { value: "0", label: t("female") }
-              ]}
+              defaultValue={
+                observer.getBean().gender === "1" 
+                  ? { value: "1", label: t("male") }
+                  : { value: "0", label: t("female") }
+              }
+              options={genderOpts}
               observer={observer} field="gender" label={"Giới Tính"}
             />
             <Input 
@@ -134,8 +162,8 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
             />
             <DatePicker
               label={t("Ngày Sinh")}
-              field="birthDay" observer={observer}
-              defaultValue={observer.getBean().birthDay ? new Date(observer.getBean().birthDay) : undefined} 
+              field="birthday" observer={observer}
+              defaultValue={observer.getBean().birthday ? new Date(observer.getBean().birthday) : undefined} 
             />
             <Input 
               size="small" label={<Label text="Bố"/>} 
@@ -154,25 +182,19 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
             <div>
               <Text.Title size="small" className="py-2"> {t("Hành động")} </Text.Title>
               <div className="scroll-h">
-                {isRoot() ? (
-                  <></>
-                ) : (
-                  <Button size="small" prefixIcon={<CommonIcon.Tree size={16}/>} onClick={toBranch}>
-                    {t("btn_tree_member_detail")}
-                  </Button>
-                )} 
+                <Button size="small" prefixIcon={<CommonIcon.Tree size={16}/>} onClick={toBranch}>
+                  {t("Chi Nhánh")}
+                </Button>
 
                 <Button size="small" prefixIcon={<CommonIcon.Save size={16}/>} onClick={onSave}> 
                   {t("save")}
                 </Button>
 
-                {isRoot() ? (
-                  <></>
-                ) : (
+                {!isRoot() && (
                   <Button size="small" prefixIcon={<CommonIcon.Trash size={16}/>} onClick={() => setDeleteWarning(true)}>
                     {t("delete")}
                   </Button>
-                )} 
+                )}
               </div>
             </div>
 

@@ -25,13 +25,13 @@ export function UIHomeBanner() {
           <React.Suspense>
             <ImageWithText 
               text={
-                <Stack space="1rem">
+                <div className="flex-v">
                   <p>{t("share_to")}</p>
                   <p>{t("love_ones")}</p>
-                  <Box flex flexDirection="row" justifyContent="center" className="box-shadow">
+                  {/* <Box flex flexDirection="row" justifyContent="center" className="box-shadow">
                     <Button variant="primary" size="small" onClick={onRegister}>  {`${t("register")} ${t("member")}`} </Button>
-                  </Box>
-                </Stack>
+                  </Box> */}
+                </div>
               }
               textStyle={{ fontSize: "1.5rem" }}
               src={banner_04}
@@ -44,13 +44,13 @@ export function UIHomeBanner() {
           <React.Suspense>
             <ImageWithText 
               text={
-                <Stack space="1rem">
+                <div className="flex-v">
                   <p>{t("preserve_value")}</p>
                   <p>{t("house")}</p>
                   <Box flex flexDirection="row" justifyContent="center" className="box-shadow">
                     <Button variant="primary" size="small" onClick={onRegisterClan}>  {t("register_clan")} </Button>
                   </Box>
-                </Stack>
+                </div>
               }
               textStyle={{ fontSize: "2rem" }}
               src={banner_01}
@@ -63,14 +63,13 @@ export function UIHomeBanner() {
           <React.Suspense>
             <ImageWithText 
               text={
-                <Stack space="1rem">
-
+                <div className="flex-v">
                   <p>{t("maintain_technology")}</p>
                   <p>{t("traditional_value")}</p>
                   <Box flex flexDirection="row" justifyContent="center" className="box-shadow">
                     <Button variant="primary" size="small" onClick={navigateAbout}>  {t("about")} </Button>
                   </Box>
-                </Stack>
+                </div>
               }
               textStyle={{ fontSize: "1.5rem" }}
               src={banner_02}
@@ -83,9 +82,9 @@ export function UIHomeBanner() {
           <React.Suspense>
             <ImageWithText 
               text={
-                <Stack space="1rem">
+                <div className="flex-v">
                   <p> {t("connect_clan")} </p>
-                </Stack>
+                </div>
               }
               textStyle={{ fontSize: "2rem" }}
               src={banner_03}

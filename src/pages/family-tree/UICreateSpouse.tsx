@@ -97,7 +97,7 @@ function Form({ observer, onCreate }: {
             value={observer.getBean().name} onChange={observer.watch}
           />
           <DatePicker 
-            field="birthDay"
+            field="birthday"
             observer={observer} label={t("Ngày sinh")}
           />
           <Input 

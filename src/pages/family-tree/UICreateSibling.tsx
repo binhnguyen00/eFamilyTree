@@ -24,7 +24,7 @@ export function UICreateSibling(props: UICreateSiblingProps) {
   if (!sibling) return;
   if (visible && (!sibling.fatherId || !sibling.motherId)) {
     dangerToast(t("Thành viên cần có Bố/Mẹ để tạo Anh/Chị/Em"));
-    // return;
+    return;
   }
 
   const observer = useBeanObserver({
@@ -84,8 +84,8 @@ export function UICreateSibling(props: UICreateSiblingProps) {
           />
           <DatePicker
             label={t("Ngày Sinh")}
-            field="birthDay" observer={observer}
-            defaultValue={observer.getBean().birthDay ? new Date(observer.getBean().birthDay) : undefined} 
+            field="birthday" observer={observer}
+            defaultValue={observer.getBean().birthday ? new Date(observer.getBean().birthday) : undefined} 
           />
           <Input 
             size="small" label={<Label text="Bố"/>} 

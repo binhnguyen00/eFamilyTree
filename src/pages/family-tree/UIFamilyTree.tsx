@@ -82,6 +82,10 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
     setRootId(processor.rootId);
   }, [ reload ]);
 
+  React.useEffect(() => {
+    if (!nodes.length) setCreateMode(CreateMode.ROOT);
+  }, [ nodes ]);
+
   const toBranch = () => {
     const treeBranch = TreeUtils.getBranch(node!.id.toString(), nodes);
     setNodes(treeBranch);
@@ -103,24 +107,32 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
   } : undefined;
 
   const onSelect = (node: ExtNode) => {
-    console.log(node);
-    
     FamilyTreeApi.getMemberInfo({
       userId: userInfo.id, 
       clanId: userInfo.clanId,
       id: parseInt(node.id),
       success: (result: ServerResponse) => {
         if (result.status === "error") {
-          console.error("UINodeDetailsPanel:\n\t", result.message);
+          console.error("UINodeDetails:\n\t", result.message);
         } else {
-          const data = result.data as Member;
-          setNode(data);
+          const data = result.data as any;
+          setNode({
+            id: data.id,
+            name: data.name,
+            phone: data.phone,
+            birthday: data.birthday,
+            gender: data.gender,
+            generation: data.generation,
+            father: data.father,
+            fatherId: data.father_id,
+            mother: data.mother,
+            motherId: data.mother_id,
+            children: data.children,
+            spouses: data.spouses,
+            achievements: data.achievements
+          });
         }
       },
-      // Debug
-      fail: () => {
-        setNode(node as any);
-      }
     });
   }
 
@@ -155,15 +167,16 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
         visible={node !== null ? true : false} 
         onClose={() => setNode(null)}
         toBranch={toBranch}
-        processor={processor}
         onCreateChild={() => setCreateMode(CreateMode.CHILD)}
         onCreateSpouse={() => setCreateMode(CreateMode.SPOUSE)}
         onCreateSibling={() => setCreateMode(CreateMode.SIBLING)}
+        onReloadParent={onReload}
       />
 
-      {/* <UICreateRoot
-        visible={nodes.length ? false : true}
-      /> */}
+      <UICreateRoot
+        visible={createMode && createMode === CreateMode.ROOT ? true : false}
+        onClose={() => setCreateMode(null)} 
+      />
 
       <UICreateSpouse 
         spouse={node} 
