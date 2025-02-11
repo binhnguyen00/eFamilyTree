@@ -63,39 +63,34 @@ export function UICreateSibling(props: UICreateSiblingProps) {
     >
       <div className="scroll-v p-3">
         <Text.Title className="py-2"> {t("info")} </Text.Title>
-        <div className="flex-h justify-between">
-          <Selection
-            options={[
-              { value: "1", label: t("male") },
-              { value: "0", label: t("female") }
-            ]}
-            observer={observer} field="gender" label={"Giới Tính"}
-          />
-          <Input
-            size="small" name="phone" label={<Label text="Điện Thoại"/>} 
-            value={observer.getBean().phone} onChange={observer.watch}
-          />
-        </div>
-        <div className="flex-v flex-grow-0">
-          <Input 
-            size="small" name="name" label={<Label text="Họ Tên"/>} 
-            value={observer.getBean().name} onChange={observer.watch}
-          />
-          <DatePicker
-            label={t("Ngày Sinh")}
-            field="birthday" observer={observer}
-            defaultValue={observer.getBean().birthday ? new Date(observer.getBean().birthday) : undefined} 
-          />
-          <Input 
-            size="small" label={<Label text="Bố"/>} 
-            value={observer.getBean().father} name="father" disabled
-          />
-          <Input 
-            size="small" label={<Label text="Mẹ"/>} 
-            value={observer.getBean().mother} name="mother" disabled
-          />
-        </div>
-
+        <Input 
+          size="small" name="name" label={<Label text="Họ Tên"/>} 
+          value={observer.getBean().name} onChange={observer.watch}
+        />
+        <Input
+          size="small" name="phone" label={<Label text="Điện Thoại"/>} 
+          value={observer.getBean().phone} onChange={observer.watch}
+        />
+        <Selection
+          options={[
+            { value: "1", label: t("male") },
+            { value: "0", label: t("female") }
+          ]}
+          observer={observer} field="gender" label={"Giới Tính"}
+        />
+        <DatePicker
+          label={t("Ngày Sinh")}
+          field="birthday" observer={observer}
+          defaultValue={observer.getBean().birthday ? new Date(observer.getBean().birthday) : undefined} 
+        />
+        <Input 
+          size="small" label={<Label text="Bố"/>} 
+          value={observer.getBean().father} name="father" disabled
+        />
+        <Input 
+          size="small" label={<Label text="Mẹ"/>} 
+          value={observer.getBean().mother} name="mother" disabled
+        />
         <div>
           <Text.Title size="small" className="py-2"> {t("Hành động")} </Text.Title>
           <Button size="small" prefixIcon={<CommonIcon.AddPerson/>} onClick={onCreate}> 

@@ -67,25 +67,22 @@ export function UICreateChild(props: UICreateChildProps) {
       title={t("Tạo Con")} height={StyleUtils.calComponentRemainingHeight(0)}
     >
       <div className="scroll-v p-3">
-        <Text.Title className="py-2"> {t("info")} </Text.Title>
-        <div className="flex-h justify-between">
+        <div>
+          <Text.Title className="py-2"> {t("info")} </Text.Title>
+          <Input 
+            size="small" name="name" label={<Label text="Họ Tên"/>} 
+            value={observer.getBean().name} onChange={observer.watch}
+          />
+          <Input 
+            size="small" name="phone" label={<Label text="Điện Thoại"/>} 
+            value={observer.getBean().phone} onChange={observer.watch}
+          />
           <Selection
             options={[
               { value: "1", label: t("male") },
               { value: "0", label: t("female") }
             ]}
             observer={observer} field="gender" label={"Giới Tính"}
-          />
-          <Input 
-            size="small" name="phone" label={<Label text="Điện Thoại"/>} 
-            value={observer.getBean().phone} onChange={observer.watch}
-          />
-        </div>
-
-        <div className="flex-v flex-grow-0">
-          <Input 
-            size="small" name="name" label={<Label text="Họ Tên"/>} 
-            value={observer.getBean().name} onChange={observer.watch}
           />
           <DatePicker
             label={t("Ngày Sinh")}
@@ -105,9 +102,8 @@ export function UICreateChild(props: UICreateChildProps) {
             }}
           />
         </div>
-
         <div>
-          <Text.Title size="small" className="py-2"> {t("Hành động")} </Text.Title>
+          <Text.Title className="py-2"> {t("Hành động")} </Text.Title>
           <Button size="small" prefixIcon={<CommonIcon.AddPerson/>} onClick={onCreate}> 
             {t("create")}
           </Button>

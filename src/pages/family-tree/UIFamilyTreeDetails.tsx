@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Input, Text, Sheet, Modal } from "zmp-ui";
+import { Button, Input, Text, Sheet, Modal, Avatar } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
 import { StyleUtils, TreeDataProcessor } from "utils";
@@ -40,6 +40,7 @@ export type Member = {
     date: string,
     description: string
   }[]
+  avatar: string;
 }
 
 interface UITreeMemberDetailsProps {
@@ -60,7 +61,7 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
 
   if (info === null) return;
 
-  const { userInfo } = useAppContext();
+  const { userInfo, serverBaseUrl } = useAppContext();
   const { successToast, dangerToast } = useNotification();
   const [ deleteWarning, setDeleteWarning ] = React.useState(false);
 
@@ -72,7 +73,9 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
     return false;
   }
 
-  console.log("is root", isRoot());
+  const isFemale = (): boolean => {
+    return observer.getBean().gender === "0";
+  }
 
   const onSave = () => {
     console.log(observer.getBean());
@@ -138,83 +141,86 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
       visible={visible} onClose={onClose} swipeToClose
     >
       <div className="p-3 scroll-v">
-        <>
+        <div>
           <Text.Title className="py-2"> {t("info")} </Text.Title>
-          <div className="flex-h justify-between">
-            <Selection
-              defaultValue={
-                observer.getBean().gender === "1" 
-                  ? { value: "1", label: t("male") }
-                  : { value: "0", label: t("female") }
-              }
-              options={genderOpts}
-              observer={observer} field="gender" label={"Giới Tính"}
+          {/* TODO: Implement Avatar 
+          {observer.getBean().avatar && (
+            <Avatar
+              size={80}
+              src={`${serverBaseUrl}/${observer.getBean().avatar}`}
+              className="border-primary"
             />
-            <Input 
-              size="small" name="phone" label={<Label text="Điện Thoại"/>} 
-              value={observer.getBean().phone} onChange={observer.watch}
-            />
-          </div>
-          <div className="flex-v flex-grow-0">
-            <Input 
-              size="small" name="name" label={<Label text="Họ Tên"/>} 
-              value={observer.getBean().name} onChange={observer.watch}
-            />
-            <DatePicker
-              label={t("Ngày Sinh")}
-              field="birthday" observer={observer}
-              defaultValue={observer.getBean().birthday ? new Date(observer.getBean().birthday) : undefined} 
-            />
-            <Input 
-              size="small" label={<Label text="Bố"/>} 
-              value={observer.getBean().father} name="father" disabled
-            />
-            <Input 
-              size="small" label={<Label text="Mẹ"/>} 
-              value={observer.getBean().mother} name="mother" disabled
-            />
-          </div>
-        </>
+          )} */}
+          <Input 
+            size="small" name="name" label={<Label text="Họ Tên"/>} 
+            value={observer.getBean().name} onChange={observer.watch}
+          />
+          <Input 
+            size="small" name="phone" label={<Label text="Điện Thoại"/>} 
+            value={observer.getBean().phone} onChange={observer.watch}
+          />
+          <Selection
+            defaultValue={
+              observer.getBean().gender === "1" 
+                ? { value: "1", label: t("male") }
+                : { value: "0", label: t("female") }
+            }
+            options={genderOpts}
+            observer={observer} field="gender" label={"Giới Tính"}
+          />
+          <DatePicker
+            label={t("Ngày Sinh")}
+            field="birthday" observer={observer}
+            defaultValue={observer.getBean().birthday ? new Date(observer.getBean().birthday) : undefined} 
+          />
+          <Input 
+            size="small" label={<Label text="Bố"/>} 
+            value={observer.getBean().father} name="father" disabled
+          />
+          <Input 
+            size="small" label={<Label text="Mẹ"/>} 
+            value={observer.getBean().mother} name="mother" disabled
+          />
+        </div>
 
-        <>
-          <div className="flex-v flex-grow-0">
-            
-            <div>
-              <Text.Title size="small" className="py-2"> {t("Hành động")} </Text.Title>
-              <div className="scroll-h">
-                <Button size="small" prefixIcon={<CommonIcon.Tree size={16}/>} onClick={toBranch}>
-                  {t("Chi Nhánh")}
+        <div className="flex-v flex-grow-0">
+          <div>
+            <Text.Title className="py-2"> {t("Hành động")} </Text.Title>
+            <div className="scroll-h">
+              <Button size="small" prefixIcon={<CommonIcon.Tree size={16}/>} onClick={toBranch}>
+                {t("Chi Nhánh")}
+              </Button>
+
+              <Button size="small" prefixIcon={<CommonIcon.Save size={16}/>} onClick={onSave}> 
+                {t("save")}
+              </Button>
+
+              {!isRoot() && (
+                <Button size="small" prefixIcon={<CommonIcon.Trash size={16}/>} onClick={() => setDeleteWarning(true)}>
+                  {t("delete")}
                 </Button>
-
-                <Button size="small" prefixIcon={<CommonIcon.Save size={16}/>} onClick={onSave}> 
-                  {t("save")}
-                </Button>
-
-                {!isRoot() && (
-                  <Button size="small" prefixIcon={<CommonIcon.Trash size={16}/>} onClick={() => setDeleteWarning(true)}>
-                    {t("delete")}
-                  </Button>
-                )}
-              </div>
+              )}
             </div>
+          </div>
 
-            <div>
-              <Text.Title size="small" className="py-2"> {t("Thêm Thành Viên")} </Text.Title>
-              <div className="scroll-h flex-start">
+          <div>
+            <Text.Title className="py-2"> {t("Thêm Thành Viên")} </Text.Title>
+            <div className="scroll-h flex-start">
+              {!isFemale() && (
                 <Button size="small" prefixIcon={<CommonIcon.Plus/>} style={{ minWidth: 120 }} onClick={onCreateChild}>
                   {t("Con")}
                 </Button>
-                <Button size="small" prefixIcon={<CommonIcon.Plus/>} style={{ minWidth: 120 }} onClick={onCreateSpouse}>
-                  {t("Vợ/Chồng")}
-                </Button>
-                <Button size="small" prefixIcon={<CommonIcon.Plus/>} style={{ minWidth: 140 }} onClick={onCreateSibling}>
-                  {t("Anh/Chị/Em")}
-                </Button>
-              </div>
+              )}
+              <Button size="small" prefixIcon={<CommonIcon.Plus/>} style={{ minWidth: 120 }} onClick={onCreateSpouse}>
+                {observer.getBean().gender === "1" ? t("Vợ") : t("Chồng")}
+              </Button>
+              <Button size="small" prefixIcon={<CommonIcon.Plus/>} style={{ minWidth: 140 }} onClick={onCreateSibling}>
+                {t("Anh/Chị/Em")}
+              </Button>
             </div>
-
           </div>
-        </>
+        </div>
+
       </div>
       <Modal
         visible={deleteWarning}

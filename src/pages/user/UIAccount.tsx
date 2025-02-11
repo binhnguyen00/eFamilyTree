@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Avatar, Box, Button, Grid, Stack, Text } from "zmp-ui";
+import { Avatar, Button, Grid, Text } from "zmp-ui";
 
 import { CommonIcon, Header } from "components";
 import { UserSettingApi } from "api";
@@ -145,12 +145,12 @@ function UISettings() {
   }
 
   return (
-    <Stack space="1rem">
+    <div className="flex-v">
       <Text.Title size="xLarge" className="text-primary text-capitalize center"> {t("settings")} </Text.Title>
       
       {/* language */}
       <Text.Title className="text-capitalize text-primary"> {t("language")} </Text.Title>
-      <Stack space="1rem">
+      <div className="flex-v">
         <Grid columnCount={2} columnSpace="0.5rem">
           <Button variant="primary" size="medium" onClick={() => changeLang("vi")}>
             {t("vietnamese")}
@@ -159,11 +159,11 @@ function UISettings() {
             {t("english")}
           </Button>
         </Grid>
-      </Stack>
+      </div>
 
       {/* tree background */}
       <Text.Title className="text-capitalize text-primary"> {t("tree_background")} </Text.Title>
-      <Stack space="1rem">
+      <div className="flex-v">
         <input
           type="file"
           id="ftree-bg" accept="image/*"
@@ -180,7 +180,7 @@ function UISettings() {
             {t("reset_background")}
           </Button>
         </Grid>
-      </Stack>
+      </div>
 
       {/* theme */}
       <div className="flex-h justify-between">
@@ -196,6 +196,6 @@ function UISettings() {
       <div className="scroll-h">
         <UIThemeList/>
       </div>
-    </Stack>
+    </div>
   )
 }

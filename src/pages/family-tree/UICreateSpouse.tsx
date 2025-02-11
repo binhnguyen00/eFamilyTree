@@ -74,43 +74,45 @@ function Form({ observer, onCreate }: {
   onCreate: () => void;
 }) {
   return (
-    <div className="px-2">
-      <>
+    <div className="scroll-v p-3">
+      <div>
         <Text.Title className="py-2"> {t("info")} </Text.Title>
-        <div className="flex-h justify-between">
-          <Selection
-            options={[
-              { value: "1", label: t("male") },
-              { value: "0", label: t("female") }
-            ]}
-            observer={observer} field="gender" label={t("Giới Tính")}         
-          />
-          <Input
-            size="small" name="phone" label={<Label text={t("Điện Thoại")}/>} 
-            value={observer.getBean().phone} onChange={observer.watch}
-          />
-        </div>
-        <div className="flex-v">
-          <Input 
-            size="small" name="name" label={<Label text={t("Họ Tên")}/>} 
-            value={observer.getBean().name} onChange={observer.watch}
-          />
-          <DatePicker 
-            field="birthday"
-            observer={observer} label={t("Ngày sinh")}
-          />
-          <Input 
-            size="small" name="name" label={<Label text={t("Vợ/Chồng của")}/>} 
-            value={observer.getBean().spouses[0].name} disabled
-          />
-        </div>
-      </>
-      <>
-        <Text.Title size="small" className="py-2"> {t("Hành động")} </Text.Title>
+        <Input 
+          size="small" name="name" label={<Label text={t("Họ Tên")}/>} 
+          value={observer.getBean().name} onChange={observer.watch}
+        />
+        <Input
+          size="small" name="phone" label={<Label text={t("Điện Thoại")}/>} 
+          value={observer.getBean().phone} onChange={observer.watch}
+        />
+        <Selection
+          options={[
+            { value: "1", label: t("male") },
+            { value: "0", label: t("female") }
+          ]}
+          observer={observer} field="gender" label={t("Giới Tính")}         
+          defaultValue={
+            observer.getBean().gender === "1" 
+            ? { value: "0", label: t("female") }
+            : { value: "1", label: t("male") }
+          }
+        />
+        <DatePicker 
+          field="birthday"
+          observer={observer} label={t("Ngày sinh")}
+        />
+        <Input 
+          size="small" name="name" 
+          label={<Label text={observer.getBean().gender === "1" ? t("Vợ của") : t("Chồng của")}/>} 
+          value={observer.getBean().spouses[0].name} disabled
+        />
+      </div>
+      <div>
+        <Text.Title className="py-2"> {t("Hành động")} </Text.Title>
         <Button size="small" prefixIcon={<CommonIcon.AddPerson/>} onClick={onCreate}> 
           {t("create")}
         </Button>
-      </> 
+      </div> 
     </div>
   )
 }
