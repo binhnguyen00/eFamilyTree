@@ -14,11 +14,11 @@ import { UIThemeList } from "pages/theme/UITheme";
 
 export function UIAccount() { 
   return (
-    <div className="container">
+    <>
       <Header title={t("account")} showBackIcon={false}/>
 
       <UIAccountContainer />
-    </div>
+    </>
   )
 }
 
@@ -34,16 +34,16 @@ function UIAccountContainer() {
   ] as string[];
 
   return (
-    <Stack space="1rem">
+    <div className="container flex-v text-primary">
 
-      <Box flex flexDirection="column" alignItems="center">
+      <div className="center my-3">
         <Avatar
           size={120}
           src={zaloUserInfo.avatar ? zaloUserInfo.avatar : UNKNOWN_AVATAR}
           className="border-secondary"
         />
-        <Text.Title className="text-capitalize text-shadow"> {zaloUserInfo.name} </Text.Title>
-      </Box>
+        <Text.Title className="text-capitalize"> {zaloUserInfo.name} </Text.Title>
+      </div>
 
       <Button variant="secondary" onClick={() => goTo({ path: "register" }) }>
         {t("Đăng Ký Tài Khoản")}
@@ -67,7 +67,7 @@ function UIAccountContainer() {
         <UISettings/>
       </div>
 
-    </Stack>
+    </div>
   )
 }
 
