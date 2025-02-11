@@ -1,15 +1,12 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Input, Text, Sheet } from "zmp-ui";
+import { Button, Input, Text, Sheet, Modal } from "zmp-ui";
 
-import { StyleUtils, TreeDataProcessor } from "utils";
 import { FamilyTreeApi } from "api";
-import { 
-  CommonIcon, DatePicker, ScrollableDiv, Selection, useAppContext } from "components";
+import { StyleUtils, TreeDataProcessor } from "utils";
 import { useBeanObserver, useNotification } from "hooks";
-
+import { CommonIcon, DatePicker, Selection, useAppContext } from "components";
 import { FailResponse, ServerResponse } from "types/server";
-import { UICreateSpouse } from "./UICreateSpouse";
 
 export enum CreateMode {
   CHILD = "child",
@@ -34,7 +31,7 @@ export type Member = {
   motherId: number;
 }
 
-interface UITreeMemberDetailsPanelProps {
+interface UITreeMemberDetailsProps {
   info: Member | null;
   visible: boolean;
   onClose: () => void;
@@ -45,7 +42,7 @@ interface UITreeMemberDetailsPanelProps {
   onCreateChild?: () => void;
   onCreateSibling?: () => void;
 }
-export function UITreeMemberDetailsPanel(props: UITreeMemberDetailsPanelProps) {
+export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
   const { 
     info, visible, onClose, toBranch, processor, 
     onCreateSpouse, onCreateChild, onCreateSibling
@@ -55,6 +52,7 @@ export function UITreeMemberDetailsPanel(props: UITreeMemberDetailsPanelProps) {
 
   const { userInfo } = useAppContext();
   const { successToast, dangerToast } = useNotification();
+  const [ deleteWarning, setDeleteWarning ] = React.useState(false);
 
   const isRoot = (): boolean => {
     if (!observer.getBean().id) return true; 
@@ -98,9 +96,13 @@ export function UITreeMemberDetailsPanel(props: UITreeMemberDetailsPanelProps) {
         } else {
           successToast(`${t("delete")} ${t("success")}`)
         }
+        setDeleteWarning(false);
         onClose();
       },
-      fail: (error: FailResponse) => dangerToast(`${t("delete")} ${t("fail")}`)
+      fail: (error: FailResponse) => {
+        dangerToast(`${t("delete")} ${t("fail")}`)
+        setDeleteWarning(false);
+      }
     })
   }
 
@@ -125,7 +127,7 @@ export function UITreeMemberDetailsPanel(props: UITreeMemberDetailsPanelProps) {
               value={observer.getBean().phone} onChange={observer.watch}
             />
           </div>
-          <div className="flex-v">
+          <div className="flex-v flex-grow-0">
             <Input 
               size="small" name="name" label={<Label text="Họ Tên"/>} 
               value={observer.getBean().name} onChange={observer.watch}
@@ -147,7 +149,7 @@ export function UITreeMemberDetailsPanel(props: UITreeMemberDetailsPanelProps) {
         </>
 
         <>
-          <div className="flex-v">
+          <div className="flex-v flex-grow-0">
             
             <div>
               <Text.Title size="small" className="py-2"> {t("Hành động")} </Text.Title>
@@ -167,7 +169,7 @@ export function UITreeMemberDetailsPanel(props: UITreeMemberDetailsPanelProps) {
                 {isRoot() ? (
                   <></>
                 ) : (
-                  <Button size="small" prefixIcon={<CommonIcon.Trash size={16}/>} onClick={onArchive}>
+                  <Button size="small" prefixIcon={<CommonIcon.Trash size={16}/>} onClick={() => setDeleteWarning(true)}>
                     {t("delete")}
                   </Button>
                 )} 
@@ -192,6 +194,22 @@ export function UITreeMemberDetailsPanel(props: UITreeMemberDetailsPanelProps) {
           </div>
         </>
       </div>
+      <Modal
+        visible={deleteWarning}
+        title={t("Xoá Thành Viên")}
+        description={t("Hành động không thể thu hồi. Bạn có chắc muốn xoá thành viên này?")}
+        onClose={() => setDeleteWarning(false)}
+        actions={[
+          {
+            text: "Xoá",
+            onClick: onArchive
+          },
+          {
+            text: "Đóng",
+            close: true,
+          },
+        ]}
+      />
     </Sheet>
   )
 }

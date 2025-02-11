@@ -77,7 +77,10 @@ export class FamilyTreeApi extends BaseApi {
         gender: member.gender,
         birthday: member.birthDay,
         spouses: member.spouses,
-        // TODO: add more fields
+        father: member.father!,
+        father_id: member.fatherId!,
+        mother: member.mother!,
+        mother_id: member.motherId!
       }
     });
     this.server.POST("tree/member/create", header, body, success, fail);

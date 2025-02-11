@@ -76,14 +76,6 @@ export function UICreateRoot(props: UICreateRootProps) {
               field="birthDay" observer={observer}
               defaultValue={observer.getBean().birthDay ? new Date(observer.getBean().birthDay) : undefined} 
             />
-            <Input 
-              size="small" label={<Label text="Bố"/>} 
-              value={observer.getBean().father} name="father" disabled
-            />
-            <Input 
-              size="small" label={<Label text="Mẹ"/>} 
-              value={observer.getBean().mother} name="mother" disabled
-            />
           </div>
         </div>
         

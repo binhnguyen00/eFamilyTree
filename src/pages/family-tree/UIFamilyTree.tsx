@@ -10,8 +10,10 @@ import { ExtNode } from "components/tree-relatives/types";
 import { ServerResponse, FailResponse } from "types/server";
 
 import { UICreateSpouse } from "./UICreateSpouse";
-import { CreateMode, Member, UITreeMemberDetailsPanel } from "./UIFamilyTreeDetails";
+import { CreateMode, Member, UITreeMemberDetails } from "./UIFamilyTreeDetails";
 import { UICreateChild } from "./UICreateChild";
+import { UICreateRoot } from "./UICreateRoot";
+import { UICreateSibling } from "./UICreateSibling";
 
 export function UIFamilyTree() {
   const { userInfo } = useAppContext();
@@ -148,7 +150,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
         />
       </div>
 
-      <UITreeMemberDetailsPanel
+      <UITreeMemberDetails
         info={node}
         visible={node !== null ? true : false} 
         onClose={() => setNode(null)}
@@ -159,7 +161,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
         onCreateSibling={() => setCreateMode(CreateMode.SIBLING)}
       />
 
-      {/* <UICreateRoot 
+      {/* <UICreateRoot
         visible={nodes.length ? false : true}
       /> */}
 
@@ -176,6 +178,11 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
         processor={processor}
       />
 
+      <UICreateSibling
+        sibling={node}
+        visible={createMode && createMode === CreateMode.SIBLING ? true : false}
+        onClose={() => setCreateMode(null)} 
+      />
     </>
   )
 }

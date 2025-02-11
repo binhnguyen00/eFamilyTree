@@ -5,17 +5,11 @@ import { Button, Input, Sheet, Text } from "zmp-ui";
 import { FamilyTreeApi } from "api";
 import { StyleUtils, TreeDataProcessor } from "utils";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
-import { CommonIcon, DatePicker, Selection, SlidingPanel, SlidingPanelOrient } from "components";
+import { CommonIcon, DatePicker, Selection } from "components";
 
 import { FailResponse, ServerResponse } from "types/server";
 
 import { Member } from "./UIFamilyTreeDetails";
-
-export enum CreateMode {
-  CHILD = "child",
-  SPOUSE = "spouse",
-  SIBLING = "sibling",
-}
 
 interface UICreateChildProps {
   visible: boolean;
@@ -26,6 +20,9 @@ interface UICreateChildProps {
 
 export function UICreateChild(props: UICreateChildProps) {
   const { visible, dad, processor, onClose } = props;
+  const { userInfo } = useAppContext();
+  const { successToast, dangerToast } = useNotification();
+
   if (!dad) return;
 
   const moms = processor.getSpouses(dad.id);
@@ -36,8 +33,7 @@ export function UICreateChild(props: UICreateChildProps) {
     }
   }) as any[];
 
-  const { userInfo } = useAppContext();
-  const { successToast, dangerToast } = useNotification();
+  
   const observer = useBeanObserver({
     father: dad.name,
     fatherId: dad.id,
@@ -87,7 +83,7 @@ export function UICreateChild(props: UICreateChildProps) {
           />
         </div>
 
-        <div className="flex-v">
+        <div className="flex-v flex-grow-0">
           <Input 
             size="small" name="name" label={<Label text="Họ Tên"/>} 
             value={observer.getBean().name} onChange={observer.watch}
