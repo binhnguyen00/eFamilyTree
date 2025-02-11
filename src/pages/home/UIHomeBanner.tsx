@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Box, Button, Stack, Swiper, Text } from "zmp-ui";
+import { Button, Swiper, Text } from "zmp-ui";
 
 import { useRouteNavigate } from "hooks";
 import { ImageWithText } from "components";
@@ -18,19 +18,17 @@ export function UIHomeBanner() {
   const navigateAbout = () => goTo({ path: "about" });
 
   return (
-    <Stack space="0.5rem">
+    <div className="flex-v">
       <Text.Title size="xLarge" className="text-capitalize text-shadow"> {t("family_tree")} </Text.Title>
       <Swiper>
         <Swiper.Slide>
           <React.Suspense>
             <ImageWithText 
               text={
-                <div className="flex-v">
+                <div className="flex-v center">
                   <p>{t("share_to")}</p>
                   <p>{t("love_ones")}</p>
-                  {/* <Box flex flexDirection="row" justifyContent="center" className="box-shadow">
-                    <Button variant="primary" size="small" onClick={onRegister}>  {`${t("register")} ${t("member")}`} </Button>
-                  </Box> */}
+                  <Button size="small" onClick={onRegister}>  {t("Đăng ký tài khoản")} </Button>
                 </div>
               }
               textStyle={{ fontSize: "1.5rem" }}
@@ -44,12 +42,10 @@ export function UIHomeBanner() {
           <React.Suspense>
             <ImageWithText 
               text={
-                <div className="flex-v">
+                <div className="flex-v center">
                   <p>{t("preserve_value")}</p>
                   <p>{t("house")}</p>
-                  <Box flex flexDirection="row" justifyContent="center" className="box-shadow">
-                    <Button variant="primary" size="small" onClick={onRegisterClan}>  {t("register_clan")} </Button>
-                  </Box>
+                  <Button size="small" onClick={onRegisterClan}> {t("register_clan")} </Button>
                 </div>
               }
               textStyle={{ fontSize: "2rem" }}
@@ -63,12 +59,10 @@ export function UIHomeBanner() {
           <React.Suspense>
             <ImageWithText 
               text={
-                <div className="flex-v">
+                <div className="flex-v center">
                   <p>{t("maintain_technology")}</p>
                   <p>{t("traditional_value")}</p>
-                  <Box flex flexDirection="row" justifyContent="center" className="box-shadow">
-                    <Button variant="primary" size="small" onClick={navigateAbout}>  {t("about")} </Button>
-                  </Box>
+                  <Button size="small" onClick={navigateAbout}>  {t("about")} </Button>
                 </div>
               }
               textStyle={{ fontSize: "1.5rem" }}
@@ -94,6 +88,6 @@ export function UIHomeBanner() {
         </Swiper.Slide>
 
       </Swiper>
-    </Stack>
+    </div>
   )
 }
