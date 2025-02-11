@@ -7,6 +7,7 @@ import { useBeanObserver, useNotification } from "hooks";
 import { BeanObserver, CommonIcon, Header } from "components";
 
 import { FailResponse, ServerResponse } from "types/server";
+import { StyleUtils } from "utils";
 
 export type RegisterClanForm = {
   clanName: string;
@@ -42,13 +43,15 @@ export function UIRegisterClan() {
   };
 
   return (
-    <div className="container">
+    <>
       <Header title={t("register_clan")}/>
 
-      <UIRegisterClanForm 
-        observer={observer}
-        submit={submit}/>
-    </div>
+      <div className="container bg-white max-h">
+        <UIRegisterClanForm 
+          observer={observer}
+          submit={submit}/>
+      </div>
+    </>
   )
 }
 
@@ -111,17 +114,17 @@ function ClanForm(props: StepProps) {
   };
 
   return (
-    <div className="flex-v">
+    <div className="flex-v text-primary">
       <Text.Title size="xLarge" className="text-capitalize center">{t("clan_info")}</Text.Title>
 
       <Input 
-        label={t("clan") + "*"} size="small" name="clanName" 
+        label={<Label text={t("Tên Dòng Họ *")}/>} size="small" name="clanName" 
         value={observer.getBean().clanName} 
         onChange={observer.watch}
       />
       {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
 
-      <Button variant="secondary" size="medium" onClick={handleNextStep}> 
+      <Button size="medium" onClick={handleNextStep}> 
         {t("next")}
       </Button>
     </div>
@@ -133,9 +136,10 @@ function AddressForm(props: StepProps) {
   const [ error, setError ] = React.useState('');
 
   const handleNextStep = () => {
-    if (!observer.getFieldValue("country") 
-      || !observer.getFieldValue("city")
-      || !observer.getFieldValue("district")
+    if (!observer.getBean().address 
+      // !observer.getFieldValue("country") 
+      // || !observer.getFieldValue("city")
+      // || !observer.getFieldValue("district")
     ) {
       setError(t("input_required"));
       return;
@@ -145,10 +149,10 @@ function AddressForm(props: StepProps) {
   };
 
   return (
-    <div className="flex-v">
+    <div className="flex-v text-primary">
       <Text.Title size="xLarge" className="text-capitalize center">{t("address")}</Text.Title>
 
-      <Input 
+      {/* <Input 
         label={t("country") + "*"} name="country" size="small"
         value={observer.getBean().country} 
         onChange={observer.watch}
@@ -164,9 +168,11 @@ function AddressForm(props: StepProps) {
       <Input 
         label={t("sub_district") + "*"} name="subDistrict" size="small"
         value={observer.getBean().subDistrict} onChange={observer.watch}
-      />
+      /> */}
+
       <Input.TextArea 
-        label={t("address")} name="address" 
+        // label={<Label text={t("address")}/>} 
+        name="address" 
         value={observer.getBean().address} 
         onChange={(e) => {
           observer.update("address", e.target.value);
@@ -176,10 +182,10 @@ function AddressForm(props: StepProps) {
       {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
 
       <div className="flex-h justify-between">
-        <Button size="small" variant="secondary" onClick={previousStep}> 
+        <Button size="small" onClick={previousStep}> 
           {t("previous")}
         </Button>
-        <Button size="small" variant="secondary" onClick={handleNextStep}> 
+        <Button size="small" onClick={handleNextStep}> 
           {t("next")}
         </Button>
       </div>
@@ -194,7 +200,11 @@ function PersionalForm(props: StepProps) {
   const [ error, setError ] = React.useState('');
 
   const submitOrError = (e: any) => {
-    if (!observer.getBean().name || !observer.getBean().mobile) {
+    if (
+      !observer.getBean().name 
+      || !observer.getBean().mobile
+      || !observer.getBean().rollInClan
+    ) {
       setError(t("input_required"));
       return;
     } 
@@ -203,40 +213,36 @@ function PersionalForm(props: StepProps) {
   };
 
   return (
-    <div className="flex-v">
+    <div className="flex-v text-primary">
       <Text.Title size="xLarge" className="text-capitalize center">{t("clan_manager")}</Text.Title>
 
-      <Stack space="1rem">
+      <div className="flex-v">
         <Input 
-          label={t("name") + "*"} name="name" size="small"
+          label={<Label text={t("Họ và Tên *")}/>} name="name" size="small"
           value={observer.getBean().name} onChange={observer.watch}
         />
         <Input 
-          label={t("mobile") + "*"} name="mobile" size="small"
+          label={<Label text={t("Số Điện Thoại *")}/>} name="mobile" size="small"
           value={observer.getBean().mobile} onChange={observer.watch}
         />
         <Input 
-          label={t("email")} name="email" size="small"
+          label={<Label text={t("email")}/>} name="email" size="small"
           value={observer.getBean().email} onChange={observer.watch}
-        />
-        <Input 
-          label={t("roll_in_clan")} name="rollInClan" size="small"
-          value={observer.getBean().rollInClan} onChange={observer.watch}
         />
 
         {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
 
         <div className="flex-h justify-between">
-          <Button size="small" variant="secondary" onClick={previousStep}> 
+          <Button size="small" onClick={previousStep}> 
             {t("previous")}
           </Button>
-          <Button size="small" variant="secondary" onClick={submitOrError}> 
+          <Button size="small" onClick={submitOrError}> 
             {t("submit")}
           </Button>
         </div>
 
         <UIRegisterNotice/>
-      </Stack>
+      </div>
     </div>
   )
 }
@@ -253,4 +259,8 @@ function UIRegisterNotice() {
       <p> {t("register_clan_notice")} </p>
     </div>
   )
+}
+
+function Label({  text }: { text: string }) {
+  return <span className="text-primary"> {t(text)} </span>
 }
