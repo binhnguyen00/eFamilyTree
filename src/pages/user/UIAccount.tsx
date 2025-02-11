@@ -46,16 +46,16 @@ function UIAccountContainer() {
       </Box>
 
       <Button variant="secondary" onClick={() => goTo({ path: "register" }) }>
-        {t("register")}
+        {t("Đăng Ký Tài Khoản")}
       </Button>
 
       <Button variant="secondary" onClick={() => goTo({ path: "register/clan" })}>
         {t("register_clan")}
       </Button>
 
-      <Button variant="secondary" onClick={() => goTo({ path: "about" })}>
+      {/* <Button variant="secondary" onClick={() => goTo({ path: "about" })}>
         {t("about")}
-      </Button>
+      </Button> */}
 
       {devs.includes(phoneNumber) ? (
         <Button variant="secondary" onClick={() => jumpTo({ path: "dev" })}>

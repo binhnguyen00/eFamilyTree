@@ -62,7 +62,7 @@ export function UIHomeBanner() {
                 <div className="flex-v center">
                   <p>{t("maintain_technology")}</p>
                   <p>{t("traditional_value")}</p>
-                  <Button size="small" onClick={navigateAbout}>  {t("about")} </Button>
+                  {/* <Button size="small" onClick={navigateAbout}>  {t("about")} </Button> */}
                 </div>
               }
               textStyle={{ fontSize: "1.5rem" }}
