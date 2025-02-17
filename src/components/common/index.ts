@@ -13,10 +13,11 @@ import { Popover } from "./Popover";
 import { RequestLocation } from "./RequestLocation";
 import { Selection } from "./Selection";
 import { DatePicker } from "./DatePicker";
+import { Label } from "./Label";
 
 export { 
   Loading, Info,
   Divider, ImageWithText, Navigation, RequestPhone, SearchBar,
   SizedBox, PagePositionSaver, ScrollableDiv, Card, Popover, RequestLocation,
-  Selection, DatePicker
+  Selection, DatePicker, Label
 };

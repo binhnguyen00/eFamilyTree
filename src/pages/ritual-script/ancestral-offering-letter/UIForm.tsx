@@ -1,15 +1,16 @@
 import React from "react";
 import { t } from "i18next";
 import html2canvas from "html2canvas";
-import { Button, Input, Text } from "zmp-ui";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { Button, Input, Sheet, Text } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
-import { useBeanObserver, useNotification } from "hooks";
-import { BeanObserver, CommonIcon, Divider, SlidingPanel, SlidingPanelOrient } from "components";
+import { useAppContext, useBeanObserver, useNotification } from "hooks";
+import { BeanObserver, CommonIcon, Divider, Label } from "components";
 
 import { UIAncestralOfferingTemplate } from "./UITemplate";
 
-const Label = ({ label }: { label: string }) => <p className="text-primary"> {t(label)} </p>
+// const Label = ({ label }: { label: string }) => <p className="text-primary"> {t(label)} </p>
 const Title = ({ label }: { label: string }) => <Text.Title className="text-primary"> {t(label)} </Text.Title>
 
 /** Sớ Lễ Gia Tiên */
@@ -25,19 +26,23 @@ export type RitualScriptForm = {
   monthCreate?: string;
   dayCreate?: string;
   liveAt?: string;
-  topDog: RitualScriptMember;
+  houseOwner: RitualScriptMember;
   familyMembers: RitualScriptMember[];
   workshipSeason?: string;
   workshipPlace?: string;
 }
 export function UIAncestralOfferingForm() {
+  const { zaloUserInfo } = useAppContext();
+
   const form = {
-    topDog: {},
+    houseOwner: {
+      name: zaloUserInfo.name,
+    },
     familyMembers: []
   } as RitualScriptForm;
 
   const observer = useBeanObserver(form);
-  const topDogObserver = useBeanObserver(form.topDog);
+  const houseOwnerObserver = useBeanObserver(form.houseOwner);
   const membersObserver = useBeanObserver(form.familyMembers);
 
   const { loadingToast } = useNotification();
@@ -53,17 +58,38 @@ export function UIAncestralOfferingForm() {
       (onSuccess, onFail) => {
         const element = document.getElementById('petition-ancestral-offering-letter');
         if (!element) { 
-          onFail(t("download_fail")); return;
+          onFail(t("download_fail")); 
+          return;
+        }
+
+        // Get the TransformComponent instance (if needed)
+        const transformComponent = document.querySelector('.react-transform-component') as HTMLElement;
+        if (!transformComponent) return;
+
+        // Store the current transform state
+        const originalTransform = {
+          scale: transformComponent.style.transform,
+          width: element.style.width,
+          height: element.style.height,
         };
 
+        // Reset transformations temporarily
+        transformComponent.style.transform = 'none';
+        element.style.width = 'auto';
+        element.style.height = 'auto';
+
         html2canvas(element, { 
-          width: 1920, 
-          height: 1080, 
-          windowWidth: 1920, 
-          windowHeight: 1080, 
           useCORS: true,
+          width: element.scrollWidth, // Use the content width
+          height: element.scrollHeight, // Use the content height
         }).then((canvas) => {
           const base64 = canvas.toDataURL("image/jpg", 70);
+
+          // Restore the original transformations
+          transformComponent.style.transform = originalTransform.scale;
+          element.style.width = originalTransform.width;
+          element.style.height = originalTransform.height;
+
           ZmpSDK.saveImageToGallery(
             base64, 
             () => onSuccess(
@@ -77,45 +103,58 @@ export function UIAncestralOfferingForm() {
         }).catch((err) => {
           console.error("Error exporting to PNG:", err);
           onFail(t("download_fail"));
-        })
+        });
       }
-    )
-  }
+    );
+  };
 
   return (
     <div className="bg-primary">
       <UIBasicForm observer={observer}/>
       <Divider size={0}/>
 
-      <UIHouseOwnerForm observer={topDogObserver}/>
+      <UIHouseOwnerForm observer={houseOwnerObserver}/>
       <Divider size={0}/>
 
       <UIFamilyMembersForm observer={membersObserver}/>
       <Divider size={0}/>
 
-      <Button size="medium" variant="secondary" onClick={() => setPreview(true)}>
+      <Button size="small" prefixIcon={<CommonIcon.Preview/>} variant="secondary" onClick={() => setPreview(true)}>
         {t("preview")}
       </Button>
 
-      <SlidingPanel 
-        orient={SlidingPanelOrient.LeftToRight} 
+      <Sheet
         visible={preview} 
-        header={
-          <div className="flex-h">
-            <Text.Title className="text-center mr-1"> {"Sớ Lễ Gia Tiên"} </Text.Title>
-            <CommonIcon.CloudDownload className="button" size={24} onClick={exportPNG}/>
-          </div>
-        }        
-        close={() => setPreview(false)}
+        title={t("Sớ Lễ Gia Tiên")} className="bg-primary"
+        handler
+        onClose={() => setPreview(false)} mask maskClosable
+        height={"90vh"}
       >
-        <UIAncestralOfferingTemplate 
-          form={{
-            ...observer.getBean(),
-            topDog: topDogObserver.getBean(),
-            familyMembers: membersObserver.getBean()
-          }}
-        />
-      </SlidingPanel>
+        <TransformWrapper
+          initialScale={0.8}
+          minScale={0.1}
+          maxScale={1.5}
+        >
+          <TransformComponent>
+            <UIAncestralOfferingTemplate 
+              form={{
+                ...observer.getBean(),
+                houseOwner: houseOwnerObserver.getBean(),
+                familyMembers: membersObserver.getBean()
+              }}
+            />
+          </TransformComponent>
+        </TransformWrapper>
+        {/* save button */}
+        <Button 
+          className="button" size="medium"
+          style={{ position: "absolute", bottom: "30px", right: "15px" }}
+          prefixIcon={<CommonIcon.FileDownload size={24}/>}
+          onClick={exportPNG}
+        >
+          {t("download")}
+        </Button>
+      </Sheet>
     </div>
   )
 }
@@ -129,39 +168,34 @@ function UIBasicForm({ observer } : {
       <Title label={t("Thiên Thời")}/>
       <div className="flex-h justify-between">
         <Input 
-          style={{ width: "100%" }}
-          size="small" placeholder="Giáp Thìn"
-          label={<Label label="Năm"/>} 
+          style={{ width: "100%" }} size="small"
+          label={<Label text="Năm"/>} 
           value={observer.getBean().yearCreate} 
           onChange={(e) => observer.update("yearCreate", e.target.value)}
         />
         <Input 
-          style={{ width: "100%" }}
-          size="small" placeholder="Định Sửu"
-          label={<Label label="Tháng"/>} 
+          style={{ width: "100%" }} size="small"
+          label={<Label text="Tháng"/>} 
           value={observer.getBean().monthCreate} 
           onChange={(e) => observer.update("monthCreate", e.target.value)}
         />
         <Input 
-          style={{ width: "100%" }}
-          size="small" placeholder="Canh Ngọ"
-          label={<Label label="Ngày"/>} 
+          style={{ width: "100%" }} size="small"
+          label={<Label text="Ngày"/>} 
           value={observer.getBean().dayCreate} 
           onChange={(e) => observer.update("dayCreate", e.target.value)}
         />
       </div>
       <div className="flex-h justify-between">
         <Input 
-          style={{ width: "100%" }}
-          size="small" placeholder="Xuân/Hạ/Thu/Đông"
-          label={<Label label="Mùa"/>} 
+          style={{ width: "100%" }} size="small"
+          label={<Label text="Mùa"/>} 
           value={observer.getBean().workshipSeason} 
           onChange={(e) => observer.update("workshipSeason", e.target.value)}
         />
         <Input 
-          style={{ width: "100%" }}
-          size="small" placeholder="Tại Gia"
-          label={<Label label="Nơi Cúng"/>} 
+          style={{ width: "100%" }} size="small"
+          label={<Label text="Nơi Cúng"/>} 
           value={observer.getBean().workshipPlace} 
           onChange={(e) => observer.update("workshipPlace", e.target.value)}
         />
@@ -179,8 +213,8 @@ function UIHouseOwnerForm({ observer }: {
       <Title label={t("Thí Chủ")}/>
       <div className="flex-v justify-between">
         <Input 
-          size="small" placeholder="Nguyễn Năng Bình"
-          label={<Label label="Tên"/>} 
+          size="small"
+          label={<Label text="Tên"/>} 
           value={observer.getBean().name}
           onChange={(e) =>
             observer.update("name", e.target.value)
@@ -188,18 +222,16 @@ function UIHouseOwnerForm({ observer }: {
         />
         <div className="flex-h">
           <Input 
-            style={{ width: "100%" }}
-            size="small" placeholder="Canh Thìn"
-            label={<Label label="Năm"/>} 
+            style={{ width: "100%" }} size="small"
+            label={<Label text="Năm"/>} 
             value={observer.getBean().birth}
             onChange={(e) =>
               observer.update("birth", e.target.value)
             }
           />
           <Input 
-            style={{ width: "100%" }}
-            size="small" placeholder="25 tuổi"
-            label={<Label label="Tuổi"/>} 
+            style={{ width: "100%" }} size="small"
+            label={<Label text="Tuổi"/>} 
             value={observer.getBean().age}
             onChange={(e) =>
               observer.update("age", e.target.value)
@@ -207,8 +239,8 @@ function UIHouseOwnerForm({ observer }: {
           />
         </div>
         <Input.TextArea
-          size="medium" placeholder="Hải Phòng Thành, Kiến An Quận, Văn Đẩu Phường, Số 24"
-          label={<Label label="Nhà"/>} 
+          size="medium"
+          label={<Label text="Nhà"/>} 
           value={observer.getBean().address}
           onChange={(e) =>
             observer.update("address", e.target.value)
@@ -251,7 +283,7 @@ function UIFamilyMembersForm({ observer }: {
             <div className="flex-h">
               <Input 
                 style={{ width: "100%" }} size="small"
-                label={<Label label={t("name")}/>} 
+                label={<Label text={t("name")}/>} 
                 value={observer.getBean()[index]?.name || ""}
                 onChange={(e) => {
                   observer.push(index, {
@@ -263,8 +295,8 @@ function UIFamilyMembersForm({ observer }: {
             </div>
             <div className="flex-h">
               <Input 
-                style={{ width: "100%" }} size="small" placeholder="canh thìn"
-                label={<Label label={t("năm")}/>} 
+                style={{ width: "100%" }} size="small"
+                label={<Label text={t("năm")}/>} 
                 value={observer.getBean()[index]?.birth || ""}
                 onChange={(e) => {
                   observer.push(index, {
@@ -274,8 +306,8 @@ function UIFamilyMembersForm({ observer }: {
                 }}
               />
               <Input 
-                style={{ width: "100%" }} size="small" placeholder="25 tuổi"
-                label={<Label label={t("tuổi")}/>} 
+                style={{ width: "100%" }} size="small"
+                label={<Label text={t("tuổi")}/>} 
                 value={observer.getBean()[index]?.age || ""}
                 onChange={(e) => {
                   observer.push(index, {

@@ -13,6 +13,8 @@ import { PiTreeFill } from "react-icons/pi";
 import { RiResetRightLine } from "react-icons/ri";
 import { TbLogout, TbPhoto, TbPhotoPlus } from "react-icons/tb";
 import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
+import { MdOutlinePreview } from "react-icons/md";
+import { FaFileDownload } from "react-icons/fa";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -40,6 +42,7 @@ export const CommonIcon = {
   JPG: BiSolidFileJpg,
   SVG: BsFiletypeSvg,
   CloudDownload: IoIosCloudDownload,
+  FileDownload: FaFileDownload,
   CloseCircle: IoIosCloseCircle,
   VerticalDots: HiOutlineDotsVertical,
   Save: FaRegSave,
@@ -51,5 +54,6 @@ export const CommonIcon = {
   AddMarker: MdAddLocationAlt,
   AddPerson: IoPersonAddSharp,
   Child: FaChild,
-  People: BsFillPeopleFill
+  People: BsFillPeopleFill,
+  Preview: MdOutlinePreview,
 };

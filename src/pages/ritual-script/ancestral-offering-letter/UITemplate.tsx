@@ -86,8 +86,8 @@ export function UIAncestralOfferingTemplate(props: UIAncestralOfferingTemplatePr
   }
 
   // update template value
-  templateData.liveAt = form.topDog?.address || "";
-  templateData.topDog = createPerson(form.topDog);
+  templateData.liveAt = form.houseOwner?.address || "";
+  templateData.topDog = createPerson(form.houseOwner);
   templateData.familyMembers = createFamilyMembers(form.familyMembers);
   templateData.yearCreate = form.yearCreate || "";
   templateData.monthCreate = form.monthCreate || "";
@@ -102,21 +102,16 @@ export function UIAncestralOfferingTemplate(props: UIAncestralOfferingTemplatePr
       id="petition-ancestral-offering-letter"
       style={{ 
         backgroundImage: `url(${background})`,
+        backgroundClip: "content-box",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        height: "75vh"
       }}
     >
-      <ScrollableDiv 
-        direction="both"
-        height={"inherit"}
-      >
-        <div
-          dangerouslySetInnerHTML={{ __html: purified }}
-          className="text-base"
-        />
-      </ScrollableDiv>
+      <div
+        dangerouslySetInnerHTML={{ __html: purified }}
+        className="text-base"
+      />
     </div>
   );
 }
