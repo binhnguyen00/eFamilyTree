@@ -1,42 +1,45 @@
 import React from "react";
 import { t } from "i18next";
-import { Stack, Tabs, Text } from "zmp-ui";
+import { Button, Sheet, Stack, Tabs, Text } from "zmp-ui";
 
 import { CalendarUtils } from "utils/CalendarUtils";
 import { DateTimeUtils, StyleUtils } from "utils";
-import { Divider, Header, MonthCalendar, ScrollableDiv, SlidingPanel, SlidingPanelOrient, WeekCalendar } from "components";
+import { Divider, Header, MonthCalendar, ScrollableDiv, WeekCalendar } from "components";
 
-import datas from "./sample/events.json";
+import data from "./sample/events.json";
 
 export default function UIDummyCalendar() {
   return (
-    <div className="container-padding text-base">
+    <>
       <Header title={t("calendar")}/>
 
-      <Tabs defaultActiveKey="clan-events">
+      <div className="container-padding text-base">
+        <Tabs defaultActiveKey="clan-events">
 
-        <Tabs.Tab key={"clan-events"} label={<p className="text-capitalize"> {t("Sự kiện")} </p>}>
-          <UIWeekCalendarContainer/>
-        </Tabs.Tab>
-        
-        <Tabs.Tab key={"lucky-day"} label={<p className="text-capitalize"> {t("Lịch Vạn Niên")} </p>}>
-          <UIMonthCalendarContainer/>
-        </Tabs.Tab>
+          <Tabs.Tab key={"clan-events"} label={<p className="text-capitalize"> {t("Sự kiện")} </p>}>
+            <UIWeekCalendarContainer/>
+          </Tabs.Tab>
+          
+          <Tabs.Tab key={"lucky-day"} label={<p className="text-capitalize"> {t("Lịch Vạn Niên")} </p>}>
+            <UIMonthCalendarContainer/>
+          </Tabs.Tab>
 
-      </Tabs>
-    </div>
+        </Tabs>
+      </div>
+    </>
   )
 };
 
 function UIWeekCalendarContainer() {
-  const [ events, setEvents ] = React.useState<any[]>(datas);
+  const [ events, setEvents ] = React.useState<any[]>(data);
   const [ daysWithEvent, setDaysWithEvent ] = React.useState<Date[]>([]);
   const [ navigateDay, setNavigateDay ] = React.useState<Date>(new Date());
+  const [ create, setCreate ] = React.useState<boolean>(false);
 
   const onSelectDay = (selectedDay: string) => {
     selectedDay = selectedDay.substring(0, 10);
     const filtered: any[] = [];
-    datas.map((event) => {
+    data.map((event) => {
       console.log(event.from_date.substring(0, 10), selectedDay);
       if (event.from_date.substring(0, 10) === selectedDay) {
         filtered.push(event);
@@ -48,7 +51,7 @@ function UIWeekCalendarContainer() {
   const onCurrentDay = (day: string) => {
     day = day.substring(0, 10);
     const filtered: any[] = [];
-    datas.map((event) => {
+    data.map((event) => {
       if (event.from_date.substring(0, 10) === day) {
         filtered.push(event);
       }
@@ -81,16 +84,15 @@ function UIWeekCalendarContainer() {
             <span className="center"> {t("no_calendar_events")} </span>
           )}
         </Stack>
-        <SlidingPanel
+        <Sheet
           visible={selectedEvent ? true : false}
           className="bg-white text-base"
-          close={() => setSelectedEvent(null)}
-          orient={SlidingPanelOrient.BottomToTop}
+          onClose={() => setSelectedEvent(null)}
           height={StyleUtils.calComponentRemainingHeight(0)}
-          header={t("event_details")}
+          title={t("event_details")}
         >
           <EventDetails event={selectedEvent}/>
-        </SlidingPanel>
+        </Sheet>
       </>
     )
   }
@@ -130,16 +132,16 @@ function UIWeekCalendarContainer() {
     setNavigateDay(day);
   }
 
+  const onCreate = () => {
+  }
+
   React.useEffect(() => {
     const now  = new Date();
     const days: Date[] = CalendarUtils.getDaysInWeekWithEvent(events, now);
-
-    console.log(days);
-    
     setDaysWithEvent(days)
   }, [])
 
-  const scrollDivHeight = StyleUtils.calComponentRemainingHeight(157 + 44 + 20);
+  const scrollDivHeight = StyleUtils.calComponentRemainingHeight(157 + 44 + 50);
   return (
     <div className="flex-v">
       <WeekCalendar
@@ -149,9 +151,25 @@ function UIWeekCalendarContainer() {
         onNavigateMonth={onNavigate}
         onNavigateWeek={onNavigate}
       />
-      <Divider/>
+
+      <Sheet 
+        visible={create}
+        height={StyleUtils.calComponentRemainingHeight(0)}
+        title={t("create_event")}
+        onClose={() => setCreate(false)}
+      > 
+        create
+      </Sheet>
+
+      <div className="scroll-h">
+        <Button size="small" variant="secondary" onClick={() => setCreate(true)}>
+          {t("create")}
+        </Button>
+      </div>
+      
       <ScrollableDiv className="rounded-top bg-white" direction="vertical" height={scrollDivHeight}>
         <ClanEvents/>
+        <br />
       </ScrollableDiv>
     </div>
   )

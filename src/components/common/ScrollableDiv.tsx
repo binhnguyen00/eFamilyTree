@@ -26,6 +26,7 @@ export function ScrollableDiv(props: ScrollableDivProps) {
   const scrollableStyle = {
     width: width,
     height: height,
+    scrollBehavior: 'smooth',
     ...getScrollStyles(direction),
     ...style
   } as React.CSSProperties;

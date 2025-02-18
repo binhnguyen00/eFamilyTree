@@ -4,7 +4,7 @@ import { Tabs } from "zmp-ui";
 
 import { Header } from "components";
 
-import { UIWeekCalendar } from "./UIWeekCalendar";
+import { UIWeekCalendar } from "./week/UIWeekCalendar";
 import { UIMonthCalendar } from "./UIMonthCalendar";
 
 export function UICalendar() {
