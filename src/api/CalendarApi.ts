@@ -1,4 +1,4 @@
-import { CreateEvent } from "pages/calendar/week/UIWeekCalendar";
+import { CreateEvent } from "pages/calendar/week/UICreate";
 import { BaseApi } from "./BaseApi";
 import { SuccessCB, FailCB } from "types/server"
 
