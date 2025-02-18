@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { Box, Button, DatePicker, Grid, Input, Sheet } from "zmp-ui";
 
 import { CalendarApi, FamilyTreeApi } from "api";
-import { useAppContext, useBeanObserver } from "hooks";
+import { useAppContext, useBeanObserver, useNotification } from "hooks";
 import { CalendarUtils, DateTimeUtils, StyleUtils } from "utils";
 import { CommonIcon, Label, ScrollableDiv, Selection, WeekCalendar } from "components";
 
@@ -57,7 +57,6 @@ export function UIWeekCalendar() {
   }
 
   const onSelectDay = (selectedDay: string) => {
-    console.log(selectedDay);
     setSelectedDate(selectedDay)
     getEventsByDay(selectedDay);
   }
@@ -70,6 +69,10 @@ export function UIWeekCalendar() {
   const onNavigate = (day: Date) => {
     setNavigateDay(day);
   }
+
+  const onReload = () => {
+    setNavigateDay(DateTimeUtils.toDate(selectedDate));
+  };
 
   const scrollDivHeight = StyleUtils.calComponentRemainingHeight(157 + 44 + 20);
   return (
@@ -88,15 +91,19 @@ export function UIWeekCalendar() {
         title={t("Tạo Sự Kiện")}
         onClose={() => setCreate(false)}
       > 
-        <UICreate selectedDate={selectedDate}/>
+        <UICreate 
+          selectedDate={selectedDate}
+          onClose={() => setCreate(false)}
+          onReloadParent={onReload}
+        />
       </Sheet>
 
       <ScrollableDiv className="rounded-top bg-white" direction="vertical" height={scrollDivHeight}>
-        {/* <div className="scroll-h p-2" style={{ position: "absolute", bottom: 5, right: 0 }}>
-          <Button size="small" variant="secondary" prefixIcon={<CommonIcon.Plus/>} onClick={() => setCreate(true)}>
+        <div className="scroll-h p-2" style={{ position: "absolute", bottom: 5, right: 0 }}>
+          <Button size="small" prefixIcon={<CommonIcon.Plus/>} onClick={() => setCreate(true)}>
             {t("create")}
           </Button>
-        </div> */}
+        </div>
         <UIEvents events={events}/>
         <br/> <br/>
       </ScrollableDiv>
@@ -106,19 +113,28 @@ export function UIWeekCalendar() {
 
 interface UICreateProps {
   selectedDate: string;
+  onClose: () => void;
+  onReloadParent?: () => void;
 }
-type CreateEvent = {
+export interface CreateEvent {
   name: string;
   note: string;
   fromDate: string;
+  fromTime?: string;
   toDate: string;
+  toTime?: string;
   place: string;
   picId?: number;
   picName?: string;
 }
 export function UICreate(props: UICreateProps) {
-  const { selectedDate } = props;
+  const { selectedDate, onClose, onReloadParent } = props;
   const { userInfo } = useAppContext();
+  const { dangerToast, successToast } = useNotification();
+  const observer = useBeanObserver({
+    fromTime: "08:00:00",
+    toTime: "09:00:00"
+  } as CreateEvent);
   
   const [ ids, setIds ] = React.useState<any[]>([]);
   const [ current, setCurrent ] = React.useState<Date>();
@@ -138,23 +154,45 @@ export function UICreate(props: UICreateProps) {
 
   React.useEffect(() => {
     if (selectedDate !== "") setCurrent(DateTimeUtils.toDate(selectedDate));
+    observer.update("fromDate", `${DateTimeUtils.toDisplayDate(selectedDate)}`)
+    observer.update("toDate", `${DateTimeUtils.toDisplayDate(selectedDate)}`)
   }, [ selectedDate ])
-
-  const observer = useBeanObserver({
-
-  } as CreateEvent);
 
   const onFromDateChange = (date: Date, calendarDate: any) => {
     observer.update("fromDate", DateTimeUtils.formatDefault(date));
   }
 
   const onToDateChange = (date: Date, calendarDate: any) => {
-    console.log(date);
-    console.log(calendarDate);
+    observer.update("toDate", DateTimeUtils.formatDefault(date));
   }
 
   const onCreate = () => {
+    const invalidData = !observer.getBean().fromDate || !observer.getBean().toDate
+    if (invalidData) {
+      dangerToast(t("Hãy nhập đủ dữ liệu"));
+      return;
+    }
 
+    CalendarApi.createEvent({
+      userId: userInfo.id,
+      clanId: userInfo.clanId,
+      event: observer.getBean(),
+      successCB: (result: ServerResponse) => {
+        if (onReloadParent) onReloadParent()
+        if (result.status === "success") {
+          successToast(t("Tạo Thành Công"));
+          onClose();
+        } else {
+          dangerToast(t("Tạo Thất Bại"));
+          onClose();
+        }
+      },
+      failCB: () => {
+        if (onReloadParent) onReloadParent()
+        dangerToast(t("Tạo Thất Bại"));
+        onClose();
+      }
+    })
   }
 
   return (
@@ -168,7 +206,7 @@ export function UICreate(props: UICreateProps) {
         value={observer.getBean().place} size="medium"
         onChange={(e) => observer.update("place", e.target.value)}
       />
-      <Selection 
+      <Selection
         label={t("Người Phụ Trách")} field={"picId"} 
         options={ids} observer={observer} isSearchable 
         defaultValue={{ value: userInfo.id, label: userInfo.name }}
@@ -176,22 +214,38 @@ export function UICreate(props: UICreateProps) {
       <Grid columnCount={2} columnSpace="0.5rem">
         <DatePicker
           mask maskClosable 
-          label={t("Từ Ngày")} title={t("Từ Ngày")}
+          label={`${t("Từ Ngày")} *`} title={t("Từ Ngày")}
           onChange={onFromDateChange} value={current}
         />
-        <Input
-          name="fromDate" label={t("Giờ")}
-        />
+        <div className="flex-v">
+          <label> {t("Thời Gian")} </label>
+          <input 
+            type="time" name="fromTime" className="py-2" style={{ fontSize: "1.3rem" }}
+            onChange={(e) => {
+              const time = `${e.target.value}:00`
+              observer.update("fromTime", time);
+            }}
+            defaultValue={"08:00:00"}
+          />
+        </div>
       </Grid>
       <Grid columnCount={2} columnSpace="0.5rem">
         <DatePicker
           mask maskClosable
-          label={t("Đến Ngày")} title={t("Đến Ngày")}
+          label={`${t("Đến Ngày")} *`} title={t("Đến Ngày")}
           onChange={onToDateChange} value={current}
         />
-        <Input
-          name="fromDate" label={t("Giờ")}
-        />
+        <div className="flex-v">
+          <label> {t("Thời Gian")} </label>
+          <input 
+            type="time" name="toTime" className="py-2" style={{ fontSize: "1.3rem" }}
+            onChange={(e) => {
+              const time = `${e.target.value}:00`
+              observer.update("toTime", time);
+            }}
+            defaultValue={"09:00:00"}
+          />
+        </div>
       </Grid>
       <Input.TextArea
         size="medium" name="note" label={<Label text={t("Ghi Chú")}/>}
@@ -199,8 +253,8 @@ export function UICreate(props: UICreateProps) {
         onChange={(e) => observer.update("note", e.target.value)}
       />
       <div>
-        <Button size="small" prefixIcon={<CommonIcon.Plus/>} onClick={onCreate}>
-          {t("create")}
+        <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onCreate}>
+          {t("save")}
         </Button>
       </div>
     </div>

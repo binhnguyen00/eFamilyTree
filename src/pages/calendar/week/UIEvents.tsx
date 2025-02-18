@@ -1,9 +1,12 @@
 import React from "react";
 import { t } from "i18next";
-import { Sheet, Stack, Text } from "zmp-ui";
+import { Button, Sheet, Stack, Text } from "zmp-ui";
 
-import { Divider } from "components";
+import { CommonIcon, Divider, useAppContext } from "components";
 import { DateTimeUtils, StyleUtils } from "utils";
+import { CalendarApi, FamilyTreeApi } from "api";
+import { ServerResponse } from "types/server";
+import { useNotification } from "hooks";
 
 interface UIEventsProps {
   events: any[];
@@ -45,15 +48,59 @@ export function UIEvents(props: UIEventsProps) {
         height={StyleUtils.calComponentRemainingHeight(0)}
         title={t("event_details")}
       >
-        <UIEventDetails event={selectedEvent}/>
+        <UIEventDetails 
+          event={selectedEvent}
+          onClose={() => setSelectedEvent(null)}
+        />
       </Sheet>
     </>
   )
 }
 
-function UIEventDetails({ event }: { event: any }) {
+function UIEventDetails({ event, onClose }: { 
+  event: any;
+  onClose: () => void;
+}) {
+  const { userInfo } = useAppContext();
+  const { successToast, dangerToast } = useNotification();
+
+  const [ ids, setIds ] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    FamilyTreeApi.getActiveMemberIds({
+      userId: userInfo.id,
+      clanId: userInfo.clanId,
+      success: (result: ServerResponse) => {
+        if (result.status === "success") {
+          const data: any[] = result.data;
+          setIds(data);
+        }
+      }
+    })
+  }, [])
+
+  const onDelete = () => {
+    CalendarApi.deleteEvent({
+      userId: userInfo.id,
+      clanId: userInfo.clanId,
+      id: event["id"],
+      successCB: (result: ServerResponse) => {
+        if (result.status === "success") {
+          successToast(t("Xoá Thành Công"))
+        } else {
+          dangerToast(t("Xoá Thất Bại"))
+        }
+        onClose();
+      },
+      failCB: () => {
+        dangerToast(t("Xoá Thất Bại"))
+        onClose()
+      }
+    })
+  }
+
   return (
-    <div>
+    <div className="flex-v flex-grow-0">
       <Text.Title> {event?.name} </Text.Title>
 
       <Divider size={0}/>
@@ -69,13 +116,24 @@ function UIEventDetails({ event }: { event: any }) {
           ${DateTimeUtils.toDisplayDate(event?.["to_date"])}
         `} </p>
 
+        <strong> {t("Người Phụ Trách")} </strong>
+        <p> {event?.["pic"]} </p>
+
         <Divider size={0}/>
+
         <strong> {t("place")} </strong>
         <p> {event?.["place"]} </p>
 
         <Divider size={0}/>
+
         <strong> {t("note")} </strong>
         <p> {event?.["note"]} </p>
+      </div>
+
+      <div className="scroll-h">
+        <Button prefixIcon={<CommonIcon.Trash/>} onClick={onDelete}>
+          {t("delete")}
+        </Button>
       </div>
     </div>
   )
