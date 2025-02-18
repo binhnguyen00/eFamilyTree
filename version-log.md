@@ -1,3 +1,8 @@
+# Version 1.3.1
+### Thay đổi
+1. Sớ
+  - Tự điền các thông tin về ngày, tháng, năm.
+
 # Version 1.3.0 (Thứ 3, 11/02/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=28)
 ### Thay đổi
