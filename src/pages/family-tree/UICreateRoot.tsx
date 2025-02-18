@@ -75,6 +75,7 @@ export function UICreateRoot(props: UICreateRootProps) {
             onChange={(date: Date, calendarDate: any) => {
               observer.update("birthday", DateTimeUtils.formatToDate(date));
             }}
+            value={new Date(new Date().setFullYear(new Date().getFullYear() - 20))}
           />
         </div>
         <div>

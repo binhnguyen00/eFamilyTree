@@ -84,6 +84,11 @@ export function UICreateSibling(props: UICreateSiblingProps) {
           onChange={(date: Date, calendarDate: any) => {
             observer.update("birthday", DateTimeUtils.formatToDate(date));
           }}
+          value={
+            observer.getBean().birthday 
+            ? DateTimeUtils.toDate(observer.getBean().birthday)
+            : undefined
+          }
         />
         <Input 
           size="small" label={<Label text="Bố"/>} 

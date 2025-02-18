@@ -2,6 +2,10 @@
 ### Thay đổi
 1. Sớ
   - Tự điền các thông tin về ngày, tháng, năm.
+2. Phả đồ
+  - Sửa lỗi không hiển thị thông tin ngày sinh của thành viên khi ấn vào chi xem chi tiết.
+3. Tài Khoản
+  - Sửa lỗi Avatar và Tên không thẳng hàng
 
 # Version 1.3.0 (Thứ 3, 11/02/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=28)
