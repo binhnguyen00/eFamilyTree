@@ -17,6 +17,7 @@ export enum CreateMode {
 
 export type Member = {
   id: number;
+  code: string;
   name: string;
   gender: "0" | "1";
   phone: string;
@@ -154,6 +155,10 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
           <Input 
             size="small" name="name" label={<Label text="Họ Tên"/>} 
             value={observer.getBean().name} onChange={observer.watch}
+          />
+          <Input 
+            size="small" name="code" label={<Label text={t("Mã")}/>} 
+            value={observer.getBean().code} disabled
           />
           <Input 
             size="small" name="phone" label={<Label text="Điện Thoại"/>} 

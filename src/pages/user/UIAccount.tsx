@@ -36,7 +36,7 @@ function UIAccountContainer() {
   return (
     <div className="container flex-v text-primary">
 
-      <div className="center my-3">
+      <div className="flex-v center my-3">
         <Avatar
           size={120}
           src={zaloUserInfo.avatar ? zaloUserInfo.avatar : UNKNOWN_AVATAR}
