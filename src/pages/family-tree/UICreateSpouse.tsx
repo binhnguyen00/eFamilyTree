@@ -1,11 +1,11 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Input, Sheet, Text } from "zmp-ui";
+import { Button, Input, Sheet, Text, DatePicker } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
-import { StyleUtils } from "utils";
+import { DateTimeUtils, StyleUtils } from "utils";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
-import { BeanObserver, CommonIcon, Selection, DatePicker } from "components";
+import { BeanObserver, CommonIcon, Selection } from "components";
 
 import { FailResponse, ServerResponse } from "types/server";
 
@@ -98,8 +98,11 @@ function Form({ observer, onCreate }: {
           }
         />
         <DatePicker 
-          field="birthday"
-          observer={observer} label={t("Ngày sinh")}
+          mask maskClosable 
+          label={t("Ngày Sinh")} title={t("Ngày Sinh")}
+          onChange={(date: Date, calendarDate: any) => {
+            observer.update("birthday", DateTimeUtils.formatToDate(date));
+          }}
         />
         <Input 
           size="small" name="name" 

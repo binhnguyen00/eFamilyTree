@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, DatePicker, Input, Sheet } from "zmp-ui";
+import { Box, Button, DatePicker, Grid, Input, Sheet } from "zmp-ui";
 
 import { CalendarApi, FamilyTreeApi } from "api";
 import { useAppContext, useBeanObserver } from "hooks";
@@ -71,7 +71,7 @@ export function UIWeekCalendar() {
     setNavigateDay(day);
   }
 
-  const scrollDivHeight = StyleUtils.calComponentRemainingHeight(157 + 44 + 50);
+  const scrollDivHeight = StyleUtils.calComponentRemainingHeight(157 + 44 + 20);
   return (
     <div className="flex-v">
       <WeekCalendar 
@@ -91,14 +91,14 @@ export function UIWeekCalendar() {
         <UICreate selectedDate={selectedDate}/>
       </Sheet>
 
-      <div className="scroll-h px-1">
-        <Button size="small" variant="secondary" prefixIcon={<CommonIcon.Plus/>} onClick={() => setCreate(true)}>
-          {t("create")}
-        </Button>
-      </div>
-
       <ScrollableDiv className="rounded-top bg-white" direction="vertical" height={scrollDivHeight}>
+        {/* <div className="scroll-h p-2" style={{ position: "absolute", bottom: 5, right: 0 }}>
+          <Button size="small" variant="secondary" prefixIcon={<CommonIcon.Plus/>} onClick={() => setCreate(true)}>
+            {t("create")}
+          </Button>
+        </div> */}
         <UIEvents events={events}/>
+        <br/> <br/>
       </ScrollableDiv>
     </div>
   )
@@ -117,12 +117,11 @@ type CreateEvent = {
   picName?: string;
 }
 export function UICreate(props: UICreateProps) {
-  let { selectedDate } = props;
-  console.log(selectedDate);
-  
+  const { selectedDate } = props;
   const { userInfo } = useAppContext();
+  
   const [ ids, setIds ] = React.useState<any[]>([]);
-  const [ current, setCurrent ] = React.useState<any>()
+  const [ current, setCurrent ] = React.useState<Date>();
 
   React.useEffect(() => {
     FamilyTreeApi.getActiveMemberIds({
@@ -146,8 +145,7 @@ export function UICreate(props: UICreateProps) {
   } as CreateEvent);
 
   const onFromDateChange = (date: Date, calendarDate: any) => {
-    console.log(date);
-    console.log(calendarDate);
+    observer.update("fromDate", DateTimeUtils.formatDefault(date));
   }
 
   const onToDateChange = (date: Date, calendarDate: any) => {
@@ -165,27 +163,36 @@ export function UICreate(props: UICreateProps) {
         name="name" label={<Label text={t("Tên Sự Kiện")}/>}
         value={observer.getBean().name} onChange={observer.watch}
       />
-      <Input
+      <Input.TextArea
         name="place" label={<Label text={t("Địa Điểm")}/>}
-        value={observer.getBean().place} onChange={observer.watch}
+        value={observer.getBean().place} size="medium"
+        onChange={(e) => observer.update("place", e.target.value)}
       />
       <Selection 
         label={t("Người Phụ Trách")} field={"picId"} 
         options={ids} observer={observer} isSearchable 
         defaultValue={{ value: userInfo.id, label: userInfo.name }}
       />
-      <div className="flex-h">
+      <Grid columnCount={2} columnSpace="0.5rem">
         <DatePicker
-          mask maskClosable
+          mask maskClosable 
           label={t("Từ Ngày")} title={t("Từ Ngày")}
           onChange={onFromDateChange} value={current}
         />
+        <Input
+          name="fromDate" label={t("Giờ")}
+        />
+      </Grid>
+      <Grid columnCount={2} columnSpace="0.5rem">
         <DatePicker
           mask maskClosable
           label={t("Đến Ngày")} title={t("Đến Ngày")}
           onChange={onToDateChange} value={current}
         />
-      </div>
+        <Input
+          name="fromDate" label={t("Giờ")}
+        />
+      </Grid>
       <Input.TextArea
         size="medium" name="note" label={<Label text={t("Ghi Chú")}/>}
         value={observer.getBean().note} 

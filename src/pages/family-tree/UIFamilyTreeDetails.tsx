@@ -1,11 +1,11 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Input, Text, Sheet, Modal, Avatar } from "zmp-ui";
+import { Button, Input, Text, Sheet, Modal, Avatar, DatePicker } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
-import { StyleUtils, TreeDataProcessor } from "utils";
+import { DateTimeUtils, StyleUtils } from "utils";
 import { useBeanObserver, useNotification } from "hooks";
-import { CommonIcon, DatePicker, Selection, useAppContext } from "components";
+import { CommonIcon, Selection, useAppContext } from "components";
 import { FailResponse, ServerResponse } from "types/server";
 
 export enum CreateMode {
@@ -173,10 +173,17 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
             options={genderOpts}
             observer={observer} field="gender" label={"Giới Tính"}
           />
-          <DatePicker
-            label={t("Ngày Sinh")}
-            field="birthday" observer={observer}
-            defaultValue={observer.getBean().birthday ? new Date(observer.getBean().birthday) : undefined} 
+          <DatePicker 
+            mask maskClosable 
+            label={t("Ngày Sinh")} title={t("Ngày Sinh")}
+            onChange={(date: Date, calendarDate: any) => {
+              observer.update("birthday", DateTimeUtils.formatToDate(date));
+            }}
+            value={
+              observer.getBean().birthday 
+              ? DateTimeUtils.toDate(observer.getBean().birthday)
+              : undefined
+            }
           />
           <Input 
             size="small" label={<Label text="Bố"/>} 

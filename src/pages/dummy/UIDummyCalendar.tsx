@@ -141,7 +141,7 @@ function UIWeekCalendarContainer() {
     setDaysWithEvent(days)
   }, [])
 
-  const scrollDivHeight = StyleUtils.calComponentRemainingHeight(157 + 44 + 50);
+  const scrollDivHeight = StyleUtils.calComponentRemainingHeight(157 + 44 + 20);
   return (
     <div className="flex-v">
       <WeekCalendar
@@ -161,13 +161,13 @@ function UIWeekCalendarContainer() {
         create
       </Sheet>
 
-      <div className="scroll-h">
-        <Button size="small" variant="secondary" onClick={() => setCreate(true)}>
-          {t("create")}
-        </Button>
-      </div>
       
       <ScrollableDiv className="rounded-top bg-white" direction="vertical" height={scrollDivHeight}>
+        <div className="scroll-h p-2" style={{ position: "absolute", bottom: 5, right: 0 }}>
+          <Button size="small" variant="secondary" onClick={() => setCreate(true)}>
+            {t("create")}
+          </Button>
+        </div>
         <ClanEvents/>
         <br />
       </ScrollableDiv>

@@ -1,10 +1,10 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Input, Sheet, Text } from "zmp-ui";
+import { Button, Input, Sheet, Text, DatePicker } from "zmp-ui";
 
-import { StyleUtils } from "utils";
+import { DateTimeUtils, StyleUtils } from "utils";
 import { FamilyTreeApi } from "api";
-import { CommonIcon, DatePicker, Selection } from "components";
+import { CommonIcon, Selection } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 import { FailResponse, ServerResponse } from "types/server";
 
@@ -78,10 +78,12 @@ export function UICreateSibling(props: UICreateSiblingProps) {
           ]}
           observer={observer} field="gender" label={"Giới Tính"}
         />
-        <DatePicker
-          label={t("Ngày Sinh")}
-          field="birthday" observer={observer}
-          defaultValue={observer.getBean().birthday ? new Date(observer.getBean().birthday) : undefined} 
+        <DatePicker 
+          mask maskClosable 
+          label={t("Ngày Sinh")} title={t("Ngày Sinh")}
+          onChange={(date: Date, calendarDate: any) => {
+            observer.update("birthday", DateTimeUtils.formatToDate(date));
+          }}
         />
         <Input 
           size="small" label={<Label text="Bố"/>} 
