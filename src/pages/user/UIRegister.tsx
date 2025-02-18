@@ -12,6 +12,7 @@ export type RegisterForm = {
   mobile: string;
   gender: "male" | "female";
   clanCode: string;
+  fatherCode: string;
   fullName: string;
   email?: string;
 }
@@ -60,7 +61,7 @@ function UIRegisterForm({ observer, submit }: {
   const [ error, setError ] = React.useState('');
 
   const submitOrError = (e: any) => {
-    const requireFields = [ "mobile", "clanCode", "email", "gender", "fullName" ] as const;
+    const requireFields = [ "mobile", "clanCode", "fatherCode", "email", "gender", "fullName" ] as const;
     const hasMissingField = requireFields.some(field => {
       const value = observer.getFieldValue(field);
       return !value?.trim(); // Checks for undefined/null/empty-string
@@ -88,6 +89,12 @@ function UIRegisterForm({ observer, submit }: {
           label={<Label text={t("clan_code") + "*"}/>} size="small"
           name={"clanCode"}
           value={observer.getBean().clanCode} 
+          onChange={observer.watch}
+        />
+        <Input 
+          label={<Label text={t("Mã Bố") + "*"}/>} size="small"
+          name={"fatherCode"}
+          value={observer.getBean().fatherCode} 
           onChange={observer.watch}
         />
       </div>
