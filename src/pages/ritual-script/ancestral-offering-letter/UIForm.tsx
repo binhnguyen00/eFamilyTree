@@ -3,14 +3,14 @@ import { t } from "i18next";
 import html2canvas from "html2canvas";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { Button, Input, Sheet, Text } from "zmp-ui";
+import { SolarDate } from "@nghiavuive/lunar_date_vi";
 
-import { ZmpSDK } from "utils";
+import { DateTimeUtils, ZmpSDK } from "utils";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
-import { BeanObserver, CommonIcon, Divider, Label } from "components";
+import { BeanObserver, CommonIcon, DatePicker, Divider, Label } from "components";
 
 import { UIAncestralOfferingTemplate } from "./UITemplate";
 
-// const Label = ({ label }: { label: string }) => <p className="text-primary"> {t(label)} </p>
 const Title = ({ label }: { label: string }) => <Text.Title className="text-primary"> {t(label)} </Text.Title>
 
 /** Sớ Lễ Gia Tiên */
@@ -18,6 +18,7 @@ const Title = ({ label }: { label: string }) => <Text.Title className="text-prim
 export type RitualScriptMember = {
   name?: string;
   birth?: string;
+  birthDate?: string;
   age?: string;
   address?: string;
 }
@@ -34,9 +35,19 @@ export type RitualScriptForm = {
 export function UIAncestralOfferingForm() {
   const { zaloUserInfo } = useAppContext();
 
+  // current solar date
+  const calendarDate = DateTimeUtils.toCalendarDate(new Date());
+  const solar = new SolarDate(calendarDate);
+  const lunar = solar.toLunarDate();
+  
   const form = {
+    yearCreate: lunar.getYearName(),
+    monthCreate: lunar.getMonthName(),
+    dayCreate: lunar.getDayName(),
+    workshipSeason: lunar.getSolarTerm(),
     houseOwner: {
       name: zaloUserInfo.name,
+      birthDate: DateTimeUtils.formatToDate(new Date(2000, 0, 1)),
     },
     familyMembers: []
   } as RitualScriptForm;
@@ -162,7 +173,6 @@ export function UIAncestralOfferingForm() {
 function UIBasicForm({ observer } : {
   observer: BeanObserver<RitualScriptForm>, 
 }) {
-  
   return (
     <div className="flex-v bg-secondary rounded p-3">
       <Title label={t("Thiên Thời")}/>
@@ -207,6 +217,13 @@ function UIBasicForm({ observer } : {
 function UIHouseOwnerForm({ observer }: { 
   observer: BeanObserver<RitualScriptMember>, 
 }) {
+  const parseDate2Solar = (date: Date) => {
+    const calendarDate = DateTimeUtils.toCalendarDate(date);
+    const solar = new SolarDate(calendarDate);
+    const lunar = solar.toLunarDate();
+    observer.update("birth", lunar.getYearName());
+    observer.update("birthDate", DateTimeUtils.formatToDate(date));
+  }
 
   return (
     <div className="flex-v bg-secondary rounded p-3">
@@ -214,10 +231,19 @@ function UIHouseOwnerForm({ observer }: {
       <div className="flex-v justify-between">
         <Input 
           size="small"
-          label={<Label text="Tên"/>} 
+          label={<Label text="Họ Tên"/>} 
           value={observer.getBean().name}
           onChange={(e) =>
             observer.update("name", e.target.value)
+          }
+        />
+        <DatePicker
+          label={t("Ngày Sinh")}
+          field="birthDate" observer={observer}
+          onChange={parseDate2Solar} 
+          defaultValue={
+            observer.getBean().birthDate 
+              ? new Date(observer.getBean().birthDate!) : undefined
           }
         />
         <div className="flex-h">
@@ -231,16 +257,12 @@ function UIHouseOwnerForm({ observer }: {
           />
           <Input 
             style={{ width: "100%" }} size="small"
-            label={<Label text="Tuổi"/>} 
-            value={observer.getBean().age}
-            onChange={(e) =>
-              observer.update("age", e.target.value)
-            }
+            label={<Label text="Tuổi"/>} name="age"
           />
         </div>
         <Input.TextArea
           size="medium"
-          label={<Label text="Nhà"/>} 
+          label={<Label text="Địa chỉ"/>} 
           value={observer.getBean().address}
           onChange={(e) =>
             observer.update("address", e.target.value)

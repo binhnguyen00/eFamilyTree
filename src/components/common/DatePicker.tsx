@@ -10,26 +10,35 @@ interface DatePickerProps {
   field: string;
   label: string;
   observer: BeanObserver<any>;
+  maxDate?: Date;
   defaultValue?: Date;
+  value?: Date;
+  onChange?: (value: Date) => void;
 }
 export function DatePicker(props: DatePickerProps) {
-  const { field, observer, label, defaultValue } = props; 
-  const [ value, setValue ] = React.useState(defaultValue);
+  const { field, observer, label, defaultValue, onChange, maxDate } = props; 
+  const [ value, setValue ] = React.useState(observer.getFieldValue(field) || defaultValue);
 
-  const onChange = (value: Date) => {
-    setValue(value);
-    observer.update(field, DateTimeUtils.formatToDate(value));
-  }
+  const onSelectDate = onChange 
+    ? (value: Date) => {
+      setValue(value);
+      onChange(value);
+    } 
+    : (value: Date) => {
+      setValue(value);
+      observer.update(field, DateTimeUtils.formatToDate(value));
+    }
 
   return (
     <div className="flex-v flex-grow-0">
       <span className="text-primary"> {t(label)} </span>
       <ReactDatePicker
+        className={"bg-white text-base"}
         format="dd/MM/yyyy"
         value={value}
-        maxDate={new Date()}
+        maxDate={maxDate ? maxDate : new Date()}
         name={field}
-        onChange={onChange}
+        onChange={onSelectDate}
         locale="vi-VN"
       />
     </div>

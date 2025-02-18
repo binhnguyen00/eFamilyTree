@@ -63,9 +63,6 @@ interface UIFamilyTreeContainerProps {
 }
 export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) { 
   const { processor, onReload } = props;
-
-  console.log(processor);
-
   const { userInfo } = useAppContext();
 
   const [ reload, setReload ] = React.useState(false);
