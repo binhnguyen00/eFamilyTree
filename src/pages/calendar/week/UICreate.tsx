@@ -59,11 +59,11 @@ export function UICreate(props: UICreateProps) {
   }, [ selectedDate ])
 
   const onFromDateChange = (date: Date, calendarDate: any) => {
-    observer.update("fromDate", DateTimeUtils.formatDefault(date));
+    observer.update("fromDate", DateTimeUtils.formatToDate(date));
   }
 
   const onToDateChange = (date: Date, calendarDate: any) => {
-    observer.update("toDate", DateTimeUtils.formatDefault(date));
+    observer.update("toDate", DateTimeUtils.formatToDate(date));
   }
 
   const onCreate = () => {
