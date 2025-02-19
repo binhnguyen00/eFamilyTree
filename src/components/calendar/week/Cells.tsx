@@ -5,6 +5,9 @@ import {
 } from "date-fns";
 import { DateTimeUtils } from "utils";
 
+// =============================
+// CELLS
+// =============================
 interface CellsProps {
   daysWithEvents?: any[];
   currentDay: Date;
@@ -14,39 +17,27 @@ interface CellsProps {
 
 export function Cells(props: CellsProps) {
   const { currentDay, selectedDate, onSelectCell, daysWithEvents } = props;
-  // const startDate: Date = startOfWeek(currentDay, { weekStartsOn: 1 });
-  // const endDate: Date = lastDayOfWeek(currentDay, { weekStartsOn: 1 });
+
+  console.log(daysWithEvents);
 
   const startDate = React.useMemo(() => 
     startOfWeek(currentDay, { weekStartsOn: 1 }), 
     [currentDay]
   );
-  
+
   const endDate = React.useMemo(() => 
     lastDayOfWeek(currentDay, { weekStartsOn: 1 }), 
     [currentDay]
   );
 
   let rows: React.ReactNode[]  = [];
-  let days: React.ReactNode[] = [];
+  let cells: React.ReactNode[] = [];
   let day = startDate;
 
   const onClickCell = (day: Date) => {
-    day = DateTimeUtils.setToMidnight(day);
-    const dayFomart = DateTimeUtils.formatDefault(day);
+    const newDay = DateTimeUtils.setToMidnight(day);
+    const dayFomart = DateTimeUtils.formatDefault(newDay);
     onSelectCell(day, dayFomart);
-  }
-
-  const calCellClassName = (day: Date) => {
-    if (isSameDay(day, new Date())) 
-      return "today";
-    else if (isSameDay(day, selectedDate)) 
-      return "selected";
-    else return "";
-  }
-
-  const isDayHaveEvent = (day: Date) => {
-    return daysWithEvents?.some(eventDay => isSameDay(eventDay, day)) 
   }
 
   let dayNumber = "";
@@ -54,36 +45,30 @@ export function Cells(props: CellsProps) {
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
       dayNumber = format(day, dateFormat);
-      const cloneDay: Date = day;
+      const cloneDay = day;
+      const hasEvent = daysWithEvents?.some(eventDay => isSameDay(eventDay, cloneDay)) || false;
+      const isToday = isSameDay(cloneDay, new Date());
+      const isSelected = isSameDay(cloneDay, selectedDate);
 
-      const calendarDate = DateTimeUtils.toCalendarDate(cloneDay);
-      const solar = new SolarDate(calendarDate);
-      const lunar = solar.toLunarDate();
-      days.push(
-        <div
-          key={day.toISOString()} 
-          className={`col text-center flex-v ${calCellClassName(day)}`}
-          onClick={() => onClickCell(cloneDay)}
-        >
-          {/* render dot */}
-          {isDayHaveEvent(cloneDay) && (
-            <div className="callendar-dot"/>
-          )}
-          {/* render date */}
-          <span className="number"> {dayNumber} </span>
-          {/* render lunar day */}
-          <small> {lunar.get().day} </small>
-        </div>
+      cells.push(
+        <Cell
+          key={cloneDay.toISOString()}
+          day={cloneDay}
+          hasEvent={hasEvent}
+          isToday={isToday}
+          isSelected={isSelected}
+          onClick={onClickCell}
+        />
       );
       day = addDays(day, 1);
     }
 
     rows.push(
       <div className="row" key={day.toISOString()}>
-        {days}
+        {cells}
       </div>
     );
-    days = [];
+    cells = [];
   }
 
   return (
@@ -92,3 +77,31 @@ export function Cells(props: CellsProps) {
     </div>
   );
 }
+
+// =============================
+// SINGLE CELL
+// =============================
+interface CellProps {
+  day: Date;
+  hasEvent: boolean;
+  isToday: boolean;
+  isSelected: boolean;
+  onClick: (day: Date) => void;
+}
+
+const Cell: React.FC<CellProps> = React.memo(
+  ({ day, hasEvent, isToday, isSelected, onClick }) => {
+    const dayNumber = format(day, "d");
+    const solar = new SolarDate(DateTimeUtils.toCalendarDate(day));
+    const lunar = solar.toLunarDate();
+    const className = `${isToday ? "today" : isSelected ? "selected" : ""}`;
+
+    return (
+      <div className={`col text-center flex-v ${className}`} onClick={() => onClick(day)}>
+        {hasEvent && <div className="callendar-dot" />}
+        <span className="number"> {dayNumber} </span>
+        <small> {lunar.get().day} </small>
+      </div>
+    );
+  }
+);

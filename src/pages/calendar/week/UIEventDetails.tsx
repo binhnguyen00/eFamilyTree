@@ -10,9 +10,10 @@ import { ServerResponse } from "types/server";
 import { useBeanObserver, useNotification } from "hooks";
 import { ClanEvent } from "./UICreate";
 
-export function UIEventDetails({ event, onClose }: { 
+export function UIEventDetails({ event, onClose, onReloadParent }: { 
   event: any;
   onClose: () => void;
+  onReloadParent?: () => void;
 }) {
   const { userInfo } = useAppContext();
   const { loadingToast } = useNotification();
@@ -66,10 +67,12 @@ export function UIEventDetails({ event, onClose }: {
             } else {
               onFail(t("Xoá Thất Bại"))
             }
+            if (onReloadParent) onReloadParent();
             onClose();
           },
           failCB: () => {
             onFail(t("Xoá Thất Bại"))
+            if (onReloadParent) onReloadParent();
             onClose()
           }
         })

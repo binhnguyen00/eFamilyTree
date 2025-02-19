@@ -5,7 +5,7 @@ import { Button, Sheet } from "zmp-ui";
 import { CalendarApi } from "api";
 import { useAppContext } from "hooks";
 import { CalendarUtils, DateTimeUtils, StyleUtils } from "utils";
-import { CommonIcon, ScrollableDiv, WeekCalendar } from "components";
+import { CommonIcon, Divider, ScrollableDiv, WeekCalendar } from "components";
 
 import { ServerResponse } from "types/server";
 import { UIEventList } from "./UIEventList";
@@ -73,11 +73,12 @@ export function UIWeekCalendar() {
 
   const onReload = () => {
     setNavigateDay(DateTimeUtils.toDate(selectedDate));
+    getEventsByDay(selectedDate);
   };
 
-  const scrollDivHeight = StyleUtils.calComponentRemainingHeight(157 + 44 + 20);
   return (
     <div className="flex-v">
+      
       <WeekCalendar 
         onSelectDay={onSelectDay}
         onCurrentDay={onCurrentDay}
@@ -99,15 +100,24 @@ export function UIWeekCalendar() {
         />
       </Sheet>
 
-      <ScrollableDiv className="rounded-top bg-white" direction="vertical" height={scrollDivHeight}>
-        <div className="scroll-h p-2" style={{ position: "absolute", bottom: 15, right: 0 }}>
+      <ScrollableDiv 
+        className="rounded-top bg-white" 
+        direction="vertical" 
+        height={StyleUtils.calComponentRemainingHeight(157 + 44 + 20)}
+      >
+        <div style={{ position: "absolute", bottom: 15, right: 10 }}>
           <Button size="small" prefixIcon={<CommonIcon.Plus/>} onClick={() => setCreate(true)}>
             {t("create")}
           </Button>
         </div>
-        <UIEventList events={events}/>
-        <br/> <br/>
+        <UIEventList 
+          events={events}
+          onReloadParent={onReload}
+        />
+        <Divider size={0}/>
+        <Divider size={0}/>
       </ScrollableDiv>
+
     </div>
   )
 }
