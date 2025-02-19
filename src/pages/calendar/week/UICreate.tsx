@@ -20,6 +20,7 @@ interface UICreateProps {
 }
 
 export interface ClanEvent {
+  id: number;
   name: string;
   note: string;
   fromDate: string;

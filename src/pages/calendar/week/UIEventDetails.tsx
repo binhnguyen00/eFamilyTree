@@ -29,13 +29,16 @@ export function UIEventDetails(props: UIEventDetailsProps) {
   const [ deleteWarning, setDeleteWarning ] = React.useState(false);
 
   const observer = useBeanObserver({
+    id:       event["id"],
     name:     event["name"] || "",
     picId:    event["pic_id"] || 0,
     picName:  event["pic"] || "", 
     place:    event["place"] || "",
     note:     event["note"] || "",
-    fromDate: event["from_date"] || "",
-    toDate:   event["to_date"] || ""
+    fromDate: event["from_date"] ? DateTimeUtils.toDisplayDate(event["from_date"]) : "",
+    fromTime: event["from_date"] ? DateTimeUtils.toDisplayTimeSecond(event["from_date"]) : "",
+    toDate:   event["to_date"] ? DateTimeUtils.toDisplayDate(event["to_date"]) : "",
+    toTime:   event["to_date"] ? DateTimeUtils.toDisplayTimeSecond(event["to_date"]) : "",
   } as ClanEvent)
 
   const onSave = () => {
@@ -104,11 +107,13 @@ export function UIEventDetails(props: UIEventDetailsProps) {
   }
 
   const onFromDateChange = (date: Date, calendarDate: any) => {
-    observer.update("fromDate", DateTimeUtils.formatDefault(date));
+    const value = DateTimeUtils.formatDefault(date);
+    observer.update("fromDate", DateTimeUtils.toDisplayDate(value));
   }
 
   const onToDateChange = (date: Date, calendarDate: any) => {
-    observer.update("toDate", DateTimeUtils.formatDefault(date));
+    const value = DateTimeUtils.formatDefault(date);
+    observer.update("toDate", DateTimeUtils.toDisplayDate(value));
   }
 
   return (
@@ -147,7 +152,7 @@ export function UIEventDetails(props: UIEventDetailsProps) {
               const time = `${e.target.value}:00`
               observer.update("fromTime", time);
             }}
-            defaultValue={DateTimeUtils.toDisplayTime(observer.getBean().fromDate)}
+            defaultValue={observer.getBean().fromTime}
           />
         </div>
       </Grid>
@@ -166,7 +171,7 @@ export function UIEventDetails(props: UIEventDetailsProps) {
               const time = `${e.target.value}:00`
               observer.update("toTime", time);
             }}
-            defaultValue={DateTimeUtils.toDisplayTime(observer.getBean().toDate)}
+            defaultValue={observer.getBean().toTime}
           />
         </div>
       </Grid>

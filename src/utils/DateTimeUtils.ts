@@ -36,12 +36,21 @@ export class DateTimeUtils {
     return clone.substring(0, 10);
   }
 
-  public static toDisplayTime(dateStr: string) {
+  public static toDisplayTimeHour(dateStr: string) {
     if (!dateStr) return dateStr;
     let clone = dateStr;
     clone = clone
       .replace("@", " ")
       .substring(11, 16) // Remove seconds
+    return clone;
+  }
+
+  public static toDisplayTimeSecond(dateStr: string) {
+    if (!dateStr) return dateStr;
+    let clone = dateStr;
+    clone = clone
+      .replace("@", " ")
+      .substring(11, 20)
     return clone;
   }
 

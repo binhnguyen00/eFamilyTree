@@ -17,31 +17,35 @@ export function UIEventList(props: UIEventListProps) {
   const { activeMembers, events, onReloadParent } = props;
   const [ selectedEvent, setSelectedEvent ] = React.useState<any | null>(null);
 
-  const line = events.map((event, idx) => (
-    <div 
-      key={event.id || idx}
-      className="flex-h justify-between border-bottom align-center"
-      onClick={() => setSelectedEvent(event)}
-    >
-      <Text size="large" className="bold button">
-        {event["name"]}
-      </Text>
-      <div className="flex-v align-end">
-        <small className="bold"> 
-          {DateTimeUtils.toDisplayTime(event["from_date"])} 
-        </small>
-        <small> 
-          {DateTimeUtils.toDisplayTime(event["to_date"])} 
-        </small>
+  const eventLines = React.useMemo(() => {
+    const lines = events.map((event, idx) => (
+      <div 
+        key={event.id || idx}
+        className="flex-h justify-between border-bottom align-center"
+        onClick={() => setSelectedEvent(event)}
+      >
+        <Text size="large" className="bold button">
+          {event["name"]}
+        </Text>
+        <div className="flex-v align-end">
+          <small className="bold"> 
+            {DateTimeUtils.toDisplayTimeHour(event["from_date"])} 
+          </small>
+          <small> 
+            {DateTimeUtils.toDisplayTimeHour(event["to_date"])} 
+          </small>
+        </div>
       </div>
-    </div>
-  )) as React.ReactNode[];
+    )) as React.ReactNode[];
+
+    return lines;
+  }, [ events ]);
 
   return (
     <>
       <Stack space="0.5rem" className="p-2">
-        {line.length ? (
-          <> {line} </>
+        {eventLines.length ? (
+          <> {eventLines} </>
         ): (
           <span className="center"> {t("no_calendar_events")} </span>
         )}
@@ -64,3 +68,11 @@ export function UIEventList(props: UIEventListProps) {
   )
 }
 
+// {
+//   id: 48,
+//   name: "Test Event",
+//   pic_id: 2,
+//   pic: "Binh Nguyen",
+//   from_date: "18/02/2025@17:23:00",
+//   to_date: "19/02/2025@17:23:00",
+// }

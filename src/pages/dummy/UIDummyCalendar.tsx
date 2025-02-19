@@ -68,8 +68,8 @@ function UIWeekCalendarContainer() {
             {event.name}
           </Text>
           <div className="flex-v align-end">
-            <small className="bold"> {DateTimeUtils.toDisplayTime(event["from_date"])} </small>
-            <small> {DateTimeUtils.toDisplayTime(event["to_date"])} </small>
+            <small className="bold"> {DateTimeUtils.toDisplayTimeHour(event["from_date"])} </small>
+            <small> {DateTimeUtils.toDisplayTimeHour(event["to_date"])} </small>
           </div>
         </div>
       )
@@ -108,11 +108,11 @@ function UIWeekCalendarContainer() {
         <div>
           <p> {`
             ${t("from")} 
-            ${DateTimeUtils.toDisplayTime(event?.["from_date"])}, 
+            ${DateTimeUtils.toDisplayTimeHour(event?.["from_date"])}, 
             ${DateTimeUtils.toDisplayDate(event?.["from_date"])}`} </p>
           <p> {`
             ${t("to")} 
-            ${DateTimeUtils.toDisplayTime(event?.["to_date"])}, 
+            ${DateTimeUtils.toDisplayTimeHour(event?.["to_date"])}, 
             ${DateTimeUtils.toDisplayDate(event?.["to_date"])}
           `} </p>
 

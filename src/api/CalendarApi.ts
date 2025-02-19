@@ -80,6 +80,7 @@ export class CalendarApi extends BaseApi {
       user_id: userId,
       clan_id: clanId,
       event: {
+        id: event.id,
         from_date: `${event.fromDate}@${event.fromTime}`,
         to_date: `${event.toDate}@${event.toTime}`,
         member_id: event.picId,

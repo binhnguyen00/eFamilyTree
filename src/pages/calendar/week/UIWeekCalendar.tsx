@@ -25,8 +25,10 @@ function useWeekEvents(userId: number, clanId: number, navigateDay: Date) {
         const events: any[] = result.data;
         const days: Date[] = CalendarUtils.getDaysInWeekWithEvent(events, DateTimeUtils.setToMidnight(navigateDay));
         setDaysWithEvent(days);
+        setEvents(events);
       } else {
         setDaysWithEvent([]);
+        setEvents([])
       }
     };
 
@@ -85,6 +87,7 @@ export function UIWeekCalendar() {
   const onSelectDay = (selectedDay: string) => {
     setSelectedDate(selectedDay)
     getEventsByDay(selectedDay);
+    // setNavigateDay(DateTimeUtils.toDate(selectedDay));
   }
 
   const onCurrentDay = (day: string) => {
