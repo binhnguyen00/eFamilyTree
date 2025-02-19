@@ -117,6 +117,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
           const data = result.data as any;
           setNode({
             id: data.id,
+            code: data.code,
             name: data.name,
             phone: data.phone,
             birthday: data.birthday,

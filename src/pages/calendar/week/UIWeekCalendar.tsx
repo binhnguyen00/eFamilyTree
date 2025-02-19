@@ -87,7 +87,6 @@ export function UIWeekCalendar() {
   const onSelectDay = (selectedDay: string) => {
     setSelectedDate(selectedDay)
     getEventsByDay(selectedDay);
-    // setNavigateDay(DateTimeUtils.toDate(selectedDay));
   }
 
   const onCurrentDay = (day: string) => {
