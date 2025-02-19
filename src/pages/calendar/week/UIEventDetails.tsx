@@ -25,7 +25,7 @@ export function UIEventDetails(props: UIEventDetailsProps) {
   if (event === null) return;
 
   const { userInfo } = useAppContext();
-  const { loadingToast } = useNotification();
+  const { successToast, dangerToast, loadingToast } = useNotification();
   const [ deleteWarning, setDeleteWarning ] = React.useState(false);
 
   const observer = useBeanObserver({
@@ -39,7 +39,35 @@ export function UIEventDetails(props: UIEventDetailsProps) {
   } as ClanEvent)
 
   const onSave = () => {
+    const invalidData = (
+      !observer.getBean().fromDate || 
+      !observer.getBean().toDate || 
+      !observer.getBean().name
+    )
+    if (invalidData) {
+      dangerToast(t("Hãy nhập đủ dữ liệu"));
+      return;
+    } 
 
+    CalendarApi.saveEvent({
+      userId: userInfo.id,
+      clanId: userInfo.clanId,
+      event: observer.getBean(),
+      success: (result: ServerResponse) => {
+        if (result.status === "success") {
+          successToast(t("Lưu Thành Công"))
+        } else {
+          dangerToast(t("Lưu Thất Bại"))
+        }
+        if (onReloadParent) onReloadParent();
+        onClose();
+      },
+      fail: () => {
+        dangerToast(t("Lưu Thất Bại"))
+        if (onReloadParent) onReloadParent();
+        onClose()
+      }
+    })
   }
 
   const onDelete = () => {
@@ -87,7 +115,7 @@ export function UIEventDetails(props: UIEventDetailsProps) {
     <div className="flex-v flex-grow-0 p-3 scroll-v">
 
       <Input
-        name="name" label={<Label text={t("Tên Sự Kiện")}/>}
+        name="name" label={<Label text={`${t("Tên Sự Kiện")} *`}/>}
         value={observer.getBean().name} onChange={observer.watch}
       />
       <Input.TextArea
