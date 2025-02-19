@@ -14,8 +14,18 @@ interface CellsProps {
 
 export function Cells(props: CellsProps) {
   const { currentDay, selectedDate, onSelectCell, daysWithEvents } = props;
-  const startDate: Date = startOfWeek(currentDay, { weekStartsOn: 1 });
-  const endDate: Date = lastDayOfWeek(currentDay, { weekStartsOn: 1 });
+  // const startDate: Date = startOfWeek(currentDay, { weekStartsOn: 1 });
+  // const endDate: Date = lastDayOfWeek(currentDay, { weekStartsOn: 1 });
+
+  const startDate = React.useMemo(() => 
+    startOfWeek(currentDay, { weekStartsOn: 1 }), 
+    [currentDay]
+  );
+  
+  const endDate = React.useMemo(() => 
+    lastDayOfWeek(currentDay, { weekStartsOn: 1 }), 
+    [currentDay]
+  );
 
   let rows: React.ReactNode[]  = [];
   let days: React.ReactNode[] = [];
@@ -51,7 +61,7 @@ export function Cells(props: CellsProps) {
       const lunar = solar.toLunarDate();
       days.push(
         <div
-          key={day.toISOString()}
+          key={day.toISOString()} 
           className={`col text-center flex-v ${calCellClassName(day)}`}
           onClick={() => onClickCell(cloneDay)}
         >
