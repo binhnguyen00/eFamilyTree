@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, DatePicker, Grid, Input } from "zmp-ui";
+import { Button, DatePicker, Grid, Input, Text } from "zmp-ui";
 
 import { DateTimeUtils } from "utils";
 import { CalendarApi } from "api";
@@ -146,6 +146,8 @@ export function UICreate(props: UICreateProps) {
         value={observer.getBean().note} 
         onChange={(e) => observer.update("note", e.target.value)}
       />
+
+      <Text.Title> {t("Hành Động")} </Text.Title>
       <div>
         <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onCreate}>
           {t("save")}

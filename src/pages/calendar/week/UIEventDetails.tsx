@@ -1,7 +1,7 @@
 import React from "react";
 
 import { t } from "i18next";
-import { Button, DatePicker, Grid, Input, Modal } from "zmp-ui";
+import { Button, DatePicker, Grid, Input, Modal, Text } from "zmp-ui";
 
 import { CommonIcon, Label, Selection, useAppContext } from "components";
 import { DateTimeUtils } from "utils";
@@ -148,6 +148,16 @@ export function UIEventDetails(props: UIEventDetailsProps) {
         onChange={(e) => observer.update("note", e.target.value)}
       />
 
+      <Text.Title> {t("Hành Động")} </Text.Title>
+      <div className="flex-h">
+        <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onSave}>
+          {t("save")}
+        </Button>
+        <Button size="small" prefixIcon={<CommonIcon.Trash/>} onClick={() => setDeleteWarning(true)}>
+          {t("delete")}
+        </Button>
+      </div>
+
       <Modal
         visible={deleteWarning}
         mask={false} maskClosable={false}
@@ -165,15 +175,6 @@ export function UIEventDetails(props: UIEventDetailsProps) {
           },
         ]}
       />
-
-      <div className="scroll-h">
-        <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onSave}>
-          {t("save")}
-        </Button>
-        <Button size="small" prefixIcon={<CommonIcon.Trash/>} onClick={() => setDeleteWarning(true)}>
-          {t("delete")}
-        </Button>
-      </div>
 
     </div>
   )

@@ -129,9 +129,9 @@ export function UIWeekCalendar() {
       <ScrollableDiv 
         className="rounded-top bg-white" 
         direction="vertical" 
-        height={StyleUtils.calComponentRemainingHeight(157 + 44 + 20)}
+        height={StyleUtils.calComponentRemainingHeight(157 + 44)}
       >
-        <div style={{ position: "absolute", bottom: 15, right: 10 }}>
+        <div style={{ position: "absolute", bottom: 40, right: 10 }}>
           <Button size="small" prefixIcon={<CommonIcon.AddEvent/>} onClick={() => setCreate(true)}>
             {t("add")}
           </Button>
@@ -141,8 +141,7 @@ export function UIWeekCalendar() {
           events={events}
           onReloadParent={onReload}
         />
-        <Divider size={0}/>
-        <Divider size={0}/>
+        <br/> <br/> <br/>
       </ScrollableDiv>
 
     </div>

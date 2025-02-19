@@ -18,8 +18,6 @@ interface CellsProps {
 export function Cells(props: CellsProps) {
   const { currentDay, selectedDate, onSelectCell, daysWithEvents } = props;
 
-  console.log(daysWithEvents);
-
   const startDate = React.useMemo(() => 
     startOfWeek(currentDay, { weekStartsOn: 1 }), 
     [currentDay]

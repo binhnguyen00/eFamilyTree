@@ -28,10 +28,10 @@ export function UIEventList(props: UIEventListProps) {
       </Text>
       <div className="flex-v align-end">
         <small className="bold"> 
-          {t("Từ")} {DateTimeUtils.toDisplayTime(event["from_date"])} 
+          {DateTimeUtils.toDisplayTime(event["from_date"])} 
         </small>
         <small> 
-          {t("Đến")} {DateTimeUtils.toDisplayTime(event["to_date"])} 
+          {DateTimeUtils.toDisplayTime(event["to_date"])} 
         </small>
       </div>
     </div>
