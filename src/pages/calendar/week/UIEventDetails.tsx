@@ -1,44 +1,35 @@
 import React from "react";
+
 import { t } from "i18next";
 import { Button, DatePicker, Grid, Input } from "zmp-ui";
 
+import { CommonIcon, Label, Selection, useAppContext } from "components";
 import { DateTimeUtils } from "utils";
 import { CalendarApi, FamilyTreeApi } from "api";
-import { CommonIcon, Label, Selection } from "components";
-import { useAppContext, useBeanObserver, useNotification } from "hooks";
-
 import { ServerResponse } from "types/server";
+import { useBeanObserver, useNotification } from "hooks";
+import { ClanEvent } from "./UICreate";
 
-interface UICreateProps {
-  selectedDate: string;
+export function UIEventDetails({ event, onClose }: { 
+  event: any;
   onClose: () => void;
-  onReloadParent?: () => void;
-}
-
-export interface ClanEvent {
-  name: string;
-  note: string;
-  fromDate: string;
-  fromTime?: string;
-  toDate: string;
-  toTime?: string;
-  place: string;
-  picId?: number;
-  picName?: string;
-}
-
-export function UICreate(props: UICreateProps) {
-  const { selectedDate, onClose, onReloadParent } = props;
+}) {
   const { userInfo } = useAppContext();
-  const { dangerToast, successToast } = useNotification();
-  const observer = useBeanObserver({
-    fromTime: "08:00:00",
-    toTime: "09:00:00"
-  } as ClanEvent);
-  
-  const [ ids, setIds ] = React.useState<any[]>([]);
-  const [ current, setCurrent ] = React.useState<Date>();
+  const { loadingToast } = useNotification();
 
+  if (!event) return;
+
+  const observer = useBeanObserver({
+    name:     event["name"] || "",
+    picId:    event["pic_id"] || "",
+    place:    event["place"] || "",
+    note:     event["note"] || "",
+    fromDate: event["from_date"] || "",
+    toDate:   event["to_date"] || ""
+  } as ClanEvent)
+
+  const [ activeMembers, setActiveMembers ] = React.useState<{ value: number, label: string }[]>([]);
+  // Get active member ids
   React.useEffect(() => {
     FamilyTreeApi.getActiveMemberIds({
       userId: userInfo.id,
@@ -46,17 +37,45 @@ export function UICreate(props: UICreateProps) {
       success: (result: ServerResponse) => {
         if (result.status === "success") {
           const data: any[] = result.data;
-          setIds(data);
+          const members = data.map((member, idx) => {
+            return { value: member.id, label: member.name }
+          })
+          setActiveMembers(members);
         }
       }
     })
   }, [])
 
-  React.useEffect(() => {
-    if (selectedDate !== "") setCurrent(DateTimeUtils.toDate(selectedDate));
-    observer.update("fromDate", `${DateTimeUtils.toDisplayDate(selectedDate)}`)
-    observer.update("toDate", `${DateTimeUtils.toDisplayDate(selectedDate)}`)
-  }, [ selectedDate ])
+  const onDelete = () => {
+    const loadingContent = (
+      <div>
+        <p> {t("preparing_data")} </p>
+        <p> {t("please_wait")} </p>
+      </div>
+    )
+    loadingToast(
+      loadingContent,
+      (onSuccess, onFail) => {
+        CalendarApi.deleteEvent({
+          userId: userInfo.id,
+          clanId: userInfo.clanId,
+          id: event["id"],
+          successCB: (result: ServerResponse) => {
+            if (result.status === "success") {
+              onSuccess(t("Xoá Thành Công"))
+            } else {
+              onFail(t("Xoá Thất Bại"))
+            }
+            onClose();
+          },
+          failCB: () => {
+            onFail(t("Xoá Thất Bại"))
+            onClose()
+          }
+        })
+      }
+    )
+  }
 
   const onFromDateChange = (date: Date, calendarDate: any) => {
     observer.update("fromDate", DateTimeUtils.formatDefault(date));
@@ -64,35 +83,6 @@ export function UICreate(props: UICreateProps) {
 
   const onToDateChange = (date: Date, calendarDate: any) => {
     observer.update("toDate", DateTimeUtils.formatDefault(date));
-  }
-
-  const onCreate = () => {
-    const invalidData = !observer.getBean().fromDate || !observer.getBean().toDate
-    if (invalidData) {
-      dangerToast(t("Hãy nhập đủ dữ liệu"));
-      return;
-    }
-
-    CalendarApi.createEvent({
-      userId: userInfo.id,
-      clanId: userInfo.clanId,
-      event: observer.getBean(),
-      successCB: (result: ServerResponse) => {
-        if (onReloadParent) onReloadParent()
-        if (result.status === "success") {
-          successToast(t("Tạo Thành Công"));
-          onClose();
-        } else {
-          dangerToast(t("Tạo Thất Bại"));
-          onClose();
-        }
-      },
-      failCB: () => {
-        if (onReloadParent) onReloadParent()
-        dangerToast(t("Tạo Thất Bại"));
-        onClose();
-      }
-    })
   }
 
   return (
@@ -108,14 +98,15 @@ export function UICreate(props: UICreateProps) {
       />
       <Selection
         label={t("Người Phụ Trách")} field={"picId"} 
-        options={ids} observer={observer} isSearchable 
+        options={activeMembers} observer={observer} isSearchable 
         defaultValue={{ value: userInfo.id, label: userInfo.name }}
       />
       <Grid columnCount={2} columnSpace="0.5rem">
         <DatePicker
           mask maskClosable 
           label={`${t("Từ Ngày")} *`} title={t("Từ Ngày")}
-          onChange={onFromDateChange} value={current}
+          onChange={onFromDateChange} 
+          value={DateTimeUtils.toDate(DateTimeUtils.toDisplayDate(observer.getBean().fromDate))}
         />
         <div className="flex-v">
           <label> {t("Thời Gian")} </label>
@@ -125,7 +116,7 @@ export function UICreate(props: UICreateProps) {
               const time = `${e.target.value}:00`
               observer.update("fromTime", time);
             }}
-            defaultValue={"08:00:00"}
+            defaultValue={DateTimeUtils.toDisplayTime(observer.getBean().fromDate)}
           />
         </div>
       </Grid>
@@ -133,7 +124,8 @@ export function UICreate(props: UICreateProps) {
         <DatePicker
           mask maskClosable
           label={`${t("Đến Ngày")} *`} title={t("Đến Ngày")}
-          onChange={onToDateChange} value={current}
+          onChange={onToDateChange} 
+          value={DateTimeUtils.toDate(DateTimeUtils.toDisplayDate(observer.getBean().toDate))}
         />
         <div className="flex-v">
           <label> {t("Thời Gian")} </label>
@@ -143,7 +135,7 @@ export function UICreate(props: UICreateProps) {
               const time = `${e.target.value}:00`
               observer.update("toTime", time);
             }}
-            defaultValue={"09:00:00"}
+            defaultValue={DateTimeUtils.toDisplayTime(observer.getBean().toDate)}
           />
         </div>
       </Grid>
@@ -153,8 +145,8 @@ export function UICreate(props: UICreateProps) {
         onChange={(e) => observer.update("note", e.target.value)}
       />
       <div>
-        <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onCreate}>
-          {t("save")}
+        <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onDelete}>
+          {t("delete")}
         </Button>
       </div>
     </div>

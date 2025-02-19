@@ -1,4 +1,4 @@
-import { CreateEvent } from "pages/calendar/week/UICreate";
+import { ClanEvent } from "pages/calendar/week/UICreate";
 import { BaseApi } from "./BaseApi";
 import { SuccessCB, FailCB } from "types/server"
 
@@ -42,7 +42,7 @@ export class CalendarApi extends BaseApi {
   }
 
   public static createEvent({ userId, clanId, event, successCB, failCB }: {
-    userId: number, clanId: number, event: CreateEvent, successCB: SuccessCB, failCB?: FailCB
+    userId: number, clanId: number, event: ClanEvent, successCB: SuccessCB, failCB?: FailCB
   }) {
     const header = this.initHeader();
     const body = this.initBody({

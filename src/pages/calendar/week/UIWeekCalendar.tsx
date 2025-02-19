@@ -8,7 +8,7 @@ import { CalendarUtils, DateTimeUtils, StyleUtils } from "utils";
 import { CommonIcon, ScrollableDiv, WeekCalendar } from "components";
 
 import { ServerResponse } from "types/server";
-import { UIEvents } from "./UIEvents";
+import { UIEventList } from "./UIEventList";
 import { UICreate } from "./UICreate";
 
 function useWeekEvents(userId: number, clanId: number, navigateDay: Date) {
@@ -100,12 +100,12 @@ export function UIWeekCalendar() {
       </Sheet>
 
       <ScrollableDiv className="rounded-top bg-white" direction="vertical" height={scrollDivHeight}>
-        <div className="scroll-h p-2" style={{ position: "absolute", bottom: 5, right: 0 }}>
+        <div className="scroll-h p-2" style={{ position: "absolute", bottom: 15, right: 0 }}>
           <Button size="small" prefixIcon={<CommonIcon.Plus/>} onClick={() => setCreate(true)}>
             {t("create")}
           </Button>
         </div>
-        <UIEvents events={events}/>
+        <UIEventList events={events}/>
         <br/> <br/>
       </ScrollableDiv>
     </div>
