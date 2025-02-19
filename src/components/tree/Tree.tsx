@@ -78,6 +78,10 @@ export default React.memo<TreeProps>(function Tree(props) {
                   displayField={searchDisplayField}
                   nodes={nodes}
                   onSelect={zoomToElement}
+                  style={{
+                    position: "absolute",
+                    zIndex: 8888
+                  }}
                 />
                 <TreeController
                   zoomElement={zoomElement}

@@ -22,6 +22,8 @@ interface SelectionProps {
   isMulti?: boolean;
   isDisabled?: boolean;
   onChange?: (value: SelectionOption | SelectionOption[] | null, action: ActionMeta<SelectionOption>) => void;
+  style?: React.CSSProperties;
+  className?: string;
 }
 
 export function Selection(props: SelectionProps) {
@@ -38,6 +40,8 @@ export function Selection(props: SelectionProps) {
     isDisabled,
     onChange,
     value,
+    style,
+    className,
   } = props;
 
   const handleChange = (
@@ -65,8 +69,8 @@ export function Selection(props: SelectionProps) {
   };
 
   return (
-    <div className="flex-v flex-grow-0">
-      <p>{t(label)}</p>
+    <div className={`flex-v flex-grow-0 ${className && className}`.trim()} style={style}>
+      {label && <p>{t(label)}</p>}
       <Select
         isMulti={isMulti}
         options={options}
@@ -78,6 +82,9 @@ export function Selection(props: SelectionProps) {
         styles={colourStyles}
         onChange={handleChange}
         isDisabled={isDisabled}
+        noOptionsMessage={() => {
+          return t("không tìm thấy");
+        }}
       />
     </div>
   );
