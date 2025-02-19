@@ -41,8 +41,8 @@ export class CalendarApi extends BaseApi {
     return this.server.POST("calendar/clan/events-by-date", header, body, successCB, failCB);
   }
 
-  public static createEvent({ userId, clanId, event, successCB, failCB }: {
-    userId: number, clanId: number, event: ClanEvent, successCB: SuccessCB, failCB?: FailCB
+  public static createEvent({ userId, clanId, event, success, fail }: {
+    userId: number, clanId: number, event: ClanEvent, success: SuccessCB, fail?: FailCB
   }) {
     const header = this.initHeader();
     const body = this.initBody({
@@ -57,11 +57,11 @@ export class CalendarApi extends BaseApi {
         name: event.name,
       }
     })
-    return this.server.POST("calendar/clan/event/create", header, body, successCB, failCB);
+    return this.server.POST("calendar/clan/event/create", header, body, success, fail);
   }
   
-  public static deleteEvent({ userId, clanId, id, successCB, failCB }: {
-    userId: number, clanId: number, id: number, successCB: SuccessCB, failCB?: FailCB
+  public static deleteEvent({ userId, clanId, id, success, fail }: {
+    userId: number, clanId: number, id: number, success: SuccessCB, fail?: FailCB
   }) {
     const header = this.initHeader();
     const body = this.initBody({
@@ -69,6 +69,25 @@ export class CalendarApi extends BaseApi {
       clan_id: clanId,
       id: id
     })
-    return this.server.POST("calendar/clan/event/delete", header, body, successCB, failCB);
+    return this.server.POST("calendar/clan/event/delete", header, body, success, fail);
+  }
+
+  public static saveEvent({ userId, clanId, event, success, fail }: {
+    userId: number, clanId: number, event: ClanEvent, success: SuccessCB, fail?: FailCB
+  }) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      user_id: userId,
+      clan_id: clanId,
+      event: {
+        from_date: `${event.fromDate}@${event.fromTime}`,
+        to_date: `${event.toDate}@${event.toTime}`,
+        member_id: event.picId,
+        place: event.place,
+        note: event.note,
+        name: event.name,
+      }
+    })
+    return this.server.POST("calendar/clan/event/save", header, body, success, fail);
   }
 }

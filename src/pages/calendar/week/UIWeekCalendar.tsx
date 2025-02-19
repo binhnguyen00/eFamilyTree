@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Sheet } from "zmp-ui";
 
-import { CalendarApi } from "api";
+import { CalendarApi, FamilyTreeApi } from "api";
 import { useAppContext } from "hooks";
 import { CalendarUtils, DateTimeUtils, StyleUtils } from "utils";
 import { CommonIcon, Divider, ScrollableDiv, WeekCalendar } from "components";
@@ -39,12 +39,37 @@ function useWeekEvents(userId: number, clanId: number, navigateDay: Date) {
   };
 }
 
+function useGetActiveMembers(userId: number, clanId: number) {
+  const [ activeMembers, setActiveMembers ] = React.useState<{ value: number, label: string }[]>([]);
+
+  React.useEffect(() => {
+    FamilyTreeApi.getActiveMemberIds({
+      userId: userId,
+      clanId: clanId,
+      success: (result: ServerResponse) => {
+        if (result.status === "success") {
+          const data: any[] = result.data;
+          const members = data.map((member, idx) => {
+            return { value: member.id, label: member.name }
+          })
+          setActiveMembers(members);
+        }
+      }
+    })
+  }, [ userId, clanId ])
+
+  const memoizedActiveMembers = React.useMemo(() => activeMembers, [activeMembers]);
+
+  return { activeMembers: memoizedActiveMembers };
+}
+
 export function UIWeekCalendar() {
   const { userInfo } = useAppContext();
   const [ navigateDay, setNavigateDay ] = React.useState<Date>(new Date());
   const [ create, setCreate ] = React.useState<boolean>(false);
   const [ selectedDate, setSelectedDate ] = React.useState<string>("");
 
+  const { activeMembers } = useGetActiveMembers(userInfo.id, userInfo.clanId);
   const { events, setEvents, daysWithEvent } = useWeekEvents(userInfo.id, userInfo.clanId, navigateDay);
 
   const getEventsByDay = (day: string) => {
@@ -78,7 +103,7 @@ export function UIWeekCalendar() {
 
   return (
     <div className="flex-v">
-      
+
       <WeekCalendar 
         onSelectDay={onSelectDay}
         onCurrentDay={onCurrentDay}
@@ -94,6 +119,7 @@ export function UIWeekCalendar() {
         onClose={() => setCreate(false)}
       > 
         <UICreate
+          activeMembers={activeMembers}
           selectedDate={selectedDate}
           onClose={() => setCreate(false)}
           onReloadParent={onReload}
@@ -106,11 +132,12 @@ export function UIWeekCalendar() {
         height={StyleUtils.calComponentRemainingHeight(157 + 44 + 20)}
       >
         <div style={{ position: "absolute", bottom: 15, right: 10 }}>
-          <Button size="small" prefixIcon={<CommonIcon.Plus/>} onClick={() => setCreate(true)}>
-            {t("create")}
+          <Button size="small" prefixIcon={<CommonIcon.AddEvent/>} onClick={() => setCreate(true)}>
+            {t("add")}
           </Button>
         </div>
         <UIEventList 
+          activeMembers={activeMembers}
           events={events}
           onReloadParent={onReload}
         />

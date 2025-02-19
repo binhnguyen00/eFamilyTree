@@ -6,12 +6,16 @@ import { DateTimeUtils, StyleUtils } from "utils";
 import { UIEventDetails } from "./UIEventDetails";
 
 interface UIEventListProps {
+  activeMembers: {
+    value: number;
+    label: string;
+  }[];
   events: any[];
   onReloadParent?: () => void;
 }
 export function UIEventList(props: UIEventListProps) { 
-  const { events, onReloadParent } = props;
-  const [ selectedEvent, setSelectedEvent ] = React.useState<any>();
+  const { activeMembers, events, onReloadParent } = props;
+  const [ selectedEvent, setSelectedEvent ] = React.useState<any | null>(null);
 
   const line = events.map((event, idx) => (
     <div 
@@ -50,6 +54,7 @@ export function UIEventList(props: UIEventListProps) {
         title={t("event_details")}
       >
         <UIEventDetails
+          activeMembers={activeMembers}
           event={selectedEvent}
           onClose={() => setSelectedEvent(null)}
           onReloadParent={onReloadParent}
@@ -58,3 +63,4 @@ export function UIEventList(props: UIEventListProps) {
     </>
   )
 }
+

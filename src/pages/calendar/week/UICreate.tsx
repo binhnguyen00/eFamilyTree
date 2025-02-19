@@ -3,13 +3,17 @@ import { t } from "i18next";
 import { Button, DatePicker, Grid, Input } from "zmp-ui";
 
 import { DateTimeUtils } from "utils";
-import { CalendarApi, FamilyTreeApi } from "api";
+import { CalendarApi } from "api";
 import { CommonIcon, Label, Selection } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 
 import { ServerResponse } from "types/server";
 
 interface UICreateProps {
+  activeMembers: {
+    value: number;
+    label: string;
+  }[];
   selectedDate: string;
   onClose: () => void;
   onReloadParent?: () => void;
@@ -28,7 +32,7 @@ export interface ClanEvent {
 }
 
 export function UICreate(props: UICreateProps) {
-  const { selectedDate, onClose, onReloadParent } = props;
+  const { activeMembers, selectedDate, onClose, onReloadParent } = props;
   const { userInfo } = useAppContext();
   const { dangerToast, successToast } = useNotification();
   const observer = useBeanObserver({
@@ -36,21 +40,7 @@ export function UICreate(props: UICreateProps) {
     toTime: "09:00:00"
   } as ClanEvent);
   
-  const [ ids, setIds ] = React.useState<any[]>([]);
   const [ current, setCurrent ] = React.useState<Date>();
-
-  React.useEffect(() => {
-    FamilyTreeApi.getActiveMemberIds({
-      userId: userInfo.id,
-      clanId: userInfo.clanId,
-      success: (result: ServerResponse) => {
-        if (result.status === "success") {
-          const data: any[] = result.data;
-          setIds(data);
-        }
-      }
-    })
-  }, [])
 
   React.useEffect(() => {
     if (selectedDate !== "") setCurrent(DateTimeUtils.toDate(selectedDate));
@@ -67,7 +57,11 @@ export function UICreate(props: UICreateProps) {
   }
 
   const onCreate = () => {
-    const invalidData = !observer.getBean().fromDate || !observer.getBean().toDate
+    const invalidData = (
+      !observer.getBean().fromDate || 
+      !observer.getBean().toDate || 
+      !observer.getBean().name
+    )
     if (invalidData) {
       dangerToast(t("Hãy nhập đủ dữ liệu"));
       return;
@@ -77,7 +71,7 @@ export function UICreate(props: UICreateProps) {
       userId: userInfo.id,
       clanId: userInfo.clanId,
       event: observer.getBean(),
-      successCB: (result: ServerResponse) => {
+      success: (result: ServerResponse) => {
         if (onReloadParent) onReloadParent()
         if (result.status === "success") {
           successToast(t("Tạo Thành Công"));
@@ -87,7 +81,7 @@ export function UICreate(props: UICreateProps) {
           onClose();
         }
       },
-      failCB: () => {
+      fail: () => {
         if (onReloadParent) onReloadParent()
         dangerToast(t("Tạo Thất Bại"));
         onClose();
@@ -98,7 +92,7 @@ export function UICreate(props: UICreateProps) {
   return (
     <div className="flex-v flex-grow-0 p-3 scroll-v">
       <Input
-        name="name" label={<Label text={t("Tên Sự Kiện")}/>}
+        name="name" label={<Label text={`${t("Tên Sự Kiện")} *`}/>}
         value={observer.getBean().name} onChange={observer.watch}
       />
       <Input.TextArea
@@ -108,7 +102,7 @@ export function UICreate(props: UICreateProps) {
       />
       <Selection
         label={t("Người Phụ Trách")} field={"picId"} 
-        options={ids} observer={observer} isSearchable 
+        options={activeMembers} observer={observer} isSearchable
         defaultValue={{ value: userInfo.id, label: userInfo.name }}
       />
       <Grid columnCount={2} columnSpace="0.5rem">
