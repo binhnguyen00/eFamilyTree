@@ -21,24 +21,18 @@ export function UIGallery() {
 }
 
 function UIGalleryContainer() {
-  let [ totalImages, setTotalImages ] = React.useState<number>(0);
-
-  const getImagesQuantity = (quantity: number) => {
-    setTotalImages(quantity);
-  }
-
   return (
     <Tabs defaultActiveKey="albums">
 
-      <Tabs.Tab key={"albums"} label={<p className="text-capitalize"> {`${t("album")}`} </p>}>
+      <Tabs.Tab key={"albums"} label={<p className="text-capitalize"> {t("album")} </p>}>
         <ScrollableDiv className="bg-white" direction="vertical" height={StyleUtils.calComponentRemainingHeight(44)}>
           <UIGalleryAlbums/>
         </ScrollableDiv>
       </Tabs.Tab>
       
-      <Tabs.Tab key={"images"} label={<p className="text-capitalize"> {`${totalImages} ${t("image_list")}`} </p>}>
+      <Tabs.Tab key={"images"} label={<p className="text-capitalize"> {t("image_list")} </p>}>
         <ScrollableDiv className="bg-white" direction="vertical" height={StyleUtils.calComponentRemainingHeight(44)}>
-          <UIGalleryImages getQuantity={getImagesQuantity}/>
+          <UIGalleryImages/>
         </ScrollableDiv>
       </Tabs.Tab>
 

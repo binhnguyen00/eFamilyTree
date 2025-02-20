@@ -36,13 +36,6 @@ const albums = [
   }
 ]
 
-const images = [
-  "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
-  "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
-  "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
-  "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
-]
-
 export function UIGalleryAlbums() {
   const { serverBaseUrl } = useAppContext();
   const { albums, error, loading, refresh } = useGalleryAlbums();
@@ -69,9 +62,9 @@ export function UIGalleryAlbums() {
   }, [albums]);
 
   if (loading) return <Loading/>
-  if (error) return (
+  if (!albums.length) return (
     <div>
-      <Info className="text-base" title={t("Không có album")}/>
+      <Info className="text-base py-3" title={t("Không có album")}/>
       {/* Create Album */}
       <Sheet
         title={t("Tạo Album")}

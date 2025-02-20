@@ -9,7 +9,7 @@ interface InfoProps {
 export function Info(props: InfoProps) {
   const { title, message, className } = props;
   return (
-    <div className={`container center ${className && className}`.trim()}>
+    <div className={`center flex-v ${className && className}`.trim()}>
       <Text.Title> {title} </Text.Title>
       {message && (
         <Text> {message} </Text>

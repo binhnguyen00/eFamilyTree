@@ -15,6 +15,13 @@ import { ServerResponse } from "types/server";
 import { GalleryImage } from "./UIGalleryImages";
 import { AlbumForm } from "./UICreateAlbum";
 
+const images = [
+  "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+  "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+  "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+  "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+]
+
 interface UIGalleryAlbumDetailProps {
   album: AlbumForm | null;
   onClose: () => void;
@@ -31,14 +38,17 @@ export function UIGalleryAlbumDetail({ album, onClose, onReloadParent }: UIGalle
 
   const [ index, setIndex ] = React.useState(-1);
   const [ deleteWarning, setDeleteWarning ] = React.useState(false);
+  const [ remapImages, setRemapImages ] = React.useState<GalleryImage[]>([]);
 
-  const remapImages: GalleryImage[] = React.useMemo(() => {
-    return images.map((imgPath: string) => ({
+  React.useEffect(() => {
+    const mappedImages = images.map((imgPath: string) => ({
       src: `${serverBaseUrl}/${imgPath}`,
       width: 120,
       height: 120,
       imageFit: "contain",
-    }));
+      isSelected: false,
+    } as GalleryImage));
+    setRemapImages(mappedImages);
   }, [ images ]);
 
   const onAddImageToAlbum = async (base64s: string[]) => {
@@ -145,8 +155,45 @@ export function UIGalleryAlbumDetail({ album, onClose, onReloadParent }: UIGalle
     })
   }
 
+  const onRemoveImages = () => {
+    const selectedImagePaths = remapImages
+      .filter(image => image.isSelected)
+      .map((image) => image.src.replace(`${serverBaseUrl}/`, ""))
+
+    if (selectedImagePaths.length === 0) {
+      dangerToast(t("chọn ít nhất 1 ảnh"));
+      return;
+    }
+
+    GalleryApi.removeImagesFromAlbum({
+      userId: userInfo.id,
+      clanId: userInfo.clanId,
+      albumId: observer.getBean().id,
+      imagePaths: selectedImagePaths,
+      success: (result: ServerResponse) => {
+        if (result.status === "success") {
+          successToast(`${t("xoá thành công")} ${selectedImagePaths.length} ảnh`);
+          refresh();
+        } else {
+          dangerToast(t("xoá không thành công"));
+        }
+      },
+      fail: () => {
+        dangerToast(t("xoá không thành công"));
+      }
+    })
+
+    refresh();
+  }
+
+  const handleImageSelect = (index: number, image: GalleryImage) => {
+    const updatedImages = remapImages.map((img, idx) => 
+      idx === index ? { ...img, isSelected: !img.isSelected } : img
+    );
+    setRemapImages(updatedImages);
+  };
+
   if (loading) return (<Loading/>) 
-  if (error) return (<p> {t("Không có ảnh")} </p>)
   else return (
     <div className="flex-v flex-grow-0 scroll-v p-3">
       {/* 
@@ -168,7 +215,7 @@ export function UIGalleryAlbumDetail({ album, onClose, onReloadParent }: UIGalle
         <Gallery
           images={remapImages}
           onClick={(index) => setIndex(index)}
-          enableImageSelection={false}
+          onSelect={handleImageSelect}
           rowHeight={120}
         />
         <Lightbox
@@ -191,6 +238,9 @@ export function UIGalleryAlbumDetail({ album, onClose, onReloadParent }: UIGalle
       <div className="flex-h">
         <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onChooseImage}>
           {t("Thêm ảnh")}
+        </Button>
+        <Button size="small" prefixIcon={<CommonIcon.RemovePhoto/>} onClick={onRemoveImages}>
+          {t("Xoá ảnh")}
         </Button>
         <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onSave}>
           {t("save")}

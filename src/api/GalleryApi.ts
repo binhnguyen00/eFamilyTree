@@ -13,14 +13,9 @@ export class GalleryApi extends BaseApi {
     this.server.POST("gallery/albums", header, body, successCB, failCB);
   } 
 
-  public static getImages(
-    userId: number, 
-    clanId: number, 
-    fromDate: string, 
-    toDate: string, 
-    successCB: SuccessCB, 
-    failCB?: FailCB
-  ) {
+  public static getImages({ userId, clanId, fromDate, toDate, success, fail }: {
+    userId: number, clanId: number, fromDate: string, toDate: string, success: SuccessCB, fail?: FailCB
+  }) {
     const header = this.initHeader();
     const body = this.initBody({
       user_id: userId,
@@ -28,7 +23,7 @@ export class GalleryApi extends BaseApi {
       from_date: fromDate,
       to_date: toDate
     })
-    this.server.POST("gallery/images", header, body, successCB, failCB);
+    this.server.POST("gallery/images", header, body, success, fail);
   }
 
   public static getImagesByAlbum(userId: number, clanId: number, albumId: number, successCB: SuccessCB, failCB?: FailCB) {
@@ -99,5 +94,18 @@ export class GalleryApi extends BaseApi {
       base64s: base64s
     })
     this.server.POST("gallery/album/images/add", header, body, success, fail);
+  }
+
+  public static removeImagesFromAlbum({ userId, clanId, albumId, imagePaths, success, fail }: {
+    userId: number, clanId: number, albumId: number, imagePaths: string[], success: SuccessCB, fail?: FailCB
+  }) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      user_id: userId,
+      clan_id: clanId,
+      album_id: albumId,
+      images: imagePaths
+    })
+    this.server.POST("gallery/album/images/remove", header, body, success, fail);
   }
 }
