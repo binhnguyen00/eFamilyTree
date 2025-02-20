@@ -6,9 +6,10 @@ import { SizedBox } from "./SizedBox";
 interface LoadingProps {
   message?: string
   size?: "small" | "normal" | "large"
+  className?: string;
 }
 export function Loading(props: LoadingProps) {
-  let { message, size } = props;
+  let { message, size, className } = props;
 
   if (!message || !message.length) message = t("loading");
 
@@ -19,7 +20,7 @@ export function Loading(props: LoadingProps) {
   if (size === "large") width = 150; 
 
   return (
-    <div className="container center">
+    <div className={`container center ${className && className}`.trim()}>
       <SizedBox width={width} height={width}>
         <div className="flex-v center">
           <Spinner visible/>

@@ -16,7 +16,7 @@ export function Card(props: CardProps) {
 
   return (
     <div 
-      className={`flex-v text-center border-secondary box-shadow rounded p-3 ${className ? className : ""}`} 
+      className={`flex-v text-center ${className ? className : ""}`.trim()} 
       onClick={onClick} 
       style={{
         width: width, 

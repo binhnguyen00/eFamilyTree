@@ -1,0 +1,127 @@
+import React from "react";
+import { t } from "i18next";
+import { Button, Input, Text } from "zmp-ui";
+
+import { useAppContext, useBeanObserver, useNotification } from "hooks";
+import { CommonUtils, ZmpSDK } from "utils";
+import { CommonIcon } from "components";
+import { GalleryApi } from "api";
+import { ServerResponse } from "types/server";
+
+export interface AlbumForm {
+  id: number;
+  name: string;
+  description: string;
+  eventId?: number;
+  thumbnailPath: string;
+  thumbnailBase64: string;
+}
+interface UICreateAlbumProps {
+  onClose: () => void;
+  onReloadParent?: () => void;
+}
+export function UICreateAlbum(props: UICreateAlbumProps) {
+  const { onClose, onReloadParent} = props; 
+  const { dangerToast, successToast } = useNotification();
+  const { userInfo } = useAppContext();
+  
+  const observer = useBeanObserver({
+    name: "",
+    description: "",
+    eventId: 0,
+    thumbnailPath: "",
+    thumbnailBase64: ""
+  } as AlbumForm);
+
+  React.useEffect(() => {
+    // Clean Observer on render
+    observer.updateBean({name: "",description: "",eventId: 0,thumbnailPath: "",thumbnailBase64: ""} as AlbumForm);
+  }, []) 
+
+  const blobUrlsToBase64 = async (imagePaths: string[]) => {
+    const base64Promises = imagePaths.map((blobUrl) => {
+      return new Promise<string>((resolve) => {
+        CommonUtils.blobUrlToBase64(blobUrl, (base64: string) => {
+          resolve(base64);
+        });
+      });
+    });
+    const base64Array = await Promise.all(base64Promises);
+    return base64Array;
+  };
+
+  const onChooseAvatar = () => {
+    const success = async (files: any[]) => {
+      if (files.length && files.length > 1) {
+        dangerToast(t("Chọn tối đa 1 ảnh"));
+        return;
+      }
+      const blobs: string[] = [ ...files.map(file => file.path) ];
+      const base64s = await blobUrlsToBase64(blobs);
+      observer.update("thumbnailPath", blobs[0]);
+      observer.update("thumbnailBase64", base64s[0]);
+    }
+    const fail = () => {
+      dangerToast(t("Chọn tối đa 1 ảnh"));
+      observer.update("thumbnailPath", "")
+    }
+    ZmpSDK.chooseImage(1, success, fail);
+  }
+
+  const onCreate = () => {
+    if (!observer.getFieldValue("name")) {
+      dangerToast(t("nhập đủ thông tin"));
+      return;
+    }
+
+    GalleryApi.createAlbum({
+      userId: userInfo.id,
+      clanId: userInfo.clanId,
+      album: observer.getBean(),
+      success: (result: ServerResponse) => {
+        if (result.status === "success") {
+          if (onReloadParent) onReloadParent();
+          onClose();
+          successToast(t("Tạo thành công"));
+        } else {
+          dangerToast(t("Tạo thất bại"));
+        }
+      },
+      fail: () => {
+        dangerToast(t("Tạo thất bại"));
+      }
+    })  
+  }
+
+  return (
+    <div className="flex-v flex-grow-0 scroll-v p-3">
+      <div className="center flex-v flex-grow-0">
+        <img
+          className="rounded"
+          style={{ width: "85vw", height: "12rem" }}
+          src={observer.getBean().thumbnailPath}
+          onError={(e) => e.currentTarget.src = "https://fakeimg.pl/600x400?text=Avatar"}
+        />
+        <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onChooseAvatar}>
+          {observer.getFieldValue("thumbnailPath") ? t("Ảnh Khác") : t("Thêm")}
+        </Button>
+      </div>
+
+      <Input
+        name="name" label={`${t("Tiêu đề")} *`} focused
+        value={observer.getBean().name} onChange={observer.watch}
+      />
+      <Input.TextArea
+        name="description" label={t("Mô tả")}
+        value={observer.getBean().description} 
+        onChange={(e) => observer.update("description", e.target.value)}
+      />
+      <Text.Title> {t("Hành Động")} </Text.Title>
+      <div>
+        <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onCreate}>
+          {t("Lưu")}
+        </Button>
+      </div>
+    </div>
+  )
+}

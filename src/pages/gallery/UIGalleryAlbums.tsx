@@ -1,142 +1,165 @@
 import React from "react";
 import { t } from "i18next";
-import { Grid } from "zmp-ui";
-import { Gallery } from "react-grid-gallery";
+import { Button, Grid, Sheet } from "zmp-ui";
 
 import { GalleryApi } from "api";
-import { StyleUtils } from "utils";
 import { useAppContext } from "hooks";
-import { Card, Loading, SlidingPanel, SlidingPanelOrient } from "components";
+import { Card, CommonIcon, Info, Loading } from "components";
 
 import { ServerResponse } from "types/server";
 
-import { GalleryImage } from "./UIGalleryImages";
+import { AlbumForm, UICreateAlbum } from "./UICreateAlbum";
+import { UIGalleryAlbumDetail } from "./UIGalleryAlbumDetails";
 
-import Lightbox from "yet-another-react-lightbox";
-import { Zoom } from "yet-another-react-lightbox/plugins";
+const albums = [
+  {
+    "id": 10,
+    "name": "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
+    "thumbnail": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+    "album_type": "clan",
+    "date": "10/12/2024@03:00:00",
+    "address": "Nhà thờ họ",
+    "event_id": 1,
+    "description": "giỗ tổ 2023",
+    "total_images": 11
+  },
+  {
+    "id": 11,
+    "name": "lorem ipsum",
+    "thumbnail": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+    "album_type": "clan",
+    "date": "10/12/2024@03:00:00",
+    "address": "Nhà thờ họ",
+    "event_id": 1,
+    "description": "giỗ tổ 2023",
+    "total_images": 11
+  }
+]
+
+const images = [
+  "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+  "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+  "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+  "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+]
 
 export function UIGalleryAlbums() {
-  const { albums } = useGalleryAlbums();
-  const { userInfo, serverBaseUrl } = useAppContext();
+  const { serverBaseUrl } = useAppContext();
+  const { albums, error, loading, refresh } = useGalleryAlbums();
 
-  const [show, setShow] = React.useState(false);
-  const [albumId, setAlbumId] = React.useState<number | null>(null); // Store albumId only
+  const [ create, setCreate ] = React.useState<boolean>(false);
+  const [ select, setSelect ] = React.useState<AlbumForm | null>(null);
 
-  const selectAlbum = (album: any) => {
-    setShow(true);
-    setAlbumId(album.id);
-  };
+  const albumCards = React.useMemo(() => {
+    return albums.map((album, index) => (
+      <Card
+        key={`album-${index}`}
+        onClick={() => setSelect({
+          id: album.id,
+          name: album.name,
+          thumbnailPath: album.thumbnail,
+          description: album.description,
+          eventId: album.event_id,
+        } as AlbumForm)}
+        title={album.name}  
+        src={`${serverBaseUrl}/${album.thumbnail}`}
+        className="button box-shadow rounded p-2" height={"auto"}
+      />
+    ))
+  }, [albums]);
 
-  const closePanel = () => {
-    setShow(false);
-    setAlbumId(null);
-  };
-
-  if (!albums || !albums.length) return <></>;
-
-  return (
-    <>
-      <Grid className="p-2" columnCount={2} rowSpace="0.5rem" columnSpace="0.5rem">
-        {albums.map((album, index) => (
-          <Card
-            key={`album-${index}`}
-            onClick={() => selectAlbum(album)}
-            src={`${serverBaseUrl}/${album.thumbnail}`}
-            height={"auto"}
-            title={album.name}
-            className="button bg-secondary text-primary"
-          />
-        ))}
-      </Grid>
-      <SlidingPanel
-        orient={SlidingPanelOrient.BottomToTop}
-        visible={show}
-        close={closePanel}
-        height={StyleUtils.calComponentRemainingHeight(0)}
-        header={
-          <p style={{ fontSize: "1.2rem" }}>
-            {albums.find((a) => a.id === albumId)?.name || t("album")}
-          </p>
-        }
+  if (loading) return <Loading/>
+  if (error) return (
+    <div>
+      <Info className="text-base" title={t("Không có album")}/>
+      {/* Create Album */}
+      <Sheet
+        title={t("Tạo Album")}
+        visible={create} onClose={() => setCreate(false)}
+        height={"80vh"}
       >
-        {albumId ? (
-          <UIGalleryImagesByAlbum albumId={albumId} userInfo={userInfo} serverBaseUrl={serverBaseUrl}/>
-        ) : (
-          <Loading />
-        )}
-      </SlidingPanel>
-    </>
+        <UICreateAlbum 
+          onClose={() => setSelect(null)}
+          onReloadParent={() => refresh()}
+        />
+      </Sheet>
+      <div style={{ position: "absolute", bottom: 20, right: 10 }}>
+        <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={() => setCreate(true)}>
+          {t("add")}
+        </Button>
+      </div>
+    </div>
+  )
+  else return (
+    <div>
+      <Grid className="p-2" columnCount={2} rowSpace="0.5rem" columnSpace="0.5rem">
+        {albumCards}
+      </Grid>
+
+      <div style={{ position: "absolute", bottom: 20, right: 10 }}>
+        <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={() => setCreate(true)}>
+          {t("add")}
+        </Button>
+      </div>
+
+      {/* Create Album */}
+      <Sheet
+        title={t("Tạo Album")}
+        visible={create} onClose={() => setCreate(false)}
+        height={"80vh"}
+      >
+        <UICreateAlbum 
+          onClose={() => setSelect(null)}
+          onReloadParent={() => refresh()}
+        />
+      </Sheet>
+
+      {/* Album Detail */}
+      <Sheet
+        title={t("Chi Tiết Album")}
+        visible={select ? true : false}  onClose={() => setSelect(null)}
+        height={"85vh"}
+      >
+        <UIGalleryAlbumDetail 
+          album={select} 
+          onClose={() => setSelect(null)}
+          onReloadParent={() => refresh()}
+        />
+      </Sheet>
+    </div>
   );
 }
 function useGalleryAlbums() {
   const { userInfo } = useAppContext();
-  const [albums, setAlbums] = React.useState<any[]>([]);
-  const [reload, setReload] = React.useState(false);
+
+  const [ albums, setAlbums ] = React.useState<any[]>([]);
+  const [ loading, setLoading ] = React.useState(true);
+  const [ error, setError ] = React.useState(false);
+  const [ reload, setReload ] = React.useState(false);
 
   const refresh = () => setReload(!reload);
 
   React.useEffect(() => {
+    setLoading(true);
+    setError(false);
+    setAlbums([])
+
     const success = (result: ServerResponse) => {
+      setLoading(false);
       if (result.status === "success") {
+        setError(false);
         setAlbums(result.data);
+      } else {
+        setError(true);
+        setAlbums([]);
       }
     };
-    GalleryApi.getAlbums(userInfo.id, userInfo.clanId, success);
+    const fail = () => {
+      setLoading(false);
+      setError(true);
+    }
+    GalleryApi.getAlbums(userInfo.id, userInfo.clanId, success, fail);
   }, [reload]);
 
-  return { albums, refresh };
-}
-
-
-// ========================
-// IMAGE BY ALBUM ID
-// ========================
-interface UIGalleryImagesProps {
-  albumId: number;
-  userInfo: any;
-  serverBaseUrl: string
-}
-
-function UIGalleryImagesByAlbum({ albumId, userInfo, serverBaseUrl }: UIGalleryImagesProps) {
-  const [ images, setImages ] = React.useState<GalleryImage[]>([]);
-  const [ index, setIndex ] = React.useState(-1);
-
-  const remapImgs = (images: string[] | any) => 
-    images.map((imgPath: string) => ({
-      src: `${serverBaseUrl}/${imgPath}`,
-      width: 320,
-      height: 240,
-      imageFit: "cover",
-  }));
-
-  React.useEffect(() => {
-    const success = (result: ServerResponse) => {
-      if (result.status === "success") {
-        const imgs: string[] = result.data;
-        setImages(remapImgs(imgs));
-      }
-    };
-    GalleryApi.getImagesByAlbum(userInfo.id, userInfo.clanId, albumId, success);
-  }, [ albumId ]);
-
-  return (
-    <div>
-      <Gallery 
-        images={images} 
-        onClick={(index) => setIndex(index)} 
-        enableImageSelection={false} 
-      />
-      <Lightbox
-        slides={images}
-        open={index >= 0}
-        index={index}
-        close={() => setIndex(-1)}
-        plugins={[Zoom]}
-        zoom={{
-          scrollToZoom: true,
-          maxZoomPixelRatio: 50,
-        }}
-      />
-    </div>
-  );
+  return { albums, loading, error, refresh };
 }

@@ -16,7 +16,8 @@ interface UIGalleryImagesProps {
 }
 export function UIGalleryImages({ getQuantity }: UIGalleryImagesProps) {
   const { images, refresh } = useGalleryImages();
-  const [index, setIndex] = React.useState(-1);
+
+  const [ index, setIndex ] = React.useState(-1);
 
   React.useEffect(() => {
     if (getQuantity) {

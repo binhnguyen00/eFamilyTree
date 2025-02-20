@@ -10,11 +10,13 @@ import { StyleUtils } from "utils";
 
 export function UIGallery() {
   return (
-    <div className="container-padding text-base">
+    <>
       <Header title={t("gallery")}/>
-
-      <UIGalleryContainer/>
-    </div>
+      
+      <div className="container-padding text-base">
+        <UIGalleryContainer/>
+      </div>
+    </>
   )
 }
 
@@ -26,17 +28,17 @@ function UIGalleryContainer() {
   }
 
   return (
-    <Tabs defaultActiveKey="images">
+    <Tabs defaultActiveKey="albums">
 
-      <Tabs.Tab key={"images"} label={<p className="text-capitalize"> {`${totalImages} ${t("image_list")}`} </p>}>
+      <Tabs.Tab key={"albums"} label={<p className="text-capitalize"> {`${t("album")}`} </p>}>
         <ScrollableDiv className="bg-white" direction="vertical" height={StyleUtils.calComponentRemainingHeight(44)}>
-          <UIGalleryImages getQuantity={getImagesQuantity}/>
+          <UIGalleryAlbums/>
         </ScrollableDiv>
       </Tabs.Tab>
       
-      <Tabs.Tab key={"albums"} label={<p className="text-capitalize"> {`${t("album")}`} </p>}>
-        <ScrollableDiv direction="vertical" height={StyleUtils.calComponentRemainingHeight(44)}>
-          <UIGalleryAlbums/>
+      <Tabs.Tab key={"images"} label={<p className="text-capitalize"> {`${totalImages} ${t("image_list")}`} </p>}>
+        <ScrollableDiv className="bg-white" direction="vertical" height={StyleUtils.calComponentRemainingHeight(44)}>
+          <UIGalleryImages getQuantity={getImagesQuantity}/>
         </ScrollableDiv>
       </Tabs.Tab>
 
