@@ -98,7 +98,7 @@ export function UICreateAlbum(props: UICreateAlbumProps) {
       <div className="center flex-v flex-grow-0">
         <img
           className="rounded"
-          style={{ width: "85vw", height: "12rem" }}
+          style={{ width: "85vw", height: "12rem", objectFit: "cover" }}
           src={observer.getBean().thumbnailPath}
           onError={(e) => e.currentTarget.src = "https://fakeimg.pl/600x400?text=Avatar"}
         />

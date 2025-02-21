@@ -34,7 +34,7 @@ export function UIGalleryAlbumDetail({ album, onClose, onReloadParent }: UIGalle
   const observer = useBeanObserver(album as AlbumForm);
   const { serverBaseUrl, userInfo } = useAppContext();
   const { successToast, dangerToast, loadingToast } = useNotification();
-  const { images, loading, error, refresh } = useGetAlbumImages(observer.getBean().id);
+  const { images,loading, error, refresh } = useGetAlbumImages(observer.getBean().id);
 
   const [ index, setIndex ] = React.useState(-1);
   const [ deleteWarning, setDeleteWarning ] = React.useState(false);
@@ -53,10 +53,10 @@ export function UIGalleryAlbumDetail({ album, onClose, onReloadParent }: UIGalle
 
   const onAddImageToAlbum = async (base64s: string[]) => {
     const content = (
-      <>
+      <div className="flex-v">
         <p> {t("đang chuẩn bị dữ liệu")} </p>
         <p> {t("vui lòng chờ")} </p>
-      </>
+      </div>
     )
     loadingToast(
       content,
@@ -156,34 +156,40 @@ export function UIGalleryAlbumDetail({ album, onClose, onReloadParent }: UIGalle
   }
 
   const onRemoveImages = () => {
-    const selectedImagePaths = remapImages
-      .filter(image => image.isSelected)
-      .map((image) => image.src.replace(`${serverBaseUrl}/`, ""))
+    const selectedImagePaths =  remapImages
+        .filter(image => image.isSelected)
+        .map((image) => image.src.replace(`${serverBaseUrl}/`, ""))
 
     if (selectedImagePaths.length === 0) {
       dangerToast(t("chọn ít nhất 1 ảnh"));
       return;
     }
 
-    GalleryApi.removeImagesFromAlbum({
-      userId: userInfo.id,
-      clanId: userInfo.clanId,
-      albumId: observer.getBean().id,
-      imagePaths: selectedImagePaths,
-      success: (result: ServerResponse) => {
-        if (result.status === "success") {
-          successToast(`${t("xoá thành công")} ${selectedImagePaths.length} ảnh`);
-          refresh();
-        } else {
-          dangerToast(t("xoá không thành công"));
-        }
-      },
-      fail: () => {
-        dangerToast(t("xoá không thành công"));
+    loadingToast(
+      <div className="flex-v">
+        <p> {t("đang xoá...")} </p>
+        <p> {t("vui lòng chờ")} </p>
+      </div>,
+      (successToastCB, dangerToastCB) => {
+        GalleryApi.removeImagesFromAlbum({
+          userId: userInfo.id,
+          clanId: userInfo.clanId,
+          albumId: observer.getBean().id,
+          imagePaths: selectedImagePaths,
+          success: (result: ServerResponse) => {
+            if (result.status === "success") {
+              successToastCB(`${t("xoá thành công")} ${selectedImagePaths.length} ảnh`);
+              refresh();
+            } else {
+              dangerToastCB(t("xoá không thành công"));
+            }
+          },
+          fail: () => {
+            dangerToastCB(t("xoá không thành công"));
+          }
+        })
       }
-    })
-
-    refresh();
+    )
   }
 
   const handleImageSelect = (index: number, image: GalleryImage) => {
@@ -234,18 +240,35 @@ export function UIGalleryAlbumDetail({ album, onClose, onReloadParent }: UIGalle
         label={t("Mô Tả")} value={observer.getBean().description} 
         onChange={(e) => observer.update("description", e.target.value)}
       />
+
       <Text.Title> {t("Hành Động")} </Text.Title>
+      <Text size="large"> {t("Ảnh")} </Text>
       <div className="flex-h">
-        <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onChooseImage}>
+        <Button 
+          size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onChooseImage}
+          style={{ minWidth: 120 }}
+        >
           {t("Thêm ảnh")}
         </Button>
-        <Button size="small" prefixIcon={<CommonIcon.RemovePhoto/>} onClick={onRemoveImages}>
+        <Button 
+          size="small" prefixIcon={<CommonIcon.RemovePhoto/>} onClick={onRemoveImages}
+          style={{ minWidth: 120 }}
+        >
           {t("Xoá ảnh")}
         </Button>
-        <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onSave}>
+      </div>
+      <Text size="large"> {t("Album")} </Text>
+      <div className="flex-h">
+        <Button 
+          size="small" prefixIcon={<CommonIcon.Save/>} onClick={onSave}
+          style={{ minWidth: 80 }}
+        >
           {t("save")}
         </Button>
-        <Button size="small" prefixIcon={<CommonIcon.Trash/>} onClick={() => setDeleteWarning(true)}>
+        <Button 
+          size="small" prefixIcon={<CommonIcon.Trash/>} onClick={() => setDeleteWarning(true)}
+          style={{ minWidth: 80 }}
+        >
           {t("delete")}
         </Button>
       </div>

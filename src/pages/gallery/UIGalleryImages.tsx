@@ -9,11 +9,10 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { GalleryApi } from "api";
 import { useAppContext } from "hooks";
 
+import { t } from "i18next";
 import { ServerResponse } from "types/server";
 import { CommonIcon, Info, Loading } from "components";
-import { t } from "i18next";
-import { Button, Sheet } from "zmp-ui";
-import { UICreateAlbum } from "./UICreateAlbum";
+import { Button } from "zmp-ui";
 
 interface UIGalleryImagesProps {
 }
@@ -49,17 +48,6 @@ export function UIGalleryImages(props: UIGalleryImagesProps) {
           </Button>
         </div>
       )}
-      {/* Create Album */}
-      <Sheet
-        title={t("Tạo Album")}
-        visible={create} onClose={() => setCreate(false)}
-        height={"80vh"}
-      >
-        <UICreateAlbum 
-          onClose={() => setCreate(false)}
-          onReloadParent={() => refresh()}
-        />
-      </Sheet>
     </div>
   )
   else return (

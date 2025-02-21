@@ -24,11 +24,12 @@ export function Loading(props: LoadingProps) {
       <SizedBox width={width} height={width}>
         <div className="flex-v center">
           <Spinner visible/>
-          <Text.Title 
+          <Text.Title
             style={{
               textTransform: "capitalize",
             }} 
             size="small"
+            className="text-base"
           > 
             {message} 
           </Text.Title>
