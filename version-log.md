@@ -1,8 +1,10 @@
 # Version 1.3.3
-### [Version Demo]()
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=38)
 ### Thay đổi
 1. Phả đồ
   - Thanh tìm kiếm thành viên mới. Nhanh hơn, mượt hơn.
+2. Album
+  - Giờ đã có thể CRUD dữ liệu
 
 # Version 1.3.2 (Thứ 3, 19/02/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=36)

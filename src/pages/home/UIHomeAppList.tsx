@@ -13,14 +13,14 @@ type App = {
 
 export function UIHomeAppList() {
   const apps: App[] = [
-    { key: "family-tree",       label: t("family_tree"),       requirePhone: false },
-    { key: "gallery",           label: t("gallery"),           requirePhone: false },
-    { key: "calendar",          label: t("calendar"),          requirePhone: false },
-    { key: "blogs",             label: t("blogs"),             requirePhone: false },
-    { key: "funds",             label: t("funds"),             requirePhone: false },
-    { key: "certificate",       label: t("certificates"),      requirePhone: false },
+    { key: "family-tree",       label: t("family_tree"),       requirePhone: true },
+    { key: "gallery",           label: t("gallery"),           requirePhone: true },
+    { key: "calendar",          label: t("calendar"),          requirePhone: true },
+    { key: "blogs",             label: t("blogs"),             requirePhone: true },
+    { key: "funds",             label: t("funds"),             requirePhone: true },
+    { key: "certificate",       label: t("certificates"),      requirePhone: true },
     { key: "ritual-script",     label: t("ritual_script"),     requirePhone: false },
-    { key: "memorial-location", label: t("memorial_location"), requirePhone: false },
+    { key: "memorial-location", label: t("memorial_location"), requirePhone: true },
   ];
 
   return (
