@@ -216,7 +216,10 @@ export function UIGalleryAlbumDetail({ album, onClose, onReloadParent }: UIGalle
           </Button>
         </div>
       */}
-      <Input label={t("Tiêu Đề")} value={observer.getBean().name} onChange={observer.watch}/>
+      <Input 
+        name="name" label={t("Tiêu Đề")} 
+        value={observer.getBean().name} onChange={observer.watch}
+      />
       <>
         <Gallery
           images={remapImages}
