@@ -38,7 +38,7 @@ const albums = [
 
 export function UIGalleryAlbums() {
   const { serverBaseUrl } = useAppContext();
-  const { error, loading, refresh } = useGalleryAlbums();
+  const { albums, error, loading, refresh } = useGalleryAlbums();
 
   const [ create, setCreate ] = React.useState<boolean>(false);
   const [ select, setSelect ] = React.useState<AlbumForm | null>(null);
