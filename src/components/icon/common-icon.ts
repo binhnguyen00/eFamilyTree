@@ -17,6 +17,7 @@ import { MdOutlinePreview } from "react-icons/md";
 import { FaFileDownload } from "react-icons/fa";
 import { LuCalendarPlus } from "react-icons/lu";
 import { TbPhotoMinus } from "react-icons/tb";
+import { FaRegCopy } from "react-icons/fa";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -59,5 +60,6 @@ export const CommonIcon = {
   People: BsFillPeopleFill,
   Preview: MdOutlinePreview,
   AddEvent: LuCalendarPlus,
-  RemovePhoto: TbPhotoMinus
+  RemovePhoto: TbPhotoMinus,
+  Copy: FaRegCopy,
 };
