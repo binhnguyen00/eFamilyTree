@@ -195,6 +195,9 @@ function TreeContainer(props: TreeContainerProps) {
           title={title}
           rootNode={root as ExtNode} 
         />
+
+        <br/><br/><br/><br/><br/>
+
         <NodeAndConnector 
           calculatedData={calculatedData}
           connectorHeight={connectorHeight}

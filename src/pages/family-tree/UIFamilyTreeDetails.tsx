@@ -204,21 +204,6 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
     });
   }
 
-  const onAvatarCalculation = () => {
-    const avatar = observer.getBean().avatar;
-    const name = observer.getBean().name;
-    if (avatar !== "") {
-      return `${serverBaseUrl}/${avatar}`;
-    } else {
-      const initials = name?.split(' ')
-        .filter(word => word.length > 0)
-        .map(word => word[0])
-        .join('')
-        .toUpperCase() || 'N/A';
-      return `https://avatar.iran.liara.run/username?username=${initials}`;
-    }
-  }
-
   return (
     <Sheet
       height={StyleUtils.calComponentRemainingHeight(-60)}
@@ -231,7 +216,14 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
             <img
               className="circle"
               style={{ width: "8rem", height: "8rem", objectFit: "cover" }}
-              src={onAvatarCalculation()}
+              src={`${serverBaseUrl}/${observer.getBean().avatar}`}
+              onError={(e) => {
+                if (observer.getBean().gender === "1") {
+                  e.currentTarget.src = "https://avatar.iran.liara.run/public/47";
+                } else {
+                  e.currentTarget.src = "https://avatar.iran.liara.run/public/98";
+                }
+              }}
             />
             {userInfo.id === observer.getBean().id && (
               <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onUpdateAvatar}>

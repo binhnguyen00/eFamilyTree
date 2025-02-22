@@ -15,8 +15,8 @@ class FamilyTreeConfig {
     this.nodeMaleColor = "#112D4E";
     this.nodeFemaleColor = "#7D0A0A";
     this.treeHeight = this.calculateTreeHeight();
-    this.headerWidth = 680;
-    this.headerHeight = 200;
+    this.headerWidth = 1000;
+    this.headerHeight = 300;
 
     console.log("Init tree config:\n", this);
   }

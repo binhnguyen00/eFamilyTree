@@ -23,7 +23,7 @@ export function TreeHeader({ rootNode, title }: { rootNode: ExtNode, title?: str
       className='text-center'
       style={{
         zIndex: 9999,
-        width: 680,
+        width: TreeConfig.headerWidth,
         height: TreeConfig.nodeHeight,
         transform: `translate(${shiftToCorrectPos}px, 20px)`
       }}

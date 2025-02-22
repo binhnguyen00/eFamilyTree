@@ -22,7 +22,7 @@ export function ImageWithText(props: ImageWithTextProps) {
     fontSize: '24px',
     fontWeight: 'bold',
     textShadow: '2px 2px 5px rgba(0, 0, 0, 0.7)',
-    maxWidth: '80%',
+    maxWidth: '90%',
     wordWrap: 'break-word',
     overflowWrap: 'break-word',
     textAlign: 'center',

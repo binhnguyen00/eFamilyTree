@@ -95,6 +95,11 @@ export function TreeController(props: TreeControllerProps) {
     if (root) onZoomToRoot(root);
   }
 
+  const findMe = () => {
+    const me = document.querySelector<HTMLDivElement>(`#node-${userInfo.id}`);
+    if (me) onZoomToRoot(me);
+  }
+
   const style = {
     color: "var(--primary-color)",
     zIndex: 9999,
@@ -110,29 +115,36 @@ export function TreeController(props: TreeControllerProps) {
       <SizedBox
         className='bg-white mb-1 p-1 button border-primary'
         width={"fit-content"} height={"fit-content"}
-        onClick={exportSVG}
-        children={<CommonIcon.CloudDownload size={22}/>}
+        onClick={findMe}
+        children={<CommonIcon.FilePerson size={23}/>}
       />
 
       <SizedBox 
         className='bg-white mb-1 p-1 button border-primary'
         width={"fit-content"} height={"fit-content"}
         onClick={findRoot}
-        children={<CommonIcon.Tree size={22}/>}
+        children={<CommonIcon.Tree size={23}/>}
       />
 
       <SizedBox 
         className='bg-white mb-1 p-1 button border-primary'
         width={"fit-content"} height={"fit-content"}
         onClick={() => onZoomIn()}
-        children={<CommonIcon.Plus size={22}/>}
+        children={<CommonIcon.Plus size={23}/>}
       />
 
       <SizedBox
         className='bg-white mb-1 p-1 button border-primary'
         width={"fit-content"} height={"fit-content"}
         onClick={() => onZoomOut()}
-        children={<CommonIcon.Minus size={22}/>}
+        children={<CommonIcon.Minus size={23}/>}
+      />
+
+      <SizedBox
+        className='bg-white mb-1 p-1 button border-primary'
+        width={"fit-content"} height={"fit-content"}
+        onClick={exportSVG}
+        children={<CommonIcon.CloudDownload size={23}/>}
       />
 
       {onReset && (
@@ -140,7 +152,7 @@ export function TreeController(props: TreeControllerProps) {
           className='bg-white p-1 button border-primary'
           width={"fit-content"} height={"fit-content"}
           onClick={() => onReset()}
-          children={<CommonIcon.Reset size={22}/>}
+          children={<CommonIcon.Reset size={23}/>}
         />
       )}
     </Box>
