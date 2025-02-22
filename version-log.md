@@ -1,3 +1,8 @@
+# Version 1.3.4 (Thứ 7, 22/02/2025)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=41)
+### Thay đổi
+- Sửa lỗi và cải thiện hiệu năng
+
 # Version 1.3.3
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=40)
 ### Thay đổi
