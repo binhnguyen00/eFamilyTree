@@ -194,7 +194,7 @@ function UISettings() {
         </Button>
       </div>
       <div className="scroll-h">
-        <UIThemeList/>
+        <UIThemeList className="text-primary"/>
       </div>
     </div>
   )

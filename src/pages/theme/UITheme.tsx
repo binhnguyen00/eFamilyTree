@@ -14,32 +14,45 @@ import themeRed from "assets/img/theme/theme-red.jpeg";
 import themeGreen from "assets/img/theme/theme-green.jpeg";
 import themeBlue from "assets/img/theme/theme-blue.jpeg";
 
-export function UITheme() {
-  return (
-    <div className="container">
-      <Header title={t("theme")}/>
-
-      <Grid columnSpace="1rem" rowSpace="1rem" columnCount={2}>
-        <UIThemeList/>
-      </Grid>
-    </div>
-  )
+interface UIThemeProps {
+  className?: string;
 }
 
-export function UIThemeList() {
+export function UITheme(props: UIThemeProps) {
+  const { className } = props;
   return (
     <>
-      <ThemeCard theme={Theme.DEFAULT} src={themeRed}/>
-      <ThemeCard theme={Theme.BLUE} src={themeBlue}/>
-      <ThemeCard theme={Theme.GREEN} src={themeGreen}/>
+      <Header title={t("theme")}/>
+
+      <div className={`container ${className}`.trim()}>
+        <Grid columnSpace="1rem" rowSpace="1rem" columnCount={2}>
+          <UIThemeList/>
+        </Grid>
+      </div>
     </>
   )
 }
 
-function ThemeCard({ theme, src }: { theme: Theme, src: string }) {
+export function UIThemeList(props: UIThemeProps) {
+  const { className } = props;
+  return (
+    <>
+      <ThemeCard theme={Theme.DEFAULT} src={themeRed} className={className}/>
+      <ThemeCard theme={Theme.BLUE} src={themeBlue} className={className}/>
+      <ThemeCard theme={Theme.GREEN} src={themeGreen} className={className}/>
+    </>
+  )
+}
+
+interface ThemeCardProps extends UIThemeProps {
+  theme: Theme;
+  src: string;
+}
+function ThemeCard(props: ThemeCardProps) {
+  const { theme, src, className } = props;
   const { userInfo, settings, updateSettings } = useAppContext();
 
-  const saveTheme = (theme: Theme) => {
+  const onSaveTheme = (theme: Theme) => {
     const success = (result: ServerResponse) => {
       const settings = result.data;
       updateSettings(settings)
@@ -51,16 +64,29 @@ function ThemeCard({ theme, src }: { theme: Theme, src: string }) {
     UserSettingApi.updateOrCreate(userInfo.id, userInfo.clanId, target, success);
   }
 
+  const renderTitle = () => {
+    switch (theme) {
+      case Theme.DEFAULT:
+        return t("theme_red");
+      case Theme.BLUE:
+        return t("theme_blue");
+      case Theme.GREEN:
+        return t("theme_green");
+      default:
+        return t("");
+    }
+  }
+
   return (
-    <Stack space="0.5rem" className="center text-capitalize">
+    <Stack space="0.5rem" className={`center text-capitalize ${className}`.trim()} >
       <SizedBox 
         className="button"
         width={150} height={100} border
-        onClick={() => saveTheme(theme)}
+        onClick={() => onSaveTheme(theme)}
       >
-        <img src={src} alt="theme green"/>
+        <img src={src} alt="theme"/>
       </SizedBox>
-      <Text className="text-primary bold"> {t("theme_green")} </Text>
+      <Text className="bold"> {renderTitle()} </Text>
     </Stack>
   )
 }

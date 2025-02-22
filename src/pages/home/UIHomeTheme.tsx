@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Box, Button, Stack, Text } from "zmp-ui";
+import { Box, Button, Text } from "zmp-ui";
 
 import { CommonIcon } from "components";
 import { UIThemeList } from "pages/theme/UITheme";
@@ -10,7 +10,7 @@ export function UIHomeTheme() {
   const { goTo } = useRouteNavigate();
 
   return (
-    <Stack space="0.5rem">
+    <div className="flex-v">
 
       <Box flex flexDirection="row" justifyContent="space-between">
         <Text.Title size="xLarge" className="text-capitalize text-shadow"> {t("theme")} </Text.Title>
@@ -25,6 +25,6 @@ export function UIHomeTheme() {
         <UIThemeList/>
       </div>
 
-    </Stack>
+    </div>
   )
 }
