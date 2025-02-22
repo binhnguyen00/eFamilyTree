@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { Text } from "zmp-ui";
 import Select, { StylesConfig } from "react-select";
 
-import { Divider, Header } from "components";
+import { Header, Selection } from "components";
 
 import { UIAncestralOfferingForm } from "./ancestral-offering-letter/UIForm";
 
@@ -11,47 +11,35 @@ const options: any[] = [
   { value: 1, label: "Lễ Gia Tiên" }
 ]
 
-const colourStyles: StylesConfig<any> = {
-  control: (styles) => ({ 
-    ...styles, 
-  }),
-  option: (styles) => {
-    return {
-      ...styles,
-      backgroundColor: "var(--secondary-color)",
-      color: "var(--primary-color)"
-    }
-  }
-}
-
 export function UIRitualScript() {
   const [ scriptContainer, setContainer ] = React.useState<React.ReactNode>(
     <UIAncestralOfferingForm/>
   );
 
   return (
-    <div className="container">
+    <>
       <Header title={t("ritual_script")}/>
 
-      <div className="flex-v">
-        <Text.Title>
-          {"Chọn Loại Sớ"}
-        </Text.Title>
-        <Select 
-          options={options}
-          defaultValue={options[0]}
-          isClearable={false}
-          isSearchable={false}
-          styles={colourStyles}
-          onChange={() => console.log("on change")}
-        />
+      <div className="container bg-white flex-v">
+        <div className="flex-v">
+          <Text.Title className="text-primary">
+            {"Chọn Loại Sớ"}
+          </Text.Title>
+          <Selection 
+            options={options}
+            defaultValue={options[0]}
+            isClearable={false}
+            isSearchable={false}
+            onChange={() => console.log("on change")} 
+            label={""} field={""} 
+            observer={null as any}          
+          />
+        </div>
+
+        <React.Fragment>
+          {scriptContainer}
+        </React.Fragment>
       </div>
-
-      <Divider size={0}/>
-
-      <React.Fragment>
-        {scriptContainer}
-      </React.Fragment>
-    </div>
+    </>
   )
 }

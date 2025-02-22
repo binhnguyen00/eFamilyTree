@@ -2,7 +2,6 @@ import React from "react";
 import Handlebars from "handlebars";
 import DOMPurify from "dompurify";
 
-import { ScrollableDiv } from "components";
 import type { RitualScriptForm, RitualScriptMember } from "./UIForm";
 
 import stamp from "assets/img/petition/ancestral-offering/tam-bao.png";

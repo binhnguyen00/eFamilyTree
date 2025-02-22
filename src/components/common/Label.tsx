@@ -6,7 +6,7 @@ export function Label({ text, style, className }: {
   style?: React.CSSProperties;
   className?: string;
 }) {
-  const classN = `${className} text-primary`;
+  const classN = `${className} text-primary text-capitalize`;
   return (
     <p style={style} className={classN.trim()}> {t(text)} </p>
   )

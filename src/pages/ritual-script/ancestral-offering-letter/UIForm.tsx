@@ -2,12 +2,12 @@ import React from "react";
 import { t } from "i18next";
 import html2canvas from "html2canvas";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import { Button, Input, Sheet, Text } from "zmp-ui";
+import { Button, Input, Sheet, Text, DatePicker } from "zmp-ui";
 import { SolarDate } from "@nghiavuive/lunar_date_vi";
 
 import { DateTimeUtils, ZmpSDK } from "utils";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
-import { BeanObserver, CommonIcon, DatePicker, Divider, Label } from "components";
+import { BeanObserver, CommonIcon, Label } from "components";
 
 import { UIAncestralOfferingTemplate } from "./UITemplate";
 
@@ -120,19 +120,18 @@ export function UIAncestralOfferingForm() {
   };
 
   return (
-    <div className="bg-primary">
+    <div className="flex-v">
       <UIBasicForm observer={observer}/>
-      <Divider size={0}/>
 
       <UIHouseOwnerForm observer={houseOwnerObserver}/>
-      <Divider size={0}/>
 
       <UIFamilyMembersForm observer={membersObserver}/>
-      <Divider size={0}/>
 
-      <Button size="small" prefixIcon={<CommonIcon.Preview/>} variant="secondary" onClick={() => setPreview(true)}>
-        {t("preview")}
-      </Button>
+      <div style={{ position: "sticky", bottom: 80 }}>
+        <Button size="small" prefixIcon={<CommonIcon.Preview size={18}/>} onClick={() => setPreview(true)}>
+          {t("preview")}
+        </Button>
+      </div>
 
       <Sheet
         visible={preview} 
@@ -174,38 +173,38 @@ function UIBasicForm({ observer } : {
   observer: BeanObserver<RitualScriptForm>, 
 }) {
   return (
-    <div className="flex-v bg-secondary rounded p-3">
+    <div className="flex-v border-primary p-3 rounded">
       <Title label={t("Thiên Thời")}/>
       <div className="flex-h justify-between">
         <Input 
-          style={{ width: "100%" }} size="small"
-          label={<Label text="Năm"/>} 
+          style={{ width: "100%" }} 
+          label={<Label text={t("năm")}/>} 
           value={observer.getBean().yearCreate} 
           onChange={(e) => observer.update("yearCreate", e.target.value)}
         />
         <Input 
-          style={{ width: "100%" }} size="small"
-          label={<Label text="Tháng"/>} 
+          style={{ width: "100%" }} 
+          label={<Label text={t("tháng")}/>} 
           value={observer.getBean().monthCreate} 
           onChange={(e) => observer.update("monthCreate", e.target.value)}
         />
         <Input 
-          style={{ width: "100%" }} size="small"
-          label={<Label text="Ngày"/>} 
+          style={{ width: "100%" }} 
+          label={<Label text={t("ngày")}/>} 
           value={observer.getBean().dayCreate} 
           onChange={(e) => observer.update("dayCreate", e.target.value)}
         />
       </div>
       <div className="flex-h justify-between">
         <Input 
-          style={{ width: "100%" }} size="small"
-          label={<Label text="Mùa"/>} 
+          style={{ width: "100%" }} 
+          label={<Label text={t("mùa")}/>} 
           value={observer.getBean().workshipSeason} 
           onChange={(e) => observer.update("workshipSeason", e.target.value)}
         />
         <Input 
-          style={{ width: "100%" }} size="small"
-          label={<Label text="Nơi Cúng"/>} 
+          style={{ width: "100%" }} 
+          label={<Label text={t("nơi cúng")}/>} 
           value={observer.getBean().workshipPlace} 
           onChange={(e) => observer.update("workshipPlace", e.target.value)}
         />
@@ -226,11 +225,11 @@ function UIHouseOwnerForm({ observer }: {
   }
 
   return (
-    <div className="flex-v bg-secondary rounded p-3">
+    <div className="flex-v border-primary rounded p-3">
       <Title label={t("Thí Chủ")}/>
       <div className="flex-v justify-between">
         <Input 
-          size="small"
+          
           label={<Label text="Họ Tên"/>} 
           value={observer.getBean().name}
           onChange={(e) =>
@@ -238,9 +237,9 @@ function UIHouseOwnerForm({ observer }: {
           }
         />
         <DatePicker
-          label={t("Ngày Sinh")}
-          field="birthDate" observer={observer}
-          onChange={parseDate2Solar} 
+          mask maskClosable 
+          label={t("Ngày Sinh")} title={t("Ngày Sinh")}
+          onChange={parseDate2Solar}
           defaultValue={
             observer.getBean().birthDate 
               ? new Date(observer.getBean().birthDate!) : undefined
@@ -248,21 +247,21 @@ function UIHouseOwnerForm({ observer }: {
         />
         <div className="flex-h">
           <Input 
-            style={{ width: "100%" }} size="small"
-            label={<Label text="Năm"/>} 
+            style={{ width: "100%" }} 
+            label={<Label text={t("năm")}/>} 
             value={observer.getBean().birth}
             onChange={(e) =>
               observer.update("birth", e.target.value)
             }
           />
           <Input 
-            style={{ width: "100%" }} size="small"
-            label={<Label text="Tuổi"/>} name="age"
+            style={{ width: "100%" }} 
+            label={<Label text={t("tuổi")}/>} name="age"
           />
         </div>
         <Input.TextArea
           size="medium"
-          label={<Label text="Địa chỉ"/>} 
+          label={<Label text={t("địa chỉ")}/>} 
           value={observer.getBean().address}
           onChange={(e) =>
             observer.update("address", e.target.value)
@@ -288,23 +287,27 @@ function UIFamilyMembersForm({ observer }: {
   };
 
   return (
-    <div className="flex-v bg-secondary rounded p-3">
+    <div className="flex-v border-primary rounded p-3">
       <div className="flex-h justify-between">
         <Title label={t("Thành Viên")}/>
         <div className="text-primary button">
-          <CommonIcon.Plus size={28} onClick={addForm}/>
+          <Button size="small" onClick={addForm} prefixIcon={<CommonIcon.Plus/>}>
+            {t("add")} 
+          </Button>
         </div>
       </div>
 
       {people.map((person, index) => (
-        <div key={person} className="border-primary p-2 mt-3 rounded">
-          <div className="flex-h justify-end text-primary">
-            <CommonIcon.Minus size={28} onClick={() => removeForm(person)}/>
-          </div>
+        <div key={person} className="px-2 mt-2">
           <div className="flex-v">
+            <div className="flex-h justify-start text-primary">
+              <Button size="small" onClick={() => removeForm(person)} prefixIcon={<CommonIcon.Minus/>}>
+                {t("xoá")} 
+              </Button>
+            </div>
             <div className="flex-h">
               <Input 
-                style={{ width: "100%" }} size="small"
+                style={{ width: "100%" }} 
                 label={<Label text={t("name")}/>} 
                 value={observer.getBean()[index]?.name || ""}
                 onChange={(e) => {
@@ -317,7 +320,7 @@ function UIFamilyMembersForm({ observer }: {
             </div>
             <div className="flex-h">
               <Input 
-                style={{ width: "100%" }} size="small"
+                style={{ width: "100%" }} 
                 label={<Label text={t("năm")}/>} 
                 value={observer.getBean()[index]?.birth || ""}
                 onChange={(e) => {
@@ -328,7 +331,7 @@ function UIFamilyMembersForm({ observer }: {
                 }}
               />
               <Input 
-                style={{ width: "100%" }} size="small"
+                style={{ width: "100%" }} 
                 label={<Label text={t("tuổi")}/>} 
                 value={observer.getBean()[index]?.age || ""}
                 onChange={(e) => {
