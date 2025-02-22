@@ -1,20 +1,19 @@
 import React from "react";
 import { t } from "i18next";
 import { Text } from "zmp-ui";
-import Select, { StylesConfig } from "react-select";
 
 import { Header, Selection } from "components";
 
 import { UIAncestralOfferingForm } from "./ancestral-offering-letter/UIForm";
 
-const options: any[] = [
-  { value: 1, label: "Lễ Gia Tiên" }
-]
-
 export function UIRitualScript() {
   const [ scriptContainer, setContainer ] = React.useState<React.ReactNode>(
     <UIAncestralOfferingForm/>
   );
+
+  const options: any[] = [
+    { value: 1, label: "Lễ Gia Tiên" }
+  ]
 
   return (
     <>
