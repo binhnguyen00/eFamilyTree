@@ -18,6 +18,7 @@ import { FaFileDownload } from "react-icons/fa";
 import { LuCalendarPlus } from "react-icons/lu";
 import { TbPhotoMinus } from "react-icons/tb";
 import { FaRegCopy } from "react-icons/fa";
+import { BsFillFilePersonFill } from "react-icons/bs";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -62,4 +63,5 @@ export const CommonIcon = {
   AddEvent: LuCalendarPlus,
   RemovePhoto: TbPhotoMinus,
   Copy: FaRegCopy,
+  FilePerson: BsFillFilePersonFill,
 };
