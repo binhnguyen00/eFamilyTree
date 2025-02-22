@@ -23,7 +23,6 @@ interface TreeProps {
   renderNode: (node: any) => React.ReactNode;
   className?: string;
   processor?: TreeDataProcessor;
-  searchFields?: string[];
   zoomElement?: HTMLElement;
   searchDisplayField?: string;
   onReset?: () => void;
@@ -33,7 +32,6 @@ export default React.memo<TreeProps>(function Tree(props) {
   const { userInfo } = useAppContext();
   const { 
     rootId = "0", 
-    searchFields = [ "id" ], 
     nodes = [],
     processor, nodeWidth, nodeHeight, searchDisplayField, 
     renderNode, onReset, zoomElement
@@ -74,7 +72,6 @@ export default React.memo<TreeProps>(function Tree(props) {
             <React.Fragment>
               <div className='flex-h justify-between'>
                 <TreeSearchBar 
-                  searchFields={searchFields}
                   displayField={searchDisplayField}
                   nodes={nodes}
                   onSelect={zoomToElement}

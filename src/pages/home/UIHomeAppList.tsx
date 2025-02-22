@@ -13,7 +13,7 @@ type App = {
 
 export function UIHomeAppList() {
   const apps: App[] = [
-    { key: "family-tree",       label: t("family_tree"),       requirePhone: true },
+    { key: "family-tree",       label: t("family_tree"),       requirePhone: false },
     { key: "gallery",           label: t("gallery"),           requirePhone: true },
     { key: "calendar",          label: t("calendar"),          requirePhone: true },
     { key: "blogs",             label: t("blogs"),             requirePhone: true },

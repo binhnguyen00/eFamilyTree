@@ -6,7 +6,6 @@ import { Selection } from "components";
 
 interface TreeSearchBarProps {
   nodes: Node[];
-  searchFields?: string[];
   displayField?: string;
   onSelect: (node: HTMLElement, scale?: number) => void;
   style?: React.CSSProperties; 

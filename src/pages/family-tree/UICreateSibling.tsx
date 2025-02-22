@@ -4,7 +4,7 @@ import { Button, Input, Sheet, Text, DatePicker } from "zmp-ui";
 
 import { DateTimeUtils, StyleUtils } from "utils";
 import { FamilyTreeApi } from "api";
-import { CommonIcon, Selection } from "components";
+import { CommonIcon, Selection, Label } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 import { FailResponse, ServerResponse } from "types/server";
 
@@ -37,8 +37,10 @@ export function UICreateSibling(props: UICreateSiblingProps) {
   } as Member);
 
   const onCreate = () => {
-    console.log(observer.getBean());
-
+    if (!observer.getBean().phone || !observer.getBean().name) {
+      dangerToast(t("nhập đủ thông tin"))
+      return;
+    }
     FamilyTreeApi.createMember({
       userId: userInfo.id,
       clanId: userInfo.clanId,
@@ -61,14 +63,14 @@ export function UICreateSibling(props: UICreateSiblingProps) {
       visible={visible} onClose={onClose}
       title={t("Tạo Anh/Chị/Em")} height={StyleUtils.calComponentRemainingHeight(0)}
     >
-      <div className="scroll-v p-3">
+      <div className="scroll-v flex-v p-3">
         <Text.Title className="py-2"> {t("info")} </Text.Title>
         <Input 
-          size="small" name="name" label={<Label text="Họ Tên"/>} 
+          name="name" label={<Label text={`${t("họ tên")} *`}/>} 
           value={observer.getBean().name} onChange={observer.watch}
         />
         <Input
-          size="small" name="phone" label={<Label text="Điện Thoại"/>} 
+          name="phone" label={<Label text={`${t("điện thoại")} *`}/>} 
           value={observer.getBean().phone} onChange={observer.watch}
         />
         <Selection
@@ -76,7 +78,7 @@ export function UICreateSibling(props: UICreateSiblingProps) {
             { value: "1", label: t("male") },
             { value: "0", label: t("female") }
           ]}
-          observer={observer} field="gender" label={"Giới Tính"}
+          observer={observer} field="gender" label={t("Giới Tính")}
         />
         <DatePicker 
           mask maskClosable 
@@ -91,15 +93,15 @@ export function UICreateSibling(props: UICreateSiblingProps) {
           }
         />
         <Input 
-          size="small" label={<Label text="Bố"/>} 
+          label={<Label text={t("bố")}/>} 
           value={observer.getBean().father} name="father" disabled
         />
         <Input 
-          size="small" label={<Label text="Mẹ"/>} 
+          label={<Label text={t("mẹ")}/>} 
           value={observer.getBean().mother} name="mother" disabled
         />
         <div>
-          <Text.Title size="small" className="py-2"> {t("Hành động")} </Text.Title>
+          <Text.Title className="py-2"> {t("Hành động")} </Text.Title>
           <Button size="small" prefixIcon={<CommonIcon.AddPerson/>} onClick={onCreate}> 
             {t("create")}
           </Button>
@@ -107,8 +109,4 @@ export function UICreateSibling(props: UICreateSiblingProps) {
       </div>
     </Sheet>
   )
-}
-
-function Label({  text }: { text: string }) {
-  return <span className="text-primary"> {t(text)} </span>
 }

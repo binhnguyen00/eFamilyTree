@@ -5,7 +5,7 @@ import { Button, Input, Sheet, Text, DatePicker } from "zmp-ui";
 import { FamilyTreeApi } from "api";
 import { DateTimeUtils, StyleUtils, TreeDataProcessor } from "utils";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
-import { CommonIcon, Selection } from "components";
+import { CommonIcon, Selection, SelectionOption, Label } from "components";
 
 import { FailResponse, ServerResponse } from "types/server";
 
@@ -29,10 +29,10 @@ export function UICreateChild(props: UICreateChildProps) {
   const moms = processor.getSpouses(dad.id);
   const momOpts = moms.map((mom) => {
     return {
-      value: { id: mom.id, name: mom.name }, 
+      value: mom.id, 
       label: mom.name
     }
-  }) as any[];
+  }) as SelectionOption[];
 
   
   const observer = useBeanObserver({
@@ -42,8 +42,10 @@ export function UICreateChild(props: UICreateChildProps) {
   } as Member);
 
   const onCreate = () => {
-    console.log(observer.getBean());
-
+    if (!observer.getBean().phone || !observer.getBean().name) {
+      dangerToast(t("nhập đủ thông tin"))
+      return;
+    }
     FamilyTreeApi.createMember({
       userId: userInfo.id,
       clanId: userInfo.clanId,
@@ -66,15 +68,15 @@ export function UICreateChild(props: UICreateChildProps) {
       visible={visible} onClose={onClose}
       title={t("Tạo Con")} height={StyleUtils.calComponentRemainingHeight(0)}
     >
-      <div className="scroll-v p-3">
+      <div className="scroll-v flex-v p-3">
         <div>
           <Text.Title className="py-2"> {t("info")} </Text.Title>
           <Input 
-            size="small" name="name" label={<Label text="Họ Tên"/>} 
+            name="name" label={<Label text={`${t("họ tên")} *`}/>} 
             value={observer.getBean().name} onChange={observer.watch}
           />
           <Input 
-            size="small" name="phone" label={<Label text="Điện Thoại"/>} 
+            name="phone" label={<Label text={`${t("điện thoại")} *`}/>} 
             value={observer.getBean().phone} onChange={observer.watch}
           />
           <Selection
@@ -82,7 +84,7 @@ export function UICreateChild(props: UICreateChildProps) {
               { value: "1", label: t("male") },
               { value: "0", label: t("female") }
             ]}
-            observer={observer} field="gender" label={"Giới Tính"}
+            observer={observer} field="gender" label={t("giới tính")}
           />
           <DatePicker 
             mask maskClosable 
@@ -97,15 +99,15 @@ export function UICreateChild(props: UICreateChildProps) {
             }
           />
           <Input 
-            size="small" label={<Label text="Bố"/>} 
+            label={<Label text={t("bố")}/>} 
             value={observer.getBean().father} name="father" disabled
           />
           <Selection
             options={momOpts}
-            observer={observer} field="" label={t("Mẹ")}
-            onChange={(val, action) => {
-              observer.update("mother", val.name)
-              observer.update("motherId", val.id)
+            observer={observer} field="" label={t("mẹ")}
+            onChange={(selected: SelectionOption, action) => {
+              observer.update("mother", selected.label)
+              observer.update("motherId", selected.value)
             }}
           />
         </div>
@@ -118,8 +120,4 @@ export function UICreateChild(props: UICreateChildProps) {
       </div>
     </Sheet>
   )
-}
-
-function Label({  text }: { text: string }) {
-  return <span className="text-primary"> {t(text)} </span>
 }

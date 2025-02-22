@@ -11,7 +11,7 @@ import { ScrollableDiv } from "./ScrollableDiv";
 import { Card } from "./Card";
 import { Popover } from "./Popover";
 import { RequestLocation } from "./RequestLocation";
-import { Selection } from "./Selection";
+import { Selection, SelectionOption } from "./Selection";
 import { DatePicker } from "./DatePicker";
 import { Label } from "./Label";
 
@@ -21,3 +21,7 @@ export {
   SizedBox, PagePositionSaver, ScrollableDiv, Card, Popover, RequestLocation,
   Selection, DatePicker, Label
 };
+
+export type {
+  SelectionOption
+}

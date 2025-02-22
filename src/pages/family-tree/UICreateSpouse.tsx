@@ -5,7 +5,7 @@ import { Button, Input, Sheet, Text, DatePicker } from "zmp-ui";
 import { FamilyTreeApi } from "api";
 import { DateTimeUtils, StyleUtils } from "utils";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
-import { BeanObserver, CommonIcon, Selection } from "components";
+import { BeanObserver, CommonIcon, Selection, Label } from "components";
 
 import { FailResponse, ServerResponse } from "types/server";
 
@@ -27,8 +27,10 @@ export function UICreateSpouse(props: UICreateSpouseProps) {
   const { successToast, dangerToast } = useNotification();
 
   const onCreate = () => {
-    console.log(observer.getBean());
-
+    if (!observer.getBean().phone || !observer.getBean().name) {
+      dangerToast(t("nhập đủ thông tin"))
+      return;
+    }
     FamilyTreeApi.createMember({
       userId: userInfo.id,
       clanId: userInfo.clanId,
@@ -65,24 +67,20 @@ export function UICreateSpouse(props: UICreateSpouseProps) {
   )
 }
 
-function Label({  text }: { text: string }) {
-  return <span className="text-primary"> {t(text)} </span>
-}
-
 function Form({ observer, onCreate }: { 
   observer: BeanObserver<Member>; 
   onCreate: () => void;
 }) {
   return (
-    <div className="scroll-v p-3">
+    <div className="scroll-v flex-v p-3">
       <div>
         <Text.Title className="py-2"> {t("info")} </Text.Title>
         <Input 
-          size="small" name="name" label={<Label text={t("Họ Tên")}/>} 
+          name="name" label={<Label text={`${t("họ tên")} *`}/>} 
           value={observer.getBean().name} onChange={observer.watch}
         />
         <Input
-          size="small" name="phone" label={<Label text={t("Điện Thoại")}/>} 
+          name="phone" label={<Label text={`${t("điện thoại")} *`}/>} 
           value={observer.getBean().phone} onChange={observer.watch}
         />
         <Selection
@@ -110,7 +108,6 @@ function Form({ observer, onCreate }: {
           }
         />
         <Input 
-          size="small" name="name" 
           label={<Label text={observer.getBean().gender === "1" ? t("Vợ của") : t("Chồng của")}/>} 
           value={observer.getBean().spouses[0].name} disabled
         />

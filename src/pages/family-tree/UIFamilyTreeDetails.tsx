@@ -3,9 +3,9 @@ import { t } from "i18next";
 import { Button, Input, Text, Sheet, Modal, Avatar, DatePicker } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
-import { DateTimeUtils, StyleUtils } from "utils";
+import { CommonUtils, DateTimeUtils, StyleUtils, ZmpSDK } from "utils";
 import { useBeanObserver, useNotification } from "hooks";
-import { CommonIcon, Selection, useAppContext } from "components";
+import { CommonIcon, Selection, useAppContext, Label } from "components";
 import { FailResponse, ServerResponse } from "types/server";
 
 export enum CreateMode {
@@ -63,7 +63,7 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
   if (info === null) return;
 
   const { userInfo, serverBaseUrl } = useAppContext();
-  const { successToast, dangerToast } = useNotification();
+  const { successToast, dangerToast, warningToast, loadingToast } = useNotification();
   const [ deleteWarning, setDeleteWarning ] = React.useState(false);
 
   const observer = useBeanObserver(info || {} as Member);
@@ -79,8 +79,10 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
   }
 
   const onSave = () => {
-    console.log(observer.getBean());
-    
+    if (!observer.getBean().phone || !observer.getBean().name) {
+      dangerToast(t("nhập đủ thông tin"))
+      return;
+    }
     FamilyTreeApi.saveMember({
       userId: userInfo.id,
       clanId: userInfo.clanId,
@@ -131,37 +133,124 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
     })
   }
 
-  const genderOpts = [
-    { value: "1", label: t("male") },
-    { value: "0", label: t("female") }
-  ]
+  const blobUrlsToBase64 = async (imagePaths: string[]) => {
+    const base64Promises = imagePaths.map((blobUrl) => {
+      return new Promise<string>((resolve) => {
+        CommonUtils.blobUrlToBase64(blobUrl, (base64: string) => {
+          resolve(base64);
+        });
+      });
+    });
+    const base64Array = await Promise.all(base64Promises);
+    return base64Array;
+  };
+
+  const onUpdateAvatar = () => {
+    const doUpdate = (base64: string) => {
+      loadingToast(
+        <div className="flex-v">
+          <p> {t("đang cập nhật ảnh đại diện")} </p>
+          <p> {t("vui lòng chờ")} </p>
+        </div>,
+        (successToastCB, dangerToastCB) => {
+          FamilyTreeApi.updateAvatar({
+            userId: userInfo.id,
+            clanId: userInfo.clanId,
+            memberId: observer.getBean().id,
+            base64: base64,
+            success: (result: ServerResponse) => {
+              if (result.status === "error") {
+                dangerToastCB(t("cập nhật không thành công"))
+              } else {
+                successToastCB(t("cập nhật thành công"))
+                const publicPath = result.data as string;
+                observer.update("avatar", publicPath);
+              }
+            },
+            fail: () => dangerToastCB(t("cập nhật không thành công"))
+          })
+        }
+      )
+    }
+
+    if (userInfo.id !== observer.getBean().id) {
+      warningToast(t("không thể cập nhật ảnh đại diện của thành viên khác"));
+      return;
+    }
+    const success = async (files: any[]) => {
+      const blobs: string[] = [ ...files.map(file => file.path) ];
+      const base64s = await blobUrlsToBase64(blobs);
+      if (base64s.length) doUpdate(base64s[0]);
+      else {
+        dangerToast(t("ảnh bị lỗi"))
+        return;
+      }
+    }
+    const fail = () => {
+      dangerToast(t("cập nhật không thành công"));
+    }
+    ZmpSDK.chooseImage(1, success, fail);
+  }
+
+  const onCopyCode = () => {
+    const code = observer.getBean().code;
+    const name = observer.getBean().name;
+    navigator.clipboard.writeText(code)
+    .then(() => {
+      successToast(`${t("sao chép mã của")} ${name} ${t("thành công")}`);
+    })
+    .catch((err: Error) => {
+      warningToast(`${t("sao chép mã của")} ${name} ${t("thất bại")}`)
+    });
+  }
+
+  const onAvatarCalculation = () => {
+    const avatar = observer.getBean().avatar;
+    const name = observer.getBean().name;
+    if (avatar !== "") {
+      return `${serverBaseUrl}/${avatar}`;
+    } else {
+      const initials = name?.split(' ')
+        .filter(word => word.length > 0)
+        .map(word => word[0])
+        .join('')
+        .toUpperCase() || 'N/A';
+      return `https://avatar.iran.liara.run/username?username=${initials}`;
+    }
+  }
 
   return (
     <Sheet
-      height={StyleUtils.calComponentRemainingHeight(0)}
+      height={StyleUtils.calComponentRemainingHeight(-60)}
       visible={visible} onClose={onClose} swipeToClose
     >
-      <div className="p-3 scroll-v">
+      <div className="p-3 scroll-v flev-v">
         <div>
           <Text.Title className="py-2"> {t("info")} </Text.Title>
-          {/* TODO: Implement Avatar 
-          {observer.getBean().avatar && (
-            <Avatar
-              size={80}
-              src={`${serverBaseUrl}/${observer.getBean().avatar}`}
-              className="border-primary"
+          <div className="flex-v center">
+            <img
+              className="circle"
+              style={{ width: "8rem", height: "8rem", objectFit: "cover" }}
+              src={onAvatarCalculation()}
             />
-          )} */}
+            {userInfo.id === observer.getBean().id && (
+              <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onUpdateAvatar}>
+                {observer.getFieldValue("avatar") === "" ? t("cập nhật") : t("sửa")}
+              </Button>
+            )}
+          </div>
+
           <Input 
-            size="small" name="name" label={<Label text="Họ Tên"/>} 
+            name="name" label={<Label text={t("họ tên")}/>} 
             value={observer.getBean().name} onChange={observer.watch}
           />
           <Input 
-            size="small" name="code" label={<Label text={t("Mã")}/>} 
+            name="code" label={<Label text={t("mã")}/>} 
             value={observer.getBean().code} disabled
+            addonAfter={<CommonIcon.Copy className="button" size={24} onClick={onCopyCode}/>}
           />
           <Input 
-            size="small" name="phone" label={<Label text="Điện Thoại"/>} 
+            name="phone" label={<Label text={t("điện thoại")}/>} 
             value={observer.getBean().phone} onChange={observer.watch}
           />
           <Selection
@@ -170,8 +259,11 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
                 ? { value: "1", label: t("male") }
                 : { value: "0", label: t("female") }
             }
-            options={genderOpts}
-            observer={observer} field="gender" label={"Giới Tính"}
+            options={[
+              { value: "1", label: t("male") },
+              { value: "0", label: t("female") }
+            ]}
+            observer={observer} field="gender" label={t("giới tính")}
           />
           <DatePicker 
             mask maskClosable 
@@ -186,11 +278,11 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
             }
           />
           <Input 
-            size="small" label={<Label text="Bố"/>} 
+            label={<Label text={t("bố")}/>} 
             value={observer.getBean().father} name="father" disabled
           />
           <Input 
-            size="small" label={<Label text="Mẹ"/>} 
+            label={<Label text={t("mẹ")}/>} 
             value={observer.getBean().mother} name="mother" disabled
           />
         </div>
@@ -252,8 +344,4 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
       />
     </Sheet>
   )
-}
-
-function Label({  text }: { text: string }) {
-  return <span className="text-primary"> {t(text)} </span>
 }

@@ -4,7 +4,7 @@ import { Button, Input, Sheet, Text, DatePicker } from "zmp-ui";
 
 import { DateTimeUtils, StyleUtils } from "utils";
 import { FamilyTreeApi } from "api";
-import { CommonIcon, Selection } from "components";
+import { CommonIcon, Selection, Label } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 import { FailResponse, ServerResponse } from "types/server";
 
@@ -23,7 +23,10 @@ export function UICreateRoot(props: UICreateRootProps) {
   const { successToast, dangerToast } = useNotification();
 
   const onCreate = () => {
-    console.log(observer.getBean());
+    if (!observer.getBean().phone || !observer.getBean().name) {
+      dangerToast(t("nhập đủ thông tin"))
+      return;
+    }
     
     FamilyTreeApi.saveMember({
       userId: userInfo.id,
@@ -55,11 +58,11 @@ export function UICreateRoot(props: UICreateRootProps) {
         <div className="flex-v">
           <Text.Title className="py-2"> {t("info")} </Text.Title>
           <Input 
-            size="small" name="name" className="mt-1" label={<Label text="Họ Tên"/>} 
+            name="name" className="mt-1" label={<Label text={`${t("họ tên")} *`}/>} 
             value={observer.getBean().name} onChange={observer.watch}
           />
           <Input
-            size="small" name="phone" label={<Label text="Điện Thoại"/>} 
+            name="phone" label={<Label text={`${t("điện thoại")} *`}/>} 
             value={observer.getBean().phone} onChange={observer.watch}
           />
           <Selection
@@ -67,7 +70,7 @@ export function UICreateRoot(props: UICreateRootProps) {
               { value: "1", label: t("male") },
               { value: "0", label: t("female") }
             ]}
-            observer={observer} field="gender" label={"Giới Tính"}
+            observer={observer} field="gender" label={t("giới tính")}
           />
           <DatePicker 
             mask maskClosable 
@@ -81,14 +84,10 @@ export function UICreateRoot(props: UICreateRootProps) {
         <div>
           <Text.Title className="py-2"> {t("Hành động")} </Text.Title>
           <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onCreate}> 
-            {t("create")}
+            {t("save")}
           </Button>
         </div>
       </div>
     </Sheet>
   )
-}
-
-function Label({  text }: { text: string }) {
-  return <span className="text-primary"> {t(text)} </span>
 }

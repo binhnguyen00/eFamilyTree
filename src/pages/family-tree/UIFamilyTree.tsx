@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 
 import { FamilyTreeApi } from "api";
-import { useAppContext } from "hooks";
+import { useAppContext, useNotification } from "hooks";
 import { TreeUtils, TreeDataProcessor } from "utils";
 import { Header, TreeNode, FamilyTree, TreeConfig, Loading } from "components";
 
@@ -64,6 +64,7 @@ interface UIFamilyTreeContainerProps {
 export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) { 
   const { processor, onReload } = props;
   const { userInfo } = useAppContext();
+  const { loadingToast, warningToast } = useNotification();
 
   const [ reload, setReload ] = React.useState(false);
   const [ resetBtn, setResetBtn ] = React.useState<boolean>(false);
@@ -106,34 +107,48 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
   } : undefined;
 
   const onSelect = (node: ExtNode) => {
-    FamilyTreeApi.getMemberInfo({
-      userId: userInfo.id, 
-      clanId: userInfo.clanId,
-      id: parseInt(node.id),
-      success: (result: ServerResponse) => {
-        if (result.status === "error") {
-          console.error("UINodeDetails:\n\t", result.message);
-        } else {
-          const data = result.data as any;
-          setNode({
-            id: data.id,
-            code: data.code,
-            name: data.name,
-            phone: data.phone,
-            birthday: data.birthday,
-            gender: data.gender,
-            generation: data.generation,
-            father: data.father,
-            fatherId: data.father_id,
-            mother: data.mother,
-            motherId: data.mother_id,
-            children: data.children,
-            spouses: data.spouses,
-            achievements: data.achievements
-          });
-        }
-      },
-    });
+    loadingToast(
+      <div className="flex-v">
+        <p> {t("đang tải dữ liệu")} </p>
+        <p> {t("vui lòng chờ")} </p>
+      </div>,
+      (successToastCB, dangerToastCB) => {
+        FamilyTreeApi.getMemberInfo({
+          userId: userInfo.id, 
+          clanId: userInfo.clanId,
+          id: parseInt(node.id),
+          success: (result: ServerResponse) => {
+            if (result.status === "error") {
+              console.error(result.message);
+              warningToast(t("vui lòng thử lại"));
+            } else {
+              successToastCB(t("lấy dữ liệu thành công"));
+              const data = result.data as any;
+              setNode({
+                id: data.id,
+                code: data.code,
+                name: data.name,
+                phone: data.phone,
+                birthday: data.birthday,
+                gender: data.gender,
+                generation: data.generation,
+                father: data.father,
+                fatherId: data.father_id,
+                mother: data.mother,
+                motherId: data.mother_id,
+                children: data.children,
+                spouses: data.spouses,
+                achievements: data.achievements,
+                avatar: data.avatar,
+              });
+            }
+          },
+          fail: () => {
+            warningToast(t("vui lòng thử lại"));
+          }
+        });
+      }
+    )
   }
 
   return (
@@ -146,7 +161,6 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
           rootId={rootId}
           nodeHeight={TreeConfig.nodeHeight}
           nodeWidth={TreeConfig.nodeWidth}
-          searchFields={["id", "name"]}
           searchDisplayField="name"
           onReset={onReset}
           renderNode={(node: any) => (

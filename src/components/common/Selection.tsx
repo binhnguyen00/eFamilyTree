@@ -4,7 +4,7 @@ import Select, { StylesConfig, ActionMeta, MultiValue, SingleValue } from "react
 
 import { BeanObserver } from "components";
 
-interface SelectionOption {
+export interface SelectionOption {
   value: any;
   label: string;
 }
@@ -70,7 +70,7 @@ export function Selection(props: SelectionProps) {
 
   return (
     <div className={`flex-v flex-grow-0 ${className && className}`.trim()} style={style}>
-      {label && <p>{t(label)}</p>}
+      {label && <p className="text-capitalize">{t(label)}</p>}
       <Select
         isMulti={isMulti}
         options={options}
