@@ -4,7 +4,7 @@ import { t } from "i18next";
 import { Grid, Stack, Text } from "zmp-ui";
 
 import { UserSettingApi } from "api";
-import { useAppContext } from "hooks";
+import { useAppContext, useNotification } from "hooks";
 import { Header, SizedBox } from "components";
 
 import { Theme } from "types/user-settings";
@@ -51,17 +51,31 @@ interface ThemeCardProps extends UIThemeProps {
 function ThemeCard(props: ThemeCardProps) {
   const { theme, src, className } = props;
   const { userInfo, settings, updateSettings } = useAppContext();
+  const { loadingToast } = useNotification();
 
   const onSaveTheme = (theme: Theme) => {
-    const success = (result: ServerResponse) => {
-      const settings = result.data;
-      updateSettings(settings)
-    }
-    const target = {
-      ...settings,
-      theme: theme
-    }
-    UserSettingApi.updateOrCreate(userInfo.id, userInfo.clanId, target, success);
+    loadingToast(
+      <div>
+        <p> {t("đang cập nhật")} </p>
+        <p> {t("vui lòng chờ")} </p>
+      </div>,
+      (successToast, dangerToast) => {
+        const success = (result: ServerResponse) => {
+          const settings = result.data;
+          updateSettings(settings)
+          successToast(t("cập nhật thành công"))
+        }
+        const fail = () => {
+          dangerToast(t("cập nhật thất bại"))
+          return;
+        }
+        const target = {
+          ...settings,
+          theme: theme
+        }
+        UserSettingApi.updateOrCreate(userInfo.id, userInfo.clanId, target, success, fail);
+      }
+    )
   }
 
   const renderTitle = () => {
