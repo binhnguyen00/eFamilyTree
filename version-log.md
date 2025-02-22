@@ -1,7 +1,13 @@
 # Version 1.3.4 (Thứ 7, 22/02/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=41)
 ### Thay đổi
-- Sửa lỗi và cải thiện hiệu năng
+1. Sửa lỗi và cải thiện hiệu năng.
+  - Giao diện Sớ đã đẹp hơn.
+  - Người dùng đã có thể Sửa avatar trong phả đồ.
+  - Thêm một nút nhảy thẳng tới bản thân trong phả đồ.
+  - Làm to tên dòng họ trong phả đồ.
+  - Làm to các thanh nhập liệu.
+  - Thêm nhiều thông báo thành công/thất bại/cảnh báo trong quá trình nhập dữ liệu ở tất cả các modules.
 
 # Version 1.3.3
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=40)
