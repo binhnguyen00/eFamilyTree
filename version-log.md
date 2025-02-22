@@ -1,5 +1,5 @@
 # Version 1.3.4 (Thứ 7, 22/02/2025)
-### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=41)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=42)
 ### Thay đổi
 1. Sửa lỗi và cải thiện hiệu năng.
   - Giao diện Sớ đã đẹp hơn.
