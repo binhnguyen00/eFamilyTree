@@ -1,81 +1,65 @@
 import React from "react";
 
 import { t } from "i18next";
-import { Button, Text, Stack, Grid, Sheet, Input } from "zmp-ui";
+import { Button, Text, Stack, Grid } from "zmp-ui";
 
-import { StyleUtils, ZmpSDK } from "utils";
+import { ZmpSDK } from "utils";
 import { TestApi } from "api";
-import { useNotification, useAppContext, usePageContext, useBeanObserver } from "hooks";
+import { useNotification, useAppContext, usePageContext } from "hooks";
 import { Header, Loading, SizedBox, SlidingPanel, SlidingPanelOrient, NewsPaperSkeleton } from "components";
 
 import { Theme } from "types/user-settings";
 import { Module } from "types/app-context";
 import { FailResponse, ServerResponse } from "types/server";
 
-import themeRed from "assets/img/theme/theme-red.jpeg";
 import themeBlue from "assets/img/theme/theme-blue.jpeg";
 
 export function UIPlayground() {
-  const observer = useBeanObserver({} as any);
-  const [ visible, setVisible ] = React.useState(false);
 
   return (
-    <Stack space="1rem" className="container">
+    <>
       <Header title={t("playground")}/>
 
-      <Button variant="secondary" size="small" onClick={() => setVisible(true)}> Sheet </Button>
+      <div className="container flex-v">
 
-      <Sheet
-        visible={visible} height={StyleUtils.calComponentRemainingHeight(0)}
-        swipeToClose onClose={() => setVisible(false)}
-      >
-        <div>
-          <Input label="name" name="name" value={observer.getFieldValue("name") || ""} onChange={observer.watch}/>
-          <Button onClick={() => console.log(observer.getBean())}>
-            Save
+        <UILocationPermission/>
+
+        <UISkeletonLoading/>
+
+        <UIToastButtons/>
+
+        <Stack space="1rem">
+          <Text.Title size="large"> {"Mock CORS"} </Text.Title>
+          <Button variant="secondary" onClick={() => {
+            const success = (result: ServerResponse) => {
+              console.log(result);
+            } 
+            const fail = (error: FailResponse) => {
+              console.error(error);
+            }
+            TestApi.mockHTTP(success, fail);
+          }}>
+            {"HTTP"}
           </Button>
-        </div>
-      </Sheet>
+        </Stack>
 
-      <UILocationPermission/>
+        <UITheme/>
 
-      <UISkeletonLoading/>
+        <Loading/>
 
-      <UIToastButtons/>
+        <UISlidePanel/>
 
-      <Stack space="1rem">
-        <Text.Title size="large"> {"Mock CORS"} </Text.Title>
-        <Button variant="secondary" onClick={() => {
-          const success = (result: ServerResponse) => {
-            console.log(result);
-          } 
-          const fail = (error: FailResponse) => {
-            console.error(error);
-          }
-          TestApi.mockHTTP(success, fail);
-        }}>
-          {"HTTP"}
-        </Button>
-      </Stack>
-
-      <UITheme/>
-
-      <Loading/>
-
-      <UISlidePanel/>
-
-    </Stack>
+      </div>
+    </>
   )
 }
 
 function UITheme() {
   const { settings, updateSettings } = useAppContext();
 
-  return (
-    <Stack space="1rem">
-      <Text.Title size="large" className="text-capitalize"> {t("theme")} </Text.Title>
-      <div className="scroll-h flex-h">
-
+  const render = () => {
+    const html = Object.values(Theme).map((theme) => {
+      return (
         <Stack space="0.5rem" className="center text-capitalize">
           <SizedBox 
             className="button"
@@ -85,35 +69,21 @@ function UITheme() {
             onClick={() => {
               updateSettings({
                 ...settings,
-                theme: Theme.DEFAULT
+                theme: theme
               })
             }}
           >
-            <img src={themeRed} alt="theme red"/>
           </SizedBox>
-          <Text> {t("theme_red")} </Text>
+          <Text> {t(theme)} </Text>
         </Stack>
+      )
+    })
+    return (
+      <div className="scroll-h"> {html} </div>
+    );
+  }
 
-        <Stack space="0.5rem" className="center text-capitalize">
-          <SizedBox 
-            className="button"
-            width={150} 
-            height={100} 
-            border
-            onClick={() => {
-              updateSettings({
-                ...settings,
-                theme: Theme.BLUE
-              })
-            }}
-          >
-            <img src={themeBlue} alt="theme blue"/>
-          </SizedBox>
-          <Text> {t("theme_blue")} </Text>
-        </Stack>
-      </div>
-    </Stack>
-  )
+  return render();
 }
 
 function UISlidePanel() {

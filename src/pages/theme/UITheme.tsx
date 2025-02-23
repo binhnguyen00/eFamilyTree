@@ -39,7 +39,7 @@ export function UIThemeList(props: UIThemeProps) {
     <>
       <ThemeCard theme={Theme.DEFAULT} src={themeRed} className={className}/>
       <ThemeCard theme={Theme.BLUE} src={themeBlue} className={className}/>
-      <ThemeCard theme={Theme.GREEN} src={themeGreen} className={className}/>
+      <ThemeCard theme={Theme.EMERALD} src={themeGreen} className={className}/>
     </>
   )
 }
@@ -84,8 +84,8 @@ function ThemeCard(props: ThemeCardProps) {
         return t("theme_red");
       case Theme.BLUE:
         return t("theme_blue");
-      case Theme.GREEN:
-        return t("theme_green");
+      case Theme.EMERALD:
+        return t("ngọc lục bảo");
       default:
         return t("");
     }
@@ -100,7 +100,7 @@ function ThemeCard(props: ThemeCardProps) {
       >
         <img src={src} alt="theme"/>
       </SizedBox>
-      <Text className="bold"> {renderTitle()} </Text>
+      <Text className="bold text-capitalize"> {renderTitle()} </Text>
     </Stack>
   )
 }

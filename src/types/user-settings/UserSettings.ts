@@ -6,7 +6,7 @@ export enum Language {
 export enum Theme {
   DEFAULT = "default",
   BLUE = "blue",
-  GREEN = "green",
+  EMERALD = "emerald",
 }
 
 export type UserSettings = {
