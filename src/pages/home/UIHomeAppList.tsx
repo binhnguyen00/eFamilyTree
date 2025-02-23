@@ -18,7 +18,7 @@ export function UIHomeAppList() {
     { key: "calendar",          label: t("calendar"),          requirePhone: true },
     { key: "blogs",             label: t("blogs"),             requirePhone: true },
     { key: "funds",             label: t("funds"),             requirePhone: true },
-    { key: "certificate",       label: t("certificates"),      requirePhone: true },
+    { key: "hall-of-fame",      label: t("certificates"),      requirePhone: true },
     { key: "ritual-script",     label: t("ritual_script"),     requirePhone: false },
     { key: "memorial-location", label: t("memorial_location"), requirePhone: true },
   ];
@@ -109,8 +109,8 @@ function AppSymbol({ iconKey }: { iconKey: string }) {
       return <img key={`ico-${iconKey}`} src={AppLogo.Funds} alt="funds"/>
     case "memorial-location":
       return <img key={`ico-${iconKey}`} src={AppLogo.MemorialLocation} alt="memorial-location"/>
-    case "certificate":
-      return <img key={`ico-${iconKey}`} src={AppLogo.Certificate} alt="certificate"/>
+    case "hall-of-fame":
+      return <img key={`ico-${iconKey}`} src={AppLogo.HallOfFame} alt="hall-of-fame"/>
     case "ritual-script":
       return <img key={`ico-${iconKey}`} src={AppLogo.RitualScript} alt="ritual-script"/>
     default: 

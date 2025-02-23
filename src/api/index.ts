@@ -1,7 +1,7 @@
 import { AccountApi } from "./AccountApi";
 import { BaseApi } from './BaseApi';
 import { CalendarApi } from './CalendarApi';
-import { CertificateApi } from './CertificateApi';
+import { HallOfFameApi } from './HallOfFameApi';
 import { FamilyTreeApi } from "./FamilyTreeApi";
 import { FundApi } from './FundApi';
 import { GalleryApi } from "./GalleryApi";
@@ -15,7 +15,7 @@ export {
   AccountApi, 
   BaseApi, 
   CalendarApi, 
-  CertificateApi, 
+  HallOfFameApi, 
   FamilyTreeApi, 
   FundApi, 
   GalleryApi, 

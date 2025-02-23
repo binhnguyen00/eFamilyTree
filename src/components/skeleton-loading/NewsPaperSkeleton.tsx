@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import React from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css'
 
@@ -27,6 +27,7 @@ interface SkeletonLoadingProps {
     count?: number
   }
 }
+/**@deprecated */
 export function NewsPaperSkeleton(props: SkeletonLoadingProps) {
   const { 
     loading, content, 

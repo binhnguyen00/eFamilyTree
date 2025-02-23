@@ -7,9 +7,8 @@ import { UIAbout } from "pages/about/UIAbout";
 import { UIBlog } from "pages/blog/UIBlog";
 import { UIBlogDetail } from "pages/blog/UIBlogDetail";
 import { UICalendar } from "pages/calendar/UICalendar";
-import { UICertificate } from "pages/certificate/UICertificate";
-import { UICertificateDetail } from "pages/certificate/UICertificateDetail";
-import { UICerificateGroup } from "pages/certificate/UICertificateGroup";
+import { UIHallOfFameUsers } from "pages/hall-of-fame/UIHallOfFameUsers";
+import { UIHallOfFame } from "pages/hall-of-fame/UIHallOfFame";
 import { UIDeveloper } from "pages/dummy/UIDeveloper";
 import { UIPlayground } from "pages/dummy/UIPlayground";
 import { UIFamilyTree } from "pages/family-tree/UIFamilyTree";
@@ -67,9 +66,8 @@ export function AppRoutes() {
 
       <Route path={createPath("theme")} element={<UITheme />} />
 
-      <Route path={createPath("certificate")} element={<UICerificateGroup />}/>
-      <Route path={createPath("certificate/list")} element={<UICertificate />}/>
-      <Route path={createPath("certificate/list/info")} element={<UICertificateDetail />} />
+      <Route path={createPath("hall-of-fame")} element={<UIHallOfFame />}/>
+      <Route path={createPath("hall-of-fame/users")} element={<UIHallOfFameUsers />}/>
 
       <Route path={createPath("ritual-script")} element={<UIRitualScript />}/>
       <Route path={createPath("memorial-location")} element={<UIMemorialMap />}/>
