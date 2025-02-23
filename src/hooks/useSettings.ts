@@ -26,7 +26,9 @@ export function useSettings(userId: number | any, clanId: number | any): UserSet
 
   // Update Settings effect if has any changes
   React.useEffect(() => {
-    toggleTheme(settings.theme);
+    if (Object.values(Theme).includes(settings.theme)) {
+      toggleTheme(settings.theme);
+    }
     i18n.changeLanguage(settings.language);
   }, [settings])
 

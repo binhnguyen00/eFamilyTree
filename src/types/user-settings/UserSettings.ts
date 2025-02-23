@@ -7,6 +7,7 @@ export enum Theme {
   DEFAULT = "default",
   BLUE = "blue",
   EMERALD = "emerald",
+  SAKURA = "sakura"
 }
 
 export type UserSettings = {

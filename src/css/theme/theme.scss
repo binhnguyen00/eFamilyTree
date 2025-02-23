@@ -1,6 +1,6 @@
 @use './theme-default.scss' as default;
 @use './theme-blue.scss' as blue;
-@use './theme-green.scss' as green;
+@use './theme-sakura.scss' as sakura;
 @use './theme-emerald.scss' as emerald;
 
 [data-theme="default"] {
@@ -11,8 +11,8 @@
   @include blue.theme();
 }
 
-[data-theme="green"] {
-  @include green.theme();
+[data-theme="sakura"] {
+  @include sakura.theme();
 }
 
 [data-theme="emerald"] {
