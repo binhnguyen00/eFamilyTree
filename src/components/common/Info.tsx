@@ -1,4 +1,5 @@
 import React from "react";
+import { StyleUtils } from "utils";
 import { Text } from "zmp-ui";
 
 interface InfoProps {
@@ -9,7 +10,10 @@ interface InfoProps {
 export function Info(props: InfoProps) {
   const { title, message, className } = props;
   return (
-    <div className={`center flex-v ${className && className}`.trim()}>
+    <div 
+      className={`text-center flex-v p-3 text-base ${className && className}`.trim()}
+      style={{ height: StyleUtils.calComponentRemainingHeight(0) }}
+    >
       <Text.Title> {title} </Text.Title>
       {message && (
         <Text> {message} </Text>
