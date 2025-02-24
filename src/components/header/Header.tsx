@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Stack, Text } from "zmp-ui";
+import { Text } from "zmp-ui";
 
 import { CommonIcon } from "components/icon/common-icon";
 import { useRouteNavigate } from "hooks";
@@ -18,30 +18,30 @@ export function Header(props: HeaderProps) {
   if (showBackIcon === undefined || showBackIcon === null) showBackIcon = true;
 
   return (
-    <Box flex flexDirection="row" justifyContent="flex-start">
-      <Box
-        style={{ zIndex: 999 }}
-        className="zaui-header"
-        flex flexDirection="row" justifyContent="flex-start" alignContent="center" alignItems="center"
-      >
-        {showBackIcon && (
-          <CommonIcon.ChevonLeft
-            className="button-bounce" size={"1.5rem"} 
-            onClick={() => goBack()}
-          />
-        )}
-        {customRender ? customRender : (
-          <Box flex flexDirection="row" justifyContent="flex-start" className="flex-h">
-            {logo && (logo)}
-            <Stack>
-              <Text.Title size="small" className="text-capitalize text-shadow">
-                {title}
-              </Text.Title>
-              <Text size="small" className="text-shadow">{subtitle}</Text>
-            </Stack>
-          </Box>
-        )}
-      </Box>
-    </Box>
+    <div 
+      className="zaui-header flex-h justify-start"
+      style={{ 
+        zIndex: 999,
+        height: `var(--header-height)`
+      }}
+    >
+      {showBackIcon && (
+        <CommonIcon.ChevonLeft
+          className="button-bounce" size={"1.5rem"} 
+          onClick={() => goBack()}
+        />
+      )}
+      {customRender ? customRender : (
+        <div className="flex-h justify-start">
+          {logo && (logo)}
+          <div className="flex-v flex-grow-0 text-center">
+            <Text.Title size="small" className="text-capitalize text-shadow mt-2">
+              {title}
+            </Text.Title>
+            <Text size="small" className="text-shadow">{subtitle}</Text>
+          </div>
+        </div>
+      )}
+    </div>
   )
 }
