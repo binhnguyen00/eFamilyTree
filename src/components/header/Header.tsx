@@ -32,10 +32,10 @@ export function Header(props: HeaderProps) {
         />
       )}
       {customRender ? customRender : (
-        <div className="flex-h justify-start">
+        <div className="flex-h justify-start mt-1">
           {logo && (logo)}
-          <div className="flex-v flex-grow-0 text-center">
-            <Text.Title size="small" className="text-capitalize text-shadow mt-2">
+          <div>
+            <Text.Title size="small" className="text-capitalize text-shadow">
               {title}
             </Text.Title>
             <Text size="small" className="text-shadow">{subtitle}</Text>
