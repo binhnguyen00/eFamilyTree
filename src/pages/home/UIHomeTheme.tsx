@@ -37,7 +37,7 @@ export function UIHomeTheme() {
       </Box>
 
       <div className="scroll-h flex-h">
-        <UIThemeList/>
+        <UIThemeList requestPhone={() => setRequestPhone(true)}/>
       </div>
 
       <RequestPhone

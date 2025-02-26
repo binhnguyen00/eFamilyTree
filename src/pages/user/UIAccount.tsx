@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 import { Avatar, Button, Grid, Text } from "zmp-ui";
 
-import { CommonIcon, Header } from "components";
+import { CommonIcon, Header, RequestPhone } from "components";
 import { UserSettingApi } from "api";
 import { CommonUtils } from "utils";
 import { useAppContext, useNotification, useRouteNavigate } from "hooks";
@@ -25,6 +25,7 @@ export function UIAccount() {
 function UIAccountContainer() {
   const { zaloUserInfo, phoneNumber } = useAppContext();
   const { goTo, jumpTo } = useRouteNavigate();
+  const [ requestPhone, setRequestPhone ] = React.useState<boolean>(false);
 
   // Temporary methods
   const devs = [ 
@@ -64,19 +65,30 @@ function UIAccountContainer() {
       ): null}
 
       <div className="p-3 rounded bg-secondary">
-        <UISettings/>
+        <UISettings requestPhone={() => setRequestPhone(true)}/>
       </div>
+
+      <RequestPhone
+        visible={requestPhone}
+        closeSheet={() => setRequestPhone(false)}
+      />
 
     </div>
   )
 }
 
-function UISettings() {
+function UISettings({ requestPhone }: {
+  requestPhone?: () => void
+}) {
   const { goTo } = useRouteNavigate();
-  const { userInfo, settings, updateSettings } = useAppContext();
+  const { logedIn, userInfo, settings, updateSettings } = useAppContext();
   const { loadingToast, successToast, dangerToast } = useNotification();
 
   const changeLang = (langCode: "vi" | "en") => {
+    if (!logedIn) {
+      if (requestPhone) requestPhone();
+      return;
+    }
     const success = (result: ServerResponse) => {
       if (result.status === "success") {
         const settings = result.data;        
@@ -94,6 +106,10 @@ function UISettings() {
   }
 
   const changeBackground = () => {
+    if (!logedIn) {
+      if (requestPhone) requestPhone();
+      return;
+    }
     loadingToast(
       t("updating_background"),
       (onSuccess, onFail) => {
@@ -126,10 +142,13 @@ function UISettings() {
         );
       }
     )
-    
   } 
 
   const resetBackground = () => {
+    if (!logedIn) {
+      if (requestPhone) requestPhone();
+      return;
+    }
     const success = (result: ServerResponse) => {
       const background = result.data;
       updateSettings({
@@ -142,6 +161,14 @@ function UISettings() {
       successToast(t("update_success"));
     }
     UserSettingApi.resetBackground(userInfo.id, userInfo.clanId, success, () => successToast(t("update_success")));
+  }
+
+  const goToTheme = () => {
+    if (!logedIn) {
+      if (requestPhone) requestPhone();
+      return;
+    }
+    goTo({ path: "theme" })
   }
 
   return (
@@ -188,13 +215,13 @@ function UISettings() {
         <Button 
           size="small" variant="secondary" 
           suffixIcon={<CommonIcon.ChevonRight size={"1rem"}/>} 
-          onClick={() => goTo({ path: "theme" })}
+          onClick={goToTheme}
         >
           {t("more")}
         </Button>
       </div>
       <div className="scroll-h">
-        <UIThemeList className="text-primary"/>
+        <UIThemeList className="text-primary" requestPhone={requestPhone}/>
       </div>
     </div>
   )

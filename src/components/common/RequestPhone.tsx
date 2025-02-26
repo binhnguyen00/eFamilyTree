@@ -39,8 +39,6 @@ export function RequestPhone(props: RequestPhoneProps) {
       title={t("need_access")} 
       visible={visible} 
       onClose={closeSheet}
-      height={"65vh"}
-      mask maskClosable
     >
       <div className="flex-v p-3">
         <div className="flex-h">

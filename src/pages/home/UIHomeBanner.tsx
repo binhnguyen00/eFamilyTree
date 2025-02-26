@@ -33,7 +33,7 @@ export function UIHomeBanner() {
               }
               textStyle={{ fontSize: "1.5rem" }}
               src={banner_04}
-              height={180}
+              height={200}
             />
           </React.Suspense>
         </Swiper.Slide>
@@ -50,7 +50,7 @@ export function UIHomeBanner() {
               }
               textStyle={{ fontSize: "2rem" }}
               src={banner_01}
-              height={180}
+              height={200}
             />
           </React.Suspense>
         </Swiper.Slide>
@@ -67,7 +67,7 @@ export function UIHomeBanner() {
               }
               textStyle={{ fontSize: "1.5rem" }}
               src={banner_02}
-              height={180}
+              height={200}
             />
           </React.Suspense>
         </Swiper.Slide>
@@ -82,7 +82,7 @@ export function UIHomeBanner() {
               }
               textStyle={{ fontSize: "2rem" }}
               src={banner_03}
-              height={180}
+              height={200}
             />
           </React.Suspense>
         </Swiper.Slide>

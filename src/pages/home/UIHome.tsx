@@ -10,8 +10,7 @@ import { UIHomeTheme } from './UIHomeTheme';
 export function UIHome() {
   return (
     <div className='container text-secondary'>
-      <HeaderUser
-      />
+      <HeaderUser/>
 
       <div className='flex-v'>
         <React.Suspense fallback={<Loading/>}>

@@ -1,7 +1,7 @@
 import React from "react";
 import { t } from "i18next";
 
-import { Grid, Stack, Text } from "zmp-ui";
+import { Grid, Text } from "zmp-ui";
 
 import { UserSettingApi } from "api";
 import { useAppContext, useNotification } from "hooks";
@@ -33,13 +33,16 @@ export function UITheme(props: UIThemeProps) {
   )
 }
 
-export function UIThemeList(props: UIThemeProps) {
-  const { className } = props;
+interface UIThemeListProps extends UIThemeProps {
+  requestPhone?: () => void;
+}
+export function UIThemeList(props: UIThemeListProps) {
+  const { className, requestPhone } = props;
   return (
     <>
-      <ThemeCard theme={Theme.DEFAULT} src={themeRed} className={className}/>
-      <ThemeCard theme={Theme.BLUE} src={themeBlue} className={className}/>
-      <ThemeCard theme={Theme.EMERALD} src={themeGreen} className={className}/>
+      <ThemeCard theme={Theme.DEFAULT} src={themeRed} className={className} requestPhone={requestPhone}/>
+      <ThemeCard theme={Theme.BLUE} src={themeBlue} className={className} requestPhone={requestPhone}/>
+      <ThemeCard theme={Theme.EMERALD} src={themeGreen} className={className} requestPhone={requestPhone}/>
     </>
   )
 }
@@ -47,13 +50,18 @@ export function UIThemeList(props: UIThemeProps) {
 interface ThemeCardProps extends UIThemeProps {
   theme: Theme;
   src: string;
+  requestPhone?: () => void
 }
 function ThemeCard(props: ThemeCardProps) {
-  const { theme, src, className } = props;
-  const { userInfo, settings, updateSettings } = useAppContext();
+  const { theme, src, className, requestPhone } = props;
+  const { logedIn, userInfo, settings, updateSettings } = useAppContext();
   const { loadingToast } = useNotification();
 
   const onSaveTheme = (theme: Theme) => {
+    if (!logedIn) {
+      if (requestPhone) requestPhone();
+      return;
+    }
     loadingToast(
       <div>
         <p> {t("đang cập nhật")} </p>
@@ -92,7 +100,7 @@ function ThemeCard(props: ThemeCardProps) {
   }
 
   return (
-    <Stack space="0.5rem" className={`center text-capitalize ${className}`.trim()} >
+    <div className={`flex-v center text-capitalize ${className}`.trim()} >
       <SizedBox 
         className="button"
         width={150} height={100} border
@@ -101,6 +109,6 @@ function ThemeCard(props: ThemeCardProps) {
         <img src={src} alt="theme"/>
       </SizedBox>
       <Text className="bold text-capitalize"> {renderTitle()} </Text>
-    </Stack>
+    </div>
   )
 }

@@ -40,8 +40,6 @@ export function RequestLocation({ visible, close }: RequestLocationProps) {
       title={t("need_access")} 
       visible={visible}  
       onClose={close}
-      mask maskClosable
-      height={"65vh"}
     >
       <div className="flex-v p-3">
         <div className="flex-h">
