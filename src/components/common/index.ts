@@ -14,12 +14,13 @@ import { RequestLocation } from "./RequestLocation";
 import { Selection, SelectionOption } from "./Selection";
 import { DatePicker } from "./DatePicker";
 import { Label } from "./Label";
+import { TailSpin } from "./TailSpin";
 
 export { 
   Loading, Info,
   Divider, ImageWithText, Navigation, RequestPhone, SearchBar,
   SizedBox, PagePositionSaver, ScrollableDiv, Card, Popover, RequestLocation,
-  Selection, DatePicker, Label
+  Selection, DatePicker, Label, TailSpin
 };
 
 export type {

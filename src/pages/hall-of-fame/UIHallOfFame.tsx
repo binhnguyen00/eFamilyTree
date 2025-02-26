@@ -10,12 +10,7 @@ import { ServerResponse } from "types/server";
 import { StyleUtils } from "utils";
 
 import { UICreateHallOfFame } from "./UICreateHallOfFame";
-
-import nguoi_co_cong from "assets/img/hall-of-fame/người-có-công.jpg";
-import nguoi_hieu_hoc from "assets/img/hall-of-fame/người-hiếu-học.jpg";
-import nguoi_thanh_dat from "assets/img/hall-of-fame/người-thành-công.jpg";
-import nhan_vat_lich_su from "assets/img/hall-of-fame/nhân-vật-lịch-sử.jpg";
-import tam_long_vang from "assets/img/hall-of-fame/tấm-lòng-vàng.jpg"
+import { loadHallOfFameThumnails } from "./thumnails";
 
 export function UIHallOfFame() {
   const { goTo } = useRouteNavigate();
@@ -31,20 +26,7 @@ export function UIHallOfFame() {
 
   const filterBackgroundByName = (name: string) => {
     const target = name.toLowerCase().trim();
-    switch (target) {
-      case "nhân vật lịch sử":
-        return nhan_vat_lich_su;
-      case "người thành đạt":
-        return nguoi_thanh_dat;
-      case "người hiếu học":
-        return nguoi_hieu_hoc;
-      case "người có công":
-        return nguoi_co_cong;
-      case "tấm lòng vàng":
-        return tam_long_vang;
-      default:
-        return nhan_vat_lich_su;
-    }
+    return loadHallOfFameThumnails(target);
   }
 
   const renderCards = () => {
