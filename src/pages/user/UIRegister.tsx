@@ -80,19 +80,19 @@ function UIRegisterForm({ observer, submit }: {
 
       <div className="flex-h">
         <Input 
-          label={<Label text={t("mobile") + "*"}/>} size="small"
+          label={<Label text={t("mobile") + "*"}/>}
           name={"mobile"}
           value={observer.getBean().mobile} 
           onChange={observer.watch}
         />
         <Input 
-          label={<Label text={t("clan_code") + "*"}/>} size="small"
+          label={<Label text={t("clan_code") + "*"}/>}
           name={"clanCode"}
           value={observer.getBean().clanCode} 
           onChange={observer.watch}
         />
         <Input 
-          label={<Label text={t("Mã Bố") + "*"}/>} size="small"
+          label={<Label text={t("Mã Bố") + "*"}/>}
           name={"fatherCode"}
           value={observer.getBean().fatherCode} 
           onChange={observer.watch}
@@ -101,7 +101,7 @@ function UIRegisterForm({ observer, submit }: {
       {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
 
       <Input 
-        label={<Label text={t("name") + "*"}/>} size="small"
+        label={<Label text={t("name") + "*"}/>}
         name={"fullName"}
         value={observer.getBean().fullName}
         onChange={observer.watch}
@@ -118,7 +118,7 @@ function UIRegisterForm({ observer, submit }: {
       {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
 
       <Input 
-        label={<Label text={t("email *")}/>} size="small"
+        label={<Label text={t("email *")}/>}
         name="email"
         value={observer.getBean().email} 
         onChange={observer.watch}

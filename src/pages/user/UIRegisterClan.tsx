@@ -117,7 +117,7 @@ function ClanForm(props: StepProps) {
       <Text.Title size="xLarge" className="text-capitalize center">{t("clan_info")}</Text.Title>
 
       <Input 
-        label={<Label text={t("Tên Dòng Họ *")}/>} size="small" name="clanName" 
+        label={<Label text={t("Tên Dòng Họ *")}/>} name="clanName" 
         value={observer.getBean().clanName} 
         onChange={observer.watch}
       />
@@ -135,11 +135,7 @@ function AddressForm(props: StepProps) {
   const [ error, setError ] = React.useState('');
 
   const handleNextStep = () => {
-    if (!observer.getBean().address 
-      // !observer.getFieldValue("country") 
-      // || !observer.getFieldValue("city")
-      // || !observer.getFieldValue("district")
-    ) {
+    if (!observer.getBean().address) {
       setError(t("input_required"));
       return;
     }
@@ -151,26 +147,7 @@ function AddressForm(props: StepProps) {
     <div className="flex-v text-primary">
       <Text.Title size="xLarge" className="text-capitalize center">{t("address")}</Text.Title>
 
-      {/* <Input 
-        label={t("country") + "*"} name="country" size="small"
-        value={observer.getBean().country} 
-        onChange={observer.watch}
-      />
-      <Input 
-        label={t("city") + "*"} name="city" size="small"
-        value={observer.getBean().city} onChange={observer.watch}
-      />
-      <Input 
-        label={t("district") + "*"} name="district" size="small"
-        value={observer.getBean().district} onChange={observer.watch}
-      />
-      <Input 
-        label={t("sub_district") + "*"} name="subDistrict" size="small"
-        value={observer.getBean().subDistrict} onChange={observer.watch}
-      /> */}
-
       <Input.TextArea 
-        // label={<Label text={t("address")}/>} 
         name="address" 
         value={observer.getBean().address} 
         onChange={(e) => {
@@ -213,15 +190,15 @@ function PersionalForm(props: StepProps) {
 
       <div className="flex-v">
         <Input 
-          label={<Label text={t("Họ và Tên *")}/>} name="name" size="small"
+          label={<Label text={t("Họ và Tên *")}/>} name="name"
           value={observer.getBean().name} onChange={observer.watch}
         />
         <Input 
-          label={<Label text={t("Số Điện Thoại *")}/>} name="mobile" size="small"
+          label={<Label text={t("Số Điện Thoại *")}/>} name="mobile"
           value={observer.getBean().mobile} onChange={observer.watch}
         />
         <Input 
-          label={<Label text={t("email")}/>} name="email" size="small"
+          label={<Label text={t("email")}/>} name="email"
           value={observer.getBean().email} onChange={observer.watch}
         />
 
