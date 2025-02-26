@@ -1,10 +1,9 @@
 import React from "react";
 import { t } from "i18next";
-import { Button } from "zmp-ui";
+import { Button, Sheet } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
-
-import { CommonIcon, SlidingPanel, SlidingPanelOrient, useAppContext } from "components";
+import { CommonIcon, useAppContext } from "components";
 
 interface RequestLocationProps {
   visible: boolean;
@@ -37,11 +36,10 @@ export function RequestLocation({ visible, close }: RequestLocationProps) {
   };
 
   return (
-    <SlidingPanel 
-      header={<p style={{ fontSize: "1.2rem" }}> {t("need_access")} </p>} 
-      visible={visible} 
-      orient={SlidingPanelOrient.BottomToTop}
-      close={close}
+    <Sheet
+      title={t("need_access")} 
+      visible={visible}  
+      onClose={close}
     >
       <div className="flex-v p-3">
         <div className="flex-h">
@@ -62,6 +60,6 @@ export function RequestLocation({ visible, close }: RequestLocationProps) {
           </Button>
         </div>
       </div>
-    </SlidingPanel>
+    </Sheet>
   )
 }

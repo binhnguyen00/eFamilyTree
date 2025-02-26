@@ -1,10 +1,10 @@
 import React from "react";
 import { t } from "i18next";
-import { Button } from "zmp-ui";
+import { Button, Sheet } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
 import { useAppContext } from "hooks";
-import { CommonIcon, SlidingPanel, SlidingPanelOrient } from "components";
+import { CommonIcon } from "components";
 
 export function RequestPhone(props: { visible: boolean, closeSheet: () => void }) {
   const { updatePhoneNumber, updateZaloUserInfo } = useAppContext();
@@ -29,11 +29,10 @@ export function RequestPhone(props: { visible: boolean, closeSheet: () => void }
   };
 
   return (
-    <SlidingPanel 
-      header={<p style={{ fontSize: "1.2rem" }}> {t("need_access")} </p>} 
+    <Sheet 
+      title={t("need_access")} 
       visible={visible} 
-      orient={SlidingPanelOrient.BottomToTop}
-      close={closeSheet}
+      onClose={closeSheet}
     >
       <div className="flex-v p-3">
         <div className="flex-h">
@@ -54,6 +53,6 @@ export function RequestPhone(props: { visible: boolean, closeSheet: () => void }
           </Button>
         </div>
       </div>
-    </SlidingPanel>
+    </Sheet>
   )
 }
