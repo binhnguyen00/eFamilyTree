@@ -15,6 +15,7 @@ export interface PanelProps extends React.HTMLAttributes<HTMLDivElement> {
   close?: () => void;
 }
 
+/** @deprecated */
 export enum SlidingPanelOrient {
   LeftToRight = "ltr",
   RightToLeft = "rtl",
@@ -25,6 +26,7 @@ export enum SlidingPanelOrient {
 interface SlidingPanelProps extends PanelProps {
   orient: SlidingPanelOrient;
 }
+/** @deprecated */
 export function SlidingPanel(props: SlidingPanelProps) {
   const { visible, height, children, header, close, orient, className } = props;
 
