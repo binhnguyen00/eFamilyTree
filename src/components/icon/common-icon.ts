@@ -1,24 +1,18 @@
 import { BiSolidFileJpg, BiSolidFilePng } from "react-icons/bi";
-import { BsArchiveFill, BsFiletypeSvg, BsFillPeopleFill } from "react-icons/bs";
-import { FaChevronDown, FaChevronUp, FaChild, FaInfoCircle, FaPhoneAlt, FaRegSave } from "react-icons/fa";
+import { BsArchiveFill, BsFiletypeSvg, BsFillFilePersonFill, BsFillPeopleFill } from "react-icons/bs";
+import { FaArrowDown, FaArrowLeft, FaArrowRight, FaArrowUp, FaChevronDown, FaChevronUp, FaChild, FaFileDownload, FaInfoCircle, FaPhoneAlt, FaRegCopy, FaRegSave } from "react-icons/fa";
 import { FaFilePdf, FaMapLocationDot } from "react-icons/fa6";
 import { GoHomeFill } from "react-icons/go";
 import { GrMap } from "react-icons/gr";
 import { HiOutlineDotsVertical, HiOutlineLightBulb } from "react-icons/hi";
 import { IoIosArrowBack, IoIosArrowForward, IoIosCloseCircle, IoIosCloudDownload, IoMdAdd, IoMdLogIn } from "react-icons/io";
 import { IoNotifications, IoPersonAddSharp, IoPersonCircle, IoTrash } from "react-icons/io5";
-import { LuMinus } from "react-icons/lu";
-import { MdAddLocationAlt, MdPersonSearch } from "react-icons/md";
+import { LuCalendarPlus, LuMinus } from "react-icons/lu";
+import { MdAddLocationAlt, MdOutlinePreview, MdPersonSearch } from "react-icons/md";
 import { PiTreeFill } from "react-icons/pi";
-import { RiResetRightLine } from "react-icons/ri";
-import { TbLogout, TbPhoto, TbPhotoPlus } from "react-icons/tb";
+import { RiMailSendLine, RiResetRightLine } from "react-icons/ri";
+import { TbLogout, TbPhoto, TbPhotoMinus, TbPhotoPlus } from "react-icons/tb";
 import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
-import { MdOutlinePreview } from "react-icons/md";
-import { FaFileDownload } from "react-icons/fa";
-import { LuCalendarPlus } from "react-icons/lu";
-import { TbPhotoMinus } from "react-icons/tb";
-import { FaRegCopy } from "react-icons/fa";
-import { BsFillFilePersonFill } from "react-icons/bs";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -64,4 +58,9 @@ export const CommonIcon = {
   RemovePhoto: TbPhotoMinus,
   Copy: FaRegCopy,
   FilePerson: BsFillFilePersonFill,
+  ArrowDown: FaArrowDown,
+  ArrowLeft: FaArrowLeft,
+  ArrowRight: FaArrowRight,
+  ArrowUp: FaArrowUp,
+  SendMail: RiMailSendLine,
 };

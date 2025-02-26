@@ -124,7 +124,10 @@ function ClanForm(props: StepProps) {
       {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
 
       <Button size="medium" onClick={handleNextStep}> 
-        {t("next")}
+        <div className="flex-h center">  
+          <p> {t("next")} </p> 
+          <CommonIcon.ArrowRight/>
+        </div>
       </Button>
     </div>
   )
@@ -159,10 +162,16 @@ function AddressForm(props: StepProps) {
 
       <div className="flex-h justify-between">
         <Button size="small" onClick={previousStep}> 
-          {t("previous")}
+          <div className="flex-h center">  
+            <CommonIcon.ArrowLeft/>
+            <p> {t("previous")} </p> 
+          </div>
         </Button>
         <Button size="small" onClick={handleNextStep}> 
-          {t("next")}
+          <div className="flex-h center">  
+            <p> {t("next")} </p> 
+            <CommonIcon.ArrowRight/>
+          </div>
         </Button>
       </div>
 
@@ -206,10 +215,16 @@ function PersionalForm(props: StepProps) {
 
         <div className="flex-h justify-between">
           <Button size="small" onClick={previousStep}> 
-            {t("previous")}
+            <div className="flex-h center">  
+              <CommonIcon.ArrowLeft/>
+              <p> {t("previous")} </p> 
+            </div>
           </Button>
           <Button size="small" onClick={submitOrError}> 
-            {t("submit")}
+            <div className="flex-h center">  
+              <p> {t("submit")} </p> 
+              <CommonIcon.SendMail/>
+            </div>
           </Button>
         </div>
 
