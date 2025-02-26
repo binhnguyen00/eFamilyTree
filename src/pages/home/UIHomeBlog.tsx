@@ -3,16 +3,22 @@ import { t } from "i18next";
 import { Box, Button, Stack, Text } from "zmp-ui";
 
 import { SocialPostApi } from "api";
-import { CommonIcon, Loading } from "components";
+import { CommonIcon, Loading, RequestPhone } from "components";
 import { useAppContext, useRouteNavigate } from "hooks";
 
 import { ServerResponse } from "types/server";
 
 export function UIHomeBlog() {
+  const { logedIn } = useAppContext();
   const { goTo } = useRouteNavigate();
+  const [ requestPhone, setRequestPhone ] = React.useState<boolean>(false);
 
   const goToBlogs = () => {
-    goTo({ path: "blogs" });
+    if (!logedIn) {
+      setRequestPhone(true);
+    } else {
+      goTo({ path: "blogs" });
+    }
   }
 
   return (
@@ -21,7 +27,12 @@ export function UIHomeBlog() {
       <Box flex flexDirection="row" justifyContent="space-between">
         <Text.Title size="xLarge" className="text-capitalize text-shadow"> {t("blogs")} </Text.Title>
         <Box flex flexDirection="row" alignItems="center" alignContent="center" className="button">
-          <Button size="small" variant="secondary" suffixIcon={<CommonIcon.ChevonRight size={"1rem"}/>} onClick={goToBlogs}>
+          <Button 
+            size="small" 
+            variant="secondary" 
+            suffixIcon={<CommonIcon.ChevonRight size={"1rem"}/>} 
+            onClick={goToBlogs}
+          >
             <Text> {t("more")} </Text>
           </Button>
         </Box>
@@ -30,6 +41,11 @@ export function UIHomeBlog() {
       <React.Suspense fallback={<Loading/>}>
         <UISocialPosts/>
       </React.Suspense>
+
+      <RequestPhone
+        visible={requestPhone}
+        closeSheet={() => setRequestPhone(false)}
+      />
 
     </div>
   )

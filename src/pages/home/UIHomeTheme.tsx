@@ -2,12 +2,22 @@ import React from "react";
 import { t } from "i18next";
 import { Box, Button, Text } from "zmp-ui";
 
-import { CommonIcon } from "components";
+import { CommonIcon, RequestPhone } from "components";
 import { UIThemeList } from "pages/theme/UITheme";
-import { useRouteNavigate } from "hooks";
+import { useAppContext, useRouteNavigate } from "hooks";
 
 export function UIHomeTheme() {
+  const { logedIn } = useAppContext();
   const { goTo } = useRouteNavigate();
+  const [ requestPhone, setRequestPhone ] = React.useState<boolean>(false);
+
+  const onGoToTheme = () => {
+    if (!logedIn) {
+      setRequestPhone(true);
+    } else {
+      goTo({ path: "theme" })
+    }
+  }
 
   return (
     <div className="flex-v">
@@ -15,7 +25,12 @@ export function UIHomeTheme() {
       <Box flex flexDirection="row" justifyContent="space-between">
         <Text.Title size="xLarge" className="text-capitalize text-shadow"> {t("theme")} </Text.Title>
         <Box flex flexDirection="row" alignItems="center" alignContent="center" className="button">
-          <Button size="small" variant="secondary" suffixIcon={<CommonIcon.ChevonRight size={"1rem"}/>} onClick={() => goTo({ path: "theme" })}>
+          <Button 
+            size="small" 
+            variant="secondary" 
+            suffixIcon={<CommonIcon.ChevonRight size={"1rem"}/>} 
+            onClick={onGoToTheme}
+          >
             <Text> {t("more")} </Text>
           </Button>
         </Box>
@@ -24,6 +39,11 @@ export function UIHomeTheme() {
       <div className="scroll-h flex-h">
         <UIThemeList/>
       </div>
+
+      <RequestPhone
+        visible={requestPhone}
+        closeSheet={() => setRequestPhone(false)}
+      />
 
     </div>
   )

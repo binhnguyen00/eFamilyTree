@@ -1,10 +1,6 @@
 import React from 'react';
-import { Outlet } from "react-router-dom";
 
-import { Stack } from 'zmp-ui';
-import { t } from 'i18next';
-
-import { Header, HeaderUser, Divider, Loading } from 'components';
+import { HeaderUser, Divider, Loading } from 'components';
 
 import { UIHomeBanner } from './UIHomeBanner';
 import { UIHomeAppList } from './UIHomeAppList';
@@ -14,44 +10,34 @@ import { UIHomeTheme } from './UIHomeTheme';
 export function UIHome() {
   return (
     <div className='container text-secondary'>
-      <Header showBackIcon={false} customRender={
-        <React.Suspense fallback={t("loading")}>
-          <HeaderUser/>
-        </React.Suspense>
-      }/>
+      <HeaderUser
+      />
 
-      <Stack>
-        <React.Suspense fallback={<Loading message={t("loading")}/>}>
+      <div className='flex-v'>
+        <React.Suspense fallback={<Loading/>}>
           <UIHomeBanner/>
         </React.Suspense>
 
         <Divider/>
 
-        <React.Suspense fallback={<Loading message={t("loading")}/>}>
+        <React.Suspense fallback={<Loading/>}>
           <UIHomeAppList/>
         </React.Suspense>
 
         <Divider/>
 
-        <React.Suspense fallback={<Loading message={t("loading")}/>}>
+        <React.Suspense fallback={<Loading/>}>
           <UIHomeTheme/>
         </React.Suspense>
 
         <Divider/>
 
-        <React.Suspense fallback={<Loading message={t("loading")}/>}>
+        <React.Suspense fallback={<Loading/>}>
           <UIHomeBlog/>
         </React.Suspense>
 
         <Divider/>
-
-      </Stack>
+      </div>
     </div>
   )
 };
-
-export function UIHomeLayout() { 
-  return (
-    <Outlet/>
-  )
-}
