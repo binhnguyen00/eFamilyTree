@@ -26,6 +26,10 @@ export function useFamilyTree() {
   const refresh = () => setReload(!reload);
 
   React.useEffect(() => {
+    setLoading(true);
+    setError(false);
+    setProcessor(new TreeDataProcessor([]))
+    
     const success = (result: ServerResponse) => {
       setLoading(false);
       if (result.status === "error") {

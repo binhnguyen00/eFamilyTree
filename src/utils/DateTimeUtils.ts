@@ -55,6 +55,7 @@ export class DateTimeUtils {
   }
 
   public static toDate(dateStr: string) {
+    if (dateStr.length === 0) return;
     const possibleFormats = [
       "YYYY-MM-DD",
       "YYYY/MM/DD",

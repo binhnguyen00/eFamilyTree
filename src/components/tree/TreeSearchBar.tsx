@@ -33,7 +33,7 @@ export function TreeSearchBar(props: TreeSearchBarProps) {
 
   return (
     <Selection
-      label={""} field={""} isSearchable isClearable 
+      label={""} field={""} isSearchable 
       options={options} observer={null as any}
       onChange={(value, action: any) => onSelectNode(value)}
       placeHolder={t("Tìm kiếm thành viên...")}

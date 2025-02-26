@@ -9,6 +9,7 @@ import { Header, CommonIcon, Loading, Info, ScrollableDiv } from "components";
 import { ServerResponse } from "types/server";
 import { HallOfFameUser, UIHallOfFameUserDetails } from "./UIHallOfFameUser";
 import { StyleUtils } from "utils";
+import { UICreateHallOfFame } from "./UICreateHallOfFameUser";
 
 export function UIHallOfFameUsers() {
   const { belongings } = useRouteNavigate();
@@ -16,6 +17,7 @@ export function UIHallOfFameUsers() {
   const { data, error, loading, refresh } = useHallOfFameUsers(hallOfFameId);
 
   const [ selectId, setSelectId ] = React.useState<number | null>(null);
+  const [ create, setCreate ] = React.useState<boolean>(false);
 
   const renderUsers = () => {
     let lines: React.ReactNode[] = data.map((hallOfFame: HallOfFameUser, index: number) => {
@@ -26,22 +28,14 @@ export function UIHallOfFameUsers() {
           onClick={() => setSelectId(hallOfFame.id)}
         >
           <div className="flex-v">
-            <Text.Title size="large"> {hallOfFame.member} </Text.Title>
+            <Text.Title size="large"> {hallOfFame.memberName} </Text.Title>
             <Text size="small"> {hallOfFame.name} </Text>
           </div>
           <CommonIcon.ChevonRight size={20}/>
         </div>
       )
     })
-    return (
-      <ScrollableDiv
-        className="flex-v"
-        direction="vertical"
-        height={StyleUtils.calComponentRemainingHeight(44)}
-      >
-        {lines}
-      </ScrollableDiv>
-    )
+    return lines as React.ReactNode[];
   }
 
   const Container = () => {
@@ -58,32 +52,41 @@ export function UIHallOfFameUsers() {
 
   const Footer = () => {
     return (
-      <div style={{ position: "absolute", bottom: 50, right: 10 }}>
-        <Button prefixIcon={<CommonIcon.Plus />} onClick={onCreate}>
+      <div style={{ position: "absolute", bottom: 120, right: 10 }}>
+        <Button size="small" prefixIcon={<CommonIcon.Plus />} onClick={() => setCreate(true)}>
           {t("thêm")}
         </Button>
       </div>
     )
   }
 
-  const onCreate = () => {
-
-  }
-
   return (
     <>
       <Header title={hallOfFameName}/>
 
-      <div className="container max-h bg-white">
-        <Container/>
+      <div className="container bg-white">
+        <ScrollableDiv
+          className="flex-v"
+          direction="vertical"
+          height={StyleUtils.calComponentRemainingHeight(44)}
+        >
+          <Container/>
+        </ScrollableDiv>
 
-        {/* <Footer/> */}
+        <Footer/>
       </div>
 
       <UIHallOfFameUserDetails
         userId={selectId}
         visible={selectId !== null ? true : false}
         onClose={() => setSelectId(null)}
+      />
+
+      <UICreateHallOfFame
+        visible={create}
+        hallOfFameTypeId={hallOfFameId}
+        onClose={() => setCreate(false)}
+        onReloadParent={() => refresh()}
       />
     </>
   )
@@ -104,7 +107,7 @@ function useHallOfFameUsers(typeId: number) {
     setError(false);
     setData([])
 
-    HallOfFameApi.getHallOfFameUsers({
+    HallOfFameApi.searchMembers({
       userId: userInfo.id,
       clanId: userInfo.clanId,
       typeId: typeId,
@@ -117,10 +120,16 @@ function useHallOfFameUsers(typeId: number) {
           const resultData = result.data as any[];
           const data: HallOfFameUser[] = resultData.map((data: any) => {
             return {
-              id:       data.id,
-              name:     data.name,
-              member:   data.member,
-              ranking:  data.ranking
+              id:               data["id"],
+              name:             data["name"],
+              avatar:           data["avatar"],  
+              memberId:         data["member_id"],
+              memberName:       data["member_name"],
+              typeId:           data["type_id"],
+              typeName:         data["type_name"],
+              ranking:          data["ranking"],
+              recognitionDate:  data["recognition_date"],
+              achievement:      data["achievement"]
             }
           })
           setData(data);
