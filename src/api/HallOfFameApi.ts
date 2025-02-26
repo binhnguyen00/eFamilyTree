@@ -12,10 +12,10 @@ export class HallOfFameApi extends BaseApi {
       clan_id: clanId,
       type_id: typeId
     });
-    return this.server.POST("get/certificates", header, body, success, fail);
+    return this.server.POST("hall-of-fame/users", header, body, success, fail);
   }
 
-  public static getHallOfFameUser({ userId, clanId, id, success, fail }: {
+  public static getHallOfFameUserInfo({ userId, clanId, id, success, fail }: {
     userId: number, clanId: number, id: number, success: SuccessCB, fail?: FailCB
   }) {
     const header = this.initHeader();
@@ -24,7 +24,7 @@ export class HallOfFameApi extends BaseApi {
       clan_id: clanId,
       id: id
     });
-    return this.server.POST("get/info/certificate", header, body, success, fail);
+    return this.server.POST("hall-of-fame/users/info", header, body, success, fail);
   }
 
   public static getClanHallOfFame({ userId, clanId, success, fail }: {
@@ -35,6 +35,6 @@ export class HallOfFameApi extends BaseApi {
       user_id: userId,
       clan_id: clanId,
     });
-    return this.server.POST("get/type/certificates", header, body, success, fail);
+    return this.server.POST("hall-of-fame", header, body, success, fail);
   }
 }

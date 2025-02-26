@@ -4,10 +4,11 @@ import { Button, Text } from "zmp-ui";
 
 import { HallOfFameApi } from "api";
 import { useRouteNavigate, useAppContext } from "hooks";
-import { Header, CommonIcon, Loading, Info } from "components";
+import { Header, CommonIcon, Loading, Info, ScrollableDiv } from "components";
 
 import { ServerResponse } from "types/server";
 import { HallOfFameUser, UIHallOfFameUserDetails } from "./UIHallOfFameUser";
+import { StyleUtils } from "utils";
 
 export function UIHallOfFameUsers() {
   const { belongings } = useRouteNavigate();
@@ -16,27 +17,30 @@ export function UIHallOfFameUsers() {
 
   const [ selectId, setSelectId ] = React.useState<number | null>(null);
 
-  const onSelect = (id: number) => setSelectId(id)
-
   const renderUsers = () => {
-    let lines: React.ReactNode[] = data.map((user: HallOfFameUser, index: number) => {
+    let lines: React.ReactNode[] = data.map((hallOfFame: HallOfFameUser, index: number) => {
       return (
         <div
           key={`user-${index}`}
-          className="bg-primary text-secondary flex-h justify-between p-3 rounded"
-          onSelect={() => onSelect(user.id)}
+          className="bg-primary text-secondary flex-h justify-between p-3 rounded button"
+          onClick={() => setSelectId(hallOfFame.id)}
         >
-          <div>
-            <Text> {user.name} </Text>
+          <div className="flex-v">
+            <Text.Title size="large"> {hallOfFame.member} </Text.Title>
+            <Text size="small"> {hallOfFame.name} </Text>
           </div>
           <CommonIcon.ChevonRight size={20}/>
         </div>
       )
     })
     return (
-      <div className="flex-v">
+      <ScrollableDiv
+        className="flex-v"
+        direction="vertical"
+        height={StyleUtils.calComponentRemainingHeight(44)}
+      >
         {lines}
-      </div>
+      </ScrollableDiv>
     )
   }
 
@@ -44,9 +48,9 @@ export function UIHallOfFameUsers() {
     if (loading) {
       return <Loading/>
     } else if (error) {
-      return <Info title={t("chưa có dữ liệu")} message={t("hãy thêm người dùng")}/>
+      return <Info title={t("chưa có dữ liệu")}/>
     } else if (!data.length) {
-      return <Info title={t("chưa có dữ liệu")} message={t("hãy thêm người dùng")}/>
+      return <Info title={t("chưa có dữ liệu")}/>
     } else {
       return renderUsers();
     }
@@ -70,15 +74,15 @@ export function UIHallOfFameUsers() {
     <>
       <Header title={hallOfFameName}/>
 
-      <div className="container bg-white">
+      <div className="container max-h bg-white">
         <Container/>
 
-        <Footer/>
+        {/* <Footer/> */}
       </div>
 
       <UIHallOfFameUserDetails
         userId={selectId}
-        visible={selectId === null ? false : true}
+        visible={selectId !== null ? true : false}
         onClose={() => setSelectId(null)}
       />
     </>
@@ -110,7 +114,15 @@ function useHallOfFameUsers(typeId: number) {
           console.error(result.message);
           setError(true);
         } else {
-          const data = result.data as any[];
+          const resultData = result.data as any[];
+          const data: HallOfFameUser[] = resultData.map((data: any) => {
+            return {
+              id:       data.id,
+              name:     data.name,
+              member:   data.member,
+              ranking:  data.ranking
+            }
+          })
           setData(data);
         }
       },

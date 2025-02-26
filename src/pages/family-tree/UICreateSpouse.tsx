@@ -108,7 +108,7 @@ function Form({ observer, onCreate }: {
           }
         />
         <Input 
-          label={<Label text={observer.getBean().gender === "1" ? t("Vợ của") : t("Chồng của")}/>} 
+          label={<Label text={observer.getBean().gender === "1" ? t("Chồng của") : t("Vợ của")}/>} 
           value={observer.getBean().spouses[0].name} disabled
         />
       </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Grid, Stack, Text } from "zmp-ui";
+import { Grid, Text } from "zmp-ui";
 
 import { useAppContext, useRouteNavigate } from "hooks";
 import { AppLogo, RequestPhone, SizedBox } from "components";
@@ -16,15 +16,15 @@ export function UIHomeAppList() {
     { key: "family-tree",       label: t("family_tree"),       requirePhone: true },
     { key: "gallery",           label: t("gallery"),           requirePhone: true },
     { key: "calendar",          label: t("calendar"),          requirePhone: true },
+    { key: "ritual-script",     label: t("ritual_script"),     requirePhone: true },
+    { key: "memorial-location", label: t("memorial_location"), requirePhone: true },
     { key: "blogs",             label: t("blogs"),             requirePhone: true },
     { key: "funds",             label: t("funds"),             requirePhone: true },
-    { key: "hall-of-fame",      label: t("certificates"),      requirePhone: true },
-    { key: "ritual-script",     label: t("ritual_script"),     requirePhone: false },
-    { key: "memorial-location", label: t("memorial_location"), requirePhone: true },
+    { key: "hall-of-fame",      label: t("certificates"),      requirePhone: true }, 
   ];
 
   return (
-    <Stack space="0.5rem">
+    <div className="flex-v">
       <Text.Title 
         size="xLarge" 
         className="text-capitalize text-shadow"
@@ -35,7 +35,7 @@ export function UIHomeAppList() {
       <Grid columnCount={4} rowSpace="0.5rem">
         <AppList apps={apps}/>
       </Grid>
-    </Stack>
+    </div>
   )
 }
 
@@ -80,7 +80,7 @@ function AppButton(props: { appKey: string; label: string; onClick: () => void }
   
   return (
     <div onClick={onClick} className="button">
-      <Stack className="center">
+      <div className="flex-v center">
         <SizedBox width={60} height={60} borderRadius={10} border>
           <AppSymbol key={`ico-${appKey}`} iconKey={appKey}/> 
         </SizedBox>
@@ -90,7 +90,7 @@ function AppButton(props: { appKey: string; label: string; onClick: () => void }
         >
           {label}
         </Text>
-      </Stack>
+      </div>
     </div>
   )
 }

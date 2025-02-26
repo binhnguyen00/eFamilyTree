@@ -26,6 +26,12 @@ export function UICreateChild(props: UICreateChildProps) {
 
   if (!dad) return;
 
+  const observer = useBeanObserver({
+    father: dad.name,
+    fatherId: dad.id,
+    gender: "1",
+  } as Member);
+
   const moms = processor.getSpouses(dad.id);
   const momOpts = moms.map((mom) => {
     return {
@@ -34,12 +40,15 @@ export function UICreateChild(props: UICreateChildProps) {
     }
   }) as SelectionOption[];
 
-  
-  const observer = useBeanObserver({
-    father: dad.name,
-    fatherId: dad.id,
-    gender: "1",
-  } as Member);
+  // Set default mother
+  React.useEffect(() => {
+    if (!momOpts.length) return;
+    else {
+      const defaultMother = momOpts[0];
+      observer.update("mother", defaultMother.label)
+      observer.update("motherId", defaultMother.value)
+    }
+  }, [ ])
 
   const onCreate = () => {
     if (!observer.getBean().phone || !observer.getBean().name) {

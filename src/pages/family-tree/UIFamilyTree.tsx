@@ -15,17 +15,22 @@ import { UICreateChild } from "./UICreateChild";
 import { UICreateRoot } from "./UICreateRoot";
 import { UICreateSibling } from "./UICreateSibling";
 
-export function UIFamilyTree() {
+function useFamilyTree() {
   const { userInfo } = useAppContext();
-  const [ reload, setReload ] = React.useState(false);
-  const [ loading, setLoading ] = React.useState(true);
+
   const [ processor, setProcessor ] = React.useState<TreeDataProcessor>(new TreeDataProcessor([]));
+  const [ loading, setLoading ] = React.useState(true);
+  const [ error, setError ] = React.useState(false);
+  const [ reload, setReload ] = React.useState(false);
+
+  const refresh = () => setReload(!reload);
 
   React.useEffect(() => {
     const success = (result: ServerResponse) => {
       setLoading(false);
       if (result.status === "error") {
-        console.error("UIFamilyTree:\n\t", result.message);
+        console.error(result.message);
+        setError(true);
       } else {
         const data = result.data as any;
         const newProcessor = new TreeDataProcessor(data);
@@ -34,6 +39,7 @@ export function UIFamilyTree() {
     }
     const fail = (error: FailResponse) => {
       setLoading(false);
+      setError(true);
       console.error("UIFamilyTree:\n\t", error.message, "\n", error.stackTrace);
     } 
     FamilyTreeApi.searchMembers({
@@ -43,18 +49,27 @@ export function UIFamilyTree() {
     });
   }, [ reload ]);
 
-  if (loading) return (
-    <>
-      <Header title={t("family_tree")} />
-      <Loading message={t("loading_family_tree")} />      
-    </>
-  ) 
-  else return (
-    <UIFamilyTreeContainer 
-      processor={processor}
-      onReload={() => setReload(!reload)}
-    />
-  )
+  return { processor, loading, error, refresh }
+}
+
+export function UIFamilyTree() {
+  const { processor, error, loading, refresh } = useFamilyTree();
+
+  if (loading) {
+    return (
+      <div className="container max-h bg-white">
+        <Header title={t("family_tree")} />
+        <Loading/>      
+      </div>
+    ) 
+  } else {
+    return (
+      <UIFamilyTreeContainer 
+        processor={processor}
+        onReload={refresh}
+      />
+    )
+  }
 }
 
 interface UIFamilyTreeContainerProps {

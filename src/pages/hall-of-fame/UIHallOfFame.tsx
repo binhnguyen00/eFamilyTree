@@ -1,11 +1,15 @@
 import React from "react";
 import { t } from "i18next";
+import { Button } from "zmp-ui";
 
 import { HallOfFameApi } from "api";
 import { useAppContext, useRouteNavigate } from "hooks";
-import { Header, ImageWithText, Info, Loading } from "components";
+import { CommonIcon, Header, ImageWithText, Info, Loading, ScrollableDiv } from "components";
 
 import { ServerResponse } from "types/server";
+import { StyleUtils } from "utils";
+
+import { UICreateHallOfFame } from "./UICreateHallOfFame";
 
 import nguoi_co_cong from "assets/img/hall-of-fame/người-có-công.jpg";
 import nguoi_hieu_hoc from "assets/img/hall-of-fame/người-hiếu-học.jpg";
@@ -16,6 +20,7 @@ import tam_long_vang from "assets/img/hall-of-fame/tấm-lòng-vàng.jpg"
 export function UIHallOfFame() {
   const { goTo } = useRouteNavigate();
   const { data, error, loading, refresh } = useHallOfFame();
+  const [ create, setCreate ] = React.useState<boolean>(false);
 
   const onSelect = (id: number, name: string) => () => {
     goTo({ 
@@ -55,9 +60,13 @@ export function UIHallOfFame() {
       )
     })
     return (
-      <div className="flex-v">
+      <ScrollableDiv
+        className="flex-v"
+        direction="vertical"
+        height={StyleUtils.calComponentRemainingHeight(0)}
+      >
         {html}
-      </div>
+      </ScrollableDiv>
     ) 
   }
 
@@ -73,13 +82,31 @@ export function UIHallOfFame() {
     }
   }
 
+  const renderFooter = () => {
+    return (
+      <div style={{ position: "absolute", bottom: 110, right: 10 }}>
+        <Button size="small" prefixIcon={<CommonIcon.Plus />} onClick={() => setCreate(true)}>
+          {t("thêm")}
+        </Button>
+      </div>
+    )
+  }
+
   return (
     <>
       <Header title={t("certificates")}/>
 
-      <div className="container bg-white">
+      <div className="container bg-white max-h">
         {renderContainer()}   
+
+        {/* {renderFooter()} */}
       </div>
+
+      <UICreateHallOfFame
+        visible={create}
+        onClose={() => setCreate(false)}
+        onReloadParent={() => refresh()}
+      />
     </>
   )
 }

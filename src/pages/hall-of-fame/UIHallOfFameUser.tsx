@@ -7,15 +7,18 @@ import { HallOfFameApi } from "api";
 import { useAppContext } from "hooks";
 
 import { FailResponse, ServerResponse } from "types/server";
+import { StyleUtils } from "utils";
 
 export interface HallOfFameUser {
   id: number;
   name: string;
+  member: string;
   ranking: number;
+  recognitionDate?: string;
 }
 
 interface UIHallOfFameUserProps {
-  userId?: number | null;
+  userId: number | null;
   visible: boolean;
   onClose: () => void;
   onReloadParent?: () => void;
@@ -37,8 +40,10 @@ export function UIHallOfFameUserDetails(props: UIHallOfFameUserProps) {
       return <Info title={t("chưa có dữ liệu")} message={t("hãy thử lại")}/>
     } else {
       return (
-        <div className="flex-v">
-          <Input label={t("ranking")} value={data.ranking} name="ranking"/>
+        <div className="flex-v p-3">
+          <Input label={t("Họ Tên")} value={data.member} name="member"/>
+          <Input label={t("Xếp Hạng")} value={data.ranking} name="ranking"/>
+          <Input label={t("Ngày Chứng Nhận")} value={data.recognitionDate} name="recognitionDate"/>
         </div>
       )
     }
@@ -61,13 +66,14 @@ export function UIHallOfFameUserDetails(props: UIHallOfFameUserProps) {
       visible={visible}
       onClose={onClose}
       title={title()}
+      height={StyleUtils.calComponentRemainingHeight(0)}
     >
       {renderContainer()}
     </Sheet>
   )
 }
 
-function useHallOfFameUser(userId?: number | null) {
+function useHallOfFameUser(userId: number | null) {
   const { userInfo } = useAppContext();
 
   const [ data, setData ] = React.useState<HallOfFameUser | null>(null);
@@ -81,8 +87,8 @@ function useHallOfFameUser(userId?: number | null) {
     setLoading(true);
     setError(false);
     setData(null)
-    if (userId) {
-      HallOfFameApi.getHallOfFameUser({
+    if (userId !== null) {
+      HallOfFameApi.getHallOfFameUserInfo({
         userId: userInfo.id,
         clanId: userInfo.clanId,
         id: userId,
@@ -92,8 +98,14 @@ function useHallOfFameUser(userId?: number | null) {
             console.error(result.message);
             setError(true);
           } else {
-            const data = result.data as HallOfFameUser;
-            setData(data);
+            const data = result.data as any;
+            setData({
+              id:               data.id,
+              name:             data.name,
+              member:           data.member_name,
+              ranking:          data.ranking,
+              recognitionDate:  data.recognition_date
+            });
           }
         },
         fail: (error: FailResponse) => {
