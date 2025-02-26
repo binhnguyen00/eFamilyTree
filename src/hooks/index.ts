@@ -8,6 +8,7 @@ import { useRouteNavigate } from "./useRouteNavigate";
 import { useNotification } from "./useNotification";
 import { useBeanObserver } from "./useBeanObserver";
 import { useZaloSettings } from "./useZaloSettings";
+import { useFamilyTree } from "../pages/family-tree/UIFamilyTree";
 
 export { 
   useTheme, 
@@ -19,4 +20,5 @@ export {
   useNotification,
   useBeanObserver,
   useZaloSettings,
+  useFamilyTree
 };

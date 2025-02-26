@@ -15,7 +15,7 @@ import { UICreateChild } from "./UICreateChild";
 import { UICreateRoot } from "./UICreateRoot";
 import { UICreateSibling } from "./UICreateSibling";
 
-function useFamilyTree() {
+export function useFamilyTree() {
   const { userInfo } = useAppContext();
 
   const [ processor, setProcessor ] = React.useState<TreeDataProcessor>(new TreeDataProcessor([]));
