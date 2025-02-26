@@ -2,13 +2,18 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Sheet } from "zmp-ui";
 
-import { ZmpSDK } from "utils";
+import { StyleUtils, ZmpSDK } from "utils";
 import { useAppContext } from "hooks";
 import { CommonIcon } from "components";
 
-export function RequestPhone(props: { visible: boolean, closeSheet: () => void }) {
+interface RequestPhoneProps {
+  visible: boolean, 
+  closeSheet: () => void,
+  onSuccessRequest?: () => void
+}
+export function RequestPhone(props: RequestPhoneProps) {
+  const { visible, closeSheet, onSuccessRequest } = props;
   const { updatePhoneNumber, updateZaloUserInfo } = useAppContext();
-  const { visible, closeSheet } = props;
   const [ request, setRequest ] = React.useState(false);
 
   if (request) {
@@ -20,6 +25,7 @@ export function RequestPhone(props: { visible: boolean, closeSheet: () => void }
           updateZaloUserInfo(zaloUser);
         }
       )
+      if (onSuccessRequest) onSuccessRequest();
     }
     const fail = (error: any) => { 
       setRequest(false);
@@ -33,6 +39,8 @@ export function RequestPhone(props: { visible: boolean, closeSheet: () => void }
       title={t("need_access")} 
       visible={visible} 
       onClose={closeSheet}
+      height={"65vh"}
+      mask maskClosable
     >
       <div className="flex-v p-3">
         <div className="flex-h">

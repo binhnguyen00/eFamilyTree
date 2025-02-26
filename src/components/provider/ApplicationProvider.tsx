@@ -28,7 +28,8 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
     phoneNumber, 
     zaloUserInfo, 
     updateZaloUserInfo,
-    updatePhoneNumber, 
+    updatePhoneNumber,
+    refresh
   }                                   = useAutoLogin();
   const { userInfo, modules }         = useUserAppContext(phoneNumber);
   const { settings, updateSettings }  = useSettings(userInfo.id, userInfo.clanId);
@@ -51,6 +52,7 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
     updatePhoneNumber: updatePhoneNumber,
     updateZaloUserInfo: updateZaloUserInfo,
     updateSettings: updateSettings,
+    doLogin: refresh,
   };
 
   return (

@@ -12,7 +12,8 @@ export type AppContext = {
   treeBackgroundPath: string,
   updatePhoneNumber: (phoneNumber: string) => void,
   updateZaloUserInfo: (userInfo: ZaloUserInfo) => void,
-  updateSettings: (settings: UserSettings) => void
+  updateSettings: (settings: UserSettings) => void,
+  doLogin: () => void,
 }
 
 export type ZaloUserInfo = {

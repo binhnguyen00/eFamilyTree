@@ -7,6 +7,7 @@ import { ZaloUserInfo } from "types/app-context";
 import { AutoLoginContext } from "types/auto-login";
 
 export function useAutoLogin(): AutoLoginContext {
+  const [ reload, setReload ]     = React.useState<boolean>(false);
   const [ phone, setPhoneNumber ] = React.useState<string>("");
   const [ user, setUser ]         = React.useState<ZaloUserInfo>({ 
     id: "", 
@@ -31,6 +32,8 @@ export function useAutoLogin(): AutoLoginContext {
     setUser(zaloUserInfo);
   }
 
+  const refresh = () => { setReload(!reload) }
+
   const settings = useZaloSettings();
 
   React.useEffect(() => {
@@ -49,13 +52,14 @@ export function useAutoLogin(): AutoLoginContext {
         (error: any) => console.error("useAutoLogin User Info Error:\n\t", error)
       );
     }
-  }, [ hasPermission ]);
+  }, [ hasPermission, reload ]);
 
   return {
     zaloUserInfo: user,
     phoneNumber: phone,
     logedIn: phone.length > 0,
     updatePhoneNumber: updatePhoneNumber,
-    updateZaloUserInfo: updateZaloUserInfo
+    updateZaloUserInfo: updateZaloUserInfo,
+    refresh: refresh
   };
 }

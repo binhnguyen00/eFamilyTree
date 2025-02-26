@@ -6,4 +6,5 @@ export type AutoLoginContext = {
   zaloUserInfo: ZaloUserInfo;
   updatePhoneNumber: (phoneNumber: string) => void;
   updateZaloUserInfo: (zaloUserInfo: ZaloUserInfo) => void;
+  refresh: () => void;
 }
