@@ -52,26 +52,29 @@ function AppList({ apps }: { apps: App[] }) {
     }
   }
 
-  let html: React.ReactNode[] = [];
-  apps.map((app, index) => {
-    html.push(
-      <AppButton 
-        key={app.key} 
-        appKey={app.key} 
-        label={app.label} 
-        onClick={() => onSelectApp(app.key, app.requirePhone)}
-      />
-    )
-  })
+  const renderApps = () => {
+    const html: React.ReactNode[] = apps.map((app, index) => {
+      return (
+        <AppButton 
+          key={app.key} 
+          appKey={app.key} 
+          label={app.label} 
+          onClick={() => onSelectApp(app.key, app.requirePhone)}
+        />
+      )
+    })
+    return html
+  }
 
   return (
-    <React.Fragment>
-      {html}
+    <>
+      {renderApps()}
+
       <RequestPhone 
         visible={requestPhone} 
         closeSheet={() => setRequestPhone(false)}
       />
-    </React.Fragment>
+    </>
   )
 }
 
