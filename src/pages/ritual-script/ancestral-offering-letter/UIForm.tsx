@@ -127,7 +127,7 @@ export function UIAncestralOfferingForm() {
 
       <UIFamilyMembersForm observer={membersObserver}/>
 
-      <div style={{ position: "sticky", bottom: 80 }}>
+      <div style={{ position: "sticky", bottom: 120 }}>
         <Button size="small" prefixIcon={<CommonIcon.Preview size={18}/>} onClick={() => setPreview(true)}>
           {t("preview")}
         </Button>

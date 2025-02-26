@@ -3,7 +3,7 @@ import { t } from "i18next";
 
 import { HallOfFameApi } from "api";
 import { useAppContext, useRouteNavigate } from "hooks";
-import { Header, ImageWithText, Info, Loading, ScrollableDiv } from "components";
+import { Divider, Header, ImageWithText, Info, Loading, ScrollableDiv } from "components";
 
 import { ServerResponse } from "types/server";
 import { StyleUtils } from "utils";
@@ -32,21 +32,13 @@ export function UIHallOfFame() {
         <ImageWithText
           className="border rounded button"
           text={<h1 className="text-capitalize"> {group.name} </h1>}
-          textStyle={{ fontSize: "1.5rem" }}
+          textStyle={{ fontSize: "1.8rem" }}
           src={filterBackgroundByName(group.name)}
           onClick={onSelect(group.id, group.name)}
         />
       )
     })
-    return (
-      <ScrollableDiv
-        className="flex-v"
-        direction="vertical"
-        height={StyleUtils.calComponentRemainingHeight(0)}
-      >
-        {html}
-      </ScrollableDiv>
-    ) 
+    return html;
   }
 
   const renderContainer = () => {
@@ -57,7 +49,17 @@ export function UIHallOfFame() {
     } else if (!data.length) {
       return <Info title={t("chưa có bảng vàng")}/>
     } else {
-      return renderCards();
+      return (
+        <ScrollableDiv
+          className="flex-v"
+          direction="vertical"
+          height={StyleUtils.calComponentRemainingHeight(0)}
+        >
+          {renderCards()}
+          
+          <br/> <br/>
+        </ScrollableDiv>
+      );
     }
   }
 
