@@ -3,10 +3,10 @@ import { t } from "i18next";
 import { Button, Input, Text } from "zmp-ui";
 
 import { AccountApi } from "api";
-import { useBeanObserver, useNotification } from "hooks";
-import { BeanObserver, CommonIcon, Header, Selection } from "components";
+import { useBeanObserver, useNotification, useRequestPhoneContext } from "hooks";
+import { BeanObserver, CommonIcon, Header, Label, Selection } from "components";
 
-import { FailResponse, ServerResponse } from "types/server";
+import { ServerResponse } from "types/server";
 
 export type RegisterForm = {
   mobile: string;
@@ -18,23 +18,31 @@ export type RegisterForm = {
 }
 
 export function UIRegister() {
-  const { successToast, dangerToast } = useNotification();
   const observer = useBeanObserver({} as RegisterForm);
+  const { loadingToast } = useNotification();
+  const { needPhone, requestPhone } = useRequestPhoneContext();
 
   const submit = () => {
-    console.log(observer.getBean());
-    const success = (result: ServerResponse) => {
-      successToast(
-        <>
-          <p> {t("register")} {t("success")} </p>
-          <p> {t("register_pending")} </p>
-        </>
-      );
-    }
-    const fail = (error: FailResponse) => {
-      dangerToast(`${t("register")} ${t("fail")}`);
-    }
-    AccountApi.register(observer.getBean(), success, fail);
+    if (needPhone) { requestPhone(); return; }
+    else loadingToast(
+      <p> {t("đang gửi yêu cầu...")} </p>,
+      (successToastCB, dangerToastCB) => {
+        AccountApi.register({
+          registerForm: observer.getBean(),
+          success: (result: ServerResponse) => {
+            successToastCB(
+              <>
+                <p> {t("register")} {t("success")} </p>
+                <p> {t("register_pending")} </p>
+              </>
+            );
+          },
+          fail: () => {
+            dangerToastCB(`${t("register")} ${t("fail")}`);
+          }
+        });
+      }
+    )
   };
 
   return (
@@ -75,30 +83,29 @@ function UIRegisterForm({ observer, submit }: {
   };
 
   return (
-    <div className="flex-v text-primary">
+    <div className="flex-v scroll-v text-primary">
       <Text.Title size="xLarge" className="text-capitalize">{t("personal_info")}</Text.Title>
 
-      <div className="flex-h">
-        <Input 
-          label={<Label text={t("mobile") + "*"}/>}
-          name={"mobile"}
-          value={observer.getBean().mobile} 
-          onChange={observer.watch}
-        />
-        <Input 
-          label={<Label text={t("clan_code") + "*"}/>}
-          name={"clanCode"}
-          value={observer.getBean().clanCode} 
-          onChange={observer.watch}
-        />
-        <Input 
-          label={<Label text={t("Mã Bố") + "*"}/>}
-          name={"fatherCode"}
-          value={observer.getBean().fatherCode} 
-          onChange={observer.watch}
-        />
-      </div>
       {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
+
+      <Input 
+        label={<Label text={t("mobile") + "*"}/>}
+        name={"mobile"} type="number"
+        value={observer.getBean().mobile} 
+        onChange={observer.watch}
+      />
+      <Input 
+        label={<Label text={t("clan_code") + "*"}/>}
+        name={"clanCode"}
+        value={observer.getBean().clanCode} 
+        onChange={observer.watch}
+      />
+      <Input 
+        label={<Label text={t("Mã Bố") + "*"}/>}
+        name={"fatherCode"}
+        value={observer.getBean().fatherCode} 
+        onChange={observer.watch}
+      />
 
       <Input 
         label={<Label text={t("name") + "*"}/>}
@@ -106,6 +113,7 @@ function UIRegisterForm({ observer, submit }: {
         value={observer.getBean().fullName}
         onChange={observer.watch}
       />
+      
       <Selection
         label={t("gender") + "*"}
         observer={observer} field={"gender"}
@@ -115,7 +123,6 @@ function UIRegisterForm({ observer, submit }: {
           { value: "0", label: t("female") },
         ]}
       />
-      {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
 
       <Input 
         label={<Label text={t("email *")}/>}
@@ -123,9 +130,8 @@ function UIRegisterForm({ observer, submit }: {
         value={observer.getBean().email} 
         onChange={observer.watch}
       />
-      {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
 
-      <Button size="medium" onClick={submitOrError}> 
+      <Button size="medium" prefixIcon={<CommonIcon.SendMail/>} onClick={submitOrError}> 
         {t("register")}
       </Button>
       
@@ -146,8 +152,4 @@ function UIRegisterNotice() {
       <p> {t("register_notice")} </p>
     </div>
   )
-}
-
-function Label({  text }: { text: string }) {
-  return <span className="text-primary"> {t(text)} </span>
 }

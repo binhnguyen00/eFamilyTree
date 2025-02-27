@@ -44,6 +44,7 @@ export function UIHallOfFameUsers() {
           </div>
           <div
             className="bg-secondary text-primary flex-h max-w justify-between p-3 rounded button"
+            style={{ width: "100%" }}
             onClick={() => setSelectId(user.id)}
           >
             <Text.Title size="large"> {user.memberName} </Text.Title>

@@ -242,7 +242,7 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
             suffix={<CommonIcon.Copy className="button" onClick={onCopyCode}/>}
           />
           <Input 
-            name="phone" label={<Label text={t("điện thoại")}/>} 
+            name="phone" type="number" label={<Label text={t("điện thoại")}/>} 
             value={observer.getBean().phone} onChange={observer.watch}
           />
           <Selection

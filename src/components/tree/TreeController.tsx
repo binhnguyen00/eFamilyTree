@@ -116,35 +116,35 @@ export function TreeController(props: TreeControllerProps) {
         className='bg-white mb-1 p-1 button border-primary'
         width={"fit-content"} height={"fit-content"}
         onClick={findMe}
-        children={<CommonIcon.FilePerson size={23}/>}
+        children={<CommonIcon.FilePerson size={28}/>}
       />
 
       <SizedBox 
         className='bg-white mb-1 p-1 button border-primary'
         width={"fit-content"} height={"fit-content"}
         onClick={findRoot}
-        children={<CommonIcon.Tree size={23}/>}
+        children={<CommonIcon.Tree size={28}/>}
       />
 
       <SizedBox 
         className='bg-white mb-1 p-1 button border-primary'
         width={"fit-content"} height={"fit-content"}
         onClick={() => onZoomIn()}
-        children={<CommonIcon.Plus size={23}/>}
+        children={<CommonIcon.Plus size={28}/>}
       />
 
       <SizedBox
         className='bg-white mb-1 p-1 button border-primary'
         width={"fit-content"} height={"fit-content"}
         onClick={() => onZoomOut()}
-        children={<CommonIcon.Minus size={23}/>}
+        children={<CommonIcon.Minus size={28}/>}
       />
 
       <SizedBox
         className='bg-white mb-1 p-1 button border-primary'
         width={"fit-content"} height={"fit-content"}
         onClick={exportSVG}
-        children={<CommonIcon.CloudDownload size={23}/>}
+        children={<CommonIcon.CloudDownload size={28}/>}
       />
 
       {onReset && (
@@ -152,7 +152,7 @@ export function TreeController(props: TreeControllerProps) {
           className='bg-white p-1 button border-primary'
           width={"fit-content"} height={"fit-content"}
           onClick={() => onReset()}
-          children={<CommonIcon.Reset size={23}/>}
+          children={<CommonIcon.Reset size={28}/>}
         />
       )}
     </Box>

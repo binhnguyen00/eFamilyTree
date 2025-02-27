@@ -85,7 +85,7 @@ export function UICreateChild(props: UICreateChildProps) {
             value={observer.getBean().name} onChange={observer.watch}
           />
           <Input 
-            name="phone" label={<Label text={`${t("điện thoại")} *`}/>} 
+            name="phone" type="number" label={<Label text={`${t("điện thoại")} *`}/>} 
             value={observer.getBean().phone} onChange={observer.watch}
           />
           <Selection

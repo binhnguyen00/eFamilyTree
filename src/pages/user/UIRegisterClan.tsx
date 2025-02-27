@@ -3,10 +3,10 @@ import { t } from "i18next";
 import { Button, Input, Text } from "zmp-ui";
 
 import { AccountApi } from "api";
-import { useBeanObserver, useNotification } from "hooks";
-import { BeanObserver, CommonIcon, Header } from "components";
+import { useBeanObserver, useNotification, useRequestPhoneContext } from "hooks";
+import { BeanObserver, CommonIcon, Header, Label } from "components";
 
-import { FailResponse, ServerResponse } from "types/server";
+import { ServerResponse } from "types/server";
 
 export type RegisterClanForm = {
   clanName: string;
@@ -23,22 +23,30 @@ export type RegisterClanForm = {
 
 export function UIRegisterClan() {
   const observer = useBeanObserver({} as RegisterClanForm);
-  const { successToast, dangerToast } = useNotification();
+  const { loadingToast } = useNotification();
+  const { needPhone, requestPhone } = useRequestPhoneContext();
 
   const submit = () => {
-    console.log(observer.getBean());
-    const success = (result: ServerResponse) => {
-      successToast(
-        <>
-          <p> {t("register")} {t("success")}</p>
-          <p> {t("register_pending")} </p>
-        </>
-      );
-    }
-    const fail = (error: FailResponse) => {
-      dangerToast(`${t("register")} ${t("fail")}`);
-    }
-    AccountApi.registerClan(observer.getBean(), success, fail);
+    if (needPhone) { requestPhone(); return; }
+    else loadingToast(
+      <p> {t("đang gửi yêu cầu...")} </p>,
+      (successToastCB, dangerToastCB) => {
+        AccountApi.registerClan({
+          registerForm: observer.getBean(),
+          success: (result: ServerResponse) => {
+            successToastCB(
+              <div className="flex-v">
+                <p> {t("register")} {t("success")}</p>
+                <p> {t("register_pending")} </p>
+              </div>
+            );
+          }, 
+          fail: () => {
+            dangerToastCB(`${t("register")} ${t("fail")}`);
+          }
+        })
+      }
+    )
   };
 
   return (
@@ -203,7 +211,7 @@ function PersionalForm(props: StepProps) {
           value={observer.getBean().name} onChange={observer.watch}
         />
         <Input 
-          label={<Label text={t("Số Điện Thoại *")}/>} name="mobile"
+          label={<Label text={t("Số Điện Thoại *")}/>} name="mobile" type="number"
           value={observer.getBean().mobile} onChange={observer.watch}
         />
         <Input 
@@ -246,8 +254,4 @@ function UIRegisterNotice() {
       <p> {t("register_clan_notice")} </p>
     </div>
   )
-}
-
-function Label({  text }: { text: string }) {
-  return <span className="text-primary"> {t(text)} </span>
 }

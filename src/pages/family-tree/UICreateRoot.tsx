@@ -52,7 +52,9 @@ export function UICreateRoot(props: UICreateRootProps) {
       visible={visible} onClose={onClose}
       height={StyleUtils.calComponentRemainingHeight(0)}
       title={t("Tạo Thành Viên Đầu Tiên")}
-      swipeToClose={false}
+      mask maskClosable={false}
+      swipeToClose={false} 
+      handler={false}
     >
       <div className="flex-v flex-grow-0 p-3">
         <div className="flex-v">
@@ -62,7 +64,7 @@ export function UICreateRoot(props: UICreateRootProps) {
             value={observer.getBean().name} onChange={observer.watch}
           />
           <Input
-            name="phone" label={<Label text={`${t("điện thoại")} *`}/>} 
+            name="phone" type="number" label={<Label text={`${t("điện thoại")} *`}/>} 
             value={observer.getBean().phone} onChange={observer.watch}
           />
           <Selection
