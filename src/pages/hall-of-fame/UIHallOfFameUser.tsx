@@ -2,12 +2,12 @@ import React from "react";
 import { t } from "i18next";
 import { Button, DatePicker, Input, Sheet, Text } from "zmp-ui";
 
-import { CommonIcon, Info, Loading } from "components";
 import { HallOfFameApi } from "api";
+import { DateTimeUtils, StyleUtils } from "utils";
+import { CommonIcon, Info, Loading } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 
 import { FailResponse, ServerResponse } from "types/server";
-import { DateTimeUtils, StyleUtils } from "utils";
 
 export interface HallOfFameUser {
   id: number;
@@ -24,17 +24,24 @@ export interface HallOfFameUser {
 
 interface UIHallOfFameUserProps {
   userId: number | null;
+  hallOfFameTypeId: number;
   visible: boolean;
   onClose: () => void;
   onReloadParent?: () => void;
 }
 export function UIHallOfFameUserDetails(props: UIHallOfFameUserProps) {
-  const { visible, onClose, userId, onReloadParent } = props;
+  const { visible, onClose, userId, onReloadParent, hallOfFameTypeId } = props;
   const { userInfo, serverBaseUrl } = useAppContext();
   const { loadingToast } = useNotification();
-  const { data, error, loading, refresh } = useHallOfFameUser(userId);
+  const { data, error, loading, refresh } = useHallOfFameUser(userId, hallOfFameTypeId);
 
-  const observer = useBeanObserver(data as HallOfFameUser);
+  const observer = useBeanObserver({} as HallOfFameUser);
+
+  React.useEffect(() => {
+    if (data) {
+      observer.updateBean(data);
+    }
+  }, [ data ])
 
   const onSave = () => {
     loadingToast(
@@ -101,18 +108,23 @@ export function UIHallOfFameUserDetails(props: UIHallOfFameUserProps) {
     } else if (data === null) {
       return <Info title={t("chưa có dữ liệu")} message={t("hãy thử lại")}/>
     } else {
+
       return (
-        <div className="flex-v p-3 scroll-v">
+        <div className="flex-v">
           <div className="flex-v center">
             <img
               className="circle"
               style={{ width: "8rem", height: "8rem", objectFit: "cover" }}
               src={`${serverBaseUrl}/${observer.getBean().avatar}`}
-              onError={(e) => e.currentTarget.src = "https://avatar.iran.liara.run/public/47"}
+              onError={(e) => {
+                const fallbackUrl = `https://avatar.iran.liara.run/username?username=${encodeURIComponent(observer.getBean().memberName)}`;
+                e.currentTarget.src = fallbackUrl;
+              }}
             />
-            <Text.Title> {observer.getBean().name} </Text.Title>
+            <Text.Title> {observer.getBean().memberName} </Text.Title>
           </div>
           <DatePicker
+            label={t("Ngày Chứng Nhận")}
             value={
               observer.getBean().recognitionDate 
                 ? DateTimeUtils.toDate(observer.getBean().recognitionDate!) 
@@ -128,6 +140,7 @@ export function UIHallOfFameUserDetails(props: UIHallOfFameUserProps) {
             value={observer.getBean().achievement} name="achievement"
             onChange={(e) => observer.update("achievement", e.target.value)}
           />
+          {renderFooter()}
         </div>
       )
     }
@@ -168,14 +181,14 @@ export function UIHallOfFameUserDetails(props: UIHallOfFameUserProps) {
       title={title()}
       height={StyleUtils.calComponentRemainingHeight(0)}
     >
-      {renderContainer()}
-
-      {renderFooter()}
+      <div className="scroll-v p-3">
+        {renderContainer()}
+      </div>
     </Sheet>
   )
 }
 
-function useHallOfFameUser(userId: number | null) {
+function useHallOfFameUser(userId: number | null, hallOfFameTypeId: number) {
   const { userInfo } = useAppContext();
 
   const [ data, setData ] = React.useState<HallOfFameUser | null>(null);
@@ -194,6 +207,7 @@ function useHallOfFameUser(userId: number | null) {
         userId: userInfo.id,
         clanId: userInfo.clanId,
         id: userId,
+        typeId: hallOfFameTypeId,
         success: (result: ServerResponse) => {
           setLoading(false);
           if (result.status === "error") {

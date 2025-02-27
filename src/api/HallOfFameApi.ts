@@ -17,14 +17,15 @@ export class HallOfFameApi extends BaseApi {
     return this.server.POST("hall-of-fame/users", header, body, success, fail);
   }
 
-  public static getHallOfFameUserInfo({ userId, clanId, id, success, fail }: {
-    userId: number, clanId: number, id: number, success: SuccessCB, fail?: FailCB
+  public static getHallOfFameUserInfo({ userId, clanId, id, typeId, success, fail }: {
+    userId: number, clanId: number, id: number, typeId: number, success: SuccessCB, fail?: FailCB
   }) {
     const header = this.initHeader();
     const body = this.initBody({
       user_id: userId,
       clan_id: clanId,
-      id: id
+      id: id,
+      type_id: typeId,
     });
     return this.server.POST("hall-of-fame/users/info", header, body, success, fail);
   }
@@ -72,7 +73,7 @@ export class HallOfFameApi extends BaseApi {
         achievement: form.achievement
       }
     });
-    return this.server.POST("hall-of-fame/users/add", header, body, success, fail);
+    return this.server.POST("hall-of-fame/users/save", header, body, success, fail);
   }
 
   public static removeUserFromHallOfFame({ userId, clanId, memberId, typeId, success, fail }: {
@@ -85,6 +86,6 @@ export class HallOfFameApi extends BaseApi {
       member_id: memberId,
       type_id: typeId,
     });
-    return this.server.POST("hall-of-fame/users/add", header, body, success, fail);
+    return this.server.POST("hall-of-fame/users/remove", header, body, success, fail);
   }
 }

@@ -30,8 +30,17 @@ export function UICreateHallOfFame(props: UICreateHallOfFameProps) {
 
   const observer = useBeanObserver({
     typeId: hallOfFameTypeId,
-    memberId: parseInt(processor.getAncestor().id) || 0,
+    memberId: 0,
   } as CreateHallOfFameForm);
+
+  React.useEffect(() => {
+    if (processor.nodes.length === 0) {
+      observer.update("memberId", 0);
+    } else {
+      const rootId: number = parseInt(processor.nodes[0].id);
+      observer.update("memberId", rootId);
+    }
+  }, [ processor ]);
 
   const onCreate = () => {
     if (!observer.getBean().memberId || observer.getBean().memberId === 0) {
@@ -104,7 +113,7 @@ export function UICreateHallOfFame(props: UICreateHallOfFameProps) {
           options={mapMembers()}
           isSearchable
           placeHolder={t("Tìm kiếm thành viên...")}
-          label={""} field={"member"} observer={observer}
+          label={t("Chọn Thành Viên")} field={"member"} observer={observer}
           onChange={(select: SelectionOption) => observer.update("memberId", select.value)}
         />
       )

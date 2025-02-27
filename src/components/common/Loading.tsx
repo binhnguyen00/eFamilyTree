@@ -1,7 +1,8 @@
 import React from "react";
 import { t } from "i18next";
-import { Spinner, Text } from "zmp-ui";
+import { Text } from "zmp-ui";
 import { SizedBox } from "./SizedBox";
+import { TailSpin } from "./TailSpin";
 
 interface LoadingProps {
   message?: string
@@ -23,7 +24,7 @@ export function Loading(props: LoadingProps) {
     <div className={`container center ${className && className}`.trim()}>
       <SizedBox width={width} height={width}>
         <div className="flex-v center">
-          <Spinner visible/>
+          <TailSpin height={width / 2} width={width / 2}/>
           <Text.Title
             style={{
               textTransform: "capitalize",

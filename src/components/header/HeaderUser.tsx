@@ -1,7 +1,7 @@
 import React from "react";
 import { t } from "i18next";
 
-import { Header, RequestPhone } from "components";
+import { Header, RequestPhone, TailSpin } from "components";
 import { useAppContext } from "hooks";
 import { Avatar, Spinner, Text } from "zmp-ui";
 
@@ -21,14 +21,7 @@ export function HeaderUser() {
 
   const renderLogo = () => {
     if (loading) {
-      return (
-        <div 
-          className="circle bg-white center flex-v" 
-          style={{ width: 40, height: 40 }}
-        >
-          <Spinner visible/>
-        </div>
-      )
+      return <TailSpin height={40} width={40}/>
     } else {
       return (
         <Avatar src={avatar} size={40}/>
