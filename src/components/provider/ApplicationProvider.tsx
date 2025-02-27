@@ -2,7 +2,7 @@ import React from "react";
 
 import { BaseApi } from "api";
 import { CommonUtils, getAppConfig } from "utils";
-import { useAutoLogin, useSettings } from "hooks";
+import { useAutoLogin, useClanMemberInfo, useSettings } from "hooks";
 
 import { ServerResponse } from "types/server";
 import { UserSettings } from "types/user-settings";
@@ -31,7 +31,7 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
     updatePhoneNumber,
     refresh
   }                                   = useAutoLogin();
-  const { userInfo, modules }         = useUserAppContext(phoneNumber);
+  const { userInfo, modules }         = useClanMemberInfo(phoneNumber);
   const { settings, updateSettings }  = useSettings(userInfo.id, userInfo.clanId);
   
   const ctxInfo = {
@@ -68,45 +68,4 @@ function getTreeBackgroundPath(settings: UserSettings, serverBaseUrl: string) {
   } else {
     return "";
   }
-}
-
-// =======================================
-// USER INFO CTX
-// =======================================
-function useUserAppContext(phoneNumber: string) {
-  let [ info, setInfo ] = React.useState<UserInfo>({
-    id: 0,
-    name: "unknown",
-    clanId: 0,
-    clanName: "",
-    generation: 0,
-  })
-  let [ modules, setModules ] = React.useState<string[]>([]);
-
-  React.useEffect(() => {
-    if (phoneNumber && !CommonUtils.isStringEmpty(phoneNumber)) {
-      const success = (result: ServerResponse) => {
-        if (result.status === "success") {
-          const data = result.data;
-          const info = data.info;
-          setInfo({
-            id: info["id"],
-            name: info["name"],
-            clanId: info["clan_id"],
-            clanName: info["clan_name"],
-            generation: info["generation"]
-          } as UserInfo);
-          setModules(data.modules);
-        } else {
-          console.warn(result.message);
-        }
-      }
-      BaseApi.getUserAppContext(phoneNumber, success);
-    }
-  }, [phoneNumber])
-
-  return {
-    userInfo: info,
-    modules: modules
-  };
 }

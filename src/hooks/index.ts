@@ -8,6 +8,7 @@ import { useRouteNavigate } from "./useRouteNavigate";
 import { useNotification } from "./useNotification";
 import { useBeanObserver } from "./useBeanObserver";
 import { useZaloSettings } from "./useZaloSettings";
+import { useClanMemberInfo } from "./useClanMemberInfo";
 import { useFamilyTree } from "../pages/family-tree/UIFamilyTree";
 
 export { 
@@ -20,5 +21,6 @@ export {
   useNotification,
   useBeanObserver,
   useZaloSettings,
-  useFamilyTree
+  useFamilyTree,
+  useClanMemberInfo,
 };
