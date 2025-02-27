@@ -1,10 +1,11 @@
 import React from "react";
 import { t } from "i18next";
 
-import { StyleUtils, ZmpSDK } from "utils";
 import { MemorialMapApi } from "api";
+import { useAppContext } from "hooks";
+import { StyleUtils, ZmpSDK } from "utils";
 import { FailResponse, ServerResponse } from "types/server";
-import { Header, WorldMap, useAppContext, Marker, Loading, Coordinate, WorldMapConfig, ScrollableDiv } from "components";
+import { Header, WorldMap, Marker, Loading, Coordinate, WorldMapConfig, ScrollableDiv } from "components";
 
 import { CreateButton } from "./CreateButton";
 import { MapTypeButtons } from "./SelectMapTypeButton";

@@ -1,3 +1,3 @@
-import { useAppContext } from "components";
+import { useAppContext } from "components/provider/ApplicationProvider";
 
 export { useAppContext };

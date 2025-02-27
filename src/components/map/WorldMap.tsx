@@ -6,9 +6,9 @@ import "./css/leaflet.scss"
 
 import config from "./config";
 
-import { RequestLocation, SlidingPanel, SlidingPanelOrient, useAppContext } from "components";
+import { RequestLocation, SlidingPanel, SlidingPanelOrient } from "components";
 import { CreateLocationForm } from "./CreateLocationForm";
-import { useNotification } from "hooks";
+import { useNotification, useAppContext } from "hooks";
 
 export type Marker = {
   id: number;

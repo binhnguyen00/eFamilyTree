@@ -8,10 +8,10 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 
 import { FamilyTreeApi, MemorialMapApi } from "api";
-import { useNotification } from "hooks";
+import { useNotification, useAppContext } from "hooks";
 import { 
   BeanObserver, CommonIcon, Loading, Marker, Selection, 
-  SlidingPanel, SlidingPanelOrient, useAppContext } from "components";
+  SlidingPanel, SlidingPanelOrient } from "components";
 import { FailResponse, ServerResponse } from "types/server";
 import { GalleryImage } from "pages/gallery/UIGalleryImages";
 import { StyleUtils } from "utils";

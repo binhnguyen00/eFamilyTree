@@ -3,7 +3,8 @@ import { t } from "i18next";
 import { Button } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
-import { CommonIcon, Coordinate, RequestLocation, useAppContext } from "components";
+import { useAppContext } from "hooks";
+import { CommonIcon, Coordinate, RequestLocation } from "components";
 
 interface CurrentPositionButtonProps {
   onClick: (coordinate: Coordinate) => void;

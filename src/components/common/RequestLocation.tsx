@@ -3,7 +3,8 @@ import { t } from "i18next";
 import { Button, Sheet } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
-import { CommonIcon, useAppContext } from "components";
+import { CommonIcon } from "components";
+import { useAppContext } from "hooks";
 
 interface RequestLocationProps {
   visible: boolean;

@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 import { Grid, Text } from "zmp-ui";
 
-import { useAppContext, useRouteNavigate } from "hooks";
+import { useAppContext, useRouteNavigate, useAccountContext } from "hooks";
 import { AppLogo, RequestPhone, SizedBox } from "components";
 
 type App = {
@@ -42,12 +42,15 @@ export function UIHomeAppList() {
 function AppList({ apps }: { apps: App[] }) {
   const { goTo } = useRouteNavigate();
   const { logedIn } = useAppContext();
+  const { needRegisterClan, registerClan, needRegisterAccount, registerAccount } = useAccountContext();
   const [ requestPhone, setRequestPhone ] = React.useState(false); 
 
   const onSelectApp = (appKey: string, requirePhone: boolean) => {
     if (requirePhone && !logedIn) {
       setRequestPhone(true);
     } else {
+      if (needRegisterClan) { registerClan(); return; } 
+      if (needRegisterAccount) { registerAccount(); return; }
       goTo({ path: appKey })
     }
   }
