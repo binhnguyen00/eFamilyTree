@@ -9,6 +9,7 @@ import {
 } from "components";
 
 import "../i18n";
+import { AccountProvider } from "components/provider/AccountProvider";
 
 function Application() {
   return (
@@ -16,11 +17,13 @@ function Application() {
       <ThemeProvider>
         <ApplicationProvider>
           <NotificationProvider>
-            <Router>
-              <AppRoutes/>
-              <Navigation/>
-              <PagePositionSaver />
-            </Router>
+              <Router>
+                <AccountProvider>
+                  <AppRoutes/>
+                  <Navigation/>
+                  <PagePositionSaver />
+                </AccountProvider>
+              </Router>
           </NotificationProvider>
         </ApplicationProvider>
       </ThemeProvider>

@@ -14,6 +14,7 @@ import { RiMailSendLine, RiResetRightLine } from "react-icons/ri";
 import { TbLogout, TbPhoto, TbPhotoMinus, TbPhotoPlus } from "react-icons/tb";
 import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { TbReload } from "react-icons/tb";
+import { BsFillHouseAddFill } from "react-icons/bs";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -65,4 +66,5 @@ export const CommonIcon = {
   ArrowUp: FaArrowUp,
   SendMail: RiMailSendLine,
   Reload: TbReload,
+  RegisterClan: BsFillHouseAddFill,
 };
