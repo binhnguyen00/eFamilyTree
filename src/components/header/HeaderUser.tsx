@@ -1,30 +1,23 @@
 import React from "react";
 import { t } from "i18next";
 
-import { Header, RequestPhone, TailSpin } from "components";
-import { useAppContext } from "hooks";
-import { Avatar, Spinner, Text } from "zmp-ui";
+import { Header, TailSpin } from "components";
+import { useAppContext, useRequestPhoneContext } from "hooks";
+import { Avatar, Text } from "zmp-ui";
 
 export function HeaderUser() {
-  const { doLogin, logedIn } = useAppContext();
+  const { logedIn } = useAppContext();
+  const { requestPhone } = useRequestPhoneContext(); 
   const { userName, avatar, loading } = useHeaderUser();
 
-  const [ requestPhone, setRequestPhone ] = React.useState<boolean>(false);
-
-  const login = () => {
-    if (!logedIn) {
-      setRequestPhone(true);
-    } else {
-      doLogin();
-    }
-  }
+  const login = () => requestPhone();
 
   const renderLogo = () => {
     if (loading) {
       return <TailSpin height={40} width={40}/>
     } else {
       return (
-        <Avatar src={avatar} size={40}/>
+        <Avatar src={avatar} size={40} backgroundColor="BLUE-BLUELIGHT"/>
       )
     }
   }
@@ -66,12 +59,6 @@ export function HeaderUser() {
       <Header
         showBackIcon={false}
         customRender={onCustomRender()}
-      />
-
-      <RequestPhone
-        visible={requestPhone}
-        closeSheet={() => setRequestPhone(false)}
-        onSuccessRequest={() => doLogin()}
       />
     </>
   )

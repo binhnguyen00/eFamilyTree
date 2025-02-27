@@ -5,7 +5,8 @@ import { App as ZaloApp } from "zmp-ui";
 import { AppRoutes } from "./routes";
 import { 
   Navigation, PagePositionSaver,
-  ThemeProvider, ApplicationProvider, NotificationProvider
+  ThemeProvider, ApplicationProvider, NotificationProvider,
+  RequestPhoneProvider
 } from "components";
 
 import "../i18n";
@@ -18,11 +19,13 @@ function Application() {
         <ApplicationProvider>
           <NotificationProvider>
               <Router>
-                <AccountProvider>
-                  <AppRoutes/>
-                  <Navigation/>
-                  <PagePositionSaver />
-                </AccountProvider>
+                <RequestPhoneProvider>
+                  <AccountProvider>
+                    <AppRoutes/>
+                    <Navigation/>
+                    <PagePositionSaver />
+                  </AccountProvider>
+                </RequestPhoneProvider>
               </Router>
           </NotificationProvider>
         </ApplicationProvider>

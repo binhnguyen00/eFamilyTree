@@ -2,21 +2,22 @@ import React from "react";
 import { t } from "i18next";
 import { Box, Button, Text } from "zmp-ui";
 
-import { CommonIcon, RequestPhone } from "components";
+import { CommonIcon } from "components";
 import { UIThemeList } from "pages/theme/UITheme";
-import { useAppContext, useRouteNavigate } from "hooks";
+import { useAccountContext, useRequestPhoneContext, useRouteNavigate } from "hooks";
 
 export function UIHomeTheme() {
-  const { logedIn } = useAppContext();
+  const { 
+    needRegisterClan, registerClan, 
+    needRegisterAccount, registerAccount } = useAccountContext();
+  const { needPhone, requestPhone } = useRequestPhoneContext();
   const { goTo } = useRouteNavigate();
-  const [ requestPhone, setRequestPhone ] = React.useState<boolean>(false);
 
   const onGoToTheme = () => {
-    if (!logedIn) {
-      setRequestPhone(true);
-    } else {
-      goTo({ path: "theme" })
-    }
+    if (needPhone) { requestPhone(); return; }
+    else if (needRegisterClan) { registerClan(); return; } 
+    else if (needRegisterAccount) { registerAccount(); return; }
+    else goTo({ path: "theme" })
   }
 
   return (
@@ -37,14 +38,9 @@ export function UIHomeTheme() {
       </Box>
 
       <div className="scroll-h flex-h">
-        <UIThemeList requestPhone={() => setRequestPhone(true)}/>
+        <UIThemeList/>
       </div>
-
-      <RequestPhone
-        visible={requestPhone}
-        closeSheet={() => setRequestPhone(false)}
-      />
-
+      
     </div>
   )
 }

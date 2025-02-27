@@ -55,12 +55,14 @@ export class UserSettingApi extends BaseApi {
     this.server.POST("account/setting/background/save", header, body, successCB, failCB);
   }
 
-  public static resetBackground(userId: number, clanId: number, successCB: SuccessCB, failCB?: FailCB) {
+  public static resetBackground({ clanId, userId, success, fail }: {
+    userId: number, clanId: number, success: SuccessCB, fail?: FailCB
+  }) {
     const header = this.initHeader();
     const body = this.initBody({
       user_id: userId,
       clan_id: clanId,
     })
-    this.server.POST("account/setting/background/reset", header, body, successCB, failCB);
+    this.server.POST("account/setting/background/reset", header, body, success, fail);
   }
 }

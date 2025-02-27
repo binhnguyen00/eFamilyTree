@@ -2,14 +2,12 @@ import React from "react";
 import { t } from "i18next";
 import { Avatar, Button, Grid, Text } from "zmp-ui";
 
-import { CommonIcon, Header, RequestPhone } from "components";
+import { CommonIcon, Header } from "components";
 import { UserSettingApi } from "api";
 import { CommonUtils } from "utils";
-import { useAppContext, useNotification, useRouteNavigate } from "hooks";
+import { useAccountContext, useAppContext, useNotification, useRequestPhoneContext, useRouteNavigate } from "hooks";
 
 import { ServerResponse } from "types/server";
-
-import UNKNOWN_AVATAR from "assets/img/unknown-person.jpeg";
 import { UIThemeList } from "pages/theme/UITheme";
 
 export function UIAccount() { 
@@ -24,8 +22,7 @@ export function UIAccount() {
 
 function UIAccountContainer() {
   const { zaloUserInfo, phoneNumber } = useAppContext();
-  const { goTo, jumpTo } = useRouteNavigate();
-  const [ requestPhone, setRequestPhone ] = React.useState<boolean>(false);
+  const { goTo } = useRouteNavigate();
 
   // Temporary methods
   const devs = [ 
@@ -40,10 +37,13 @@ function UIAccountContainer() {
       <div className="flex-v center my-3">
         <Avatar
           size={120}
-          src={zaloUserInfo.avatar ? zaloUserInfo.avatar : UNKNOWN_AVATAR}
+          src={zaloUserInfo.avatar ? zaloUserInfo.avatar : "https://avatar.iran.liara.run/public/47"}
           className="border-secondary"
+          backgroundColor="BLUE-BLUELIGHT"
         />
-        <Text.Title className="text-capitalize"> {zaloUserInfo.name} </Text.Title>
+        <Text.Title className="text-capitalize"> 
+          {zaloUserInfo.name ? zaloUserInfo.name : t("người dùng")} 
+        </Text.Title>
       </div>
 
       <Button variant="secondary" onClick={() => goTo({ path: "register" }) }>
@@ -59,67 +59,70 @@ function UIAccountContainer() {
       </Button> */}
 
       {devs.includes(phoneNumber) ? (
-        <Button variant="secondary" onClick={() => jumpTo({ path: "dev" })}>
+        <Button variant="secondary" onClick={() => goTo({ path: "dev" })}>
           {t("developer")}
         </Button>
       ): null}
 
       <div className="p-3 rounded bg-secondary">
-        <UISettings requestPhone={() => setRequestPhone(true)}/>
+        <UISettings/>
       </div>
-
-      <RequestPhone
-        visible={requestPhone}
-        closeSheet={() => setRequestPhone(false)}
-      />
 
     </div>
   )
 }
 
-function UISettings({ requestPhone }: {
-  requestPhone?: () => void
-}) {
+function UISettings() {
   const { goTo } = useRouteNavigate();
-  const { logedIn, userInfo, settings, updateSettings } = useAppContext();
-  const { loadingToast, successToast, dangerToast } = useNotification();
+  const { 
+    needRegisterClan, registerClan, 
+    needRegisterAccount, registerAccount } = useAccountContext();
+  const { needPhone, requestPhone } = useRequestPhoneContext();
+  const { userInfo, settings, updateSettings } = useAppContext();
+  const { loadingToast } = useNotification();
 
   const changeLang = (langCode: "vi" | "en") => {
-    if (!logedIn) {
-      if (requestPhone) requestPhone();
-      return;
-    }
-    const success = (result: ServerResponse) => {
-      if (result.status === "success") {
-        const settings = result.data;        
-        updateSettings(settings);
-        successToast(t("update_success"));
-      } else {
-        dangerToast(t("update_fail"))
+    if (needPhone) { requestPhone(); return; }
+    else if (needRegisterClan) { registerClan(); return; } 
+    else if (needRegisterAccount) { registerAccount(); return; }
+    else loadingToast(
+      <p> {t("đang cập nhật...")} </p>,
+      (successToastCB, dangerToastCB) => {
+        const success = (result: ServerResponse) => {
+          if (result.status === "success") {
+            const settings = result.data;        
+            updateSettings(settings);
+            successToastCB(t("update_success"));
+          } else {
+            dangerToastCB(t("update_fail"))
+          }
+        }
+        const fail = () => {
+          dangerToastCB(t("update_fail"))
+        }
+        const target = { 
+          theme: settings.theme, 
+          language: langCode 
+        }
+        UserSettingApi.updateOrCreate(userInfo.id, userInfo.clanId, target, success, fail);
       }
-    }
-    const target = { 
-      theme: settings.theme, 
-      language: langCode 
-    }
-    UserSettingApi.updateOrCreate(userInfo.id, userInfo.clanId, target, success);
+    ) 
   }
 
   const changeBackground = () => {
-    if (!logedIn) {
-      if (requestPhone) requestPhone();
-      return;
-    }
-    loadingToast(
-      t("updating_background"),
-      (onSuccess, onFail) => {
+    if (needPhone) { requestPhone(); return; }
+    else if (needRegisterClan) { registerClan(); return; } 
+    else if (needRegisterAccount) { registerAccount(); return; }
+    else loadingToast(
+      <p> {t("đang cập nhật...")} </p>,
+      (successToastCB, dangerToastCB) => {
         const getImgSuccess = (base64: string) => {
           const success = (result: ServerResponse) => {
             const background = result.data;
             if (background["id"] !== 0) {
-              onSuccess(t("update_success"));
+              successToastCB(t("update_success"));
             } else {
-              onFail(t("update_failed"));
+              dangerToastCB(t("update_failed"));
             }
             updateSettings({
               ...settings,
@@ -129,46 +132,53 @@ function UISettings({ requestPhone }: {
               }
             })
           }
-          UserSettingApi.updateBackground(userInfo.id, userInfo.clanId, base64, success, () => onFail(t("update_fail")));
+          UserSettingApi.updateBackground(userInfo.id, userInfo.clanId, base64, success, () => dangerToastCB(t("update_fail")));
         }
         const background = (document.getElementById('ftree-bg') as HTMLInputElement).files?.[0];
         if (!background) {
-          onFail(t("file_require"));
+          dangerToastCB(t("file_require"));
         }
         CommonUtils.objToBase64(
           background, 
           getImgSuccess, 
-          () => onFail(t("update_fail"))
+          () => dangerToastCB(t("update_fail"))
         );
       }
     )
   } 
 
   const resetBackground = () => {
-    if (!logedIn) {
-      if (requestPhone) requestPhone();
-      return;
-    }
-    const success = (result: ServerResponse) => {
-      const background = result.data;
-      updateSettings({
-        ...settings,
-        background: {
-          id: background["id"],
-          path: background["path"]
-        }
-      })
-      successToast(t("update_success"));
-    }
-    UserSettingApi.resetBackground(userInfo.id, userInfo.clanId, success, () => successToast(t("update_success")));
+    if (needPhone) { requestPhone(); return; }
+    else if (needRegisterClan) { registerClan(); return; } 
+    else if (needRegisterAccount) { registerAccount(); return; }
+    else loadingToast(
+      <p> {t("đang cập nhật...")} </p>,
+      (sucessToastCB, dangerToastCB) => {
+        UserSettingApi.resetBackground({
+          userId: userInfo.id, 
+          clanId: userInfo.clanId, 
+          success: (result: ServerResponse) => {
+            const background = result.data;
+            updateSettings({
+              ...settings,
+              background: {
+                id: background["id"],
+                path: background["path"]
+              }
+            })
+            sucessToastCB(t("update_success"));
+          }, 
+          fail: () => dangerToastCB(t("update_fail"))
+        });
+      }
+    )
   }
 
   const goToTheme = () => {
-    if (!logedIn) {
-      if (requestPhone) requestPhone();
-      return;
-    }
-    goTo({ path: "theme" })
+    if (needPhone) { requestPhone(); return; }
+    else if (needRegisterClan) { registerClan(); return; } 
+    else if (needRegisterAccount) { registerAccount(); return; }
+    else goTo({ path: "theme" })
   }
 
   return (
@@ -221,7 +231,7 @@ function UISettings({ requestPhone }: {
         </Button>
       </div>
       <div className="scroll-h">
-        <UIThemeList className="text-primary" requestPhone={requestPhone}/>
+        <UIThemeList className="text-primary"/>
       </div>
     </div>
   )

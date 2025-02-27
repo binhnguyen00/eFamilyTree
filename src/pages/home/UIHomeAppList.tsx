@@ -2,25 +2,24 @@ import React from "react";
 import { t } from "i18next";
 import { Grid, Text } from "zmp-ui";
 
-import { useAppContext, useRouteNavigate, useAccountContext } from "hooks";
-import { AppLogo, RequestPhone, SizedBox } from "components";
+import { AppLogo, SizedBox } from "components";
+import { useRouteNavigate, useAccountContext, useRequestPhoneContext } from "hooks";
 
 type App = {
   key: string;
   label: string;
-  requirePhone: boolean;
 }
 
 export function UIHomeAppList() {
   const apps: App[] = [
-    { key: "family-tree",       label: t("family_tree"),       requirePhone: true },
-    { key: "gallery",           label: t("gallery"),           requirePhone: true },
-    { key: "calendar",          label: t("calendar"),          requirePhone: true },
-    { key: "ritual-script",     label: t("ritual_script"),     requirePhone: true },
-    { key: "memorial-location", label: t("memorial_location"), requirePhone: true },
-    { key: "blogs",             label: t("blogs"),             requirePhone: true },
-    { key: "funds",             label: t("funds"),             requirePhone: true },
-    { key: "hall-of-fame",      label: t("certificates"),      requirePhone: true }, 
+    { key: "family-tree",       label: t("family_tree"),       },
+    { key: "gallery",           label: t("gallery"),           },
+    { key: "calendar",          label: t("calendar"),          },
+    { key: "ritual-script",     label: t("ritual_script"),     },
+    { key: "memorial-location", label: t("memorial_location"), },
+    { key: "blogs",             label: t("blogs"),             },
+    { key: "funds",             label: t("funds"),             },
+    { key: "hall-of-fame",      label: t("certificates"),      }, 
   ];
 
   return (
@@ -41,18 +40,16 @@ export function UIHomeAppList() {
 
 function AppList({ apps }: { apps: App[] }) {
   const { goTo } = useRouteNavigate();
-  const { logedIn } = useAppContext();
-  const { needRegisterClan, registerClan, needRegisterAccount, registerAccount } = useAccountContext();
-  const [ requestPhone, setRequestPhone ] = React.useState(false); 
+  const { 
+    needRegisterClan, registerClan, 
+    needRegisterAccount, registerAccount } = useAccountContext();
+  const { needPhone, requestPhone } = useRequestPhoneContext();
 
-  const onSelectApp = (appKey: string, requirePhone: boolean) => {
-    if (requirePhone && !logedIn) {
-      setRequestPhone(true);
-    } else {
-      if (needRegisterClan) { registerClan(); return; } 
-      if (needRegisterAccount) { registerAccount(); return; }
-      goTo({ path: appKey })
-    }
+  const onSelectApp = (appKey: string) => {
+    if (needPhone) { requestPhone(); return; }
+    else if (needRegisterClan) { registerClan(); return; } 
+    else if (needRegisterAccount) { registerAccount(); return; }
+    else goTo({ path: appKey })
   }
 
   const renderApps = () => {
@@ -62,23 +59,14 @@ function AppList({ apps }: { apps: App[] }) {
           key={app.key} 
           appKey={app.key} 
           label={app.label} 
-          onClick={() => onSelectApp(app.key, app.requirePhone)}
+          onClick={() => onSelectApp(app.key)}
         />
       )
     })
     return html
   }
 
-  return (
-    <>
-      {renderApps()}
-
-      <RequestPhone 
-        visible={requestPhone} 
-        closeSheet={() => setRequestPhone(false)}
-      />
-    </>
-  )
+  return renderApps();
 }
 
 function AppButton(props: { appKey: string; label: string; onClick: () => void }) {

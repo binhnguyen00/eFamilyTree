@@ -21,38 +21,32 @@ export function useAccountContext() { return React.useContext(AccountContext) }
 export function AccountProvider({ children }: { children: React.ReactNode }) {
   const { logedIn, userInfo } = useAppContext();
 
-  const [ needRegisterClan, setNeedRegisterClan ]               = React.useState<boolean>(false);
-  const [ needRegisterAccount, setNeedRegisterAccount ]         = React.useState<boolean>(false);
-  const [ clanRegistrationHandled, setClanRegistrationHandled ] = React.useState<boolean>(false);
+  const [ showRegisterClan, setShowRegisterClan ]       = React.useState<boolean>(false);
+  const [ showRegisterAccount, setShowRegisterAccount ] = React.useState<boolean>(false);
+
+  const [ needRegisterClan, setNeedRegisterClan ]       = React.useState<boolean>(false);
+  const [ needRegisterAccount, setNeedRegisterAccount ] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     if (logedIn) {
-      if (userInfo.clanId === 0) {
-        setNeedRegisterClan(true);
-      } else {
-        setClanRegistrationHandled(true);
-      }
+      if (userInfo.clanId === 0) setNeedRegisterClan(true);
+      else setNeedRegisterClan(false);
+
+      if (userInfo.id === 0) setNeedRegisterAccount(true);
+      else setNeedRegisterAccount(false);
     }
   }, [ logedIn, userInfo ]);
 
-  React.useEffect(() => {
-    if (clanRegistrationHandled && userInfo.id === 0) {
-      setNeedRegisterAccount(true);
-    }
-  }, [ clanRegistrationHandled, userInfo ]);
-
   const requestRegisterClan = () => {
-    if (logedIn && !needRegisterClan) {
-      setNeedRegisterClan(true);
-      return;
-    }
+    /** user doesn't have a clan */
+    if (userInfo.clanId === 0) setShowRegisterClan(true);
+    else setShowRegisterClan(false);
   }
 
   const requestRegisterAccount = () => {
-    if (logedIn && !needRegisterAccount) {
-      setNeedRegisterAccount(true);
-      return;
-    }
+    /** user has a clan but has no account in clan */
+    if (userInfo.clanId !== 0 && userInfo.id === 0) setShowRegisterAccount(true);
+    else setShowRegisterAccount(false);
   }
 
   const context = {
@@ -67,13 +61,13 @@ export function AccountProvider({ children }: { children: React.ReactNode }) {
       {children}
 
       <RequestRegisterAccount
-        visible={needRegisterAccount}
-        onClose={() => setNeedRegisterAccount(false)}
+        visible={showRegisterAccount}
+        onClose={() => setShowRegisterAccount(false)}
       />
 
       <RequestRegisterClan
-        visible={needRegisterClan}
-        onClose={() => setNeedRegisterClan(false)}
+        visible={showRegisterClan}
+        onClose={() => setShowRegisterClan(false)}
       />
     </AccountContext.Provider>
   )

@@ -3,22 +3,23 @@ import { t } from "i18next";
 import { Box, Button, Stack, Text } from "zmp-ui";
 
 import { SocialPostApi } from "api";
-import { CommonIcon, Loading, RequestPhone } from "components";
-import { useAppContext, useRouteNavigate } from "hooks";
+import { CommonIcon, Loading } from "components";
+import { useAccountContext, useAppContext, useRequestPhoneContext, useRouteNavigate } from "hooks";
 
 import { ServerResponse } from "types/server";
 
 export function UIHomeBlog() {
-  const { logedIn } = useAppContext();
+  const { 
+    needRegisterClan, registerClan, 
+    needRegisterAccount, registerAccount } = useAccountContext();
+  const { needPhone, requestPhone } = useRequestPhoneContext();
   const { goTo } = useRouteNavigate();
-  const [ requestPhone, setRequestPhone ] = React.useState<boolean>(false);
 
   const goToBlogs = () => {
-    if (!logedIn) {
-      setRequestPhone(true);
-    } else {
-      goTo({ path: "blogs" });
-    }
+    if (needPhone) { requestPhone(); return; }
+    else if (needRegisterClan) { registerClan(); return; } 
+    else if (needRegisterAccount) { registerAccount(); return; }
+    else goTo({ path: "blogs" });
   }
 
   return (
@@ -41,11 +42,6 @@ export function UIHomeBlog() {
       <React.Suspense fallback={<Loading/>}>
         <UISocialPosts/>
       </React.Suspense>
-
-      <RequestPhone
-        visible={requestPhone}
-        closeSheet={() => setRequestPhone(false)}
-      />
 
     </div>
   )

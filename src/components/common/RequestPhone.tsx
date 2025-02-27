@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Sheet } from "zmp-ui";
 
-import { StyleUtils, ZmpSDK } from "utils";
+import { ZmpSDK } from "utils";
 import { useAppContext } from "hooks";
 import { CommonIcon } from "components";
 

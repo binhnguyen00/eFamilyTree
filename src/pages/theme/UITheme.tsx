@@ -4,7 +4,7 @@ import { t } from "i18next";
 import { Grid, Text } from "zmp-ui";
 
 import { UserSettingApi } from "api";
-import { useAppContext, useNotification } from "hooks";
+import { useAccountContext, useAppContext, useNotification, useRequestPhoneContext } from "hooks";
 import { Header, SizedBox } from "components";
 
 import { Theme } from "types/user-settings";
@@ -33,16 +33,13 @@ export function UITheme(props: UIThemeProps) {
   )
 }
 
-interface UIThemeListProps extends UIThemeProps {
-  requestPhone?: () => void;
-}
-export function UIThemeList(props: UIThemeListProps) {
-  const { className, requestPhone } = props;
+export function UIThemeList(props: UIThemeProps) {
+  const { className } = props;
   return (
     <>
-      <ThemeCard theme={Theme.DEFAULT} src={themeRed} className={className} requestPhone={requestPhone}/>
-      <ThemeCard theme={Theme.BLUE} src={themeBlue} className={className} requestPhone={requestPhone}/>
-      <ThemeCard theme={Theme.EMERALD} src={themeGreen} className={className} requestPhone={requestPhone}/>
+      <ThemeCard theme={Theme.DEFAULT} src={themeRed} className={className}/>
+      <ThemeCard theme={Theme.BLUE} src={themeBlue} className={className}/>
+      <ThemeCard theme={Theme.EMERALD} src={themeGreen} className={className}/>
     </>
   )
 }
@@ -50,23 +47,22 @@ export function UIThemeList(props: UIThemeListProps) {
 interface ThemeCardProps extends UIThemeProps {
   theme: Theme;
   src: string;
-  requestPhone?: () => void
 }
 function ThemeCard(props: ThemeCardProps) {
-  const { theme, src, className, requestPhone } = props;
-  const { logedIn, userInfo, settings, updateSettings } = useAppContext();
+  const { theme, src, className } = props;
+  const { userInfo, settings, updateSettings } = useAppContext();
   const { loadingToast } = useNotification();
+  const { 
+    needRegisterClan, registerClan, 
+    needRegisterAccount, registerAccount } = useAccountContext();
+  const { needPhone, requestPhone } = useRequestPhoneContext();
 
   const onSaveTheme = (theme: Theme) => {
-    if (!logedIn) {
-      if (requestPhone) requestPhone();
-      return;
-    }
-    loadingToast(
-      <div>
-        <p> {t("đang cập nhật")} </p>
-        <p> {t("vui lòng chờ")} </p>
-      </div>,
+    if (needPhone) { requestPhone(); return; }
+    else if (needRegisterClan) { registerClan(); return; } 
+    else if (needRegisterAccount) { registerAccount(); return; }
+    else loadingToast(
+      <p> {t("đang cập nhật...")} </p>,
       (successToast, dangerToast) => {
         const success = (result: ServerResponse) => {
           const settings = result.data;

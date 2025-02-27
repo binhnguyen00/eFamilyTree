@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { Box, Text } from "zmp-ui";
 
 import { CommonIcon } from "components";
-import { useAppContext, useRouteNavigate } from "hooks";
+import { useAccountContext, useAppContext, useRequestPhoneContext, useRouteNavigate } from "hooks";
 
 export function Navigation() {
   const { appId } = useAppContext();
@@ -54,14 +54,25 @@ interface NavItemProps {
 }
 function NavItem(props: NavItemProps) {
   const { path, label, icon, activeIcon, className = "" } = props;
+  const { 
+    needRegisterClan, registerClan, 
+    needRegisterAccount, registerAccount } = useAccountContext();
+  const { needPhone, requestPhone } = useRequestPhoneContext();
   const { rootPath, currentPath, goTo, goHome, createPath } = useRouteNavigate();
   const isActive = currentPath === createPath(path);
+
+  const onSelectTree = () => {
+    if (needPhone) { requestPhone(); return; }
+    else if (needRegisterClan) { registerClan(); return; } 
+    else if (needRegisterAccount) { registerAccount(); return; }
+    else goTo({ path: path, replace: false });
+  }
 
   const handleNavigate = () => {
     if (path === rootPath) { // Home
       goHome(); 
     } else if (path.includes("family-tree")) { 
-      goTo({ path: path, replace: false }); // Family Tree
+      onSelectTree(); // Family Tree
     } else { 
       goTo({ path: path, replace: true }); // Account
     }

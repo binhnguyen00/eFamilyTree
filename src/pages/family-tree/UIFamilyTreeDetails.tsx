@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Input, Text, Sheet, Modal, Avatar, DatePicker } from "zmp-ui";
+import { Button, Input, Text, Sheet, Modal, DatePicker } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
 import { CommonUtils, DateTimeUtils, StyleUtils, ZmpSDK } from "utils";
