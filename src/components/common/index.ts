@@ -1,7 +1,6 @@
 import { Loading } from "./Loading";
 import { Divider } from "./Divider";
 import { ImageWithText } from "./ImageWithText";
-import { SearchBar } from "./SearchBar";
 import { SizedBox } from "./SizedBox";
 import { Navigation } from "./Navigation";
 import { RequestPhone } from "./RequestPhone";
@@ -17,7 +16,7 @@ import { TailSpin } from "./TailSpin";
 
 export { 
   Loading, Info,
-  Divider, ImageWithText, Navigation, RequestPhone, SearchBar,
+  Divider, ImageWithText, Navigation, RequestPhone,
   SizedBox, PagePositionSaver, ScrollableDiv, Card, Popover, RequestLocation,
   Selection, Label, TailSpin
 };

@@ -5,7 +5,7 @@ import { Grid } from "zmp-ui";
 import { FundApi } from "api";
 import { StyleUtils } from "utils";
 import { useAppContext, useRouteNavigate } from "hooks";
-import { Header, Loading, SearchBar, ScrollableDiv, Card } from "components";
+import { Header, Loading, ScrollableDiv, Card } from "components";
 
 import { ServerResponse } from "types/server";
 
@@ -94,10 +94,6 @@ function UIFundList(props: { funds: any[] }) {
 
   return (
     <div>
-      <SearchBar 
-        placeholder={t("search_funds")}
-        onSearch={(text, event) => console.log(text)}
-      />
       <ScrollableDiv height={StyleUtils.calComponentRemainingHeight(85)} width={"auto"}>
         <Grid columnCount={2} columnSpace="10px" rowSpace="10px" >
           {html}
