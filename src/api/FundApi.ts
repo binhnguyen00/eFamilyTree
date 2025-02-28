@@ -3,22 +3,26 @@ import { SuccessCB, FailCB } from "types/server"
 
 export class FundApi extends BaseApi {
   
-  public static getFunds(userId: number, clanId: number, successCB: SuccessCB, failCB?: FailCB) {
+  public static getFunds({ clanId, userId, success, fail }: {
+    userId: number, clanId: number, success: SuccessCB, fail?: FailCB
+  }) {
     const header = this.initHeader();
     const body = this.initBody({
       user_id: userId,
       clan_id: clanId
     });
-    return this.server.POST("/funds", header, body, successCB, failCB);
+    return this.server.POST("/funds", header, body, success, fail);
   }
 
-  public static getFundById(fundId: number, userId: number, clanId: number, successCB: SuccessCB, failCB?: FailCB) {
+  public static getFundById({ userId, clanId, id, success, fail }: {
+    userId: number, clanId: number, id: number, success: SuccessCB, fail?: FailCB
+  }) {
     const header = this.initHeader();
     const body = this.initBody({
-      id: fundId,
+      id: id,
       user_id: userId,
       clan_id: clanId,
     });
-    return this.server.POST("/fund/info", header, body, successCB, failCB);
+    return this.server.POST("/fund/info", header, body, success, fail);
   }
 }

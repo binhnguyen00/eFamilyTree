@@ -1,127 +1,201 @@
 import React from "react";
 import { t } from "i18next";
-import { Grid } from "zmp-ui";
+import { Button, List } from "zmp-ui";
 
 import { FundApi } from "api";
 import { StyleUtils } from "utils";
-import { useAppContext, useRouteNavigate } from "hooks";
-import { Header, Loading, ScrollableDiv, Card } from "components";
+import { useAppContext, useNotification, useRouteNavigate } from "hooks";
+import { Header, Loading, ScrollableDiv, Info, CommonIcon } from "components";
 
 import { ServerResponse } from "types/server";
 
-export function UIFund() {
-  const { funds, loading } = useFunds();
+interface FundLine {
+  name: string,
+  amount: string,
+  date: string,
+  note: string,
+}
 
-  return (
-    <div className="container">
-      <Header title={t("funds")}/>
-
-      <UIFundContainer funds={funds} loading={loading}/>
-    </div>
-  )
+export interface Fund {
+  id: number,
+  name: string,
+  balance: string,
+  incomes: FundLine[],
+  expenses: FundLine[],
 }
 
 function useFunds() {
   const { userInfo } = useAppContext();
-  const [ funds, setFunds ] = React.useState<any[]>([]);
-  const [ reload, setReload ] = React.useState(false);
+
+  const [ funds, setFunds ] = React.useState<Fund[]>([]);
   const [ loading, setLoading ] = React.useState(true);
+  const [ error, setError ] = React.useState(false);
+  const [ reload, setReload ] = React.useState(false);
+
+  const refresh = () => setReload(!reload);
+
+  const map = (data: any[]) => {
+    const results: Fund[] = data.map((result: any) => {
+      return {
+        id:       result.id,
+        name:     result.name,
+        balance:  result.balance,
+        incomes:  result.incomes,
+        expenses: result.expenses
+      }
+    })
+    return results;
+  }
 
   React.useEffect(() => {
-    const success = (result: ServerResponse) => {
-      setLoading(false);
-      if (result.status === "error") {
-        // TODO: setError
-      } else {
-        const data = result.data as any[];
-        setFunds(data);
+    setLoading(true);
+    setError(false);
+    setFunds([] as any);
+
+    FundApi.getFunds({
+      userId: userInfo.id,
+      clanId: userInfo.clanId,
+      success: (result: ServerResponse) => {
+        setLoading(false);
+        if (result.status === "error") {
+          setError(true);
+        } else {
+          const data = result.data as any[];
+          const results = map(data);
+          setFunds(results);
+        }
+      },
+      fail: () => {
+        setLoading(false);
+        setError(true);
       }
-    };
-    FundApi.getFunds(userInfo.id, userInfo.clanId, success);
+    });
   }, [ reload ]);
 
-  return { 
-    loading: loading, funds: funds, reload: reload,
-    updateFunds: setFunds, refresh: () => setReload(!reload)
-  }
+  return { funds, loading, error, refresh }
 }
 
-// ==========================
-// FUND CONTAINER
-// ==========================
-function UIFundContainer(props: { funds: any[], loading: boolean }) {
-  let { funds, loading } = props;
-  if (loading) {
+export function UIFund() {
+  const { funds, loading, error, refresh } = useFunds();
+
+  const renderErrorContainer = () => {
     return (
-      <div>
-        <Header title={t("funds")}/>
-        <Loading/>
+      <div className="flex-v">
+        <Info title={t("Chưa có dữ liệu")}/>
+        <div className="center">
+          <Button size="small" prefixIcon={<CommonIcon.Reload size={"1rem"}/>} onClick={() => refresh()}>
+            {t("retry")}
+          </Button>
+        </div>
       </div>
     )
   }
-  return <UIFundList funds={funds}/>
+
+  const renderContainer = () => {
+    if (loading) {
+      return (
+        <div className="max-h">
+          <Loading/>
+        </div>
+      )
+    } else if (error) {
+      return renderErrorContainer()
+    } else if (!funds.length) {
+      return renderErrorContainer()
+    } else {
+      return (
+        <UIFundList funds={funds}/>
+      )
+    }
+  }
+
+  return (
+    <>
+      <Header title={t("funds")}/>
+
+      <div className="container max-h bg-white text-base">
+        {renderContainer()}
+      </div>
+    </>
+  )
 }
 
-// ==========================
-// FUND LIST
-// ==========================
-function UIFundList(props: { funds: any[] }) {
-  let { funds } = props;
-  let { goTo } = useRouteNavigate();
+interface UIFundListProps {
+  funds: Fund[];
+}
+function UIFundList(props: UIFundListProps) {
+  const { funds } = props;
+  const { goTo } = useRouteNavigate();
+  const { userInfo } = useAppContext();
+  const { loadingToast } = useNotification();
 
-  const navigateToFundDetail = (fund: any) => {
-    if (!fund) return;
+  const [ fund, setFund ] = React.useState<Fund | null>(null);
+
+  const goToFundInfo = () => {
+    if (fund === null) return;
     else {
-      const fundId = fund.id;
-      goTo({ 
+      goTo({  
         path: "fund/info", 
         data: { 
-          fundId: fundId 
+          fund: fund 
         }
       });
     }
   }
 
-  let html = [] as React.ReactNode[];
-  funds.map((item, index) => {
-    html.push(
-      <UIFundCard
-        info={item}
-        onClick={() => navigateToFundDetail(item)}  
-      />
-    )
-  })
+  const onSelect = (id: number) => {
+    loadingToast(
+      <p> {t("đang tải dữ liệu...")} </p>,
+      (successToastCB, dangerToastCB) => {
+        FundApi.getFundById({
+          userId: userInfo.id,
+          clanId: userInfo.clanId,
+          id: id,
+          success: (result: ServerResponse) => {
+            if (result.status === "error") {
+              dangerToastCB(t("vui lòng thử lại"));
+            } else {
+              successToastCB(t("lấy dữ liệu thành công"))
+              const data = result.data as any;
+              setFund({
+                id:       data.id,
+                name:     data.name,
+                balance:  data.balance,
+                incomes:  data.incomes,
+                expenses: data.expenses
+              })
+              goToFundInfo();
+            }
+          },
+          fail: () => dangerToastCB(t("vui lòng thử lại"))
+        })
+      }
+    );
+  }
+
+  const lines: React.ReactNode[] = React.useMemo(() => {
+    return funds.map((item, index) => {
+      return (
+        <List.Item
+          key={`fund-${index}`}
+          title={item.name}
+          subTitle={item.balance}
+          onClick={() => onSelect(item.id)}
+          style={{
+            fontSize: "1.2rem"
+          }}
+          suffix={<CommonIcon.ChevonRight size={"1rem"}/>}
+
+        />
+      )
+    })
+  }, [ funds ])
 
   return (
-    <div>
-      <ScrollableDiv height={StyleUtils.calComponentRemainingHeight(85)} width={"auto"}>
-        <Grid columnCount={2} columnSpace="10px" rowSpace="10px" >
-          {html}
-        </Grid>
-      </ScrollableDiv>
-    </div>
-  )
-}
-
-// ==========================
-// FUND CARD
-// ==========================
-interface UIFundCardProps {
-  info: any,
-  onClick?: () => void;
-}
-function UIFundCard(props: UIFundCardProps) {
-  const  { info, onClick } = props;
-  return (
-    <Card
-      // src={info.thumbnail}
-      height={"auto"}
-      title={info.name}
-      content={(
-        <p style={{ fontSize: "1.5rem" }}> {info["balance"]} </p>
-      )}
-      onClick={onClick}
-      className="button bg-secondary text-primary"
-    />  
+    <ScrollableDiv height={StyleUtils.calComponentRemainingHeight(0)}>
+      <List>
+        {lines}
+      </List>
+    </ScrollableDiv>
   )
 }

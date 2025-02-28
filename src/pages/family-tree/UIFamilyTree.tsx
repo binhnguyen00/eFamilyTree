@@ -8,7 +8,7 @@ import { TreeUtils, TreeDataProcessor } from "utils";
 import { Header, TreeNode, FamilyTree, TreeConfig, Loading, Info, CommonIcon } from "components";
 
 import { ExtNode } from "components/tree-relatives/types";
-import { ServerResponse, FailResponse } from "types/server";
+import { ServerResponse } from "types/server";
 
 import { UICreateSpouse } from "./UICreateSpouse";
 import { UICreateChild } from "./UICreateChild";

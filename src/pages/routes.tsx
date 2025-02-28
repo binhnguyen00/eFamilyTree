@@ -28,7 +28,6 @@ import { useRouteNavigate } from "hooks";
 
 // Demo components (React.lazy loaded)
 const UIDummyFund = React.lazy(() => import("./dummy/UIDummyFund"));
-const UIDummyFundDetail = React.lazy(() => import("./dummy/UIDummyFundDetail"));
 const UIDummyTree = React.lazy(() => import("./dummy/UIDummyTree"));
 const UIDummyBlog = React.lazy(() => import("./dummy/UIDummyBlog"));
 const UIDummyNavigate = React.lazy(() => import("./dummy/UIDummyNavigate"));
@@ -84,11 +83,6 @@ export function AppRoutes() {
           <UIDummyFund />
         </React.Suspense>
       }/>
-      <Route path={createPath("/dev/funds/detail")} element={
-        <React.Suspense fallback={<Loading />}>
-          <UIDummyFundDetail />
-        </React.Suspense>
-      } />
       <Route path={createPath("/dev/tree")} element={
         <React.Suspense fallback={<Loading />}>
           <UIDummyTree />
