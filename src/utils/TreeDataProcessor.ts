@@ -69,7 +69,6 @@ export class TreeDataProcessor {
 
   public getSpouses(id: number) {
     const targetPerson = this.people.find((person: Person) => person.id === id);
-    console.log("getSpouses:", targetPerson);
     if (!targetPerson) return [];
     const spouses = targetPerson.pids
       .map((spouseId: number) => this.people.find((person: Person) => person.id === spouseId))

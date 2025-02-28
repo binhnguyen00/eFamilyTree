@@ -20,7 +20,6 @@ export function useSettings(userId: number | any, clanId: number | any): UserSet
   });
 
   const updateSettings = (userSettings: UserSettings) => {
-    console.log("Update Settings", userSettings);
     setSetting(userSettings);
   }
 

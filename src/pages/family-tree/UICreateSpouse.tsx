@@ -19,15 +19,16 @@ interface UICreateSpouseProps {
 } 
 
 export function UICreateSpouse(props: UICreateSpouseProps) {
+  if (props.spouse === null) return;
+
   const { onClose, spouse, visible, onReloadParent } = props;
-
-  if (spouse === null) return;
-
   const { userInfo } = useAppContext();
   const { dangerToast, loadingToast } = useNotification();
 
+  const isMalePartner = (): boolean => spouse.gender === "1";
+
   const onCreate = () => {
-    if (!observer.getBean().phone || !observer.getBean().name) {
+    if (!observer.getBean().name) {
       dangerToast(t("nhập đủ thông tin"))
       return;
     }
@@ -54,8 +55,10 @@ export function UICreateSpouse(props: UICreateSpouseProps) {
   }
 
   const observer = useBeanObserver({
+    gender: isMalePartner() ? "0" : "1",
     spouses: [{
-      gender: spouse.gender === "1" ? "0" : "1",
+      id: spouse.id,
+      gender: spouse.gender,
     }],
   } as Member);
 
@@ -65,25 +68,15 @@ export function UICreateSpouse(props: UICreateSpouseProps) {
       height={StyleUtils.calComponentRemainingHeight(0)}
       title={t("Tạo Vợ/Chồng")}
     >
-      <Form observer={observer} onCreate={onCreate}/>
-    </Sheet>
-  )
-}
-
-function Form({ observer, onCreate }: { 
-  observer: BeanObserver<Member>; 
-  onCreate: () => void;
-}) {
-  return (
-    <div className="scroll-v flex-v p-3">
-      <div>
+      <div className="scroll-v flex-v p-3">
+        {/* form */}
         <Text.Title className="py-2"> {t("info")} </Text.Title>
         <Input 
           name="name" label={<Label text={`${t("họ tên")} *`}/>} 
           value={observer.getBean().name} onChange={observer.watch}
         />
         <Input
-          name="phone" type="number" label={<Label text={`${t("điện thoại")} *`}/>} 
+          name="phone" type="number" label={<Label text={t("điện thoại")}/>} 
           value={observer.getBean().phone} onChange={observer.watch}
         />
         <Selection
@@ -114,13 +107,14 @@ function Form({ observer, onCreate }: {
           label={<Label text={observer.getBean().gender === "1" ? t("Chồng của") : t("Vợ của")}/>} 
           value={observer.getBean().spouses[0].name} disabled
         />
+        {/* footer */}
+        <div>
+          <Text.Title className="py-2"> {t("Hành động")} </Text.Title>
+          <Button size="small" prefixIcon={<CommonIcon.AddPerson/>} onClick={onCreate}> 
+            {t("create")}
+          </Button>
+        </div> 
       </div>
-      <div>
-        <Text.Title className="py-2"> {t("Hành động")} </Text.Title>
-        <Button size="small" prefixIcon={<CommonIcon.AddPerson/>} onClick={onCreate}> 
-          {t("create")}
-        </Button>
-      </div> 
-    </div>
+    </Sheet>
   )
 }

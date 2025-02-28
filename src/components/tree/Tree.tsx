@@ -72,7 +72,6 @@ export default React.memo<TreeProps>(function Tree(props) {
             <React.Fragment>
               <div className='flex-h justify-between'>
                 <TreeSearchBar 
-                  displayField={searchDisplayField}
                   nodes={nodes}
                   onSelect={zoomToElement}
                   style={{

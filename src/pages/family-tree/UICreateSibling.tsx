@@ -37,7 +37,7 @@ export function UICreateSibling(props: UICreateSiblingProps) {
   } as Member);
 
   const onCreate = () => {
-    if (!observer.getBean().phone || !observer.getBean().name) {
+    if (!observer.getBean().name) {
       dangerToast(t("nhập đủ thông tin"))
       return;
     }
@@ -69,13 +69,14 @@ export function UICreateSibling(props: UICreateSiblingProps) {
       title={t("Tạo Anh/Chị/Em")} height={StyleUtils.calComponentRemainingHeight(0)}
     >
       <div className="scroll-v flex-v p-3">
+        {/* form */}
         <Text.Title className="py-2"> {t("info")} </Text.Title>
         <Input 
           name="name" label={<Label text={`${t("họ tên")} *`}/>} 
           value={observer.getBean().name} onChange={observer.watch}
         />
         <Input
-          name="phone" type="number" label={<Label text={`${t("điện thoại")} *`}/>} 
+          name="phone" type="number" label={<Label text={t("điện thoại")}/>} 
           value={observer.getBean().phone} onChange={observer.watch}
         />
         <Selection
@@ -110,6 +111,7 @@ export function UICreateSibling(props: UICreateSiblingProps) {
           label={<Label text={t("mẹ")}/>} 
           value={observer.getBean().mother} name="mother" disabled
         />
+        {/* footer */}
         <div>
           <Text.Title className="py-2"> {t("Hành động")} </Text.Title>
           <Button size="small" prefixIcon={<CommonIcon.AddPerson/>} onClick={onCreate}> 

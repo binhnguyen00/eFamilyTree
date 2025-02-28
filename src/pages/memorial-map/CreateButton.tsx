@@ -28,16 +28,9 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
         setAddMarkerVisible(true);
       }
     }
-
-    // Debug
-    // if (onAdd) {
-    //   setAddMarkerVisible(true);
-    // }
   }
 
   const onSave = (record: NewMarker | any) => {
-    console.log(record);
-    
     if (!record) {
       dangerToast(`${t("save")} ${t("fail")}`)
       return;

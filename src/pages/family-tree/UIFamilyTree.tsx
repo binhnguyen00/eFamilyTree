@@ -1,10 +1,11 @@
 import React from "react";
 import { t } from "i18next";
+import { Button } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
 import { useAppContext, useNotification } from "hooks";
 import { TreeUtils, TreeDataProcessor } from "utils";
-import { Header, TreeNode, FamilyTree, TreeConfig, Loading } from "components";
+import { Header, TreeNode, FamilyTree, TreeConfig, Loading, Info, CommonIcon } from "components";
 
 import { ExtNode } from "components/tree-relatives/types";
 import { ServerResponse, FailResponse } from "types/server";
@@ -59,21 +60,43 @@ export function useFamilyTree() {
 export function UIFamilyTree() {
   const { processor, error, loading, refresh } = useFamilyTree();
 
-  if (loading) {
-    return (
-      <div className="container max-h bg-white">
-        <Header title={t("family_tree")} />
-        <Loading/>      
-      </div>
-    ) 
-  } else {
-    return (
-      <UIFamilyTreeContainer 
-        processor={processor}
-        onReload={refresh}
-      />
-    )
+  const renderContainer = () => {
+    if (loading) {
+      return (
+        <div className="max-h">
+          <Loading/>
+        </div>
+      )
+    } else if (error) {
+      return (
+        <div className="flex-v flex-grow-0 max-h container">
+          <Info title={t("Chưa có dữ liệu")}/>
+          <div className="center">
+            <Button size="small" prefixIcon={<CommonIcon.Reload size={"1rem"}/>} onClick={() => refresh()}>
+              {t("retry")}
+            </Button>
+          </div>
+        </div>
+      )
+    } else {
+      return (
+        <UIFamilyTreeContainer 
+          processor={processor}
+          onReload={refresh}
+        />
+      )
+    }
   }
+
+  return (
+    <>
+      <Header title={t("family_tree")} />
+
+      <div className="bg-white">
+        {renderContainer()}
+      </div>
+    </>
+  ) 
 }
 
 interface UIFamilyTreeContainerProps {
@@ -82,6 +105,20 @@ interface UIFamilyTreeContainerProps {
 }
 export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) { 
   const { processor, onReload } = props;
+  const [ createMode, setCreateMode ] = React.useState<CreateMode | null>(null);
+
+  if (processor.nodes.length === 0) {
+    return (
+      <div id="tree-container">
+        <UICreateRoot
+          visible={true}
+          onClose={() => setCreateMode(null)} 
+          onReloadParent={onReload}
+        />
+      </div>
+    )
+  }
+
   const { userInfo } = useAppContext();
   const { loadingToast } = useNotification();
 
@@ -93,8 +130,6 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
   const [ nodes, setNodes ] = React.useState<any[]>(processor.nodes);
 
   const [ zoomElement, setZoomElement ] = React.useState<HTMLElement>();
-
-  const [ createMode, setCreateMode ] = React.useState<CreateMode | null>(null);
 
   React.useEffect(() => {
     setNodes(processor.nodes);
@@ -137,33 +172,30 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
           id: parseInt(node.id),
           success: (result: ServerResponse) => {
             if (result.status === "error") {
-              console.error(result.message);
               dangerToastCB(t("vui lòng thử lại"));
             } else {
-              successToastCB(t("lấy dữ liệu thành công"));
               const data = result.data as any;
               setNode({
-                id: data.id,
-                code: data.code,
-                name: data.name,
-                phone: data.phone,
-                birthday: data.birthday,
-                gender: data.gender,
-                generation: data.generation,
-                father: data.father,
-                fatherId: data.father_id,
-                mother: data.mother,
-                motherId: data.mother_id,
-                children: data.children,
-                spouses: data.spouses,
+                id:           data.id,
+                code:         data.code,
+                name:         data.name,
+                phone:        data.phone,
+                birthday:     data.birthday,
+                gender:       data.gender,
+                generation:   data.generation,
+                father:       data.father,
+                fatherId:     data.father_id,
+                mother:       data.mother,
+                motherId:     data.mother_id,
+                children:     data.children,
+                spouses:      data.spouses,
+                avatar:       data.avatar,
                 achievements: data.achievements,
-                avatar: data.avatar,
               });
+              successToastCB(t("lấy dữ liệu thành công"));
             }
           },
-          fail: () => {
-            dangerToastCB(t("vui lòng thử lại"));
-          }
+          fail: () => dangerToastCB(t("vui lòng thử lại"))
         });
       }
     )
@@ -203,12 +235,6 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
         onCreateChild={() => setCreateMode(CreateMode.CHILD)}
         onCreateSpouse={() => setCreateMode(CreateMode.SPOUSE)}
         onCreateSibling={() => setCreateMode(CreateMode.SIBLING)}
-        onReloadParent={onReload}
-      />
-
-      <UICreateRoot
-        visible={createMode && createMode === CreateMode.ROOT ? true : false}
-        onClose={() => setCreateMode(null)} 
         onReloadParent={onReload}
       />
 

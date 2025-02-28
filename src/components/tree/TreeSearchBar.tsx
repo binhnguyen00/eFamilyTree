@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 
 import { Node } from 'components/tree-relatives/types';
-import { Selection } from "components";
+import { Selection, SelectionOption } from "components";
 
 interface TreeSearchBarProps {
   nodes: Node[];
@@ -14,11 +14,8 @@ interface TreeSearchBarProps {
 export function TreeSearchBar(props: TreeSearchBarProps) {
   const { nodes, onSelect, style } = props;
 
-  const onSelectNode = (node: any) => {
-    /* node should be {
-      value: number, label: string
-    } */
-    const div = document.querySelector<HTMLDivElement>(`#node-${node.value}`);
+  const onSelectOption = (option: SelectionOption) => {
+    const div = document.querySelector<HTMLDivElement>(`#node-${option.value}`);
     if (div) {
       onSelect(div);
     }
@@ -35,7 +32,7 @@ export function TreeSearchBar(props: TreeSearchBarProps) {
     <Selection
       label={""} field={""} isSearchable 
       options={options} observer={null as any}
-      onChange={(value, action: any) => onSelectNode(value)}
+      onChange={(option: SelectionOption, action: any) => onSelectOption(option)}
       placeHolder={t("Tìm kiếm thành viên...")}
       className="mx-2"
       style={{ 

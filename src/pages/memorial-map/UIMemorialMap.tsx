@@ -80,7 +80,6 @@ export function UIMemorialMap() {
             addMarker={newMarker}
             removeMarker={removeMarker}
             onMarkerClick={(location: any) => {
-              console.log(location);
               setSelectedLocation(location);
             }}
           />

@@ -17,13 +17,11 @@ export default function MonthCalendar() {
   }
 
   const onClickDay = (selectedDate: Date, event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log("trigger when select day");
-    console.log(selectedDate);
+    console.log("trigger when select day", selectedDate);
   }
 
   const onChange = (selectedDate: Date, event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log("trigger when change day");
-    console.log(selectedDate);
+    console.log("trigger when change day", selectedDate);
   }
 
   const tileContent = ({date, view}: { date: Date, view: string }) => {

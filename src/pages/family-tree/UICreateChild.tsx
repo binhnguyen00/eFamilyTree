@@ -26,12 +26,6 @@ export function UICreateChild(props: UICreateChildProps) {
 
   if (!dad) return;
 
-  const observer = useBeanObserver({
-    father: dad.name,
-    fatherId: dad.id,
-    gender: "1",
-  } as Member);
-
   const moms = processor.getSpouses(dad.id);
   const momOpts = moms.map((mom) => {
     return {
@@ -39,6 +33,12 @@ export function UICreateChild(props: UICreateChildProps) {
       label: mom.name
     }
   }) as SelectionOption[];
+
+  const observer = useBeanObserver({
+    father: dad.name,
+    fatherId: dad.id,
+    gender: "1",
+  } as Member);
 
   // Set default mother
   React.useEffect(() => {
@@ -51,7 +51,7 @@ export function UICreateChild(props: UICreateChildProps) {
   }, [ ])
 
   const onCreate = () => {
-    if (!observer.getBean().phone || !observer.getBean().name) {
+    if (!observer.getBean().name) {
       dangerToast(t("nhập đủ thông tin"))
       return;
     }
@@ -83,53 +83,53 @@ export function UICreateChild(props: UICreateChildProps) {
       title={t("Tạo Con")} height={StyleUtils.calComponentRemainingHeight(0)}
     >
       <div className="scroll-v flex-v p-3">
-        <div>
-          <Text.Title className="py-2"> {t("info")} </Text.Title>
-          <Input 
-            name="name" label={<Label text={`${t("họ tên")} *`}/>} 
-            value={observer.getBean().name} onChange={observer.watch}
-          />
-          <Input 
-            name="phone" type="number" label={<Label text={`${t("điện thoại")} *`}/>} 
-            value={observer.getBean().phone} onChange={observer.watch}
-          />
-          <Selection
-            options={[
-              { value: "1", label: t("male") },
-              { value: "0", label: t("female") }
-            ]}
-            defaultValue={
-              observer.getBean().gender === "1" 
-                ? { value: "1", label: t("male") }
-                : { value: "0", label: t("female") }
-            }
-            observer={observer} field="gender" label={t("giới tính")}
-          />
-          <DatePicker 
-            mask maskClosable 
-            label={t("Ngày Sinh")} title={t("Ngày Sinh")}
-            onChange={(date: Date, calendarDate: any) => {
-              observer.update("birthday", DateTimeUtils.formatToDate(date));
-            }}
-            value={
-              observer.getBean().birthday 
-              ? DateTimeUtils.toDate(observer.getBean().birthday)
-              : new Date(new Date().setFullYear(new Date().getFullYear() - 20))
-            }
-          />
-          <Input 
-            label={<Label text={t("bố")}/>} 
-            value={observer.getBean().father} name="father" disabled
-          />
-          <Selection
-            options={momOpts}
-            observer={observer} field="" label={t("mẹ")}
-            onChange={(selected: SelectionOption, action) => {
-              observer.update("mother", selected.label)
-              observer.update("motherId", selected.value)
-            }}
-          />
-        </div>
+        {/* form */}
+        <Text.Title> {t("info")} </Text.Title>
+        <Input 
+          name="name" label={<Label text={`${t("họ tên")} *`}/>} 
+          value={observer.getBean().name} onChange={observer.watch}
+        />
+        <Input 
+          name="phone" type="number" label={<Label text={t("điện thoại")}/>} 
+          value={observer.getBean().phone} onChange={observer.watch}
+        />
+        <Selection
+          options={[
+            { value: "1", label: t("male") },
+            { value: "0", label: t("female") }
+          ]}
+          defaultValue={
+            observer.getBean().gender === "1" 
+              ? { value: "1", label: t("male") }
+              : { value: "0", label: t("female") }
+          }
+          observer={observer} field="gender" label={t("giới tính")}
+        />
+        <DatePicker 
+          mask maskClosable 
+          label={t("Ngày Sinh")} title={t("Ngày Sinh")}
+          onChange={(date: Date, calendarDate: any) => {
+            observer.update("birthday", DateTimeUtils.formatToDate(date));
+          }}
+          value={
+            observer.getBean().birthday 
+            ? DateTimeUtils.toDate(observer.getBean().birthday)
+            : new Date(new Date().setFullYear(new Date().getFullYear() - 20))
+          }
+        />
+        <Input 
+          label={<Label text={t("bố")}/>} 
+          value={observer.getBean().father} name="father" disabled
+        />
+        <Selection
+          options={momOpts}
+          observer={observer} field="" label={t("mẹ")}
+          onChange={(selected: SelectionOption, action) => {
+            observer.update("mother", selected.label)
+            observer.update("motherId", selected.value)
+          }}
+        />
+        {/* footer */}
         <div>
           <Text.Title className="py-2"> {t("Hành động")} </Text.Title>
           <Button size="small" prefixIcon={<CommonIcon.AddPerson/>} onClick={onCreate}> 

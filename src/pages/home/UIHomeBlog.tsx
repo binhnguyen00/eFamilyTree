@@ -81,7 +81,6 @@ function UISocialPosts() {
       try {
         coverProperties = JSON.parse(post["cover_properties"]);
       } catch (error) {
-        console.log(error);
       }
 
       const imageUrl = coverProperties["background-image"] as string;

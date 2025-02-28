@@ -239,7 +239,7 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
       <div className="p-3 scroll-v flex-v">
         {/* form */}
         <div className="flex-v flex-grow-0">
-          <Text.Title className="flex-h flex-grow-0"> {t("info")} <CommonIcon.Info size={"1rem"}/> </Text.Title>
+          <Text.Title> {t("info")} </Text.Title>
           {/* avatar */}
           {renderAvatar()}
           {/* information */}

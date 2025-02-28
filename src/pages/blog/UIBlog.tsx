@@ -60,7 +60,6 @@ function UIBlogList() {
       try {
         coverProperties = JSON.parse(item["cover_properties"]);
       } catch (error) {
-        console.log(error);
       }
       const imageUrl = coverProperties["background-image"] as string;
       const imgSrc = `${SocialPostApi.getServerBaseUrl()}${imageUrl.replace(/url\(['"]?(.*?)['"]?\)/, '$1')}`;
