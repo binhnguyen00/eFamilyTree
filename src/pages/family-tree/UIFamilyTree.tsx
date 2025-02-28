@@ -83,7 +83,7 @@ interface UIFamilyTreeContainerProps {
 export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) { 
   const { processor, onReload } = props;
   const { userInfo } = useAppContext();
-  const { loadingToast, warningToast } = useNotification();
+  const { loadingToast } = useNotification();
 
   const [ reload, setReload ] = React.useState(false);
   const [ resetBtn, setResetBtn ] = React.useState<boolean>(false);
@@ -122,15 +122,14 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
   const onReset = resetBtn ? () => {
     setReload(!reload);
     setResetBtn(false);
-    setZoomElement(undefined);
+    const root = document.getElementById(`node-${rootId}`);
+    if (root) setZoomElement(root);
+    else setZoomElement(undefined);
   } : undefined;
 
   const onSelect = (node: ExtNode) => {
     loadingToast(
-      <div className="flex-v">
-        <p> {t("đang tải dữ liệu")} </p>
-        <p> {t("vui lòng chờ")} </p>
-      </div>,
+      <p> {t("đang tải dữ liệu...")} </p>,
       (successToastCB, dangerToastCB) => {
         FamilyTreeApi.getMemberInfo({
           userId: userInfo.id, 
@@ -139,7 +138,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
           success: (result: ServerResponse) => {
             if (result.status === "error") {
               console.error(result.message);
-              warningToast(t("vui lòng thử lại"));
+              dangerToastCB(t("vui lòng thử lại"));
             } else {
               successToastCB(t("lấy dữ liệu thành công"));
               const data = result.data as any;
@@ -163,7 +162,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
             }
           },
           fail: () => {
-            warningToast(t("vui lòng thử lại"));
+            dangerToastCB(t("vui lòng thử lại"));
           }
         });
       }
@@ -197,6 +196,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
 
       <UITreeMemberDetails
         info={node}
+        processor={processor}
         visible={node !== null ? true : false} 
         onClose={() => setNode(null)}
         toBranch={toBranch}

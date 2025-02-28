@@ -24,35 +24,38 @@ export function UICreateSpouse(props: UICreateSpouseProps) {
   if (spouse === null) return;
 
   const { userInfo } = useAppContext();
-  const { successToast, dangerToast } = useNotification();
+  const { dangerToast, loadingToast } = useNotification();
 
   const onCreate = () => {
     if (!observer.getBean().phone || !observer.getBean().name) {
       dangerToast(t("nhập đủ thông tin"))
       return;
     }
-    FamilyTreeApi.createMember({
-      userId: userInfo.id,
-      clanId: userInfo.clanId,
-      member: observer.getBean(),
-      success: (result: ServerResponse) => {
-        if (result.status === "error") {
-          dangerToast?.(`${t("save")} ${t("fail")}`)
-        } else {
-          successToast?.(`${t("save")} ${t("success")}`)
-          if (onReloadParent) onReloadParent();
-        }
-        onClose();
-      },
-      fail: (error: FailResponse) => dangerToast?.(`${t("save")} ${t("fail")}`)
-    })
+    loadingToast(
+      <p> {t("đang tạo...")} </p>,
+      (successToastCB, dangerToastCB) => {
+        FamilyTreeApi.createMember({
+          userId: userInfo.id,
+          clanId: userInfo.clanId,
+          member: observer.getBean(),
+          success: (result: ServerResponse) => {
+            if (result.status === "error") {
+              dangerToastCB(`${t("save")} ${t("fail")}`)
+            } else {
+              successToastCB(`${t("save")} ${t("success")}`)
+              if (onReloadParent) onReloadParent();
+            }
+            onClose();
+          },
+          fail: (error: FailResponse) => dangerToastCB(`${t("save")} ${t("fail")}`)
+        })
+      }
+    )
   }
 
   const observer = useBeanObserver({
     spouses: [{
-      id: spouse.id,
-      name: spouse.name,
-      gender: spouse.gender,
+      gender: spouse.gender === "1" ? "0" : "1",
     }],
   } as Member);
 
@@ -91,8 +94,8 @@ function Form({ observer, onCreate }: {
           observer={observer} field="gender" label={t("Giới Tính")}         
           defaultValue={
             observer.getBean().gender === "1" 
-            ? { value: "0", label: t("female") }
-            : { value: "1", label: t("male") }
+            ? { value: "1", label: t("male") }
+            : { value: "0", label: t("female") }
           }
         />
         <DatePicker 
@@ -104,7 +107,7 @@ function Form({ observer, onCreate }: {
           value={
             observer.getBean().birthday 
             ? DateTimeUtils.toDate(observer.getBean().birthday)
-            : undefined
+            : new Date(new Date().setFullYear(new Date().getFullYear() - 20))
           }
         />
         <Input 

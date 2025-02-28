@@ -63,14 +63,8 @@ export function TreeController(props: TreeControllerProps) {
     `;
 
     const svg2Base64Success = (base64: string) => {
-      const loadingContent = (
-        <div>
-          <p> {t("preparing_data")} </p>
-          <p> {t("please_wait")} </p>
-        </div>
-      )
       loadingToast(
-        loadingContent, 
+        <p> {t("preparing_data")} </p>, 
         (onSuccess, onFail) => {
           const success = (result: ServerResponse) => {
             if (result.status === "success") {
@@ -88,11 +82,6 @@ export function TreeController(props: TreeControllerProps) {
 
     const blob = new Blob([svg], { type: 'image/svg+xml' });
     CommonUtils.objToBase64(blob, svg2Base64Success)
-  }
-
-  const findRoot = () => {
-    const root = document.querySelector<HTMLDivElement>(`#node-${rootId}`);
-    if (root) onZoomToRoot(root);
   }
 
   const findMe = () => {
@@ -117,13 +106,6 @@ export function TreeController(props: TreeControllerProps) {
         width={"fit-content"} height={"fit-content"}
         onClick={findMe}
         children={<CommonIcon.FilePerson size={28}/>}
-      />
-
-      <SizedBox 
-        className='bg-white mb-1 p-1 button border-primary'
-        width={"fit-content"} height={"fit-content"}
-        onClick={findRoot}
-        children={<CommonIcon.Tree size={28}/>}
       />
 
       <SizedBox 

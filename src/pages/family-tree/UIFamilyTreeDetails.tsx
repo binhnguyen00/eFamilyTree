@@ -1,11 +1,11 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Input, Text, Sheet, Modal, DatePicker } from "zmp-ui";
+import { Button, Input, Text, Sheet, Modal, DatePicker, Avatar } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
-import { CommonUtils, DateTimeUtils, StyleUtils, ZmpSDK } from "utils";
+import { CommonUtils, DateTimeUtils, StyleUtils, TreeDataProcessor, ZmpSDK } from "utils";
 import { useBeanObserver, useNotification, useAppContext } from "hooks";
-import { CommonIcon, Selection, Label } from "components";
+import { CommonIcon, Selection, Label, SelectionOption } from "components";
 import { FailResponse, ServerResponse } from "types/server";
 
 export enum CreateMode {
@@ -47,6 +47,7 @@ export type Member = {
 interface UITreeMemberDetailsProps {
   info: Member | null;
   visible: boolean;
+  processor: TreeDataProcessor;
   onClose: () => void;
   toBranch?: () => void;
   onCreateSpouse?: () => void;
@@ -56,81 +57,95 @@ interface UITreeMemberDetailsProps {
 }
 export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
   const { 
-    info, visible, onClose, toBranch, 
+    info, visible, onClose, toBranch, processor,
     onCreateSpouse, onCreateChild, onCreateSibling, onReloadParent
   } = props;
 
   if (info === null) return;
 
+  const observer = useBeanObserver(info || {} as Member);
   const { userInfo, serverBaseUrl } = useAppContext();
   const { successToast, dangerToast, warningToast, loadingToast } = useNotification();
   const [ deleteWarning, setDeleteWarning ] = React.useState(false);
 
-  const observer = useBeanObserver(info || {} as Member);
+  const moms = processor.getSpouses(info.fatherId || 0);
+  const momOpts = moms.map((mom) => {
+    return {
+      value: mom.id, 
+      label: mom.name
+    }
+  }) as SelectionOption[];
 
   const isRoot = (): boolean => {
     if (!observer.getBean().generation) return true; 
     if (observer.getBean().generation === 1) return true;
     return false;
   }
-
-  const isFemale = (): boolean => {
-    return observer.getBean().gender === "0";
-  }
+  const isFemale = (): boolean => observer.getBean().gender === "0";
+  const isMale = (): boolean => observer.getBean().gender === "1";
+  const hasParents = (): boolean => !!observer.getBean().fatherId || !!observer.getBean().motherId;
+  const hasChildren = (): boolean => observer.getBean().children.length > 0;
+  const hasAvatar = (): boolean => !!observer.getBean().avatar;
 
   const onSave = () => {
     if (!observer.getBean().phone || !observer.getBean().name) {
       dangerToast(t("nhập đủ thông tin"))
       return;
     }
-    FamilyTreeApi.saveMember({
-      userId: userInfo.id,
-      clanId: userInfo.clanId,
-      member: observer.getBean(),
-      success: (result: ServerResponse) => {
-        if (result.status === "error") {
-          dangerToast(`${t("save")} ${t("fail")}`)
-        } else {
-          successToast(`${t("save")} ${t("success")}`)
-          const bean = result.data as Member;
-          observer.update("name", bean.name);
-          observer.update("phone", bean.phone);
-          observer.update("gender", bean.gender);
-          observer.update("birthday", bean.birthday);
-          if (onReloadParent) onReloadParent();
-        }
-        onClose();
-      },
-      fail: (error: FailResponse) => {
-        dangerToast(`${t("save")} ${t("fail")}`)
+    loadingToast(
+      <p> {t("đang lưu...")} </p>,
+      (successToastCB, dangerToastCB) => {
+        FamilyTreeApi.saveMember({
+          userId: userInfo.id,
+          clanId: userInfo.clanId,
+          member: observer.getBean(),
+          success: (result: ServerResponse) => {
+            if (result.status === "error") {
+              dangerToastCB(`${t("save")} ${t("fail")}`)
+            } else {
+              successToastCB(`${t("save")} ${t("success")}`)
+              const bean = result.data as Member;
+              observer.update("name", bean.name);
+              observer.update("phone", bean.phone);
+              observer.update("gender", bean.gender);
+              observer.update("birthday", bean.birthday);
+              if (onReloadParent) onReloadParent();
+            }
+            onClose();
+          },
+          fail: (error: FailResponse) => dangerToastCB(`${t("save")} ${t("fail")}`)
+        })
       }
-    })
+    )
   }
 
   const onArchive = () => {
-    if (isRoot()) {
-      dangerToast(t("Không thể xoá Thành viên Thuỷ Tổ"))
-      return;
-    }
-    FamilyTreeApi.archiveMember({
-      userId: userInfo.id,
-      clanId: userInfo.clanId,
-      id: observer.getBean().id,
-      success: (result: ServerResponse) => {
-        if (result.status === "error") {
-          dangerToast(`${t("delete")} ${t("fail")}`)
-        } else {
-          successToast(`${t("delete")} ${t("success")}`)
-        }
-        setDeleteWarning(false);
-        onClose();
-        if (onReloadParent) onReloadParent();
-      },
-      fail: (error: FailResponse) => {
-        dangerToast(`${t("delete")} ${t("fail")}`)
-        setDeleteWarning(false);
+    if (isRoot()) { dangerToast(t("Không thể xoá Thành viên Thuỷ Tổ")); return; }
+    if (hasChildren()) { dangerToast(t("Thành viên có con, không thể xoá")); return; }
+    loadingToast(
+      <p> {t("đang xoá...")} </p>,
+      (successToastCB, dangerToastCB) => {
+        FamilyTreeApi.archiveMember({
+          userId: userInfo.id,
+          clanId: userInfo.clanId,
+          id: observer.getBean().id,
+          success: (result: ServerResponse) => {
+            if (result.status === "error") {
+              dangerToastCB(`${t("delete")} ${t("fail")}`)
+            } else {
+              successToastCB(`${t("delete")} ${t("success")}`)
+            }
+            setDeleteWarning(false);
+            onClose();
+            if (onReloadParent) onReloadParent();
+          },
+          fail: (error: FailResponse) => {
+            dangerToastCB(`${t("delete")} ${t("fail")}`)
+            setDeleteWarning(false);
+          }
+        })
       }
-    })
+    )
   }
 
   const blobUrlsToBase64 = async (imagePaths: string[]) => {
@@ -144,6 +159,13 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
     const base64Array = await Promise.all(base64Promises);
     return base64Array;
   };
+
+  const onCopyFieldValue = (field: string) => {
+    const value = observer.getFieldValue(field);
+    navigator.clipboard.writeText(value)
+      .then(() => successToast(t("sao chép thành công")))
+      .catch((err: Error) => warningToast(t("sao chép thất bại")));
+  }
 
   const onUpdateAvatar = () => {
     const doUpdate = (base64: string) => {
@@ -186,22 +208,27 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
         return;
       }
     }
-    const fail = () => {
-      dangerToast(t("cập nhật không thành công"));
-    }
+    const fail = () => dangerToast(t("cập nhật không thành công"));
     ZmpSDK.chooseImage(1, success, fail);
   }
 
-  const onCopyCode = () => {
-    const code = observer.getBean().code;
-    const name = observer.getBean().name;
-    navigator.clipboard.writeText(code)
-    .then(() => {
-      successToast(`${t("sao chép mã của")} ${name} ${t("thành công")}`);
-    })
-    .catch((err: Error) => {
-      warningToast(`${t("sao chép mã của")} ${name} ${t("thất bại")}`)
-    });
+  const renderAvatar = () => {
+    const src = hasAvatar()
+      ? `${serverBaseUrl}/${observer.getBean().avatar}`
+      : isMale()
+        ? "https://avatar.iran.liara.run/public/47"
+        : "https://avatar.iran.liara.run/public/98";
+
+    return (
+      <div className="flex-v center"> 
+        <Avatar src={src} size={140}/>
+        {userInfo.id === observer.getBean().id && ( 
+          <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onUpdateAvatar}>
+            {observer.getFieldValue("avatar") === "" ? t("cập nhật") : t("sửa")}
+          </Button>
+        )}
+      </div>
+    )
   }
 
   return (
@@ -209,29 +236,13 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
       height={StyleUtils.calComponentRemainingHeight(-60)}
       visible={visible} onClose={onClose} swipeToClose
     >
-      <div className="p-3 scroll-v flev-v">
-        <div>
-          <Text.Title className="py-2"> {t("info")} </Text.Title>
-          <div className="flex-v center">
-            <img
-              className="circle"
-              style={{ width: "8rem", height: "8rem", objectFit: "cover" }}
-              src={`${serverBaseUrl}/${observer.getBean().avatar}`}
-              onError={(e) => {
-                if (observer.getBean().gender === "1") {
-                  e.currentTarget.src = "https://avatar.iran.liara.run/public/47";
-                } else {
-                  e.currentTarget.src = "https://avatar.iran.liara.run/public/98";
-                }
-              }}
-            />
-            {userInfo.id === observer.getBean().id && (
-              <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onUpdateAvatar}>
-                {observer.getFieldValue("avatar") === "" ? t("cập nhật") : t("sửa")}
-              </Button>
-            )}
-          </div>
-
+      <div className="p-3 scroll-v flex-v">
+        {/* form */}
+        <div className="flex-v flex-grow-0">
+          <Text.Title className="flex-h flex-grow-0"> {t("info")} <CommonIcon.Info size={"1rem"}/> </Text.Title>
+          {/* avatar */}
+          {renderAvatar()}
+          {/* information */}
           <Input 
             name="name" label={<Label text={t("họ tên")}/>} 
             value={observer.getBean().name} onChange={observer.watch}
@@ -239,11 +250,12 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
           <Input 
             name="code" label={<Label text={t("mã")}/>} 
             value={observer.getBean().code} disabled
-            suffix={<CommonIcon.Copy className="button" onClick={onCopyCode}/>}
+            suffix={<CommonIcon.Copy size={24} onClick={() => onCopyFieldValue("code")}/>}
           />
           <Input 
             name="phone" type="number" label={<Label text={t("điện thoại")}/>} 
             value={observer.getBean().phone} onChange={observer.watch}
+            suffix={<CommonIcon.Copy size={24} onClick={() => onCopyFieldValue("phone")}/>}
           />
           <Selection
             defaultValue={
@@ -273,67 +285,75 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
             label={<Label text={t("bố")}/>} 
             value={observer.getBean().father} name="father" disabled
           />
-          <Input 
-            label={<Label text={t("mẹ")}/>} 
-            value={observer.getBean().mother} name="mother" disabled
+          <Selection
+            options={momOpts}
+            observer={observer} field="" label={t("mẹ")}
+            onChange={(selected: SelectionOption, action) => {
+              observer.update("mother", selected.label)
+              observer.update("motherId", selected.value)
+            }}
           />
         </div>
 
+        {/* footer */}
         <div className="flex-v flex-grow-0">
-          <div>
-            <Text.Title className="py-2"> {t("Hành động")} </Text.Title>
+
+          <div className="flex-v">
+            <Text.Title> {t("Hành động")} </Text.Title>
             <div className="scroll-h">
-              <Button size="small" prefixIcon={<CommonIcon.Tree size={16}/>} onClick={toBranch}>
+              <Button size="small" prefixIcon={<CommonIcon.Tree size={"1rem"}/>} style={{ minWidth: 140 }} onClick={toBranch}>
                 {t("Chi Nhánh")}
               </Button>
 
-              <Button size="small" prefixIcon={<CommonIcon.Save size={16}/>} onClick={onSave}> 
+              <Button size="small" prefixIcon={<CommonIcon.Save size={"1rem"}/>} style={{ minWidth: 120 }} onClick={onSave}> 
                 {t("save")}
               </Button>
 
               {!isRoot() && (
-                <Button size="small" prefixIcon={<CommonIcon.Trash size={16}/>} onClick={() => setDeleteWarning(true)}>
+                <Button size="small" prefixIcon={<CommonIcon.Trash size={"1rem"}/>} style={{ minWidth: 120 }} onClick={() => setDeleteWarning(true)}>
                   {t("delete")}
                 </Button>
               )}
             </div>
           </div>
 
-          <div>
-            <Text.Title className="py-2"> {t("Thêm Thành Viên")} </Text.Title>
-            <div className="scroll-h flex-start">
+          <div className="flex-v">
+            <Text.Title> {t("Thêm Thành Viên")} </Text.Title>
+            <div className="scroll-h">
               {!isFemale() && (
-                <Button size="small" prefixIcon={<CommonIcon.Plus/>} style={{ minWidth: 120 }} onClick={onCreateChild}>
+                <Button size="small" prefixIcon={<CommonIcon.AddPerson size={"1rem"}/>} style={{ minWidth: 120 }} onClick={onCreateChild}>
                   {t("Con")}
                 </Button>
               )}
-              <Button size="small" prefixIcon={<CommonIcon.Plus/>} style={{ minWidth: 120 }} onClick={onCreateSpouse}>
-                {observer.getBean().gender === "1" ? t("Vợ") : t("Chồng")}
-              </Button>
-              <Button size="small" prefixIcon={<CommonIcon.Plus/>} style={{ minWidth: 140 }} onClick={onCreateSibling}>
-                {t("Anh/Chị/Em")}
-              </Button>
+              {hasParents() || isRoot() && (
+                <Button size="small" prefixIcon={<CommonIcon.MaleFemale size={"1rem"}/>} style={{ minWidth: 120 }} onClick={onCreateSpouse}>
+                  {isMale() ? t("Vợ") : t("Chồng")}
+                </Button>
+              )}
+              {hasParents() && (
+                <Button size="small" prefixIcon={<CommonIcon.AddPerson size={"1rem"}/>} style={{ minWidth: 140 }} onClick={onCreateSibling}>
+                  {t("Anh/Chị/Em")}
+                </Button>
+              )}
             </div>
           </div>
+
         </div>
 
       </div>
+
       <Modal
         visible={deleteWarning}
-        title={t("Xoá Thành Viên")}
-        description={t("Hành động không thể thu hồi. Bạn có chắc muốn xoá thành viên này?")}
+        title={t("Hành động không thể hoàn tác")}
+        description={t("Bạn có chắc muốn xoá thành viên này?")}
+        mask maskClosable
         onClose={() => setDeleteWarning(false)}
         actions={[
-          {
-            text: "Xoá",
-            onClick: onArchive
-          },
-          {
-            text: "Đóng",
-            close: true,
-          },
+          { text: t("delete"), onClick: onArchive, danger: true },
+          { text: t("Đóng"), close: true },
         ]}
       />
+
     </Sheet>
   )
 }

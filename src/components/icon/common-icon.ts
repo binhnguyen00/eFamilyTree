@@ -15,6 +15,7 @@ import { TbLogout, TbPhoto, TbPhotoMinus, TbPhotoPlus } from "react-icons/tb";
 import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { TbReload } from "react-icons/tb";
 import { BsFillHouseAddFill } from "react-icons/bs";
+import { BiMaleFemale } from "react-icons/bi";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -67,4 +68,5 @@ export const CommonIcon = {
   SendMail: RiMailSendLine,
   Reload: TbReload,
   RegisterClan: BsFillHouseAddFill,
+  MaleFemale: BiMaleFemale,
 };

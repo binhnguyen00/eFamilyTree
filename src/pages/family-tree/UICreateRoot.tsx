@@ -20,31 +20,35 @@ export function UICreateRoot(props: UICreateRootProps) {
 
   const observer = useBeanObserver({} as Member)
   const { userInfo } = useAppContext();
-  const { successToast, dangerToast } = useNotification();
+  const { dangerToast, loadingToast } = useNotification();
 
   const onCreate = () => {
     if (!observer.getBean().phone || !observer.getBean().name) {
       dangerToast(t("nhập đủ thông tin"))
       return;
     }
-    
-    FamilyTreeApi.saveMember({
-      userId: userInfo.id,
-      clanId: userInfo.clanId,
-      member: observer.getBean(),
-      success: (result: ServerResponse) => {
-        if (result.status === "error") {
-          dangerToast(`${t("save")} ${t("fail")}`)
-        } else {
-          successToast(`${t("save")} ${t("success")}`)
-          if (onReloadParent) onReloadParent();
-        }
-        onClose();
-      },
-      fail: (error: FailResponse) => {
-        dangerToast(`${t("save")} ${t("fail")}`)
+    loadingToast(
+      <p> {t("đang tạo...")} </p>,
+      (successToastCB, dangerToastCB) => {
+        FamilyTreeApi.saveMember({
+          userId: userInfo.id,
+          clanId: userInfo.clanId,
+          member: observer.getBean(),
+          success: (result: ServerResponse) => {
+            if (result.status === "error") {
+              dangerToastCB(`${t("save")} ${t("fail")}`)
+            } else {
+              successToastCB(`${t("save")} ${t("success")}`)
+              if (onReloadParent) onReloadParent();
+            }
+            onClose();
+          },
+          fail: (error: FailResponse) => {
+            dangerToastCB(`${t("save")} ${t("fail")}`)
+          }
+        })
       }
-    })
+    )
   }
 
   return (
@@ -72,6 +76,7 @@ export function UICreateRoot(props: UICreateRootProps) {
               { value: "1", label: t("male") },
               { value: "0", label: t("female") }
             ]}
+            defaultValue={{ value: "1", label: t("male") }}
             observer={observer} field="gender" label={t("giới tính")}
           />
           <DatePicker 

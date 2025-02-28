@@ -20,7 +20,7 @@ interface UICreateSiblingProps {
 export function UICreateSibling(props: UICreateSiblingProps) {
   const { sibling, visible, onClose, onReloadParent } = props;
   const { userInfo } = useAppContext();
-  const { successToast, dangerToast } = useNotification();
+  const { dangerToast, loadingToast } = useNotification();
 
   if (!sibling) return;
   if (visible && (!sibling.fatherId)) {
@@ -41,21 +41,26 @@ export function UICreateSibling(props: UICreateSiblingProps) {
       dangerToast(t("nhập đủ thông tin"))
       return;
     }
-    FamilyTreeApi.createMember({
-      userId: userInfo.id,
-      clanId: userInfo.clanId,
-      member: observer.getBean(),
-      success: (result: ServerResponse) => {
-        if (result.status === "error") {
-          dangerToast?.(`${t("save")} ${t("fail")}`)
-        } else {
-          successToast?.(`${t("save")} ${t("success")}`)
-          if (onReloadParent) onReloadParent()
-        }
-        onClose();
-      },
-      fail: (error: FailResponse) => dangerToast?.(`${t("save")} ${t("fail")}`)
-    })
+    loadingToast(
+      <p> {t("đang tạo...")} </p>,
+      (successToastCB, dangerToastCB) => {
+        FamilyTreeApi.createMember({
+          userId: userInfo.id,
+          clanId: userInfo.clanId,
+          member: observer.getBean(),
+          success: (result: ServerResponse) => {
+            if (result.status === "error") {
+              dangerToastCB(`${t("save")} ${t("fail")}`)
+            } else {
+              successToastCB(`${t("save")} ${t("success")}`)
+              if (onReloadParent) onReloadParent()
+            }
+            onClose();
+          },
+          fail: (error: FailResponse) => dangerToastCB(`${t("save")} ${t("fail")}`)
+        })
+      }
+    )
   }
 
   return (
@@ -78,6 +83,11 @@ export function UICreateSibling(props: UICreateSiblingProps) {
             { value: "1", label: t("male") },
             { value: "0", label: t("female") }
           ]}
+          defaultValue={
+            observer.getBean().gender === "1" 
+            ? { value: "1", label: t("male") }
+            : { value: "0", label: t("female") }
+          }
           observer={observer} field="gender" label={t("Giới Tính")}
         />
         <DatePicker 
@@ -89,7 +99,7 @@ export function UICreateSibling(props: UICreateSiblingProps) {
           value={
             observer.getBean().birthday 
             ? DateTimeUtils.toDate(observer.getBean().birthday)
-            : undefined
+            : new Date(new Date().setFullYear(new Date().getFullYear() - 20))
           }
         />
         <Input 

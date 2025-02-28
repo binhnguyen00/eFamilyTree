@@ -22,7 +22,7 @@ interface UICreateChildProps {
 export function UICreateChild(props: UICreateChildProps) {
   const { visible, dad, processor, onClose, onReloadParent } = props;
   const { userInfo } = useAppContext();
-  const { successToast, dangerToast } = useNotification();
+  const { dangerToast, loadingToast } = useNotification();
 
   if (!dad) return;
 
@@ -55,21 +55,26 @@ export function UICreateChild(props: UICreateChildProps) {
       dangerToast(t("nhập đủ thông tin"))
       return;
     }
-    FamilyTreeApi.createMember({
-      userId: userInfo.id,
-      clanId: userInfo.clanId,
-      member: observer.getBean(),
-      success: (result: ServerResponse) => {
-        if (result.status === "error") {
-          dangerToast?.(`${t("save")} ${t("fail")}`);
-        } else {
-          successToast?.(`${t("save")} ${t("success")}`);
-          if (onReloadParent) onReloadParent();
-        }
-        onClose();
-      },
-      fail: (error: FailResponse) => dangerToast?.(`${t("save")} ${t("fail")}`)
-    })
+    loadingToast(
+      <p> {t("đang tạo...")} </p>,
+      (successToastCB, dangerToastCB) => {
+        FamilyTreeApi.createMember({
+          userId: userInfo.id,
+          clanId: userInfo.clanId,
+          member: observer.getBean(),
+          success: (result: ServerResponse) => {
+            if (result.status === "error") {
+              dangerToastCB(`${t("save")} ${t("fail")}`);
+            } else {
+              successToastCB(`${t("save")} ${t("success")}`);
+              if (onReloadParent) onReloadParent();
+            }
+            onClose();
+          },
+          fail: (error: FailResponse) => dangerToastCB?.(`${t("save")} ${t("fail")}`)
+        })
+      }
+    )
   }
 
   return (
@@ -93,6 +98,11 @@ export function UICreateChild(props: UICreateChildProps) {
               { value: "1", label: t("male") },
               { value: "0", label: t("female") }
             ]}
+            defaultValue={
+              observer.getBean().gender === "1" 
+                ? { value: "1", label: t("male") }
+                : { value: "0", label: t("female") }
+            }
             observer={observer} field="gender" label={t("giới tính")}
           />
           <DatePicker 
@@ -104,7 +114,7 @@ export function UICreateChild(props: UICreateChildProps) {
             value={
               observer.getBean().birthday 
               ? DateTimeUtils.toDate(observer.getBean().birthday)
-              : undefined
+              : new Date(new Date().setFullYear(new Date().getFullYear() - 20))
             }
           />
           <Input 
