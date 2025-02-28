@@ -1,5 +1,5 @@
 # Version 1.3.5 (Thứ 4, 26/02/2025)
-### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=47)
 ### Thay đổi
 #### 1. Bảng Vàng (Hall of Fame) giờ đã có thể CRUD dữ liệu.
   - Thêm thành viên (được nhập trong phả đồ) vào bảng vàng.
@@ -8,9 +8,12 @@
 #### 2. Trải nghiệm người dùng
   - Các ảnh khi render sẽ có hiệu ứng bánh xe quay khi chưa tải xong để giảm cảm giác bị thô khi ảnh load xong &rarr; Khi render bảng vàng sẽ mượt mà hơn.
 #### 3. Trang chủ
-  - Người dùng có thể đăng nhập nhanh tại màn hình Trang chủ. Lý do cho việc này là đôi lúc server của Zalo bị chậm ảnh hưởng đến việc tự động đăng nhập của app -> Thêm một nút đăng nhập để người dùng đăng nhập lại.
+  - Người dùng có thể đăng nhập nhanh tại màn hình Trang chủ. Lý do cho việc này là đôi lúc server của Zalo bị chậm ảnh hưởng đến việc tự động đăng nhập của app &rarr; Thêm một nút đăng nhập để người dùng đăng nhập lại.
 #### 4. Các nút bấm trong toàn bộ app sẽ yêu cầu quyền truy cập số điện thoại nếu người dùng chưa cấp quyền.
-#### 5. Sửa lỗi nhỏ và nâng cấp hiệu năng.
+#### 5. Tạo thành viên: Bắt chặt các điều kiện tạo thành viên trong phả đồ hơn.
+  - Chỉ con trai mới có thể tạo con.
+  - Phải có bố + mẹ mới có thể tạo vợ/chồng/anh/chị/em.
+#### 6. Sửa lỗi nhỏ và nâng cấp hiệu năng.
 
 # Version 1.3.4 (Thứ 7, 22/02/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=42)
