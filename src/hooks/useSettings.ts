@@ -50,10 +50,10 @@ export function useSettings(userId: number | any, clanId: number | any): UserSet
               }
             })
           },
-          (error: FailResponse) => console.error(error)
+          (error: FailResponse) => {}
         )
       }
-      const fail = (error: FailResponse) => console.error(error)
+      const fail = (error: FailResponse) => {}
       UserSettingApi.getOrDefault(userId, clanId, success, fail);
 
     }

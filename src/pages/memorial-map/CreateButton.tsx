@@ -129,7 +129,7 @@ function Form({ onSave, userId, clanId }: {
         setDeadMembers(deadMembers);
       }
     }
-    const fail = (error: FailResponse) => console.error(error);
+    const fail = (error: FailResponse) => {};
     FamilyTreeApi.searchDeadMember({userId, clanId}, success, fail);
   }, []);
 

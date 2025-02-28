@@ -56,7 +56,7 @@ function UISocialPosts() {
     if (logedIn) {
       const success = (result: ServerResponse) => {
         if (result.status === "error") {
-          console.error("UIHomeBlog:\n\t", result.message);
+          // TODO: setError
         } else {
           const data = result.data as any[];
           setPosts(data);

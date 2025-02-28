@@ -32,7 +32,7 @@ function UIBlogList() {
     const success = (result: ServerResponse) => {
       setLoading(false);
       if (result.status === "error") {
-        console.error("UIBlogList:\n\t", result.message);
+        // TODO: Set error
       } else {
         const data = result.data as any[];
         setBlogs(data);
@@ -40,7 +40,7 @@ function UIBlogList() {
     };
     const fail = (error: FailResponse) => {
       setLoading(false);
-      console.error("UIBlogList:\n\t", error.stackTrace);
+      // TODO: Set error
     };
     SocialPostApi.getSocialPosts(userInfo.id, userInfo.clanId, success, fail);
   }, [ reload ]);

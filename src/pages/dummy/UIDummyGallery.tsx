@@ -7,7 +7,7 @@ import Lightbox from "yet-another-react-lightbox";
 import { Zoom, Thumbnails, Counter } from "yet-another-react-lightbox/plugins";
 
 import { StyleUtils } from "utils";
-import { Card, Header, ScrollableDiv, SlidingPanel, SlidingPanelOrient } from "components";
+import { Card, Header, ScrollableDiv } from "components";
 
 import images from "./sample/images.json";
 import albums from "./sample/albums.json";
@@ -120,15 +120,6 @@ function UIGalleryAlbums() {
       <div>
         {renderAlbums()}
       </div>
-      <SlidingPanel
-        orient={SlidingPanelOrient.BottomToTop}
-        visible={show}
-        close={close}
-        height={StyleUtils.calComponentRemainingHeight(0)}
-        header={<p style={{ fontSize: "1.2rem" }}> {name} </p>}
-      >
-        <UIGalleryImages/>
-      </SlidingPanel>
     </>
   )
 }

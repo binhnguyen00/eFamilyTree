@@ -251,7 +251,7 @@ function useQueryInfo(id: number) {
         setDeadMembers(deadMembers);
       }
     }
-    const fail = (error: FailResponse) => console.error(error);
+    const fail = (error: FailResponse) => {};
     FamilyTreeApi.searchDeadMember({userId: userInfo.id, clanId: userInfo.clanId}, success, fail);
   }, []);
 

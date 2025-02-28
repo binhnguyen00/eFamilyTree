@@ -59,6 +59,7 @@ export function UICreateSpouse(props: UICreateSpouseProps) {
     spouses: [{
       id: spouse.id,
       gender: spouse.gender,
+      name: spouse.name,
     }],
   } as Member);
 

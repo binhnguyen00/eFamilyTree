@@ -112,7 +112,6 @@ export function UIAncestralOfferingForm() {
             () => onFail(t("download_fail"))
           );
         }).catch((err) => {
-          console.error("Error exporting to PNG:", err);
           onFail(t("download_fail"));
         });
       }

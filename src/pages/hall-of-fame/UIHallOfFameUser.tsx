@@ -211,7 +211,6 @@ function useHallOfFameUser(userId: number | null, hallOfFameTypeId: number) {
         success: (result: ServerResponse) => {
           setLoading(false);
           if (result.status === "error") {
-            console.error(result.message);
             setError(true);
           } else {
             const data = result.data as any;
@@ -231,7 +230,6 @@ function useHallOfFameUser(userId: number | null, hallOfFameTypeId: number) {
         fail: (error: FailResponse) => {
           setLoading(false);
           setError(true);
-          console.error(error.stackTrace);
         }
       })
     }

@@ -47,8 +47,6 @@ export function UIPlayground() {
 
         <Loading/>
 
-        <UISlidePanel/>
-
       </div>
     </>
   )
@@ -84,28 +82,6 @@ function UITheme() {
   }
 
   return render();
-}
-
-function UISlidePanel() {
-  let [ visible, setVisible ] = React.useState(false); 
-  return (
-    <>
-      <Button variant="secondary" onClick={() => setVisible(true)}>
-        {t("sliding panel")}
-      </Button>
-      <SlidingPanel 
-        header={<p style={{ fontSize: "large" }}> Header </p>} 
-        visible={visible} 
-        height={550}
-        orient={SlidingPanelOrient.BottomToTop}
-        close={() => setVisible(false)}
-      >
-        <div>
-          This is Content
-        </div>
-      </SlidingPanel>
-    </>
-  )
 }
 
 function UIToastButtons() {

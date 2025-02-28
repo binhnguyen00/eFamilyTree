@@ -31,7 +31,6 @@ export function RequestLocation({ visible, close }: RequestLocationProps) {
     }
     const fail = (error: any) => { 
       setRequest(false);
-      console.error("RequestLocation:\n\t", error) 
     }
     ZmpSDK.getLocation(success, fail);
   };

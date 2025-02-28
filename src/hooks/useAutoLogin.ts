@@ -40,7 +40,7 @@ export function useAutoLogin(): AutoLoginContext {
     if (hasPermission) {
       ZmpSDK.getPhoneNumber(
         (number: string) => setPhoneNumber(number),
-        (error: any) => console.error("useAutoLogin Phone Error:\n\t", error)
+        (error: any) => {}
       );
       ZmpSDK.getUserInfo(
         (zaloUserInfo: any) => setUser({
@@ -49,7 +49,7 @@ export function useAutoLogin(): AutoLoginContext {
           avatar: zaloUserInfo.avatar,
           authSettings: settings
         }),
-        (error: any) => console.error("useAutoLogin User Info Error:\n\t", error)
+        (error: any) => {}
       );
     }
   }, [ hasPermission, reload ]);

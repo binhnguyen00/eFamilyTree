@@ -11,10 +11,10 @@ import { ExtNode } from "components/tree-relatives/types";
 import { ServerResponse, FailResponse } from "types/server";
 
 import { UICreateSpouse } from "./UICreateSpouse";
-import { CreateMode, Member, UITreeMemberDetails } from "./UIFamilyTreeDetails";
 import { UICreateChild } from "./UICreateChild";
 import { UICreateRoot } from "./UICreateRoot";
 import { UICreateSibling } from "./UICreateSibling";
+import { CreateMode, Member, UITreeMemberDetails } from "./UIFamilyTreeDetails";
 
 export function useFamilyTree() {
   const { userInfo } = useAppContext();
@@ -31,26 +31,23 @@ export function useFamilyTree() {
     setError(false);
     setProcessor(new TreeDataProcessor([]))
     
-    const success = (result: ServerResponse) => {
-      setLoading(false);
-      if (result.status === "error") {
-        console.error(result.message);
-        setError(true);
-      } else {
-        const data = result.data as any;
-        const newProcessor = new TreeDataProcessor(data);
-        setProcessor(newProcessor);
-      }
-    }
-    const fail = (error: FailResponse) => {
-      setLoading(false);
-      setError(true);
-      console.error("UIFamilyTree:\n\t", error.message, "\n", error.stackTrace);
-    } 
     FamilyTreeApi.searchMembers({
       userId: userInfo.id,
       clanId: userInfo.clanId,
-      success, fail
+      success: (result: ServerResponse) => {
+        setLoading(false);
+        if (result.status === "error") {
+          setError(true);
+        } else {
+          const data = result.data as any;
+          const newProcessor = new TreeDataProcessor(data);
+          setProcessor(newProcessor);
+        }
+      }, 
+      fail: () => {
+        setLoading(false);
+        setError(true);
+      }
     });
   }, [ reload ]);
 
@@ -135,10 +132,6 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
     setNodes(processor.nodes);
     setRootId(processor.rootId);
   }, [ reload, onReload ]);
-
-  React.useEffect(() => {
-    if (!nodes.length) setCreateMode(CreateMode.ROOT);
-  }, [ nodes ]);
 
   const toBranch = () => {
     const treeBranch = TreeUtils.getBranch(node!.id.toString(), nodes);

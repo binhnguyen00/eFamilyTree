@@ -133,7 +133,6 @@ function useHallOfFameUsers(typeId: number) {
       success: (result: ServerResponse) => {
         setLoading(false);
         if (result.status === "error") {
-          console.error(result.message);
           setError(true);
         } else {
           const resultData = result.data as any[];

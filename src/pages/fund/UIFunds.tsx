@@ -31,7 +31,7 @@ function useFunds() {
     const success = (result: ServerResponse) => {
       setLoading(false);
       if (result.status === "error") {
-        console.error("UIFund:\n\t", result.message);
+        // TODO: setError
       } else {
         const data = result.data as any[];
         setFunds(data);

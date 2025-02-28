@@ -76,19 +76,23 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
     }
   }) as SelectionOption[];
 
-  const isRoot = (): boolean => {
-    if (!observer.getBean().generation) return true; 
-    if (observer.getBean().generation === 1) return true;
-    return false;
-  }
+  const isOwner = (): boolean => observer.getBean().id === userInfo.id;
   const isFemale = (): boolean => observer.getBean().gender === "0";
   const isMale = (): boolean => observer.getBean().gender === "1";
   const hasParents = (): boolean => !!observer.getBean().fatherId || !!observer.getBean().motherId;
   const hasChildren = (): boolean => observer.getBean().children.length > 0;
   const hasAvatar = (): boolean => !!observer.getBean().avatar;
+  const isRoot = (): boolean => {
+    const isGenOne = (): boolean => observer.getBean().generation === 1;
+    if (isMale() && !hasParents() && isGenOne()) 
+      return true;
+    else if (isFemale() && isGenOne())
+      return false;
+    return false;
+  }
 
   const onSave = () => {
-    if (!observer.getBean().phone || !observer.getBean().name) {
+    if (!observer.getBean().name) {
       dangerToast(t("nhập đủ thông tin"))
       return;
     }
@@ -195,7 +199,7 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
       )
     }
 
-    if (userInfo.id !== observer.getBean().id) {
+    if (!isOwner()) {
       warningToast(t("không thể cập nhật ảnh đại diện của thành viên khác"));
       return;
     }

@@ -95,7 +95,6 @@ function useHallOfFame() {
       success: (result: ServerResponse) => {
         setLoading(false);
         if (result.status === "error") {
-          console.error(result.message);
           setError(true);
         } else {
           const data = result.data as any[];

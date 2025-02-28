@@ -71,7 +71,6 @@ export function SlidingPanel(props: SlidingPanelProps) {
 
     const appContainer = document.getElementById('app');
     if (!appContainer) {
-      console.error('Container with id "app" not found.');
       return;
     }
 

@@ -29,7 +29,6 @@ export function RequestPhone(props: RequestPhoneProps) {
     }
     const fail = (error: any) => { 
       setRequest(false);
-      console.error("RequestPhone:\n\t", error) 
     }
     ZmpSDK.getPhoneNumber(success, fail);
   };

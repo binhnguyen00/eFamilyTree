@@ -7,8 +7,8 @@ import divorced from "./sample/divorced.json";
 import odooSample from "./sample/odoo-sample.json";
 import severalSprouses from "./sample/several-sprouses.json";
 
-import { TreeUtils, TreeDataProcessor, StyleUtils} from "utils";
-import { Header, FamilyTree, TreeNode, TreeConfig, SlidingPanel, SlidingPanelOrient, CommonIcon } from "components";
+import { TreeUtils, TreeDataProcessor } from "utils";
+import { Header, FamilyTree, TreeNode, TreeConfig, CommonIcon } from "components";
 
 export default function UIDummyTree() {
   const dataSrcKey = {
@@ -136,38 +136,6 @@ export function UINodeDetailsPanel(props: UINodeDetailsPanelProps) {
 
   const height = "70vh";
   return (
-    <SlidingPanel
-      orient={SlidingPanelOrient.BottomToTop}
-      visible={visible}
-      close={onClose}
-      className="pb-3 bg-white"
-      // height={StyleUtils.calComponentRemainingHeight(0)}
-      header={t("member_info")}
-    >
-      <Box className="px-2" style={{ height: height }}>
-        <React.Fragment>
-          <Text.Title className="text-capitalize text-base py-2"> {t("info")} </Text.Title>
-          <div className="flex-h">
-            <Input size="small" label={"Giới tính"} value={info["gender"] === "1" ? t("male") : t("female")} />
-            <Input size="small" label={"Điện thoại"} value={info["phoneNumber"]} />
-          </div>
-          <Input size="small" label={"Họ Tên"} value={info["name"]} />
-          <Input size="small" label={"Bố"} value={info["father"]} />
-          <Input size="small" label={"Mẹ"} value={info["mother"]} />
-        </React.Fragment>
-
-        <React.Fragment>
-          <Text.Title className="text-capitalize text-base py-2"> {t("utilities")} </Text.Title>
-          <Button 
-            variant="secondary" 
-            size="small" 
-            prefixIcon={<CommonIcon.Tree size={16}/>}
-            onClick={() => onSelectBranch?.(info.id)}
-          >
-            {t("btn_tree_member_detail")}
-          </Button>
-        </React.Fragment>
-      </Box>
-    </SlidingPanel>
+    <></>
   )
 }
