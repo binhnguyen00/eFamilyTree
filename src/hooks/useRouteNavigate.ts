@@ -11,14 +11,14 @@ export function useRouteNavigate() {
   /**
    * Before navigation, create a new valid Zalo path
    * @param path is a relative path. Ex: "home", "about", "/account", "/list"
-   * @param data is your data object. Can be get and use in the target path. Ex { images, records }
+   * @param belongings is your data object. Can be get and use in the target path. Ex { images, records }
    */
-  const goTo = ({path, data, replace}: {path: string, data?: any, replace?: boolean}) => {
+  const goTo = ({path, belongings, replace}: {path: string, belongings?: any, replace?: boolean}) => {
     let options = {
       preventScrollReset: true,
       viewTransition: true,
       replace: replace,
-      state: data,
+      state: belongings,
     } as NavigateOptions;
     if (!path) {
       console.warn('No path provided');
@@ -30,13 +30,13 @@ export function useRouteNavigate() {
   /**
    * Jump to the specified path. More like replace the current path with the desired path.
    * @param path 
-   * @param data is your data object. Can be get and use in the target path. Ex { images, records }
+   * @param belongings is your data object. Can be get and use in the target path. Ex { images, records }
    */
-  const jumpTo = ({ path, data }: { path: string, data?: any }) => {
+  const jumpTo = ({ path, belongings }: { path: string, belongings?: any }) => {
     let options = {
       preventScrollReset: true,
       viewTransition: true,
-      state: data,
+      state: belongings,
     } as NavigateOptions;
     if (!path) {
       console.warn('No path provided');

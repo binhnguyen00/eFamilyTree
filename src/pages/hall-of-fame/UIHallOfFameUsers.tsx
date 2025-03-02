@@ -1,10 +1,10 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Text, Avatar as ZaloAvatar } from "zmp-ui";
+import { Button, Text, Avatar as ZaloAvatar, List } from "zmp-ui";
 
 import { HallOfFameApi } from "api";
 import { useRouteNavigate, useAppContext } from "hooks";
-import { Header, CommonIcon, Loading, Info, ScrollableDiv } from "components";
+import { Header, CommonIcon, Loading, Info, ScrollableDiv, Divider } from "components";
 
 import { ServerResponse } from "types/server";
 import { HallOfFameUser, UIHallOfFameUserDetails } from "./UIHallOfFameUser";
@@ -16,7 +16,6 @@ const data = [
     id: 1,
     name: "Nhân Vật Lịch Sử",
     memberName: "Trần Thanh Tường",
-    avatar: "",
   }
 ]
 
@@ -38,24 +37,27 @@ export function UIHallOfFameUsers() {
       const avatar = user.avatar ? `${serverBaseUrl}/${user.avatar}` : "";
       const avatarHolder = `https://avatar.iran.liara.run/username?username=${encodeURIComponent(user.memberName)}`;
       return (
-        <div className="flex-h" key={`user-${index}`}>
-          <div className="center" style={{ width: "5.5rem" }}>
-            <Avatar src={avatar} placeHolder={avatarHolder}/>
+        <div className="flex-v">
+          <div className="flex-h" key={`user-${index}`}>
+            <div className="center" style={{ width: "5.5rem" }}>
+              <Avatar src={avatar} placeHolder={avatarHolder}/>
+            </div>
+            <div
+              className="flex-v p-3 rounded button"
+              style={{ width: "100%" }}
+              onClick={() => setSelectId(user.id)}
+            >
+              <Text.Title className="content-center text-primary"> {user.memberName} </Text.Title>
+              <Text className="content-center text-base"> {user.recognitionDate ? user.recognitionDate : ""} </Text>
+            </div>
           </div>
-          <div
-            className="bg-secondary text-primary flex-h max-w justify-between p-3 rounded button"
-            style={{ width: "100%" }}
-            onClick={() => setSelectId(user.id)}
-          >
-            <Text.Title size="large"> {user.memberName} </Text.Title>
-          </div>
+          <hr/>
         </div>
       );
     });
   }, [data]);
 
   const renderContainer = () => {
-    // return users;
     if (loading) {
       return <Loading/>
     } else if (error) {
@@ -63,7 +65,12 @@ export function UIHallOfFameUsers() {
     } else if (!data.length) {
       return <Info title={t("chưa có dữ liệu")}/>
     } else {
-      return users;
+      return (
+        <ScrollableDiv height={StyleUtils.calComponentRemainingHeight(0)}>
+          {users}
+          <br/><br/>
+        </ScrollableDiv>
+      );
     }
   }
 

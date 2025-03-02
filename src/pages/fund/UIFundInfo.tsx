@@ -1,201 +1,130 @@
 import React from "react";
 import { t } from "i18next";
-import { Box, Grid, Stack } from "zmp-ui";
+import { Button, Text } from "zmp-ui";
 
-import { FundApi } from "api";
 import { DateTimeUtils, StyleUtils } from "utils";
-import { useAppContext, useRouteNavigate } from "hooks";
-import { Card, Divider, Header, Loading, ScrollableDiv } from "components";
+import { useBeanObserver, useRouteNavigate } from "hooks";
+import { BeanObserver, Header, ScrollableDiv, SizedBox } from "components";
 
-import { ServerResponse } from "types/server";
+import { FundLine } from "./UIFunds";
 
-function useFund(fundId: number) {
-  const { userInfo } = useAppContext();
-
-  const [ info, setInfo ] = React.useState<any>(undefined);
-  const [ income, setIncome ] = React.useState([]);
-  const [ expense, setExpense ] = React.useState([]);
-  const [ loading, setLoading ] = React.useState(true);
-  const [ reload, setReload ] = React.useState(false);
-
-  React.useEffect(() => {
-    const success = (result: ServerResponse) => {
-      setLoading(false);
-      if (result.status === "success") {
-        setInfo(result.data);
-      }
-    }
-    FundApi.getFundById(fundId, userInfo.id, userInfo.clanId, success);
-  }, [ reload ])
-
-  return {
-    info: info,
-    income: income,
-    expense: expense,
-    loading: loading,
-    update: setInfo,
-    refresh: () => setReload(!reload),
-  } 
+export interface FundInfo {
+  id: number,
+  name: string,
+  balance: string,
+  totalIncomes: string,
+  totalExpenses: string,
+  incomes: FundLine[],
+  expenses: FundLine[],
 }
 
 export function UIFundInfo() {
   const { belongings } = useRouteNavigate();
-  const { info, loading } = useFund(belongings.fundId);
-  
+  const { fund } = belongings;
+
+  const observer = useBeanObserver(fund as FundInfo); 
+
   return (
-    <div className="container">
+    <>
       <Header title={t("funds")}/>
-        
-      <UIFundContainer fundInfo={info} loading={loading}/>
-    </div>
+
+      <div className="container bg-white text-base">
+        <UIFundContainer observer={observer}/>
+      </div>
+    </>
   )
 }
 
 interface UIFundContainerProps {
-  fundInfo: any;
-  loading: boolean;
+  observer: BeanObserver<FundInfo>;
 }
 function UIFundContainer(props: UIFundContainerProps) {
-  const { fundInfo, loading } = props;
+  const { observer } = props;
 
-  const [currentView, setCurrentView] = React.useState<'all' | 'incomes' | 'expenses'>('all');
-  const [sortedTransactions, setSortedTransactions] = React.useState<any[]>([]);
+  const [ transactions, setTransactions ] = React.useState<any[]>([]);
 
   React.useEffect(() => {
-    if (fundInfo) {
-      updateTransactions(currentView);
+    if (observer.getBean().id) {
+      const incomes = observer.getBean().incomes.map(item => ({ ...item, type: 'income' }));
+      const expenses = observer.getBean().expenses.map(item => ({ ...item, type: 'expense' }));
+      const allTransactions = [...incomes, ...expenses];
+      setTransactions(DateTimeUtils.sortByDate(allTransactions, "date"));
     }
-  }, [fundInfo, currentView]);
+  }, [observer]);
 
-  const updateTransactions = (view: 'all' | 'incomes' | 'expenses') => {
-    const sortedIncomes = DateTimeUtils.sortByDate([...fundInfo.incomes], "date").map(item => ({
-      ...item,
-      type: 'income'
-    }));
-    
-    const sortedExpenses = DateTimeUtils.sortByDate([...fundInfo.expenses], "date").map(item => ({
-      ...item,
-      type: 'expense'
-    }));
-
-    switch (view) {
-      case 'incomes':
-        setSortedTransactions(sortedIncomes);
-        break;
-      case 'expenses':
-        setSortedTransactions(sortedExpenses);
-        break;
-      case 'all':
-        setSortedTransactions(DateTimeUtils.sortByDate([...sortedIncomes, ...sortedExpenses], "date"));
-        break;
-    }
-  };
-
-  if (loading) {
-    return (
-      <div>
-        <Header title={t("funds")}/>
-        <Loading/>
-      </div>
-    );
-  }
-  
   return (
-    <div>
-      <UIFundSummary 
-        summary={fundInfo}
-        onViewChange={setCurrentView}
-      />
-
-      <Divider/>
-
-      <UIFundFlow transactions={sortedTransactions} />
+    <div className="flex-v flex-grow-0">
+      <UIFundSummary observer={observer}/>
+      <UITransactions transactions={transactions} /> {/* TODO: pass observer */}
     </div>
   );
 }
 
-// ======================================
-// SUMS
-// ======================================
 interface UIFundSummaryProps {
-  summary: any;
-  onViewChange: (view: 'all' | 'incomes' | 'expenses') => void;
+  observer: BeanObserver<FundInfo>;
 }
 function UIFundSummary(props: UIFundSummaryProps) {
-  let { summary, onViewChange } = props;
-  if (!summary) return <></>;
+  const { observer } = props;
 
   return (
     <div className="flex-v">
-      <Card 
-        onClick={() => onViewChange('all')}
-        className="mb-2 bg-primary" 
-        title={t("balance")} 
-        content={
-          <p style={{ fontSize: "1.5rem", fontWeight: "bold" }}>
-            {summary.balance}
-          </p>
-        }
-      />
+      <SizedBox width={"100%"} height={100} className="rounded flex-v center" border>
+        <Text.Title> {t("balance")} </Text.Title>
+        <Text> {observer.getBean().balance} </Text>
+      </SizedBox>
 
-      <Grid columnCount={2} columnSpace="0.5rem">
-        <Card 
-          onClick={() => onViewChange('incomes')}
-          className="bg-primary" 
-          title={t("incomes")} 
-          content={
-            <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
-              {summary.total_incomes}
-            </p>
-          }
-        />
-        <Card 
-          onClick={() => onViewChange('expenses')}
-          className="bg-primary" 
-          title={t("expenses")} 
-          content={
-            <p style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
-              {summary.total_expenses}
-            </p>
-          }
-        />
-      </Grid>
+      <div className="flex-h">
+        <SizedBox width={"50%"} height={100} className="rounded flex-v center" border>
+          <Text.Title> {t("incomes")} </Text.Title>
+          <Text className="text-success"> {observer.getBean().totalIncomes} </Text>
+        </SizedBox>
+        <SizedBox width={"50%"} height={100} className="rounded flex-v center" border>
+          <Text.Title> {t("expenses")} </Text.Title>
+          <Text className="text-danger"> {observer.getBean().totalExpenses} </Text>
+        </SizedBox>
+      </div>
     </div>
   );
 }
 
-// ======================================
-// MONEY FLOW
-// ======================================
-interface UIFundFlowProps {
-  transactions: any[];
+interface Transaction extends FundLine {
+  type: "income" | "expense";
 }
-function UIFundFlow({ transactions }: UIFundFlowProps) {
+interface UITransactionsProps {
+  transactions: Transaction[];
+}
+function UITransactions({ transactions }: UITransactionsProps) {
   if (transactions.length === 0) return null;
+
+  const renderTransaction = (transaction: Transaction) => {
+    const sign = transaction.type === "income" ? "+" : "-";
+    const color = transaction.type === "income" ? "text-success" : "text-danger";
+    return (
+      <div className="flex-h flex-grow-0 justify-between">
+        <div className="flex-v">
+          <Text className={color}> {`${sign} ${transaction.amount}`} </Text>
+          <Text> {transaction.name} {transaction.note} </Text>
+        </div>
+        <Text> {transaction.date} </Text>
+      </div>
+    );
+  }
+
+  const lines = React.useMemo(() => {
+    return transactions.map((item, index) => (
+      <React.Fragment>
+        {renderTransaction(item)}
+
+        <hr/>
+      </React.Fragment>
+    ));
+  }, [transactions]);
 
   return (
     <div className="flex-v">
       <span>{t("transaction_history")}</span>
-      <ScrollableDiv direction="vertical" height={StyleUtils.calComponentRemainingHeight(250)}>
-        {transactions.map((item, index) => (
-          <Box 
-            key={index}
-            flex 
-            flexDirection="row" 
-            justifyContent="space-between"
-            className="mt-2 p-3 bg-secondary text-primary rounded"
-          >
-            <Stack space="0.5rem">
-              <div className="flex-h justify-between">
-                <p style={{ fontSize: "1.2rem" }}>
-                  {`${item.type === 'income' ? '+' : '-'} ${item.amount}`}
-                </p>
-                <p>{item.date}</p>
-              </div>
-              <p>{item.note || ""}</p>
-            </Stack>
-          </Box>
-        ))}
+      <ScrollableDiv className="flex-v" direction="vertical" height={StyleUtils.calComponentRemainingHeight(100*2 + 44 + 15)}>
+        {lines}
       </ScrollableDiv>
     </div>
   );

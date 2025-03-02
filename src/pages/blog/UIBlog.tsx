@@ -47,7 +47,7 @@ function UIBlogList() {
 
   const navigateToBlog = (title: string, content: string) => {
     const blog = { title, content };
-    goTo({ path: "blogs/detail", data: { blog } });
+    goTo({ path: "blogs/detail", belongings: { blog } });
   };
 
   const renderBlogList = (items: any[]) => {

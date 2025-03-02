@@ -68,7 +68,7 @@ function UISocialPosts() {
 
   const goToBlogDetail = (title: string, content: string) => {
     const blog = { title, content };
-    goTo({ path: "blogs/detail", data: {blog} });
+    goTo({ path: "blogs/detail", belongings: {blog} });
   };
 
   if (!posts.length) return <small> {t("no_blogs")} </small>

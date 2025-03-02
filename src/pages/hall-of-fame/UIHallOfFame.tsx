@@ -17,7 +17,7 @@ export function UIHallOfFame() {
   const onSelect = (id: number, name: string) => () => {
     goTo({ 
       path:"hall-of-fame/users", 
-      data: { hallOfFameId: id, hallOfFameName: name }
+      belongings: { hallOfFameId: id, hallOfFameName: name }
     });
   }
 

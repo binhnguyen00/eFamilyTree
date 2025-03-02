@@ -8,8 +8,93 @@ import { useAppContext, useNotification, useRouteNavigate } from "hooks";
 import { Header, Loading, ScrollableDiv, Info, CommonIcon } from "components";
 
 import { ServerResponse } from "types/server";
+import { FundInfo } from "./UIFundInfo";
 
-interface FundLine {
+const funds = [
+  {
+    "id": 1,
+    "name": "Quỹ khuyến học",
+    "balance": "200.000.000",
+    "incomes": [
+      {
+        "name": "Phạm Khắc Phú",
+        "amount": "5.000.000",
+        "date": "12/12/2024",
+        "note": ""
+      },
+      {
+        "name": "Phạm Khắc Phú",
+        "amount": "5.000.000",
+        "date": "12/12/2024",
+        "note": ""
+      },
+      {
+        "name": "Phạm Khắc Phú",
+        "amount": "5.000.000",
+        "date": "12/12/2024",
+        "note": ""
+      },
+      {
+        "name": "Phạm Khắc Phú",
+        "amount": "5.000.000",
+        "date": "12/12/2024",
+        "note": ""
+      },
+      {
+        "name": "Phạm Thị Đỏ",
+        "amount": "2.000.000",
+        "date": "12/12/2024",
+        "note": ""
+      }
+    ],
+    "expenses": [
+      {
+        "name": "Phạm Khắc Thành",
+        "amount": "2.000.000",
+        "date": "12/12/2024",
+        "note": "Chi cho mua le Chi cho mua le Chi cho mua le Chi cho mua le Chi cho mua le"
+      },
+      {
+        "name": "Phạm Khắc Thành",
+        "amount": "2.000.000",
+        "date": "12/12/2024",
+        "note": "Chi cho mua le"
+      },
+      {
+        "name": "Phạm Khắc Thành",
+        "amount": "2.000.000",
+        "date": "12/12/2024",
+        "note": "Chi cho mua le"
+      },
+      {
+        "name": "Phạm Khắc Thành",
+        "amount": "2.000.000",
+        "date": "12/12/2024",
+        "note": "Chi cho mua le"
+      },
+    ],
+    "totalIncomes": "5.000.000",
+    "totalExpenses": "2.000.000"
+  },
+  {
+    "id": 2,
+    "name": "Quỹ Giỗ tổ",
+    "balance": "250.000.000",
+    "incomes": [
+      {
+        "name": "Phạm Thị Hiên",
+        "amount": "5.000.000",
+        "date": "23/12/2024",
+        "note": ""
+      }
+    ],
+    "expenses": [],
+    "totalIncomes": "5.000.000",
+    "totalExpenses": "0"
+  }
+]
+
+export interface FundLine {
   name: string,
   amount: string,
   date: string,
@@ -129,18 +214,22 @@ function UIFundList(props: UIFundListProps) {
   const { userInfo } = useAppContext();
   const { loadingToast } = useNotification();
 
-  const [ fund, setFund ] = React.useState<Fund | null>(null);
-
-  const goToFundInfo = () => {
-    if (fund === null) return;
-    else {
-      goTo({  
-        path: "fund/info", 
-        data: { 
-          fund: fund 
-        }
-      });
-    }
+  const onSelectDummy = (id: number) => {
+    const data = funds[0];
+    goTo({  
+      path: "fund/info", 
+      belongings: { 
+        fund: {
+          id:             data.id,
+          name:           data.name,
+          balance:        data.balance,
+          incomes:        data.incomes,
+          expenses:       data.expenses,
+          totalIncomes:   "55.000.000",
+          totalExpenses:  "22.123.53",
+        } as FundInfo
+      }
+    });
   }
 
   const onSelect = (id: number) => {
@@ -157,14 +246,20 @@ function UIFundList(props: UIFundListProps) {
             } else {
               successToastCB(t("lấy dữ liệu thành công"))
               const data = result.data as any;
-              setFund({
-                id:       data.id,
-                name:     data.name,
-                balance:  data.balance,
-                incomes:  data.incomes,
-                expenses: data.expenses
-              })
-              goToFundInfo();
+              goTo({  
+                path: "fund/info", 
+                belongings: { 
+                  fund: {
+                    id:             data.id,
+                    name:           data.name,
+                    balance:        data.balance,
+                    incomes:        data.incomes,
+                    expenses:       data.expenses,
+                    totalIncomes:   data.total_incomes,
+                    totalExpenses:  data.total_expenses,
+                  } as FundInfo
+                }
+              });
             }
           },
           fail: () => dangerToastCB(t("vui lòng thử lại"))
@@ -182,8 +277,9 @@ function UIFundList(props: UIFundListProps) {
           subTitle={item.balance}
           onClick={() => onSelect(item.id)}
           style={{
-            fontSize: "1.2rem"
+            fontSize: "1.5rem"
           }}
+          className="text-base"
           suffix={<CommonIcon.ChevonRight size={"1rem"}/>}
 
         />
@@ -192,9 +288,10 @@ function UIFundList(props: UIFundListProps) {
   }, [ funds ])
 
   return (
-    <ScrollableDiv height={StyleUtils.calComponentRemainingHeight(0)}>
+    <ScrollableDiv className="text-base" height={StyleUtils.calComponentRemainingHeight(0)}>
       <List>
         {lines}
+        <br/><br/>
       </List>
     </ScrollableDiv>
   )
