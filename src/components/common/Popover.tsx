@@ -6,9 +6,11 @@ interface PopoverProps {
   content: React.ReactNode;
   children: React.ReactNode;
   childPosition: "top" | "bottom" | "left" | "right";
+  className?: string;
+  style?: React.CSSProperties;
 }
 export function Popover(props: PopoverProps) {
-  const { content, children, childPosition, open } = props;
+  const { content, children, childPosition, open, className, style } = props;
   const [ isOpen, setIsOpen ] = React.useState(open);
 
   const renderPopover = ({ position, childRect, popoverRect }: PopoverState) => {
@@ -27,19 +29,18 @@ export function Popover(props: PopoverProps) {
     )
   }
 
-  const closePopover = () => {
-    setIsOpen(false)
-  }
+  const closePopover = () => setIsOpen(false)
 
   return (
     <TinyPopover
       isOpen={isOpen}
       positions={childPosition}
       content={renderPopover}
-      // onClickOutside={closePopover} 
+      onClickOutside={closePopover} 
     >
       <div 
-        className="button" 
+        className={`${className}`.trim()}
+        style={{ ...style }}
         onClick={() => setIsOpen(!isOpen)}
       >
         {content}

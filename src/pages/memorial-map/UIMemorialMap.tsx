@@ -7,10 +7,10 @@ import { StyleUtils, ZmpSDK } from "utils";
 import { FailResponse, ServerResponse } from "types/server";
 import { Header, WorldMap, Marker, Loading, Coordinate, WorldMapConfig, ScrollableDiv } from "components";
 
-import { CreateButton } from "./buttons/UICreateMemorialLocationButton";
+import { CreateButton } from "./buttons/UICreateButton";
 import { MapTypeButtons } from "./buttons/UIMapTypeButton";
 import { UIMemorialLocation } from "./UIMemorialLocation";
-import { CurrentPositionButton } from "./buttons/UICurrentMemorialLocationButton";
+import { CurrentPositionButton } from "./buttons/UICurrentLocationButton";
 
 
 // ============================

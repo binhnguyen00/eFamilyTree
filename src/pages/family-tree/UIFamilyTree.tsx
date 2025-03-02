@@ -204,7 +204,6 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
           rootId={rootId}
           nodeHeight={TreeConfig.nodeHeight}
           nodeWidth={TreeConfig.nodeWidth}
-          searchDisplayField="name"
           onReset={onReset}
           renderNode={(node: any) => (
             <TreeNode

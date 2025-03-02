@@ -26,7 +26,7 @@ export function UIFundInfo() {
 
   return (
     <>
-      <Header title={t("funds")}/>
+      <Header title={fund.name}/>
 
       <div className="container bg-white text-base">
         <UIFundContainer observer={observer}/>

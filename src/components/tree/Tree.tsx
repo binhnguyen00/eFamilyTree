@@ -24,7 +24,6 @@ interface TreeProps {
   className?: string;
   processor?: TreeDataProcessor;
   zoomElement?: HTMLElement;
-  searchDisplayField?: string;
   onReset?: () => void;
 }
 
@@ -33,7 +32,7 @@ export default React.memo<TreeProps>(function Tree(props) {
   const { 
     rootId = "0", 
     nodes = [],
-    processor, nodeWidth, nodeHeight, searchDisplayField, 
+    processor, nodeWidth, nodeHeight, 
     renderNode, onReset, zoomElement
   } = props;
 

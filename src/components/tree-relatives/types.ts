@@ -59,7 +59,7 @@ export type Relation = {
 export type Node = {
   id: string;
   gender: Gender;
-  name?: string;
+  name: string;
   generation: number;
   avatar?: string;
   parents: Relation[];

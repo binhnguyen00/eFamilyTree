@@ -89,7 +89,6 @@ export default function UIDummyTree() {
           rootId={rootId}
           nodeWidth={TreeConfig.nodeWidth}
           nodeHeight={TreeConfig.nodeHeight}
-          searchDisplayField="name"
           onReset={onReset}
           processor={processor}
           renderNode={(node: any) => (
