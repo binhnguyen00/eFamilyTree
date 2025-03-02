@@ -9,7 +9,9 @@ export function useGetPhonePermission() {
       setPermission(!!authSetting["scope.userPhonenumber"]);
     };
     const fail = (error: any) => {};
-    ZmpSDK.getAuthSettings(success, fail);
+    ZmpSDK.getAuthSettings({
+      successCB: success,
+    });
   }, []);
 
   return permission;

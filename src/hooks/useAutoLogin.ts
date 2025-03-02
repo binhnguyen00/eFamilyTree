@@ -1,7 +1,7 @@
 import React from "react";
 
 import { ZmpSDK } from "utils";
-import { useGetPhonePermission, useZaloSettings } from "hooks";
+import { useZaloSettings } from "hooks";
 
 import { ZaloUserInfo } from "types/app-context";
 import { AutoLoginContext } from "types/auto-login";
@@ -21,23 +21,14 @@ export function useAutoLogin(): AutoLoginContext {
       "scope.userPhonenumber": false,
     }
   });
-
-  const hasPermission = useGetPhonePermission();
-
-  const updatePhoneNumber = (phoneNumber: string) => {
-    setPhoneNumber(phoneNumber);
-  }
-
-  const updateZaloUserInfo = (zaloUserInfo: ZaloUserInfo) => {
-    setUser(zaloUserInfo);
-  }
-
-  const refresh = () => { setReload(!reload) }
-
   const settings = useZaloSettings();
 
+  const updatePhoneNumber = (phoneNumber: string) => setPhoneNumber(phoneNumber);
+  const updateZaloUserInfo = (zaloUserInfo: ZaloUserInfo) => setUser(zaloUserInfo);
+  const refresh = () => setReload(!reload);
+
   React.useEffect(() => {
-    if (hasPermission) {
+    if (settings["scope.userPhonenumber"]) {
       ZmpSDK.getPhoneNumber(
         (number: string) => setPhoneNumber(number),
         (error: any) => {}
@@ -52,7 +43,7 @@ export function useAutoLogin(): AutoLoginContext {
         (error: any) => {}
       );
     }
-  }, [ hasPermission, reload ]);
+  }, [ settings["scope.userPhonenumber"], reload ]);
 
   return {
     zaloUserInfo: user,

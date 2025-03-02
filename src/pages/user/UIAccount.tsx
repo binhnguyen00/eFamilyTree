@@ -186,20 +186,20 @@ function UISettings() {
       <Text.Title size="xLarge" className="text-primary text-capitalize center"> {t("settings")} </Text.Title>
       
       {/* language */}
-      <Text.Title className="text-capitalize text-primary"> {t("language")} </Text.Title>
+      {/* <Text.Title className="text-capitalize text-primary"> {t("language")} </Text.Title>
       <div className="flex-v">
-        <Grid columnCount={2} columnSpace="0.5rem">
+        <div className="flex-h">
           <Button variant="primary" size="medium" onClick={() => changeLang("vi")}>
             {t("vietnamese")}
           </Button>
           <Button variant="primary" size="medium" onClick={() => changeLang("en")}>
             {t("english")}
           </Button>
-        </Grid>
-      </div>
+        </div>
+      </div> */}
 
       {/* tree background */}
-      <Text.Title className="text-capitalize text-primary"> {t("tree_background")} </Text.Title>
+      <Text.Title className="text-capitalize text-primary"> {t("Hình nền Phả Đồ")} </Text.Title>
       <div className="flex-v">
         <input
           type="file"

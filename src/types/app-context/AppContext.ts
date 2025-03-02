@@ -20,13 +20,15 @@ export type ZaloUserInfo = {
   id: string;
   name: string;
   avatar: string;
-  authSettings?: {
-    "scope.userInfo": boolean,
-    "scope.userPhonenumber": boolean,
-    "scope.userLocation": boolean,
-    "scope.camera": boolean,
-    "scope.micro": boolean
-  }
+  authSettings: ZaloSettings;
+}
+
+export type ZaloSettings = {
+  "scope.userInfo": boolean,
+  "scope.userPhonenumber": boolean,
+  "scope.userLocation": boolean,
+  "scope.camera": boolean,
+  "scope.micro": boolean
 }
 
 export type UserInfo = {
