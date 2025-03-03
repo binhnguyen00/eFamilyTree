@@ -65,7 +65,7 @@ export function CreateLocationForm({ lat, lng, clanId, saveSuccess, successToast
         const record = result.data;
         saveSuccess({
           id: record.id,
-          label: record.name,
+          name: record.name,
           description: record.description,
           images: record.images,
           coordinate: {
@@ -79,14 +79,14 @@ export function CreateLocationForm({ lat, lng, clanId, saveSuccess, successToast
     const fail = (error: any) => {
       dangerToast(`${t("save")} ${t("fail")}`)
     }
-    MemorialMapApi.create({
-      clanId: clanId,
-      name: observer.getBean().name,
-      description: observer.getBean().description,
-      lat: observer.getBean().lat,
-      lng: observer.getBean().lng,
-      images: imgBase64s,
-    }, success, fail);
+    // MemorialMapApi.create({
+    //   clanId: clanId,
+    //   name: observer.getBean().name,
+    //   description: observer.getBean().description,
+    //   lat: observer.getBean().lat,
+    //   lng: observer.getBean().lng,
+    //   images: imgBase64s,
+    // }, success, fail);
   }
 
   return (

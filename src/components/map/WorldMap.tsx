@@ -1,21 +1,18 @@
 import React from "react";
-import ReactDOM from 'react-dom/client';
 import Leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./css/leaflet.scss"
 
-import config from "./config";
-
-import { RequestLocation, SlidingPanel, SlidingPanelOrient } from "components";
-import { CreateLocationForm } from "./CreateLocationForm";
 import { useNotification, useAppContext } from "hooks";
+
+import config from "./config";
 
 export type Marker = {
   id: number;
-  label: string;
+  name: string;
   description?: string;
   coordinate: Coordinate;
-  images: string[]; // public paths
+  images: string[];
 }
 
 export type Coordinate = {
@@ -24,33 +21,26 @@ export type Coordinate = {
 }
 
 interface WorldMapProps {
+  markers: Marker[];
   height?: string | number;
-  locations?: any[];
+  tileLayer?: string;
   addMarker?: Marker;
   removeMarker?: Marker;
-  onMarkerClick?: (location: any) => void;
-  markerContent?: string | React.ReactNode;
   currentMarker: Coordinate | null
-  tileLayer?: string;
+  markerContent?: string | React.ReactNode;
+  onSelectOnMap?: (coordinate: Coordinate) => void;
+  onSelectMarker?: (marker: Marker) => void;
+  onRequestLocation?: () => void; 
 }
 
 export function WorldMap(props: WorldMapProps) {
-  const { 
-    height,
-    locations,
-    addMarker,
-    removeMarker,
-    currentMarker,
-    tileLayer,
-    onMarkerClick, markerContent,
-  } = props;
+  const {  
+    tileLayer, height, markers, addMarker, removeMarker, currentMarker, markerContent,
+    onSelectMarker, onRequestLocation, onSelectOnMap } = props;
 
   const { mapRef, markersRef, icon } = useMap({ 
-    tileLayer: tileLayer,
-    currentCoord: currentMarker,
-    coordinates: locations,
-    onMarkerClick: onMarkerClick, 
-    markerContent: markerContent,
+    tileLayer, markers, currentMarker, markerContent,
+    onSelectMarker, onRequestLocation, onSelectOnMap,
   });
 
   useAddMarker({
@@ -58,7 +48,7 @@ export function WorldMap(props: WorldMapProps) {
     markersRef: markersRef,
     marker: addMarker,
     popupContent: "Di tích",
-    onMarkerClick: onMarkerClick,
+    onMarkerClick: onSelectMarker,
     icon: icon
   })
 
@@ -84,19 +74,23 @@ export function WorldMap(props: WorldMapProps) {
 // useMap
 // ========================
 interface UseMapProps {
-  coordinates?: any[];
-  currentCoord: Coordinate | null;
-  onMarkerClick?: (location: any) => void;
-  markerContent?: string | React.ReactNode;
+  markers: Marker[];
+  currentMarker: Coordinate | null;
   tileLayer?: string;
+  markerContent?: string | React.ReactNode;
+  onCurrentLocation?: () => void;
+  onSelectMarker?: (marker: Marker) => void;
+  onRequestLocation?: () => void; 
+  onSelectOnMap?: (coordinate: Coordinate) => void;
 }
 function useMap(props: UseMapProps) {
-  const { coordinates, onMarkerClick, currentCoord, tileLayer } = props;
+  const { 
+    markers, currentMarker, tileLayer, 
+    onSelectMarker, onRequestLocation, onSelectOnMap } = props;
 
-  const { userInfo, zaloUserInfo, logedIn } = useAppContext();
+  const { zaloUserInfo } = useAppContext();
+  const { "scope.userLocation": locationPermission } = zaloUserInfo.authSettings;
   const { successToast, dangerToast } = useNotification();
-
-  const [ addMarkerVisible, setAddMarkerVisible ] = React.useState(true);
 
   const mapRef = React.useRef<Leaflet.Map | null>(null);
   const markersRef = React.useRef<Leaflet.Marker[]>([]);
@@ -115,16 +109,17 @@ function useMap(props: UseMapProps) {
   }
 
   React.useEffect(() => {
-    // init map
+    // create intance map
     mapRef.current = Leaflet
       .map("map")
       .setView([
-        currentCoord?.lat || config.initLocation.latitude,
-        currentCoord?.lng || config.initLocation.longitude
+        currentMarker?.lat || config.initLocation.latitude,
+        currentMarker?.lng || config.initLocation.longitude
       ], config.initZoom, {
         animate: true,
         duration: 10
       });
+      
     Leaflet
       .tileLayer(config.defaultTileLayer, {
         detectRetina: true,
@@ -132,80 +127,30 @@ function useMap(props: UseMapProps) {
       })
       .addTo(mapRef.current)
 
-    // add marker for each locations found in database
-    coordinates?.map((loc, idx) => {
-      const marker = Leaflet.marker([loc.lat, loc.lng])
+    // render markers
+    markers.map((record, index) => {
+      const marker = Leaflet.marker([record.coordinate.lat, record.coordinate.lng])
       marker
         .addTo(mapRef.current!)
         .setIcon(icon)
       markersRef.current.push(marker);
-      if (onMarkerClick) {
+      if (onSelectMarker) {
         marker.on('click', () => {
-          onMarkerClick(loc);
+          onSelectMarker(record);
         });
       }
     })
-
-    // click on map handler
+    
+    // on select on map
     mapRef.current.on('click', (e: Leaflet.LeafletMouseEvent) => {
-      // Check Location Permission
-      const locationPermission = zaloUserInfo.authSettings?.["scope.userLocation"];
-      if (!locationPermission || !logedIn) {
-        const popupContainer = document.createElement('div');
-        const root = ReactDOM.createRoot(popupContainer);
-        root.render(
-          <RequestLocation
-            visible={true}
-            onClose={() => {
-              setAddMarkerVisible(false);
-              root.unmount();
-            }}
-          />
-        )
+      if (!locationPermission) {
+        if (onRequestLocation) onRequestLocation(); 
       } else {
         const { lat, lng } = e.latlng;
-        const popupContainer = document.createElement('div');
-
-        const saveSuccess = (record: Marker) => {
-          const marker = Leaflet.marker([record.coordinate.lat, record.coordinate.lng])
-          marker
-            .addTo(mapRef.current!)
-            .setIcon(icon)
-
-          if (onMarkerClick) {
-            marker.on('click', () => {
-              onMarkerClick(record);
-            });
-          }
-
-          setAddMarkerVisible(false);
-          root.unmount();
-        }
-
-        const root = ReactDOM.createRoot(popupContainer);
-        root.render((
-          <div className="flex-v">
-            <SlidingPanel
-              className="bg-white"
-              orient={SlidingPanelOrient.LeftToRight} 
-              visible={addMarkerVisible} 
-              header={"Thêm Di tích tại điểm chọn"}      
-              close={() => {
-                setAddMarkerVisible(false);
-                root.unmount();
-              }}
-            >
-              <CreateLocationForm 
-                lat={lat.toString()}
-                lng={lng.toString()}
-                clanId={userInfo.clanId}
-                saveSuccess={saveSuccess}
-                successToast={successToast}
-                dangerToast={dangerToast}
-              />
-            </SlidingPanel>
-          </div>
-        ));
+        const marker = Leaflet.marker([lat, lng])
+        marker.on('click', () => {
+          if (onSelectOnMap) onSelectOnMap({ lat, lng } as Coordinate);
+        });
       }
     });
 
@@ -219,9 +164,9 @@ function useMap(props: UseMapProps) {
         markersRef.current = [];
       }
     };
-  }, [ coordinates ]);
+  }, [ markers ]);
 
-  // Change map tile layer
+  // change map tile layer
   React.useEffect(() => {
     if (!tileLayer) {
       Leaflet
@@ -247,28 +192,24 @@ function useMap(props: UseMapProps) {
     }
   }, [ tileLayer ])
 
-  // Go to current location
+  // go to current location
   React.useEffect(() => {
-    if (currentCoord) {
-      Leaflet
-        .marker([currentCoord.lat, currentCoord.lng])
+    if (currentMarker !== null) {
+      const marker = Leaflet.marker([currentMarker.lat, currentMarker.lng])
         .addTo(mapRef.current!)
         .setIcon(icon)
+      markersRef.current.push(marker);
       mapRef.current!.setView([
-        currentCoord.lat,
-        currentCoord.lng
+        currentMarker.lat,
+        currentMarker.lng
       ], 17.5, { 
         animate: true,
-        duration: 10
+        duration: 3
       });
     }
-  }, [ currentCoord ])
+  }, [ currentMarker ])
 
-  return {
-    mapRef: mapRef, 
-    markersRef: markersRef,
-    icon: icon
-  }
+  return { mapRef, markersRef, icon }
 }
 
 // ========================

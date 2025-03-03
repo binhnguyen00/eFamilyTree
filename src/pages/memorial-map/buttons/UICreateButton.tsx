@@ -1,35 +1,37 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Grid, Input, Text } from "zmp-ui";
+import { Button, Grid, Input, Sheet, Text } from "zmp-ui";
 
 import { FamilyTreeApi, MemorialMapApi } from "api";
-import { CommonUtils, ZmpSDK } from "utils";
+import { CommonUtils, StyleUtils, ZmpSDK } from "utils";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
-import { BeanObserver, CommonIcon, Marker, RequestLocation, Selection, SizedBox, SlidingPanel, SlidingPanelOrient } from "components";
+import { BeanObserver, CommonIcon, Label, Marker, Selection, SizedBox } from "components";
 
 import { FailResponse, ServerResponse } from "types/server";
 
 interface CreateButtonProps {
   onAdd?: (marker: Marker) => void;
+  onRequestLocation?: () => void;
 }
-export function CreateButton({ onAdd }: CreateButtonProps) {
-  const { logedIn, zaloUserInfo, userInfo } = useAppContext();
+export function CreateButton(props: CreateButtonProps) {
+  const { onAdd, onRequestLocation } = props;
+  const { zaloUserInfo } = useAppContext();
+  const { "scope.userLocation": locationPermission } = zaloUserInfo.authSettings;
   const { successToast, dangerToast } = useNotification();
 
-  const [ requestLoc, setRequestLoc ] = React.useState(false); 
-  const [ addMarkerVisible, setAddMarkerVisible ] = React.useState(false);
+  const [ showForm, setShowForm ] = React.useState(false);
 
   const onAddMarker = () => {
-    const locationPermission = zaloUserInfo.authSettings?.["scope.userLocation"];
-    if (!locationPermission || !logedIn) {
-      setRequestLoc(true);
+    if (!locationPermission) {
+      if (onRequestLocation) onRequestLocation();
     } else {
       if (onAdd) {
-        setAddMarkerVisible(true);
+        setShowForm(true);
       }
     }
   }
 
+  // TODO: move to Form
   const onSave = (record: NewMarker | any) => {
     if (!record) {
       dangerToast(`${t("save")} ${t("fail")}`)
@@ -44,7 +46,7 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
       if (result.status !== "error") {
         onAdd({
           id: record.id,
-          label: record.name,
+          name: record.name,
           description: record.description,
           images: record.images,
           coordinate: {
@@ -58,44 +60,30 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
     const saveFail = (error: any) => {
       dangerToast(`${t("save")} ${t("fail")}`)
     }
-    MemorialMapApi.create(record, saveSuccess, saveFail);
+    MemorialMapApi.create({
+      record, success: saveSuccess, fail: saveFail
+    });
   }
 
   return (
     <>
       <Button
-        style={{ minWidth: 120 }}
-        size="small" 
-        onClick={onAddMarker}
+        style={{ minWidth: 140 }} size="small" 
         prefixIcon={<CommonIcon.Plus/>}
+        onClick={onAddMarker}
       >
         {t("Tạo nhanh")}
       </Button>
 
-      <SlidingPanel 
-        className="bg-white"
-        orient={SlidingPanelOrient.LeftToRight} 
-        visible={addMarkerVisible} 
-        header={"Thêm di tích mới"}      
-        close={() => setAddMarkerVisible(false)}
+      <Sheet 
+        visible={showForm} title={"Di tích mới"} className="bg-white"
+        height={StyleUtils.calComponentRemainingHeight(0)}
+        onClose={() => setShowForm(false)}
       >
-        <Form 
-          userId={userInfo.id}
-          clanId={userInfo.clanId}
-          onSave={onSave}
-        />
-      </SlidingPanel>
-
-      <RequestLocation
-        visible={requestLoc}
-        onClose={() => setRequestLoc(false)}
-      />
+        <Form onSave={onSave}/>
+      </Sheet>
     </>
   )
-}
-
-function InputLabel({ text, required }: { text: string, required?: boolean }) {
-  return <span className="text-primary"> {`${t(text)} ${required ? "*" : ""}`} </span>
 }
 
 type NewMarker = {
@@ -107,13 +95,8 @@ type NewMarker = {
   clanId: number;
 }
 
-function Form({ onSave, userId, clanId }: { 
-  // have to provide these due to there is no provider in sliding panel
-  clanId: number;
-  userId: number;
-  onSave: (record: NewMarker) => void; 
-}) {
-
+function Form({ onSave }: { onSave: (record: NewMarker) => void }) {
+  const { userInfo } = useAppContext();
   const [ deadMembers, setDeadMembers ] = React.useState<any[]>([]);
 
   React.useEffect(() => {
@@ -130,7 +113,7 @@ function Form({ onSave, userId, clanId }: {
       }
     }
     const fail = (error: FailResponse) => {};
-    FamilyTreeApi.searchDeadMember({userId, clanId}, success, fail);
+    FamilyTreeApi.searchDeadMember({userId: userInfo.id, clanId: userInfo.clanId}, success, fail);
   }, []);
 
   const observer = useBeanObserver({
@@ -139,7 +122,7 @@ function Form({ onSave, userId, clanId }: {
     lat: "",
     lng: "",
     images: [],
-    clanId: clanId,
+    clanId: userInfo.clanId,
   } as NewMarker);
 
   const blobUrlsToBase64 = async () => {
@@ -164,7 +147,7 @@ function Form({ onSave, userId, clanId }: {
         images: imgBase64s
       } as NewMarker);
     }
-    const failLoc = (error: any) => { // could be user decline location access
+    const failLoc = (error: any) => {
       onSave(null as any);
     }
     ZmpSDK.getLocation({
@@ -174,39 +157,39 @@ function Form({ onSave, userId, clanId }: {
   }
 
   return (
-    <div className="flex-v" style={{ height: "70vh" }}>
-      <>
-        <Text.Title className="text-capitalize text-primary py-2"> {t("info")} </Text.Title>
-        <Input 
-          size="small" label={<InputLabel text="Tên Di Tích" required/>}
-          value={observer.getBean().name} name="name"
-          onChange={observer.watch}
-        />
-        <Selection
-          label={t("Người đã khuất")}
-          observer={observer} field={"memberId"}
-          options={deadMembers}
-          isSearchable
-          isClearable
-        />
-        <Input.TextArea
-          size="large" label={<InputLabel text="Mô Tả"/>}
-          value={observer.getBean().description} name="description"
-          onChange={(e) => observer.update("description", e.target.value)}
-        />
-        <ImageSelector observer={observer}/>
-      </>
+    <div className="flex-v p-3 scroll-v">
+      <p> {t("Toạ độ sẽ được lấy tại nơi bạn đang đứng")} </p>
 
-      <>
-        <Text.Title className="text-capitalize text-primary py-2"> {t("utilities")} </Text.Title>
+      <Text.Title className="text-capitalize text-primary py-2"> {t("info")} </Text.Title>
+
+      <Input 
+        label={<Label text="Tên Di Tích" required/>}
+        value={observer.getBean().name} name="name"
+        onChange={observer.watch}
+      />
+
+      {/* <Selection
+        label={t("Người đã khuất")}
+        observer={observer} field={"memberId"}
+        options={deadMembers}
+        isSearchable
+        isClearable
+      /> */}
+
+      <Input.TextArea
+        size="medium" label={<Label text="Mô Tả"/>}
+        value={observer.getBean().description} name="description"
+        onChange={(e) => observer.update("description", e.target.value)}
+      />
+
+      <ImageSelector observer={observer}/>
+
+      <div>
+        <Text.Title className="text-capitalize text-primary py-2"> {t("Hành Động")} </Text.Title>
         <Button variant="primary" size="small" style={{ width: "fit-content" }} onClick={save} prefixIcon={<CommonIcon.Save/>}>
           {t("save")}
         </Button>
-      </>
-
-      <span>
-        {"Toạ độ sẽ được lấy tại nơi bạn đang đứng"}
-      </span>
+      </div>
     </div>
   )
 }

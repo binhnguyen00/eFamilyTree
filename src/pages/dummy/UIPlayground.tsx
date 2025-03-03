@@ -6,7 +6,7 @@ import { Button, Text, Stack, Grid } from "zmp-ui";
 import { ZmpSDK } from "utils";
 import { TestApi } from "api";
 import { useNotification, useAppContext, usePageContext } from "hooks";
-import { Header, Loading, SizedBox, SlidingPanel, SlidingPanelOrient, NewsPaperSkeleton } from "components";
+import { Header, Loading, SizedBox, NewsPaperSkeleton } from "components";
 
 import { Theme } from "types/user-settings";
 import { Module } from "types/app-context";
