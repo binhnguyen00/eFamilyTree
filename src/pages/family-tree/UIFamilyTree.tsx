@@ -87,7 +87,7 @@ export function UIFamilyTree() {
 
   return (
     <>
-      <Header title={t("family_tree")} />
+      <Header title={t("gia phả lạc hồng")} />
 
       <div className="bg-white">
         {renderContainer()}
