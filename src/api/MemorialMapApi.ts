@@ -4,12 +4,14 @@ import { BaseApi } from "./BaseApi";
 
 export class MemorialMapApi extends BaseApi {
 
-  public static search(params: {
-    clan_id: number;
-  }, successCB: SuccessCB, failCB?: FailCB) {
+  public static search({ clanId, success, fail }: {
+    clanId: number, success: SuccessCB, fail?: FailCB
+  }) {
     const header = this.initHeader();
-    const body = this.initBody(params);
-    this.server.POST("memorial/location/search", header, body, successCB, failCB);
+    const body = this.initBody({
+      clan_id: clanId
+    });
+    this.server.POST("memorial/location/search", header, body, success, fail);
   }
 
   public static create(record: {

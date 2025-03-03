@@ -10,7 +10,7 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { FamilyTreeApi, MemorialMapApi } from "api";
 import { useNotification, useAppContext } from "hooks";
 import { 
-  BeanObserver, CommonIcon, Loading, Marker, Selection, 
+  BeanObserver, CommonIcon, Label, Loading, Marker, Selection, 
   SlidingPanel, SlidingPanelOrient } from "components";
 import { FailResponse, ServerResponse } from "types/server";
 import { GalleryImage } from "pages/gallery/UIGalleryImages";
@@ -93,10 +93,6 @@ export function UIMemorialLocation({ id, visible, onClose, onRemove }: UIMemoria
   return container;
 }
 
-function InputLabel({ text, required }: { text: string, required?: boolean }) {
-  return <span className="text-primary"> {`${t(text)} ${required ? "*" : ""}`} </span>
-}
-
 type Location = {
   name: string;
   description: string;
@@ -119,7 +115,7 @@ function Form({ serverBaseUrl, onDelete, onSave, deadMembers, observer }: FormPr
       <>
         <Text.Title className="text-capitalize text-primary py-2"> {t("info")} </Text.Title>
         <Input 
-          size="small" label={<InputLabel text="Tên Di Tích" required/>}
+          size="small" label={<Label text="Tên Di Tích" required/>}
           value={observer.getBean().name} name="name"
           onChange={observer.watch}
         />
@@ -133,7 +129,7 @@ function Form({ serverBaseUrl, onDelete, onSave, deadMembers, observer }: FormPr
           options={deadMembers}
         />
         <Input.TextArea
-          size="large" label={<InputLabel text="Mô Tả"/>}
+          size="large" label={<Label text="Mô Tả"/>}
           value={observer.getBean().description} name="description"
           onChange={(e) => observer.update("description", e.target.value)}
         />

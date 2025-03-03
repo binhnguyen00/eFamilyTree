@@ -3,8 +3,9 @@ import { t } from "i18next";
 import { Button, Sheet } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
-import { useAppContext } from "hooks";
+import { useAppContext, useNotification } from "hooks";
 import { CommonIcon } from "components";
+import { ZaloSettings } from "types/app-context";
 
 interface RequestPhoneProps {
   visible: boolean, 
@@ -13,25 +14,59 @@ interface RequestPhoneProps {
 }
 export function RequestPhone(props: RequestPhoneProps) {
   const { visible, closeSheet, onSuccessRequest } = props;
-  const { updatePhoneNumber, updateZaloUserInfo } = useAppContext();
+  const { updatePhoneNumber, updateZaloUserInfo, zaloUserInfo } = useAppContext();
+  const { loadingToast } = useNotification();
   const [ request, setRequest ] = React.useState(false);
 
-  if (request) {
-    const success = (number: string) => { 
-      setRequest(false);
-      ZmpSDK.getUserInfo(
-        (zaloUser: any) => {
-          updatePhoneNumber(number);
-          updateZaloUserInfo(zaloUser);
+  const updateZaloUser = (
+    zaloUser: any,
+    successToastCB: (content: any) => void,
+    dangerToastCB: (content: any) => void,
+  ) => {
+    ZmpSDK.getAuthSettings({
+      successCB: (authSettings: ZaloSettings) => {
+        successToastCB(t("cập nhật quyền người dùng"));
+        updateZaloUserInfo({
+          id: zaloUser.id,
+          name: zaloUser.name,
+          avatar: zaloUser.avatar,
+          authSettings: authSettings
+        })
+        if (onSuccessRequest) onSuccessRequest();
+      },
+      failCB: (error: any) => dangerToastCB(t("cập nhật quyền người dùng không thành công"))
+    });
+  }
+
+  React.useEffect(() => {    
+    if (request) {
+      loadingToast(
+        <p> {t("đang xử lý...")} </p>,
+        (successToastCB, dangerToastCB) => {
+          ZmpSDK.getPhoneNumber(
+            // success
+            (number: string) => {
+              successToastCB(t("đã chia sẻ số điện thoại"))
+              setRequest(false);
+              ZmpSDK.getUserInfo(
+                (zaloUser: any) => {
+                  updatePhoneNumber(number);
+                  updateZaloUser(zaloUser, successToastCB, dangerToastCB)
+                },
+                (error: any) => dangerToastCB(t("cập nhật quyền người dùng không thành công"))
+              )
+              if (onSuccessRequest) onSuccessRequest();
+            },
+            // fail
+            (error: any) => {
+              setRequest(false);
+              dangerToastCB(t("chia sẻ không thành công"));
+            }
+          );
         }
       )
-      if (onSuccessRequest) onSuccessRequest();
-    }
-    const fail = (error: any) => { 
-      setRequest(false);
-    }
-    ZmpSDK.getPhoneNumber(success, fail);
-  };
+    };
+  }, [ request ]);
 
   return (
     <Sheet 

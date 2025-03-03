@@ -30,7 +30,7 @@ interface WorldMapProps {
   removeMarker?: Marker;
   onMarkerClick?: (location: any) => void;
   markerContent?: string | React.ReactNode;
-  currentLocation?: Coordinate;
+  currentMarker: Coordinate | null
   tileLayer?: string;
 }
 
@@ -40,14 +40,14 @@ export function WorldMap(props: WorldMapProps) {
     locations,
     addMarker,
     removeMarker,
-    currentLocation,
+    currentMarker,
     tileLayer,
     onMarkerClick, markerContent,
   } = props;
 
   const { mapRef, markersRef, icon } = useMap({ 
     tileLayer: tileLayer,
-    currentCoord: currentLocation,
+    currentCoord: currentMarker,
     coordinates: locations,
     onMarkerClick: onMarkerClick, 
     markerContent: markerContent,
@@ -85,7 +85,7 @@ export function WorldMap(props: WorldMapProps) {
 // ========================
 interface UseMapProps {
   coordinates?: any[];
-  currentCoord?: Coordinate;
+  currentCoord: Coordinate | null;
   onMarkerClick?: (location: any) => void;
   markerContent?: string | React.ReactNode;
   tileLayer?: string;
@@ -156,7 +156,7 @@ function useMap(props: UseMapProps) {
         root.render(
           <RequestLocation
             visible={true}
-            close={() => {
+            onClose={() => {
               setAddMarkerVisible(false);
               root.unmount();
             }}

@@ -4,31 +4,29 @@ import { Button } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
 import { useAppContext } from "hooks";
-import { CommonIcon, Coordinate, RequestLocation } from "components";
+import { CommonIcon, Coordinate } from "components";
 
 interface CurrentPositionButtonProps {
   onClick: (coordinate: Coordinate) => void;
+  onRequestLocation?: () => void;
 }
 export function CurrentPositionButton(props: CurrentPositionButtonProps) {
-  const { onClick } = props;
-  const { logedIn, zaloUserInfo } = useAppContext();
-
-  const [ requestLoc, setRequestLoc ] = React.useState(false);   
+  const { onClick, onRequestLocation } = props;
+  const { zaloUserInfo } = useAppContext();
+  const { "scope.userLocation": locationPermission } = zaloUserInfo.authSettings;
 
   const onClickButton = () => {
-    const locationPermission = zaloUserInfo.authSettings?.["scope.userLocation"];
-
-    if (!locationPermission || !logedIn) {
-      setRequestLoc(true);
+    if (!locationPermission) {
+      if (onRequestLocation) onRequestLocation();
     } else {
-      ZmpSDK.getLocation(
-        (location) => {
+      ZmpSDK.getLocation({
+        successCB: (location) => {
           onClick({
             lat: parseFloat(location.latitude),
             lng: parseFloat(location.longitude)
           })
         },
-      )
+      })
     }
   }
 
@@ -40,11 +38,6 @@ export function CurrentPositionButton(props: CurrentPositionButtonProps) {
       >
         {t("Tôi")}
       </Button>
-
-      <RequestLocation
-        visible={requestLoc}
-        close={() => setRequestLoc(false)}
-      />
     </>
   )
 }

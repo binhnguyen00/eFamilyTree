@@ -162,7 +162,9 @@ export class ZmpSDK {
     })
   }
 
-  public static getLocation(successCB: CallBack, failCB?: CallBack) {
+  public static getLocation({ successCB, failCB }: {
+    successCB: CallBack, failCB?: CallBack
+  }) {
     getLocation({
       success({ token }) {
         if (token) {

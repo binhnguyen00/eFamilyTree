@@ -4,58 +4,88 @@ import { Button, Sheet } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
 import { CommonIcon } from "components";
-import { useAppContext } from "hooks";
+import { useAppContext, useNotification } from "hooks";
+
+import { ZaloSettings } from "types/app-context";
 
 interface RequestLocationProps {
   visible: boolean;
-  close: () => void;
+  onClose: () => void;
+  onSuccessRequest?: () => void
 }
-export function RequestLocation({ visible, close }: RequestLocationProps) {
+export function RequestLocation(props: RequestLocationProps) {
+  const { visible, onClose, onSuccessRequest } = props;
   const { zaloUserInfo, updateZaloUserInfo } = useAppContext();
+  const { loadingToast } = useNotification();
   const [ request, setRequest ] = React.useState(false);
 
-  const updateAuthSettings = () => {
-    const success = (authSettings) => {
-      updateZaloUserInfo({
-        ...zaloUserInfo,
-        authSettings: authSettings
-      })
-    }
-    ZmpSDK.getAuthSettings(success);
+  const updateAuthSettings = (
+    successToastCB: (content: any) => void,
+    dangerToastCB: (content: any) => void,
+  ) => {
+    ZmpSDK.getAuthSettings({
+      successCB: (authSettings: ZaloSettings) => {
+        successToastCB(t("đã chia sẻ quyền truy cập vị trí"));
+        updateZaloUserInfo({
+          ...zaloUserInfo,
+          authSettings: authSettings
+        })
+        if (onSuccessRequest) onSuccessRequest();
+      },
+      failCB: (error: any) => dangerToastCB(t("chia sẻ không thành công"))
+    });
   }
 
-  if (request) {
-    const success = (location: any) => { 
-      updateAuthSettings();
-      setRequest(false);
-    }
-    const fail = (error: any) => { 
-      setRequest(false);
-    }
-    ZmpSDK.getLocation(success, fail);
-  };
+  React.useEffect(() => {    
+    if (request) {
+      loadingToast(
+        <p> {t("đang xử lý...")} </p>,
+        (successToastCB, dangerToastCB) => {
+          ZmpSDK.getLocation({
+            successCB: (location: any) => { 
+              updateAuthSettings(successToastCB, dangerToastCB);
+              setRequest(false);
+            },
+            failCB: (error: any) => { 
+              setRequest(false);
+              dangerToastCB(t("chia sẻ không thành công"));
+            }
+          });
+        }
+      );
+    };
+  }, [ request ]);
 
   return (
     <Sheet
       title={t("need_access")} 
       visible={visible}  
-      onClose={close}
+      onClose={onClose}
     >
       <div className="flex-v p-3">
         <div className="flex-h">
-          <CommonIcon.Map size={20}/>
+          <CommonIcon.Map size={24}/>
           <p className="ml-2"> {t("location_requirement")} </p>
         </div>
         <p> {t("request_location_explaination")} </p>
         <p> {t("commitment")} </p>
         <div className="flex-v pt-3">
-          <Button variant="primary" size="medium" onClick={() => {
-            close();
-            setRequest(true);
-          }}>
+          <Button 
+            variant="primary" size="medium" 
+            onClick={() => {
+              onClose();
+              setRequest(true);
+            }}
+          >
             {t("allow")}
           </Button>
-          <Button variant="tertiary" size="medium" onClick={close}>
+          <Button 
+            variant="tertiary" size="medium" 
+            onClick={() => {
+              onClose();
+              setRequest(false);
+            }}
+          >
             {t("decline")}
           </Button>
         </div>

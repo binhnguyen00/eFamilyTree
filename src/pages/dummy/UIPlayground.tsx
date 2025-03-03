@@ -144,7 +144,7 @@ function UILocationPermission() {
     const fail = (error: any) => {
       console.log(error);
     }
-    ZmpSDK.getLocation(success, fail);
+    ZmpSDK.getLocation({ successCB: success, failCB: fail });
   }
 
   return (

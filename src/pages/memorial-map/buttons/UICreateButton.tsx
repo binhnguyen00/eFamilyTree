@@ -88,7 +88,7 @@ export function CreateButton({ onAdd }: CreateButtonProps) {
 
       <RequestLocation
         visible={requestLoc}
-        close={() => setRequestLoc(false)}
+        onClose={() => setRequestLoc(false)}
       />
     </>
   )
@@ -167,7 +167,10 @@ function Form({ onSave, userId, clanId }: {
     const failLoc = (error: any) => { // could be user decline location access
       onSave(null as any);
     }
-    ZmpSDK.getLocation(successLoc, failLoc);
+    ZmpSDK.getLocation({
+      successCB: successLoc,
+      failCB: failLoc
+    });
   }
 
   return (
