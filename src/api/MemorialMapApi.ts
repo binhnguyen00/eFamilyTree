@@ -21,6 +21,7 @@ export class MemorialMapApi extends BaseApi {
     const header = this.initHeader();
     const body = this.initBody({
       location: {
+        id: record.id,
         name: record.name,
         description: record.description,
         lat: record.coordinate.lat.toString(),
@@ -33,10 +34,13 @@ export class MemorialMapApi extends BaseApi {
     this.server.POST("memorial/location/create", header, body, success, fail);
   }
 
-  public static save(record: MemorialLocation, successCB: SuccessCB, failCB?: FailCB) {
+  public static save({ record, success, fail }: {
+    record: MemorialLocation, success: SuccessCB, fail?: FailCB
+  }) {
     const header = this.initHeader();
     const body = this.initBody({
       location: {
+        id: record.id,
         name: record.name,
         description: record.description,
         lat: record.coordinate.lat.toString(),
@@ -46,7 +50,7 @@ export class MemorialMapApi extends BaseApi {
         member_id: record.memberId!,
       }
     });
-    this.server.POST("memorial/location/save", header, body, successCB, failCB);
+    this.server.POST("memorial/location/save", header, body, success, fail);
   }
 
   public static get({ userId, clanId, id, success, fail }: {

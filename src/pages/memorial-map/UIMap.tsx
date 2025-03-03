@@ -20,6 +20,7 @@ import { QuickCreateLocationButton } from "./buttons/UIQuickCreateButton";
 // ==============================
 function useCurrentLocation() {
   const { needLocation, requestLocation } = useRequestLocationContext();
+  const { loadingToast } = useNotification();
 
   const [ currentLocation, setLocation ] = React.useState<Coordinate | null>(null);
   const [ loading, setLoading ] = React.useState<boolean>(true);
@@ -36,19 +37,26 @@ function useCurrentLocation() {
     if (needLocation) {
       requestLocation();
     } else {
-      ZmpSDK.getLocation({
-        successCB: (location) => {
-          setLoading(false);
-          setLocation({
-            lat: parseFloat(location.latitude),
-            lng: parseFloat(location.longitude)
-          })
-        },
-        failCB: (error: any) => {
-          setLoading(false);
-          setError(true);
+      loadingToast(
+        <p> {t("đang lấy toạ độ hiện tại...")} </p>,
+        (successToastCB, dangerToastCB) => {
+          ZmpSDK.getLocation({
+            successCB: (location) => {
+              successToastCB(t("đi tới vị trí hiện tại"));
+              setLoading(false);
+              setLocation({
+                lat: parseFloat(location.latitude),
+                lng: parseFloat(location.longitude)
+              })
+            },
+            failCB: (error: any) => {
+              dangerToastCB(t("không thành công"));
+              setLoading(false);
+              setError(true);
+            }
+          });
         }
-      });
+      )
     }
   }, [ needLocation, reload ])
 
@@ -83,16 +91,16 @@ function useMap() {
           const data = result.data as any[];
           const locations = data.map((location) => {
             return {
-              id: location.id,
-              name: location.name,
-              description: location.description,
+              id:           location.id,
+              name:         location.name,
+              description:  location.description,
               coordinate: {
                 lat: parseFloat(location.lat),
                 lng: parseFloat(location.lng)
               },
-              images: location.images,
-              memberId: location.member_id,
-              memberName: location.member_name,
+              images:       location.images,
+              memberId:     location.member_id,
+              memberName:   location.member_name,
             } as MemorialLocation;
           })
           setMarkers(locations);
@@ -120,9 +128,10 @@ export function UIMap() {
   const { currentLocation, refresh: locateCurrentLocation } = useCurrentLocation();
   const { markers, loading, error, refresh: refreshMap } = useMap();
 
+  const memoizedMarkers = React.useMemo(() => markers, [markers]);
+
   const [ mapTile, setMapTile ] = React.useState<string>(WorldMapConfig.defaultTileLayer);
   const [ createMarker, setCreateMarker ] = React.useState<MemorialLocation | null>(null);
-  const [ removeMarker, setRemoveMarker ] = React.useState<Marker | MemorialLocation | null>(null);
   const [ selectedMarker, setSelectedMarker ] = React.useState<MemorialLocation | null>(null);
 
   const [ requestCreate, setRequestCreate ] = React.useState<boolean>(false);
@@ -214,7 +223,6 @@ export function UIMap() {
     setRequestCreate(true);
   }
 
-  const onRemoveMarker = (marker: Marker) => setRemoveMarker(marker);
   const onSelectMapType = (type: string) => setMapTile(type);
 
   const renderContainer = () => {
@@ -236,9 +244,7 @@ export function UIMap() {
           <WorldMap
             tileLayer={mapTile}
             height={StyleUtils.calComponentRemainingHeight(45)}
-            markers={markers}
-            addMarker={createMarker as Marker}
-            removeMarker={removeMarker as Marker}
+            markers={memoizedMarkers}
             currentMarker={currentLocation as Coordinate}
             onSelectMarker={onSelect}
             onSelectOnMap={onSelectOnMap}
@@ -258,10 +264,10 @@ export function UIMap() {
       </div>
 
       <UILocation
+        key={selectedMarker?.id}
         data={selectedMarker}
         visible={requestInfo}
         onClose={() => setSelectedMarker(null)}
-        onRemove={onRemoveMarker}
       />
 
       <UICreateLocation

@@ -52,14 +52,8 @@ export function UIGalleryAlbumDetail({ album, onClose, onReloadParent }: UIGalle
   }, [ images ]);
 
   const onAddImageToAlbum = async (base64s: string[]) => {
-    const content = (
-      <div className="flex-v">
-        <p> {t("đang chuẩn bị dữ liệu")} </p>
-        <p> {t("vui lòng chờ")} </p>
-      </div>
-    )
     loadingToast(
-      content,
+      <p> {t("đang chuẩn bị dữ liệu...")} </p>,
       (successToastCB, dangerToastCB) => {
         GalleryApi.addImagesToAlbum({
           userId: userInfo.id,

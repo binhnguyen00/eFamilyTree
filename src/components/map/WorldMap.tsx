@@ -3,8 +3,6 @@ import Leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./css/leaflet.scss"
 
-import { useNotification } from "hooks";
-
 import config from "./config";
 
 export type Marker = {
@@ -24,9 +22,7 @@ interface WorldMapProps {
   markers: Marker[];
   height?: string | number;
   tileLayer?: string;
-  addMarker?: Marker;
-  removeMarker?: Marker;
-  currentMarker: Coordinate | null
+  currentMarker: Coordinate | null  
   markerContent?: string | React.ReactNode;
   onSelectOnMap?: (coordinate: Coordinate) => void;
   onSelectMarker?: (marker: Marker) => void;
@@ -34,28 +30,18 @@ interface WorldMapProps {
 
 export function WorldMap(props: WorldMapProps) {
   const {  
-    tileLayer, height, markers, addMarker, removeMarker, currentMarker, markerContent,
-    onSelectMarker, onSelectOnMap } = props;
+    tileLayer, height, markers, currentMarker, markerContent,
+    onSelectMarker, onSelectOnMap 
+  } = props;
 
   const { mapRef, markersRef, icon } = useMap({ 
-    tileLayer, markers, currentMarker, markerContent,
-    onSelectMarker, onSelectOnMap,
+    tileLayer, 
+    markers, 
+    currentMarker, 
+    markerContent,
+    onSelectMarker, 
+    onSelectOnMap,
   });
-
-  useAddMarker({
-    mapRef: mapRef,
-    markersRef: markersRef,
-    marker: addMarker,
-    popupContent: "Di tích",
-    onMarkerClick: onSelectMarker,
-    icon: icon
-  })
-
-  useRemoveMarker({
-    mapRef: mapRef,
-    markersRef: markersRef,
-    marker: removeMarker,
-  })
 
   return (
     <div
@@ -69,9 +55,6 @@ export function WorldMap(props: WorldMapProps) {
   );
 }
 
-// ========================
-// useMap
-// ========================
 interface UseMapProps {
   markers: Marker[];
   currentMarker: Coordinate | null;
@@ -83,16 +66,15 @@ interface UseMapProps {
 }
 function useMap(props: UseMapProps) {
   const { markers, currentMarker, tileLayer, onSelectMarker, onSelectOnMap } = props;
-  const { successToast, dangerToast } = useNotification();
 
   const mapRef = React.useRef<Leaflet.Map | null>(null);
   const markersRef = React.useRef<Leaflet.Marker[]>([]);
   const icon = Leaflet.icon({
     iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
     iconSize: [25, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
-    shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
     shadowSize: [41, 41]
   })
 
@@ -101,8 +83,8 @@ function useMap(props: UseMapProps) {
     if (attribution) attribution.remove();
   }
 
+  // create intance map
   React.useEffect(() => {
-    // create intance map
     mapRef.current = Leaflet
       .map("map")
       .setView([
@@ -196,76 +178,4 @@ function useMap(props: UseMapProps) {
   }, [ currentMarker ])
 
   return { mapRef, markersRef, icon }
-}
-
-// ========================
-// use Add Marker
-// ========================
-interface UseAddMarkerProps {
-  mapRef: React.RefObject<Leaflet.Map>;
-  markersRef: React.RefObject<Leaflet.Marker[]>;
-  marker?: Marker;
-  onMarkerClick?: (marker: Marker) => void;
-  popupContent?: string | ((coordinate: Coordinate) => string);
-  icon: any;
-}
-function useAddMarker(props: UseAddMarkerProps) {
-  const { mapRef, markersRef, marker, onMarkerClick, popupContent, icon } = props;
-
-  React.useEffect(() => {
-    if (!mapRef.current || !markersRef.current || !marker) return;
-
-    const newRecord = Leaflet
-      .marker([marker.coordinate.lat, marker.coordinate.lng])
-      .setIcon(icon)
-      .addTo(mapRef.current);
-
-    if (popupContent) {
-      newRecord.bindPopup(
-        typeof popupContent === 'function' 
-          ? popupContent(marker.coordinate) 
-          : popupContent
-      )
-    }
-
-    if (onMarkerClick) {
-      newRecord.on('click', () => onMarkerClick(marker));
-    }
-
-    // Store marker reference
-    markersRef.current.push(newRecord);
-    // Center map on new marker
-    mapRef.current.setView([marker.coordinate.lat, marker.coordinate.lng], mapRef.current.getZoom());
-
-  }, [ marker, onMarkerClick, popupContent ]);
-}
-
-// ========================
-// use remove Marker
-// ========================
-interface UseRemoveMarkerProps {
-  mapRef: React.RefObject<Leaflet.Map>;
-  markersRef: React.RefObject<Leaflet.Marker[]>;
-  marker?: Marker;
-}
-function useRemoveMarker(props: UseRemoveMarkerProps) {
-  const { mapRef, markersRef, marker } = props;
-
-  React.useEffect(() => {
-    if (!mapRef.current || !markersRef.current || !marker) return;
-
-    const index = markersRef.current.findIndex(
-      (m) => {
-        return (
-          m.getLatLng().lat.toString() === marker.coordinate.lat.toString()
-          && m.getLatLng().lng.toString() === marker.coordinate.lng.toString())
-      }
-    );
-
-    if (index !== -1) {
-      mapRef.current.removeLayer(markersRef.current[index]);
-      markersRef.current.splice(index, 1);
-      mapRef.current.setView([marker.coordinate.lat, marker.coordinate.lng], mapRef.current.getZoom());
-    }
-  }, [ marker ])
 }

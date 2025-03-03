@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Input, Sheet, Text } from "zmp-ui";
+import { Button, Input, Modal, Sheet, Text } from "zmp-ui";
 import { Gallery } from "react-grid-gallery";
 import { Lightbox } from "yet-another-react-lightbox";
 import { Zoom, Thumbnails, Counter } from "yet-another-react-lightbox/plugins";
@@ -21,17 +21,26 @@ interface UILocationProps {
   data: MemorialLocation | null;
   visible: boolean;
   onClose: () => void;
-  onRemove: (marker: Marker) => void;
 }
 export function UILocation(props: UILocationProps) {
-  const { data, visible, onClose, onRemove } = props;
+  const { data, visible, onClose } = props;
   if (data === null) return null;
 
   const { userInfo } = useAppContext();
   const { dangerToast, loadingToast } = useNotification();
   const { deadMembers, error, loading, refresh } = useDeadMembers(data.id);
+  const observer = useBeanObserver({
+    id:           data.id,
+    name:         data.name,
+    description:  data.description,
+    coordinate:   data.coordinate,
+    clanId:       data.clanId,
+    images:       data.images,
+    memberId:     data.memberId,
+    memberName:   data.memberName,
+  } as MemorialLocation);
 
-  const observer = useBeanObserver(data as MemorialLocation);
+  const [ deleteWarning, setDeleteWarning ] = React.useState(false);
 
   const onDelete = () => {
     loadingToast(
@@ -42,13 +51,6 @@ export function UILocation(props: UILocationProps) {
             fail();
           } else {
             successToastCB(`${t("delete")} ${t("success")}`);
-            onRemove({
-              id:           observer.getBean().id,
-              name:         observer.getBean().name,
-              description:  observer.getBean().description,
-              coordinate:   observer.getBean().coordinate,
-              images:       observer.getBean().images
-            });
             onClose();
           }
         }
@@ -69,19 +71,18 @@ export function UILocation(props: UILocationProps) {
     loadingToast(
       <p> {t("đang xử lý...")} </p>,
       (successToastCB, dangerToastCB) => {
-        const success = (res: ServerResponse) => {
-          if (res.status === "error") {
-            fail();
-          } else {
-            successToastCB(`${t("save")} ${t("success")}`);
-            onClose();
-          }
-        }
-        const fail = () => {
-          dangerToastCB(`${t("save")} ${t("fail")}`);
-          onClose();
-        }
-        MemorialMapApi.save(observer.getBean(), success, fail);
+        MemorialMapApi.save({
+          record: observer.getBean(), 
+          success: (result: ServerResponse) => {
+            if (result.status === "error") {
+              dangerToastCB(`${t("save")} ${t("fail")}`);
+            } else {
+              successToastCB(`${t("save")} ${t("success")}`);
+              onClose();
+            }
+          }, 
+          fail: () => dangerToastCB(`${t("save")} ${t("fail")}`)
+        });
       }
     )
   }
@@ -96,7 +97,18 @@ export function UILocation(props: UILocationProps) {
       <UIMemorialLocationForm
         deadMembers={deadMembers}
         observer={observer}
-        onSave={onSave} onDelete={onDelete}
+        onSave={onSave} onDelete={() => setDeleteWarning(true)}
+      />
+      <Modal
+        visible={deleteWarning}
+        mask maskClosable
+        title={t("Hành động không thể thu hồi")}
+        description={t("Bạn có chắc muốn xoá di tích này?")}
+        onClose={() => setDeleteWarning(false)}
+        actions={[
+          { text: t("Xoá"), onClick: onDelete },
+          { text: t("Đóng"), close: true },
+        ]}
       />
     </Sheet>
   )
