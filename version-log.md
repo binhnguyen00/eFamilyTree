@@ -1,3 +1,11 @@
+# Version 1.3.6 (Thứ 2, 03/03/2025)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=48)
+### Thay đổi
+#### 1. Module Quỹ
+  - Giao diện tối giản hơn.
+#### 2. Module Di tích
+  - Nâng cấp và cải thiện hiệu năng.
+
 # Version 1.3.5 (Thứ 4, 26/02/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=47)
 ### Thay đổi
