@@ -196,8 +196,6 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
 
   return (
     <>
-      <Header title={t("family_tree")}/>
-
       <div id="tree-container">
         <FamilyTree
           nodes={nodes}

@@ -12,13 +12,14 @@ import { useZaloSettings } from "./useZaloSettings";
 import { useClanMemberInfo } from "./useClanMemberInfo";
 import { useFamilyTree } from "../pages/family-tree/UIFamilyTree";
 import { useRequestPhoneContext } from "./context/useRequestPhoneContext";
+import { useRequestLocationContext } from "./context/useRequestLocationContext";
 
 export { 
   useTheme, 
   useAutoLogin, 
   useSettings,
   useGetPhonePermission,
-  useAppContext, usePageContext, useAccountContext, useRequestPhoneContext,
+  useAppContext, usePageContext, useAccountContext, useRequestPhoneContext, useRequestLocationContext,
   useRouteNavigate,
   useNotification,
   useBeanObserver,

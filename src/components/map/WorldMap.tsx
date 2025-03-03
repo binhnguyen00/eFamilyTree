@@ -3,7 +3,7 @@ import Leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./css/leaflet.scss"
 
-import { useNotification, useAppContext } from "hooks";
+import { useNotification } from "hooks";
 
 import config from "./config";
 
@@ -30,17 +30,16 @@ interface WorldMapProps {
   markerContent?: string | React.ReactNode;
   onSelectOnMap?: (coordinate: Coordinate) => void;
   onSelectMarker?: (marker: Marker) => void;
-  onRequestLocation?: () => void; 
 }
 
 export function WorldMap(props: WorldMapProps) {
   const {  
     tileLayer, height, markers, addMarker, removeMarker, currentMarker, markerContent,
-    onSelectMarker, onRequestLocation, onSelectOnMap } = props;
+    onSelectMarker, onSelectOnMap } = props;
 
   const { mapRef, markersRef, icon } = useMap({ 
     tileLayer, markers, currentMarker, markerContent,
-    onSelectMarker, onRequestLocation, onSelectOnMap,
+    onSelectMarker, onSelectOnMap,
   });
 
   useAddMarker({
@@ -80,16 +79,10 @@ interface UseMapProps {
   markerContent?: string | React.ReactNode;
   onCurrentLocation?: () => void;
   onSelectMarker?: (marker: Marker) => void;
-  onRequestLocation?: () => void; 
   onSelectOnMap?: (coordinate: Coordinate) => void;
 }
 function useMap(props: UseMapProps) {
-  const { 
-    markers, currentMarker, tileLayer, 
-    onSelectMarker, onRequestLocation, onSelectOnMap } = props;
-
-  const { zaloUserInfo } = useAppContext();
-  const { "scope.userLocation": locationPermission } = zaloUserInfo.authSettings;
+  const { markers, currentMarker, tileLayer, onSelectMarker, onSelectOnMap } = props;
   const { successToast, dangerToast } = useNotification();
 
   const mapRef = React.useRef<Leaflet.Map | null>(null);
@@ -143,15 +136,8 @@ function useMap(props: UseMapProps) {
     
     // on select on map
     mapRef.current.on('click', (e: Leaflet.LeafletMouseEvent) => {
-      if (!locationPermission) {
-        if (onRequestLocation) onRequestLocation(); 
-      } else {
-        const { lat, lng } = e.latlng;
-        const marker = Leaflet.marker([lat, lng])
-        marker.on('click', () => {
-          if (onSelectOnMap) onSelectOnMap({ lat, lng } as Coordinate);
-        });
-      }
+      const { lat, lng } = e.latlng;
+      if (onSelectOnMap) onSelectOnMap({ lat, lng } as Coordinate);
     });
 
     removeLeafletLogo();

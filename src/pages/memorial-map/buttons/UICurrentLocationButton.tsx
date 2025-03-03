@@ -2,12 +2,11 @@ import React from "react";
 import { t } from "i18next";
 import { Button } from "zmp-ui";
 
-import { ZmpSDK } from "utils";
 import { useAppContext } from "hooks";
-import { CommonIcon, Coordinate } from "components";
+import { CommonIcon } from "components";
 
 interface CurrentPositionButtonProps {
-  onClick: (coordinate: Coordinate) => void;
+  onClick: () => void;
   onRequestLocation?: () => void;
 }
 export function CurrentPositionButton(props: CurrentPositionButtonProps) {
@@ -19,14 +18,7 @@ export function CurrentPositionButton(props: CurrentPositionButtonProps) {
     if (!locationPermission) {
       if (onRequestLocation) onRequestLocation();
     } else {
-      ZmpSDK.getLocation({
-        successCB: (location) => {
-          onClick({
-            lat: parseFloat(location.latitude),
-            lng: parseFloat(location.longitude)
-          })
-        },
-      })
+      onClick();
     }
   }
 

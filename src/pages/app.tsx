@@ -6,7 +6,8 @@ import { AppRoutes } from "./routes";
 import { 
   Navigation, PagePositionSaver,
   ThemeProvider, ApplicationProvider, NotificationProvider,
-  RequestPhoneProvider
+  RequestPhoneProvider,
+  RequestLocationProvider
 } from "components";
 
 import "../i18n";
@@ -20,11 +21,13 @@ function Application() {
           <NotificationProvider>
               <Router>
                 <RequestPhoneProvider>
-                  <AccountProvider>
-                    <AppRoutes/>
-                    <Navigation/>
-                    <PagePositionSaver />
-                  </AccountProvider>
+                  <RequestLocationProvider>
+                    <AccountProvider>
+                      <AppRoutes/>
+                      <Navigation/>
+                      <PagePositionSaver />
+                    </AccountProvider>
+                  </RequestLocationProvider>
                 </RequestPhoneProvider>
               </Router>
           </NotificationProvider>

@@ -3,19 +3,23 @@ import { t } from "i18next";
 import { Button, Grid, Input, Sheet, Text } from "zmp-ui";
 
 import { MemorialMapApi } from "api";
-import { useAppContext, useBeanObserver, useNotification } from "hooks";
 import { CommonUtils, StyleUtils, ZmpSDK } from "utils";
+import { useAppContext, useBeanObserver, useNotification, useRequestLocationContext } from "hooks";
+import { 
+  Header, WorldMap, Marker, Loading, Coordinate, 
+  WorldMapConfig, CommonIcon, Label, SizedBox, BeanObserver } from "components";
 import { ServerResponse } from "types/server";
-import { Header, WorldMap, Marker, Loading, Coordinate, WorldMapConfig, Info, CommonIcon, RequestLocation, Label, SizedBox, BeanObserver } from "components";
 
 import { UILocation } from "./UILocation";
-import { CreateButton } from "./buttons/UICreateButton";
 import { MapTypeButtons } from "./buttons/UIMapTypeButton";
 import { CurrentPositionButton } from "./buttons/UICurrentLocationButton";
+import { QuickCreateLocationButton } from "./buttons/UIQuickCreateButton";
 
+// ==============================
+// Hooks
+// ==============================
 function useCurrentLocation() {
-  const { zaloUserInfo, logedIn } = useAppContext();
-  const { "scope.userLocation": locationPermission } = zaloUserInfo.authSettings;
+  const { needLocation, requestLocation } = useRequestLocationContext();
 
   const [ currentLocation, setLocation ] = React.useState<Coordinate | null>(null);
   const [ loading, setLoading ] = React.useState<boolean>(true);
@@ -23,14 +27,15 @@ function useCurrentLocation() {
   const [ reload, setReload ] = React.useState<boolean>(false);
 
   const refresh = () => setReload(!reload);
-  const update = (location: Coordinate) => setLocation(location);
 
   React.useEffect(() => {
     setLoading(true);
     setError(false);
     setLocation(null);
 
-    if (locationPermission) {
+    if (needLocation) {
+      requestLocation();
+    } else {
       ZmpSDK.getLocation({
         successCB: (location) => {
           setLoading(false);
@@ -44,16 +49,14 @@ function useCurrentLocation() {
           setError(true);
         }
       });
-    } else {
-      // request for location permission?
     }
-  }, [ zaloUserInfo, logedIn ])
+  }, [ needLocation, reload ])
 
-  return { currentLocation, error, loading, refresh, update }
+  return { currentLocation, error, loading, refresh }
 }
 
 export interface MemorialLocation extends Marker {
-  memberId?: string;
+  memberId?: number;
   memberName?: string;
   clanId: number;
 }
@@ -107,21 +110,29 @@ function useMap() {
   return { markers, loading, error, refresh }
 }
 
+// ======================================
+// UIMap
+// ======================================
 export function UIMap() {
   const { userInfo } = useAppContext();
+  const { needLocation, requestLocation } = useRequestLocationContext();
   const { loadingToast } = useNotification();
-  const { currentLocation, update } = useCurrentLocation();
+  const { currentLocation, refresh: locateCurrentLocation } = useCurrentLocation();
+  const { markers, loading, error, refresh: refreshMap } = useMap();
 
   const [ mapTile, setMapTile ] = React.useState<string>(WorldMapConfig.defaultTileLayer);
-  const [ createMarker, setCreateMarker ] = React.useState<Marker>();
-  const [ removeMarker, setRemoveMarker ] = React.useState<Marker>();
-  const [ requestLocation, setRequestLocation ] = React.useState(false);
+  const [ createMarker, setCreateMarker ] = React.useState<MemorialLocation | null>(null);
+  const [ removeMarker, setRemoveMarker ] = React.useState<Marker | MemorialLocation | null>(null);
   const [ selectedMarker, setSelectedMarker ] = React.useState<MemorialLocation | null>(null);
 
   const [ requestCreate, setRequestCreate ] = React.useState<boolean>(false);
   const [ requestInfo, setRequestInfo ] = React.useState<boolean>(false);
 
   const onSelect = (marker: Marker) => {
+    if (needLocation) {
+      requestLocation();
+      return;
+    }
     loadingToast(
       <p> {t("đang chuẩn bị dữ liệu...")} </p>,
       (successToastCB, dangerToastCB) => {
@@ -159,26 +170,52 @@ export function UIMap() {
     setRequestInfo(true);
   }
 
+  const onLocateCurrentLocation = () => {
+    if (needLocation) {
+      requestLocation();
+      return;
+    }
+    locateCurrentLocation();
+  }
+
   const onCreate = (marker: Marker) => {
+    if (needLocation) {
+      requestLocation();
+      return;
+    }
+    setCreateMarker({
+      id: marker.id,
+      name: marker.name,
+      clanId: userInfo.clanId,
+      description: marker.description,
+      coordinate: marker.coordinate,
+      images: marker.images,
+      memberId: 0,
+      memberName: "",
+    });
     setRequestCreate(true);
-    setCreateMarker(marker);
   };
 
   const onSelectOnMap = (coordinate: Coordinate) => {
-    setRequestCreate(true);
+    if (needLocation) {
+      requestLocation();
+      return;
+    }
     setCreateMarker({
       id: 0,
       name: "",
+      description: "",
       images: [],
       coordinate: coordinate,
+      clanId: userInfo.clanId,
+      memberId: 0,
+      memberName: "",
     });
+    setRequestCreate(true);
   }
 
   const onRemoveMarker = (marker: Marker) => setRemoveMarker(marker);
   const onSelectMapType = (type: string) => setMapTile(type);
-  const onCurrentPosition = (coordinate: Coordinate) => update(coordinate);
-
-  const { markers, loading, error, refresh } = useMap();
 
   const renderContainer = () => {
     if (loading) {
@@ -191,21 +228,20 @@ export function UIMap() {
       return (
         <div className="flex-v flex-grow-0">
           <UIMapController 
-            onAdd={onCreate}
+            onRefresh={refreshMap}
+            onCreate={onCreate}
             onSelectMapType={onSelectMapType}
-            onCurrentPosition={onCurrentPosition}
-            onRequestLocation={() => setRequestLocation(true)}
+            onCurrentPosition={onLocateCurrentLocation}
           />
           <WorldMap
             tileLayer={mapTile}
             height={StyleUtils.calComponentRemainingHeight(45)}
             markers={markers}
-            addMarker={createMarker}
-            currentMarker={currentLocation}
-            removeMarker={removeMarker}
+            addMarker={createMarker as Marker}
+            removeMarker={removeMarker as Marker}
+            currentMarker={currentLocation as Coordinate}
             onSelectMarker={onSelect}
             onSelectOnMap={onSelectOnMap}
-            onRequestLocation={() => setRequestLocation(true)}
           />
         </div>
       )
@@ -229,38 +265,42 @@ export function UIMap() {
       />
 
       <UICreateLocation
+        key={createMarker?.coordinate.lat}
+        data={createMarker}
         visible={requestCreate}
         onClose={() => setRequestCreate(false)}
-        coordinate={createMarker ? createMarker.coordinate : { lat: 0, lng: 0 }}
         onSuccess={(record: MemorialLocation) => {
-          refresh();
+          refreshMap();
+          setRequestCreate(false);
         }}
-      />
-
-      <RequestLocation
-        visible={requestLocation}
-        onClose={() => setRequestLocation(false)}
       />
     </>
   )
 }
 
+// ======================================
+// Map Controller
+// ======================================
 interface UIMemorialMapControllerProps {
-  onAdd?: (marker: Marker) => void;
+  onCreate?: (marker: Marker) => void;
   onSelectMapType?: (type: string) => void;
-  onCurrentPosition?: (coordinate: Coordinate) => void;
-  onRequestLocation?: () => void;
+  onCurrentPosition?: () => void;
+  onRefresh?: () => void;
 }
 export function UIMapController(props: UIMemorialMapControllerProps) {
-  const { onAdd, onSelectMapType, onCurrentPosition, onRequestLocation } = props;
+  const { onCreate, onSelectMapType, onCurrentPosition, onRefresh } = props;
 
   return (
-    <div className="scroll-h">
-      <CreateButton
-        onAdd={onAdd} 
+    <div className="scroll-h px-2">
+      <div>
+        <Button size="small" onClick={onRefresh} prefixIcon={<CommonIcon.Reload size={"1rem"}/>}>
+          {t("tải lại")}
+        </Button>
+      </div>
+      <QuickCreateLocationButton
+        onSuccessCreate={onCreate} 
       />
       <CurrentPositionButton
-        onRequestLocation={onRequestLocation}
         onClick={onCurrentPosition!}
       />
       <MapTypeButtons
@@ -272,40 +312,37 @@ export function UIMapController(props: UIMemorialMapControllerProps) {
 
 interface UICreateLocationProps {
   visible: boolean;
-  coordinate: Coordinate;
+  data: MemorialLocation | null;
   onClose: () => void;
   onSuccess?: (record: MemorialLocation) => void;
 }
 export function UICreateLocation(props: UICreateLocationProps) {
-  const { visible, coordinate, onClose, onSuccess } = props;
+  const { visible, data, onClose, onSuccess } = props;
+  if (data === null) return null;
 
   return (
     <Sheet
       visible={visible}
       onClose={onClose}
     >
-      <UICreateLocationForm onSuccess={onSuccess} coordinate={coordinate}/>
+      <UICreateLocationForm onSuccess={onSuccess} data={data}/>
     </Sheet>
   )
 }
 
+// ======================================
+// Create Form
+// ======================================
 interface UICreateLocationFormProps {
-  coordinate: Coordinate;
+  data: MemorialLocation;
   onSuccess?: (record: MemorialLocation) => void;
 }
 function UICreateLocationForm(props: UICreateLocationFormProps) {
-  const { coordinate, onSuccess } = props;
+  const { data, onSuccess } = props;
   const { userInfo } = useAppContext();
   const { dangerToast, loadingToast } = useNotification();
 
-  const observer = useBeanObserver({
-    id: 0,
-    name: "",
-    description: "",
-    images: [],
-    coordinate: coordinate,
-    clanId: userInfo.clanId,
-  } as MemorialLocation)
+  const observer = useBeanObserver(data as MemorialLocation)
 
   const blobUrlsToBase64 = async () => {
     const base64Promises = observer.getBean().images.map((blobUrl) => {
@@ -358,20 +395,18 @@ function UICreateLocationForm(props: UICreateLocationFormProps) {
               } as MemorialLocation);
             }
           },
-          fail: () => {
-            dangerToastCB(t("tạo không thành công"));
-          }
+          fail: () => dangerToastCB(t("tạo không thành công"))
         });
       }
     )
   }
 
   return (
-    <div className="flex-v">
+    <div className="scroll-v p-3">
       <Text.Title className="text-capitalize text-primary py-2"> {t("info")} </Text.Title>
 
       <Input 
-        size="small" label={<Label text="Tên Di Tích" required/>}
+        label={<Label text="Tên Di Tích" required/>}
         value={observer.getBean().name} name="name"
         onChange={observer.watch}
       />
@@ -385,7 +420,7 @@ function UICreateLocationForm(props: UICreateLocationFormProps) {
       <ImageSelector observer={observer}/>
 
       <div className="flex-v">
-        <Text.Title className="text-capitalize text-primary py-2"> {t("utilities")} </Text.Title>
+        <Text.Title className="text-capitalize text-primary py-2"> {t("hành động")} </Text.Title>
         <div>
           <Button variant="primary" size="small" onClick={onCreate} prefixIcon={<CommonIcon.Save/>}>
             {t("save")}

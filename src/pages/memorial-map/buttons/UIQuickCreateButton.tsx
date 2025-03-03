@@ -4,65 +4,58 @@ import { Button, Grid, Input, Sheet, Text } from "zmp-ui";
 
 import { FamilyTreeApi, MemorialMapApi } from "api";
 import { CommonUtils, StyleUtils, ZmpSDK } from "utils";
-import { useAppContext, useBeanObserver, useNotification } from "hooks";
-import { BeanObserver, CommonIcon, Label, Marker, Selection, SizedBox } from "components";
+import { BeanObserver, CommonIcon, Label, Selection, SizedBox } from "components";
+import { useAppContext, useBeanObserver, useNotification, useRequestLocationContext } from "hooks";
 
 import { FailResponse, ServerResponse } from "types/server";
 
-interface CreateButtonProps {
-  onAdd?: (marker: Marker) => void;
-  onRequestLocation?: () => void;
+import { MemorialLocation } from "../UIMap";
+
+interface QuickCreateLocationButtonProps {
+  onSuccessCreate?: (marker: MemorialLocation) => void;
 }
-export function CreateButton(props: CreateButtonProps) {
-  const { onAdd, onRequestLocation } = props;
-  const { zaloUserInfo } = useAppContext();
-  const { "scope.userLocation": locationPermission } = zaloUserInfo.authSettings;
-  const { successToast, dangerToast } = useNotification();
+export function QuickCreateLocationButton(props: QuickCreateLocationButtonProps) {
+  const { onSuccessCreate } = props;
+  const { loadingToast } = useNotification();
+  const { needLocation, requestLocation } = useRequestLocationContext();
 
   const [ showForm, setShowForm ] = React.useState(false);
 
-  const onAddMarker = () => {
-    if (!locationPermission) {
-      if (onRequestLocation) onRequestLocation();
-    } else {
-      if (onAdd) {
-        setShowForm(true);
-      }
+  const onCreate = () => {
+    if (needLocation) {
+      requestLocation();
+      return;
     }
+    if (onSuccessCreate) setShowForm(true);
   }
 
-  // TODO: move to Form
-  const onSave = (record: NewMarker | any) => {
-    if (!record) {
-      dangerToast(`${t("save")} ${t("fail")}`)
-      return;
-    };
-    if (!record.name) {
-      dangerToast("Nhập đủ thông tin")
-      return;
-    };
-    const saveSuccess = (result: ServerResponse) => {
-      if (!onAdd) return;
-      if (result.status !== "error") {
-        onAdd({
-          id: record.id,
-          name: record.name,
-          description: record.description,
-          images: record.images,
-          coordinate: {
-            lat: parseFloat(record.lat),
-            lng: parseFloat(record.lng)
-          }
+  const onSave = (record: MemorialLocation) => {
+    loadingToast(
+      <p> {t("đang xử lý...")} </p>,
+      (successToastCB, dangerToastCB) => {
+        if (!record) {
+          dangerToastCB(`${t("save")} ${t("fail")}`);
+          return;
+        };
+        if (!record.name) {
+          dangerToastCB(t("nhập đủ thông tin"));
+          return;
+        };
+        MemorialMapApi.create({
+          record, 
+          success: (result: ServerResponse) => {
+            if (!onSuccessCreate) return;
+            if (result.status !== "error") {
+              successToastCB(`${t("save")} ${t("success")}`);
+              onSuccessCreate(record);
+            } else {
+              dangerToastCB(t("lưu thất bại"))
+            }
+          }, 
+          fail: () => dangerToastCB(`${t("save")} ${t("fail")}`)
         });
-        successToast(`${t("save")} ${t("success")}`);
-      } else saveFail(null);
-    }
-    const saveFail = (error: any) => {
-      dangerToast(`${t("save")} ${t("fail")}`)
-    }
-    MemorialMapApi.create({
-      record, success: saveSuccess, fail: saveFail
-    });
+      }
+    )
   }
 
   return (
@@ -70,7 +63,7 @@ export function CreateButton(props: CreateButtonProps) {
       <Button
         style={{ minWidth: 140 }} size="small" 
         prefixIcon={<CommonIcon.Plus/>}
-        onClick={onAddMarker}
+        onClick={onCreate}
       >
         {t("Tạo nhanh")}
       </Button>
@@ -80,23 +73,19 @@ export function CreateButton(props: CreateButtonProps) {
         height={StyleUtils.calComponentRemainingHeight(0)}
         onClose={() => setShowForm(false)}
       >
-        <Form onSave={onSave}/>
+        <UIQuickCreateLocationForm onSave={onSave}/>
       </Sheet>
     </>
   )
 }
 
-type NewMarker = {
-  name: string;
-  description: string;
-  lat: string;
-  lng: string;
-  images: string[];
-  clanId: number;
+interface UICreateLocationFormProps {
+  onSave: (record: MemorialLocation) => void;
 }
-
-function Form({ onSave }: { onSave: (record: NewMarker) => void }) {
+function UIQuickCreateLocationForm(props: UICreateLocationFormProps) {
+  const { onSave } = props;
   const { userInfo } = useAppContext();
+  const { loadingToast } = useNotification();
   const [ deadMembers, setDeadMembers ] = React.useState<any[]>([]);
 
   React.useEffect(() => {
@@ -117,13 +106,18 @@ function Form({ onSave }: { onSave: (record: NewMarker) => void }) {
   }, []);
 
   const observer = useBeanObserver({
+    id: 0,
     name: "",
     description: "",
-    lat: "",
-    lng: "",
-    images: [],
     clanId: userInfo.clanId,
-  } as NewMarker);
+    images: [],
+    coordinate: { 
+      lat: 0, 
+      lng: 0 
+    },
+    memberId: 0,
+    memberName: "",
+  } as MemorialLocation);
 
   const blobUrlsToBase64 = async () => {
     const base64Promises = observer.getBean().images.map((blobUrl) => {
@@ -139,21 +133,25 @@ function Form({ onSave }: { onSave: (record: NewMarker) => void }) {
 
   const save = async () => {
     const imgBase64s = await blobUrlsToBase64();
-    const successLoc = (location: any) => {
-      onSave({
-        ...observer.getBean(),
-        lat: location.latitude,
-        lng: location.longitude,
-        images: imgBase64s
-      } as NewMarker);
-    }
-    const failLoc = (error: any) => {
-      onSave(null as any);
-    }
-    ZmpSDK.getLocation({
-      successCB: successLoc,
-      failCB: failLoc
-    });
+    loadingToast(
+      <p> {t("đang lấy toạ độ hiện tại...")} </p>,
+      (successToastCB, dangerToastCB) => {
+        ZmpSDK.getLocation({
+          successCB: (location: any) => {
+            successToastCB(t("thành công"))
+            onSave({
+              ...observer.getBean(),
+              coordinate: {
+                lat: parseFloat(location.latitude),
+                lng: parseFloat(location.longitude)
+              },
+              images: imgBase64s
+            } as MemorialLocation);
+          },
+          failCB: () => dangerToastCB(t("lấy toạ độ không thành công"))
+        });
+      }
+    )
   }
 
   return (
@@ -168,13 +166,13 @@ function Form({ onSave }: { onSave: (record: NewMarker) => void }) {
         onChange={observer.watch}
       />
 
-      {/* <Selection
+      <Selection
         label={t("Người đã khuất")}
         observer={observer} field={"memberId"}
         options={deadMembers}
         isSearchable
         isClearable
-      /> */}
+      />
 
       <Input.TextArea
         size="medium" label={<Label text="Mô Tả"/>}
@@ -195,65 +193,59 @@ function Form({ onSave }: { onSave: (record: NewMarker) => void }) {
 }
 
 interface ImageSelectorProps {
-  observer: BeanObserver<NewMarker>;
+  observer: BeanObserver<MemorialLocation>;
 }
 function ImageSelector({ observer }: ImageSelectorProps) {
   const [ images, setImages ] = React.useState<string[]>([]);
-  const [ error, setError ] = React.useState('');
+  const { successToast, dangerToast } = useNotification();
 
-  const remove = (index: number) => {
+  const onRemove = (index: number) => {
     const remains = images.filter((img, i) => i !== index);
     setImages(remains);
     observer.update("images", remains);
   }
 
-  const Images = () => {
-    if (!images.length) return;
-    return (
-      <>
-        {images.map((image, index) => {
-          return (
-            <SizedBox 
-              className="button" key={index}
-              width={100} height={100}
-            >
-              <img src={image} onClick={() => remove(index)}/>
-            </SizedBox>
-          )
-        })}
-      </>
-    )
+  const renderImages = () => {
+    const imgs: React.ReactNode[] = React.useMemo(() => {
+      return images.map((image, index) => {
+        return (
+          <SizedBox 
+            className="button" key={index}
+            width={100} height={100}
+          >
+            <img src={image} onClick={() => onRemove(index)}/>
+          </SizedBox>
+        )
+      })
+    }, [ images ])
+    return imgs;
   }
 
   const chooseImage = () => {
     const success = (files: any[]) => {
       if (images.length + files.length > 5) {
-        setError("Chọn tối đa 5 ảnh!");
+        dangerToast(t("chọn tối đa 5 ảnh"))
         return;
       }
-
       const blobs: string[] = [
         ...images,
         ...files.map(file => file.path)
       ];
       setImages(blobs);
       observer.update("images", blobs);
+      successToast(t("cập nhật thành công"));
     }
-
-    const fail = () => {
-      setError("Chọn tối đa 5 ảnh!");
-    }
-
+    const fail = () => dangerToast(t("chọn tối đa 5 ảnh"))
     ZmpSDK.chooseImage(5, success, fail);
   }
 
   return (
     <div className="flex-v flex-grow-0">
-      <label> {"Ảnh (Tối đa 5 ảnh)"} </label>
-      {error && <small className="text-danger"> {error} </small>}
+      <label> {t("Ảnh (Tối đa 5 ảnh)")} </label>
 
       <Grid columnCount={3} rowSpace="0.5rem" columnSpace="0.5rem">
-        <Images/>
+        {renderImages()}
+
         {images.length < 5 && (
           <SizedBox 
             className="button"
