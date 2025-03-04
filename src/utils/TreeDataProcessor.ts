@@ -1,7 +1,8 @@
 import { Node, Gender, RelType, Relation } from "components/tree-relatives/types";
 
-interface Person {
+interface ServerNodeFormat {
   id: number;
+  code: string;
   name: string;
   gender: "1" | "0";  // 1: male, 0: female
   fid: number | null;
@@ -18,11 +19,11 @@ interface Person {
  * @return Family Tree Nodes (Node)
  */
 export class TreeDataProcessor {
-  private people: Person[]
+  private people: ServerNodeFormat[]
   public nodes: Node[];
   public rootId: string;
 
-  constructor(data: Person[]) {
+  constructor(data: ServerNodeFormat[]) {
     this.people = data;
     if (!data.length) {
       this.nodes = [];
@@ -40,7 +41,7 @@ export class TreeDataProcessor {
 
   public peopleToNodes(): Node[] {
     let nodes: Node[] = [];
-    this.people.map((person: Person) => {
+    this.people.map((person: ServerNodeFormat) => {
       nodes.push(this.personToNode(person));
     })
     return nodes;
@@ -59,7 +60,7 @@ export class TreeDataProcessor {
   }
 
   public getNode(id: string): Node | null {
-    const target = this.people.find((person: Person) => {
+    const target = this.people.find((person: ServerNodeFormat) => {
       return person.id.toString() === id;
     })
     if (!target) return null;
@@ -68,19 +69,16 @@ export class TreeDataProcessor {
   }
 
   public getSpouses(id: number) {
-    const targetPerson = this.people.find((person: Person) => person.id === id);
+    const targetPerson = this.people.find((person: ServerNodeFormat) => person.id === id);
     if (!targetPerson) return [];
     const spouses = targetPerson.pids
-      .map((spouseId: number) => this.people.find((person: Person) => person.id === spouseId))
-      .filter((spouse: Person | undefined) => spouse !== undefined)
-      .map((spouse: Person) => this.personToNode(spouse));
+      .map((spouseId: number) => this.people.find((person: ServerNodeFormat) => person.id === spouseId))
+      .filter((spouse: ServerNodeFormat | undefined) => spouse !== undefined)
+      .map((spouse: ServerNodeFormat) => this.personToNode(spouse));
     return spouses || [];
   }
 
-  // ============================================
-  // Private
-  // ============================================
-  private personToNode(person: Person): Node {
+  private personToNode(person: ServerNodeFormat): Node {
     return {
       id: person.id.toString(),
       gender: person.gender === "1" ? Gender.male : Gender.female,
@@ -94,7 +92,7 @@ export class TreeDataProcessor {
     }
   }
 
-  private getParentRelations(target: Person): Relation[] {
+  private getParentRelations(target: ServerNodeFormat): Relation[] {
     const relations: Relation[] = [];
     if (target.fid) {
       relations.push({
@@ -111,13 +109,13 @@ export class TreeDataProcessor {
     return relations;
   }
 
-  private getChildrenRelations(target: Person): Relation[] {
+  private getChildrenRelations(target: ServerNodeFormat): Relation[] {
     let childen: Relation[] = new Array();
     this.people
-      .filter((person: Person) => { // filter out children
+      .filter((person: ServerNodeFormat) => { // filter out children
         return person.fid === target.id || person.mid === target.id;
       })
-      .map((child: Person) => { // map children
+      .map((child: ServerNodeFormat) => { // map children
         childen.push({
           id: child.id.toString(),
           type: RelType.blood
@@ -126,10 +124,10 @@ export class TreeDataProcessor {
     return childen;
   }
 
-  private getSiblingRelations(target: Person): Relation[] {
+  private getSiblingRelations(target: ServerNodeFormat): Relation[] {
     let siblings: Relation[] = new Array();
     this.people
-      .filter((person: Person) => { // filter out siblings
+      .filter((person: ServerNodeFormat) => { // filter out siblings
         return (
           (person.id !== target.id) && 
           (
@@ -138,7 +136,7 @@ export class TreeDataProcessor {
           )
         )
       })
-      .map((sibling: Person) => { // map siblings
+      .map((sibling: ServerNodeFormat) => { // map siblings
         siblings.push({
           id: sibling.id.toString(),
           type: (target.fid === sibling.fid) && (target.mid === sibling.mid)
@@ -149,7 +147,7 @@ export class TreeDataProcessor {
     return siblings;
   }
 
-  private getSpouseRelations(person: Person): Relation[] {
+  private getSpouseRelations(person: ServerNodeFormat): Relation[] {
     let spouses: Relation[] = new Array();
     person.pids.map((spouseId: number) => {
       spouses.push({
