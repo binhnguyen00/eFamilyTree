@@ -6,9 +6,9 @@ class WorldMapConfig {
     longitude: 105.82677668547302 
   };
   defaultMaxZoom: number = 22;
-  defaultTileLayer: string = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+  defaultTileLayer: string = "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}";
   satelliteMaxZoom: number = 21;
-  satelliteTileLayer: string = "https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.png";
+  satelliteTileLayer: string = "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}";
 }
 
 const config = new WorldMapConfig();

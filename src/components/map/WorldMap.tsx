@@ -153,6 +153,7 @@ function useMap(props: UseMapProps) {
         crossOrigin: true,
         detectRetina: true,
         maxZoom: tileLayer.maxZoom,
+        tileSize: 256,
       })
       .addTo(mapRef.current!)
   }, [ tileLayer ])
