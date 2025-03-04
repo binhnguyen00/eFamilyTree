@@ -89,20 +89,22 @@ export function UIGalleryAlbumDetail({ album, onClose, onReloadParent }: UIGalle
   };
 
   const onChooseImage = () => {
-    const success = async (files: any[]) => {
-      if (files.length && files.length > 10) {
-        dangerToast(t("Chọn tối đa 10 ảnh"));
-        return;
+    ZmpSDK.chooseImage({
+      howMany: 10, 
+      success: async (files: any[]) => {
+        if (files.length && files.length > 10) {
+          dangerToast(t("Chọn tối đa 10 ảnh"));
+          return;
+        }
+        const blobs: string[] = [ ...files.map(file => file.path) ];
+        const base64s = await blobUrlsToBase64(blobs);
+        onAddImageToAlbum(base64s);
+      },
+      fail: () => {
+        dangerToast(t("lưu ảnh không thành công"));
+        observer.update("thumbnailPath", "")
       }
-      const blobs: string[] = [ ...files.map(file => file.path) ];
-      const base64s = await blobUrlsToBase64(blobs);
-      onAddImageToAlbum(base64s);
-    }
-    const fail = () => {
-      dangerToast(t("lưu ảnh không thành công"));
-      observer.update("thumbnailPath", "")
-    }
-    ZmpSDK.chooseImage(10, success, fail);
+    });
   }
 
   const onDelete = () => {

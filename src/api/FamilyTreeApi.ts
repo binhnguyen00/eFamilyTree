@@ -35,13 +35,15 @@ export class FamilyTreeApi extends BaseApi {
     this.server.POST("tree/export/svg", header, body, successCB, failCB);
   }
 
-  public static searchDeadMember(params: { userId: number, clanId: number }, successCB: SuccessCB, failCB?: FailCB) {
+  public static searchDeadMember({ userId, clanId, success, fail }: {
+    userId: number, clanId: number, success: SuccessCB, fail?: FailCB
+  }) {
     const header = this.initHeader();
     const body = this.initBody({
-      user_id: params.userId,
-      clan_id: params.clanId
+      user_id: userId,
+      clan_id: clanId
     })
-    this.server.POST("tree/member/dead", header, body, successCB, failCB);
+    this.server.POST("tree/member/dead", header, body, success, fail);
   }
 
   public static saveMember({ userId, clanId, member, success, fail }: { userId: number, clanId: number, member: any, success: SuccessCB, fail: FailCB }) {

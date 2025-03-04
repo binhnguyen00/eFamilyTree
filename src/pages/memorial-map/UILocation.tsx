@@ -10,9 +10,9 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { StyleUtils } from "utils";
 import { FamilyTreeApi, MemorialMapApi } from "api";
 import { useNotification, useAppContext, useBeanObserver } from "hooks";
-import { BeanObserver, CommonIcon, Label, Marker, Selection, SelectionOption } from "components";
+import { BeanObserver, CommonIcon, Label, Selection, SelectionOption } from "components";
 
-import { FailResponse, ServerResponse } from "types/server";
+import { ServerResponse } from "types/server";
 import { GalleryImage } from "pages/gallery/UIGalleryImages";
 
 import { MemorialLocation } from "./UIMap";
@@ -21,14 +21,15 @@ interface UILocationProps {
   data: MemorialLocation | null;
   visible: boolean;
   onClose: () => void;
+  onReloadParent?: () => void;
 }
 export function UILocation(props: UILocationProps) {
-  const { data, visible, onClose } = props;
+  const { data, visible, onClose, onReloadParent } = props;
   if (data === null) return null;
 
   const { userInfo } = useAppContext();
   const { dangerToast, loadingToast } = useNotification();
-  const { deadMembers, error, loading, refresh } = useDeadMembers(data.id);
+
   const observer = useBeanObserver({
     id:           data.id,
     name:         data.name,
@@ -52,6 +53,7 @@ export function UILocation(props: UILocationProps) {
           } else {
             successToastCB(`${t("delete")} ${t("success")}`);
             onClose();
+            if (onReloadParent) onReloadParent();
           }
         }
         const fail = () => {
@@ -79,6 +81,7 @@ export function UILocation(props: UILocationProps) {
             } else {
               successToastCB(`${t("save")} ${t("success")}`);
               onClose();
+              if (onReloadParent) onReloadParent();
             }
           }, 
           fail: () => dangerToastCB(`${t("save")} ${t("fail")}`)
@@ -95,7 +98,6 @@ export function UILocation(props: UILocationProps) {
       height={StyleUtils.calComponentRemainingHeight(0)}
     >
       <UIMemorialLocationForm
-        deadMembers={deadMembers}
         observer={observer}
         onSave={onSave} onDelete={() => setDeleteWarning(true)}
       />
@@ -115,13 +117,13 @@ export function UILocation(props: UILocationProps) {
 }
 
 interface UIMemorialLocationFormProps {
-  deadMembers: any[];
   observer: BeanObserver<MemorialLocation>;
   onDelete: () => void;
   onSave: () => void;
 }
 function UIMemorialLocationForm(props: UIMemorialLocationFormProps) {
-  const { onDelete, onSave, deadMembers, observer } = props;
+  const { onDelete, onSave, observer } = props;
+  const { members, error, loading, refresh } = useDeadMembers();
 
   return (
     <div className="scroll-v p-3">
@@ -140,7 +142,11 @@ function UIMemorialLocationForm(props: UIMemorialLocationFormProps) {
           value: observer.getBean().memberId || 0, 
           label: observer.getBean().memberName || ""  
         }}
-        options={deadMembers}
+        options={members}
+        onChange={(value: SelectionOption) => {
+          observer.update("memberId", value.value);
+          observer.update("memberName", value.label);
+        }}
       />
 
       <Input.TextArea
@@ -228,10 +234,10 @@ function ImageSelector(props: ImageSelectorProps) {
   )
 }
 
-function useDeadMembers(id: number) {
+function useDeadMembers() {
   const { userInfo } = useAppContext();
 
-  const [ deadMembers, setDeadMembers ] = React.useState<any[]>([]);
+  const [ members, setDeadMembers ] = React.useState<SelectionOption[]>([]);
   const [ loading, setLoading ] = React.useState<boolean>(true);
   const [ error, setError ] = React.useState<boolean>(false);
   const [ reload, setReload ] = React.useState<boolean>(false);
@@ -243,28 +249,31 @@ function useDeadMembers(id: number) {
     setError(false);
     setDeadMembers([]);
 
-    const success = (result: ServerResponse) => {
-      setLoading(false)
-      if (result.status === "success") {
-        const data = result.data as any[];
-        const deadMembers = data.map((dead, idx) => {
-          return {
-            value: dead.id,
-            label: `${dead.name}`,
-          } as SelectionOption
-        })
-        setDeadMembers(deadMembers);
-      } else {
+    FamilyTreeApi.searchDeadMember({
+      userId: userInfo.id, 
+      clanId: userInfo.clanId,
+      success: (result: ServerResponse) => {
+        setLoading(false)
+        if (result.status === "success") {
+          const data = result.data as any[];
+          const deadMembers = data.map((dead, idx) => {
+            return {
+              value: dead.id,
+              label: `${dead.name}`,
+            } as SelectionOption
+          })
+          setDeadMembers(deadMembers);
+        } else {
+          setLoading(false)
+          setError(true);
+        }
+      }, 
+      fail: () => {
         setLoading(false)
         setError(true);
       }
-    }
-    const fail = (error: FailResponse) => {
-      setLoading(false)
-      setError(true);
-    };
-    FamilyTreeApi.searchDeadMember({userId: userInfo.id, clanId: userInfo.clanId}, success, fail);
+    });
   }, [ reload ]);
 
-  return { deadMembers, loading, error, refresh }
+  return { members, loading, error, refresh }
 }

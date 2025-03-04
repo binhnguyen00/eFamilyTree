@@ -51,21 +51,23 @@ export function UICreateAlbum(props: UICreateAlbumProps) {
   };
 
   const onChooseAvatar = () => {
-    const success = async (files: any[]) => {
-      if (files.length && files.length > 1) {
+    ZmpSDK.chooseImage({
+      howMany: 1,
+      success: async (files: any[]) => {
+        if (files.length && files.length > 1) {
+          dangerToast(t("Chọn tối đa 1 ảnh"));
+          return;
+        }
+        const blobs: string[] = [ ...files.map(file => file.path) ];
+        const base64s = await blobUrlsToBase64(blobs);
+        observer.update("thumbnailPath", blobs[0]);
+        observer.update("thumbnailBase64", base64s[0]);
+      },
+      fail: () => {
         dangerToast(t("Chọn tối đa 1 ảnh"));
-        return;
+        observer.update("thumbnailPath", "")
       }
-      const blobs: string[] = [ ...files.map(file => file.path) ];
-      const base64s = await blobUrlsToBase64(blobs);
-      observer.update("thumbnailPath", blobs[0]);
-      observer.update("thumbnailBase64", base64s[0]);
-    }
-    const fail = () => {
-      dangerToast(t("Chọn tối đa 1 ảnh"));
-      observer.update("thumbnailPath", "")
-    }
-    ZmpSDK.chooseImage(1, success, fail);
+    });
   }
 
   const onCreate = () => {

@@ -199,15 +199,17 @@ export class ZmpSDK {
     this.getAccessToken(success, fail);
   }
 
-  public static chooseImage(howMany: number, successCB: CallBack, failCB?: CallBack) {
+  public static chooseImage({ howMany, success, fail }: {
+    howMany: number, success: CallBack, fail?: CallBack
+  }) {
     chooseImage({
       count: howMany,
       sourceType: ["album"],
       success(res) {
-        successCB(res.tempFiles);
+        success(res.tempFiles);
       },
       fail(err) {
-        if (failCB) failCB(err);
+        if (fail) fail(err);
       },
     })
   }

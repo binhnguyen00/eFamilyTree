@@ -203,17 +203,19 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
       warningToast(t("không thể cập nhật ảnh đại diện của thành viên khác"));
       return;
     }
-    const success = async (files: any[]) => {
-      const blobs: string[] = [ ...files.map(file => file.path) ];
-      const base64s = await blobUrlsToBase64(blobs);
-      if (base64s.length) doUpdate(base64s[0]);
-      else {
-        dangerToast(t("ảnh bị lỗi"))
-        return;
-      }
-    }
-    const fail = () => dangerToast(t("cập nhật không thành công"));
-    ZmpSDK.chooseImage(1, success, fail);
+    ZmpSDK.chooseImage({
+      howMany: 1,
+      success: async (files: any[]) => {
+        const blobs: string[] = [ ...files.map(file => file.path) ];
+        const base64s = await blobUrlsToBase64(blobs);
+        if (base64s.length) doUpdate(base64s[0]);
+        else {
+          dangerToast(t("ảnh bị lỗi"))
+          return;
+        }
+      },
+      fail: () => dangerToast(t("cập nhật không thành công"))
+    });
   }
 
   const renderAvatar = () => {
