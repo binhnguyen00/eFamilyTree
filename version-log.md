@@ -1,3 +1,9 @@
+# Version 1.3.7 (Thứ 3, 04/03/2025)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=49)
+### Thay đổi
+#### 1. Module Di tích
+  - Nâng cấp và cải thiện hiệu năng.
+
 # Version 1.3.6 (Thứ 2, 03/03/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=48)
 ### Thay đổi
