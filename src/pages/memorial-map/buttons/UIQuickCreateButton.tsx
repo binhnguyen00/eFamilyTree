@@ -3,14 +3,14 @@ import { t } from "i18next";
 import { Button } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
-import { CommonIcon, Coordinate } from "components";
+import { CommonIcon, MapCoordinate } from "components";
 import { useNotification, useRequestLocationContext } from "hooks";
 
 import { MemorialLocation } from "../UIMap";
 
 interface QuickCreateLocationButtonProps {
   onSuccessCreate?: (marker: MemorialLocation) => void;
-  onCreate?: (coordinate: Coordinate) => void;
+  onCreate?: (coordinate: MapCoordinate) => void;
 }
 export function QuickCreateLocationButton(props: QuickCreateLocationButtonProps) {
   const { onCreate: onSuccessLocateCoordinate } = props;
@@ -31,7 +31,7 @@ export function QuickCreateLocationButton(props: QuickCreateLocationButtonProps)
             const coordinate = {
               lat: parseFloat(location.latitude),
               lng: parseFloat(location.longitude)
-            } as Coordinate;
+            } as MapCoordinate;
             if (onSuccessLocateCoordinate) onSuccessLocateCoordinate(coordinate);
           },
           failCB: () => dangerToastCB(t("lấy toạ độ không thành công"))

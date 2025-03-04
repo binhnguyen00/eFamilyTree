@@ -5,10 +5,10 @@ class WorldMapConfig {
     latitude: 16.14930148943899, 
     longitude: 105.82677668547302 
   };
-  defaultTileLayer: string = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
   defaultMaxZoom: number = 22;
-  satelliteTileLayer: string = "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
-  satelliteMaxZoom: number = 18.99;
+  defaultTileLayer: string = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+  satelliteMaxZoom: number = 21;
+  satelliteTileLayer: string = "https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.png";
 }
 
 const config = new WorldMapConfig();

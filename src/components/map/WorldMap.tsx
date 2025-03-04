@@ -5,27 +5,35 @@ import "./css/leaflet.scss"
 
 import config from "./config";
 
-export type Marker = {
+export type MapTile = {
+  url: string;
+  maxZoom: number;
+}
+
+export type MapMarker = {
   id: number;
   name: string;
   description?: string;
-  coordinate: Coordinate;
+  coordinate: MapCoordinate;
   images: string[];
 }
 
-export type Coordinate = {
+export type MapCoordinate = {
   lat: number;
   lng: number;
 }
 
 interface WorldMapProps {
-  markers: Marker[];
+  markers: MapMarker[];
   height?: string | number;
-  tileLayer?: string;
-  currentMarker: Coordinate | null  
+  tileLayer: {
+    url: string;
+    maxZoom: number;
+  };
+  currentMarker: MapCoordinate | null  
   markerContent?: string | React.ReactNode;
-  onSelectOnMap?: (coordinate: Coordinate) => void;
-  onSelectMarker?: (marker: Marker) => void;
+  onSelectOnMap?: (coordinate: MapCoordinate) => void;
+  onSelectMarker?: (marker: MapMarker) => void;
 }
 
 export function WorldMap(props: WorldMapProps) {
@@ -56,13 +64,16 @@ export function WorldMap(props: WorldMapProps) {
 }
 
 interface UseMapProps {
-  markers: Marker[];
-  currentMarker: Coordinate | null;
-  tileLayer?: string;
+  markers: MapMarker[];
+  currentMarker: MapCoordinate | null;
+  tileLayer: {
+    url: string;
+    maxZoom: number;
+  };
   markerContent?: string | React.ReactNode;
   onCurrentLocation?: () => void;
-  onSelectMarker?: (marker: Marker) => void;
-  onSelectOnMap?: (coordinate: Coordinate) => void;
+  onSelectMarker?: (marker: MapMarker) => void;
+  onSelectOnMap?: (coordinate: MapCoordinate) => void;
 }
 function useMap(props: UseMapProps) {
   const { markers, currentMarker, tileLayer, onSelectMarker, onSelectOnMap } = props;
@@ -85,20 +96,21 @@ function useMap(props: UseMapProps) {
 
   // create intance map
   React.useEffect(() => {
-    mapRef.current = Leaflet
-      .map("map")
+    mapRef.current = Leaflet.map("map")
       .setView([
-        currentMarker?.lat || config.initLocation.latitude,
-        currentMarker?.lng || config.initLocation.longitude
+        currentMarker ? currentMarker.lat : config.initLocation.latitude,
+        currentMarker ? currentMarker.lng : config.initLocation.longitude
       ], config.initZoom, {
         animate: true,
-        duration: 10
+        duration: 3,
+        easeLinearity: 1,
       });
       
     Leaflet
-      .tileLayer(config.defaultTileLayer, {
+      .tileLayer(tileLayer.url, {
         detectRetina: true,
-        maxZoom: config.defaultMaxZoom,
+        crossOrigin: true,
+        maxZoom: tileLayer.maxZoom,
       })
       .addTo(mapRef.current)
 
@@ -119,7 +131,7 @@ function useMap(props: UseMapProps) {
     // on select on map
     mapRef.current.on('click', (e: Leaflet.LeafletMouseEvent) => {
       const { lat, lng } = e.latlng;
-      if (onSelectOnMap) onSelectOnMap({ lat, lng } as Coordinate);
+      if (onSelectOnMap) onSelectOnMap({ lat, lng } as MapCoordinate);
     });
 
     removeLeafletLogo();
@@ -136,28 +148,13 @@ function useMap(props: UseMapProps) {
 
   // change map tile layer
   React.useEffect(() => {
-    if (!tileLayer) {
-      Leaflet
-        .tileLayer(config.defaultTileLayer, {
-          detectRetina: true,
-          maxZoom: 20,
-        })
-        .addTo(mapRef.current!)
-    } else if (tileLayer.startsWith("http://server.arcgisonline.com")) {
-      Leaflet
-        .tileLayer(config.satelliteTileLayer, {
-          detectRetina: true,
-          maxZoom: config.satelliteMaxZoom,
-        })
-        .addTo(mapRef.current!)
-    } else {
-      Leaflet
-        .tileLayer(config.defaultTileLayer, {
-          detectRetina: true,
-          maxZoom: config.defaultMaxZoom,
-        })
-        .addTo(mapRef.current!)
-    }
+    Leaflet
+      .tileLayer(tileLayer.url, {
+        crossOrigin: true,
+        detectRetina: true,
+        maxZoom: tileLayer.maxZoom,
+      })
+      .addTo(mapRef.current!)
   }, [ tileLayer ])
 
   // go to current location

@@ -5,14 +5,14 @@ import { Button, Grid, Input, Text } from "zmp-ui";
 import { MemorialMapApi } from "api";
 import { CommonUtils, ZmpSDK } from "utils";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
-import { Coordinate, CommonIcon, Label, SizedBox, BeanObserver } from "components";
+import { MapCoordinate, CommonIcon, Label, SizedBox, BeanObserver } from "components";
 
 import { ServerResponse } from "types/server";
 
 import { MemorialLocation } from "./UIMap";
 
 interface UICreateLocationFormProps {
-  coordinate: Coordinate;
+  coordinate: MapCoordinate;
   onSuccess?: (record: MemorialLocation) => void;
 }
 
@@ -124,7 +124,7 @@ interface ImageSelectorProps {
 }
 function ImageSelector({ observer }: ImageSelectorProps) {
   const { dangerToast } = useNotification();
-  
+
   const [ imagePaths, setImagePaths ] = React.useState<string[]>([]);
 
   const onRemove = (index: number) => {

@@ -2,17 +2,17 @@ import React from "react";
 import { t } from "i18next";
 import { Button } from "zmp-ui";
 
-import { CommonIcon, WorldMapConfig } from "components";
+import { CommonIcon, MapTile, WorldMapConfig } from "components";
 
 interface MapTypeButtonsProps {
-  onSelect?: (value: string) => void;
+  onSelect?: (terrain: MapTile) => void;
 }
 
 export function MapTerrainButtons(props: MapTypeButtonsProps) {
   const { onSelect } = props;
 
-  const onChangeMapTerrain = (value: string) => {
-    if (onSelect) onSelect(value);
+  const onChangeMapTerrain = (terrain: MapTile) => {
+    if (onSelect) onSelect(terrain);
   }
 
   return (
@@ -20,7 +20,10 @@ export function MapTerrainButtons(props: MapTypeButtonsProps) {
       <Button 
         size="small" 
         style={{ minWidth: 120 }}
-        onClick={() => onChangeMapTerrain(WorldMapConfig.defaultTileLayer)} 
+        onClick={() => onChangeMapTerrain({
+          url: WorldMapConfig.defaultTileLayer,
+          maxZoom: WorldMapConfig.defaultMaxZoom
+        })} 
         prefixIcon={<CommonIcon.Map/>}
       >
         {t("Mặc Định")}
@@ -28,7 +31,10 @@ export function MapTerrainButtons(props: MapTypeButtonsProps) {
       <Button 
         size="small" 
         style={{ minWidth: 120 }}
-        onClick={() => onChangeMapTerrain(WorldMapConfig.satelliteTileLayer)} 
+        onClick={() => onChangeMapTerrain({
+          url: WorldMapConfig.satelliteTileLayer,
+          maxZoom: WorldMapConfig.satelliteMaxZoom
+        })} 
         prefixIcon={<CommonIcon.Map/>}
       >
         {t("Vệ Tinh")}

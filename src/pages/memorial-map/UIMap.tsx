@@ -5,7 +5,11 @@ import { Button, Sheet } from "zmp-ui";
 import { MemorialMapApi } from "api";
 import { StyleUtils, ZmpSDK } from "utils";
 import { useAppContext, useNotification, useRequestLocationContext } from "hooks";
-import { Header, WorldMap, Marker, Loading, Coordinate, WorldMapConfig, CommonIcon } from "components";
+import { 
+  Header, Loading, CommonIcon,
+  WorldMap, MapCoordinate, MapMarker, WorldMapConfig,
+  MapTile, 
+} from "components";
 
 import { ServerResponse } from "types/server";
 
@@ -21,7 +25,7 @@ function useCurrentLocation() {
   const { needLocation, requestLocation } = useRequestLocationContext();
   const { loadingToast } = useNotification();
 
-  const [ currentLocation, setLocation ] = React.useState<Coordinate | null>(null);
+  const [ currentLocation, setLocation ] = React.useState<MapCoordinate | null>(null);
   const [ loading, setLoading ] = React.useState<boolean>(true);
   const [ error, setError ] = React.useState<boolean>(false);
   const [ reload, setReload ] = React.useState<boolean>(false);
@@ -62,7 +66,7 @@ function useCurrentLocation() {
   return { currentLocation, error, loading, refresh }
 }
 
-export interface MemorialLocation extends Marker {
+export interface MemorialLocation extends MapMarker {
   clanId: number;
   memberId?: number;
   memberName?: string;
@@ -132,14 +136,18 @@ export function UIMap() {
     return markers;
   }, [markers]);
 
-  const [ mapTile, setMapTile ] = React.useState<string>(WorldMapConfig.defaultTileLayer);
-  const [ selected, setSelected ] = React.useState<MemorialLocation | null>(null);
-  const [ coordinate, setCoordinate ] = React.useState<Coordinate | null>(null);
+  const [ mapTile, setMapTile ]         = React.useState<MapTile>({
+    url: WorldMapConfig.defaultTileLayer,
+    maxZoom: WorldMapConfig.defaultMaxZoom
+  });
 
-  const [ requestInfo, setRequestInfo ] = React.useState<boolean>(false);
+  const [ selected, setSelected ]       = React.useState<MemorialLocation | null>(null);
+  const [ coordinate, setCoordinate ]   = React.useState<MapCoordinate | null>(null);
+
+  const [ requestInfo, setRequestInfo ]     = React.useState<boolean>(false);
   const [ requestCreate, setRequestCreate ] = React.useState<boolean>(false);
 
-  const onSelect = (marker: Marker) => {
+  const onSelect = (marker: MapMarker) => {
     if (needLocation) {
       requestLocation();
       return;
@@ -186,19 +194,19 @@ export function UIMap() {
     locateCurrentLocation();
   }
 
-  const onQuickCreate = (coordinate: Coordinate) => {
+  const onQuickCreate = (coordinate: MapCoordinate) => {
     if (needLocation) { requestLocation(); return; }
     setCoordinate(coordinate)
     setRequestCreate(true);
   }
 
-  const onSelectOnMap = (coordinate: Coordinate) => {
+  const onSelectOnMap = (coordinate: MapCoordinate) => {
     if (needLocation) { requestLocation(); return; }
     setCoordinate(coordinate)
     setRequestCreate(true);
   }
 
-  const onChangeMapTerrain = (type: string) => setMapTile(type);
+  const onChangeMapTerrain = (terrain: MapTile) => setMapTile(terrain);
 
   const renderContainer = () => {
     if (loading) {
@@ -220,7 +228,7 @@ export function UIMap() {
             tileLayer={mapTile}
             height={StyleUtils.calComponentRemainingHeight(45)}
             markers={memoizedMarkers}
-            currentMarker={currentLocation as Coordinate}
+            currentMarker={currentLocation as MapCoordinate}
             onSelectMarker={onSelect}
             onSelectOnMap={onSelectOnMap}
           />
@@ -261,8 +269,8 @@ export function UIMap() {
 }
 
 interface UIMemorialMapControllerProps {
-  onQuickCreate?: (coordinate: Coordinate) => void;
-  onChangeMapTerrain?: (type: string) => void;
+  onQuickCreate?: (coordinate: MapCoordinate) => void;
+  onChangeMapTerrain?: (terrain: MapTile) => void;
   onCurrentPosition?: () => void;
   onReloadParent?: () => void;
 }
@@ -289,7 +297,7 @@ export function UIMapController(props: UIMemorialMapControllerProps) {
 
 interface UICreateLocationProps {
   visible: boolean;
-  coordinate: Coordinate | null;
+  coordinate: MapCoordinate | null;
   onClose: () => void;
   onSuccess?: (record: MemorialLocation) => void;
 }
