@@ -98,8 +98,8 @@ function ThemeCard(props: ThemeCardProps) {
   return (
     <div className={`flex-v center text-capitalize ${className}`.trim()} >
       <SizedBox 
-        className="button"
-        width={150} height={100} border
+        className="button border-secondary"
+        width={150} height={100}
         onClick={() => onSaveTheme(theme)}
       >
         <img src={src} alt="theme"/>
