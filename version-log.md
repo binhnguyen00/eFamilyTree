@@ -1,10 +1,12 @@
 # Version 1.3.8 (Thứ 3, 18/03/2025)
-### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=51)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=52)
 ### Thay đổi
 #### 1. Phả đồ
-  - Giờ đã có thể xem được họ ngoại
+  - Giờ đã có thể xem được họ ngoại.
 #### 2. Thanh thông báo
   - Cắt giảm thanh thông báo ở một số nội dung để không che mất thông tin trên màn hình.
+#### 3. Bài đăng
+  - Sửa lỗi và tối ưu hiệu năng.
 
 # Version 1.3.7 (Thứ 3, 04/03/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=50)
