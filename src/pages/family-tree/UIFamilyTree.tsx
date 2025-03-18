@@ -15,6 +15,7 @@ import { UICreateChild } from "./UICreateChild";
 import { UICreateRoot } from "./UICreateRoot";
 import { UICreateSibling } from "./UICreateSibling";
 import { CreateMode, Member, UITreeMemberDetails } from "./UIFamilyTreeDetails";
+import { ServerNodeFormat } from "utils/TreeDataProcessor";
 
 export function useFamilyTree() {
   const { userInfo } = useAppContext();
@@ -39,9 +40,9 @@ export function useFamilyTree() {
         if (result.status === "error") {
           setError(true);
         } else {
-          const data = result.data as any;
-          const newProcessor = new TreeDataProcessor(data);
-          setProcessor(newProcessor);
+          const data = result.data as ServerNodeFormat[];
+          const treeProcessor = new TreeDataProcessor(data);
+          setProcessor(treeProcessor);
         }
       }, 
       fail: () => {

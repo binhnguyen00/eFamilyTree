@@ -58,7 +58,7 @@ function useCurrentLocation() {
               setError(true);
             }
           });
-        }
+        }, true
       )
     }
   }, [ needLocation, reload ])
@@ -183,8 +183,7 @@ export function UIMap() {
           },
           fail: () => dangerToastCB(t("lấy dữ liệu không thành công"))
         })
-
-      }
+      }, true
     )
     setRequestInfo(true);
   }

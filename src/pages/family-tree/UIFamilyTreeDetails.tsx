@@ -7,7 +7,6 @@ import { CommonUtils, DateTimeUtils, StyleUtils, TreeDataProcessor, ZmpSDK } fro
 import { useBeanObserver, useNotification, useAppContext } from "hooks";
 import { CommonIcon, Selection, Label, SelectionOption } from "components";
 import { FailResponse, ServerResponse } from "types/server";
-import { ExtNode } from "components/tree-relatives/types";
 
 export enum CreateMode {
   ROOT = "root",

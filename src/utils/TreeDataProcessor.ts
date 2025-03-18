@@ -1,17 +1,17 @@
 import { Node, Gender, RelType, Relation } from "components/tree-relatives/types";
 
-interface ServerNodeFormat {
+export interface ServerNodeFormat {
   id: number;
   code: string;
   name: string;
   gender: "1" | "0";  // 1: male, 0: female
   fid: number | null;
   mid: number | null;
-  img: string;
+  avatar: string;
   pids: number[];
   phone: string;
-  generation: number;
   is_alive: boolean;
+  generation: number;
 }
 
 /**
@@ -83,7 +83,7 @@ export class TreeDataProcessor {
       id: person.id.toString(),
       gender: person.gender === "1" ? Gender.male : Gender.female,
       name: person.name,
-      avatar: person.img,
+      avatar: person.avatar,
       generation: person.generation,
       parents: this.getParentRelations(person),
       children: this.getChildrenRelations(person),

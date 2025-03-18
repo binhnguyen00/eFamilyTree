@@ -109,16 +109,12 @@ function loadingToast(
   };
 
   const fail = (errorMessage: ToastContent): void => {
-    if (noResponse) {
-      toast.dismiss(toastId);
-    } else {
-      toast.update(toastId, {
-        render: errorMessage,
-        type: "error",
-        isLoading: false,
-        ...config,
-      });
-    }
+    toast.update(toastId, {
+      render: errorMessage,
+      type: "error",
+      isLoading: false,
+      ...config,
+    });
   };
 
   operation(success, fail);
