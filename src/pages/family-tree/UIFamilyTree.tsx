@@ -7,7 +7,7 @@ import { useAppContext, useNotification } from "hooks";
 import { TreeUtils, TreeDataProcessor } from "utils";
 import { Header, TreeNode, FamilyTree, TreeConfig, Loading, Info, CommonIcon } from "components";
 
-import { ExtNode } from "components/tree-relatives/types";
+import { ExtNode, Node } from "components/tree-relatives/types";
 import { ServerResponse } from "types/server";
 
 import { UICreateSpouse } from "./UICreateSpouse";
@@ -119,12 +119,12 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
   const { userInfo } = useAppContext();
   const { loadingToast } = useNotification();
 
-  const [ reload, setReload ] = React.useState(false);
+  const [ reload,   setReload ] = React.useState(false);
   const [ resetBtn, setResetBtn ] = React.useState<boolean>(false);
 
   const [ rootId, setRootId ] = React.useState<string>(processor.rootId);
-  const [ node, setNode ] = React.useState<Member | null>(null);
-  const [ nodes, setNodes ] = React.useState<any[]>(processor.nodes);
+  const [ node,   setNode ] = React.useState<Member | null>(null);
+  const [ nodes,  setNodes ] = React.useState<Node[]>(processor.nodes);
 
   const [ zoomElement, setZoomElement ] = React.useState<HTMLElement>();
 
@@ -203,7 +203,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
           nodeHeight={TreeConfig.nodeHeight}
           nodeWidth={TreeConfig.nodeWidth}
           onReset={onReset}
-          renderNode={(node: any) => (
+          renderNode={(node: ExtNode) => (
             <TreeNode
               key={node.id}
               node={node}

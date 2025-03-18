@@ -7,7 +7,8 @@ export class SocialPostApi extends BaseApi {
     const header = this.initHeader();
     const body = this.initBody({
       user_id: userId,
-      clan_id: clanId
+      clan_id: clanId,
+      post_type: "news"
     });
     return this.server.POST("get/list/blog", header, body, successCB, failCB);
   }

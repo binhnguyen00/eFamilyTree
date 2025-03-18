@@ -2,7 +2,7 @@ import React from 'react';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import calcTree from 'components/tree-relatives';
-import { ExtNode, Gender, Node, RelData } from 'components/tree-relatives/types';
+import { ExtNode, Node, RelData } from 'components/tree-relatives/types';
 
 import { useAppContext } from 'hooks';
 import { CommonUtils, TreeDataProcessor } from 'utils';
@@ -20,9 +20,8 @@ interface TreeProps {
   rootId: string;
   nodeWidth: number;
   nodeHeight: number;
-  renderNode: (node: any) => React.ReactNode;
+  renderNode: (node: ExtNode) => React.ReactNode;
   className?: string;
-  processor?: TreeDataProcessor;
   zoomElement?: HTMLElement;
   onReset?: () => void;
 }
@@ -31,8 +30,7 @@ export default React.memo<TreeProps>(function Tree(props) {
   const { userInfo } = useAppContext();
   const { 
     rootId = "0", 
-    nodes = [],
-    processor, nodeWidth, nodeHeight, 
+    nodes = [], nodeWidth, nodeHeight, 
     renderNode, onReset, zoomElement
   } = props;
 
@@ -114,7 +112,6 @@ export default React.memo<TreeProps>(function Tree(props) {
                   renderNode={renderNode}
                   zoomToRoot={zoomToElement}
                   backgroundPath={treeBackgroundPath}
-                  processor={processor}
                 />
               </TransformComponent>
             </React.Fragment>
@@ -133,9 +130,8 @@ interface TreeContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   nodeHeight: number;
   calculatedData: RelData;
   backgroundPath: string;
-  renderNode: (node: any) => React.ReactNode;
+  renderNode: (node: ExtNode) => React.ReactNode;
   zoomToRoot?: (root: HTMLElement, scale?: number) => void;
-  processor?: TreeDataProcessor;
 }
 function TreeContainer(props: TreeContainerProps) {
   const { 
@@ -211,27 +207,12 @@ interface NodeAndConntectorProps {
   calculatedData: RelData, 
   connectorWidth: number,
   connectorHeight: number,
-  renderNode: (node: any) => React.ReactNode,
+  renderNode: (node: ExtNode) => React.ReactNode,
 }
 function NodeAndConnector(props: NodeAndConntectorProps) {
   const { calculatedData, connectorHeight, connectorWidth, renderNode } = props;
 
-  const node = {
-    id: "1",
-    gender: Gender.male,
-    name: "Thuỷ tổ",
-    children: [],
-    parents: [],
-    spouses: [],
-    siblings: [],
-    generation: 1,
-  }
-
-  if (!calculatedData.nodes.length) {
-    return;
-    // Debug
-    // return renderNode(node)
-  }
+  if (!calculatedData.nodes.length) return;
 
   return (
     <>

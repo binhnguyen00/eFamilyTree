@@ -1,23 +1,5 @@
 [
   {
-    "id": "TsyAkbF89",
-    "gender": "male",
-    "parents": [],
-    "children": [
-      {
-        "id": "ypu71w9_Q",
-        "type": "blood"
-      }
-    ],
-    "siblings": [],
-    "spouses": [
-      {
-        "id": "T54Km7uOC",
-        "type": "married"
-      }
-    ]
-  },
-  {
     "id": "HkqEDLvxE",
     "gender": "male",
     "parents": [
@@ -558,6 +540,24 @@
     "spouses": [
       {
         "id": "ZVi8fWDBx",
+        "type": "married"
+      }
+    ]
+  },
+  {
+    "id": "TsyAkbF89",
+    "gender": "male",
+    "parents": [],
+    "children": [
+      {
+        "id": "ypu71w9_Q",
+        "type": "blood"
+      }
+    ],
+    "siblings": [],
+    "spouses": [
+      {
+        "id": "T54Km7uOC",
         "type": "married"
       }
     ]

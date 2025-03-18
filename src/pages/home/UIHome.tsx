@@ -4,7 +4,7 @@ import { HeaderUser, Divider, Loading } from 'components';
 
 import { UIHomeBanner } from './UIHomeBanner';
 import { UIHomeAppList } from './UIHomeAppList';
-import { UIHomeBlog } from './UIHomeBlog';
+import { UIHomeSocialPost } from './UIHomeSocialPost';
 import { UIHomeTheme } from './UIHomeTheme';
 
 export function UIHome() {
@@ -32,7 +32,7 @@ export function UIHome() {
         <Divider/>
 
         <React.Suspense fallback={<Loading/>}>
-          <UIHomeBlog/>
+          <UIHomeSocialPost/>
         </React.Suspense>
 
         <Divider/>
