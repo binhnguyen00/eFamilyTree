@@ -17,7 +17,7 @@ export function UIHomeAppList() {
     { key: "calendar",          label: t("calendar"),          },
     { key: "ritual-script",     label: t("ritual_script"),     },
     { key: "memorial-location", label: t("memorial_location"), },
-    { key: "blogs",             label: t("blogs"),             },
+    { key: "social-posts",      label: t("blogs"),             },
     { key: "funds",             label: t("funds"),             },
     { key: "hall-of-fame",      label: t("certificates"),      }, 
   ];
@@ -97,7 +97,7 @@ function AppSymbol({ iconKey }: { iconKey: string }) {
       return <img key={`ico-${iconKey}`} src={AppLogo.Album} alt="gallery"/>
     case "calendar":
       return <img key={`ico-${iconKey}`} src={AppLogo.Calendar} alt="calendar"/>
-    case "blogs":
+    case "social-posts":
       return <img key={`ico-${iconKey}`} src={AppLogo.Blogs} alt="blogs"/>
     case "funds":
       return <img key={`ico-${iconKey}`} src={AppLogo.Funds} alt="funds"/>

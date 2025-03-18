@@ -85,6 +85,7 @@ export class TreeDataProcessor {
       name: person.name,
       avatar: person.avatar,
       generation: person.generation,
+      isAlive: person.is_alive,
       parents: this.getParentRelations(person),
       children: this.getChildrenRelations(person),
       siblings: this.getSiblingRelations(person),

@@ -1,25 +1,43 @@
 import React from "react";
 import { t } from "i18next";
-import { Box, Button, Stack, Text } from "zmp-ui";
+import { Button, Text } from "zmp-ui";
 
 import { SocialPostApi } from "api";
-import { CommonIcon, Loading } from "components";
-import { useAccountContext, useAppContext, useRequestPhoneContext, useRouteNavigate } from "hooks";
+import { CommonIcon, TailSpin } from "components";
+import { useAccountContext, useRequestPhoneContext, useRouteNavigate } from "hooks";
 
-import { ServerResponse } from "types/server";
+import { useSocialPosts } from "pages/social-post/UISocialPost";
 
 export function UIHomeSocialPost() {
-  const { 
-    needRegisterClan, registerClan, 
-    needRegisterAccount, registerAccount } = useAccountContext();
+  const { needRegisterClan, registerClan, needRegisterAccount, registerAccount } = useAccountContext();
   const { needPhone, requestPhone } = useRequestPhoneContext();
   const { goTo } = useRouteNavigate();
+  const { posts, error, loading, refresh } = useSocialPosts();
 
-  const goToBlogs = () => {
+  const goToSocialPosts = () => {
     if (needPhone) { requestPhone(); return; }
     else if (needRegisterClan) { registerClan(); return; } 
     else if (needRegisterAccount) { registerAccount(); return; }
-    else goTo({ path: "blogs" });
+    else goTo({ path: "social-posts" });
+  }
+
+  const renderContainer = () => {
+    if (loading) {
+      return (
+        <div className="flex-v">
+          <TailSpin color="secondary" width={50} height={50}/>
+          <p> {t("loading")} </p>
+        </div>
+      )
+    } else if (error) {
+      return <small>{t("no_blogs")}</small>;
+    } else if (!posts.length) {
+      return <small>{t("no_blogs")}</small>;
+    } else {
+      return (
+        <UISocialPosts posts={posts}/>
+      )
+    }
   }
 
   return (
@@ -30,83 +48,70 @@ export function UIHomeSocialPost() {
         <Button 
           size="small" variant="secondary" 
           suffixIcon={<CommonIcon.ChevonRight size={"1rem"}/>} 
-          onClick={goToBlogs}
+          onClick={goToSocialPosts}
         >
           {t("more")}
         </Button>
       </div>
 
-      <React.Suspense fallback={<Loading/>}>
-        <UISocialPosts/>
-      </React.Suspense>
-
+      {renderContainer()}
     </div>
   )
 }
 
-function UISocialPosts() {
+interface UISocialPostsProps {
+  posts: any[];
+}
+function UISocialPosts(props: UISocialPostsProps) {
+  const { posts } = props;
   const { goTo } = useRouteNavigate();
-  const { logedIn, userInfo } = useAppContext();
-  const [ posts, setPosts ] = React.useState<any[]>([]);
 
-  React.useEffect(() => {
-    if (logedIn) {
-      const success = (result: ServerResponse) => {
-        if (result.status === "error") {
-          // TODO: setError
-        } else {
-          const data = result.data as any[];
-          setPosts(data);
-        }
-      };
-      SocialPostApi.getSocialPosts(userInfo.id, userInfo.clanId, success);
-    }
-  }, [ logedIn, userInfo ]);
-
-  const goToBlogDetail = (title: string, content: string) => {
+  const goToPostDetail = (title: string, content: string) => {
     const blog = { title, content };
     goTo({ path: "blogs/detail", belongings: {blog} });
   };
 
-  if (!posts.length) return <small> {t("no_blogs")} </small>
-  else {
-    let html = [] as React.ReactNode[];
-    for (let i = 1; i <= posts.length; i++) {
-      if (i === 4) break;
-      let coverProperties: any;
-      const post = posts[i - 1];
-      try {
-        coverProperties = JSON.parse(post["cover_properties"]);
-      } catch (error) {
+  const renderPosts = () => {
+    const html: React.ReactNode[] = React.useMemo(() => {
+      if (!posts.length) return [];
+
+      const result = [] as React.ReactNode[];
+      for (let i = 1; i <= posts.length; i++) {
+        if (i === 4) break; // Only render the first 3 posts
+        const post = posts[i - 1];
+        const thumbnail = post["thumbnail"] as string;
+        const imgSrc = `${SocialPostApi.getServerBaseUrl()}${thumbnail}`;
+        const imgStyle = { width: 300, height: 180, objectFit: 'cover', maxWidth: "unset" } as React.CSSProperties;
+        const content = post["content"];
+
+        result.push(
+          <div key={`post-${i}`} className="flex-v justify-between">
+            <Text.Title 
+              size="small" 
+              className="button"
+              onClick={() => goToPostDetail(post["name"], content)}
+            > 
+              {post["title"]} 
+            </Text.Title>
+            <img 
+              className="button border-secondary"
+              src={imgSrc || undefined} 
+              style={imgStyle}
+              onClick={() => goToPostDetail(post["name"], content)}
+            />
+          </div>
+        );
       }
 
-      const imageUrl = coverProperties["background-image"] as string;
-      const imgSrc = `${SocialPostApi.getServerBaseUrl()}${imageUrl.replace(/url\(['"]?(.*?)['"]?\)/, '$1')}`;
-      const imgStyle = { width: 300, height: 180, objectFit: 'cover', maxWidth: "unset" } as React.CSSProperties;
-      const content = post["content"];
+      return result;
+    }, [ posts ]);
 
-      html.push(
-        <Stack key={`blog-${i}`} space="0.5rem">
-          <Text.Title 
-            size="small" className="button"
-            onClick={() => goToBlogDetail(post["name"], content)}
-          > 
-            {post["name"]} 
-          </Text.Title>
-          <Text size="small"> {post["post_date"]} </Text>
-          <img 
-            className="button border-secondary"
-            src={imgSrc || undefined} 
-            style={imgStyle}
-            onClick={() => goToBlogDetail(post["name"], content)}
-          />
-        </Stack>
-      );
-    }
-    return (
-      <div className="scroll-h flex-h">
-        {html}
-      </div>
-    )
+    return <> {html} </>
   }
+
+  return (
+    <div className="scroll-h">
+      {renderPosts()}
+    </div>
+  )
 }

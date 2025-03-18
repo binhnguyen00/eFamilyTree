@@ -24,7 +24,7 @@ export function Loading(props: LoadingProps) {
     <div className={`container center ${className && className}`.trim()}>
       <SizedBox width={width} height={width}>
         <div className="flex-v center">
-          <TailSpin height={width / 2} width={width / 2}/>
+          <TailSpin height={width / 4} width={width / 4}/>
           <Text.Title
             style={{
               textTransform: "capitalize",

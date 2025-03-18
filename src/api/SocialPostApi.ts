@@ -10,6 +10,7 @@ export class SocialPostApi extends BaseApi {
       clan_id: clanId,
       post_type: "news"
     });
-    return this.server.POST("get/list/blog", header, body, successCB, failCB);
+    return this.server.POST("post/list", header, body, successCB, failCB);
+    // return this.server.POST("get/list/blog", header, body, successCB, failCB);
   }
 }

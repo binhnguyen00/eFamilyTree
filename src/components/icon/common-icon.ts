@@ -18,6 +18,7 @@ import { BsFillHouseAddFill } from "react-icons/bs";
 import { BiMaleFemale } from "react-icons/bi";
 import { GiFamilyTree } from "react-icons/gi";
 import { MdFamilyRestroom } from "react-icons/md";
+import { GiGraveFlowers } from "react-icons/gi";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -72,5 +73,6 @@ export const CommonIcon = {
   RegisterClan: BsFillHouseAddFill,
   MaleFemale: BiMaleFemale,
   FamilyTree: GiFamilyTree,
-  Family: MdFamilyRestroom
+  Family: MdFamilyRestroom,
+  Grave: GiGraveFlowers
 };

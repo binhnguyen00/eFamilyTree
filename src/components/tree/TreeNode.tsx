@@ -17,9 +17,10 @@ interface TreeNodeProps {
 }
 
 export default React.memo<TreeNodeProps>(function TreeNode(props: TreeNodeProps) {
+  let { onSelectNode, onSelectSubNode } = props;
   const { node, displayField, isRoot } = props;
   const isMale = node.gender === "male";
-  let { onSelectNode, onSelectSubNode } = props;
+  const isDead = !node.isAlive;
 
   if (!onSelectNode) {
     onSelectNode = (node: ExtNode) => console.log("onSelectNode is not implemented");
@@ -65,6 +66,17 @@ export default React.memo<TreeNodeProps>(function TreeNode(props: TreeNodeProps)
     color: "white",
     backgroundColor: isMale ? TreeConfig.nodeFemaleColor : TreeConfig.nodeMaleColor,
   } as React.CSSProperties;
+  const nodeDeadCss = {
+    position: "absolute",
+    top: 3,
+    right: 3,
+    width: "fit-content",
+    padding: 5,
+    zIndex: 999,
+    color: "white",
+    backgroundColor: "black",
+    borderRadius: "50%"
+  } as React.CSSProperties;
   const nodeContainerCss = {
     position: "absolute",
     width: TreeConfig.nodeWidth,
@@ -92,6 +104,11 @@ export default React.memo<TreeNodeProps>(function TreeNode(props: TreeNodeProps)
       {node.hasSubTree && (
         <div className={classNames(css.button, "rounded")} style={subtreeCss} onClick={clickSubHandler}> 
           <CommonIcon.Family size={24}/> 
+        </div>
+      )}
+      {!node.isAlive && (
+        <div style={nodeDeadCss}>
+          <CommonIcon.Grave size={20}/>
         </div>
       )}
     </div>

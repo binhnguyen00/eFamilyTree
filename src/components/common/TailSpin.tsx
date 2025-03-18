@@ -2,20 +2,23 @@ import React from "react";
 import { TailSpin as ReactTailSpin } from 'react-loader-spinner'
 
 interface TailSpinProps {
+  width: string | number;
+  height: string | number;
   visible?: boolean;
-  width: string | number,
-  height: string | number
+  color?: "primary" | "secondary";
 }
 
 export function TailSpin(props: TailSpinProps) {
-  const { width, height, visible = true } = props;
+  const { width, height, visible = true, color = "primary" } = props;
+
+  const colorStyle: string = color === "primary" ? "var(--primary-color)" : "var(--secondary-color)";
 
   return (
     <ReactTailSpin
       visible={visible}
       height={height}
       width={width}
-      color="var(--primary-color)"
+      color={colorStyle}
       ariaLabel="tail-spin-loading"
       radius="1"
       wrapperStyle={{}}

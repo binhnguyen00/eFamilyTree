@@ -4,8 +4,8 @@ import { Route, Routes } from "react-router-dom";
 import { Loading } from "components";
 
 import { UIAbout } from "pages/about/UIAbout";
-import { UIBlog } from "pages/blog/UIBlog";
-import { UIBlogDetail } from "pages/blog/UIBlogDetail";
+import { UISocialPost } from "pages/social-post/UISocialPost";
+import { UISocialPostDetail } from "pages/social-post/UISocialPostDetail";
 import { UICalendar } from "pages/calendar/UICalendar";
 import { UIHallOfFameUsers } from "pages/hall-of-fame/UIHallOfFameUsers";
 import { UIHallOfFame } from "pages/hall-of-fame/UIHallOfFame";
@@ -54,8 +54,8 @@ export function AppRoutes() {
 
       <Route path={createPath("calendar")} element={<UICalendar />} />
 
-      <Route path={createPath("blogs")} element={<UIBlog />}/>
-      <Route path={createPath("blogs/detail")} element={<UIBlogDetail />} />
+      <Route path={createPath("social-posts")} element={<UISocialPost />}/>
+      <Route path={createPath("social-posts/detail")} element={<UISocialPostDetail />} />
 
       <Route path={createPath("funds")} element={<UIFund />}/>
       <Route path={createPath("fund/info")} element={<UIFundInfo />} />

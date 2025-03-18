@@ -67,6 +67,7 @@ export type Node = {
   siblings: Relation[];
   spouses: Relation[];
   placeholder?: boolean;
+  isAlive?: boolean;
 };
 
 export type ExtNode = Node &

@@ -1,21 +1,20 @@
 import React from "react";
 import { t } from "i18next";
-import { useLocation } from 'react-router-dom';
-
+import { Text } from "zmp-ui";
 import DOMPurify from "dompurify";
-import { Stack, Text } from "zmp-ui";
 
 import { BaseApi } from "api";
-import { Header } from "components";
+import { useRouteNavigate } from "hooks";
+import { Header, ScrollableDiv } from "components";
 
-export function UIBlogDetail() {
-  const location = useLocation();
-  const { blog } = location.state || {
+export function UISocialPostDetail() {
+  const { belongings } = useRouteNavigate()
+  const { post } = belongings || {
     title: "",
     content: "",
   };
   
-  const purifiedContent = DOMPurify.sanitize(blog["content"]);
+  const purifiedContent = DOMPurify.sanitize(post["content"]);
   
   const addDomainToImageSrc = (html: string) => {
     return html.replace(/<img\s+([^>]*?)src="([^"]*?)"/g, (match, attrs, src) => {
@@ -28,13 +27,17 @@ export function UIBlogDetail() {
   const updatedContent = addDomainToImageSrc(purifiedContent);
 
   return (
-    <div className="container bg-white">
+    <>
       <Header title={t("detail_blog")}/>
 
-      <Stack space="1rem" className="text-base">
-        <Text.Title size="xLarge"> {blog["title"]} </Text.Title>
+      <ScrollableDiv 
+        direction="vertical"
+        className="container bg-white text-base flex-v justify-between"
+      >
+        <Text.Title size="xLarge"> {post["title"]} </Text.Title>
         <div dangerouslySetInnerHTML={{ __html: updatedContent }} />
-      </Stack>
-    </div>
+        <br/><br/>
+      </ScrollableDiv>
+    </>
   )
 }
