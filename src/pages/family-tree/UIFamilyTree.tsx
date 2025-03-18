@@ -122,9 +122,10 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
   const [ reload,   setReload ] = React.useState(false);
   const [ resetBtn, setResetBtn ] = React.useState<boolean>(false);
 
-  const [ rootId, setRootId ] = React.useState<string>(processor.rootId);
   const [ node,   setNode ] = React.useState<Member | null>(null);
   const [ nodes,  setNodes ] = React.useState<Node[]>(processor.nodes);
+  const [ rootId, setRootId ] = React.useState<string>(processor.rootId);
+  const firstRootId = React.useMemo(() => rootId, [nodes]);
 
   const [ zoomElement, setZoomElement ] = React.useState<HTMLElement>();
 
@@ -133,26 +134,33 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
     setRootId(processor.rootId);
   }, [ reload, onReload ]);
 
-  const toBranch = () => {
-    const treeBranch = TreeUtils.getBranch(node!.id.toString(), nodes);
-    setNodes(treeBranch);
-    setRootId(node!.id.toString());
+  const zoomToNode = (nodeId: string) => {
+    setTimeout(() => {
+      const element = document.getElementById(`node-${nodeId}`);
+      if (!element) return;
+      setZoomElement(element);
+    }, 500);
+  }
+
+  const toBranch = (nodeId: string) => {
+    const subNodes = TreeUtils.getSubNodes(nodeId, nodes);
+    setNodes(subNodes);
+    setRootId(nodeId);
     setResetBtn(true);
     setNode(null); // To close slider when select branch
+    zoomToNode(nodeId);
+  }
 
-    // wait for 0.5s for the tree to finish rendering. this wont work everytime!
-    setTimeout(() => {
-      const element = document.getElementById(`node-${node!.id}`);
-      setZoomElement(element!);
-    }, 500); 
+  const toSubNodes = (nodeId: string) => {
+    setRootId(nodeId);
+    setResetBtn(true);
+    zoomToNode(nodeId);
   }
 
   const onReset = resetBtn ? () => {
     setReload(!reload);
     setResetBtn(false);
-    const root = document.getElementById(`node-${rootId}`);
-    if (root) setZoomElement(root);
-    else setZoomElement(undefined);
+    zoomToNode(firstRootId);
   } : undefined;
 
   const onSelect = (node: ExtNode) => {
@@ -185,13 +193,13 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
                 avatar:       data.avatar,
                 achievements: data.achievements,
               });
-              successToastCB(t("lấy dữ liệu thành công"));
+              successToastCB("");
             }
           },
           fail: () => dangerToastCB(t("vui lòng thử lại"))
         });
-      }
-    )
+      }, true
+    ) 
   }
 
   return (
@@ -203,6 +211,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
           nodeHeight={TreeConfig.nodeHeight}
           nodeWidth={TreeConfig.nodeWidth}
           onReset={onReset}
+          searchDisplayField="name"
           renderNode={(node: ExtNode) => (
             <TreeNode
               key={node.id}
@@ -210,6 +219,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
               displayField="name"
               isRoot={node.id === rootId}
               onSelectNode={onSelect}
+              onSelectSubNode={(node) => toSubNodes(node.id)}
             />
           )}
           zoomElement={zoomElement}
@@ -221,7 +231,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
         processor={processor}
         visible={node !== null ? true : false} 
         onClose={() => setNode(null)}
-        toBranch={toBranch}
+        toSubNodes={toBranch}
         onCreateChild={() => setCreateMode(CreateMode.CHILD)}
         onCreateSpouse={() => setCreateMode(CreateMode.SPOUSE)}
         onCreateSibling={() => setCreateMode(CreateMode.SIBLING)}

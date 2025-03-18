@@ -129,9 +129,9 @@ body {
 }
 
 button, .button {
-  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1); /* Slightly faster */
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Longer duration with a gentler easing */
   &:active {
-    transform: scale(0.95); /* Subtle shrink effect */
+    transform: scale(0.9); /* Subtle shrink effect */
   }
   text-transform: capitalize;
   font-weight: bolder !important;

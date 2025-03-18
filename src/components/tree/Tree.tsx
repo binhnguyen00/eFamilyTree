@@ -5,7 +5,7 @@ import calcTree from 'components/tree-relatives';
 import { ExtNode, Node, RelData } from 'components/tree-relatives/types';
 
 import { useAppContext } from 'hooks';
-import { CommonUtils, TreeDataProcessor } from 'utils';
+import { CommonUtils } from 'utils';
 
 import Connector from './TreeConnector';
 import { TreeConfig } from './TreeConfig';
@@ -24,6 +24,7 @@ interface TreeProps {
   className?: string;
   zoomElement?: HTMLElement;
   onReset?: () => void;
+  searchDisplayField?: string;
 }
 
 export default React.memo<TreeProps>(function Tree(props) {
@@ -31,7 +32,7 @@ export default React.memo<TreeProps>(function Tree(props) {
   const { 
     rootId = "0", 
     nodes = [], nodeWidth, nodeHeight, 
-    renderNode, onReset, zoomElement
+    renderNode, onReset, zoomElement, searchDisplayField
   } = props;
 
   let data: any;
@@ -71,6 +72,7 @@ export default React.memo<TreeProps>(function Tree(props) {
                 <TreeSearchBar 
                   nodes={nodes}
                   onSelect={zoomToElement}
+                  displayField={searchDisplayField}
                   style={{
                     position: "absolute",
                     zIndex: 8888
@@ -180,7 +182,7 @@ function TreeContainer(props: TreeContainerProps) {
         ref={treeRef}
         className={`rounded ${props.className ? props.className : ""}`}
         style={{
-          width: treeWidth + TreeConfig.headerHeight,
+          width: treeWidth,
           height: treeHeight + TreeConfig.headerHeight, 
           ...handleBackground(),
         }}

@@ -16,7 +16,7 @@ interface TreeSearchBarProps {
 }
 
 export function TreeSearchBar(props: TreeSearchBarProps) {
-  const { nodes, onSelect, style } = props;
+  const { nodes, onSelect, style, displayField = "id" } = props;
 
   const processor = React.useMemo(() => {
     const holder = new TreeDataProcessor([]); holder.setNodes(nodes);
@@ -41,7 +41,7 @@ export function TreeSearchBar(props: TreeSearchBarProps) {
   const options = nodes.map((node: any) => {
     return {
       value: node.id,
-      label: node.name
+      label: node[displayField],
     }
   })
 
@@ -52,20 +52,14 @@ export function TreeSearchBar(props: TreeSearchBarProps) {
         options={options} observer={null as any}
         onChange={(option: SelectionOption, action: any) => onSelectOption(option)}
         placeHolder={t("Tìm kiếm thành viên...")}
-        style={{ 
-          width: "75vw",
-        }}
+        style={{ width: "75vw" }}
       />
       <Popover 
         open={false} 
         childPosition={"bottom"}
-        content={
-          <CommonIcon.VerticalDots size={35} style={{ 
-            color: `var(--primary-color)`, 
-          }}/>
-        }
+        content={<CommonIcon.VerticalDots size={35} style={{ color: `var(--primary-color)` }}/>}
       >
-        <SearchByGeneration processor={processor} onSelect={onSelectNode}/>
+        <SearchByGeneration processor={processor} onSelect={onSelectNode} displayField={displayField}/>
       </Popover>
     </div>
   )
@@ -74,9 +68,10 @@ export function TreeSearchBar(props: TreeSearchBarProps) {
 interface SearchFilterProps {
   onSelect: (id: number) => void;
   processor: TreeDataProcessor;
+  displayField?: string;
 }
 function SearchByGeneration(props: SearchFilterProps) {
-  const { processor, onSelect: onSelectNode} = props;
+  const { processor, onSelect: onSelectNode, displayField = "id" } = props;
   const maxGeneration: number = processor.getMaxGeneration();
 
   const { serverBaseUrl } = useAppContext();
@@ -119,7 +114,7 @@ function SearchByGeneration(props: SearchFilterProps) {
               <div style={{ width: 35 }}>
                 <ZaloAvatar backgroundColor="BLUE-BLUELIGHT" size={35} src={avatar === "" ? avatarHolder : avatar}/>
               </div>
-              <Text> {node.name} </Text>
+              <Text> {node[displayField]} </Text>
             </div>
             
             <hr/>

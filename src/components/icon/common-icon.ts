@@ -16,6 +16,8 @@ import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
 import { TbReload } from "react-icons/tb";
 import { BsFillHouseAddFill } from "react-icons/bs";
 import { BiMaleFemale } from "react-icons/bi";
+import { GiFamilyTree } from "react-icons/gi";
+import { MdFamilyRestroom } from "react-icons/md";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -69,4 +71,6 @@ export const CommonIcon = {
   Reload: TbReload,
   RegisterClan: BsFillHouseAddFill,
   MaleFemale: BiMaleFemale,
+  FamilyTree: GiFamilyTree,
+  Family: MdFamilyRestroom
 };

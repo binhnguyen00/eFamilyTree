@@ -12,7 +12,8 @@ export default function UIDummyTree() {
 
   const [ node, setNode ] = React.useState<any>({});
   const [ nodes, setNodes ] = React.useState<any[]>(average);
-  const [ rootId, setRootId ] = React.useState(nodes[0].id);
+  const firstNodeId = React.useMemo(() => nodes[0].id, [nodes]);
+  const [ rootId, setRootId ] = React.useState(firstNodeId);
 
   const [ zoomElement, setZoomElement ] = React.useState<HTMLElement>();
 
@@ -21,41 +22,52 @@ export default function UIDummyTree() {
     setRootId(average[0].id);
   }, [ reload ])
 
-  const toBranch = (nodeId: string) => {
-    const treeBranch = TreeUtils.getBranch(node.id, nodes);
-    setRootId(node.id);
-    setNodes(treeBranch);
-    setResetBtn(true);
-    setNode({}); // To close slider when select branch
-    
-    // wait for 0.5s for the tree to finish rendering. this wont work everytime!
+  const zoomToNode = (nodeId: string) => {
     setTimeout(() => {
       const element = document.getElementById(`node-${nodeId}`);
-      setZoomElement(element!);
-    }, 500); 
+      if (!element) return;
+      setZoomElement(element);
+    }, 250);
+  }
+
+  const toBranch = (nodeId: string) => {
+    const subNodes = TreeUtils.getSubNodes(nodeId, nodes);
+    setRootId(nodeId);
+    setNodes(subNodes);
+    setResetBtn(true);
+    setNode({}); // To close slider when select branch
+    zoomToNode(nodeId);
+  }
+
+  const toSubNodes = (nodeId: string) => {
+    setRootId(nodeId);
+    setResetBtn(true);
+    zoomToNode(nodeId);
   }
 
   const renderContainer = () => {
     const onReset = resetBtn ? () => {
       setReload(!reload);
       setResetBtn(false);
+      zoomToNode(firstNodeId);
     } : undefined;
 
     return (
       <div>
         <FamilyTree
-          nodes={nodes as any}
+          nodes={nodes}
           rootId={rootId}
           nodeWidth={TreeConfig.nodeWidth}
           nodeHeight={TreeConfig.nodeHeight}
           onReset={onReset}
-          renderNode={(node: any) => (
+          renderNode={(node) => (
             <TreeNode
               key={node.id}
               node={node}
               displayField={"id"}
               isRoot={node.id === rootId}
-              onSelectNode={(node: any) => setNode(node)}
+              onSelectNode={(node) => setNode(node)}
+              onSelectSubNode={(node) => toSubNodes(node.id)}
             />
           )}
           zoomElement={zoomElement}
@@ -76,7 +88,7 @@ export default function UIDummyTree() {
         info={node}
         visible={node.id ? true : false}
         onClose={() => setNode({})}
-        onSelectBranch={toBranch}
+        onSubNodes={toBranch}
       />
     </>
   )
@@ -86,10 +98,10 @@ interface UINodeDetailsPanelProps {
   info: any;
   visible: boolean;
   onClose: () => void;
-  onSelectBranch?: (nodeId: string) => void;
+  onSubNodes?: (nodeId: string) => void;
 }
 export function UINodeDetailsPanel(props: UINodeDetailsPanelProps) {
-  const { info, visible, onClose, onSelectBranch } = props;
+  const { info, visible, onClose, onSubNodes } = props;
 
   const height = "70vh";
   return (

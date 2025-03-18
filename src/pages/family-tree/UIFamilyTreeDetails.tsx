@@ -7,6 +7,7 @@ import { CommonUtils, DateTimeUtils, StyleUtils, TreeDataProcessor, ZmpSDK } fro
 import { useBeanObserver, useNotification, useAppContext } from "hooks";
 import { CommonIcon, Selection, Label, SelectionOption } from "components";
 import { FailResponse, ServerResponse } from "types/server";
+import { ExtNode } from "components/tree-relatives/types";
 
 export enum CreateMode {
   ROOT = "root",
@@ -49,7 +50,7 @@ interface UITreeMemberDetailsProps {
   visible: boolean;
   processor: TreeDataProcessor;
   onClose: () => void;
-  toBranch?: () => void;
+  toSubNodes?: (nodeId: string) => void;
   onCreateSpouse?: () => void;
   onCreateChild?: () => void;
   onCreateSibling?: () => void;
@@ -57,7 +58,7 @@ interface UITreeMemberDetailsProps {
 }
 export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
   const { 
-    info, visible, onClose, toBranch, processor,
+    info, visible, onClose, toSubNodes, processor,
     onCreateSpouse, onCreateChild, onCreateSibling, onReloadParent
   } = props;
 
@@ -307,7 +308,10 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
           <div className="flex-v">
             <Text.Title> {t("Hành động")} </Text.Title>
             <div className="scroll-h">
-              <Button size="small" prefixIcon={<CommonIcon.Tree size={"1rem"}/>} style={{ minWidth: 140 }} onClick={toBranch}>
+              <Button 
+                size="small" prefixIcon={<CommonIcon.Tree size={"1rem"}/>} style={{ minWidth: 140 }} 
+                onClick={() => toSubNodes?.(observer.getBean().id.toString())}
+              >
                 {t("Chi Nhánh")}
               </Button>
 

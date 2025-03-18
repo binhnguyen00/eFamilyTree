@@ -3,7 +3,7 @@ import { RelType, Node, ExtNode } from "components/tree-relatives/types";
 
 export class TreeUtils {
 
-  public static getBranch(nodeId: string, nodes: Node[]): Node[] {
+  public static getSubNodes(nodeId: string, nodes: Node[]): Node[] {
     let filteredMembers: Node[] = [];
     const visited = new Set<string>();
 
