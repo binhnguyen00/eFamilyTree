@@ -8,7 +8,7 @@ import { Divider, Header, ImageWithText, Info, Loading, ScrollableDiv } from "co
 import { ServerResponse } from "types/server";
 import { StyleUtils } from "utils";
 
-import { loadHallOfFameThumnails } from "./thumnails";
+import { loadHallOfFameThumnails, getHallOfFameTextStyle } from "./thumnails";
 
 export function UIHallOfFame() {
   const { goTo } = useRouteNavigate();
@@ -26,16 +26,49 @@ export function UIHallOfFame() {
     return loadHallOfFameThumnails(target);
   }
 
+  const getTextStyleForCategory = (name: string) => {
+    const target = name.toLowerCase().trim();
+    const style = getHallOfFameTextStyle(target);
+    
+    // Base text style
+    const textStyle: React.CSSProperties = {
+      fontSize: style.fontSize || "1.8rem",
+      fontWeight: "bold",
+      maxWidth: '90%',
+      textShadow: '2px 2px 4px rgba(0, 0, 0, 0.9)',
+      padding: '6px 12px',
+      borderRadius: '8px',
+      backgroundColor: style.backgroundColor,
+      lineHeight: style.lineHeight || 1.2,
+      textAlign: "center",
+      width: "auto",
+      letterSpacing: "0.5px"
+    };
+    
+    // Position adjustments
+    if (style.textPosition === "top") {
+      textStyle.top = "30%";
+    } else if (style.textPosition === "bottom") {
+      textStyle.top = "70%";
+    }
+    
+    return textStyle;
+  }
+
   const renderCards = () => {
     const html: React.ReactNode[] = data.map((group, index) => {
       return (
-        <ImageWithText
-          className="border rounded button"
-          text={<h1 className="text-capitalize"> {group.name} </h1>}
-          textStyle={{ fontSize: "1.8rem" }}
-          src={filterBackgroundByName(group.name)}
-          onClick={onSelect(group.id, group.name)}
-        />
+        <div key={group.id} className="card-container mb-3">
+          <ImageWithText
+            className="border rounded button"
+            text={<h1 className="text-capitalize text-center m-0 p-0"> {group.name} </h1>}
+            textStyle={getTextStyleForCategory(group.name)}
+            src={filterBackgroundByName(group.name)}
+            onClick={onSelect(group.id, group.name)}
+            width="100%"
+            height="170px"
+          />
+        </div>
       )
     })
     return html;
@@ -55,7 +88,9 @@ export function UIHallOfFame() {
           direction="vertical"
           height={StyleUtils.calComponentRemainingHeight(0)}
         >
-          {renderCards()}
+          <div className="px-3 pt-3">
+            {renderCards()}
+          </div>
           
           <br/> <br/>
         </ScrollableDiv>
