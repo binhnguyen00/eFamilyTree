@@ -68,19 +68,19 @@ function UIFundSummary(props: UIFundSummaryProps) {
 
   return (
     <div className="flex-v">
-      <SizedBox width={"100%"} height={100} className="rounded flex-v center" border>
-        <Text.Title> {t("balance")} </Text.Title>
-        <Text> {observer.getBean().balance} </Text>
+      <SizedBox width={"100%"} height={120} className="rounded flex-v center mb-3" border>
+        <Text.Title className="text-lg text-gray-800"> {t("balance")} </Text.Title>
+        <Text className="font-bold text-3xl text-primary"> {observer.getBean().balance} đ</Text>
       </SizedBox>
 
-      <div className="flex-h">
-        <SizedBox width={"50%"} height={100} className="rounded flex-v center" border>
-          <Text.Title> {t("incomes")} </Text.Title>
-          <Text className="text-success"> {observer.getBean().totalIncomes} </Text>
+      <div className="flex-h mb-3 gap-2">
+        <SizedBox width={"50%"} height={100} className="rounded flex-v center bg-green-50" border>
+          <Text.Title className="text-gray-600"> {t("incomes")} </Text.Title>
+          <Text className="text-success font-bold text-xl"> +{observer.getBean().totalIncomes} đ</Text>
         </SizedBox>
-        <SizedBox width={"50%"} height={100} className="rounded flex-v center" border>
-          <Text.Title> {t("expenses")} </Text.Title>
-          <Text className="text-danger"> {observer.getBean().totalExpenses} </Text>
+        <SizedBox width={"50%"} height={100} className="rounded flex-v center bg-red-50" border>
+          <Text.Title className="text-gray-600"> {t("expenses")} </Text.Title>
+          <Text className="text-danger font-bold text-xl"> -{observer.getBean().totalExpenses} đ</Text>
         </SizedBox>
       </div>
     </div>
@@ -100,30 +100,34 @@ function UITransactions({ transactions }: UITransactionsProps) {
     const sign = transaction.type === "income" ? "+" : "-";
     const color = transaction.type === "income" ? "text-success" : "text-danger";
     return (
-      <div className="flex-h flex-grow-0 justify-between">
+      <div className="flex-h flex-grow-0 justify-between p-2">
         <div className="flex-v">
-          <Text className={color}> {`${sign} ${transaction.amount}`} </Text>
-          <Text> {transaction.name} {transaction.note} </Text>
+          <Text className={`${color} font-semibold`}> {`${sign} ${transaction.amount}`} </Text>
+          <Text className="text-sm"> {transaction.name} </Text>
+          {transaction.note && <Text className="text-xs text-gray-500"> {transaction.note} </Text>}
         </div>
-        <Text> {transaction.date} </Text>
+        <Text className="text-xs text-gray-500"> {transaction.date} </Text>
       </div>
     );
   }
 
   const lines = React.useMemo(() => {
     return transactions.map((item, index) => (
-      <React.Fragment>
+      <React.Fragment key={`transaction-${index}`}>
         {renderTransaction(item)}
-
-        <hr/>
+        <hr className="my-1"/>
       </React.Fragment>
     ));
   }, [transactions]);
 
   return (
-    <div className="flex-v">
-      <span>{t("transaction_history")}</span>
-      <ScrollableDiv className="flex-v" direction="vertical" height={StyleUtils.calComponentRemainingHeight(100*2 + 44 + 15)}>
+    <div className="flex-v mt-4">
+      <Text.Title className="mb-2">{t("transaction_history")}</Text.Title>
+      <ScrollableDiv 
+        className="flex-v rounded border p-2" 
+        direction="vertical" 
+        height={StyleUtils.calComponentRemainingHeight(100*2 + 44 + 15)}
+      >
         {lines}
       </ScrollableDiv>
     </div>
