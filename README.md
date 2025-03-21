@@ -10,7 +10,7 @@
 - **[Vite](https://vite.dev/)**
 - **[Odoo17](https://github.com/odoo/odoo/tree/17.0)**
 
-# ⚠️ rước khi Build và Run ⚠️
+# ⚠️ Trước khi Build và Run ⚠️
 ### Chuẩn bị môi trường ```.env```
   - APP_ID
   - SECRET_KEY
