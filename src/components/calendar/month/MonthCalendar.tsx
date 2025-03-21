@@ -1,5 +1,4 @@
 import React from "react";
-import { t } from "i18next";
 import { Calendar, OnArgs } from "react-calendar";
 import { SolarDate } from "@nghiavuive/lunar_date_vi";
 

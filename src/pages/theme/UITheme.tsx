@@ -63,11 +63,11 @@ function ThemeCard(props: ThemeCardProps) {
     else if (needRegisterAccount) { registerAccount(); return; }
     else loadingToast(
       <p> {t("đang cập nhật...")} </p>,
-      (successToast, dangerToast) => {
+      (successToast, dangerToast, dismissToast) => {
         const success = (result: ServerResponse) => {
           const settings = result.data;
           updateSettings(settings)
-          successToast(t("cập nhật thành công"))
+          dismissToast();
         }
         const fail = () => {
           dangerToast(t("cập nhật thất bại"))

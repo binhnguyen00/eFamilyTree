@@ -33,9 +33,9 @@ export type NotificationCtx = {
     content: ToastContent, 
     operation: (
       onSuccess: (successMessage: ToastContent) => void, 
-      onFail: (errorMessage: ToastContent) => void
+      onFail: (errorMessage: ToastContent) => void,
+      onDismiss: () => void
     ) => void,
-    noResponse?: boolean
   ) => void;
 }
 
@@ -88,24 +88,20 @@ function loadingToast(
   content: ToastContent,
   operation: (
     onSuccess: (successMessage: ToastContent) => void, 
-    onFail: (errorMessage: ToastContent) => void
+    onFail: (errorMessage: ToastContent) => void,
+    onDismiss: () => void
   ) => void,
-  noResponse?: boolean,
 ) {
   const config = createToastConfig()
   const toastId = toast.loading(content, config);
 
   const success = (successMessage: ToastContent): void => {
-    if (noResponse) {
-      toast.dismiss(toastId);
-    } else {
-      toast.update(toastId, {
-        render: successMessage,
-        type: "success",
-        isLoading: false,
-        ...config,
-      });
-    }
+    toast.update(toastId, {
+      render: successMessage,
+      type: "success",
+      isLoading: false,
+      ...config,
+    });
   };
 
   const fail = (errorMessage: ToastContent): void => {
@@ -117,5 +113,9 @@ function loadingToast(
     });
   };
 
-  operation(success, fail);
+  const dismiss = () => {
+    toast.dismiss(toastId);
+  }
+
+  operation(success, fail, dismiss);
 }

@@ -167,7 +167,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
   const onSelect = (node: ExtNode) => {
     loadingToast(
       <p> {t("đang tải dữ liệu...")} </p>,
-      (successToastCB, dangerToastCB) => {
+      (successToastCB, dangerToastCB, dismissToast) => {
         FamilyTreeApi.getMemberInfo({
           userId: userInfo.id, 
           clanId: userInfo.clanId,
@@ -194,12 +194,12 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
                 avatar:       data.avatar,
                 achievements: data.achievements,
               });
-              successToastCB("");
+              dismissToast();
             }
           },
           fail: () => dangerToastCB(t("vui lòng thử lại"))
         });
-      }, true
+      }
     ) 
   }
 

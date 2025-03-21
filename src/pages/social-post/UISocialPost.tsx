@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { Button, Text } from "zmp-ui";
 
 import { SocialPostApi } from "api";
-import { Header, Info, ScrollableDiv, TailSpin } from "components";
+import { Card, Header, Info, ScrollableDiv, TailSpin } from "components";
 import { useAppContext, useRouteNavigate } from "hooks";
 
 import { ServerResponse } from "types/server";
@@ -65,7 +65,7 @@ export function UISocialPost() {
 
     if (loading) {
       return (
-        <div className="flex-v center">
+        <div className="flex-v center max-h">
           <TailSpin color="secondary" width={50} height={50}/>
           <p> {t("loading")} </p>
         </div>
@@ -109,77 +109,32 @@ function UISocialPosts(props: UISocialPostsProps) {
       if (!posts.length) return [];
       
       const result = [] as React.ReactNode[];
-      for (let i = 1; i <= posts.length; i++) {
-        if (i === 4) break; // Only render the first 3 posts
-        const post = posts[i - 1];
-        const thumbnail = post["thumbnail"] as string;
-        const imgSrc = `${SocialPostApi.getServerBaseUrl()}${thumbnail}`;
-        const content = post["content"];
+      for (let i = 0; i < posts.length; i++) {
+        const post: any         = posts[i];
+        const title: string     = post["title"] || "";
+        const content: string   = post["content"] || "";
+        const thumbnail: string = post["thumbnail"] || "";
+        const imgSrc: string    = `${SocialPostApi.getServerBaseUrl()}${thumbnail}`;
 
         result.push(
-          <div 
-            key={`post-${i}`} 
-            className="post-card mb-4 rounded-lg overflow-hidden shadow-md"
-            onClick={() => goToPostDetail(post["title"], content)}
-            style={{
-              border: '1px solid #e0e0e0',
-              backgroundColor: '#fff',
-              cursor: 'pointer',
-            }}
-          >
-            <div className="post-img-container" style={{ height: '180px', overflow: 'hidden' }}>
-              <img 
-                src={imgSrc || undefined} 
-                style={{ 
-                  width: '100%', 
-                  height: '100%', 
-                  objectFit: 'cover'
-                }}
-                alt={post["title"]}
-              />
-            </div>
-            <div className="post-content p-3">
-              <Text.Title 
-                size="small" 
-                className="mb-2 line-clamp-2"
-                style={{ 
-                  fontWeight: 'bold',
-                  minHeight: '40px',
-                  display: '-webkit-box',
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: 'vertical',
-                  overflow: 'hidden'
-                }}
-              > 
-                {post["title"]} 
-              </Text.Title>
-              
-              <div 
-                className="post-preview text-sm text-gray-600 line-clamp-2"
-                style={{
-                  display: '-webkit-box',
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: 'vertical',
-                  overflow: 'hidden',
-                  marginTop: '8px'
-                }}
-                dangerouslySetInnerHTML={{ 
-                  __html: content.replace(/<[^>]*>/g, ' ').substring(0, 120) + '...' 
-                }}
-              />
-            </div>
-          </div>
+          <Card
+            key={`post-${i}`}
+            title={title} src={imgSrc}
+            className="button rounded border-secondary"
+            content={`${content.replace(/<[^>]*>/g, ' ').substring(0, 120)}...`}
+            onClick={() => goToPostDetail(title, content)}
+          />
         );
       }
 
       return result;
     }, [ posts ]) 
 
-    return <div className="px-2"> {html} </div>
+    return html;
   }
 
   return (
-    <ScrollableDiv direction="vertical" className="flex-v" height={StyleUtils.calComponentRemainingHeight(0)}>
+    <ScrollableDiv direction="vertical" className="flex-v max-h">
       {renderPosts()}
       <br/><br/>
     </ScrollableDiv>

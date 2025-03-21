@@ -165,7 +165,7 @@ export function UIFund() {
 
   const renderErrorContainer = () => {
     return (
-      <div className="flex-v">
+      <div className="flex-v max-h">
         <Info title={t("Chưa có dữ liệu")}/>
         <div className="center">
           <Button size="small" prefixIcon={<CommonIcon.Reload size={"1rem"}/>} onClick={() => refresh()}>
@@ -235,7 +235,7 @@ function UIFundList(props: UIFundListProps) {
   const onSelect = (id: number) => {
     loadingToast(
       <p> {t("đang tải dữ liệu...")} </p>,
-      (successToastCB, dangerToastCB) => {
+      (successToastCB, dangerToastCB, dismissToast) => {
         FundApi.getFundById({
           userId: userInfo.id,
           clanId: userInfo.clanId,
@@ -244,7 +244,6 @@ function UIFundList(props: UIFundListProps) {
             if (result.status === "error") {
               dangerToastCB(t("vui lòng thử lại"));
             } else {
-              successToastCB(t("lấy dữ liệu thành công"))
               const data = result.data as any;
               goTo({  
                 path: "fund/info", 
@@ -260,6 +259,7 @@ function UIFundList(props: UIFundListProps) {
                   } as FundInfo
                 }
               });
+              dismissToast();
             }
           },
           fail: () => dangerToastCB(t("vui lòng thử lại"))
@@ -270,45 +270,47 @@ function UIFundList(props: UIFundListProps) {
 
   const lines: React.ReactNode[] = React.useMemo(() => {
     return funds.map((item, index) => {
+      const totalIncomes = item.incomes.reduce((sum, current) => 
+        sum + parseInt(current.amount.replace(/\./g, '')), 0).toLocaleString('vi-VN');
+      const totalExpenses = item.expenses.reduce((sum, current) => 
+        sum + parseInt(current.amount.replace(/\./g, '')), 0).toLocaleString('vi-VN');
+
       return (
-        <div 
-          key={`fund-${index}`}
-          className="fund-card mb-3 rounded-lg overflow-hidden shadow-sm"
-          onClick={() => onSelect(item.id)}
-        >
-          <div className="fund-header p-3 bg-primary text-white">
-            <div className="flex-h justify-between items-center">
-              <div className="font-bold text-lg">{item.name}</div>
+        <div key={`fund-${index}`} className="mb-3" onClick={() => onSelect(item.id)}>
+          {/* header */}
+          <div className="p-3 bg-primary text-white rounded-top"> 
+            <div className="flex-h justify-between">
+              <div className="bold text-lg"> {item.name} </div>
               <CommonIcon.ChevonRight size={"1rem"} className="text-white" />
             </div>
           </div>
-          <div className="fund-body p-3 bg-white">
-            <div className="flex-h justify-between items-center">
+          {/* body */}  
+          <div className="p-3 bg-gray-100 rounded-bottom">
+            <div className="flex-h justify-between">
               <div>
-                <div className="text-gray-500 text-sm">{t("balance")}</div>
-                <div className="font-bold text-base">{item.balance} đ</div>
+                <div>{t("balance")}</div>
+                <div className="bold text-primary">{`${item.balance} đ`}</div>
               </div>
-              <div className="flex-h gap-4">
+              <div className="flex-h">
                 <div className="text-right">
                   <div className="text-gray-500 text-sm">{t("incomes")}</div>
-                  <div className="text-success text-xs">+{item.incomes.length > 0 ? item.incomes.reduce((sum, current) => 
-                    sum + parseInt(current.amount.replace(/\./g, '')), 0).toLocaleString('vi-VN') : 0} đ</div>
+                  <div className="text-success text-xs">{`+${totalIncomes} đ`}</div>
                 </div>
                 <div className="text-right">
                   <div className="text-gray-500 text-sm">{t("expenses")}</div>
-                  <div className="text-danger text-xs">-{item.expenses.length > 0 ? item.expenses.reduce((sum, current) => 
-                    sum + parseInt(current.amount.replace(/\./g, '')), 0).toLocaleString('vi-VN') : 0} đ</div>
+                  <div className="text-danger text-xs">{`-${totalExpenses} đ`}</div>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
       )
     })
   }, [ funds ])
 
   return (
-    <ScrollableDiv className="text-base p-3" height={StyleUtils.calComponentRemainingHeight(0)}>
+    <ScrollableDiv className="text-base flex-v" height={StyleUtils.calComponentRemainingHeight(0)}>
       {lines}
       <br/><br/>
     </ScrollableDiv>

@@ -40,7 +40,7 @@ function CardImage(props: CardImageProps) {
   const { src, onClick } = props;
   if (!src) return <></>;
   return (
-    <ImageWithText src={src} height={"70%"} text="" onClick={onClick}/>
+    <ImageWithText className="rounded" src={src} height={"70%"} text="" onClick={onClick}/>
   )
 }
 

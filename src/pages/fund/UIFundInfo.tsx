@@ -68,19 +68,19 @@ function UIFundSummary(props: UIFundSummaryProps) {
 
   return (
     <div className="flex-v">
-      <SizedBox width={"100%"} height={120} className="rounded flex-v center mb-3" border>
-        <Text.Title className="text-lg text-gray-800"> {t("balance")} </Text.Title>
-        <Text className="font-bold text-3xl text-primary"> {observer.getBean().balance} đ</Text>
+      <SizedBox width={"100%"} height={120} className="rounded flex-v center bg-primary text-white button border-secondary">
+        <Text.Title size="large"> {t("balance")} </Text.Title>
+        <Text size="xLarge" className="bold"> {`${observer.getBean().balance} đ`} </Text>
       </SizedBox>
 
-      <div className="flex-h mb-3 gap-2">
-        <SizedBox width={"50%"} height={100} className="rounded flex-v center bg-green-50" border>
-          <Text.Title className="text-gray-600"> {t("incomes")} </Text.Title>
-          <Text className="text-success font-bold text-xl"> +{observer.getBean().totalIncomes} đ</Text>
+      <div className="flex-h">
+        <SizedBox width={"50%"} height={100} className="rounded flex-v center bg-gray-50 button" border>
+          <Text.Title> {t("incomes")} </Text.Title>
+          <Text size="large" className="text-success"> {`+${observer.getBean().totalIncomes} đ`} </Text>
         </SizedBox>
-        <SizedBox width={"50%"} height={100} className="rounded flex-v center bg-red-50" border>
-          <Text.Title className="text-gray-600"> {t("expenses")} </Text.Title>
-          <Text className="text-danger font-bold text-xl"> -{observer.getBean().totalExpenses} đ</Text>
+        <SizedBox width={"50%"} height={100} className="rounded flex-v center bg-gray-50 button" border>
+          <Text.Title> {t("expenses")} </Text.Title>
+          <Text size="large" className="text-danger"> {`-${observer.getBean().totalExpenses} đ`} </Text>
         </SizedBox>
       </div>
     </div>
@@ -121,12 +121,11 @@ function UITransactions({ transactions }: UITransactionsProps) {
   }, [transactions]);
 
   return (
-    <div className="flex-v mt-4">
-      <Text.Title className="mb-2">{t("transaction_history")}</Text.Title>
+    <div className="flex-v">
+      <Text size="large">{t("transaction_history")}</Text>
       <ScrollableDiv 
-        className="flex-v rounded border p-2" 
-        direction="vertical" 
-        height={StyleUtils.calComponentRemainingHeight(100*2 + 44 + 15)}
+        className="flex-v" direction="vertical" 
+        height={StyleUtils.calComponentRemainingHeight(100*2 + 44 + 35)}
       >
         {lines}
       </ScrollableDiv>
