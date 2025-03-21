@@ -1,16 +1,14 @@
 # Phần mềm Gia Phả Lạc Hồng
 #### Phần mềm được phát triển trên 02 nền tảng
-#### 1. Zalo Mini App
-  - Cài đặt trên ứng dụng Zalo của VNG.
-#### 2. Website
-  - Truy cập: **[Gia Phả Lạc Hồng](https://giapha.mobifone5.vn/)**
+1. **[Zalo Mini App Gia phả Lạc Hồng](https://zalo.me/s/3044106383419412609/)**
+2. **[Truy cập Website Gia Phả Lạc Hồng](https://giapha.mobifone5.vn/)**
 
 # Công nghệ
 - **[React](https://react.dev/)** + Typescript.
 - **[Vite](https://vite.dev/)**
 - **[Odoo 17](https://github.com/odoo/odoo/tree/17.0)**
 
-# ⚠️ Trước khi Build và Run ⚠️
+# Trước khi Build và Run ⚠️
 #### 1. Chuẩn bị môi trường ```.env```
   - APP_ID
   - SECRET_KEY
