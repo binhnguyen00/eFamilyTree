@@ -114,24 +114,60 @@ function UISocialPosts(props: UISocialPostsProps) {
         const post = posts[i - 1];
         const thumbnail = post["thumbnail"] as string;
         const imgSrc = `${SocialPostApi.getServerBaseUrl()}${thumbnail}`;
-        const imgStyle = { objectFit: 'cover', maxWidth: "unset" } as React.CSSProperties;
         const content = post["content"];
 
         result.push(
-          <div key={`post-${i}`} className="flex-v justify-between">
-            <Text.Title 
-              size="small" 
-              className="button"
-              onClick={() => goToPostDetail(post["title"], content)}
-            > 
-              {post["title"]} 
-            </Text.Title>
-            <img 
-              className="button border-secondary"
-              src={imgSrc || undefined} 
-              style={imgStyle}
-              onClick={() => goToPostDetail(post["title"], content)}
-            />
+          <div 
+            key={`post-${i}`} 
+            className="post-card mb-4 rounded-lg overflow-hidden shadow-md"
+            onClick={() => goToPostDetail(post["title"], content)}
+            style={{
+              border: '1px solid #e0e0e0',
+              backgroundColor: '#fff',
+              cursor: 'pointer',
+            }}
+          >
+            <div className="post-img-container" style={{ height: '180px', overflow: 'hidden' }}>
+              <img 
+                src={imgSrc || undefined} 
+                style={{ 
+                  width: '100%', 
+                  height: '100%', 
+                  objectFit: 'cover'
+                }}
+                alt={post["title"]}
+              />
+            </div>
+            <div className="post-content p-3">
+              <Text.Title 
+                size="small" 
+                className="mb-2 line-clamp-2"
+                style={{ 
+                  fontWeight: 'bold',
+                  minHeight: '40px',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden'
+                }}
+              > 
+                {post["title"]} 
+              </Text.Title>
+              
+              <div 
+                className="post-preview text-sm text-gray-600 line-clamp-2"
+                style={{
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden',
+                  marginTop: '8px'
+                }}
+                dangerouslySetInnerHTML={{ 
+                  __html: content.replace(/<[^>]*>/g, ' ').substring(0, 120) + '...' 
+                }}
+              />
+            </div>
           </div>
         );
       }
@@ -139,7 +175,7 @@ function UISocialPosts(props: UISocialPostsProps) {
       return result;
     }, [ posts ]) 
 
-    return <> {html} </>
+    return <div className="px-2"> {html} </div>
   }
 
   return (

@@ -271,28 +271,46 @@ function UIFundList(props: UIFundListProps) {
   const lines: React.ReactNode[] = React.useMemo(() => {
     return funds.map((item, index) => {
       return (
-        <List.Item
+        <div 
           key={`fund-${index}`}
-          title={item.name}
-          subTitle={item.balance}
+          className="fund-card mb-3 rounded-lg overflow-hidden shadow-sm"
           onClick={() => onSelect(item.id)}
-          style={{
-            fontSize: "1.5rem"
-          }}
-          className="text-base"
-          suffix={<CommonIcon.ChevonRight size={"1rem"}/>}
-
-        />
+        >
+          <div className="fund-header p-3 bg-primary text-white">
+            <div className="flex-h justify-between items-center">
+              <div className="font-bold text-lg">{item.name}</div>
+              <CommonIcon.ChevonRight size={"1rem"} className="text-white" />
+            </div>
+          </div>
+          <div className="fund-body p-3 bg-white">
+            <div className="flex-h justify-between items-center">
+              <div>
+                <div className="text-gray-500 text-sm">{t("balance")}</div>
+                <div className="font-bold text-base">{item.balance} đ</div>
+              </div>
+              <div className="flex-h gap-4">
+                <div className="text-right">
+                  <div className="text-gray-500 text-sm">{t("incomes")}</div>
+                  <div className="text-success text-xs">+{item.incomes.length > 0 ? item.incomes.reduce((sum, current) => 
+                    sum + parseInt(current.amount.replace(/\./g, '')), 0).toLocaleString('vi-VN') : 0} đ</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-gray-500 text-sm">{t("expenses")}</div>
+                  <div className="text-danger text-xs">-{item.expenses.length > 0 ? item.expenses.reduce((sum, current) => 
+                    sum + parseInt(current.amount.replace(/\./g, '')), 0).toLocaleString('vi-VN') : 0} đ</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       )
     })
   }, [ funds ])
 
   return (
-    <ScrollableDiv className="text-base" height={StyleUtils.calComponentRemainingHeight(0)}>
-      <List>
-        {lines}
-        <br/><br/>
-      </List>
+    <ScrollableDiv className="text-base p-3" height={StyleUtils.calComponentRemainingHeight(0)}>
+      {lines}
+      <br/><br/>
     </ScrollableDiv>
   )
 }
