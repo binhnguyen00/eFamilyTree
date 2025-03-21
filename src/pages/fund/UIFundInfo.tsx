@@ -68,7 +68,7 @@ function UIFundSummary(props: UIFundSummaryProps) {
 
   return (
     <div className="flex-v">
-      <SizedBox width={"100%"} height={120} className="rounded flex-v center bg-primary text-white button border-secondary">
+      <SizedBox width={"100%"} height={120} className="rounded flex-v center text-primary button border-secondary">
         <Text.Title size="large"> {t("balance")} </Text.Title>
         <Text size="xLarge" className="bold"> {`${observer.getBean().balance} đ`} </Text>
       </SizedBox>

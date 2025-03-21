@@ -119,10 +119,19 @@ function UISocialPosts(props: UISocialPostsProps) {
         result.push(
           <Card
             key={`post-${i}`}
-            title={title} src={imgSrc}
+            src={imgSrc}
             className="button rounded border-secondary"
-            content={`${content.replace(/<[^>]*>/g, ' ').substring(0, 120)}...`}
             onClick={() => goToPostDetail(title, content)}
+            title={
+              <Text size="large" className="text-gray-500">
+                {title}
+              </Text>
+            } 
+            content={
+              <Text size="small" className="text-gray-500">
+                {`${content.replace(/<[^>]*>/g, ' ').substring(0, 120)}...`}
+              </Text>
+            }
           />
         );
       }

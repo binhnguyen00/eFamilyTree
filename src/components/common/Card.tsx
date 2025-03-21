@@ -54,15 +54,10 @@ interface CardContentProps {
 function CardContent(props: CardContentProps) {
   const { title, content } = props;
 
-  const fontStyle = { 
-    fontWeight: "bold", 
-    fontSize: "1rem" 
-  } as React.CSSProperties;
-
   if (typeof content === "string") {
     return (
       <div className="text-wrap"> 
-        <p className="p-1 text-capitalize" style={{ ...fontStyle }}> {title} </p>
+        <p className="p-1"> {title} </p>
         <p> {content} </p> 
       </div>
     );
@@ -70,7 +65,7 @@ function CardContent(props: CardContentProps) {
 
   return (
     <div className="text-wrap"> 
-      <p className="p-1 text-capitalize" style={{ ...fontStyle }}> {title} </p>
+      <p className="p-1"> {title} </p>
       {content} 
     </div>
   )
