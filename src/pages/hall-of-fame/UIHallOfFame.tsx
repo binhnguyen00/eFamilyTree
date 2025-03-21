@@ -60,7 +60,7 @@ export function UIHallOfFame() {
       return (
         <div key={group.id} className="mb-3">
           <ImageWithText
-            className="border rounded button"
+            className="border-secondary rounded button"
             text={<h1 className="text-capitalize text-center m-0 p-0"> {group.name} </h1>}
             textStyle={getTextStyleForCategory(group.name)}
             src={filterBackgroundByName(group.name)}
