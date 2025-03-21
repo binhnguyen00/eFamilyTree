@@ -8,31 +8,26 @@ import tam_long_vang from "assets/img/hall-of-fame/tấm-lòng-vàng.jpg"
 const categoryStyles = {
   "nhân vật lịch sử": {
     textPosition: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.35)",
     fontSize: "1.8rem",
     lineHeight: 1.2
   },
   "người thành đạt": {
     textPosition: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.35)",
     fontSize: "1.8rem",
     lineHeight: 1.2
   },
   "người hiếu học": {
     textPosition: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.35)",
     fontSize: "1.8rem",
     lineHeight: 1.2
   },
   "người có công": {
     textPosition: "center", 
-    backgroundColor: "rgba(0, 0, 0, 0.35)",
     fontSize: "1.8rem",
     lineHeight: 1.2
   },
   "tấm lòng vàng": {
     textPosition: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.35)",
     fontSize: "1.8rem",
     lineHeight: 1.2
   },
@@ -53,7 +48,6 @@ const loadHallOfFameThumnails = (name: string) => {
 const getHallOfFameTextStyle = (name: string) => {
   const defaultStyle = {
     textPosition: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.35)",
     fontSize: "1.8rem",
     lineHeight: 1.2
   };

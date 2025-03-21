@@ -58,15 +58,14 @@ export function UIHallOfFame() {
   const renderCards = () => {
     const html: React.ReactNode[] = data.map((group, index) => {
       return (
-        <div key={group.id} className="card-container mb-3">
+        <div key={group.id} className="mb-3">
           <ImageWithText
             className="border rounded button"
             text={<h1 className="text-capitalize text-center m-0 p-0"> {group.name} </h1>}
             textStyle={getTextStyleForCategory(group.name)}
             src={filterBackgroundByName(group.name)}
             onClick={onSelect(group.id, group.name)}
-            width="100%"
-            height="170px"
+            width="100%" height="220px"
           />
         </div>
       )
@@ -84,14 +83,10 @@ export function UIHallOfFame() {
     } else {
       return (
         <ScrollableDiv
-          className="flex-v"
-          direction="vertical"
+          className="flex-v" direction="vertical"
           height={StyleUtils.calComponentRemainingHeight(0)}
         >
-          <div className="px-3 pt-3">
-            {renderCards()}
-          </div>
-          
+          {renderCards()}
           <br/> <br/>
         </ScrollableDiv>
       );
