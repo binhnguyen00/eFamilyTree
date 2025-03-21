@@ -82,6 +82,9 @@ Commands:
   Run application:
     ./mini-app.sh run
 
+  Deploy application (Develop/Test):
+    ./mini-app.sh deploy
+
   """
 }
 

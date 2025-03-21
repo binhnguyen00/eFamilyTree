@@ -1,35 +1,43 @@
 # Phần mềm Gia Phả Lạc Hồng
-
-## Phần mềm được phát triển trên 02 nền tảng
+### Phần mềm được phát triển trên 02 nền tảng
 ### 1. Zalo Mini App
   - Cài đặt trên ứng dụng Zalo của VNG.
 ### 2. Website
-  - Truy cập: [Gia Phả Lạc Hồng](https://giapha.mobifone5.vn/)
+  - Truy cập: **[Gia Phả Lạc Hồng](https://giapha.mobifone5.vn/)**
 
 # Công nghệ
-- React + Typescript.
-- Vite.
+- **[React](https://react.dev/)** + Typescript.
+- **[Vite](https://vite.dev/)**
+- **[Odoo17](https://github.com/odoo/odoo/tree/17.0)**
 
-# Các yêu cầu trước khi Build và Run
-- APP_ID
-- SECRET_KEY
-- ZMP_TOKEN
-- Vì đây là các thông tin bảo mật của app nên vui lòng liên hệ ```jackjack2000.kahp@gmail.com``` để được hướng dẫn chi tiết
+# ⚠️ rước khi Build và Run ⚠️
+### Chuẩn bị môi trường ```.env```
+  - APP_ID
+  - SECRET_KEY
+  - ZMP_TOKEN
+  - Vì đây là các thông tin bảo mật của app nên vui lòng liên hệ **jackjack2000.kahp@gmail.com** để được hướng dẫn chi tiết
+### Cài đặt ```pnpm```
+  ```shell
+  npm install -g pnpm
+  ```
 
 # Build và Run
-- Sử dụng mini-app.sh
-```
-  Login to Zalo:
-    ./mini-app.sh login
+  - Sử dụng mini-app.sh
+    ```
+    Login to Zalo:
+      ./mini-app.sh login
 
-  Install dependencies:
-    ./mini-app.sh install [-clean]
-      -clean: Remove node_modules, dist, pnpm-lock.yaml
+    Install dependencies:
+      ./mini-app.sh install [-clean]
+        -clean: Remove node_modules, dist, pnpm-lock.yaml
 
-  Build application: 
-    ./mini-app.sh build [-clean]
-      -clean: Remove node_modules, dist, pnpm-lock.yaml. Reinstall dependencies.
+    Build application: 
+      ./mini-app.sh build [-clean]
+        -clean: Remove node_modules, dist, pnpm-lock.yaml. Reinstall dependencies.
 
-  Run application:
-    ./mini-app.sh run
-```
+    Run application:
+      ./mini-app.sh run
+
+    Deploy application (Develop/Test):
+      ./mini-app.sh deploy
+    ```

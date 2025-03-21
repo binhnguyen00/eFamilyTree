@@ -68,7 +68,7 @@ function UISocialPosts(props: UISocialPostsProps) {
 
   const goToPostDetail = (title: string, content: string) => {
     const blog = { title, content };
-    goTo({ path: "blogs/detail", belongings: {blog} });
+    goTo({ path: "social-posts/detail", belongings: {blog} });
   };
 
   const renderPosts = () => {
