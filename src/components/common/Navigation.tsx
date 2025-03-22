@@ -5,25 +5,41 @@ import { Box, Text } from "zmp-ui";
 import { CommonIcon } from "components";
 import { useAccountContext, useAppContext, useRequestPhoneContext, useRouteNavigate } from "hooks";
 
+function useDefaultPath() {
+  const { appId } = useAppContext();
+  const { currentPath, goTo } = useRouteNavigate();
+  const defaultPath = `/zapps/${appId}`;
+
+  console.log(`Current path: ${currentPath}`);
+
+  React.useEffect(() => {
+    if (currentPath === "/") {
+      goTo({ path: defaultPath, replace: true });
+    }
+  }, [ currentPath ]);
+}
+
 export function Navigation() {
   const { appId } = useAppContext();
   const { currentPath } = useRouteNavigate();
 
+  useDefaultPath();
+
   const REMOVE_NAVIGATION = [
     `/zapps/${appId}/family-tree`, 
     `/zapps/${appId}/dev/tree`,
-    // `/zapps/${appId}/memorial-location`,
   ];
 
   const noBottomNav = React.useMemo(() => {
     return REMOVE_NAVIGATION.includes(currentPath);
   }, [currentPath]);
+  
   if (noBottomNav) return null;
 
   return (
     <div className="nav-bar flex-h">
       <NavItem
-        path={`/zapps/${appId}`}
+        path={`/`}
         label={t("home")}
         icon={<CommonIcon.Home size={24}/>}
         activeIcon={<CommonIcon.Home size={32} className="text-tertiary"/>}
@@ -59,13 +75,13 @@ function NavItem(props: NavItemProps) {
     needRegisterAccount, registerAccount } = useAccountContext();
   const { needPhone, requestPhone } = useRequestPhoneContext();
   const { rootPath, currentPath, goTo, goHome, createPath } = useRouteNavigate();
-  const isActive = currentPath === createPath(path);
+  const isActive = currentPath === path || currentPath === createPath(path);
 
   const onSelectTree = () => {
     if (needPhone) { requestPhone(); return; }
     else if (needRegisterClan) { registerClan(); return; } 
     else if (needRegisterAccount) { registerAccount(); return; }
-    else goTo({ path: path, replace: false });
+    else goTo({ path: path, replace: true });
   }
 
   const handleNavigate = () => {

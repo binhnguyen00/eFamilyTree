@@ -276,7 +276,7 @@ function UIFundList(props: UIFundListProps) {
         sum + parseInt(current.amount.replace(/\./g, '')), 0).toLocaleString('vi-VN');
 
       return (
-        <div key={`fund-${index}`} className="mb-3" onClick={() => onSelect(item.id)}>
+        <div key={`fund-${index}`} className="mb-3 button" onClick={() => onSelect(item.id)}>
           {/* header */}
           <div className="p-3 bg-primary text-white rounded-top"> 
             <div className="flex-h justify-between">

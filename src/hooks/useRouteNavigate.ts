@@ -12,6 +12,7 @@ export function useRouteNavigate() {
    * Before navigation, create a new valid Zalo path
    * @param path is a relative path. Ex: "home", "about", "/account", "/list"
    * @param belongings is your data object. Can be get and use in the target path. Ex { images, records }
+   * @param replace is a boolean value. If true, the current path will be replaced with the new path.
    */
   const goTo = ({path, belongings, replace}: {path: string, belongings?: any, replace?: boolean}) => {
     let options = {
