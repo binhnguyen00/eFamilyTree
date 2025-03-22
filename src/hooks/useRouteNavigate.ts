@@ -3,7 +3,7 @@ import { useAppContext } from './context/useAppContext';
 
 export function useRouteNavigate() {
   const { appId } = useAppContext();
-  const rootPath = `/zapps/${appId}`;
+  const rootPath = `/zapps/${appId}/`;
   const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.pathname;
@@ -53,7 +53,7 @@ export function useRouteNavigate() {
       viewTransition: true,
       replace: true,
     } as NavigateOptions;
-    navigate(createPath(rootPath), options);
+    navigate(rootPath, options);
   }
 
   const goBack = () => navigate(-1);

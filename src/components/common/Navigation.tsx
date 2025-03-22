@@ -19,7 +19,7 @@ function useDefaultPath() {
 
 export function Navigation() {
   const { appId } = useAppContext();
-  const { currentPath } = useRouteNavigate();
+  const { currentPath, rootPath } = useRouteNavigate();
 
   useDefaultPath();
 
@@ -37,7 +37,7 @@ export function Navigation() {
   return (
     <div className="nav-bar flex-h">
       <NavItem
-        path={`/`}
+        path={rootPath}
         label={t("home")}
         icon={<CommonIcon.Home size={24}/>}
         activeIcon={<CommonIcon.Home size={32} className="text-tertiary"/>}
