@@ -21,15 +21,8 @@ export function UIAccount() {
 }
 
 function UIAccountContainer() {
-  const { zaloUserInfo, phoneNumber } = useAppContext();
+  const { zaloUserInfo } = useAppContext();
   const { goTo } = useRouteNavigate();
-
-  // Temporary methods
-  const devs = [ 
-    "+84942659016", 
-    "+84936952262",
-    "+84899096788"
-  ] as string[];
 
   return (
     <div className="container flex-v text-primary">
@@ -57,12 +50,6 @@ function UIAccountContainer() {
       {/* <Button variant="secondary" onClick={() => goTo({ path: "about" })}>
         {t("about")}
       </Button> */}
-
-      {devs.includes(phoneNumber) ? (
-        <Button variant="secondary" onClick={() => goTo({ path: "dev" })}>
-          {t("developer")}
-        </Button>
-      ): null}
 
       <div className="p-3 rounded bg-secondary">
         <UISettings/>

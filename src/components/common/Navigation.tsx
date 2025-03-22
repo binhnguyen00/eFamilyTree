@@ -10,8 +10,6 @@ function useDefaultPath() {
   const { currentPath, goTo } = useRouteNavigate();
   const defaultPath = `/zapps/${appId}`;
 
-  console.log(`Current path: ${currentPath}`);
-
   React.useEffect(() => {
     if (currentPath === "/") {
       goTo({ path: defaultPath, replace: true });
@@ -81,7 +79,7 @@ function NavItem(props: NavItemProps) {
     if (needPhone) { requestPhone(); return; }
     else if (needRegisterClan) { registerClan(); return; } 
     else if (needRegisterAccount) { registerAccount(); return; }
-    else goTo({ path: path, replace: true });
+    else goTo({ path: path, replace: false });
   }
 
   const handleNavigate = () => {

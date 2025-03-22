@@ -187,27 +187,26 @@ function UIBasicForm({ observer } : {
           value={observer.getBean().monthCreate} 
           onChange={(e) => observer.update("monthCreate", e.target.value)}
         />
+      </div>
+      <div className="flex-h justify-between">
         <Input 
           style={{ width: "100%" }} 
           label={<Label text={t("ngày")}/>} 
           value={observer.getBean().dayCreate} 
           onChange={(e) => observer.update("dayCreate", e.target.value)}
         />
-      </div>
-      <div className="flex-h justify-between">
         <Input 
           style={{ width: "100%" }} 
           label={<Label text={t("mùa")}/>} 
           value={observer.getBean().workshipSeason} 
           onChange={(e) => observer.update("workshipSeason", e.target.value)}
         />
-        <Input 
-          style={{ width: "100%" }} 
-          label={<Label text={t("nơi cúng")}/>} 
-          value={observer.getBean().workshipPlace} 
-          onChange={(e) => observer.update("workshipPlace", e.target.value)}
-        />
       </div>
+      <Input.TextArea 
+        label={<Label text={t("nơi cúng")}/>} size="medium"
+        value={observer.getBean().workshipPlace} 
+        onChange={(e) => observer.update("workshipPlace", e.target.value)}
+      />
     </div>
   )
 }
