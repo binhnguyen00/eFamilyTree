@@ -13,6 +13,7 @@ import { useClanMemberInfo } from "./useClanMemberInfo";
 import { useFamilyTree } from "../pages/family-tree/UIFamilyTree";
 import { useRequestPhoneContext } from "./context/useRequestPhoneContext";
 import { useRequestLocationContext } from "./context/useRequestLocationContext";
+import { useOverlayContext } from "./context/useOverlayContext";
 
 export { 
   useTheme, 
@@ -26,4 +27,5 @@ export {
   useZaloSettings,
   useFamilyTree,
   useClanMemberInfo,
+  useOverlayContext,
 };

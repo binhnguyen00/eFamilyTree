@@ -5,12 +5,7 @@ import { Button, Sheet } from "zmp-ui";
 import { CommonIcon, Divider } from "components";
 import { useAppContext, useRouteNavigate } from "hooks";
 
-export type AccountCtx = {
-  needRegisterClan: boolean,
-  needRegisterAccount: boolean,
-  registerClan: () => void,
-  registerAccount: () => void,
-}
+import { AccountCtx } from "types/account-context";
 
 export const AccountContext = React.createContext({} as AccountCtx);
 export function useAccountContext() { return React.useContext(AccountContext) }

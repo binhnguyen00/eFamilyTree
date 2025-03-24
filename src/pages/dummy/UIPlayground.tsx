@@ -1,5 +1,4 @@
 import React from "react";
-
 import { t } from "i18next";
 import { Button, Text, Stack, Grid } from "zmp-ui";
 
@@ -21,6 +20,8 @@ export function UIPlayground() {
       <Header title={t("playground")}/>
 
       <div className="container flex-v">
+
+        <UIOverlay/>
 
         <UILocationPermission/>
 
@@ -151,5 +152,16 @@ function UILocationPermission() {
     <Button variant="secondary" size="small" onClick={getLocation}>
       Get Location
     </Button>
+  )
+}
+
+function UIOverlay() {
+  const [ isOpen, setIsOpen ] = React.useState<boolean>(false);
+  const onClose = () => setIsOpen(false);
+
+  return (
+    <>
+      <Button variant="secondary" size="small" onClick={() => setIsOpen(true)}> {"Overlay"} </Button>
+    </>
   )
 }

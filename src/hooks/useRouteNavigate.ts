@@ -3,7 +3,7 @@ import { useAppContext } from './context/useAppContext';
 
 export function useRouteNavigate() {
   const { appId } = useAppContext();
-  const rootPath = `/zapps/${appId}/`;
+  const rootPath = `/zapps/${appId}`;
   const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.pathname;

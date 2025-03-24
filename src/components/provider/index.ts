@@ -4,7 +4,7 @@ import { NotificationContext, NotificationProvider } from "./NotificationProvide
 import { AccountContext, AccountProvider } from "./AccountProvider";
 import { RequestPhoneContext, RequestPhoneProvider } from "./RequestPhoneProvider";
 import { RequestLocationContext, RequestLocationProvider } from "./RequestLocationProvider";
-
+import { OverlayContext, OverlayProvider } from "./OverlayProvider";
 export { 
   ThemeContext, ThemeProvider,
   AppContext, ApplicationProvider,
@@ -12,4 +12,5 @@ export {
   AccountContext, AccountProvider,
   RequestPhoneContext, RequestPhoneProvider,
   RequestLocationContext, RequestLocationProvider,
+  OverlayContext, OverlayProvider,
 }

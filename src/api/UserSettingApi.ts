@@ -69,4 +69,15 @@ export class UserSettingApi extends BaseApi {
     })
     this.server.POST("account/setting/background/reset", header, body, success, fail);
   }
+
+  public static increaseIntroductionPeriod({ userId, clanId, success, fail }: {
+    userId: number, clanId: number, success: SuccessCB, fail?: FailCB
+  }) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      user_id: userId,
+      clan_id: clanId,
+    })
+    this.server.POST("account/setting/introduction/period/increase", header, body, success, fail);
+  }
 }

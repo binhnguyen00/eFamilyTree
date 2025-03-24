@@ -6,19 +6,18 @@ import { AppRoutes } from "./routes";
 import { 
   Navigation, PagePositionSaver,
   ThemeProvider, ApplicationProvider, NotificationProvider,
-  RequestPhoneProvider,
-  RequestLocationProvider
+  RequestPhoneProvider, RequestLocationProvider, OverlayProvider, AccountProvider
 } from "components";
 
 import "../i18n";
-import { AccountProvider } from "components/provider/AccountProvider";
 
 function Application() {
   return (
     <ZaloApp>
-      <ThemeProvider>
-        <ApplicationProvider>
-          <NotificationProvider>
+      <OverlayProvider>
+        <ThemeProvider>
+          <ApplicationProvider>
+            <NotificationProvider>
               <Router>
                 <RequestPhoneProvider>
                   <RequestLocationProvider>
@@ -30,9 +29,10 @@ function Application() {
                   </RequestLocationProvider>
                 </RequestPhoneProvider>
               </Router>
-          </NotificationProvider>
-        </ApplicationProvider>
-      </ThemeProvider>
+            </NotificationProvider>
+          </ApplicationProvider>
+        </ThemeProvider>
+      </OverlayProvider>
     </ZaloApp>
   );
 };

@@ -40,7 +40,21 @@ export function useAutoLogin(): AutoLoginContext {
           avatar: zaloUserInfo.avatar,
           authSettings: settings
         }),
-        (error: any) => {}
+        (error: any) => {
+          console.error(error);
+          setUser({
+            id: "", 
+            name: "", 
+            avatar: "",
+            authSettings: {
+              "scope.camera": false,
+              "scope.micro": false,
+              "scope.userInfo": false,
+              "scope.userLocation": false,
+              "scope.userPhonenumber": false,
+            }
+          });
+        }
       );
     }
   }, [ settings["scope.userPhonenumber"], reload ]);

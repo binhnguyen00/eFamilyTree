@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from 'react-i18next';
 
-import { useTheme } from "hooks";
+import { useTheme, useOverlayContext } from "hooks";
 import { UserSettingApi } from "api";
 
 import { FailResponse, ServerResponse } from "types/server";
@@ -10,6 +10,7 @@ import { UserSettings, UserSettingsContext, Language, Theme } from "types/user-s
 export function useSettings(userId: number | any, clanId: number | any): UserSettingsContext {
   const { i18n } = useTranslation();
   const { toggleTheme } = useTheme();
+  const { openWithContent } = useOverlayContext();
   const [ settings, setSetting ] = React.useState<UserSettings>({
     id: 0,
     theme: Theme.DEFAULT,
@@ -53,6 +54,14 @@ export function useSettings(userId: number | any, clanId: number | any): UserSet
     setSetting(userSettings);
   }
 
+  const getIntroductionPage = (): React.ReactNode => {
+    return (
+      <div>
+        <h1> greeting user </h1>
+      </div>
+    )
+  }
+
   React.useEffect(() => {
     if (!userId || !clanId) return;
 
@@ -86,7 +95,9 @@ export function useSettings(userId: number | any, clanId: number | any): UserSet
   React.useEffect(() => {
     toggleTheme(settings.theme);
     i18n.changeLanguage(settings.language);
-    // TODO: Toggle Introduction Period
+    if (settings.introductionPeriod % 5 === 0) {
+      openWithContent(getIntroductionPage());
+    }
   }, [ settings ])
 
   return { settings, updateSettings, updateBackground, updateTheme, updateLanguage, updateIntroductionPeriod };

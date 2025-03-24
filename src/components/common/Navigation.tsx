@@ -7,12 +7,12 @@ import { useAccountContext, useAppContext, useRequestPhoneContext, useRouteNavig
 
 function useDefaultPath() {
   const { appId } = useAppContext();
-  const { currentPath, goTo } = useRouteNavigate();
-  const defaultPath = `/zapps/${appId}`;
+  const { currentPath, goTo, jumpTo } = useRouteNavigate();
+  const defaultPath = `/zapps/${appId}/`;
 
   React.useEffect(() => {
     if (currentPath === "/") {
-      goTo({ path: defaultPath, replace: true });
+      jumpTo({ path: defaultPath });
     }
   }, [ currentPath ]);
 }
@@ -20,6 +20,8 @@ function useDefaultPath() {
 export function Navigation() {
   const { appId } = useAppContext();
   const { currentPath, rootPath } = useRouteNavigate();
+
+  console.log(currentPath);
 
   useDefaultPath();
 
