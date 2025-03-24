@@ -4,7 +4,7 @@ import { Button, Text, Stack, Grid } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
 import { TestApi } from "api";
-import { useNotification, useAppContext, usePageContext } from "hooks";
+import { useNotification, useAppContext, usePageContext, useOverlayContext } from "hooks";
 import { Header, Loading, SizedBox, NewsPaperSkeleton } from "components";
 
 import { Theme } from "types/user-settings";
@@ -156,12 +156,22 @@ function UILocationPermission() {
 }
 
 function UIOverlay() {
-  const [ isOpen, setIsOpen ] = React.useState<boolean>(false);
-  const onClose = () => setIsOpen(false);
+  const { open } = useOverlayContext();
+
+  const onOpen = () => {
+    open({
+      title: "greeting",
+      content: (
+        <div>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ullam laudantium maxime quaerat numquam. Vitae ullam quasi incidunt sit modi fugit.
+        </div>
+      )
+    })
+  }
 
   return (
     <>
-      <Button variant="secondary" size="small" onClick={() => setIsOpen(true)}> {"Overlay"} </Button>
+      <Button variant="secondary" size="small" onClick={onOpen}> {"Overlay"} </Button>
     </>
   )
 }

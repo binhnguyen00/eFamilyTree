@@ -27,5 +27,6 @@ export type UserSettingsContext = {
   updateBackground: (background: { id: number, path: string }) => void,
   updateTheme: (theme: Theme) => void,
   updateLanguage: (language: Language) => void,
-  updateIntroductionPeriod: (introductionPeriod: number) => void
+  updateIntroductionPeriod: (introductionPeriod: number) => void,
+  greetings: () => void
 }

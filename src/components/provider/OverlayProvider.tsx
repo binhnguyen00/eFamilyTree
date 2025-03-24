@@ -9,9 +9,12 @@ export function useOverlayContext() { return React.useContext(OverlayContext) }
 
 export function OverlayProvider({ children }: { children: React.ReactNode }) {
   const [ isOpen, setIsOpen ] = React.useState<boolean>(false);
+
+  const [ title, setTitle ] = React.useState<string>(t("Chào mừng đến với Gia Phả Lạc Hồng"));
   const [ content, setContent ] = React.useState<React.ReactNode>(<div> {t("greeting")} </div>);
 
-  const onOpenWithContent = (content: React.ReactNode) => {
+  const onOpen = ({ title, content }: { title: string, content: React.ReactNode }) => {
+    setTitle(title);
     setContent(content);
     setIsOpen(true);
   }
@@ -20,7 +23,7 @@ export function OverlayProvider({ children }: { children: React.ReactNode }) {
 
   const context: OverlayCtx = {
     isOpen: isOpen,
-    openWithContent: onOpenWithContent,
+    open: onOpen,
     close: onClose,
   };
 
@@ -28,7 +31,7 @@ export function OverlayProvider({ children }: { children: React.ReactNode }) {
     <OverlayContext.Provider value={context}>
       <Modal
         visible={isOpen} mask maskClosable className="text-base"
-        title={t("Chào mừng đến với Gia Phả Lạc Hồng")}
+        title={title}
         onClose={onClose}
         actions={[
           { text: t("close"), close: true },

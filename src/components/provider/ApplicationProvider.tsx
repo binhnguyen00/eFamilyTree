@@ -1,11 +1,12 @@
 import React from "react";
 
-import { BaseApi } from "api";
+import { BaseApi, UserSettingApi } from "api";
 import { getAppConfig } from "utils";
 import { useAutoLogin, useClanMemberInfo, useSettings } from "hooks";
 
 import { UserSettings } from "types/user-settings";
 import { AppContext as AppCtx } from "types/app-context";
+import { FailResponse, ServerResponse } from "types/server";
 
 export const AppContext = React.createContext({} as AppCtx);
 
@@ -24,11 +25,11 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
     phoneNumber, 
     zaloUserInfo, 
     updateZaloUserInfo,
-    updatePhoneNumber,
+    updatePhoneNumber,  
     refresh
-  }                                   = useAutoLogin();
-  const { userInfo, modules }         = useClanMemberInfo(phoneNumber);
-  const { settings, updateSettings }  = useSettings(userInfo.id, userInfo.clanId);
+  }                                              = useAutoLogin();
+  const { userInfo, modules }                    = useClanMemberInfo(phoneNumber);
+  const { settings, updateSettings, greetings }  = useSettings(userInfo.id, userInfo.clanId);
   
   const ctxInfo = {
     appId: ZALO_APP_ID,
@@ -43,12 +44,28 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
   } as any;
   console.log("App Context:\n", ctxInfo); 
 
+  React.useEffect(() => {
+    if (userInfo.id && userInfo.clanId) {
+      UserSettingApi.increaseIntroductionPeriod({
+        userId: userInfo.id,
+        clanId: userInfo.clanId,
+        success: (result: ServerResponse) => {
+          console.log("Increase introduction period success:\n", result);
+        },
+        fail: (error: FailResponse) => {
+          console.error("Increase introduction period fail:\n", error);
+        }
+      })
+    }
+  }, [ userInfo.id, userInfo.clanId ])
+
   const appCtx: AppCtx = {
     ...ctxInfo,
     updatePhoneNumber: updatePhoneNumber,
     updateZaloUserInfo: updateZaloUserInfo,
     updateSettings: updateSettings,
     doLogin: refresh,
+    greetings: greetings,
   };
 
   return (

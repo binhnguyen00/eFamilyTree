@@ -1,5 +1,5 @@
 export type OverlayCtx = {
   isOpen: boolean,
-  openWithContent: (content: React.ReactNode) => void,
+  open: ({ title, content }: { title: string, content: React.ReactNode }) => void,
   close: () => void,
 }

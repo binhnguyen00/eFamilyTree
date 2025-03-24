@@ -14,6 +14,7 @@ export type AppContext = {
   updateZaloUserInfo: (userInfo: ZaloUserInfo) => void,
   updateSettings: (settings: UserSettings) => void,
   doLogin: () => void,
+  greetings: () => void,
 }
 
 export type ZaloUserInfo = {
