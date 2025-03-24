@@ -2,17 +2,18 @@ import React from "react";
 import { t } from "i18next";
 import { useTranslation } from 'react-i18next';
 
-import { useTheme, useOverlayContext } from "hooks";
 import { UserSettingApi } from "api";
+import { useTheme, useOverlayContext } from "hooks";
+import { UIAbout } from "pages/about/UIAbout";
 
 import { FailResponse, ServerResponse } from "types/server";
 import { UserSettings, UserSettingsContext, Language, Theme } from "types/user-settings";
 
 export function useSettings(userId: number | any, clanId: number | any): UserSettingsContext {
-  let { i18n } = useTranslation();
-  let { toggleTheme } = useTheme();
-  let { open } = useOverlayContext();
-  let [ settings, setSetting ] = React.useState<UserSettings>({
+  const { i18n } = useTranslation();
+  const { toggleTheme } = useTheme();
+  const { open } = useOverlayContext();
+  const [ settings, setSetting ] = React.useState<UserSettings>({
     id: 0,
     theme: Theme.DEFAULT,
     language: Language.VI,
@@ -51,39 +52,25 @@ export function useSettings(userId: number | any, clanId: number | any): UserSet
       ...settings,
       introductionPeriod: introductionPeriod
     })
-    greetings();
   }
 
   const updateSettings = (userSettings: UserSettings) => {
     setSetting(userSettings);
   }
 
-  const getIntroductionPage = (): React.ReactNode => {
-    return (
-      <div>
-        <h1> greeting user </h1>
-      </div>
-    )
-  }
-
-  const greetings = () => {
-    const needGreetings = settings.introductionPeriod === 0;
-    if (settings.id && needGreetings) {
-      open({
-        title: t("Chào mừng đến với Gia Phả Lạc Hồng"),
-        content: getIntroductionPage()
-      });
-    }
-  }
-
   React.useEffect(() => {
-    if (!userId || !clanId) return;
 
     UserSettingApi.getOrDefault({ 
       userId: userId, 
       clanId: clanId, 
       success: (result: ServerResponse) => {
         const settings: any = result.data;
+        if (settings.introduction_period === 0) {
+          open({
+            title: t("Chào mừng đến với Gia Phả Lạc Hồng"),
+            content: <UIAbout/>
+          });
+        }
         setSetting({
           id:                 settings.id,
           theme:              settings.theme,
@@ -91,17 +78,18 @@ export function useSettings(userId: number | any, clanId: number | any): UserSet
           background:         settings.background,
           introductionPeriod: settings.introduction_period
         });
-      }, 
-      fail: (error: FailResponse) => {}
+      },
+      fail: (error: FailResponse) => {
+        console.error("Get default settings fail:\n", error.message);
+      }
     });
 
   }, [ userId, clanId ])
 
   React.useEffect(() => {
     toggleTheme(settings.theme);
-    i18n.changeLanguage(settings.language);
-    greetings();
-  }, [ settings ])
+    i18n.changeLanguage(settings.language);    
+  }, [ settings.theme, settings.language ])
 
   return { 
     settings, 
@@ -110,6 +98,5 @@ export function useSettings(userId: number | any, clanId: number | any): UserSet
     updateTheme, 
     updateLanguage, 
     updateIntroductionPeriod,
-    greetings,
-  };
+  } as UserSettingsContext;
 }

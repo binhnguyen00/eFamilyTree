@@ -1,7 +1,9 @@
 import React from "react";
+import { t } from "i18next";
 
 import { ZmpSDK } from "utils";
-import { useZaloSettings } from "hooks";
+import { useOverlayContext, useZaloSettings } from "hooks";
+import { UIAbout } from "pages/about/UIAbout";
 
 import { ZaloUserInfo } from "types/app-context";
 import { AutoLoginContext } from "types/auto-login";
@@ -33,14 +35,16 @@ export function useAutoLogin(): AutoLoginContext {
         (number: string) => setPhoneNumber(number),
         (error: any) => {}
       );
-      ZmpSDK.getUserInfo(
-        (zaloUserInfo: any) => setUser({
-          id: zaloUserInfo.id,
-          name: zaloUserInfo.name,
-          avatar: zaloUserInfo.avatar,
-          authSettings: settings
-        }),
-        (error: any) => {
+      ZmpSDK.getUserInfo({
+        success: (zaloUserInfo: any) => {
+          setUser({
+            id: zaloUserInfo.id,
+            name: zaloUserInfo.name,
+            avatar: zaloUserInfo.avatar,
+            authSettings: settings
+          });
+        },
+        fail: (error: any) => {
           console.error(error);
           setUser({
             id: "", 
@@ -55,7 +59,7 @@ export function useAutoLogin(): AutoLoginContext {
             }
           });
         }
-      );
+      });
     }
   }, [ settings["scope.userPhonenumber"], reload ]);
 

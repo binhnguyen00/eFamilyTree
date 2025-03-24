@@ -48,13 +48,13 @@ export function RequestPhone(props: RequestPhoneProps) {
             (number: string) => {
               successToastCB(t("đã chia sẻ số điện thoại"))
               setRequest(false);
-              ZmpSDK.getUserInfo(
-                (zaloUser: any) => {
+              ZmpSDK.getUserInfo({
+                success: (zaloUser: any) => {
                   updatePhoneNumber(number);
                   updateZaloUser(zaloUser, successToastCB, dangerToastCB)
                 },
-                (error: any) => dangerToastCB(t("cập nhật quyền người dùng không thành công"))
-              )
+                fail: (error: any) => dangerToastCB(t("cập nhật quyền người dùng không thành công"))
+              })
               if (onSuccessRequest) onSuccessRequest();
             },
             // fail

@@ -28,5 +28,4 @@ export type UserSettingsContext = {
   updateTheme: (theme: Theme) => void,
   updateLanguage: (language: Language) => void,
   updateIntroductionPeriod: (introductionPeriod: number) => void,
-  greetings: () => void
 }

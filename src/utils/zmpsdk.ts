@@ -14,15 +14,18 @@ import { CallBack } from "types/server";
 
 export class ZmpSDK {
   
-  public static getUserInfo(successCB: CallBack, failCB?: CallBack) {
+  public static getUserInfo({ success, fail }: {
+    success: CallBack,
+    fail?: CallBack
+  }) {
     getUserInfo({
       autoRequestPermission: true,
       avatarType: "large",
       success(res) {
-        successCB(res.userInfo);
+        success(res.userInfo);
       },
       fail(err) {
-        if (failCB) failCB(err);
+        if (fail) fail(err);
       },
     });
   }

@@ -1,7 +1,7 @@
 import React from "react";
 
-import { BaseApi, UserSettingApi } from "api";
 import { getAppConfig } from "utils";
+import { BaseApi, UserSettingApi } from "api";
 import { useAutoLogin, useClanMemberInfo, useSettings } from "hooks";
 
 import { UserSettings } from "types/user-settings";
@@ -27,9 +27,9 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
     updateZaloUserInfo,
     updatePhoneNumber,  
     refresh
-  }                                              = useAutoLogin();
-  const { userInfo, modules }                    = useClanMemberInfo(phoneNumber);
-  const { settings, updateSettings, greetings }  = useSettings(userInfo.id, userInfo.clanId);
+  }                                  = useAutoLogin();
+  const { userInfo, modules }        = useClanMemberInfo(phoneNumber);
+  const { settings, updateSettings } = useSettings(userInfo.id, userInfo.clanId);
   
   const ctxInfo = {
     appId: ZALO_APP_ID,
@@ -49,11 +49,9 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
       UserSettingApi.increaseIntroductionPeriod({
         userId: userInfo.id,
         clanId: userInfo.clanId,
-        success: (result: ServerResponse) => {
-          console.log("Increase introduction period success:\n", result);
-        },
+        success: (result: ServerResponse) => {},
         fail: (error: FailResponse) => {
-          console.error("Increase introduction period fail:\n", error);
+          console.error("Increase introduction period fail:\n", error.message);
         }
       })
     }
@@ -65,7 +63,6 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
     updateZaloUserInfo: updateZaloUserInfo,
     updateSettings: updateSettings,
     doLogin: refresh,
-    greetings: greetings,
   };
 
   return (

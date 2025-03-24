@@ -14,8 +14,8 @@ import "../i18n";
 function Application() {
   return (
     <ZaloApp>
-      <OverlayProvider>
-        <ThemeProvider>
+      <ThemeProvider>
+        <OverlayProvider>
           <ApplicationProvider>
             <NotificationProvider>
               <Router>
@@ -31,8 +31,8 @@ function Application() {
               </Router>
             </NotificationProvider>
           </ApplicationProvider>
-        </ThemeProvider>
-      </OverlayProvider>
+        </OverlayProvider>
+      </ThemeProvider>
     </ZaloApp>
   );
 };
