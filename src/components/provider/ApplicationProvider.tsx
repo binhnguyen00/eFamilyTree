@@ -1,16 +1,12 @@
 import React from "react";
 
 import { BaseApi } from "api";
-import { CommonUtils, getAppConfig } from "utils";
+import { getAppConfig } from "utils";
 import { useAutoLogin, useClanMemberInfo, useSettings } from "hooks";
 
-import { ServerResponse } from "types/server";
 import { UserSettings } from "types/user-settings";
-import { AppContext as AppCtx, UserInfo } from "types/app-context";
+import { AppContext as AppCtx } from "types/app-context";
 
-// =======================================
-// APP CTX
-// =======================================
 export const AppContext = React.createContext({} as AppCtx);
 
 export function useAppContext() {
