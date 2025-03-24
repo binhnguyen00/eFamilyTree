@@ -4,22 +4,28 @@ export enum Language {
 }
 
 export enum Theme {
-  DEFAULT = "default",
-  BLUE = "blue",
-  EMERALD = "emerald",
-  SAKURA = "sakura"
+  DEFAULT   = "default",
+  BLUE      = "blue",
+  EMERALD   = "emerald",
+  SAKURA    = "sakura"
 }
 
 export type UserSettings = {
+  id: number,
   theme: Theme,
   language: Language,
-  background?: {
+  background: {
     id: number,
     path: string
   };
+  introductionPeriod: number;
 }
 
 export type UserSettingsContext = {
   settings: UserSettings,
-  updateSettings: (settings: UserSettings) => void
+  updateSettings: (settings: UserSettings) => void,
+  updateBackground: (background: { id: number, path: string }) => void,
+  updateTheme: (theme: Theme) => void,
+  updateLanguage: (language: Language) => void,
+  updateIntroductionPeriod: (introductionPeriod: number) => void
 }

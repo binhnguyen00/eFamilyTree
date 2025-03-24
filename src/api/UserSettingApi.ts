@@ -3,18 +3,20 @@ import { SuccessCB, FailCB } from "types/server"
 
 export class UserSettingApi extends BaseApi {
 
-  public static getOrDefault(userId: number, clanId: number, successCB: SuccessCB, failCB?: FailCB) {
+  public static getOrDefault({ userId, clanId, success, fail }: {
+    userId: number, clanId: number, success: SuccessCB, fail?: FailCB
+  }) {
     const header = this.initHeader();
     const body = this.initBody({
       user_id: userId,
       clan_id: clanId,
     })
-    return this.server.POST("account/setting", header, body, successCB, failCB);
+    return this.server.POST("account/setting", header, body, success, fail);
   }
 
-  public static getDefault(successCB: SuccessCB, failCB?: FailCB) {
+  public static getDefault({ success, fail }: { success: SuccessCB, fail?: FailCB }) {
     const header = this.initHeader();
-    return this.server.POST("account/setting/default", header, {}, successCB, failCB);
+    return this.server.POST("account/setting/default", header, {}, success, fail);
   }
 
   public static updateOrCreate(
@@ -36,13 +38,15 @@ export class UserSettingApi extends BaseApi {
     this.server.POST("account/setting/save", header, body, successCB, failCB);
   }
 
-  public static getBackground(userId: number, clanId: number, successCB: SuccessCB, failCB?: FailCB) {
+  public static getBackground({ userId, clanId, success, fail }: {
+    userId: number, clanId: number, success: SuccessCB, fail?: FailCB
+  }) {
     const header = this.initHeader();
     const body = this.initBody({
       user_id: userId,
       clan_id: clanId,
     })
-    this.server.POST("account/setting/background", header, body, successCB, failCB);
+    return this.server.POST("account/setting/background", header, body, success, fail);
   }
 
   public static updateBackground(userId: number, clanId: number, base64: string, successCB: SuccessCB, failCB?: FailCB) {

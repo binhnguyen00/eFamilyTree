@@ -11,6 +11,7 @@ export function useZaloSettings() {
     "scope.camera": false,
     "scope.micro": false
   });
+  
   React.useEffect(() => {
     ZmpSDK.getAuthSettings({
       successCB: (authSettings: ZaloSettings) => setSettings(authSettings),
