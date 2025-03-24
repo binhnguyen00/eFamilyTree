@@ -97,10 +97,12 @@ export function UIWeekCalendar() {
   const onNavigate = (day: Date) => {
     setNavigateDay(day);
   }
-
   const onReload = () => {
-    setNavigateDay(DateTimeUtils.toDate(selectedDate));
-    getEventsByDay(selectedDate);
+    const date = DateTimeUtils.toDate(selectedDate);
+    if (date) {
+      setNavigateDay(date);
+      getEventsByDay(selectedDate);
+    }
   };
 
   return (

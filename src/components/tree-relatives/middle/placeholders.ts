@@ -6,6 +6,7 @@ const createRel = (id: string, type = RelType.blood): Relation => ({ id, type })
 
 const createNode = (gender: Gender): Mutable<Node> => ({
   id: `${gender}-ph`,
+  name: '',
   placeholder: true,
   gender: gender,
   generation: 1,

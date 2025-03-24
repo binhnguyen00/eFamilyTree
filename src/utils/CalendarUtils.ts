@@ -22,8 +22,8 @@ export class CalendarUtils {
     const filteredEvents = events.filter((event: Event) => {
       const eventStart = DateTimeUtils.toDate(event.from_date.substring(0, 10));
       const eventEnd = DateTimeUtils.toDate(event.to_date.substring(0, 10));
-      if (date >= eventStart && date <= eventEnd) return event;
-      else return;
+      if (!eventStart || !eventEnd) return false;
+      return date >= eventStart && date <= eventEnd;
     });
     return filteredEvents;
   }
@@ -47,11 +47,13 @@ export class CalendarUtils {
       .filter((event: Event) => {
         const eventStart = DateTimeUtils.toDate(event.from_date.substring(0, 10));
         const eventEnd = DateTimeUtils.toDate(event.to_date.substring(0, 10));
+        if (!eventStart || !eventEnd) return false;
         return eventStart <= endDate && eventEnd >= startDate;
       })
       .flatMap((event: Event) => {
         const eventStart = DateTimeUtils.toDate(event.from_date.substring(0, 10));
         const eventEnd = DateTimeUtils.toDate(event.to_date.substring(0, 10));
+        if (!eventStart || !eventEnd) return [];
 
         // Collect all dates from eventStart to eventEnd
         const dates: Date[] = [];
