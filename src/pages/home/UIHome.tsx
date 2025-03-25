@@ -1,42 +1,35 @@
 import React from 'react';
 
-import { HeaderUser, Divider, Loading } from 'components';
+import { HeaderUser, Divider, Loading, ScrollableDiv } from 'components';
 
 import { UIHomeBanner } from './UIHomeBanner';
 import { UIHomeAppList } from './UIHomeAppList';
 import { UIHomeSocialPost } from './UIHomeSocialPost';
 import { UIHomeTheme } from './UIHomeTheme';
+import { StyleUtils } from 'utils';
 
 export function UIHome() {
   return (
-    <div className='container text-secondary'>
+    <>
       <HeaderUser/>
 
-      <div className='flex-v'>
-        <React.Suspense fallback={<Loading/>}>
-          <UIHomeBanner/>
-        </React.Suspense>
+      <ScrollableDiv className='container flex-v' direction="vertical" style={{ height: StyleUtils.calComponentRemainingHeight(10) }}>
+        <UIHomeBanner/>
 
         <Divider/>
 
-        <React.Suspense fallback={<Loading/>}>
-          <UIHomeAppList/>
-        </React.Suspense>
+        <UIHomeAppList/>
 
         <Divider/>
 
-        <React.Suspense fallback={<Loading/>}>
-          <UIHomeTheme/>
-        </React.Suspense>
+        <UIHomeTheme/>
 
         <Divider/>
 
-        <React.Suspense fallback={<Loading/>}>
-          <UIHomeSocialPost/>
-        </React.Suspense>
-
-        <Divider/>
-      </div>
-    </div>
+        <UIHomeSocialPost/>
+        
+        <br />
+      </ScrollableDiv>
+    </>
   )
 };

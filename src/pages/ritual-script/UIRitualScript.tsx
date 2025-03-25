@@ -1,8 +1,8 @@
 import React from "react";
 import { t } from "i18next";
-import { Text } from "zmp-ui";
+import { Button, Text } from "zmp-ui";
 
-import { Header, Selection } from "components";
+import { CommonIcon, Header, ScrollableDiv, Selection } from "components";
 
 import { UIAncestralOfferingForm } from "./ancestral-offering-letter/UIForm";
 
@@ -20,9 +20,10 @@ export function UIRitualScript() {
       <Header title={t("ritual_script")}/>
 
       <div className="container bg-white flex-v">
-        <div className="flex-v">
-          <Text.Title className="text-primary">
-            {"Chọn Loại Sớ"}
+
+        <div>
+          <Text.Title className="my-2 text-primary text-capitalize">
+            {t("chọn loại sớ")}
           </Text.Title>
           <Selection 
             options={options}
@@ -35,9 +36,10 @@ export function UIRitualScript() {
           />
         </div>
 
-        <React.Fragment>
+        <ScrollableDiv direction="vertical" className="flex-v">
           {scriptContainer}
-        </React.Fragment>
+        </ScrollableDiv>
+
       </div>
     </>
   )

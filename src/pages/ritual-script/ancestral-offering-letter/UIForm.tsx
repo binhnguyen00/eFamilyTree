@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 import html2canvas from "html2canvas";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import { Button, Input, Sheet, Text, DatePicker } from "zmp-ui";
+import { Button, Input, Sheet, DatePicker, Text } from "zmp-ui";
 import { SolarDate } from "@nghiavuive/lunar_date_vi";
 
 import { DateTimeUtils, ZmpSDK } from "utils";
@@ -10,8 +10,6 @@ import { useAppContext, useBeanObserver, useNotification } from "hooks";
 import { BeanObserver, CommonIcon, Label } from "components";
 
 import { UIAncestralOfferingTemplate } from "./UITemplate";
-
-const Title = ({ label }: { label: string }) => <Text.Title className="text-primary"> {t(label)} </Text.Title>
 
 /** Sớ Lễ Gia Tiên */
 
@@ -32,6 +30,15 @@ export type RitualScriptForm = {
   workshipSeason?: string;
   workshipPlace?: string;
 }
+
+function Title({ text, className }: { text: string, className?: string }) {
+  return (
+    <Text.Title className={`text-center text-primary text-capitalize ${className}`.trim()}>
+      {text}
+    </Text.Title>
+  )
+}
+
 export function UIAncestralOfferingForm() {
   const { zaloUserInfo } = useAppContext();
 
@@ -126,7 +133,7 @@ export function UIAncestralOfferingForm() {
 
       <UIFamilyMembersForm observer={membersObserver}/>
 
-      <div style={{ position: "sticky", bottom: 120 }}>
+      <div style={{ position: "absolute", bottom: 20 }}>
         <Button size="small" prefixIcon={<CommonIcon.Preview size={18}/>} onClick={() => setPreview(true)}>
           {t("preview")}
         </Button>
@@ -173,7 +180,7 @@ function UIBasicForm({ observer } : {
 }) {
   return (
     <div className="flex-v border-primary p-3 rounded">
-      <Title label={t("Thiên Thời")}/>
+      <Title text={t("thiên thời")} className="text-center"/>
       <div className="flex-h justify-between">
         <Input 
           style={{ width: "100%" }} 
@@ -224,7 +231,7 @@ function UIHouseOwnerForm({ observer }: {
 
   return (
     <div className="flex-v border-primary rounded p-3">
-      <Title label={t("Thí Chủ")}/>
+      <Title text={t("thí chủ")} className="text-center"/>
       <div className="flex-v justify-between">
         <Input 
           
@@ -285,14 +292,12 @@ function UIFamilyMembersForm({ observer }: {
   };
 
   return (
-    <div className="flex-v border-primary rounded p-3">
-      <div className="flex-h justify-between">
-        <Title label={t("Thành Viên")}/>
-        <div className="text-primary button">
-          <Button size="small" onClick={addForm} prefixIcon={<CommonIcon.Plus/>}>
-            {t("add")} 
-          </Button>
-        </div>
+    <div className="border-primary rounded p-3">
+      <Title text={t("thành viên")} className="text-center py-2"/>
+      <div className="text-primary button flex-h justify-end">
+        <Button size="small" onClick={addForm} prefixIcon={<CommonIcon.Plus/>}>
+          {t("add")} 
+        </Button>
       </div>
 
       {people.map((person, index) => (

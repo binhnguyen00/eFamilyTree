@@ -45,6 +45,14 @@ body {
   }
 }
 
+.padding-footer {
+  padding-bottom: calc(var(--zaui-safe-area-inset-bottom, 0px) + calc(var(--footer-height))) !important;
+}
+
+.padding-header {
+  padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + calc(var(--header-height))) !important;
+}
+
 .container-padding {
   padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + calc(var(--header-height))) !important;
 

@@ -2,9 +2,9 @@ import React from "react";
 import { t } from "i18next";
 import { Avatar, Button, Grid, Text } from "zmp-ui";
 
-import { CommonIcon, Header } from "components";
+import { CommonIcon, Header, ScrollableDiv } from "components";
 import { UserSettingApi } from "api";
-import { CommonUtils } from "utils";
+import { CommonUtils, StyleUtils } from "utils";
 import { useAccountContext, useAppContext, useNotification, useRequestPhoneContext, useRouteNavigate } from "hooks";
 
 import { ServerResponse } from "types/server";
@@ -15,7 +15,9 @@ export function UIAccount() {
     <>
       <Header title={t("account")} showBackIcon={false}/>
 
-      <UIAccountContainer />
+      <div className="container bg-primary">
+        <UIAccountContainer />
+      </div>
     </>
   )
 }
@@ -25,9 +27,11 @@ function UIAccountContainer() {
   const { goTo } = useRouteNavigate();
 
   return (
-    <div className="container flex-v text-primary">
-
-      <div className="flex-v center my-3">
+    <ScrollableDiv 
+      direction="vertical" className="flex-v padding-footer"
+      style={{ height: StyleUtils.calComponentRemainingHeight(10) }}
+    >
+      <div className="flex-v flex-grow-0 center my-3">
         <Avatar
           size={120}
           src={zaloUserInfo.avatar ? zaloUserInfo.avatar : "https://avatar.iran.liara.run/public/47"}
@@ -40,22 +44,18 @@ function UIAccountContainer() {
       </div>
 
       <Button variant="secondary" onClick={() => goTo({ path: "register" }) }>
-        {t("Đăng Ký Tài Khoản")}
+        {t("đăng ký tài khoản")}
       </Button>
 
       <Button variant="secondary" onClick={() => goTo({ path: "register/clan" })}>
         {t("register_clan")}
       </Button>
 
-      {/* <Button variant="secondary" onClick={() => goTo({ path: "about" })}>
-        {t("about")}
-      </Button> */}
-
       <div className="p-3 rounded bg-secondary">
         <UISettings/>
       </div>
 
-    </div>
+    </ScrollableDiv>
   )
 }
 
