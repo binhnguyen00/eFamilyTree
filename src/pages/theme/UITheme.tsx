@@ -24,7 +24,8 @@ export function UITheme(props: UIThemeProps) {
     <>
       <Header title={t("theme")}/>
 
-      <div className={`container bg-white max-h ${className}`.trim()}>
+      <div className={`container bg-white ${className}`.trim()}>
+        <br/>
         <Grid columnSpace="0.5rem" rowSpace="1rem" columnCount={2}>
           <UIThemeList className="text-primary"/>
         </Grid>

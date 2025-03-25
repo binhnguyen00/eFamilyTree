@@ -2,12 +2,12 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Text } from "zmp-ui";
 
+import { StyleUtils } from "utils";
 import { SocialPostApi } from "api";
-import { Card, Header, Info, ScrollableDiv, TailSpin } from "components";
 import { useAppContext, useRouteNavigate } from "hooks";
+import { Card, Header, Info, ScrollableDiv, TailSpin } from "components";
 
 import { ServerResponse } from "types/server";
-import { StyleUtils } from "utils";
 
 export function useSocialPosts() {
   const { logedIn, userInfo } = useAppContext();
@@ -139,7 +139,11 @@ function UISocialPosts(props: UISocialPostsProps) {
   }
 
   return (
-    <ScrollableDiv direction="vertical" className="flex-v max-h">
+    <ScrollableDiv 
+      direction="vertical" 
+      className="flex-v" 
+      height={StyleUtils.calComponentRemainingHeight(10)}
+    >
       {renderPosts()}
       <br/><br/>
     </ScrollableDiv>

@@ -13,7 +13,7 @@ export function UISocialPostDetail() {
     title: "",
     content: "",
   };
-  
+
   const purifiedContent = DOMPurify.sanitize(post["content"]);
   
   const addDomainToImageSrc = (html: string) => {
@@ -32,10 +32,15 @@ export function UISocialPostDetail() {
 
       <ScrollableDiv 
         direction="vertical"
-        className="container bg-white text-base flex-v justify-between"
+        className="container bg-white text-base flex-v"
+        height={"100%"}
       >
-        <Text.Title size="xLarge"> {post["title"]} </Text.Title>
+        <Text.Title className="py-2" size="xLarge"> 
+          {post["title"]} 
+        </Text.Title>
+
         <div dangerouslySetInnerHTML={{ __html: updatedContent }} />
+
         <br/><br/>
       </ScrollableDiv>
     </>
