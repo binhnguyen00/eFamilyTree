@@ -53,7 +53,6 @@ export function WorldMap(props: WorldMapProps) {
 
   return (
     <div
-      className="rounded"
       id="map"
       style={{
         height: height,

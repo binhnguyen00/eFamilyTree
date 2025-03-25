@@ -55,6 +55,9 @@ body {
 
 .container-padding {
   padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + calc(var(--header-height))) !important;
+  
+  @extend .text-secondary;
+  @extend .max-h;
 
   @media (min-width: 640px) {
     max-width: 100%;

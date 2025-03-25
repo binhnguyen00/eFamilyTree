@@ -210,14 +210,15 @@ export function UIMap() {
   const renderContainer = () => {
     if (loading) {
       return (
-        <div className="max-h bg-white">
+        <div className="bg-white">
           <Loading/>
         </div>
       )
     } else {
       return (
-        <div className="flex-v flex-grow-0">
+        <div>
           <UIMapController 
+            className="p-2"
             onReloadParent={refreshMap}
             onQuickCreate={onQuickCreate}
             onChangeMapTerrain={onChangeMapTerrain}
@@ -225,7 +226,7 @@ export function UIMap() {
           />
           <WorldMap
             tileLayer={mapTile}
-            height={StyleUtils.calComponentRemainingHeight(45)}
+            height={StyleUtils.calComponentRemainingHeight(48)}
             markers={memoizedMarkers}
             currentMarker={currentLocation as MapCoordinate}
             onSelectMarker={onSelect}
@@ -236,12 +237,11 @@ export function UIMap() {
     }
   }
 
-
   return (
     <>
       <Header title={t("memorial_location")}/>
 
-      <div className="container-padding max-h bg-white">
+      <div className="container-padding bg-white">
         {renderContainer()}
       </div>
 
@@ -272,24 +272,25 @@ interface UIMemorialMapControllerProps {
   onChangeMapTerrain?: (terrain: MapTile) => void;
   onCurrentPosition?: () => void;
   onReloadParent?: () => void;
+  className?: string;
 }
 export function UIMapController(props: UIMemorialMapControllerProps) {
-  const { onQuickCreate, onChangeMapTerrain, onReloadParent, onCurrentPosition } = props;
+  const { onQuickCreate, onChangeMapTerrain, onReloadParent, onCurrentPosition, className } = props;
 
   return (
-    <div className="scroll-h px-2">
+    <div className={`scroll-h ${className}`.trim()}>
+      <div>
+        <Button size="small" prefixIcon={<CommonIcon.CurrentPosition/>} onClick={onCurrentPosition}>
+          {t("tôi")}
+        </Button>
+      </div>
+      <MapTerrainButtons onSelect={onChangeMapTerrain}/>
+      <QuickCreateLocationButton onCreate={onQuickCreate}/>
       <div>
         <Button size="small" onClick={onReloadParent} prefixIcon={<CommonIcon.Reload size={"1rem"}/>}>
           {t("tải lại")}
         </Button>
       </div>
-      <QuickCreateLocationButton onCreate={onQuickCreate}/>
-      <div>
-        <Button size="small" prefixIcon={<CommonIcon.CurrentPosition/>} onClick={onCurrentPosition}>
-          {t("Tôi")}
-        </Button>
-      </div>
-      <MapTerrainButtons onSelect={onChangeMapTerrain}/>
     </div>
   )
 }
