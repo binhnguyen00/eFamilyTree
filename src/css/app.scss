@@ -106,9 +106,8 @@ body {
   background-color: var(--header-color) !important;
   background-size: 210px !important;
   color: var(--secondary-color) !important;
-  border-bottom-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
   border-bottom: var(--secondary-color) solid 1.5px;
+  @extend .rounded-bottom;
 }
 
 .zaui-header::after {
@@ -139,7 +138,7 @@ button, .button {
   }
   text-transform: capitalize;
   font-weight: bolder !important;
-  border-radius: 0.7rem !important;
+  @extend .rounded;
 }
 
 .button-link {
@@ -166,6 +165,7 @@ button, .button {
 // swiper
 .zaui-swiper-item {
   opacity: 1 !important;
+  @extend .rounded;
 }
 
 // input
@@ -274,4 +274,9 @@ button, .button {
 
 .yarl__portal {
   top: unset !important;
+}
+
+// modal
+.zaui-modal-content {
+  @extend .rounded;
 }

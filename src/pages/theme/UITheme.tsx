@@ -98,7 +98,7 @@ function ThemeCard(props: ThemeCardProps) {
   return (
     <div className={`flex-v center text-capitalize ${className}`.trim()} >
       <SizedBox 
-        className="button border-secondary"
+        className="button border-secondary rounded"
         width={150} height={100}
         onClick={() => onSaveTheme(theme)}
       >

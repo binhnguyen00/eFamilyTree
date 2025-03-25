@@ -65,7 +65,9 @@ function UISlogan() {
         <li> {t("Thương hiệu MobiFone uy tín, đảm bảo bảo mật dữ liệu")} </li>
         <li> {t("Nhân sự trải rộng tại các địa phương, nắm rõ đặc thù văn hoá, các hoạt động/sự kiện nội bật")} </li>
       </ul>
-      <Button size="small" onClick={onRegisterClan}> {t("register_clan")} </Button>
+      <div className="center my-3">
+        <Button size="small" onClick={onRegisterClan}> {t("register_clan")} </Button>
+      </div>
     </div>
   );
 }
