@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 
 import { UserSettingApi } from "api";
 import { useTheme, useOverlayContext } from "hooks";
-import { UIAbout } from "pages/about/UIAbout";
 
 import { FailResponse, ServerResponse } from "types/server";
 import { UserSettings, UserSettingsContext, Language, Theme } from "types/user-settings";
@@ -12,7 +11,7 @@ import { UserSettings, UserSettingsContext, Language, Theme } from "types/user-s
 export function useSettings(userId: number | any, clanId: number | any): UserSettingsContext {
   const { i18n } = useTranslation();
   const { toggleTheme } = useTheme();
-  const { open } = useOverlayContext();
+  const { greetings } = useOverlayContext();
   const [ settings, setSetting ] = React.useState<UserSettings>({
     id: 0,
     theme: Theme.DEFAULT,
@@ -66,10 +65,7 @@ export function useSettings(userId: number | any, clanId: number | any): UserSet
       success: (result: ServerResponse) => {
         const settings: any = result.data;
         if (settings.introduction_period === 0) {
-          open({
-            title: t("Chào mừng đến với Gia Phả Lạc Hồng"),
-            content: <UIAbout/>
-          });
+          greetings();
         }
         setSetting({
           id:                 settings.id,

@@ -1,9 +1,7 @@
 import React from "react";
-import { t } from "i18next";
 
 import { ZmpSDK } from "utils";
-import { useOverlayContext, useZaloSettings } from "hooks";
-import { UIAbout } from "pages/about/UIAbout";
+import { useZaloSettings } from "hooks";
 
 import { ZaloUserInfo } from "types/app-context";
 import { AutoLoginContext } from "types/auto-login";

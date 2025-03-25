@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 
 import { Loading } from "components";
 
-import { UIAbout } from "pages/about/UIAbout";
 import { UISocialPost } from "pages/social-post/UISocialPost";
 import { UISocialPostDetail } from "pages/social-post/UISocialPostDetail";
 import { UICalendar } from "pages/calendar/UICalendar";
@@ -48,8 +47,6 @@ export function AppRoutes() {
       } />
 
       {/* APP */}
-      <Route path={createPath("about")} element={<UIAbout />} />
-
       <Route path={createPath("gallery")} element={<UIGallery />}/>
 
       <Route path={createPath("calendar")} element={<UICalendar />} />
