@@ -4,7 +4,7 @@ import { t } from "i18next";
 import { Grid, Text } from "zmp-ui";
 
 import { UserSettingApi } from "api";
-import { useAccountContext, useAppContext, useNotification, useRequestPhoneContext } from "hooks";
+import { useAccountContext, useAppContext, useNotification, useRequestPhoneContext, useSettings } from "hooks";
 import { Header, SizedBox } from "components";
 
 import { Theme } from "types/user-settings";
@@ -50,7 +50,7 @@ interface ThemeCardProps extends UIThemeProps {
 }
 function ThemeCard(props: ThemeCardProps) {
   const { theme, src, className } = props;
-  const { userInfo, settings, updateSettings } = useAppContext();
+  const { userInfo, settings, updateTheme } = useAppContext();
   const { loadingToast } = useNotification();
   const { 
     needRegisterClan, registerClan, 
@@ -66,7 +66,7 @@ function ThemeCard(props: ThemeCardProps) {
       (successToast, dangerToast, dismissToast) => {
         const success = (result: ServerResponse) => {
           const settings = result.data;
-          updateSettings(settings)
+          updateTheme(settings.theme);
           dismissToast();
         }
         const fail = () => {

@@ -1,5 +1,4 @@
 import React from "react";
-import { t } from "i18next";
 import { useTranslation } from 'react-i18next';
 
 import { UserSettingApi } from "api";
@@ -84,8 +83,8 @@ export function useSettings(userId: number | any, clanId: number | any): UserSet
 
   React.useEffect(() => {
     toggleTheme(settings.theme);
-    i18n.changeLanguage(settings.language);    
-  }, [ settings.theme, settings.language ])
+    i18n.changeLanguage(settings.language);
+  }, [ settings ])
 
   return { 
     settings, 

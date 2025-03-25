@@ -1,4 +1,4 @@
-import { UserSettings } from "types/user-settings";
+import { Language, Theme, UserSettings } from "types/user-settings";
 
 export type AppContext = {
   appId: string;
@@ -13,6 +13,8 @@ export type AppContext = {
   updatePhoneNumber: (phoneNumber: string) => void,
   updateZaloUserInfo: (userInfo: ZaloUserInfo) => void,
   updateSettings: (settings: UserSettings) => void,
+  updateTheme: (theme: Theme) => void,
+  updateLanguage: (language: Language) => void,
   doLogin: () => void,
 }
 

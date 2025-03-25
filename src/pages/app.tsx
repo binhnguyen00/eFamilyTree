@@ -15,10 +15,10 @@ function Application() {
   return (
     <ZaloApp>
       <Router>
-        <OverlayProvider>
-          <ApplicationProvider>
-            <NotificationProvider>
-              <ThemeProvider>
+        <ThemeProvider>
+          <OverlayProvider>
+            <ApplicationProvider>
+              <NotificationProvider>
                 <RequestPhoneProvider>
                   <RequestLocationProvider>
                     <AccountProvider>
@@ -28,10 +28,10 @@ function Application() {
                     </AccountProvider>
                   </RequestLocationProvider>
                 </RequestPhoneProvider>
-              </ThemeProvider>
-            </NotificationProvider>
-          </ApplicationProvider>
-        </OverlayProvider>
+              </NotificationProvider>
+            </ApplicationProvider>
+          </OverlayProvider>
+        </ThemeProvider>
       </Router>
     </ZaloApp>
   );

@@ -54,7 +54,7 @@ export function UIPlayground() {
 }
 
 function UITheme() {
-  const { settings, updateSettings } = useAppContext();
+  const { settings, updateTheme } = useAppContext();
 
   const render = () => {
     const html = Object.values(Theme).map((theme) => {
@@ -66,10 +66,7 @@ function UITheme() {
             height={100} 
             border
             onClick={() => {
-              updateSettings({
-                ...settings,
-                theme: theme
-              })
+              updateTheme(theme);
             }}
           >
           </SizedBox>

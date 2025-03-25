@@ -29,20 +29,28 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
     refresh
   }                                  = useAutoLogin();
   const { userInfo, modules }        = useClanMemberInfo(phoneNumber);
-  const { settings, updateSettings } = useSettings(userInfo.id, userInfo.clanId);
+  const { 
+    settings, 
+    updateSettings, 
+    updateTheme, 
+    updateLanguage, 
+  }                                  = useSettings(userInfo.id, userInfo.clanId);
   
-  const ctxInfo = {
-    appId: ZALO_APP_ID,
-    logedIn: logedIn,
-    phoneNumber: phoneNumber,
-    zaloUserInfo: zaloUserInfo,
-    userInfo: userInfo,
-    modules: modules,
-    settings: settings,
-    serverBaseUrl: BaseApi.getServerBaseUrl(),
-    treeBackgroundPath: getTreeBackgroundPath(settings, BaseApi.getServerBaseUrl()),
-  } as any;
-  console.log("App Context:\n", ctxInfo); 
+  const ctxInfo = React.useMemo(() => {
+    let ctxInfo = {
+      appId: ZALO_APP_ID,
+      logedIn: logedIn,
+      phoneNumber: phoneNumber,
+      zaloUserInfo: zaloUserInfo,
+      userInfo: userInfo,
+      modules: modules,
+      settings: settings,
+      serverBaseUrl: BaseApi.getServerBaseUrl(),
+      treeBackgroundPath: getTreeBackgroundPath(settings, BaseApi.getServerBaseUrl()),
+    } as any;
+    console.log("App Context:\n", ctxInfo); 
+    return ctxInfo;
+  }, [ logedIn, phoneNumber, zaloUserInfo, userInfo, modules, settings ]);
 
   React.useEffect(() => {
     if (userInfo.id && userInfo.clanId) {
@@ -62,6 +70,8 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
     updatePhoneNumber: updatePhoneNumber,
     updateZaloUserInfo: updateZaloUserInfo,
     updateSettings: updateSettings,
+    updateTheme: updateTheme,
+    updateLanguage: updateLanguage,
     doLogin: refresh,
   };
 
