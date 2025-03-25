@@ -84,7 +84,7 @@ function UIRegisterForm({ observer, submit }: {
 
   return (
     <div className="flex-v scroll-v text-primary">
-      <Text.Title size="xLarge" className="text-capitalize">{t("personal_info")}</Text.Title>
+      <Text.Title size="xLarge" className="text-capitalize text-center py-2">{t("personal_info")}</Text.Title>
 
       {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
 
@@ -131,11 +131,15 @@ function UIRegisterForm({ observer, submit }: {
         onChange={observer.watch}
       />
 
-      <Button size="medium" prefixIcon={<CommonIcon.SendMail/>} onClick={submitOrError}> 
-        {t("register")}
-      </Button>
+      <div className="center">
+        <Button size="medium" prefixIcon={<CommonIcon.SendMail size={"1.4rem"}/>} onClick={submitOrError}> 
+          {t("register")}
+        </Button>
+      </div>
       
       <UIRegisterNotice/>
+
+      <br />
     </div>
   );
 }

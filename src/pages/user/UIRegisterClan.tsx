@@ -122,7 +122,7 @@ function ClanForm(props: StepProps) {
 
   return (
     <div className="flex-v text-primary">
-      <Text.Title size="xLarge" className="text-capitalize center">{t("clan_info")}</Text.Title>
+      <Text.Title size="xLarge" className="text-capitalize center py-2">{t("clan_info")}</Text.Title>
 
       <Input 
         label={<Label text={t("Tên Dòng Họ *")}/>} name="clanName" 
@@ -131,12 +131,14 @@ function ClanForm(props: StepProps) {
       />
       {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
 
-      <Button size="medium" onClick={handleNextStep}> 
-        <div className="flex-h center">  
-          <p> {t("next")} </p> 
-          <CommonIcon.ArrowRight/>
-        </div>
-      </Button>
+      <div className="flex-h justify-end">
+        <Button size="medium" onClick={handleNextStep}> 
+          <div className="flex-h center">  
+            <p> {t("next")} </p> 
+            <CommonIcon.ArrowRight/>
+          </div>
+        </Button>
+      </div>
     </div>
   )
 }
@@ -156,7 +158,7 @@ function AddressForm(props: StepProps) {
 
   return (
     <div className="flex-v text-primary">
-      <Text.Title size="xLarge" className="text-capitalize center">{t("address")}</Text.Title>
+      <Text.Title size="xLarge" className="text-capitalize center py-2">{t("address")}</Text.Title>
 
       <Input.TextArea 
         name="address" 
@@ -169,13 +171,13 @@ function AddressForm(props: StepProps) {
       {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
 
       <div className="flex-h justify-between">
-        <Button size="small" onClick={previousStep}> 
+        <Button size="medium" onClick={previousStep}> 
           <div className="flex-h center">  
             <CommonIcon.ArrowLeft/>
             <p> {t("previous")} </p> 
           </div>
         </Button>
-        <Button size="small" onClick={handleNextStep}> 
+        <Button size="medium" onClick={handleNextStep}> 
           <div className="flex-h center">  
             <p> {t("next")} </p> 
             <CommonIcon.ArrowRight/>
@@ -203,7 +205,7 @@ function PersionalForm(props: StepProps) {
 
   return (
     <div className="flex-v text-primary">
-      <Text.Title size="xLarge" className="text-capitalize center">{t("clan_manager")}</Text.Title>
+      <Text.Title size="xLarge" className="text-capitalize center py-2">{t("clan_manager")}</Text.Title>
 
       <div className="flex-v">
         <Input 
@@ -222,16 +224,16 @@ function PersionalForm(props: StepProps) {
         {error && (<Text size="xSmall" className="text-capitalize"> {error} </Text>)}
 
         <div className="flex-h justify-between">
-          <Button size="small" onClick={previousStep}> 
+          <Button size="medium" onClick={previousStep}> 
             <div className="flex-h center">  
               <CommonIcon.ArrowLeft/>
               <p> {t("previous")} </p> 
             </div>
           </Button>
-          <Button size="small" onClick={submitOrError}> 
+          <Button size="medium" onClick={submitOrError}> 
             <div className="flex-h center">  
               <p> {t("submit")} </p> 
-              <CommonIcon.SendMail/>
+              <CommonIcon.SendMail size={"1.3rem"}/>
             </div>
           </Button>
         </div>
