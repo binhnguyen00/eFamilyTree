@@ -58,14 +58,14 @@ export function UIHallOfFame() {
   const renderCards = () => {
     const html: React.ReactNode[] = data.map((group, index) => {
       return (
-        <div key={group.id} className="mb-3">
+        <div key={group.id}>
           <ImageWithText
             className="border-secondary rounded button"
             text={<h1 className="text-capitalize text-center m-0 p-0"> {group.name} </h1>}
             textStyle={getTextStyleForCategory(group.name)}
             src={filterBackgroundByName(group.name)}
             onClick={onSelect(group.id, group.name)}
-            width="100%" height="220px"
+            width="100%"
           />
         </div>
       )

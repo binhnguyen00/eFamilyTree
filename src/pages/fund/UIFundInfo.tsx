@@ -4,7 +4,7 @@ import { Text } from "zmp-ui";
 
 import { DateTimeUtils, StyleUtils } from "utils";
 import { useBeanObserver, useRouteNavigate } from "hooks";
-import { BeanObserver, Header, ScrollableDiv, SizedBox } from "components";
+import { BeanObserver, Divider, Header, ScrollableDiv, SizedBox } from "components";
 
 import { FundLine } from "./UIFunds";
 
@@ -53,8 +53,9 @@ function UIFundContainer(props: UIFundContainerProps) {
   }, [observer]);
 
   return (
-    <div className="flex-v flex-grow-0">
-      <UIFundSummary observer={observer}/>
+    <div>
+      <UIFundSummary observer={observer} className="mt-2"/>
+      <Divider size={0}/>
       <UITransactions transactions={transactions} /> {/* TODO: pass observer */}
     </div>
   );
@@ -62,24 +63,28 @@ function UIFundContainer(props: UIFundContainerProps) {
 
 interface UIFundSummaryProps {
   observer: BeanObserver<FundInfo>;
+  className?: string;
 }
 function UIFundSummary(props: UIFundSummaryProps) {
-  const { observer } = props;
+  const { observer, className } = props;
 
   return (
     <div className="flex-v">
-      <SizedBox width={"100%"} height={120} className="rounded flex-v center text-primary button border-secondary">
+      <SizedBox 
+        width={"100%"} height={120} 
+        className={`rounded flex-v center text-primary button bg-secondary ${className}`.trim()}
+      >
         <Text.Title size="large"> {t("balance")} </Text.Title>
         <Text size="xLarge" className="bold"> {`${observer.getBean().balance} đ`} </Text>
       </SizedBox>
 
       <div className="flex-h">
-        <SizedBox width={"50%"} height={100} className="rounded flex-v center bg-gray-50 button" border>
-          <Text.Title> {t("incomes")} </Text.Title>
+        <SizedBox width={"50%"} height={100} className="rounded flex-v center bg-green-100 button">
+          <Text size="large"> {t("incomes")} </Text>
           <Text size="large" className="text-success"> {`+${observer.getBean().totalIncomes} đ`} </Text>
         </SizedBox>
-        <SizedBox width={"50%"} height={100} className="rounded flex-v center bg-gray-50 button" border>
-          <Text.Title> {t("expenses")} </Text.Title>
+        <SizedBox width={"50%"} height={100} className="rounded flex-v center bg-red-100 button">
+          <Text size="large"> {t("expenses")} </Text>
           <Text size="large" className="text-danger"> {`-${observer.getBean().totalExpenses} đ`} </Text>
         </SizedBox>
       </div>
@@ -100,13 +105,13 @@ function UITransactions({ transactions }: UITransactionsProps) {
     const sign = transaction.type === "income" ? "+" : "-";
     const color = transaction.type === "income" ? "text-success" : "text-danger";
     return (
-      <div className="flex-h flex-grow-0 justify-between p-2">
+      <div className="flex-h flex-grow-0 justify-between">
         <div className="flex-v">
-          <Text className={`${color} font-semibold`}> {`${sign} ${transaction.amount}`} </Text>
+          <Text className={`${color}`}> {`${sign} ${transaction.amount}`} </Text>
           <Text className="text-sm"> {transaction.name} </Text>
-          {transaction.note && <Text className="text-xs text-gray-500"> {transaction.note} </Text>}
+          {transaction.note && <Text className="text-gray-500"> {transaction.note} </Text>}
         </div>
-        <Text className="text-xs text-gray-500"> {transaction.date} </Text>
+        <Text className="text-gray-500"> {transaction.date} </Text>
       </div>
     );
   }
@@ -115,17 +120,17 @@ function UITransactions({ transactions }: UITransactionsProps) {
     return transactions.map((item, index) => (
       <React.Fragment key={`transaction-${index}`}>
         {renderTransaction(item)}
-        <hr className="my-1"/>
+        <Divider/>
       </React.Fragment>
     ));
   }, [transactions]);
 
   return (
     <div className="flex-v">
-      <Text size="large">{t("transaction_history")}</Text>
+      <Text size="large" className="text-center bold">{t("transaction_history")}</Text>
       <ScrollableDiv 
         className="flex-v" direction="vertical" 
-        height={StyleUtils.calComponentRemainingHeight(100*2.8)}
+        height={StyleUtils.calComponentRemainingHeight(120*2 + 50)}
       >
         {lines}
       </ScrollableDiv>

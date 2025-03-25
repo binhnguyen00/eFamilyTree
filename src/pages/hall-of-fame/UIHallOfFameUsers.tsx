@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Text, Avatar as ZaloAvatar, List } from "zmp-ui";
+import { Button, Text, Avatar as ZaloAvatar } from "zmp-ui";
 
 import { HallOfFameApi } from "api";
 import { useRouteNavigate, useAppContext } from "hooks";
@@ -16,7 +16,7 @@ const data = [
     id: 1,
     name: "Nhân Vật Lịch Sử",
     memberName: "Trần Thanh Tường",
-  }
+  },
 ]
 
 export function UIHallOfFameUsers() {
@@ -37,8 +37,8 @@ export function UIHallOfFameUsers() {
       const avatar = user.avatar ? `${serverBaseUrl}/${user.avatar}` : "";
       const avatarHolder = `https://avatar.iran.liara.run/username?username=${encodeURIComponent(user.memberName)}`;
       return (
-        <div className="flex-v">
-          <div className="flex-h" key={`user-${index}`}>
+        <div key={`user-${index}`}>
+          <div className="flex-h">
             <div className="center" style={{ width: "5.5rem" }}>
               <Avatar src={avatar} placeHolder={avatarHolder}/>
             </div>
@@ -51,7 +51,7 @@ export function UIHallOfFameUsers() {
               <Text className="content-center text-base"> {user.recognitionDate ? user.recognitionDate : ""} </Text>
             </div>
           </div>
-          <hr/>
+          <Divider/>
         </div>
       );
     });
@@ -76,9 +76,9 @@ export function UIHallOfFameUsers() {
 
   const renderFooter = () => {
     return (
-      <div style={{ position: "absolute", bottom: 120, right: 10 }}>
-        <Button size="small" prefixIcon={<CommonIcon.AddPerson/>} onClick={() => setCreate(true)}>
-          {t("thêm")}
+      <div style={{ position: "absolute", bottom: 20, right: 10 }}>
+        <Button size="small" prefixIcon={<CommonIcon.AddPerson size={"1.1rem"}/>} onClick={() => setCreate(true)}>
+          {t("add")}
         </Button>
       </div>
     )
@@ -89,13 +89,7 @@ export function UIHallOfFameUsers() {
       <Header title={hallOfFameName}/>
 
       <div className="container bg-white">
-        <ScrollableDiv
-          className="flex-v"
-          direction="vertical"
-          height={StyleUtils.calComponentRemainingHeight(30)}
-        >
-          {renderContainer()}
-        </ScrollableDiv>
+        {renderContainer()}
 
         {renderFooter()}
       </div>
