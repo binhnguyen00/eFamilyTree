@@ -14,7 +14,8 @@ interface ImageWithTextProps {
 export function ImageWithText(props: ImageWithTextProps) {
   const { src, text, textStyle, width, height, onClick, className } = props;
 
-  const [ loading, setLoading ] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [imageLoaded, setImageLoaded] = React.useState<boolean>(false);
 
   const overlayTextStyle = {
     position: 'absolute',
@@ -35,17 +36,29 @@ export function ImageWithText(props: ImageWithTextProps) {
 
   return (
     <div style={{ position: 'relative', width: width, height: height }} onClick={onClick}>
-      {!loading && (
-        <div className="bg-blur border-primary center" style={{ width, height }}>
-          <TailSpin visible width={"80"} height={"80"}/>
+      {loading && (
+        <div className="center" style={{ width, height }}>
+          <TailSpin visible width={25} height={25}/>
         </div>
       )}
+      {imageLoaded && (
+        <>
+          <img
+            src={src} 
+            className={className ? className : ''}
+            style={{ width: '100%', objectFit: 'cover' }}
+          />
+          <div style={overlayTextStyle}> {text} </div>
+        </>
+      )}
       <img
-        src={src} className={className ? className : ''}
-        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        onLoad={(e) => setLoading(true)}
+        src={src}
+        style={{ display: 'none' }}
+        onLoad={() => {
+          setLoading(false);
+          setImageLoaded(true);
+        }}
       />
-      <div style={overlayTextStyle}> {text} </div>
     </div>
   );
-};
+}

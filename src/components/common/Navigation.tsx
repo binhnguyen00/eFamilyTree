@@ -26,7 +26,23 @@ export function Navigation() {
   useDefaultPath();
 
   const REMOVE_NAVIGATION = [
+    // MAIN ROUTES
     `/zapps/${appId}/family-tree`, 
+    `/zapps/${appId}/gallery`, 
+    `/zapps/${appId}/gallery/images`, 
+    `/zapps/${appId}/calendar`, 
+    `/zapps/${appId}/social-posts`, 
+    `/zapps/${appId}/social-posts/detail`, 
+    `/zapps/${appId}/funds`, 
+    `/zapps/${appId}/fund/info`, 
+    `/zapps/${appId}/register`, 
+    `/zapps/${appId}/register/clan`, 
+    `/zapps/${appId}/theme`, 
+    `/zapps/${appId}/hall-of-fame`, 
+    `/zapps/${appId}/hall-of-fame/users`, 
+    `/zapps/${appId}/ritual-script`, 
+    `/zapps/${appId}/memorial-location`, 
+    // DEMO ROUTES
     `/zapps/${appId}/dev/tree`,
   ];
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Text } from "zmp-ui";
+import { Text } from "zmp-ui";
 
 import { DateTimeUtils, StyleUtils } from "utils";
 import { useBeanObserver, useRouteNavigate } from "hooks";
@@ -28,7 +28,7 @@ export function UIFundInfo() {
     <>
       <Header title={fund.name}/>
 
-      <div className="container bg-white text-base">
+      <div className="container max-h bg-white text-base">
         <UIFundContainer observer={observer}/>
       </div>
     </>
@@ -125,7 +125,7 @@ function UITransactions({ transactions }: UITransactionsProps) {
       <Text size="large">{t("transaction_history")}</Text>
       <ScrollableDiv 
         className="flex-v" direction="vertical" 
-        height={StyleUtils.calComponentRemainingHeight(100*2 + 44 + 35)}
+        height={StyleUtils.calComponentRemainingHeight(100*2.8)}
       >
         {lines}
       </ScrollableDiv>

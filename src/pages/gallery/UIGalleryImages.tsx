@@ -1,4 +1,5 @@
 import React from "react";
+import { t } from "i18next";
 
 import { Gallery, Image } from "react-grid-gallery";
 import { Lightbox } from "yet-another-react-lightbox";
@@ -8,11 +9,10 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 
 import { GalleryApi } from "api";
 import { useAppContext } from "hooks";
+import { Info, Loading, Header, ScrollableDiv } from "components";
 
-import { t } from "i18next";
 import { ServerResponse } from "types/server";
-import { CommonIcon, Info, Loading } from "components";
-import { Button } from "zmp-ui";
+import { StyleUtils } from "utils";
 
 interface UIGalleryImagesProps {
 }
@@ -20,9 +20,6 @@ export function UIGalleryImages(props: UIGalleryImagesProps) {
   const {  } = props;
   const { serverBaseUrl } = useAppContext();
   const { images, loading, error, refresh } = useGalleryImages();
-
-  const [ index, setIndex ] = React.useState(-1);
-  const [ create, setCreate ] = React.useState<boolean>(false);
 
   const remapImages: GalleryImage[] = React.useMemo(() => {
     return images.map((imgPath: string) => ({
@@ -33,44 +30,64 @@ export function UIGalleryImages(props: UIGalleryImagesProps) {
     }));
   }, [ images ]);
 
-  if (loading) return <Loading/>
-  if (!images.length) return (
-    <div className="flex-v flex-grow-0">
-      <Info 
-        className="text-base py-3" 
-        title={t("Không có ảnh")} 
-        message={t("Hãy thêm album để thêm ảnh")}
-      />
-      {!error && (
-        <div className="center">
-          <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={() => setCreate(true)}>
-            {t("Thêm")}
-          </Button>
+  const renderContainer = () => {
+    if (loading) {
+      return <Loading/>
+    } else if (!images.length) {
+      return (
+        <div className="flex-v flex-grow-0">
+          <Info 
+            className="text-base py-3" 
+            title={t("Không có ảnh")} 
+            message={t("Hãy thêm album để thêm ảnh")}
+          />
         </div>
-      )}
-    </div>
+      )
+    } else {
+      return (
+        <UIGalleryImagesContainer images={remapImages}/>
+      )
+    }
+  }
+
+  return (
+    <>
+      <Header title={`${remapImages.length} ${t("ảnh")}`}/>
+
+      <div className="container bg-white text-base">
+        {renderContainer()}
+      </div>
+    </>
   )
-  else return (
-    <div>
+}
+
+interface UIGalleryImagesContainerProps {
+  images: GalleryImage[];
+}
+function UIGalleryImagesContainer(props: UIGalleryImagesContainerProps) {
+  const { images } = props;
+  const [ index, setIndex ] = React.useState(-1);
+  return (
+    <ScrollableDiv direction="vertical" style={{ height: StyleUtils.calComponentRemainingHeight(10) }}>
       <Gallery 
-        images={remapImages} 
+        images={images} 
         onClick={(index) => setIndex(index)} 
         enableImageSelection={false} 
         rowHeight={150}
       />
       <Lightbox
-        slides={remapImages}
+        slides={images}
         open={index >= 0}
         index={index}
-        close={() => setIndex(-1)}
         plugins={[Zoom, Thumbnails]}
         zoom={{
           scrollToZoom: true,
           maxZoomPixelRatio: 50,
         }}
+        close={() => setIndex(-1)}
       />
-    </div>
-  );
+    </ScrollableDiv>
+  )
 }
 
 export interface GalleryImage extends Image {

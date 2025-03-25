@@ -24,6 +24,7 @@ import { UIRitualScript } from "pages/ritual-script/UIRitualScript";
 import { UIMap } from "pages/memorial-map/UIMap"; 
 
 import { useRouteNavigate } from "hooks";
+import { UIGalleryImages } from "./gallery/UIGalleryImages";
 
 // Demo components (React.lazy loaded)
 const UIDummyFund = React.lazy(() => import("./dummy/UIDummyFund"));
@@ -48,6 +49,7 @@ export function AppRoutes() {
 
       {/* APP */}
       <Route path={createPath("gallery")} element={<UIGallery />}/>
+      <Route path={createPath("gallery/images")} element={<UIGalleryImages />}/>
 
       <Route path={createPath("calendar")} element={<UICalendar />} />
 

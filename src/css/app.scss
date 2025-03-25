@@ -35,10 +35,10 @@ body {
 .container {
   padding-left: 10px;
   padding-right: 10px;
-  padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + calc(var(--header-height) + 5px)) !important;
-  padding-bottom: calc(var(--zaui-safe-area-inset-bottom, 0px) + calc(var(--footer-height) + 5px)) !important;
+  padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + calc(var(--header-height))) !important;
 
   @extend .text-secondary;
+  @extend .max-h;
 
   @media (min-width: 640px) {
     max-width: 100%;
@@ -46,8 +46,7 @@ body {
 }
 
 .container-padding {
-  padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + calc(var(--header-height) + 5px)) !important;
-  padding-bottom: calc(var(--zaui-safe-area-inset-bottom, 0px) + calc(var(--footer-height + 5px))) !important;
+  padding-top: calc(var(--zaui-safe-area-inset-top, 0px) + calc(var(--header-height))) !important;
 
   @media (min-width: 640px) {
     max-width: 100%;
@@ -184,10 +183,10 @@ button, .button {
   height: auto;
 
   background-color: var(--footer-color) !important;
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
   height: calc(var(--zaui-safe-area-inset-bottom) + var(--footer-height)) !important;
-
+  
+  @extend .rounded-top;
+  
   &::after {
     height: 0 !important;
   }

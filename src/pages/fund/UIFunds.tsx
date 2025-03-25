@@ -77,21 +77,70 @@ const funds = [
     "totalExpenses": "2.000.000"
   },
   {
-    "id": 2,
-    "name": "Quỹ Giỗ tổ",
-    "balance": "250.000.000",
+    "id": 1,
+    "name": "Quỹ khuyến học",
+    "balance": "200.000.000",
     "incomes": [
       {
-        "name": "Phạm Thị Hiên",
+        "name": "Phạm Khắc Phú",
         "amount": "5.000.000",
-        "date": "23/12/2024",
+        "date": "12/12/2024",
+        "note": ""
+      },
+      {
+        "name": "Phạm Khắc Phú",
+        "amount": "5.000.000",
+        "date": "12/12/2024",
+        "note": ""
+      },
+      {
+        "name": "Phạm Khắc Phú",
+        "amount": "5.000.000",
+        "date": "12/12/2024",
+        "note": ""
+      },
+      {
+        "name": "Phạm Khắc Phú",
+        "amount": "5.000.000",
+        "date": "12/12/2024",
+        "note": ""
+      },
+      {
+        "name": "Phạm Thị Đỏ",
+        "amount": "2.000.000",
+        "date": "12/12/2024",
         "note": ""
       }
     ],
-    "expenses": [],
+    "expenses": [
+      {
+        "name": "Phạm Khắc Thành",
+        "amount": "2.000.000",
+        "date": "12/12/2024",
+        "note": "Chi cho mua le Chi cho mua le Chi cho mua le Chi cho mua le Chi cho mua le"
+      },
+      {
+        "name": "Phạm Khắc Thành",
+        "amount": "2.000.000",
+        "date": "12/12/2024",
+        "note": "Chi cho mua le"
+      },
+      {
+        "name": "Phạm Khắc Thành",
+        "amount": "2.000.000",
+        "date": "12/12/2024",
+        "note": "Chi cho mua le"
+      },
+      {
+        "name": "Phạm Khắc Thành",
+        "amount": "2.000.000",
+        "date": "12/12/2024",
+        "note": "Chi cho mua le"
+      },
+    ],
     "totalIncomes": "5.000.000",
-    "totalExpenses": "0"
-  }
+    "totalExpenses": "2.000.000"
+  },
 ]
 
 export interface FundLine {
@@ -162,10 +211,10 @@ function useFunds() {
 
 export function UIFund() {
   const { funds, loading, error, refresh } = useFunds();
-
+  
   const renderErrorContainer = () => {
     return (
-      <div className="flex-v max-h">
+      <div className="flex-v">
         <Info title={t("Chưa có dữ liệu")}/>
         <div className="center">
           <Button size="small" prefixIcon={<CommonIcon.Reload size={"1rem"}/>} onClick={() => refresh()}>
@@ -179,9 +228,7 @@ export function UIFund() {
   const renderContainer = () => {
     if (loading) {
       return (
-        <div className="max-h">
-          <Loading/>
-        </div>
+        <Loading/>
       )
     } else if (error) {
       return renderErrorContainer()
@@ -198,7 +245,7 @@ export function UIFund() {
     <>
       <Header title={t("funds")}/>
 
-      <div className="container max-h bg-white text-base">
+      <div className="container bg-white text-base">
         {renderContainer()}
       </div>
     </>
@@ -276,7 +323,7 @@ function UIFundList(props: UIFundListProps) {
         sum + parseInt(current.amount.replace(/\./g, '')), 0).toLocaleString('vi-VN');
 
       return (
-        <div key={`fund-${index}`} className="mb-3 button" onClick={() => onSelect(item.id)}>
+        <div key={`fund-${index}`} className="my-2 button" onClick={() => onSelect(item.id)}>
           {/* header */}
           <div className="p-3 bg-primary text-white rounded-top"> 
             <div className="flex-h justify-between">
@@ -310,9 +357,12 @@ function UIFundList(props: UIFundListProps) {
   }, [ funds ])
 
   return (
-    <ScrollableDiv className="text-base flex-v" height={StyleUtils.calComponentRemainingHeight(0)}>
+    <ScrollableDiv 
+      direction="vertical" 
+      className="flex-v" 
+      height={StyleUtils.calComponentRemainingHeight(10)}
+    >
       {lines}
-      <br/><br/>
     </ScrollableDiv>
   )
 }

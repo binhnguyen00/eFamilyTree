@@ -21,7 +21,7 @@ export function Loading(props: LoadingProps) {
   if (size === "large") width = 150; 
 
   return (
-    <div className={`container center ${className && className}`.trim()}>
+    <div className={`center ${className && className}`.trim()}>
       <SizedBox width={width} height={width}>
         <div className="flex-v center">
           <TailSpin height={width / 4} width={width / 4}/>

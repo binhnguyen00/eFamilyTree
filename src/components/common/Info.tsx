@@ -1,5 +1,4 @@
 import React from "react";
-import { StyleUtils } from "utils";
 import { Text } from "zmp-ui";
 
 interface InfoProps {

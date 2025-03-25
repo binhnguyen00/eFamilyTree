@@ -3,8 +3,8 @@ import { t } from "i18next";
 import { Button, Grid, Sheet } from "zmp-ui";
 
 import { GalleryApi } from "api";
-import { useAppContext } from "hooks";
-import { Card, CommonIcon, Info, Loading } from "components";
+import { useAppContext, useRouteNavigate } from "hooks";
+import { Card, CommonIcon, Header, Info, Loading } from "components";
 
 import { ServerResponse } from "types/server";
 
@@ -37,10 +37,90 @@ const albums = [
 ]
 
 export function UIGalleryAlbums() {
-  const { serverBaseUrl } = useAppContext();
   const { albums, error, loading, refresh } = useGalleryAlbums();
+  const { goTo } = useRouteNavigate();
 
   const [ create, setCreate ] = React.useState<boolean>(false);
+
+  const goToImages = () => {
+    goTo({ path: "gallery/images" });
+  }
+
+  const renderFooter = () => {
+    return (
+      <div className="flex-v" style={{ position: "absolute", bottom: 20, right: 10 }}>
+        <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={() => setCreate(true)}>
+          {t("add")}
+        </Button>
+        <Button size="small" prefixIcon={<CommonIcon.Photo/>} onClick={goToImages}>
+          {t("tất cả ảnh")}
+        </Button>
+      </div>
+    )
+  }
+
+  const renderContainer = () => {
+
+    const renderErrorContainer = () => {
+      return (
+        <div className="flex-v">
+          <Info title={t("Chưa có dữ liệu")}/>
+          <div className="center">
+            <Button size="small" prefixIcon={<CommonIcon.Reload size={"1rem"}/>} onClick={() => refresh()}>
+              {t("retry")}
+            </Button>
+          </div>
+        </div>
+      )
+    }
+
+    if (loading) {
+      return <Loading/>
+    } else if (!albums.length) {
+      return renderErrorContainer()
+    } else if (error) {
+      return renderErrorContainer()
+    } else {
+      return (
+        <UIGalleryAlbumsContainer albums={albums} refresh={refresh}/>
+      )
+    }
+  }
+
+  return (
+    <>
+      <Header title={t("gallery")}/>
+
+      <div>
+
+        {renderContainer()}
+
+        {renderFooter()}
+
+        <Sheet
+          title={t("Tạo Album")}
+          visible={create} onClose={() => setCreate(false)}
+          height={"80vh"}
+        >
+          <UICreateAlbum 
+            onClose={() => setCreate(false)}
+            onReloadParent={() => refresh()}
+          />
+        </Sheet>
+
+      </div>
+    </>
+  )
+}
+
+interface UIGalleryAlbumsContainerProps {
+  albums: any[];
+  refresh: () => void;
+}
+function UIGalleryAlbumsContainer(props: UIGalleryAlbumsContainerProps) {
+  const { albums, refresh } = props;
+  const { serverBaseUrl } = useAppContext();
+
   const [ select, setSelect ] = React.useState<AlbumForm | null>(null);
 
   const albumCards = React.useMemo(() => {
@@ -61,56 +141,16 @@ export function UIGalleryAlbums() {
     ))
   }, [albums]);
 
-  if (loading) return <Loading/>
-  if (!albums.length) return (
-    <div>
-      <Info className="text-base py-3" title={t("Không có album")}/>
-      {/* Create Album */}
-      <Sheet
-        title={t("Tạo Album")}
-        visible={create} onClose={() => setCreate(false)}
-        height={"80vh"}
-      >
-        <UICreateAlbum 
-          onClose={() => setSelect(null)}
-          onReloadParent={() => refresh()}
-        />
-      </Sheet>
-      <div style={{ position: "absolute", bottom: 20, right: 10 }}>
-        <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={() => setCreate(true)}>
-          {t("add")}
-        </Button>
-      </div>
-    </div>
-  )
-  else return (
-    <div>
+  return (
+    <>
       <Grid className="p-2" columnCount={2} rowSpace="0.5rem" columnSpace="0.5rem">
         {albumCards}
       </Grid>
 
-      <div style={{ position: "absolute", bottom: 20, right: 10 }}>
-        <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={() => setCreate(true)}>
-          {t("add")}
-        </Button>
-      </div>
-
-      {/* Create Album */}
-      <Sheet
-        title={t("Tạo Album")}
-        visible={create} onClose={() => setCreate(false)}
-        height={"80vh"}
-      >
-        <UICreateAlbum 
-          onClose={() => setSelect(null)}
-          onReloadParent={() => refresh()}
-        />
-      </Sheet>
-
-      {/* Album Detail */}
       <Sheet
         title={t("Chi Tiết Album")}
-        visible={select ? true : false}  onClose={() => setSelect(null)}
+        visible={select ? true : false}  
+        onClose={() => setSelect(null)}
         height={"85vh"}
       >
         <UIGalleryAlbumDetail 
@@ -119,9 +159,10 @@ export function UIGalleryAlbums() {
           onReloadParent={() => refresh()}
         />
       </Sheet>
-    </div>
-  );
+    </>
+  )
 }
+
 function useGalleryAlbums() {
   const { userInfo } = useAppContext();
 
