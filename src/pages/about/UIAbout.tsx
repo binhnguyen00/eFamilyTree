@@ -5,6 +5,10 @@ import { Text, Swiper, Button } from "zmp-ui";
 import { getAppConfig } from "utils";
 import { useOverlayContext, useRouteNavigate } from "hooks";
 
+import img_1 from "assets/img/about/img-1.png";
+import img_2 from "assets/img/about/img-2.png";
+import img_3 from "assets/img/about/img-3.png";
+
 export function UIAbout() {
   return (
     <div className="flex-v">
@@ -78,6 +82,7 @@ function UIVision() {
           {t("Gia phả Lạc Hồng hướng tới trở thành hệ sinh thái toàn diện, không chỉ lưu giữ và phát triển hệ thống gia phả mà còn là trung tâm kết nối gia đình trong kỷ nguyên số.")}
         </li>
       </ul>
+      <img src={img_1} alt="tầm nhìn"/>
     </div>
   );
 };
@@ -93,6 +98,9 @@ function UIMission() {
         <li> {t("Gia phả Lạc Hồng mang trong mình sứ mệnh gắn kết những gia đình “dòng máu Lạc Hồng”, gìn giữ và bảo tồn cội nguồn “4000 năm” đáng tự hào của hàng triệu trái tim người Việt Nam.")} </li>
         <li> {t("Gia phả Lạc Hồng là sứ giả kết nối quá khứ, hiện tại và tương lai, tôn vinh những giá trị văn hóa, lịch sử của dòng họ")} </li>
       </ul>
+      <div className="center">  
+        <img style={{ width: "70%" }} src={img_2} alt="sứ mệnh"/>
+      </div>
     </div>
   );
 };
@@ -108,6 +116,9 @@ function UIFoundation() {
         <li> {t("Gia Phả Lạc Hồng là cầu nối gắn kết yêu thương giữa các thế hệ trong gia đình và dòng tộc, vượt qua ranh giới về địa lý và thời gian.")} </li>
         <li> {t("Với nền tảng công nghệ tiên tiến, việc tạo, cập nhật và chia sẻ thông tin gia phả trở nên dễ dàng, giúp mọi thế hệ trong gia đình tiếp cận một cách thuận tiện và nhanh chóng.")} </li>
       </ul>
+      <div className="center">
+        <img style={{ width: "60%" }} src={img_3} alt="giá trị cốt lõi"/>
+      </div>
     </div>
   );
 };

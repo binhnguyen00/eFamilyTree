@@ -50,7 +50,8 @@ export function OverlayProvider({ children }: { children: React.ReactNode }) {
   return (
     <OverlayContext.Provider value={context}>
       <Modal
-        visible={isOpen} mask maskClosable modalClassName={className}
+        visible={isOpen} modalClassName={className}
+        mask maskClosable actionsDivider width={"98%"}
         title={title} description={description}
         onClose={onClose}
         actions={[
