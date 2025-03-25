@@ -1,3 +1,9 @@
+# Version 1.3.9 (Thứ 3, 25/03/2025)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=59)
+### Thay đổi
+#### 1. Thêm popup giới thiệu phần mềm
+#### 2. Sửa lỗi và tối ưu hiệu năng 
+
 # Version 1.3.8 (Thứ 3, 18/03/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=58)
 ### Thay đổi
