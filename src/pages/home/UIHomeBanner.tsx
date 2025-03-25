@@ -15,7 +15,6 @@ export function UIHomeBanner() {
 
   const onRegister = () => goTo({ path: "register" });
   const onRegisterClan = () => goTo({ path: "register/clan" });
-  const navigateAbout = () => goTo({ path: "about" });
 
   return (
     <div className="flex-v">

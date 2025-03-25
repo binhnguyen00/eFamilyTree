@@ -14,11 +14,11 @@ import "../i18n";
 function Application() {
   return (
     <ZaloApp>
-      <ThemeProvider>
+      <Router>
         <OverlayProvider>
           <ApplicationProvider>
             <NotificationProvider>
-              <Router>
+              <ThemeProvider>
                 <RequestPhoneProvider>
                   <RequestLocationProvider>
                     <AccountProvider>
@@ -28,11 +28,11 @@ function Application() {
                     </AccountProvider>
                   </RequestLocationProvider>
                 </RequestPhoneProvider>
-              </Router>
+              </ThemeProvider>
             </NotificationProvider>
           </ApplicationProvider>
         </OverlayProvider>
-      </ThemeProvider>
+      </Router>
     </ZaloApp>
   );
 };
