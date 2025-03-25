@@ -23,14 +23,7 @@ export function UIHomeAppList() {
   ];
 
   return (
-    <div className="flex-v">
-      <Text.Title 
-        size="xLarge" 
-        className="text-capitalize text-shadow"
-      > 
-        {t("utilities")} 
-      </Text.Title>
-
+    <div className="bg-secondary rounded p-3">
       <Grid columnCount={4} rowSpace="0.5rem">
         <AppList apps={apps}/>
       </Grid>
@@ -71,16 +64,16 @@ function AppList({ apps }: { apps: App[] }) {
 
 function AppButton(props: { appKey: string; label: string; onClick: () => void }) {
   const { appKey, label, onClick } = props;
-  
+  const appSize = 60;
   return (
     <div onClick={onClick} className="button">
       <div className="flex-v center">
-        <SizedBox width={68} height={68} className="border-secondary rounded">
+        <SizedBox width={appSize} height={appSize} className="rounded">
           <AppSymbol key={`ico-${appKey}`} iconKey={appKey}/> 
         </SizedBox>
         <Text
           key={`title-${appKey}`}  
-          className="mt-2 text-shadow bold text-capitalize text-center"
+          className="text-primary bold text-capitalize text-center"
         >
           {label}
         </Text>

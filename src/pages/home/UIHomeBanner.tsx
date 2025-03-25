@@ -18,8 +18,7 @@ export function UIHomeBanner() {
 
   return (
     <div className="flex-v">
-      <Text.Title size="xLarge" className="py-2 text-capitalize text-shadow"> {t("Gia Phả Lạc Hồng")} </Text.Title>
-      <Swiper>
+      <Swiper loop autoplay>
         <Swiper.Slide>
           <React.Suspense>
             <ImageWithText 
