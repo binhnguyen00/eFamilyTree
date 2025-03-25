@@ -1,5 +1,5 @@
 # Version 1.4.0 (Thứ 3, 25/03/2025)
-### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=59)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=60)
 ### Thay đổi
 #### 1. Thay đổi font chữ
 #### 2. Thay đổi giao diện màn hình chính
