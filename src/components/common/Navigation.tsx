@@ -31,6 +31,7 @@ export function Navigation() {
     `/zapps/${appId}/gallery`, 
     `/zapps/${appId}/gallery/images`, 
     `/zapps/${appId}/calendar`, 
+    `/zapps/${appId}/calendar/month`, 
     `/zapps/${appId}/social-posts`, 
     `/zapps/${appId}/social-posts/detail`, 
     `/zapps/${appId}/funds`, 

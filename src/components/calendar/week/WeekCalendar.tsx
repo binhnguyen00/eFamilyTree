@@ -4,13 +4,11 @@ import { vi, enUS } from 'date-fns/locale'
 import { format, getWeek, addWeeks, subWeeks, subMonths, addMonths } from "date-fns";
 
 import { Cells } from "./Cells";
-import { DaysInWeek } from "./Day";
 
 import { useAppContext } from "hooks";
 import { CommonIcon } from "components";
 import { DateTimeUtils } from "utils";
 
-import "../css/calendar.css";
 import "../css/week-calendar.css";
 
 interface WeekCalendarProps {
@@ -19,9 +17,10 @@ interface WeekCalendarProps {
   onNavigateMonth?: (day: Date) => void;
   onNavigateWeek?: (day: Date) => void;
   daysWithEvent?: Date[];
+  className?: string;
 }
 export default function WeekCalendar(props: WeekCalendarProps) {
-  const { onSelectDay, onCurrentDay, onNavigateWeek, onNavigateMonth, daysWithEvent } = props;
+  const { onSelectDay, onCurrentDay, onNavigateWeek, onNavigateMonth, daysWithEvent, className } = props;
 
   const [ now, setNow ] = React.useState<Date>(new Date());
   const [ currentWeek, setCurrentWeek ] = React.useState(getWeek(now));
@@ -67,13 +66,12 @@ export default function WeekCalendar(props: WeekCalendarProps) {
   }
 
   return (
-    <div className="calendar rounded">
+    <div className={`${className}`.trim()}>
       <Header 
         currentMonth={now}
         navigateMonth={navigateMonth}
         navigateCurrentMonth={() => setNow(new Date())}
       />
-      <DaysInWeek currentMonth={now}/>
       <Cells 
         selectedDate={selectedDate}
         currentDay={now}
@@ -88,9 +86,6 @@ export default function WeekCalendar(props: WeekCalendarProps) {
   )
 }
 
-// ==========================================
-// Header
-// ==========================================
 interface HeaderProps {
   currentMonth: Date;
   onClick?: () => void;
@@ -111,7 +106,7 @@ function Header(props: HeaderProps) {
   let nextMonth: number = month + 1;
   if (nextMonth === 13 && month === 12) nextMonth = 1;
 
-  const HeaderButton = ({ func }: { func: "prev" | "next" }) => {
+  const renderButton = ({ func }: { func: "prev" | "next" }) => {
     const label = `${t("month")} ${func === "prev" ? prevMonth : nextMonth}`
     return (
       <div className="flex-h button" onClick={() => navigateMonth?.(func)}>
@@ -122,11 +117,11 @@ function Header(props: HeaderProps) {
     )
   }
 
-  const HeaderTitle = () => {
+  const renderTitle = () => {
     const title = format(currentMonth, dateFormat, { locale: settings.language === "vi" ? vi : enUS })
     return (
       <span 
-        className="button text-capitalize"
+        className="button text-primary"
         onClick={navigateCurrentMonth}
       >
         {title}
@@ -135,17 +130,14 @@ function Header(props: HeaderProps) {
   }
 
   return (
-    <div className="flex-h justify-between pb-2 pt-1">
-      <HeaderButton func="prev"/>
-      <HeaderTitle/>
-      <HeaderButton func="next"/>
+    <div className="flex-h justify-between py-2">
+      {renderButton({ func: "prev" })}
+      {renderTitle()}
+      {renderButton({ func: "next" })}
     </div>
   );
 }
 
-// ==========================================
-// Footer
-// ==========================================
 interface FooterProps {
   currentWeek: any;
   navigateWeek?: (buttonType: "prev" | "next") => void;

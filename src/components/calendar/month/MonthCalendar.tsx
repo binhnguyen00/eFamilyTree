@@ -7,8 +7,14 @@ import { DateTimeUtils } from "utils";
 
 import 'react-calendar/dist/Calendar.css';
 import '../css/month-calendar.css';
+import { t } from "i18next";
 
-export default function MonthCalendar() {
+interface MonthCalendarProps {
+  className?: string;
+}
+
+export default function MonthCalendar(props: MonthCalendarProps) {
+  const { className } = props;
   const { settings } = useAppContext();
   
   const onActiveStartDateChange = ({ action, activeStartDate, value, view }: OnArgs) => {
@@ -29,10 +35,10 @@ export default function MonthCalendar() {
     const lunar = solar.toLunarDate();
 
     return (
-      <small>
+      <div>
         <p> {lunar.get().day} </p>
-        <p> {lunar.getDayName()} </p>
-      </small>
+        <p > {lunar.getDayName()} </p>
+      </div>
     );
   }
 
@@ -42,7 +48,7 @@ export default function MonthCalendar() {
 
   return (
     <Calendar
-      className={"text-base rounded"}
+      className={`${className && className}`.trim()}
       navigationLabel={navigationLabel}
       view="month"
       locale={settings.language}
@@ -50,11 +56,14 @@ export default function MonthCalendar() {
       onActiveStartDateChange={onActiveStartDateChange}
       onClickDay={onClickDay}
       onChange={onChange}
-      nextLabel="Tiếp"
-      prevLabel="Trước"
+      nextLabel={t("tiếp")}
+      prevLabel={t("trước")}
       tileContent={tileContent}
       selectRange={false}
       returnValue="start"
+      onClickYear={() => {
+        console.log("trigger when select year");
+      }}
     />
   )
 }

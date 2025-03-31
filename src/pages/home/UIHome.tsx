@@ -15,7 +15,7 @@ export function UIHome() {
       <HeaderUser/>
 
       <ScrollableDiv className='container flex-v' direction="vertical" style={{ height: StyleUtils.calComponentRemainingHeight(10) }}>
-        <p className="text-capitalize text-center text-shadow p-3 bold" style={{ fontSize: "2rem" }}>
+        <p className="text-capitalize text-center text-shadow pt-3 bold" style={{ fontSize: "2rem" }}>
           {t("gia phả lạc hồng")}
         </p>
 

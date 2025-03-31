@@ -1,13 +1,10 @@
 import React from "react";
+import { vi, enUS } from 'date-fns/locale'
 import { SolarDate } from "@nghiavuive/lunar_date_vi";
-import { 
-  addDays, format, isSameDay, lastDayOfWeek, startOfWeek 
-} from "date-fns";
+import { addDays, format, isSameDay, lastDayOfWeek, startOfWeek } from "date-fns";
+
 import { DateTimeUtils } from "utils";
 
-// =============================
-// CELLS
-// =============================
 interface CellsProps {
   daysWithEvents?: any[];
   currentDay: Date;
@@ -62,23 +59,22 @@ export function Cells(props: CellsProps) {
     }
 
     rows.push(
-      <div className="row" key={day.toISOString()}>
+      <div className="flex-h" key={day.toISOString()}>
         {cells}
       </div>
     );
+    
     cells = [];
   }
 
   return (
-    <div className="body">
+    <div>
+      <DaysInWeek currentDay={currentDay}/>
       {rows}
     </div>
   );
 }
 
-// =============================
-// SINGLE CELL
-// =============================
 interface CellProps {
   day: Date;
   hasEvent: boolean;
@@ -92,14 +88,59 @@ const Cell: React.FC<CellProps> = React.memo(
     const dayNumber = format(day, "d");
     const solar = new SolarDate(DateTimeUtils.toCalendarDate(day));
     const lunar = solar.toLunarDate();
-    const className = `${isToday ? "today" : isSelected ? "selected" : ""}`;
+    const className = `${isToday ? "calendar-today" : isSelected ? "calendar-selected" : ""}`;
+
+    const dot = (
+      <div 
+        style={{ 
+          backgroundColor: hasEvent ? "#ff5c5c" : "unset",
+          borderRadius: "50%",
+          width: 5, height: 5,
+          position: "absolute",
+        }} 
+        className="p-1 m-1"
+      />
+    )
 
     return (
-      <div className={`col text-center flex-v ${className}`} onClick={() => onClick(day)}>
-        {hasEvent && <div className="callendar-dot" />}
+      <div 
+        className={`text-center flex-v border-primary ${className}`} 
+        style={{ borderRadius: 10 }}
+        onClick={() => onClick(day)}
+      >
         <span className="number"> {dayNumber} </span>
+        {dot}
         <small> {lunar.get().day} </small>
       </div>
     );
   }
 );
+
+interface DaysInWeekProps {
+  currentDay: any;
+}
+
+export function DaysInWeek(props: DaysInWeekProps) {
+  const { currentDay } = props;
+
+  const days = React.useMemo(() => {
+    const dateFormat = "EEE";
+    const days: React.ReactNode[] = [];
+    const startDate = startOfWeek(currentDay, { weekStartsOn: 1 });
+
+    for (let i = 0; i < 7; i++) {
+      days.push(
+        <div className="center" key={i}>
+          {format(addDays(startDate, i), dateFormat, { locale: vi })}
+        </div>
+      );
+    }
+    return days;
+  }, [currentDay]);
+
+  return (
+    <div className="flex-h justify-between">
+      {days}
+    </div>
+  );
+}

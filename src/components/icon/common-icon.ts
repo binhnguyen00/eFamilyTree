@@ -19,6 +19,7 @@ import { BiMaleFemale } from "react-icons/bi";
 import { GiFamilyTree } from "react-icons/gi";
 import { MdFamilyRestroom } from "react-icons/md";
 import { GiGraveFlowers } from "react-icons/gi";
+import { FaRegCalendarAlt } from "react-icons/fa";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -74,5 +75,6 @@ export const CommonIcon = {
   MaleFemale: BiMaleFemale,
   FamilyTree: GiFamilyTree,
   Family: MdFamilyRestroom,
-  Grave: GiGraveFlowers
+  Grave: GiGraveFlowers,
+  Gallery: FaRegCalendarAlt,
 };

@@ -3,9 +3,9 @@ import { t } from "i18next";
 import { Button, Sheet } from "zmp-ui";
 
 import { CalendarApi, FamilyTreeApi } from "api";
-import { useAppContext } from "hooks";
+import { useAppContext, useRouteNavigate } from "hooks";
 import { CalendarUtils, DateTimeUtils, StyleUtils } from "utils";
-import { CommonIcon, Divider, ScrollableDiv, WeekCalendar } from "components";
+import { CommonIcon, ScrollableDiv, WeekCalendar } from "components";
 
 import { ServerResponse } from "types/server";
 import { UIEventList } from "./UIEventList";
@@ -67,6 +67,7 @@ function useGetActiveMembers(userId: number, clanId: number) {
 
 export function UIWeekCalendar() {
   const { userInfo } = useAppContext();
+  const { goTo } = useRouteNavigate();
   const [ navigateDay, setNavigateDay ] = React.useState<Date>(new Date());
   const [ create, setCreate ] = React.useState<boolean>(false);
   const [ selectedDate, setSelectedDate ] = React.useState<string>("");
@@ -97,6 +98,7 @@ export function UIWeekCalendar() {
   const onNavigate = (day: Date) => {
     setNavigateDay(day);
   }
+
   const onReload = () => {
     const date = DateTimeUtils.toDate(selectedDate);
     if (date) {
@@ -104,6 +106,10 @@ export function UIWeekCalendar() {
       getEventsByDay(selectedDate);
     }
   };
+
+  const goToMonthCalendar = () => {
+    goTo({ path: "calendar/month" })
+  }
 
   return (
     <div className="flex-v">
@@ -115,6 +121,30 @@ export function UIWeekCalendar() {
         onNavigateMonth={onNavigate}
         daysWithEvent={daysWithEvent}
       />
+
+      <ScrollableDiv 
+        direction="vertical" className="rounded border-primary" 
+        height={StyleUtils.calComponentRemainingHeight(200)}
+      >
+        <div className="flex-v align-end" style={{ position: "absolute", bottom: 20, right: 10 }}>
+          <div>
+            <Button size="small" prefixIcon={<CommonIcon.AddEvent/>} onClick={() => setCreate(true)}>
+              {t("add")}
+            </Button>
+          </div>
+          <div>
+            <Button size="small" onClick={goToMonthCalendar} prefixIcon={<CommonIcon.Gallery/>}>
+              {t("lịch vạn niên")}
+            </Button>
+          </div>
+        </div>
+        <UIEventList 
+          activeMembers={activeMembers}
+          events={events}
+          onReloadParent={onReload}
+        />
+        <br/> <br/> <br/>
+      </ScrollableDiv>
 
       <Sheet
         visible={create}
@@ -129,24 +159,6 @@ export function UIWeekCalendar() {
           onReloadParent={onReload}
         />
       </Sheet>
-
-      <ScrollableDiv 
-        className="rounded-top bg-white" 
-        direction="vertical" 
-        height={StyleUtils.calComponentRemainingHeight(157 + 44)}
-      >
-        <div style={{ position: "absolute", bottom: 40, right: 10 }}>
-          <Button size="small" prefixIcon={<CommonIcon.AddEvent/>} onClick={() => setCreate(true)}>
-            {t("add")}
-          </Button>
-        </div>
-        <UIEventList 
-          activeMembers={activeMembers}
-          events={events}
-          onReloadParent={onReload}
-        />
-        <br/> <br/> <br/>
-      </ScrollableDiv>
 
     </div>
   )
