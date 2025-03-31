@@ -210,7 +210,7 @@ function useFunds() {
 }
 
 export function UIFund() {
-  const { loading, error, refresh } = useFunds();
+  const { funds, loading, error, refresh } = useFunds();
   
   const renderErrorContainer = () => {
     return (
@@ -226,22 +226,19 @@ export function UIFund() {
   }
 
   const renderContainer = () => {
-    // if (loading) {
-    //   return (
-    //     <Loading/>
-    //   )
-    // } else if (error) {
-    //   return renderErrorContainer()
-    // } else if (!funds.length) {
-    //   return renderErrorContainer()
-    // } else {
-    //   return (
-    //     <UIFundList funds={funds}/>
-    //   )
-    // }
-    return (
-      <UIFundList funds={funds}/>
-    )
+    if (loading) {
+      return (
+        <Loading/>
+      )
+    } else if (error) {
+      return renderErrorContainer()
+    } else if (!funds.length) {
+      return renderErrorContainer()
+    } else {
+      return (
+        <UIFundList funds={funds}/>
+      )
+    }
   }
 
   return (
