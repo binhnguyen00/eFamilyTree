@@ -181,6 +181,10 @@ button, .button {
   @extend .rounded;
 }
 
+.zaui-swiper-wrapper {
+  touch-action: pan-y !important; // fix can't swipe down
+}
+
 // input
 .zaui-input-label {
   @extend .text-primary;

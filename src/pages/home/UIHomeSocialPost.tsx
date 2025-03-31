@@ -1,25 +1,15 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Text } from "zmp-ui";
+import { Text } from "zmp-ui";
 
 import { SocialPostApi } from "api";
-import { CommonIcon, TailSpin } from "components";
-import { useAccountContext, useRequestPhoneContext, useRouteNavigate } from "hooks";
+import { TailSpin } from "components";
+import { useRouteNavigate } from "hooks";
 
 import { useSocialPosts } from "pages/social-post/UISocialPost";
 
 export function UIHomeSocialPost() {
-  const { needRegisterClan, registerClan, needRegisterAccount, registerAccount } = useAccountContext();
-  const { needPhone, requestPhone } = useRequestPhoneContext();
-  const { goTo } = useRouteNavigate();
   const { posts, error, loading, refresh } = useSocialPosts();
-
-  const goToSocialPosts = () => {
-    if (needPhone) { requestPhone(); return; }
-    else if (needRegisterClan) { registerClan(); return; } 
-    else if (needRegisterAccount) { registerAccount(); return; }
-    else goTo({ path: "social-posts" });
-  }
 
   const renderContainer = () => {
     if (loading) {
@@ -40,23 +30,7 @@ export function UIHomeSocialPost() {
     }
   }
 
-  return (
-    <div className="flex-v">
-
-      <div className="flex-h justify-between">
-        <Text.Title size="xLarge" className="text-capitalize text-shadow"> {t("blogs")} </Text.Title>
-        <Button 
-          size="small" variant="secondary" 
-          suffixIcon={<CommonIcon.ChevonRight size={"1rem"}/>} 
-          onClick={goToSocialPosts}
-        >
-          {t("more")}
-        </Button>
-      </div>
-
-      {renderContainer()}
-    </div>
-  )
+  return renderContainer()
 }
 
 interface UISocialPostsProps {
