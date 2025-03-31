@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Sheet, Stack, Text } from "zmp-ui";
+import { Sheet, Text } from "zmp-ui";
 
 import { DateTimeUtils, StyleUtils } from "utils";
 import { UIEventDetails } from "./UIEventDetails";
@@ -17,44 +17,46 @@ export function UIEventList(props: UIEventListProps) {
   const { activeMembers, events, onReloadParent } = props;
   const [ selectedEvent, setSelectedEvent ] = React.useState<any | null>(null);
 
-  const eventLines = React.useMemo(() => {
-    const lines = events.map((event, idx) => (
-      <div 
-        key={event.id || idx}
-        className="flex-h justify-between border-bottom align-center"
-        onClick={() => setSelectedEvent(event)}
-      >
-        <Text size="large" className="bold button">
-          {event["name"]}
-        </Text>
-        <div className="flex-v align-end">
-          <small className="bold"> 
-            {DateTimeUtils.toDisplayTimeHour(event["from_date"])} 
-          </small>
-          <small> 
-            {DateTimeUtils.toDisplayTimeHour(event["to_date"])} 
-          </small>
-        </div>
-      </div>
-    )) as React.ReactNode[];
+  const renderEvents = () => {
+    const eventLines = React.useMemo(() => {
+      const lines = events.map((event, idx) => (
+        <>
+          <div 
+            key={event.id || idx}
+            className="flex-v p-3"
+            onClick={() => setSelectedEvent(event)}
+          >
+            <Text.Title className="button"> {event["name"]} </Text.Title>
+            <small className="flex-h">
+              <span className="bold"> {DateTimeUtils.toDisplayTimeHour(event["from_date"])}  </span>
+              {" - "}
+              <span> {DateTimeUtils.toDisplayTimeHour(event["to_date"])} </span> 
+            </small>
+          </div>
 
-    return lines;
-  }, [ events ]);
+          <hr/>
+        </>
+      )) as React.ReactNode[];
+
+      return lines;
+    }, [ events ]);
+
+    if (!eventLines.length) return (
+      <Text.Title className="center p-3"> {t("no_calendar_events")} </Text.Title>
+    )
+    else return eventLines;
+  }
 
   return (
     <>
-      <Stack space="0.5rem" className="p-2">
-        {eventLines.length ? (
-          <> {eventLines} </>
-        ): (
-          <span className="center"> {t("no_calendar_events")} </span>
-        )}
-      </Stack>
+      <div className="flev-v">
+        {renderEvents()}
+      </div>
       <Sheet
         visible={selectedEvent ? true : false}
         className="bg-white text-base"
         onClose={() => setSelectedEvent(null)}
-        height={StyleUtils.calComponentRemainingHeight(0)}
+        height={StyleUtils.calComponentRemainingHeight(50)}
         title={t("event_details")}
       >
         <UIEventDetails
@@ -67,12 +69,3 @@ export function UIEventList(props: UIEventListProps) {
     </>
   )
 }
-
-// {
-//   id: 48,
-//   name: "Test Event",
-//   pic_id: 2,
-//   pic: "Binh Nguyen",
-//   from_date: "18/02/2025@17:23:00",
-//   to_date: "19/02/2025@17:23:00",
-// }

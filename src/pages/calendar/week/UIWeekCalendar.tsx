@@ -11,6 +11,8 @@ import { ServerResponse } from "types/server";
 import { UIEventList } from "./UIEventList";
 import { UICreate } from "./UICreate";
 
+// import events from "../../dummy/sample/events.json"
+
 function useWeekEvents(userId: number, clanId: number, navigateDay: Date) {
   const [ events, setEvents ] = React.useState<any[]>([]);
   const [ daysWithEvent, setDaysWithEvent ] = React.useState<Date[]>([]);
@@ -35,10 +37,7 @@ function useWeekEvents(userId: number, clanId: number, navigateDay: Date) {
     CalendarApi.getClanEventInWeek(userId, clanId, firstDayOfWeek, lastDayOfWeek, success);
   }, [ navigateDay ]);
 
-  return { 
-    events, setEvents,
-    daysWithEvent, setDaysWithEvent
-  };
+  return { events, setEvents, daysWithEvent, setDaysWithEvent };
 }
 
 function useGetActiveMembers(userId: number, clanId: number) {
@@ -112,43 +111,45 @@ export function UIWeekCalendar() {
   }
 
   return (
-    <div className="flex-v">
-
-      <WeekCalendar 
-        onSelectDay={onSelectDay}
-        onCurrentDay={onCurrentDay}
-        onNavigateWeek={onNavigate}
-        onNavigateMonth={onNavigate}
-        daysWithEvent={daysWithEvent}
-      />
-
-      <ScrollableDiv 
-        direction="vertical" className="rounded border-primary" 
-        height={StyleUtils.calComponentRemainingHeight(200)}
-      >
-        <div className="flex-v align-end" style={{ position: "absolute", bottom: 20, right: 10 }}>
-          <div>
-            <Button size="small" prefixIcon={<CommonIcon.AddEvent/>} onClick={() => setCreate(true)}>
-              {t("add")}
-            </Button>
-          </div>
-          <div>
-            <Button size="small" onClick={goToMonthCalendar} prefixIcon={<CommonIcon.Gallery/>}>
-              {t("lịch vạn niên")}
-            </Button>
-          </div>
-        </div>
-        <UIEventList 
-          activeMembers={activeMembers}
-          events={events}
-          onReloadParent={onReload}
+    <>
+      <div className="flex-v">
+        <WeekCalendar 
+          onSelectDay={onSelectDay}
+          onCurrentDay={onCurrentDay}
+          onNavigateWeek={onNavigate}
+          onNavigateMonth={onNavigate}
+          daysWithEvent={daysWithEvent}
         />
-        <br/> <br/> <br/>
-      </ScrollableDiv>
+        <ScrollableDiv 
+          direction="vertical"
+          height={StyleUtils.calComponentRemainingHeight(210)}
+        >
+          <div className="flex-v align-end" style={{ position: "absolute", bottom: 20, right: 10 }}>
+            <div>
+              <Button size="small" prefixIcon={<CommonIcon.AddEvent/>} onClick={() => setCreate(true)}>
+                {t("add")}
+              </Button>
+            </div>
+            <div>
+              <Button size="small" onClick={goToMonthCalendar} prefixIcon={<CommonIcon.Gallery/>}>
+                {t("lịch vạn niên")}
+              </Button>
+            </div>
+          </div>
+
+          <UIEventList 
+            activeMembers={activeMembers}
+            events={events}
+            onReloadParent={onReload}
+          />
+          
+          <br/> <br/> <br/>
+        </ScrollableDiv>
+      </div>
 
       <Sheet
         visible={create}
-        height={StyleUtils.calComponentRemainingHeight(0)}
+        height={StyleUtils.calComponentRemainingHeight(50)}
         title={t("Tạo Sự Kiện")}
         onClose={() => setCreate(false)}
       > 
@@ -159,7 +160,6 @@ export function UIWeekCalendar() {
           onReloadParent={onReload}
         />
       </Sheet>
-
-    </div>
+    </>
   )
 }

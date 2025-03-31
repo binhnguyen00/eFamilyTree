@@ -130,9 +130,9 @@ export function DaysInWeek(props: DaysInWeekProps) {
 
     for (let i = 0; i < 7; i++) {
       days.push(
-        <div className="center" key={i}>
+        <small className="center" key={i}>
           {format(addDays(startDate, i), dateFormat, { locale: vi })}
-        </div>
+        </small>
       );
     }
     return days;
