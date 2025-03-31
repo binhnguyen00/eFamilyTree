@@ -262,5 +262,10 @@ button, .button {
 
 // modal
 .zaui-modal-content {
+  max-height: 85% !important;
   @extend .rounded;
+}
+
+.zaui-modal-content-actions::before {
+  background: var(--primary-color) !important;
 }
