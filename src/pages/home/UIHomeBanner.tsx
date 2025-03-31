@@ -17,7 +17,7 @@ export function UIHomeBanner() {
   const onRegisterClan = () => goTo({ path: "register/clan" });
 
   return (
-    <div className="flex-v">
+    <div className="flex-v box-shadow">
       <Swiper loop autoplay>
         <Swiper.Slide>
           <React.Suspense>

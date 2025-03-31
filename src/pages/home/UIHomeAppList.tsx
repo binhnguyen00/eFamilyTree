@@ -23,7 +23,7 @@ export function UIHomeAppList() {
   ];
 
   return (
-    <div className="bg-secondary rounded p-3">
+    <div className="bg-secondary rounded p-3 box-shadow" style={{ zIndex: 2 }}>
       <Grid columnCount={4} rowSpace="0.5rem">
         <AppList apps={apps}/>
       </Grid>

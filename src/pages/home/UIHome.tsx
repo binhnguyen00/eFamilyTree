@@ -1,14 +1,14 @@
 import React from 'react';
 import { t } from 'i18next';
+import { Button, Text } from 'zmp-ui';
 
 import { StyleUtils } from 'utils';
 import { HeaderUser, Divider, ScrollableDiv, CommonIcon } from 'components';
+import { useAccountContext, useRequestPhoneContext, useRouteNavigate } from 'hooks';
 
 import { UIHomeBanner } from './UIHomeBanner';
 import { UIHomeAppList } from './UIHomeAppList';
 import { UIHomeSocialPost } from './UIHomeSocialPost';
-import { useAccountContext, useRequestPhoneContext, useRouteNavigate } from 'hooks';
-import { Button, Text } from 'zmp-ui';
 import { UIThemeList } from 'pages/theme/UITheme';
 
 export function UIHome() {
@@ -17,9 +17,9 @@ export function UIHome() {
       <HeaderUser/>
 
       <ScrollableDiv className='container flex-v' direction="vertical" style={{ height: StyleUtils.calComponentRemainingHeight(10) }}>
-        <p className="text-capitalize text-center text-shadow pt-3 bold" style={{ fontSize: "2rem" }}>
-          {t("gia phả lạc hồng")}
-        </p>
+        <div/>
+
+        <AppTitle/>
 
         <UIHomeAppList/>
 
@@ -44,6 +44,38 @@ export function UIHome() {
     </>
   )
 };
+
+function AppTitle() {
+  return (
+    <div className="mt-3 mb-3" style={{ position: 'relative' }}>
+      {/* White half-circle element */}
+      <div
+        style={{
+          position: 'absolute',
+          top: -250,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: "140vw",
+          height: 450,
+          borderRadius: "0 0 50% 50%",
+          backgroundColor: `var(--quaternary-color)`,
+          boxShadow: "0 0 30px 5px rgba(255, 255, 255, 0.6)", // Glow effect
+          zIndex: 0,
+        }}
+      />
+      <p 
+        className="text-capitalize text-primary center bold" 
+        style={{ 
+          fontSize: "2.4rem", 
+          position: 'relative', 
+          zIndex: 0,
+        }}
+      >
+        {t("gia phả lạc hồng")}
+      </p>
+    </div>
+  )
+}
 
 function ThemeTitle() {
   const { 
