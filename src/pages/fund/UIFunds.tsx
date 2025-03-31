@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, List } from "zmp-ui";
+import { Button } from "zmp-ui";
 
 import { FundApi } from "api";
 import { StyleUtils } from "utils";
@@ -10,6 +10,7 @@ import { Header, Loading, ScrollableDiv, Info, CommonIcon } from "components";
 import { ServerResponse } from "types/server";
 import { FundInfo } from "./UIFundInfo";
 
+/**@deprecated */
 const funds = [
   {
     "id": 1,
@@ -261,6 +262,7 @@ function UIFundList(props: UIFundListProps) {
   const { userInfo } = useAppContext();
   const { loadingToast } = useNotification();
 
+  /**@deprecated */
   const onSelectDummy = (id: number) => {
     const data = funds[0];
     goTo({  
