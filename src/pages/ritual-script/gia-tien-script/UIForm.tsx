@@ -9,7 +9,7 @@ import { DateTimeUtils, ZmpSDK } from "utils";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 import { BeanObserver, CommonIcon, Label } from "components";
 
-import { UIAncestralOfferingTemplate } from "./UITemplate";
+import { UIGiaTienTemplate } from "./UITemplate";
 
 /** Sớ Lễ Gia Tiên */
 
@@ -75,7 +75,7 @@ export function UIGiaTienForm() {
         <p> {t("please_wait")} </p>
       </div>,
       (onSuccess, onFail) => {
-        const element = document.getElementById('petition-ancestral-offering-letter');
+        const element = document.getElementById('gia-tien-script');
         if (!element) { 
           onFail(t("download_fail")); 
           return;
@@ -153,7 +153,7 @@ export function UIGiaTienForm() {
           maxScale={1.5}
         >
           <TransformComponent>
-            <UIAncestralOfferingTemplate 
+            <UIGiaTienTemplate 
               form={{
                 ...observer.getBean(),
                 houseOwner: houseOwnerObserver.getBean(),

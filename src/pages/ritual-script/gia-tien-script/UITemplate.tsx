@@ -4,15 +4,15 @@ import DOMPurify from "dompurify";
 
 import type { GiaTienForm, GiaTienMember } from "./UIForm";
 
-import TAM_BAO from "assets/img/petition/ancestral-offering/tam-bao.png";
+import TEMPLATE   from "assets/template/gia-tien.hbs?raw";
+import TAM_BAO    from "assets/img/petition/ancestral-offering/tam-bao.png";
 import BACKGROUND from "assets/img/petition/ancestral-offering/background.jpg"
-import petitionLetter from "assets/template/gia-tien.hbs?raw";
 
 /** Sớ Lễ Gia Tiên */
-interface UIAncestralOfferingTemplateProps {
+interface UIGiaTienTemplateProps {
   form: GiaTienForm;
 }
-export function UIAncestralOfferingTemplate(props: UIAncestralOfferingTemplateProps) {
+export function UIGiaTienTemplate(props: UIGiaTienTemplateProps) {
   let { form } = props;
 
   Handlebars.registerHelper('textVertical', function(text) {
@@ -30,11 +30,11 @@ export function UIAncestralOfferingTemplate(props: UIAncestralOfferingTemplatePr
     return skipRow;
   });
 
-  Handlebars.registerHelper('letterStamp', function() {
+  Handlebars.registerHelper('tamBao', function() {
     return (`<img id="letter-stamp" src="${TAM_BAO}">`)
   });
 
-  const compiledTemplate = Handlebars.compile(petitionLetter);
+  const compiledTemplate = Handlebars.compile(TEMPLATE);
   const templateData = {
     col0: "/ / Nhật Thần Khấu Thủ Hoà Nam Bách Bái Cụ Sớ",
     col1: "/ Khích Thiết Bình Doanh Chi Phí Cẩn Sơ",
@@ -98,7 +98,7 @@ export function UIAncestralOfferingTemplate(props: UIAncestralOfferingTemplatePr
   const purified = DOMPurify.sanitize(filledTemplate);
   return (
     <div 
-      id="petition-ancestral-offering-letter"
+      id="gia-tien-script"
       style={{ 
         backgroundImage: `url(${BACKGROUND})`,
         backgroundClip: "content-box",
