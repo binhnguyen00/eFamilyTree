@@ -64,7 +64,7 @@ function AppTitle() {
         }}
       />
       <p 
-        className="text-capitalize text-primary center bold" 
+        className="text-capitalize text-primary center bold text-shadow-secondary" 
         style={{ 
           fontSize: "2.4rem", 
           position: 'relative', 
