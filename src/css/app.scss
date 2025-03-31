@@ -111,11 +111,13 @@ body {
 
 // header
 .zaui-header {
+  background: url("../assets/img/background/pattern-cloud-02.png") no-repeat 105% -20% !important;
+  background-size: 160px !important;
   height: calc(var(--zaui-safe-area-inset-top, 0px) + var(--header-height)) !important;
   background-color: var(--header-color) !important;
-  background-size: 210px !important;
   color: var(--secondary-color) !important;
   border-bottom: var(--secondary-color) solid 1.5px;
+
   @extend .rounded-bottom;
 }
 
