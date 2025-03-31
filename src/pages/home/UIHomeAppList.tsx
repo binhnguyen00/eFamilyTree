@@ -68,7 +68,7 @@ function AppButton(props: { appKey: string; label: string; onClick: () => void }
   return (
     <div onClick={onClick} className="button">
       <div className="flex-v center">
-        <SizedBox width={appSize} height={appSize} className="rounded">
+        <SizedBox width={appSize} height={appSize} className="circle">
           <AppSymbol key={`ico-${appKey}`} iconKey={appKey}/> 
         </SizedBox>
         <Text
