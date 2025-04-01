@@ -4,25 +4,25 @@ import { Text } from "zmp-ui";
 
 import { Header, ScrollableDiv, Selection, SelectionOption } from "components";
 
-import { UIGiaTienForm } from "./gia-tien-script/UIForm";
+import { UIBinhAnForm } from "./binh-an-script/UIForm";
 import { UIVuLanForm } from "./vu-lan-script/UIForm";
 
 export function UIRitualScript() {
   const [ number, setNumber ] = React.useState<number>(1);
 
   const options: any[] = [
-    { value: 1, label: "Lễ Gia Tiên" },
+    { value: 1, label: "Bình An" },
     { value: 2, label: "Vu Lan" },
   ]
 
   const renderContainer = () => {
     switch (number) { 
       case 1: 
-        return <UIGiaTienForm />;
+        return <UIBinhAnForm />;
       case 2: 
         return <UIVuLanForm/>;
       default: 
-        return <UIGiaTienForm />;
+        return <UIBinhAnForm />;
     }
   }
 

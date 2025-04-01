@@ -2,17 +2,17 @@ import React from "react";
 import Handlebars from "handlebars";
 import DOMPurify from "dompurify";
 
-import type { GiaTienForm, GiaTienMember } from "./UIForm";
+import type { BinhAnForm, BinhAnMember } from "./UIForm";
 
-import TEMPLATE   from "assets/template/gia-tien.hbs?raw";
+import TEMPLATE   from "assets/template/binh-an.hbs?raw";
 import TAM_BAO    from "assets/img/petition/ancestral-offering/tam-bao.png";
 import BACKGROUND from "assets/img/petition/ancestral-offering/background.jpg"
 
 /** Sớ Lễ Gia Tiên */
-interface UIGiaTienTemplateProps {
-  form: GiaTienForm;
+interface UIBinhAnTemplateProps {
+  form: BinhAnForm;
 }
-export function UIGiaTienTemplate(props: UIGiaTienTemplateProps) {
+export function UIBinhAnTemplate(props: UIBinhAnTemplateProps) {
   let { form } = props;
 
   Handlebars.registerHelper('textVertical', function(text) {
@@ -58,17 +58,17 @@ export function UIGiaTienTemplate(props: UIGiaTienTemplateProps) {
     col17: "/ / / / / / / / Phục Dĩ",
 
     // values
-    liveAt: "Hải Phòng Thành, Kiến An Quận, Văn Đẩu Phường, Số 24",
-    topDog: "Nguyễn Văn A Bản Mệnh Sinh Hư Giáp Thìn Hành Canh",
+    liveAt: "",
+    topDog: "",
     familyMembers: "",
     yearCreate: "",
     monthCreate: "",
     dayCreate: "",
-    workshipSeason: "Đông",
-    workshipPlace: "Tại Gia"
+    workshipSeason: "",
+    workshipPlace: ""
   }
 
-  const createPerson = (person?: GiaTienMember) => {
+  const createPerson = (person?: BinhAnMember) => {
     let content: string = "";
     if (!person) return "";
     else {
@@ -79,7 +79,7 @@ export function UIGiaTienTemplate(props: UIGiaTienTemplateProps) {
     return content;
   }
 
-  const createFamilyMembers = (members?: GiaTienMember[]) => {
+  const createFamilyMembers = (members?: BinhAnMember[]) => {
     if (!members) return "";
     else return members.map((mem) => createPerson(mem)).join(",")
   }
@@ -98,7 +98,7 @@ export function UIGiaTienTemplate(props: UIGiaTienTemplateProps) {
   const purified = DOMPurify.sanitize(filledTemplate);
   return (
     <div 
-      id="gia-tien-script"
+      id="binh-an-script"
       style={{ 
         backgroundImage: `url(${BACKGROUND})`,
         backgroundClip: "content-box",

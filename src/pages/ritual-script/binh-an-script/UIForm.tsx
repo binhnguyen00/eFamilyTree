@@ -9,11 +9,11 @@ import { DateTimeUtils, ZmpSDK } from "utils";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 import { BeanObserver, CommonIcon, Label, Title } from "components";
 
-import { UIGiaTienTemplate } from "./UITemplate";
+import { UIBinhAnTemplate } from "./UITemplate";
 
 /** Sớ Lễ Gia Tiên */
 
-export type GiaTienMember = {
+export type BinhAnMember = {
   name?: string;
   birth?: string;
   birthDate?: string;
@@ -21,18 +21,18 @@ export type GiaTienMember = {
   address?: string;
 }
 
-export type GiaTienForm = {
+export type BinhAnForm = {
   yearCreate?: string;
   monthCreate?: string;
   dayCreate?: string;
   liveAt?: string;
-  houseOwner: GiaTienMember;
-  familyMembers: GiaTienMember[];
+  houseOwner: BinhAnMember;
+  familyMembers: BinhAnMember[];
   workshipSeason?: string;
   workshipPlace?: string;
 }
 
-export function UIGiaTienForm() {
+export function UIBinhAnForm() {
   const { zaloUserInfo } = useAppContext();
 
   // current solar date
@@ -50,7 +50,7 @@ export function UIGiaTienForm() {
       birthDate: DateTimeUtils.formatToDate(new Date(2000, 0, 1)),
     },
     familyMembers: []
-  } as GiaTienForm;
+  } as BinhAnForm;
 
   const observer = useBeanObserver(form);
   const houseOwnerObserver = useBeanObserver(form.houseOwner);
@@ -67,7 +67,7 @@ export function UIGiaTienForm() {
         <p> {t("please_wait")} </p>
       </div>,
       (onSuccess, onFail) => {
-        const element = document.getElementById('gia-tien-script');
+        const element = document.getElementById('binh-an-script');
         if (!element) { 
           onFail(t("download_fail")); 
           return;
@@ -134,7 +134,7 @@ export function UIGiaTienForm() {
 
       <Sheet
         visible={preview} 
-        title={t("Sớ Lễ Gia Tiên")}
+        title={t("Sớ Cầu Bình An")}
         onClose={() => setPreview(false)} height={"90vh"}
       >
         <TransformWrapper
@@ -143,7 +143,7 @@ export function UIGiaTienForm() {
           maxScale={1.5}
         >
           <TransformComponent>
-            <UIGiaTienTemplate 
+            <UIBinhAnTemplate 
               form={{
                 ...observer.getBean(),
                 houseOwner: houseOwnerObserver.getBean(),
@@ -169,7 +169,7 @@ export function UIGiaTienForm() {
 }
 
 function UIBasicForm({ observer } : {
-  observer: BeanObserver<GiaTienForm>, 
+  observer: BeanObserver<BinhAnForm>, 
 }) {
   return (
     <div className="flex-v border-primary p-3 rounded">
@@ -212,7 +212,7 @@ function UIBasicForm({ observer } : {
 }
 
 function UIHouseOwnerForm({ observer }: { 
-  observer: BeanObserver<GiaTienMember>, 
+  observer: BeanObserver<BinhAnMember>, 
 }) {
   const parseDate2Solar = (date: Date) => {
     const calendarDate = DateTimeUtils.toCalendarDate(date);
@@ -271,7 +271,7 @@ function UIHouseOwnerForm({ observer }: {
 }
 
 function UIFamilyMembersForm({ observer }: { 
-  observer: BeanObserver<GiaTienMember[]>, 
+  observer: BeanObserver<BinhAnMember[]>, 
 }) {
   const [people, setPeople] = React.useState<number[]>([]);
   
