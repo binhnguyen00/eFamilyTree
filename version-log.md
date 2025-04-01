@@ -1,3 +1,11 @@
+# Version 1.5.0 (Thứ 3, 01/04/2025)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=61)
+### Thay đổi
+#### 1. Thêm 02 loại sớ 
+  - Sớ Phúc Thọ và Sớ Vu Lan
+#### 2. Thay đổi giao diện màn hình chính
+#### 3. Sửa lỗi vặt
+
 # Version 1.4.0 (Thứ 3, 25/03/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=60)
 ### Thay đổi
