@@ -2,7 +2,7 @@ import React from "react";
 import html2canvas from "html2canvas";
 import { t } from "i18next";
 import { SolarDate } from "@nghiavuive/lunar_date_vi";
-import { Button, Input, Sheet, DatePicker, Text } from "zmp-ui";
+import { Button, Input, Sheet } from "zmp-ui";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import { DateTimeUtils, ZmpSDK } from "utils";

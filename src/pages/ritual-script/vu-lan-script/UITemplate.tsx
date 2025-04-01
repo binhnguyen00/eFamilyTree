@@ -7,6 +7,7 @@ import TAM_BAO    from "assets/img/petition/ancestral-offering/tam-bao.png";
 import BACKGROUND from "assets/img/petition/ancestral-offering/background.jpg"
 
 import { VuLanForm } from "./UIForm";
+import { DateTimeUtils } from "utils";
 
 interface UIVuLanTemplateProps {
   form: VuLanForm;
@@ -14,9 +15,10 @@ interface UIVuLanTemplateProps {
 
 export function UIVuLanTemplate(props: UIVuLanTemplateProps) {
   const { form } = props;
+  const calendarDate = DateTimeUtils.toCalendarDate(new Date());
 
   Handlebars.registerHelper('tamBao', function() {
-    return (`<img id="letter-stamp" src="${TAM_BAO}">`)
+    return (`<img id="tam-bao" src="${TAM_BAO}">`)
   });
 
   const templateCompiler = Handlebars.compile(TEMPLATE);
@@ -24,7 +26,10 @@ export function UIVuLanTemplate(props: UIVuLanTemplateProps) {
     whoAmI: form.whoAmI,
     whereILive: form.whereILive,
     whatIWant: form.whatIWant,
-    whereISubmit: form.whereISubmit
+    whereISubmit: form.whereISubmit,
+    day: calendarDate.day,
+    month: calendarDate.month,
+    year: calendarDate.year
   }
   const raw = templateCompiler(placeHolder);
   const purified = DOMPurify.sanitize(raw);
