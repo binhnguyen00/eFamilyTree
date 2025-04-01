@@ -1,13 +1,13 @@
 import React from "react";
-import { t } from "i18next";
 import html2canvas from "html2canvas";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import { Button, Input, Sheet, DatePicker, Text } from "zmp-ui";
+import { t } from "i18next";
 import { SolarDate } from "@nghiavuive/lunar_date_vi";
+import { Button, Input, Sheet, DatePicker } from "zmp-ui";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import { DateTimeUtils, ZmpSDK } from "utils";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
-import { BeanObserver, CommonIcon, Label } from "components";
+import { BeanObserver, CommonIcon, Label, Title } from "components";
 
 import { UIGiaTienTemplate } from "./UITemplate";
 
@@ -30,14 +30,6 @@ export type GiaTienForm = {
   familyMembers: GiaTienMember[];
   workshipSeason?: string;
   workshipPlace?: string;
-}
-
-function Title({ text, className }: { text: string, className?: string }) {
-  return (
-    <Text.Title className={`text-center text-primary text-capitalize ${className}`.trim()}>
-      {text}
-    </Text.Title>
-  )
 }
 
 export function UIGiaTienForm() {
@@ -142,10 +134,8 @@ export function UIGiaTienForm() {
 
       <Sheet
         visible={preview} 
-        title={t("Sớ Lễ Gia Tiên")} className="bg-primary"
-        handler
-        onClose={() => setPreview(false)} mask maskClosable
-        height={"90vh"}
+        title={t("Sớ Lễ Gia Tiên")}
+        onClose={() => setPreview(false)} height={"90vh"}
       >
         <TransformWrapper
           initialScale={0.8}
@@ -164,9 +154,9 @@ export function UIGiaTienForm() {
         </TransformWrapper>
         {/* save button */}
         <Button 
-          className="button" size="medium"
+          className="button" size="small"
           style={{ position: "absolute", bottom: "30px", right: "15px" }}
-          prefixIcon={<CommonIcon.FileDownload size={24}/>}
+          prefixIcon={<CommonIcon.FileDownload/>}
           onClick={exportPNG}
         >
           {t("download")}

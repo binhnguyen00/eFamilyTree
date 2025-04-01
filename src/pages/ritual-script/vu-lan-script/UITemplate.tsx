@@ -6,22 +6,27 @@ import TEMPLATE   from "assets/template/vu-lan.hbs?raw";
 import TAM_BAO    from "assets/img/petition/ancestral-offering/tam-bao.png";
 import BACKGROUND from "assets/img/petition/ancestral-offering/background.jpg"
 
+import { VuLanForm } from "./UIForm";
+
 interface UIVuLanTemplateProps {
-  form: any;
+  form: VuLanForm;
 }
 
 export function UIVuLanTemplate(props: UIVuLanTemplateProps) {
-  const {  } = props;
+  const { form } = props;
 
   Handlebars.registerHelper('tamBao', function() {
     return (`<img id="letter-stamp" src="${TAM_BAO}">`)
   });
 
-  const compiledTemplate = Handlebars.compile(TEMPLATE);
+  const templateCompiler = Handlebars.compile(TEMPLATE);
   const placeHolder = {
-
+    whoAmI: form.whoAmI,
+    whereILive: form.whereILive,
+    whatIWant: form.whatIWant,
+    whereISubmit: form.whereISubmit
   }
-  const raw = compiledTemplate(placeHolder);
+  const raw = templateCompiler(placeHolder);
   const purified = DOMPurify.sanitize(raw);
 
   return (
