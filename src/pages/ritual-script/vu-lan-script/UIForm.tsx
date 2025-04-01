@@ -152,6 +152,8 @@ export function UIVuLanForm() {
       </section>
 
       <UIPreview visible={preview} setVisible={setPreview} exportPNG={exportPNG} observer={observer}/>
+
+      <br/><br/>
     </div>
   )
 }
