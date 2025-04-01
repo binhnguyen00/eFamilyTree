@@ -4,14 +4,14 @@ import { Text } from "zmp-ui";
 
 import { Header, ScrollableDiv, Selection, SelectionOption } from "components";
 
-import { UIBinhAnForm } from "./binh-an-script/UIForm";
+import { UIBinhAnForm } from "./phuc-tho/UIForm";
 import { UIVuLanForm } from "./vu-lan-script/UIForm";
 
 export function UIRitualScript() {
   const [ number, setNumber ] = React.useState<number>(1);
 
   const options: any[] = [
-    { value: 1, label: "Bình An" },
+    { value: 1, label: "Phúc Thọ" },
     { value: 2, label: "Vu Lan" },
   ]
 

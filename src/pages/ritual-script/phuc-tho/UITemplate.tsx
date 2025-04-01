@@ -2,15 +2,15 @@ import React from "react";
 import Handlebars from "handlebars";
 import DOMPurify from "dompurify";
 
-import type { BinhAnForm, BinhAnMember } from "./UIForm";
+import type { PhucThoForm, PhucThoMember } from "./UIForm";
 
-import TEMPLATE   from "assets/template/binh-an.hbs?raw";
+import TEMPLATE   from "assets/template/phuc-tho.hbs?raw";
 import TAM_BAO    from "assets/img/petition/ancestral-offering/tam-bao.png";
 import BACKGROUND from "assets/img/petition/ancestral-offering/background.jpg"
 
 /** Sớ Lễ Gia Tiên */
 interface UIBinhAnTemplateProps {
-  form: BinhAnForm;
+  form: PhucThoForm;
 }
 export function UIBinhAnTemplate(props: UIBinhAnTemplateProps) {
   let { form } = props;
@@ -68,7 +68,7 @@ export function UIBinhAnTemplate(props: UIBinhAnTemplateProps) {
     workshipPlace: ""
   }
 
-  const createPerson = (person?: BinhAnMember) => {
+  const createPerson = (person?: PhucThoMember) => {
     let content: string = "";
     if (!person) return "";
     else {
@@ -79,7 +79,7 @@ export function UIBinhAnTemplate(props: UIBinhAnTemplateProps) {
     return content;
   }
 
-  const createFamilyMembers = (members?: BinhAnMember[]) => {
+  const createFamilyMembers = (members?: PhucThoMember[]) => {
     if (!members) return "";
     else return members.map((mem) => createPerson(mem)).join(",")
   }
@@ -98,7 +98,7 @@ export function UIBinhAnTemplate(props: UIBinhAnTemplateProps) {
   const purified = DOMPurify.sanitize(filledTemplate);
   return (
     <div 
-      id="binh-an-script"
+      id="phuc-tho-script"
       style={{ 
         backgroundImage: `url(${BACKGROUND})`,
         backgroundClip: "content-box",

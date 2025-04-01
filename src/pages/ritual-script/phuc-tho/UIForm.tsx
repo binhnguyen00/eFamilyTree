@@ -6,14 +6,14 @@ import { Button, Input, Sheet, DatePicker } from "zmp-ui";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import { DateTimeUtils, ZmpSDK } from "utils";
-import { useAppContext, useBeanObserver, useNotification } from "hooks";
 import { BeanObserver, CommonIcon, Label, Title } from "components";
+import { useAppContext, useBeanObserver, useNotification } from "hooks";
 
 import { UIBinhAnTemplate } from "./UITemplate";
 
 /** Sớ Lễ Gia Tiên */
 
-export type BinhAnMember = {
+export type PhucThoMember = {
   name?: string;
   birth?: string;
   birthDate?: string;
@@ -21,13 +21,13 @@ export type BinhAnMember = {
   address?: string;
 }
 
-export type BinhAnForm = {
+export type PhucThoForm = {
   yearCreate?: string;
   monthCreate?: string;
   dayCreate?: string;
   liveAt?: string;
-  houseOwner: BinhAnMember;
-  familyMembers: BinhAnMember[];
+  houseOwner: PhucThoMember;
+  familyMembers: PhucThoMember[];
   workshipSeason?: string;
   workshipPlace?: string;
 }
@@ -50,7 +50,7 @@ export function UIBinhAnForm() {
       birthDate: DateTimeUtils.formatToDate(new Date(2000, 0, 1)),
     },
     familyMembers: []
-  } as BinhAnForm;
+  } as PhucThoForm;
 
   const observer = useBeanObserver(form);
   const houseOwnerObserver = useBeanObserver(form.houseOwner);
@@ -169,7 +169,7 @@ export function UIBinhAnForm() {
 }
 
 function UIBasicForm({ observer } : {
-  observer: BeanObserver<BinhAnForm>, 
+  observer: BeanObserver<PhucThoForm>, 
 }) {
   return (
     <div className="flex-v border-primary p-3 rounded">
@@ -212,7 +212,7 @@ function UIBasicForm({ observer } : {
 }
 
 function UIHouseOwnerForm({ observer }: { 
-  observer: BeanObserver<BinhAnMember>, 
+  observer: BeanObserver<PhucThoMember>, 
 }) {
   const parseDate2Solar = (date: Date) => {
     const calendarDate = DateTimeUtils.toCalendarDate(date);
@@ -224,7 +224,7 @@ function UIHouseOwnerForm({ observer }: {
 
   return (
     <div className="flex-v border-primary rounded p-3">
-      <Title text={t("thí chủ")} className="text-center"/>
+      <Title text={t("tín chủ")} className="text-center"/>
       <div className="flex-v justify-between">
         <Input 
           
@@ -271,7 +271,7 @@ function UIHouseOwnerForm({ observer }: {
 }
 
 function UIFamilyMembersForm({ observer }: { 
-  observer: BeanObserver<BinhAnMember[]>, 
+  observer: BeanObserver<PhucThoMember[]>, 
 }) {
   const [people, setPeople] = React.useState<number[]>([]);
   
