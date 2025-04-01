@@ -1,5 +1,6 @@
 import React from "react";
 import { t } from "i18next";
+import { Text } from "zmp-ui";
 
 interface LabelProps {
   text: string;
@@ -12,5 +13,13 @@ export function Label(props: LabelProps) {
   const classN = `${className} text-primary text-capitalize`;
   return (
     <p style={style} className={classN.trim()}> {`${t(text)} ${required ? "*" : ""}`.trim()} </p>
+  )
+}
+
+export function Title({ text, className }: { text: string, className?: string }) {
+  return (
+    <Text.Title className={`text-center text-primary text-capitalize ${className}`.trim()}>
+      {text}
+    </Text.Title>
   )
 }

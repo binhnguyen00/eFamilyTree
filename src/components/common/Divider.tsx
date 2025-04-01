@@ -17,7 +17,7 @@ export function Divider(props: UIDividerProps) {
         ...style,
       }}
       {...props}
-      className={`${className} mt-2 mb-2`.trim()}
+      className={`${className} my-2`.trim()}
     />
   )
 }

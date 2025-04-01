@@ -11,14 +11,14 @@ import { Card } from "./Card";
 import { Popover } from "./Popover";
 import { RequestLocation } from "./RequestLocation";
 import { Selection, SelectionOption } from "./Selection";
-import { Label } from "./Label";
+import { Label, Title } from "./Label";
 import { TailSpin } from "./TailSpin";
 
 export { 
   Loading, Info,
   Divider, ImageWithText, Navigation, RequestPhone,
   SizedBox, PagePositionSaver, ScrollableDiv, Card, Popover, RequestLocation,
-  Selection, Label, TailSpin
+  Selection, Label, TailSpin, Title
 };
 
 export type {
