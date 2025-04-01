@@ -2,17 +2,15 @@ import React from "react";
 import Handlebars from "handlebars";
 import DOMPurify from "dompurify";
 
-import type { PhucThoForm, PhucThoMember } from "./UIForm";
-
-import TEMPLATE   from "assets/template/phuc-tho.hbs?raw";
+import TEMPLATE   from "assets/template/gia-tien.hbs?raw";
 import TAM_BAO    from "assets/img/petition/ancestral-offering/tam-bao.png";
 import BACKGROUND from "assets/img/petition/ancestral-offering/background.jpg"
 
-/** Sớ Phúc thọ (Cầu bình an) */
-interface UIPhucThoTemplateProps {
-  form: PhucThoForm;
+/** Sớ Lễ Gia Tiên */
+interface UIGiaTienTemplateProps {
+  form: any;
 }
-export function UIPhucThoTemplate(props: UIPhucThoTemplateProps) {
+export function UIGiaTienTemplate(props: UIGiaTienTemplateProps) {
   let { form } = props;
 
   Handlebars.registerHelper('textVertical', function(text) {
@@ -36,26 +34,27 @@ export function UIPhucThoTemplate(props: UIPhucThoTemplateProps) {
 
   const compiledTemplate = Handlebars.compile(TEMPLATE);
   const templateData = {
-    col0: "/ / Nhật Thần Khấu Thủ Hoà Nam Bách Bái Cụ Sớ",
-    col1: "/ Khích Thiết Bình Doanh Chi Phí Cẩn Sơ",
-    col2: "/ Vô Xâm Phạm Chi Ngu Bách Phúc Thiên Tường Thưởng Hưởng Thọ Khang Chi Khánh Nhất Thiết Sở Cầu Vạn Ban Như Ý Đàn Thần Hạ Tình Vô Nhậm",
-    col3: "Đức Đại Khuông Phù Ân Hoàng Tế Độ Dáng Phúc Lưu Ân Trừ Tai Xá Quá Tỉ Thần Đẳng Gia Môn Hanh Thái Bản Mệnh Bình An Tam Tai Bát Nam",
-    col4: "Hồng Từ / / / / / / Đồng Thuỳ / / / / / / Chiếu Giám / / / / / / / Phục Nguyện",
-    col5: "/ Bản Điện Phụng Tự Nhất Thiết Uy Linh / / / / / / / / / / / / / / / / Vị Tiền Cung Vọng",
-    col6: "Tam Toà Vương Mẫu Ngũ Vị Hoàng Thái Tử Vương Quan Khàm Sai Công Chúa / / / / / / / / / / Cung Quyết Hạ",
-    col7: "Tam Giới Thiên Chúa Tứ Phủ Vạn Linh Công Đồng Đại Đế / / / / / / / / / / / / / Ngọc Bệ Hạ",
-    col8: "Nam Mô Thập Phương Tam Bảo Chư Đại Bồ Tát / / / / / / / / / / / / / / / Kim Liên Toạ Hạ",
-    col9: "/ Tu Thiết Hương Hoa Kim Ngân Lễ Vật Tịnh Cúng Phu Trần Cụ Hữu Sớ Văn Kiền Thân / / Thượng Tẩu / / Cung Duy",
-    col10: "Phật Thánh Khuông Phù Chỉ Đức Tư Phùng Lệnh Tiết / Tiến Lễ Cờ An Giản Nhất Thiết Chi Tai Ương Cờ Vạn Ban Chi Cát Khánh Do Thị Kim Nguyệt",
-    col11: "Ngọc Bệ Phủ Giám Phàm Tâm Ngôn Niệm Thần Đẳng Sinh Cư Dương Thể Số Hệ / / Thiên Cung Hạ Càn Khỏn Phủ Tái Chi Ân Cảm",
+    col0: "/ / Nhật Thần Khấu Đảu Thượng Sớ",
+    col1: "Tổ Đức Âm Phù Chi Lực Da",
+    col2: "/ Ký Tư Tên Nhi Hữu Lợi Thuỷ Tác Loạn Ư Vô Cương Tông Tự Trưởng Lưu HƯơng Hoả Bất Dân Dận Thực Lại",
+    col3: "Phủ Thuỷ Tuân Nội Giám Chuy / Âm Chi Chi Khốn Dĩ Diễn Dĩ Thừa Thi Phù Hựu Chi Âm Công Năng Bào Năng Trợ",
+    col4: "Tiên Linh",
+    col5: "/ / / / / / / / / / / / / / / / / / / / / / / Cung Vọng",
+    col6: "Lịch Thế Mãnh Tố Tôn Lang / / / / / / / / / / / / / / / / / Vị Tiền",
+    col7: "Lịch Thế Tổ Cô Tôn Lương / / / / / / / / / / / / / / / / / Vị Tiền",
+    col8: "Gia Tiên / / Tộc Đường Thượng Lịch Đại Tổ Tiên Đẳng Đẳng Chư Vị Chân Linh / / / / / / Vị Tiền",
+    col9: "/ Tu Thiết Hương Hoa Kim Ngân Lễ Vật Cụ Hữu Sớ Văn Phụng Thượng / / / / / / / / Cung Duy",
+    col10: "/ Ngoại Nhân",
+    col11: "Tiên Giám Phủ Tuất Thân Tinh Ngôn Niệm Càn Thuỷ Khôn Sinh Ngưỡng Hà Thai Phong Chi Âm Thiên Kinh Địa Nghĩa Thưởng Tổn Thốn",
     col12: "/ Tín Chủ",
-    col13_1: "Phật Thánh Cúng Dưỡng",
+    col13_1: "Tiên Tổ Cúng Dạng",
     col13_2: "Thiên Tiến Lễ",
-    col13_3: "Giải Hạn Tống Ách Trừ Tai Cờ Gia Nội Bình An Nhân Khang Vật Thịnh Duyên Sinh Trường Thọ",
+    col13_3: "Gia Tiên Kỳ Âm Siêu Dương Khánh Quân Lợi Sự Kim Thần Hiếu Tử",
     col14: "/ / / / / / / / / Thượng Phụng",
     col15: "Việt Nam Quốc",
-    col16: "Phật Tổ Quang Đại Hoàng Khai Độ Thế Chi Môn Đan Khốn Túc Thành Kính Tế Cơ Hư Chi Sự Minh Dương Quân Lợi U Hiền Hàm Mông Viên Hữu",
-    col17: "/ / / / / / / / Phục Dĩ",
+    col16: "Nhi Tự Viên Hữu",
+    col17: "Tiên Tổ Thị Hoàng Bá Dẫn Chi Công Phất Thế Hậu Cổn Khắc Thiệu Dực Thừa Chi Niệm Bất Vong Viên Kỳ Sở Tôn Chuy Chi",
+    col18: "/ / / / / / / / / Phục Dĩ",
 
     // values
     liveAt: "",
@@ -68,7 +67,7 @@ export function UIPhucThoTemplate(props: UIPhucThoTemplateProps) {
     workshipPlace: ""
   }
 
-  const createPerson = (person?: PhucThoMember) => {
+  const createPerson = (person?: any) => {
     let content: string = "";
     if (!person) return "";
     else {
@@ -79,7 +78,7 @@ export function UIPhucThoTemplate(props: UIPhucThoTemplateProps) {
     return content;
   }
 
-  const createFamilyMembers = (members?: PhucThoMember[]) => {
+  const createFamilyMembers = (members?: any[]) => {
     if (!members) return "";
     else return members.map((mem) => createPerson(mem)).join(",")
   }
@@ -98,7 +97,7 @@ export function UIPhucThoTemplate(props: UIPhucThoTemplateProps) {
   const purified = DOMPurify.sanitize(filledTemplate);
   return (
     <div 
-      id="phuc-tho-script"
+      id="gia-tien-script"
       style={{ 
         backgroundImage: `url(${BACKGROUND})`,
         backgroundClip: "content-box",

@@ -6,6 +6,7 @@ import { Header, ScrollableDiv, Selection, SelectionOption } from "components";
 
 import { UIBinhAnForm } from "./phuc-tho/UIForm";
 import { UIVuLanForm } from "./vu-lan-script/UIForm";
+import { UIGiaTienForm } from "./gia-tien/UIForm";
 
 export function UIRitualScript() {
   const [ number, setNumber ] = React.useState<number>(1);
@@ -13,6 +14,7 @@ export function UIRitualScript() {
   const options: any[] = [
     { value: 1, label: "Phúc Thọ" },
     { value: 2, label: "Vu Lan" },
+    { value: 3, label: "Gia Tiên" },
   ]
 
   const renderContainer = () => {
@@ -21,6 +23,8 @@ export function UIRitualScript() {
         return <UIBinhAnForm />;
       case 2: 
         return <UIVuLanForm/>;
+      case 3: 
+        return <UIGiaTienForm/>;
       default: 
         return <UIBinhAnForm />;
     }

@@ -9,11 +9,11 @@ import { DateTimeUtils, ZmpSDK } from "utils";
 import { BeanObserver, CommonIcon, Label, Title } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 
-import { UIPhucThoTemplate } from "./UITemplate";
+import { UIGiaTienTemplate } from "./UITemplate";
 
-/** Sớ cầu bình an */
+/** Sớ lễ gia tiên */
 
-export type PhucThoMember = {
+export type GiaTienMember = {
   name?: string;
   birth?: string;
   birthDate?: string;
@@ -21,18 +21,18 @@ export type PhucThoMember = {
   address?: string;
 }
 
-export type PhucThoForm = {
+export type GiaTienForm = {
   yearCreate?: string;
   monthCreate?: string;
   dayCreate?: string;
   liveAt?: string;
-  houseOwner: PhucThoMember;
-  familyMembers: PhucThoMember[];
+  houseOwner: GiaTienMember;
+  familyMembers: GiaTienMember[];
   workshipSeason?: string;
   workshipPlace?: string;
 }
 
-export function UIBinhAnForm() {
+export function UIGiaTienForm() {
   const { zaloUserInfo } = useAppContext();
 
   // current solar date
@@ -50,7 +50,7 @@ export function UIBinhAnForm() {
       birthDate: DateTimeUtils.formatToDate(new Date(2000, 0, 1)),
     },
     familyMembers: []
-  } as PhucThoForm;
+  } as GiaTienForm;
 
   const observer = useBeanObserver(form);
   const houseOwnerObserver = useBeanObserver(form.houseOwner);
@@ -67,7 +67,7 @@ export function UIBinhAnForm() {
         <p> {t("please_wait")} </p>
       </div>,
       (onSuccess, onFail) => {
-        const element = document.getElementById('phuc-tho-script');
+        const element = document.getElementById('gia-tien-script');
         if (!element) { 
           onFail(t("download_fail")); 
           return;
@@ -134,7 +134,7 @@ export function UIBinhAnForm() {
 
       <Sheet
         visible={preview} 
-        title={t("Sớ Cầu Bình An")}
+        title={t("Sớ Lễ Gia Tiên")}
         onClose={() => setPreview(false)} height={"90vh"}
       >
         <TransformWrapper
@@ -143,7 +143,7 @@ export function UIBinhAnForm() {
           maxScale={1.5}
         >
           <TransformComponent>
-            <UIPhucThoTemplate 
+            <UIGiaTienTemplate 
               form={{
                 ...observer.getBean(),
                 houseOwner: houseOwnerObserver.getBean(),
@@ -169,7 +169,7 @@ export function UIBinhAnForm() {
 }
 
 function UIBasicForm({ observer } : {
-  observer: BeanObserver<PhucThoForm>, 
+  observer: BeanObserver<GiaTienForm>, 
 }) {
   return (
     <div className="flex-v border-primary p-3 rounded">
@@ -212,7 +212,7 @@ function UIBasicForm({ observer } : {
 }
 
 function UIHouseOwnerForm({ observer }: { 
-  observer: BeanObserver<PhucThoMember>, 
+  observer: BeanObserver<GiaTienMember>, 
 }) {
   const parseDate2Solar = (date: Date) => {
     const calendarDate = DateTimeUtils.toCalendarDate(date);
@@ -271,7 +271,7 @@ function UIHouseOwnerForm({ observer }: {
 }
 
 function UIFamilyMembersForm({ observer }: { 
-  observer: BeanObserver<PhucThoMember[]>, 
+  observer: BeanObserver<GiaTienMember[]>, 
 }) {
   const [people, setPeople] = React.useState<number[]>([]);
   
