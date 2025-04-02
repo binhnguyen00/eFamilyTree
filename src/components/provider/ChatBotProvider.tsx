@@ -20,7 +20,7 @@ export function useChatBot() { return React.useContext(ChatBotContext) }
 export function ChatBotProvider({ children }: { children: React.ReactNode }) {
   const { appId } = useAppContext();
   const { currentPath, rootPath } = useRouteNavigate();
-  const availableRoutes = [ rootPath, `/zapps/${appId}/account` ]
+  const availableRoutes = [ rootPath, `/zapps/${appId}/account`, "/" ]
 
   const [ chatHistory, setChatHistory ] = React.useState<any[]>([]);
   const [ disable, setDisable ] = React.useState<boolean>(true);
@@ -216,12 +216,15 @@ function UIChatBoxButton(props: UIChatBoxButtonProps) {
         left: position.x, top: position.y,
         opacity: isDragging ? 1 : 0.8,
         display: disable ? "none" : "block",
+        transform: isDragging ? "scale(1.2)" : "scale(1)",
+        transition: "transform 0.2s ease, opacity 0.2s ease",
       }} 
       onClick={onClick}
     >
       <Avatar
         src={AVATAR} style={{ width: "100%", height: "100%" }}
       />
+      
     </div>
   )
 }
