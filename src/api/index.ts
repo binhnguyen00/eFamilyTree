@@ -10,6 +10,7 @@ import { TestApi } from "./TestApi";
 import { UserSettingApi } from './UserSettingApi';
 import { RitualScriptApi } from "./RitualScriptApi";
 import { MemorialMapApi } from "./MemorialMapApi";
+import { ChatBotCommunicationApi } from "./ChatBotCommunicationApi";
 
 export {
   AccountApi, 
@@ -24,4 +25,5 @@ export {
   UserSettingApi,
   RitualScriptApi,
   MemorialMapApi,
+  ChatBotCommunicationApi
 };

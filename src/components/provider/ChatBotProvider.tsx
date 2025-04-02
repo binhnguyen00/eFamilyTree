@@ -9,6 +9,8 @@ import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 
 import { useAppContext, useRouteNavigate } from "hooks";
 import AVATAR from "assets/img/chatbot/avatar.png";
+import { ChatBotCommunicationApi } from "api";
+import { FailResponse, ServerResponse } from "types/server";
 
 export type ChatbotCtx = {
 
@@ -30,6 +32,17 @@ export function ChatBotProvider({ children }: { children: React.ReactNode }) {
     else setDisable(true);
   }, [ currentPath ])
 
+  const buildBotMessage = (message: string) => {
+    const botMessage: MessageModel = {
+      message: message,
+      sender: 'bot',
+      direction: "incoming",
+      position: "normal",
+      sentTime: new Date().toDateString(),
+    };
+    setChatHistory(prev => [...prev, botMessage]);
+  }
+
   const onSend = (message: string) => {
     const userMessage: MessageModel = {
       message: message,
@@ -40,17 +53,20 @@ export function ChatBotProvider({ children }: { children: React.ReactNode }) {
     }
     setChatHistory(prev => [...prev, userMessage]);
 
-    // TODO: remove
-    setTimeout(() => {
-      const botMessage: MessageModel = {
-        message: t("I'm a genealogy assistant. How can I help you?"),
-        sender: 'bot',
-        direction: "incoming",
-        position: "normal",
-        sentTime: new Date().toDateString(),
-      };
-      setChatHistory(prev => [...prev, botMessage]);
-    }, 1000);
+    ChatBotCommunicationApi.anonymousTalk({
+      message: message,
+      success: (response: ServerResponse) => {
+        if (response.status === "success") {
+          const data = response.data as any; 
+          buildBotMessage(data.message);
+        } else {
+          buildBotMessage(t("retry"));
+        }
+      },
+      fail: (error: FailResponse) => {
+        buildBotMessage(t("retry"));
+      }
+    })
   }
 
   const CONTEXT = {
@@ -224,7 +240,7 @@ function UIChatBoxButton(props: UIChatBoxButtonProps) {
       <Avatar
         src={AVATAR} style={{ width: "100%", height: "100%" }}
       />
-      
+
     </div>
   )
 }
