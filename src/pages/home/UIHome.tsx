@@ -60,7 +60,7 @@ function AppTitle() {
           borderRadius: "0 0 50% 50%",
           backgroundColor: `var(--quaternary-color)`,
           boxShadow: "0 0 30px 5px rgba(255, 255, 255, 0.6)", // Glow effect
-          zIndex: 0,
+          zIndex: -1,
         }}
       />
       <p 

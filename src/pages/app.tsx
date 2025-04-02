@@ -6,7 +6,8 @@ import { AppRoutes } from "./routes";
 import { 
   Navigation, PagePositionSaver,
   ThemeProvider, ApplicationProvider, NotificationProvider,
-  RequestPhoneProvider, RequestLocationProvider, OverlayProvider, AccountProvider
+  RequestPhoneProvider, RequestLocationProvider, OverlayProvider, AccountProvider,
+  ChatBotProvider,
 } from "components";
 
 import "../i18n";
@@ -22,9 +23,11 @@ function Application() {
                 <RequestPhoneProvider>
                   <RequestLocationProvider>
                     <AccountProvider>
-                      <AppRoutes/>
-                      <Navigation/>
-                      <PagePositionSaver />
+                      <ChatBotProvider>
+                        <AppRoutes/>
+                        <Navigation/>
+                        <PagePositionSaver />
+                      </ChatBotProvider>
                     </AccountProvider>
                   </RequestLocationProvider>
                 </RequestPhoneProvider>

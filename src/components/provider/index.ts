@@ -5,6 +5,7 @@ import { AccountContext, AccountProvider } from "./AccountProvider";
 import { RequestPhoneContext, RequestPhoneProvider } from "./RequestPhoneProvider";
 import { RequestLocationContext, RequestLocationProvider } from "./RequestLocationProvider";
 import { OverlayContext, OverlayProvider } from "./OverlayProvider";
+import { ChatBotContext, ChatBotProvider } from "./ChatBotProvider";
 export { 
   ThemeContext, ThemeProvider,
   AppContext, ApplicationProvider,
@@ -13,4 +14,5 @@ export {
   RequestPhoneContext, RequestPhoneProvider,
   RequestLocationContext, RequestLocationProvider,
   OverlayContext, OverlayProvider,
+  ChatBotContext, ChatBotProvider,
 }
