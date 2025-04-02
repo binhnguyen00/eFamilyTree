@@ -4,7 +4,6 @@ import { createRoot } from "react-dom/client";
 
 // Custom stylesheet
 import "./css/tailwind.scss";
-import "./css/album.scss";
 import "./css/family-tree.scss";
 import "./css/font/font.scss";
 import "./css/bootstrap.scss";

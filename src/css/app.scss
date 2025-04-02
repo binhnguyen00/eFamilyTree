@@ -271,3 +271,44 @@ button, .button {
 .zaui-modal-content-actions::before {
   background: var(--primary-color) !important;
 }
+
+// chat-ui
+.cs-main-container {
+  border: none !important;
+}
+
+.cs-chat-container .cs-message-input {
+  border: none !important;
+}
+
+.cs-message-list__scroll-wrapper {
+  padding: 0 !important;
+}
+
+.cs-message__content {
+  @extend .rounded;
+}
+
+.cs-message.cs-message--incoming .cs-message__content { 
+  background-color: var(--secondary-color) !important;
+  color: var(--primary-color) !important;
+  font-weight: bold;
+}
+
+.cs-message.cs-message--outgoing .cs-message__content { 
+  background-color: var(--primary-color) !important;
+  color: var(--secondary-color) !important;
+  font-weight: bold;
+}
+
+.cs-button {
+  @extend .text-primary;
+}
+
+.cs-message-input__content-editor-wrapper {
+  @extend .bg-quaternary;
+}
+
+.cs-message-input__content-editor {
+  @extend .bg-quaternary;
+}
