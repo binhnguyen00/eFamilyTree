@@ -3,7 +3,7 @@ import { useAppContext } from './context/useAppContext';
 
 export function useRouteNavigate() {
   const { appId } = useAppContext();
-  const rootPath = `/zapps/${appId}`;
+  const rootPath = `/zapps/${appId}/`;
   const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.pathname;
@@ -59,8 +59,10 @@ export function useRouteNavigate() {
   const goBack = () => navigate(-1);
 
   const createPath = (path: string): string => {
-    if (path.replace("/", "") === rootPath.replace("/", "")) return rootPath;
-    return (path.startsWith("/")) ? `${rootPath}${path}` : `${rootPath}/${path}`
+    if (path.replace("/", "") === rootPath.replace("/", "")) {
+      return rootPath;
+    } 
+    return path.startsWith("/") ? `${rootPath}${path.substring(1)}` : `${rootPath}${path}`;
   }
 
   const belongings = location.state;
