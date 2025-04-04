@@ -1,3 +1,10 @@
+# Version 1.5.0 (Thứ 6, 04/04/2025)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=63)
+### Thay đổi
+#### Tích hợp Trợ Lý Gia Phả
+  - Trợ lý giúp trả lời các thắc mắc liên quan đến phần mềm.
+  - Trợ lý chưa được cá nhân hoá cho từng người và từng dòng họ.
+
 # Version 1.5.0 (Thứ 3, 01/04/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=61)
 ### Thay đổi
