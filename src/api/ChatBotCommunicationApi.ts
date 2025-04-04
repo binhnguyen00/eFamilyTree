@@ -8,8 +8,8 @@ export class ChatBotCommunicationApi extends BaseApi {
   }) {
     const header = this.initHeader();
     const body = this.initBody({
-      prompt:   prompt,
-      zalo_id:  zaloId
+      prompt:      prompt,
+      session_id:  zaloId
     })
     return this.server.POST("family-tree/chatbot/anonymous/chat", header, body, success, fail);
   }
@@ -28,13 +28,13 @@ export class ChatBotCommunicationApi extends BaseApi {
     return this.server.POST("family-tree/chatbot/public/chat", header, body, success, fail);
   }
 
-  public static getAnonymousChatHistory({ zaloId, success, fail }: {
-    zaloId: string, success: SuccessCB, fail?: FailCB
+  public static getChatHistory({ sessionId, success, fail }: {
+    sessionId: string, success: SuccessCB, fail?: FailCB
   }) {
     const header = this.initHeader();
     const body = this.initBody({
-      zalo_id: zaloId
+      session_id: sessionId
     })
-    return this.server.POST("family-tree/chatbot/anonymous/history", header, body, success, fail);
+    return this.server.POST("family-tree/chatbot/history", header, body, success, fail);
   }
 }

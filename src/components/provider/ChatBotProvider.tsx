@@ -4,15 +4,17 @@ import { Modal } from "zmp-ui";
 import { 
   MainContainer, ChatContainer,
   MessageList, Message, MessageInput,
-  TypingIndicator, Avatar, MessageHtmlContent
+  TypingIndicator, Avatar
 } from "@chatscope/chat-ui-kit-react";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 
-import { useAccountContext, useAppContext, useRouteNavigate } from "hooks";
-import AVATAR from "assets/img/chatbot/avatar.png";
-import { ChatBotCommunicationApi } from "api";
-import { FailResponse, ServerResponse } from "types/server";
 import { DateTimeUtils } from "utils";
+import { ChatBotCommunicationApi } from "api";
+import { useAccountContext, useAppContext, useRouteNavigate } from "hooks";
+
+import { FailResponse, ServerResponse } from "types/server";
+
+import AVATAR from "assets/img/chatbot/avatar.png";
 
 export type ChatbotCtx = {
 
@@ -45,16 +47,16 @@ export function ChatBotProvider({ children }: { children: React.ReactNode }) {
   }, [ currentPath ])
 
   React.useEffect(() => {
-    if (!logedIn) {
-      setType("anonymous");
-    } else if (needRegisterClan) {
-      setType("anonymous");
-    } else if (needRegisterAccount) {
-      setType("anonymous");
+    if (logedIn) {
+      if (needRegisterClan || needRegisterAccount) {
+        setType("anonymous");
+      } else {
+        setType("user")
+      }
     } else {
-      setType("user");
+      setType("anonymous");
     }
-  }, [ needRegisterClan, needRegisterAccount ])
+  }, [ logedIn, needRegisterClan, needRegisterAccount ])
 
   const CONTEXT = {} as ChatbotCtx;
 
@@ -67,7 +69,7 @@ export function ChatBotProvider({ children }: { children: React.ReactNode }) {
   )
 }
 
-function useChatHistory({ id, type, dependencies }: { id: string, type: ChatbotType, dependencies: any[] }) {
+function useChatHistory({ sessionId, type, dependencies }: { sessionId: string, type: ChatbotType, dependencies: any[] }) {
   const [ chatHistory, setChatHistory ] = React.useState<ChatHistoryMessage[]>([]);
   const [ loading, setLoading ]         = React.useState<boolean>(false);
   const [ error, setError ]             = React.useState<boolean>(false);
@@ -80,32 +82,28 @@ function useChatHistory({ id, type, dependencies }: { id: string, type: ChatbotT
     setLoading(true);
     setError(false);
 
-    // if (id == "") {
-    //   console.error("Session ID is empty");
-    //   return;
-    // };
+    if (sessionId == "") {
+      console.error("Session ID is empty");
+      return;
+    };
 
-    if (type === "anonymous") {
-      ChatBotCommunicationApi.getAnonymousChatHistory({
-        zaloId: id,
-        success: (response: ServerResponse) => {
-          setLoading(false);
-          if (response.status === "success") {
-            setChatHistory(response.data as ChatHistoryMessage[]);
-          } else {
-            setError(true);
-            setChatHistory([]);
-          }
-        },
-        fail: (error: FailResponse) => {
-          setLoading(false);
+    ChatBotCommunicationApi.getChatHistory({
+      sessionId: sessionId,
+      success: (response: ServerResponse) => {
+        setLoading(false);
+        if (response.status === "success") {
+          setChatHistory(response.data as ChatHistoryMessage[]);
+        } else {
           setError(true);
           setChatHistory([]);
         }
-      })
-    } else {
-      console.log("Need implement chat history for user who loged in");
-    }
+      },
+      fail: (error: FailResponse) => {
+        setLoading(false);
+        setError(true);
+        setChatHistory([]);
+      }
+    })
 
   }, [ ...dependencies, reload ])
 
@@ -126,7 +124,7 @@ function UIChatBox(props: UIChatBoxProps) {
   const { type, disable } = props;
   const { zaloUserInfo } = useAppContext();
   const { chatHistory, loading, error, refresh, updateHistory } 
-    = useChatHistory({ id: zaloUserInfo.id, type: type, dependencies: [ zaloUserInfo.id ] });
+    = useChatHistory({ sessionId: zaloUserInfo.id, type: type, dependencies: [ zaloUserInfo.id ] });
 
   const [ visible, setVisible ]   = React.useState(false);
   const [ isTyping, setIsTyping ] = React.useState(false);
@@ -146,7 +144,7 @@ function UIChatBox(props: UIChatBoxProps) {
     updateHistory(prev => [...prev, botMessage]);
   }
 
-  const onAnonymousSend = (message: string) => {
+  const chat = (message: string) => {
     setIsTyping(true);
 
     const userMessage: ChatHistoryMessage = {
@@ -157,6 +155,7 @@ function UIChatBox(props: UIChatBoxProps) {
     }
     updateHistory(prev => [...prev, userMessage]);
 
+    // TODO: chat by type
     ChatBotCommunicationApi.anonymousChat({
       prompt: message,
       zaloId: zaloUserInfo.id,
@@ -222,7 +221,7 @@ function UIChatBox(props: UIChatBoxProps) {
               placeholder={t("đặt câu hỏi...")}
               attachButton={false} autoFocus={true} fancyScroll={true}
               onSend={(innerHtml: string, textContent: string, innerText: string, nodes: NodeList) => {
-                onAnonymousSend(textContent);
+                chat(textContent);
               }}
             />
 
