@@ -1,61 +1,153 @@
 import React from "react";
 import { t } from "i18next";
-import { Avatar, Modal } from "zmp-ui";
+import { Modal } from "zmp-ui";
 import { 
   MainContainer, ChatContainer,
-  MessageList, Message, MessageInput, MessageModel
+  MessageList, Message, MessageInput,
+  TypingIndicator, Avatar, MessageHtmlContent
 } from "@chatscope/chat-ui-kit-react";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 
-import { useAppContext, useRouteNavigate } from "hooks";
+import { useAccountContext, useAppContext, useRouteNavigate } from "hooks";
 import AVATAR from "assets/img/chatbot/avatar.png";
 import { ChatBotCommunicationApi } from "api";
 import { FailResponse, ServerResponse } from "types/server";
+import { DateTimeUtils } from "utils";
 
 export type ChatbotCtx = {
 
 }
+
+export type ChatbotType = "anonymous" | "user";
 
 export const ChatBotContext = React.createContext({} as ChatbotCtx);
 export function useChatBot() { return React.useContext(ChatBotContext) }
 
 export function ChatBotProvider({ children }: { children: React.ReactNode }) {
   const { appId } = useAppContext();
+  const { needRegisterClan, needRegisterAccount } = useAccountContext();
   const { currentPath, rootPath } = useRouteNavigate();
-  const availableRoutes = [ rootPath, `/zapps/${appId}/account`, "/" ]
 
-  const [ chatHistory, setChatHistory ] = React.useState<any[]>([]);
+  const [ type, setType ] = React.useState<ChatbotType>("anonymous");
   const [ disable, setDisable ] = React.useState<boolean>(true);
 
+  const availableRoutes = [ 
+    rootPath, 
+    `/zapps/${appId}/account` 
+  ]
+
   React.useEffect(() => {
-    if (availableRoutes.includes(currentPath)) setDisable(false);
-    else setDisable(true);
+    if (availableRoutes.includes(currentPath)) {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
   }, [ currentPath ])
 
+  React.useEffect(() => {
+    if (!needRegisterClan) {
+      setType("user");
+    } else if (!needRegisterAccount) {
+      setType("user");
+    } else {
+      setType("anonymous");
+    }
+  }, [ needRegisterClan, needRegisterAccount ])
+
+  const CONTEXT = {} as ChatbotCtx;
+
+  return (
+    <ChatBotContext.Provider value={CONTEXT}>
+      {children}
+
+      <UIChatBox disable={disable} type={type}/>
+    </ChatBotContext.Provider>
+  )
+}
+
+function useChatHistory({ id, type }: { id: string, type: "anonymous" | "user" }) {
+  const [ chatHistory, setChatHistory ] = React.useState<ChatHistoryMessage[]>([]);
+  const [ loading, setLoading ]         = React.useState<boolean>(false);
+  const [ error, setError ]             = React.useState<boolean>(false);
+  const [ reload, setReload ]           = React.useState(false);
+
+  const refresh = () => setReload(!reload);
+
+  React.useEffect(() => {
+    setLoading(true);
+    setError(false);
+
+    if (type === "anonymous") {
+      ChatBotCommunicationApi.getAnonymousChatHistory({
+        zaloId: id,
+        success: (response: ServerResponse) => {
+          setLoading(false);
+          if (response.status === "success") {
+            setChatHistory(response.data as ChatHistoryMessage[]);
+          } else {
+            setError(true);
+          }
+        },
+        fail: (error: FailResponse) => {
+          setLoading(false);
+          setError(true);
+        }
+      })
+    }
+  }, [ id ])
+
+  return { chatHistory, loading, error, refresh, updateHistory: setChatHistory };
+}
+
+interface ChatHistoryMessage {
+  role: "user" | "assistant";
+  sender?: string;
+  content: string;
+  timestamp: string;
+}
+interface UIChatBoxProps {
+  type: ChatbotType;
+  disable: boolean;
+}
+function UIChatBox(props: UIChatBoxProps) {  
+  const { type, disable } = props;
+  const { zaloUserInfo } = useAppContext();
+  const { chatHistory, loading, error, refresh, updateHistory } = useChatHistory({ id: zaloUserInfo.id, type: type });
+
+  const [ visible, setVisible ]   = React.useState(false);
+  const [ isTyping, setIsTyping ] = React.useState(false);
+
+  const onOpen = () => {
+    setVisible(true);
+    refresh();
+  };
+  const onClose = () => setVisible(false);
+
   const buildBotMessage = (message: string) => {
-    const botMessage: MessageModel = {
-      message: message,
-      sender: 'bot',
-      direction: "incoming",
-      position: "normal",
-      sentTime: new Date().toDateString(),
+    const botMessage: ChatHistoryMessage = {
+      role: "assistant",
+      content: message,
+      timestamp: DateTimeUtils.getNow(),
     };
-    setChatHistory(prev => [...prev, botMessage]);
+    updateHistory(prev => [...prev, botMessage]);
   }
 
-  const onSend = (message: string) => {
-    const userMessage: MessageModel = {
-      message: message,
-      sender: "user",
-      direction: "outgoing",
-      position: "normal",
-      sentTime: new Date().toDateString(),
-    }
-    setChatHistory(prev => [...prev, userMessage]);
+  const onAnonymousSend = (message: string) => {
+    setIsTyping(true);
 
-    ChatBotCommunicationApi.anonymousTalk({
-      message: message,
+    const userMessage: ChatHistoryMessage = {
+      role: "user",
+      sender: zaloUserInfo.id,
+      content: message,
+      timestamp: DateTimeUtils.getNow(),
+    }
+    updateHistory(prev => [...prev, userMessage]);
+
+    ChatBotCommunicationApi.anonymousChat({
+      prompt: message,
+      zaloId: zaloUserInfo.id,
       success: (response: ServerResponse) => {
+        setIsTyping(false);
         if (response.status === "success") {
           const data = response.data as any; 
           buildBotMessage(data.message);
@@ -64,53 +156,32 @@ export function ChatBotProvider({ children }: { children: React.ReactNode }) {
         }
       },
       fail: (error: FailResponse) => {
+        setIsTyping(false);
         buildBotMessage(t("retry"));
       }
-    })
+    });
   }
 
-  const CONTEXT = {
-
-  } as ChatbotCtx;
-
-  return (
-    <ChatBotContext.Provider value={CONTEXT}>
-      {children}
-
-      <UIChatBox disable={disable} chatHistory={chatHistory} onSend={onSend}/>
-    </ChatBotContext.Provider>
-  )
-}
-
-interface UIChatBoxProps {
-  disable: boolean;
-  chatHistory: any[];
-  onSend: (message: string) => void;
-}
-function UIChatBox(props: UIChatBoxProps) {  
-  const { chatHistory, onSend, disable } = props;
-  const [ visible, setVisible ] = React.useState(false);
-
-  const onOpen = () => setVisible(true);
-  const onClose = () => setVisible(false);
-
   const MESSAGES = React.useMemo(() => {
-    return chatHistory.map((message: MessageModel) => {
-      const direction = message.sender === 'user' ? 'outgoing' : 'incoming';
+    return chatHistory.map((message: ChatHistoryMessage) => {
+      const direction = message.role === "user" ? "outgoing" : "incoming";
       return (
         <Message
-          key={message.sentTime}
+          key={message.timestamp}
           model={{
-            message: message.message,
+            message: message.content,
+            sentTime: message.timestamp,
             sender: message.sender,
-            sentTime: message.sentTime,
             direction: direction,
-            position: "normal"
+            position: "single",
+            type: "html", // Render html content from chatbot
           }}
-        />
+        >
+          { message.role === "assistant" ? <Avatar src={AVATAR}/> : undefined }
+        </Message>
       ) as React.ReactNode;
     });
-  }, [chatHistory]);
+  }, [ chatHistory ]);
 
   return (
     <>
@@ -127,13 +198,17 @@ function UIChatBox(props: UIChatBoxProps) {
         <MainContainer style={{ height: "55vh" }}>
           <ChatContainer>
 
-            <MessageList> {MESSAGES} </MessageList>
+            <MessageList
+              typingIndicator={isTyping ? <TypingIndicator content={t("đang suy nghĩ")} /> : undefined}
+            > 
+              {MESSAGES} 
+            </MessageList>
 
             <MessageInput 
               placeholder={t("đặt câu hỏi...")}
               attachButton={false} autoFocus={true} fancyScroll={true}
               onSend={(innerHtml: string, textContent: string, innerText: string, nodes: NodeList) => {
-                onSend(textContent);
+                onAnonymousSend(textContent);
               }}
             />
 
