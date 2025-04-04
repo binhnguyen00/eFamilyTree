@@ -24,7 +24,7 @@ export const ChatBotContext = React.createContext({} as ChatbotCtx);
 export function useChatBot() { return React.useContext(ChatBotContext) }
 
 export function ChatBotProvider({ children }: { children: React.ReactNode }) {
-  const { appId } = useAppContext();
+  const { appId, logedIn } = useAppContext();
   const { needRegisterClan, needRegisterAccount } = useAccountContext();
   const { currentPath, rootPath } = useRouteNavigate();
 
@@ -45,12 +45,14 @@ export function ChatBotProvider({ children }: { children: React.ReactNode }) {
   }, [ currentPath ])
 
   React.useEffect(() => {
-    if (!needRegisterClan) {
-      setType("user");
-    } else if (!needRegisterAccount) {
-      setType("user");
-    } else {
+    if (!logedIn) {
       setType("anonymous");
+    } else if (needRegisterClan) {
+      setType("anonymous");
+    } else if (needRegisterAccount) {
+      setType("anonymous");
+    } else {
+      setType("user");
     }
   }, [ needRegisterClan, needRegisterAccount ])
 
@@ -65,7 +67,7 @@ export function ChatBotProvider({ children }: { children: React.ReactNode }) {
   )
 }
 
-function useChatHistory({ id, type }: { id: string, type: "anonymous" | "user" }) {
+function useChatHistory({ id, type, dependencies }: { id: string, type: ChatbotType, dependencies: any[] }) {
   const [ chatHistory, setChatHistory ] = React.useState<ChatHistoryMessage[]>([]);
   const [ loading, setLoading ]         = React.useState<boolean>(false);
   const [ error, setError ]             = React.useState<boolean>(false);
@@ -74,8 +76,14 @@ function useChatHistory({ id, type }: { id: string, type: "anonymous" | "user" }
   const refresh = () => setReload(!reload);
 
   React.useEffect(() => {
+
     setLoading(true);
     setError(false);
+
+    // if (id == "") {
+    //   console.error("Session ID is empty");
+    //   return;
+    // };
 
     if (type === "anonymous") {
       ChatBotCommunicationApi.getAnonymousChatHistory({
@@ -86,15 +94,20 @@ function useChatHistory({ id, type }: { id: string, type: "anonymous" | "user" }
             setChatHistory(response.data as ChatHistoryMessage[]);
           } else {
             setError(true);
+            setChatHistory([]);
           }
         },
         fail: (error: FailResponse) => {
           setLoading(false);
           setError(true);
+          setChatHistory([]);
         }
       })
+    } else {
+      console.log("Need implement chat history for user who loged in");
     }
-  }, [ id ])
+
+  }, [ ...dependencies, reload ])
 
   return { chatHistory, loading, error, refresh, updateHistory: setChatHistory };
 }
@@ -112,7 +125,8 @@ interface UIChatBoxProps {
 function UIChatBox(props: UIChatBoxProps) {  
   const { type, disable } = props;
   const { zaloUserInfo } = useAppContext();
-  const { chatHistory, loading, error, refresh, updateHistory } = useChatHistory({ id: zaloUserInfo.id, type: type });
+  const { chatHistory, loading, error, refresh, updateHistory } 
+    = useChatHistory({ id: zaloUserInfo.id, type: type, dependencies: [ zaloUserInfo.id ] });
 
   const [ visible, setVisible ]   = React.useState(false);
   const [ isTyping, setIsTyping ] = React.useState(false);
@@ -149,8 +163,8 @@ function UIChatBox(props: UIChatBoxProps) {
       success: (response: ServerResponse) => {
         setIsTyping(false);
         if (response.status === "success") {
-          const data = response.data as any; 
-          buildBotMessage(data.message);
+          const data = response.data as ChatHistoryMessage; 
+          buildBotMessage(data.content);
         } else {
           buildBotMessage(t("retry"));
         }

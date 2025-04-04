@@ -35,6 +35,6 @@ export class ChatBotCommunicationApi extends BaseApi {
     const body = this.initBody({
       zalo_id: zaloId
     })
-    return this.server.GET("family-tree/chatbot/anonymous/history", header, body, success, fail);
+    return this.server.POST("family-tree/chatbot/anonymous/history", header, body, success, fail);
   }
 }

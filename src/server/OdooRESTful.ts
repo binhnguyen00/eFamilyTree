@@ -87,28 +87,4 @@ export class OdooRESTful extends Api {
     var requestInit: RequestInit = this.initRequest(HttpMethod.POST, header, body);
     this.doFetch(url, requestInit, successCB, failCB);
   }
-
-  public postWithFormData(path: string, formData: FormData, successCB: SuccessCB, failCB?: FailCB) {
-    var url = this.serverUrl + '/' + path;
-    if (!failCB) failCB = (response: any) => {
-      console.log(response);
-    }
-    fetch(url, {
-      method: HttpMethod.POST,
-      body: formData
-    }).then((res: Response) => {
-      if (res.ok) return res.json();
-      else return null;
-    }).then((res: any) => {
-      const result = OdooRESTful.getResponseResult(res);
-      successCB(result);
-    }).catch((error: Error) => {
-      console.error(`eFamilyTree UI error: \n\t${error.stack}`);
-      failCB({
-        status: "error",
-        message: error.message,
-        stackTrace: error.stack || ""
-      } as FailResponse);
-    });
-  }
 }
