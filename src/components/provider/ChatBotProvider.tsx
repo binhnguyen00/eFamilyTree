@@ -10,19 +10,17 @@ import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 
 import { DateTimeUtils } from "utils";
 import { ChatBotCommunicationApi } from "api";
-import { useAccountContext, useAppContext, useRouteNavigate } from "hooks";
+import { useAccountContext, useAppContext, useNotification, useRouteNavigate } from "hooks";
 
 import { FailResponse, ServerResponse } from "types/server";
 
 import AVATAR from "assets/img/chatbot/avatar.png";
 
-export type ChatbotCtx = {
+export type ChatBotCtx = {}
+export type ChatBotType = "anonymous" | "public";
+export type ChatSenderRole = "user" | "assistant";
 
-}
-
-export type ChatbotType = "anonymous" | "user";
-
-export const ChatBotContext = React.createContext({} as ChatbotCtx);
+export const ChatBotContext = React.createContext({} as ChatBotCtx);
 export function useChatBot() { return React.useContext(ChatBotContext) }
 
 export function ChatBotProvider({ children }: { children: React.ReactNode }) {
@@ -30,16 +28,16 @@ export function ChatBotProvider({ children }: { children: React.ReactNode }) {
   const { needRegisterClan, needRegisterAccount } = useAccountContext();
   const { currentPath, rootPath } = useRouteNavigate();
 
-  const [ type, setType ] = React.useState<ChatbotType>("anonymous");
+  const [ type, setType ] = React.useState<ChatBotType>("anonymous");
   const [ disable, setDisable ] = React.useState<boolean>(true);
 
-  const availableRoutes = [ 
+  const routesAllowChatBot = [ 
     rootPath, 
     `/zapps/${appId}/account` 
   ]
 
   React.useEffect(() => {
-    if (availableRoutes.includes(currentPath)) {
+    if (routesAllowChatBot.includes(currentPath)) {
       setDisable(false);
     } else {
       setDisable(true);
@@ -51,14 +49,14 @@ export function ChatBotProvider({ children }: { children: React.ReactNode }) {
       if (needRegisterClan || needRegisterAccount) {
         setType("anonymous");
       } else {
-        setType("user")
+        setType("public");
       }
     } else {
       setType("anonymous");
     }
   }, [ logedIn, needRegisterClan, needRegisterAccount ])
 
-  const CONTEXT = {} as ChatbotCtx;
+  const CONTEXT = {} as ChatBotCtx;
 
   return (
     <ChatBotContext.Provider value={CONTEXT}>
@@ -69,7 +67,9 @@ export function ChatBotProvider({ children }: { children: React.ReactNode }) {
   )
 }
 
-function useChatHistory({ sessionId, type, dependencies }: { sessionId: string, type: ChatbotType, dependencies: any[] }) {
+function useChatHistory({ sessionId, type, dependencies }: { 
+  sessionId: string, type: ChatBotType, dependencies: any[] 
+}) {
   const [ chatHistory, setChatHistory ] = React.useState<ChatHistoryMessage[]>([]);
   const [ loading, setLoading ]         = React.useState<boolean>(false);
   const [ error, setError ]             = React.useState<boolean>(false);
@@ -111,22 +111,26 @@ function useChatHistory({ sessionId, type, dependencies }: { sessionId: string, 
 }
 
 interface ChatHistoryMessage {
-  role: "user" | "assistant";
+  role: ChatSenderRole;
   sender?: string;
   content: string;
   timestamp: string;
 }
 interface UIChatBoxProps {
-  type: ChatbotType;
+  type: ChatBotType;
   disable: boolean;
 }
 function UIChatBox(props: UIChatBoxProps) {  
   const { type, disable } = props;
   const { zaloUserInfo } = useAppContext();
-  const { chatHistory, loading, error, refresh, updateHistory } 
-    = useChatHistory({ sessionId: zaloUserInfo.id, type: type, dependencies: [ zaloUserInfo.id ] });
-
+  const { dangerToast } = useNotification();
+  const { chatHistory, loading, error, refresh, updateHistory } = useChatHistory({ 
+    sessionId: zaloUserInfo.id, 
+    type: type, 
+    dependencies: [ zaloUserInfo.id ] 
+  });
   const [ visible, setVisible ]   = React.useState(false);
+  const [ deleteWarning, setDeleteWarning ] = React.useState(false);
   const [ isTyping, setIsTyping ] = React.useState(false);
 
   const onOpen = () => {
@@ -175,6 +179,30 @@ function UIChatBox(props: UIChatBoxProps) {
     });
   }
 
+  const renderAvatar = (role: ChatSenderRole) => {
+    if (role === "assistant") {
+      return <Avatar src={AVATAR}/>
+    } else return undefined;
+  }
+
+  const clearChatHistory = () => {
+    setDeleteWarning(false);
+    ChatBotCommunicationApi.clearChatHistory({
+      sessionId: zaloUserInfo.id,
+      success: (response: ServerResponse) => {
+        if (response.status === "success") {
+          updateHistory([]);
+        } else {
+          dangerToast(t("xoá thất bại"));
+        }
+      },
+      fail: (error: FailResponse) => {
+        console.error(error);
+        dangerToast(t("xoá thất bại"));
+      }
+    })
+  }
+
   const MESSAGES = React.useMemo(() => {
     return chatHistory.map((message: ChatHistoryMessage) => {
       const direction = message.role === "user" ? "outgoing" : "incoming";
@@ -190,7 +218,7 @@ function UIChatBox(props: UIChatBoxProps) {
             type: "html", // Render html content from chatbot
           }}
         >
-          { message.role === "assistant" ? <Avatar src={AVATAR}/> : undefined }
+          {renderAvatar(message.role)}
         </Message>
       ) as React.ReactNode;
     });
@@ -202,7 +230,8 @@ function UIChatBox(props: UIChatBoxProps) {
 
       <Modal 
         actions={[
-          { text: t("close"), close: true }
+          { text: t("🗑️ xoá lịch sử"), onClick: () =>  setDeleteWarning(true) },
+          { text: t("close"), close: true },
         ]} 
         title={t("Trợ lý Gia Phả")}
         className="text-primary" width={"100%"}
@@ -212,7 +241,7 @@ function UIChatBox(props: UIChatBoxProps) {
           <ChatContainer>
 
             <MessageList
-              typingIndicator={isTyping ? <TypingIndicator content={t("đang suy nghĩ")} /> : undefined}
+              typingIndicator={isTyping ? <TypingIndicator content={t("🧠 đang suy nghĩ")} /> : undefined}
             > 
               {MESSAGES} 
             </MessageList>
@@ -228,6 +257,19 @@ function UIChatBox(props: UIChatBoxProps) {
           </ChatContainer>
         </MainContainer>
       </Modal>
+
+      <Modal
+        className="text-primary"
+        visible={deleteWarning}
+        title={t("Hành động không thể hoàn tác")}
+        description={t("Bạn có chắc muốn xóa lịch sử trò chuyện?")}
+        mask maskClosable
+        onClose={() => setDeleteWarning(false)}
+        actions={[
+          { text: `🗑️ ${t("delete")}`, onClick: clearChatHistory },
+          { text: t("close"), close: true },
+        ]}
+      />
     </>
   )
 }

@@ -23,7 +23,7 @@ export class ChatBotCommunicationApi extends BaseApi {
       user_id:          userId, 
       clan_id:          clanId,
       prompt:           prompt, 
-      messages_history: chatHistory
+      messages_history: chatHistory,
     })
     return this.server.POST("family-tree/chatbot/public/chat", header, body, success, fail);
   }
@@ -36,5 +36,15 @@ export class ChatBotCommunicationApi extends BaseApi {
       session_id: sessionId
     })
     return this.server.POST("family-tree/chatbot/history", header, body, success, fail);
+  }
+
+  public static clearChatHistory({ sessionId, success, fail }: {
+    sessionId: string, success: SuccessCB, fail?: FailCB
+  }) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      session_id: sessionId
+    })
+    return this.server.POST("family-tree/chatbot/history/clear", header, body, success, fail);
   }
 }
