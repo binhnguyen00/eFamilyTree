@@ -1,3 +1,9 @@
+# Version 1.6.1 (Thứ 3, 08/04/2025)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=64)
+### Thay đổi
+#### Trợ lý gia phả
+  - Thêm chức năng xoá lịch sử trò chuyện
+
 # Version 1.6.0 (Thứ 6, 04/04/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=63)
 ### Thay đổi
