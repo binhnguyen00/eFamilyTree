@@ -4,7 +4,7 @@ import { Modal } from "zmp-ui";
 import { 
   MainContainer, ChatContainer,
   MessageList, Message, MessageInput,
-  TypingIndicator, Avatar
+  TypingIndicator, Avatar,
 } from "@chatscope/chat-ui-kit-react";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 
@@ -242,6 +242,7 @@ function UIChatBox(props: UIChatBoxProps) {
 
             <MessageList
               typingIndicator={isTyping ? <TypingIndicator content={t("🧠 đang suy nghĩ")} /> : undefined}
+              scrollBehavior="smooth" autoScrollToBottom={true} autoScrollToBottomOnMount={true}
             > 
               {MESSAGES} 
             </MessageList>
