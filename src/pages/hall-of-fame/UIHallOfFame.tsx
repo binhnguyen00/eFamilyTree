@@ -86,6 +86,7 @@ export function UIHallOfFame() {
           className="flex-v" direction="vertical"
           height={StyleUtils.calComponentRemainingHeight(0)}
         >
+          <br/>
           {renderCards()}
           <br/> <br/>
         </ScrollableDiv>
@@ -98,7 +99,7 @@ export function UIHallOfFame() {
       <Header title={t("certificates")}/>
 
       <div className="container bg-white max-h">
-        {renderContainer()}   
+        {renderContainer()}
       </div>
     </>
   )

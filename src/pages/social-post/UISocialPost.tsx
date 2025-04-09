@@ -5,7 +5,7 @@ import { Button, Text } from "zmp-ui";
 import { StyleUtils } from "utils";
 import { SocialPostApi } from "api";
 import { useAppContext, useRouteNavigate } from "hooks";
-import { Card, Header, Info, ScrollableDiv, TailSpin } from "components";
+import { Card, Header, Info, Loading, ScrollableDiv } from "components";
 
 import { ServerResponse } from "types/server";
 
@@ -64,12 +64,7 @@ export function UISocialPost() {
     }
 
     if (loading) {
-      return (
-        <div className="flex-v center max-h">
-          <TailSpin color="secondary" width={50} height={50}/>
-          <p> {t("loading")} </p>
-        </div>
-      )
+      return <Loading/>
     } else if (error) {
       return renderNoPost();
     } else if (!posts.length) {
@@ -144,6 +139,7 @@ function UISocialPosts(props: UISocialPostsProps) {
       className="flex-v" 
       height={StyleUtils.calComponentRemainingHeight(10)}
     >
+      <br/>
       {renderPosts()}
       <br/><br/>
     </ScrollableDiv>
