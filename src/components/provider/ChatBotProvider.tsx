@@ -133,23 +133,20 @@ function UIChatBox(props: UIChatBoxProps) {
   const [ deleteWarning, setDeleteWarning ] = React.useState(false);
   const [ isTyping, setIsTyping ] = React.useState(false);
 
-  const onOpen = () => {
-    setVisible(true);
-    refresh();
-  };
+  const onOpen = () => { setVisible(true); refresh() };
   const onClose = () => setVisible(false);
 
-  const buildBotMessage = (message: string) => {
-    const botMessage: ChatHistoryMessage = {
-      role: "assistant",
-      content: message,
-      timestamp: DateTimeUtils.getNow(),
-    };
-    updateHistory(prev => [...prev, botMessage]);
-  }
-
-  const chat = (message: string) => {
+  const talkToBot = (message: string) => {
     setIsTyping(true);
+
+    const _buildBotMessage = (message: string) => {
+      const botMessage: ChatHistoryMessage = {
+        role: "assistant",
+        content: message,
+        timestamp: DateTimeUtils.getNow(),
+      };
+      updateHistory(prev => [...prev, botMessage]);
+    }
 
     const userMessage: ChatHistoryMessage = {
       role: "user",
@@ -167,14 +164,14 @@ function UIChatBox(props: UIChatBoxProps) {
         setIsTyping(false);
         if (response.status === "success") {
           const data = response.data as ChatHistoryMessage; 
-          buildBotMessage(data.content);
+          _buildBotMessage(data.content);
         } else {
-          buildBotMessage(t("retry"));
+          _buildBotMessage(t("retry"));
         }
       },
       fail: (error: FailResponse) => {
         setIsTyping(false);
-        buildBotMessage(t("retry"));
+        _buildBotMessage(t("retry"));
       }
     });
   }
@@ -203,7 +200,7 @@ function UIChatBox(props: UIChatBoxProps) {
     })
   }
 
-  const MESSAGES = React.useMemo(() => {
+  const messageStore = React.useMemo(() => {
     return chatHistory.map((message: ChatHistoryMessage) => {
       const direction = message.role === "user" ? "outgoing" : "incoming";
       return (
@@ -224,40 +221,41 @@ function UIChatBox(props: UIChatBoxProps) {
     });
   }, [ chatHistory ]);
 
+  const renderChatBox = () => {
+    return (
+      <MainContainer style={{ height: "55vh" }}>
+        <ChatContainer>
+          <MessageList
+            typingIndicator={isTyping ? <TypingIndicator content={t("🧠 đang suy nghĩ")} /> : undefined}
+            scrollBehavior="smooth" autoScrollToBottom={true} autoScrollToBottomOnMount={true}
+          > 
+            {messageStore} 
+          </MessageList>
+          <MessageInput 
+            placeholder={t("đặt câu hỏi...")}
+            attachButton={false} autoFocus={true} fancyScroll={true}
+            onSend={(innerHtml: string, textContent: string, innerText: string, nodes: NodeList) => {
+              talkToBot(textContent);
+            }}
+          />
+        </ChatContainer>
+      </MainContainer>
+    )
+  }
+
   return (
     <>
       <UIChatBoxButton onClick={onOpen} disable={disable}/>
 
       <Modal 
+        title={t("Trợ lý Gia Phả")} visible={visible} onClose={onClose} 
+        className="text-primary" width={"100%"}
         actions={[
           { text: t("🗑️ xoá lịch sử"), onClick: () =>  setDeleteWarning(true) },
           { text: t("close"), close: true },
         ]} 
-        title={t("Trợ lý Gia Phả")}
-        className="text-primary" width={"100%"}
-        visible={visible} onClose={onClose} 
-      >
-        <MainContainer style={{ height: "55vh" }}>
-          <ChatContainer>
-
-            <MessageList
-              typingIndicator={isTyping ? <TypingIndicator content={t("🧠 đang suy nghĩ")} /> : undefined}
-              scrollBehavior="smooth" autoScrollToBottom={true} autoScrollToBottomOnMount={true}
-            > 
-              {MESSAGES} 
-            </MessageList>
-
-            <MessageInput 
-              placeholder={t("đặt câu hỏi...")}
-              attachButton={false} autoFocus={true} fancyScroll={true}
-              onSend={(innerHtml: string, textContent: string, innerText: string, nodes: NodeList) => {
-                chat(textContent);
-              }}
-            />
-
-          </ChatContainer>
-        </MainContainer>
-      </Modal>
+        children={renderChatBox()}
+      />
 
       <Modal
         className="text-primary"
