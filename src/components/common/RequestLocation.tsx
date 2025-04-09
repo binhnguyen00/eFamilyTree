@@ -38,9 +38,9 @@ export function RequestLocation(props: RequestLocationProps) {
 
   React.useEffect(() => {    
     if (request) {
-      loadingToast(
-        <p> {t("đang xử lý...")} </p>,
-        (successToastCB, dangerToastCB) => {
+      loadingToast({
+        content: <p> {t("đang xử lý...")} </p>,
+        operation: (successToastCB, dangerToastCB) => {
           ZmpSDK.getLocation({
             successCB: (location: any) => { 
               updateAuthSettings(successToastCB, dangerToastCB);
@@ -52,7 +52,7 @@ export function RequestLocation(props: RequestLocationProps) {
             }
           });
         }
-      );
+      });
     };
   }, [ request ]);
 

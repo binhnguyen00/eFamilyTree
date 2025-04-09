@@ -9,6 +9,7 @@ import { useAppContext, useBeanObserver, useNotification } from "hooks";
 import { FailResponse, ServerResponse } from "types/server";
 
 import { Member } from "./UIFamilyTreeDetails";
+import { content } from "html2canvas/dist/types/css/property-descriptors/content";
 
 interface UICreateRootProps {
   visible: boolean;
@@ -30,9 +31,9 @@ export function UICreateRoot(props: UICreateRootProps) {
       dangerToast(t("nhập đủ thông tin"))
       return;
     }
-    loadingToast(
-      <p> {t("đang tạo...")} </p>,
-      (successToastCB, dangerToastCB) => {
+    loadingToast({
+      content: <p> {t("đang tạo...")} </p>,
+      operation: (successToastCB, dangerToastCB) => {
         FamilyTreeApi.saveMember({
           userId: userInfo.id,
           clanId: userInfo.clanId,
@@ -51,7 +52,7 @@ export function UICreateRoot(props: UICreateRootProps) {
           }
         })
       }
-    )
+    })
   }
 
   return (

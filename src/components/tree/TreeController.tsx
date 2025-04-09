@@ -63,9 +63,9 @@ export function TreeController(props: TreeControllerProps) {
     `;
 
     const svg2Base64Success = (base64: string) => {
-      loadingToast(
-        <p> {t("preparing_data")} </p>, 
-        (onSuccess, onFail) => {
+      loadingToast({
+        content: <p> {t("preparing_data")} </p>,
+        operation: (onSuccess, onFail) => {
           const success = (result: ServerResponse) => {
             if (result.status === "success") {
               let data = result.data as { id: number; path: string; };
@@ -77,7 +77,7 @@ export function TreeController(props: TreeControllerProps) {
           }
           FamilyTreeApi.exportSVG(userInfo.id, userInfo.clanId, base64, success, () => onFail(t("download_fail")));
         }
-      );
+      });
     }
 
     const blob = new Blob([svg], { type: 'image/svg+xml' });

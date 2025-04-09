@@ -5,7 +5,7 @@ import { Button, Input, Sheet, Text, DatePicker } from "zmp-ui";
 import { FamilyTreeApi } from "api";
 import { DateTimeUtils, StyleUtils } from "utils";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
-import { BeanObserver, CommonIcon, Selection, Label } from "components";
+import { CommonIcon, Selection, Label } from "components";
 
 import { FailResponse, ServerResponse } from "types/server";
 
@@ -32,9 +32,9 @@ export function UICreateSpouse(props: UICreateSpouseProps) {
       dangerToast(t("nhập đủ thông tin"))
       return;
     }
-    loadingToast(
-      <p> {t("đang tạo...")} </p>,
-      (successToastCB, dangerToastCB) => {
+    loadingToast({
+      content: <p> {t("đang tạo...")} </p>,
+      operation: (successToastCB, dangerToastCB) => {
         FamilyTreeApi.createMember({
           userId: userInfo.id,
           clanId: userInfo.clanId,
@@ -51,7 +51,7 @@ export function UICreateSpouse(props: UICreateSpouseProps) {
           fail: (error: FailResponse) => dangerToastCB(`${t("save")} ${t("fail")}`)
         })
       }
-    )
+    })
   }
 
   const observer = useBeanObserver({

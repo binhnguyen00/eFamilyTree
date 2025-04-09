@@ -47,12 +47,9 @@ export function UICreateHallOfFame(props: UICreateHallOfFameProps) {
       dangerToast(t("hãy chọn thành viên"));
       return;
     }
-    loadingToast(
-      <div className="flex-v">
-        <p> {t("đang thêm thành viên")} </p>
-        <p> {t("vui lòng chờ")} </p>
-      </div>,
-      (successToastCB, dangerToastCB) => {
+    loadingToast({
+      content: <p> {t("đang thêm thành viên")} </p>,
+      operation: (successToastCB, dangerToastCB) => {
         HallOfFameApi.addUserToHallOfFame({
           userId: userInfo.id,
           clanId: userInfo.clanId,
@@ -71,7 +68,7 @@ export function UICreateHallOfFame(props: UICreateHallOfFameProps) {
           }
         })
       }
-    )
+    })
   }
 
   const renderSelection = () => {

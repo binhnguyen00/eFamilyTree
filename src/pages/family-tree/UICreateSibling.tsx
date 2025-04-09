@@ -41,9 +41,9 @@ export function UICreateSibling(props: UICreateSiblingProps) {
       dangerToast(t("nhập đủ thông tin"))
       return;
     }
-    loadingToast(
-      <p> {t("đang tạo...")} </p>,
-      (successToastCB, dangerToastCB) => {
+    loadingToast({
+      content: <p> {t("đang tạo...")} </p>,
+      operation: (successToastCB, dangerToastCB) => {
         FamilyTreeApi.createMember({
           userId: userInfo.id,
           clanId: userInfo.clanId,
@@ -60,7 +60,7 @@ export function UICreateSibling(props: UICreateSiblingProps) {
           fail: (error: FailResponse) => dangerToastCB(`${t("save")} ${t("fail")}`)
         })
       }
-    )
+    })
   }
 
   return (

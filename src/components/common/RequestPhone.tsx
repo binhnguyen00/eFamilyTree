@@ -40,9 +40,9 @@ export function RequestPhone(props: RequestPhoneProps) {
 
   React.useEffect(() => {    
     if (request) {
-      loadingToast(
-        <p> {t("đang xử lý...")} </p>,
-        (successToastCB, dangerToastCB) => {
+      loadingToast({
+        content: <p> {t("đang xử lý...")} </p>,
+        operation: (successToastCB, dangerToastCB) => {
           ZmpSDK.getPhoneNumber(
             // success
             (number: string) => {
@@ -64,7 +64,7 @@ export function RequestPhone(props: RequestPhoneProps) {
             }
           );
         }
-      )
+      });
     };
   }, [ request ]);
 

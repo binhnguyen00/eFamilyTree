@@ -52,9 +52,9 @@ export function UIGalleryAlbumDetail({ album, onClose, onReloadParent }: UIGalle
   }, [ images ]);
 
   const onAddImageToAlbum = async (base64s: string[]) => {
-    loadingToast(
-      <p> {t("đang chuẩn bị dữ liệu...")} </p>,
-      (successToastCB, dangerToastCB) => {
+    loadingToast({
+      content: <p> {t("đang chuẩn bị dữ liệu...")} </p>,
+      operation: (successToastCB, dangerToastCB) => {
         GalleryApi.addImagesToAlbum({
           userId: userInfo.id,
           clanId: userInfo.clanId,
@@ -73,7 +73,7 @@ export function UIGalleryAlbumDetail({ album, onClose, onReloadParent }: UIGalle
           }
         })
       }
-    )
+    })
   }
 
   const blobUrlsToBase64 = async (imagePaths: string[]) => {
@@ -161,12 +161,14 @@ export function UIGalleryAlbumDetail({ album, onClose, onReloadParent }: UIGalle
       return;
     }
 
-    loadingToast(
-      <div className="flex-v">
-        <p> {t("đang xoá...")} </p>
-        <p> {t("vui lòng chờ")} </p>
-      </div>,
-      (successToastCB, dangerToastCB) => {
+    loadingToast({
+      content: (
+        <div className="flex-v">
+          <p> {t("đang xoá...")} </p>
+          <p> {t("vui lòng chờ")} </p>
+        </div>
+      ),
+      operation: (successToastCB, dangerToastCB) => {
         GalleryApi.removeImagesFromAlbum({
           userId: userInfo.id,
           clanId: userInfo.clanId,
@@ -185,7 +187,7 @@ export function UIGalleryAlbumDetail({ album, onClose, onReloadParent }: UIGalle
           }
         })
       }
-    )
+    })
   }
 
   const handleImageSelect = (index: number, image: GalleryImage) => {

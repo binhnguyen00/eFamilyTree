@@ -62,9 +62,9 @@ function ThemeCard(props: ThemeCardProps) {
     if (needPhone) { requestPhone(); return; }
     else if (needRegisterClan) { registerClan(); return; } 
     else if (needRegisterAccount) { registerAccount(); return; }
-    else loadingToast(
-      <p> {t("đang cập nhật...")} </p>,
-      (successToast, dangerToast, dismissToast) => {
+    else loadingToast({
+      content: <p> {t("đang cập nhật...")} </p>,
+      operation: (successToast, dangerToast, dismissToast) => {
         const success = (result: ServerResponse) => {
           const settings = result.data;
           updateTheme(settings.theme);
@@ -80,7 +80,7 @@ function ThemeCard(props: ThemeCardProps) {
         }
         UserSettingApi.updateOrCreate(userInfo.id, userInfo.clanId, target, success, fail);
       }
-    )
+    })
   }
 
   const renderTitle = () => {

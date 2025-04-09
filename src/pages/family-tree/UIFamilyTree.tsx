@@ -165,9 +165,9 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
   } : undefined;
 
   const onSelect = (node: ExtNode) => {
-    loadingToast(
-      <p> {t("đang tải dữ liệu...")} </p>,
-      (successToastCB, dangerToastCB, dismissToast) => {
+    loadingToast({
+      content: <p> {t("đang tải dữ liệu...")} </p>,
+      operation: (successToastCB, dangerToastCB, dismissToast) => {
         FamilyTreeApi.getMemberInfo({
           userId: userInfo.id, 
           clanId: userInfo.clanId,
@@ -200,7 +200,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
           fail: () => dangerToastCB(t("vui lòng thử lại"))
         });
       }
-    ) 
+    }) 
   }
 
   return (

@@ -282,9 +282,9 @@ function UIFundList(props: UIFundListProps) {
   }
 
   const onSelect = (id: number) => {
-    loadingToast(
-      <p> {t("đang tải dữ liệu...")} </p>,
-      (successToastCB, dangerToastCB, dismissToast) => {
+    loadingToast({
+      content: <p> {t("đang tải dữ liệu...")} </p>,
+      operation: (successToastCB, dangerToastCB, dismissToast) => {
         FundApi.getFundById({
           userId: userInfo.id,
           clanId: userInfo.clanId,
@@ -314,7 +314,7 @@ function UIFundList(props: UIFundListProps) {
           fail: () => dangerToastCB(t("vui lòng thử lại"))
         })
       }
-    );
+    });
   }
 
   const lines: React.ReactNode[] = React.useMemo(() => {

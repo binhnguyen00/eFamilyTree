@@ -10,6 +10,7 @@ import { CommonIcon, Selection, SelectionOption, Label } from "components";
 import { FailResponse, ServerResponse } from "types/server";
 
 import { Member } from "./UIFamilyTreeDetails";
+import { content } from "html2canvas/dist/types/css/property-descriptors/content";
 
 interface UICreateChildProps {
   visible: boolean;
@@ -55,9 +56,9 @@ export function UICreateChild(props: UICreateChildProps) {
       dangerToast(t("nhập đủ thông tin"))
       return;
     }
-    loadingToast(
-      <p> {t("đang tạo...")} </p>,
-      (successToastCB, dangerToastCB) => {
+    loadingToast({
+      content: <p> {t("đang tạo...")} </p>,
+      operation: (successToastCB, dangerToastCB) => {
         FamilyTreeApi.createMember({
           userId: userInfo.id,
           clanId: userInfo.clanId,
@@ -74,7 +75,7 @@ export function UICreateChild(props: UICreateChildProps) {
           fail: (error: FailResponse) => dangerToastCB?.(`${t("save")} ${t("fail")}`)
         })
       }
-    )
+    })
   }
 
   return (

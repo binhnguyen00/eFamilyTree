@@ -80,30 +80,30 @@ export function UIEventDetails(props: UIEventDetailsProps) {
         <p> {t("please_wait")} </p>
       </div>
     )
-    loadingToast(
-      loadingContent,
-      (successToast, failToast) => {
+    loadingToast({
+      content: loadingContent,
+      operation: (successToast, failToast) => {
         CalendarApi.deleteEvent({
           userId: userInfo.id,
           clanId: userInfo.clanId,
           id: event["id"],
           success: (result: ServerResponse) => {
             if (result.status === "success") {
-              successToast(t("Xoá Thành Công"))
+              successToast(t("xoá thành công"))
             } else {
-              failToast(t("Xoá Thất Bại"))
+              failToast(t("xoá thất bại"))
             }
             if (onReloadParent) onReloadParent();
             onClose();
           },
           fail: () => {
-            failToast(t("Xoá Thất Bại"))
+            failToast(t("xoá thất bại"))
             if (onReloadParent) onReloadParent();
             onClose()
           }
         })
       }
-    )
+    })
   }
 
   const onFromDateChange = (date: Date, calendarDate: any) => {

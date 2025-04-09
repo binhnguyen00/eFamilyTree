@@ -28,9 +28,9 @@ export function UIRegisterClan() {
 
   const submit = () => {
     if (needPhone) { requestPhone(); return; }
-    else loadingToast(
-      <p> {t("đang gửi yêu cầu...")} </p>,
-      (successToastCB, dangerToastCB) => {
+    else loadingToast({
+      content: <p> {t("đang gửi yêu cầu...")} </p>,
+      operation: (successToastCB, dangerToastCB) => {
         AccountApi.registerClan({
           registerForm: observer.getBean(),
           success: (result: ServerResponse) => {
@@ -46,7 +46,7 @@ export function UIRegisterClan() {
           }
         })
       }
-    )
+    })
   };
 
   return (

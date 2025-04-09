@@ -61,12 +61,9 @@ export function UIGiaTienForm() {
   const [ preview, setPreview ] = React.useState<boolean>(false);
 
   const exportPNG = () => {
-    loadingToast(
-      <div>
-        <p> {t("preparing_data")} </p>
-        <p> {t("please_wait")} </p>
-      </div>,
-      (onSuccess, onFail) => {
+    loadingToast({
+      content: <p> {t("preparing_data")} </p>,
+      operation: (onSuccess, onFail) => {
         const element = document.getElementById('gia-tien-script');
         if (!element) { 
           onFail(t("download_fail")); 
@@ -115,7 +112,7 @@ export function UIGiaTienForm() {
           onFail(t("download_fail"));
         });
       }
-    );
+    });
   };
 
   return (

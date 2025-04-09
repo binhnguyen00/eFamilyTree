@@ -50,9 +50,9 @@ export function UICreateLocationForm(props: UICreateLocationFormProps) {
       return;
     }
     const imgBase64s = await blobUrlsToBase64();
-    loadingToast(
-      <p> {t("đang xử lý...")} </p>,
-      (successToastCB, dangerToastCB) => {
+    loadingToast({
+      content: <p> {t("đang xử lý...")} </p>,
+      operation: (successToastCB, dangerToastCB) => {
         MemorialMapApi.create({
           record: {
             id: observer.getBean().id,
@@ -86,7 +86,7 @@ export function UICreateLocationForm(props: UICreateLocationFormProps) {
           fail: () => dangerToastCB(t("tạo không thành công"))
         });
       }
-    )
+    })
   }
 
   return (

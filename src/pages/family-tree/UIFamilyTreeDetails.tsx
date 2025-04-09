@@ -96,9 +96,9 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
       dangerToast(t("nhập đủ thông tin"))
       return;
     }
-    loadingToast(
-      <p> {t("đang lưu...")} </p>,
-      (successToastCB, dangerToastCB) => {
+    loadingToast({
+      content: <p> {t("đang lưu...")} </p>,
+      operation: (successToastCB, dangerToastCB) => {
         FamilyTreeApi.saveMember({
           userId: userInfo.id,
           clanId: userInfo.clanId,
@@ -120,15 +120,15 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
           fail: (error: FailResponse) => dangerToastCB(`${t("save")} ${t("fail")}`)
         })
       }
-    )
+    })
   }
 
   const onArchive = () => {
     if (isRoot()) { dangerToast(t("Không thể xoá Thành viên Thuỷ Tổ")); return; }
     if (hasChildren()) { dangerToast(t("Thành viên có con, không thể xoá")); return; }
-    loadingToast(
-      <p> {t("đang xoá...")} </p>,
-      (successToastCB, dangerToastCB) => {
+    loadingToast({
+      content: <p> {t("đang xoá...")} </p>,
+      operation: (successToastCB, dangerToastCB) => {
         FamilyTreeApi.archiveMember({
           userId: userInfo.id,
           clanId: userInfo.clanId,
@@ -149,7 +149,7 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
           }
         })
       }
-    )
+    })
   }
 
   const blobUrlsToBase64 = async (imagePaths: string[]) => {
@@ -173,12 +173,14 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
 
   const onUpdateAvatar = () => {
     const doUpdate = (base64: string) => {
-      loadingToast(
-        <div className="flex-v">
-          <p> {t("đang cập nhật ảnh đại diện")} </p>
-          <p> {t("vui lòng chờ")} </p>
-        </div>,
-        (successToastCB, dangerToastCB) => {
+      loadingToast({
+        content: (
+          <div className="flex-v">
+            <p> {t("đang cập nhật ảnh đại diện")} </p>
+            <p> {t("vui lòng chờ")} </p>
+          </div>
+        ),
+        operation: (successToastCB, dangerToastCB) => {
           FamilyTreeApi.updateAvatar({
             userId: userInfo.id,
             clanId: userInfo.clanId,
@@ -196,7 +198,7 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
             fail: () => dangerToastCB(t("cập nhật không thành công"))
           })
         }
-      )
+      })
     }
 
     if (!isOwner()) {

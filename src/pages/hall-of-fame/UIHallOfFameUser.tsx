@@ -44,12 +44,9 @@ export function UIHallOfFameUserDetails(props: UIHallOfFameUserProps) {
   }, [ data ])
 
   const onSave = () => {
-    loadingToast(
-      <div className="flex-v">
-        <p> {t("đang lưu...")} </p>
-        <p> {t("vui lòng chờ")} </p>
-      </div>,
-      (successToast, dangerToast) => {
+    loadingToast({
+      content: <p> {t("đang lưu...")} </p>,
+      operation: (successToast, dangerToast) => {
         HallOfFameApi.saveUserToHallOfFame({
           userId: userInfo.id,
           clanId: userInfo.clanId,
@@ -68,16 +65,13 @@ export function UIHallOfFameUserDetails(props: UIHallOfFameUserProps) {
           }
         })
       }
-    )
+    })
   }
 
   const onDelete = () => {
-    loadingToast(
-      <div className="flex-v">
-        <p> {t("đang xoá...")} </p>
-        <p> {t("vui lòng chờ")} </p>
-      </div>,
-      (successToast, dangerToast) => {
+    loadingToast({
+      content: <p> {t("đang xoá...")} </p>,
+      operation: (successToast, dangerToast) => {
         HallOfFameApi.removeUserFromHallOfFame({
           userId: userInfo.id,
           clanId: userInfo.clanId,
@@ -97,7 +91,7 @@ export function UIHallOfFameUserDetails(props: UIHallOfFameUserProps) {
           }
         })
       }
-    )
+    })
   }
 
   const renderContainer = () => {

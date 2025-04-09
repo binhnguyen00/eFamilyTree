@@ -72,9 +72,9 @@ function UISettings() {
     if (needPhone) { requestPhone(); return; }
     else if (needRegisterClan) { registerClan(); return; } 
     else if (needRegisterAccount) { registerAccount(); return; }
-    else loadingToast(
-      <p> {t("đang cập nhật...")} </p>,
-      (successToastCB, dangerToastCB) => {
+    else loadingToast({
+      content: <p> {t("đang cập nhật...")} </p>,
+      operation: (successToastCB, dangerToastCB) => {
         const success = (result: ServerResponse) => {
           if (result.status === "success") {
             const settings = result.data;        
@@ -93,16 +93,16 @@ function UISettings() {
         }
         UserSettingApi.updateOrCreate(userInfo.id, userInfo.clanId, target, success, fail);
       }
-    ) 
+    }) 
   }
 
   const changeBackground = () => {
     if (needPhone) { requestPhone(); return; }
     else if (needRegisterClan) { registerClan(); return; } 
     else if (needRegisterAccount) { registerAccount(); return; }
-    else loadingToast(
-      <p> {t("đang cập nhật...")} </p>,
-      (successToastCB, dangerToastCB) => {
+    else loadingToast({
+      content: <p> {t("đang cập nhật...")} </p>,
+      operation: (successToastCB, dangerToastCB) => {
         const getImgSuccess = (base64: string) => {
           const success = (result: ServerResponse) => {
             const background = result.data;
@@ -131,16 +131,16 @@ function UISettings() {
           () => dangerToastCB(t("update_fail"))
         );
       }
-    )
+    })
   } 
 
   const resetBackground = () => {
     if (needPhone) { requestPhone(); return; }
     else if (needRegisterClan) { registerClan(); return; } 
     else if (needRegisterAccount) { registerAccount(); return; }
-    else loadingToast(
-      <p> {t("đang cập nhật...")} </p>,
-      (sucessToastCB, dangerToastCB) => {
+    else loadingToast({
+      content: <p> {t("đang cập nhật...")} </p>,
+      operation: (sucessToastCB, dangerToastCB) => {
         UserSettingApi.resetBackground({
           userId: userInfo.id, 
           clanId: userInfo.clanId, 
@@ -158,7 +158,7 @@ function UISettings() {
           fail: () => dangerToastCB(t("update_fail"))
         });
       }
-    )
+    })
   }
 
   const goToTheme = () => {

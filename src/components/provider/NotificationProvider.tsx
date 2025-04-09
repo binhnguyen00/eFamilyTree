@@ -29,14 +29,17 @@ export type NotificationCtx = {
   dangerToast: (content: ToastContent) => void;
   warningToast: (content: ToastContent) => void;
   infoToast: (content: ToastContent) => void;
-  loadingToast: (
+  loadingToast: ({
+    content,
+    operation
+  }: {
     content: ToastContent, 
     operation: (
       onSuccess: (successMessage: ToastContent) => void, 
       onFail: (errorMessage: ToastContent) => void,
       onDismiss: () => void
-    ) => void,
-  ) => void;
+    ) => void
+  }) => void;
 }
 
 export const NotificationContext = React.createContext({
@@ -84,14 +87,17 @@ function warningToast(content: ToastContent) {
   toast.warning(content, createToastConfig());
 }
 
-function loadingToast(
+function loadingToast({
+  content,
+  operation,
+}: {
   content: ToastContent,
   operation: (
     onSuccess: (successMessage: ToastContent) => void, 
     onFail: (errorMessage: ToastContent) => void,
     onDismiss: () => void
   ) => void,
-) {
+}) {
   const config = createToastConfig()
   const toastId = toast.loading(content, config);
 

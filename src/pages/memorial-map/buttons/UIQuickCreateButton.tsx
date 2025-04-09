@@ -22,9 +22,9 @@ export function QuickCreateLocationButton(props: QuickCreateLocationButtonProps)
       requestLocation();
       return;
     }
-    loadingToast(
-      <p> {t("đang lấy toạ độ hiện tại...")} </p>,
-      (successToastCB, dangerToastCB) => {
+    loadingToast({
+      content: <p> {t("đang lấy toạ độ hiện tại...")} </p>,
+      operation: (successToastCB, dangerToastCB) => {
         ZmpSDK.getLocation({
           successCB: (location: any) => {
             successToastCB(t("lấy toạ độ thành công"));
@@ -37,7 +37,7 @@ export function QuickCreateLocationButton(props: QuickCreateLocationButtonProps)
           failCB: () => dangerToastCB(t("lấy toạ độ không thành công"))
         });
       }
-    )
+    })
   }
 
   return (

@@ -24,9 +24,9 @@ export function UIRegister() {
 
   const submit = () => {
     if (needPhone) { requestPhone(); return; }
-    else loadingToast(
-      <p> {t("đang gửi yêu cầu...")} </p>,
-      (successToastCB, dangerToastCB) => {
+    else loadingToast({
+      content: <p> {t("đang gửi yêu cầu...")} </p>,
+      operation: (successToastCB, dangerToastCB) => {
         AccountApi.register({
           registerForm: observer.getBean(),
           success: (result: ServerResponse) => {
@@ -42,7 +42,7 @@ export function UIRegister() {
           }
         });
       }
-    )
+    })
   };
 
   return (

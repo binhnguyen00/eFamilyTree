@@ -40,9 +40,9 @@ function useCurrentLocation() {
     if (needLocation) {
       requestLocation();
     } else {
-      loadingToast(
-        <p> {t("đang lấy toạ độ hiện tại...")} </p>,
-        (successToastCB, dangerToastCB, dismissToast) => {
+      loadingToast({
+        content: <p> {t("đang lấy toạ độ hiện tại...")} </p>,
+        operation: (successToastCB, dangerToastCB, dismissToast) => {
           ZmpSDK.getLocation({
             successCB: (location) => {
               setLoading(false);
@@ -59,7 +59,7 @@ function useCurrentLocation() {
             }
           });
         }
-      )
+      })
     }
   }, [ needLocation, reload ])
 
@@ -152,9 +152,9 @@ export function UIMap() {
       requestLocation();
       return;
     }
-    loadingToast(
-      <p> {t("đang chuẩn bị dữ liệu...")} </p>,
-      (successToastCB, dangerToastCB, dismissToast) => {
+    loadingToast({
+      content: <p> {t("đang chuẩn bị dữ liệu...")} </p>,
+      operation: (successToastCB, dangerToastCB, dismissToast) => {
         MemorialMapApi.get({
           userId: userInfo.id,
           clanId: userInfo.clanId,
@@ -184,7 +184,7 @@ export function UIMap() {
           fail: () => dangerToastCB(t("lấy dữ liệu không thành công"))
         })
       }
-    )
+    })
     setRequestInfo(true);
   }
 

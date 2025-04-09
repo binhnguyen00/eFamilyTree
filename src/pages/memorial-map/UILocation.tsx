@@ -44,9 +44,9 @@ export function UILocation(props: UILocationProps) {
   const [ deleteWarning, setDeleteWarning ] = React.useState(false);
 
   const onDelete = () => {
-    loadingToast(
-      <p> {t("đang xử lý...")} </p>,
-      (successToastCB, dangerToastCB) => {
+    loadingToast({
+      content: <p> {t("đang xử lý...")} </p>,
+      operation: (successToastCB, dangerToastCB) => {
         const success = (result: ServerResponse) => {
           if (result.status === "error") {
             fail();
@@ -62,7 +62,7 @@ export function UILocation(props: UILocationProps) {
         }
         MemorialMapApi.delete({userId: userInfo.id, clanId: userInfo.clanId, targetId: observer.getBean().id}, success, fail);
       }
-    )
+    })
   }
 
   const onSave = () => {
@@ -70,9 +70,9 @@ export function UILocation(props: UILocationProps) {
       dangerToast(t("nhập đủ dữ liệu"));
       return;
     }
-    loadingToast(
-      <p> {t("đang xử lý...")} </p>,
-      (successToastCB, dangerToastCB) => {
+    loadingToast({
+      content: <p> {t("đang xử lý...")} </p>,
+      operation: (successToastCB, dangerToastCB) => {
         MemorialMapApi.save({
           record: observer.getBean(), 
           success: (result: ServerResponse) => {
@@ -87,7 +87,7 @@ export function UILocation(props: UILocationProps) {
           fail: () => dangerToastCB(`${t("save")} ${t("fail")}`)
         });
       }
-    )
+    })
   }
 
   return (
