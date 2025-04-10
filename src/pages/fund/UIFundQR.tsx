@@ -2,8 +2,13 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Input, Sheet } from "zmp-ui";
 
-import { CommonIcon, ScrollableDiv } from "components";
-import { useBeanObserver } from "hooks";
+import { FundApi } from "api";
+import { ServerResponse } from "types/server";
+import { CommonUtils, ZmpSDK } from "utils";
+import { BeanObserver, CommonIcon, ScrollableDiv } from "components";
+import { useAppContext, useBeanObserver, useNotification } from "hooks";
+
+import { FundInfo } from "./UIFundInfo";
 
 export interface FundQR {
   accountNumber: string;
@@ -14,34 +19,82 @@ export interface FundQR {
 
 interface UIFundQRProps {
   visible: boolean;
-  title: string;
-  fundQR: FundQR;
+  observer: BeanObserver<FundInfo>;
   onClose: () => void;
 }
 export function UIFundQR(props: UIFundQRProps) {
-  const { visible, title, fundQR, onClose } = props;
-  const observer = useBeanObserver(fundQR);
+  const { visible, observer, onClose } = props;
 
-  const onSave = () => {
-    // TODO: Save qr code;
+  const { userInfo, serverBaseUrl } = useAppContext();
+  const { loadingToast } = useNotification();
+  const qrObserver = useBeanObserver(observer.getBean().qrCode);
+
+  const onChangeQrCode = () => {
+    loadingToast({
+      content: <p> {t("đang chuẩn bị dữ liệu...")} </p>,
+      operation: (successToastCB, dangerToastCB) => {
+        
+        const doUpdate = (base64: string) => {
+          FundApi.saveFundQrCode({
+            id: observer.getBean().id,
+            qrCode: base64,
+            userId: userInfo.id,
+            clanId: userInfo.clanId,
+            success: (response: ServerResponse) => {
+              if (response.status === "success") {
+                successToastCB(t("cập nhật thành công"));
+                qrObserver.update("imageQR", response.data as string);
+              } else {
+                dangerToastCB(t("cập nhật không thành công"));
+              }
+            },
+            fail: () => dangerToastCB(t("cập nhật không thành công"))
+          })
+        }
+        
+        ZmpSDK.chooseImage({
+          howMany: 1,
+          success: async (files: any[]) => {
+            const blobs: string[] = [ ...files.map(file => file.path) ];
+            const base64s = await CommonUtils.blobUrlsToBase64(blobs);
+            if (base64s.length) doUpdate(base64s[0]);
+            else {
+              dangerToastCB(t("lỗi ảnh"))
+              return;
+            }
+          },
+          fail: () => dangerToastCB(t("cập nhật không thành công"))
+        });
+      }
+    })
+  } 
+
+  const renderQrCode = () => {
+    const { width, height } = { width: 400, height: 400 };
+    const src = `${serverBaseUrl}/${qrObserver.getBean().imageQR}`;
+    return (
+      <img
+        className="rounded" src={src}
+        onError={(e) => e.currentTarget.src = `https://fakeimg.pl/${width}x${height}?text=QR`}
+      />
+    )
   }
 
   return (
-    <Sheet title={title} visible={visible} onClose={onClose} mask maskClosable>
+    <Sheet title={observer.getBean().name} visible={visible} onClose={onClose} mask maskClosable>
       <ScrollableDiv className="flex-v p-3" direction="vertical" height={"80vh"}>
         <div className="flex-v flex-grow-0">
-          <div>
-            {observer.getBean().imageQR}
+          <div className="center flex-v flex-grow-0">
+            {renderQrCode()}
+            <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onChangeQrCode}>
+              {observer.getFieldValue("thumbnailPath") ? t("mã khác") : t("thêm")}
+            </Button>
           </div>
-          <Input label={t("số tài khoản")} value={observer.getBean().accountNumber} disabled/>
-          <Input label={t("chủ tài khoản")} value={observer.getBean().accountOwner} disabled/>
-          <Input label={t("ngân hàng")} value={observer.getBean().bankName} disabled/>
+          <Input label={t("số tài khoản")} value={qrObserver.getBean().accountNumber} disabled/>
+          <Input label={t("chủ tài khoản")} value={qrObserver.getBean().accountOwner} disabled/>
+          <Input label={t("ngân hàng")} value={qrObserver.getBean().bankName} disabled/>
         </div>
-        <div className="center">
-          <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onSave}>
-            {t("save")}
-          </Button>
-        </div>
+
         <br />
       </ScrollableDiv>
     </Sheet>

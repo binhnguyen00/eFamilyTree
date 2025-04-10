@@ -188,10 +188,7 @@ function UIFooter({ observer }: UIFooterProps) {
         {t("mã QR")}
       </Button>
 
-      <UIFundQR 
-        visible={visible} onClose={closeQrCode}
-        title={observer.getBean().name} fundQR={observer.getBean().qrCode}
-      />
+      <UIFundQR visible={visible} onClose={closeQrCode} observer={observer}/>
     </div>
   )
 }

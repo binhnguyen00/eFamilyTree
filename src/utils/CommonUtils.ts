@@ -1,3 +1,5 @@
+import { t } from "i18next";
+
 export class CommonUtils {
 
   static isNullOrUndefined(value: any): boolean {
@@ -45,5 +47,27 @@ export class CommonUtils {
         this.objToBase64(blob, success, fail);
       })
       .catch((error) => fail?.(error));
+  }
+
+  static blobUrlsToBase64 = async (imagePaths: string[]) => {
+    const base64Promises = imagePaths.map((blobUrl) => {
+      return new Promise<string>((resolve) => {
+        CommonUtils.blobUrlToBase64(blobUrl, (base64: string) => {
+          resolve(base64);
+        });
+      });
+    });
+    const base64Array = await Promise.all(base64Promises);
+    return base64Array;
+  };
+
+  static copyToClipboard({ value, successToast, warningToast }: { 
+    value: string, 
+    successToast: (content: string) => void, 
+    warningToast: (content: string) => void 
+  }) {
+    navigator.clipboard.writeText(value)
+      .then(() => successToast(t("sao chép thành công")))
+      .catch((err: Error) => warningToast(t("sao chép thất bại")));
   }
 }
