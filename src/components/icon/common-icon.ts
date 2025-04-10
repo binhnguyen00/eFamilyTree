@@ -20,6 +20,7 @@ import { GiFamilyTree } from "react-icons/gi";
 import { MdFamilyRestroom } from "react-icons/md";
 import { GiGraveFlowers } from "react-icons/gi";
 import { FaRegCalendarAlt } from "react-icons/fa";
+import { IoQrCodeOutline } from "react-icons/io5";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -77,4 +78,5 @@ export const CommonIcon = {
   Family: MdFamilyRestroom,
   Grave: GiGraveFlowers,
   Gallery: FaRegCalendarAlt,
+  QRCode: IoQrCodeOutline,
 };

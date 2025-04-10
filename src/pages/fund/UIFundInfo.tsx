@@ -1,21 +1,23 @@
 import React from "react";
 import { t } from "i18next";
-import { Text } from "zmp-ui";
+import { Button, Text } from "zmp-ui";
 
 import { DateTimeUtils, StyleUtils } from "utils";
 import { useBeanObserver, useRouteNavigate } from "hooks";
-import { BeanObserver, Divider, Header, ScrollableDiv, SizedBox } from "components";
+import { BeanObserver, CommonIcon, Divider, Header, ScrollableDiv, SizedBox } from "components";
 
 import { FundLine } from "./UIFunds";
+import { FundQR, UIFundQR } from "./UIFundQR";
 
 export interface FundInfo {
   id: number,
   name: string,
-  balance: string,
-  totalIncomes: string,
-  totalExpenses: string,
+  balance: number,
+  totalIncomes: number,
+  totalExpenses: number,
   incomes: FundLine[],
   expenses: FundLine[],
+  qrCode: FundQR,
 }
 
 export function UIFundInfo() {
@@ -41,6 +43,7 @@ interface UIFundContainerProps {
 function UIFundContainer(props: UIFundContainerProps) {
   const { observer } = props;
 
+  const [ type, setType ] = React.useState<"income" | "expense" | "all">("all");
   const [ transactions, setTransactions ] = React.useState<any[]>([]);
 
   React.useEffect(() => {
@@ -52,17 +55,23 @@ function UIFundContainer(props: UIFundContainerProps) {
     }
   }, [observer]);
 
+  const onSelect = (type: "income" | "expense" | "all") => {
+    setType(type);
+  }
+
   return (
     <div>
-      <UIFundSummary observer={observer} className="mt-2"/>
+      <UIFundSummary className="mt-2" observer={observer} onSelect={onSelect}/>
       <Divider size={0}/>
-      <UITransactions transactions={transactions} /> {/* TODO: pass observer */}
+      <UITransactions type={type} transactions={transactions} /> {/* TODO: pass observer */}
+      <UIFooter observer={observer}/>
     </div>
   );
 }
 
 interface UIFundSummaryProps {
   observer: BeanObserver<FundInfo>;
+  onSelect: (type: "income" | "expense" | "all") => void;
   className?: string;
 }
 function UIFundSummary(props: UIFundSummaryProps) {
@@ -73,17 +82,26 @@ function UIFundSummary(props: UIFundSummaryProps) {
       <SizedBox 
         width={"100%"} height={120} 
         className={`rounded flex-v center text-primary button bg-secondary ${className}`.trim()}
+        onClick={() => props.onSelect("all")}
       >
         <Text.Title size="large"> {t("balance")} </Text.Title>
         <Text size="xLarge" className="bold"> {`${observer.getBean().balance} đ`} </Text>
       </SizedBox>
 
       <div className="flex-h">
-        <SizedBox width={"50%"} height={100} className="rounded flex-v center bg-green-100 button">
+        <SizedBox 
+          width={"50%"} height={100} 
+          className="rounded flex-v center bg-green-100 button"
+          onClick={() => props.onSelect("income")}
+        >
           <Text size="large"> {t("incomes")} </Text>
           <Text size="large" className="text-success"> {`+${observer.getBean().totalIncomes} đ`} </Text>
         </SizedBox>
-        <SizedBox width={"50%"} height={100} className="rounded flex-v center bg-red-100 button">
+        <SizedBox 
+          width={"50%"} height={100} 
+          className="rounded flex-v center bg-red-100 button"
+          onClick={() => props.onSelect("expense")}
+        >
           <Text size="large"> {t("expenses")} </Text>
           <Text size="large" className="text-danger"> {`-${observer.getBean().totalExpenses} đ`} </Text>
         </SizedBox>
@@ -97,8 +115,9 @@ interface Transaction extends FundLine {
 }
 interface UITransactionsProps {
   transactions: Transaction[];
+  type: "income" | "expense" | "all";
 }
-function UITransactions({ transactions }: UITransactionsProps) {
+function UITransactions({ transactions, type }: UITransactionsProps) {
   if (transactions.length === 0) return null;
 
   const renderTransaction = (transaction: Transaction) => {
@@ -117,13 +136,29 @@ function UITransactions({ transactions }: UITransactionsProps) {
   }
 
   const lines = React.useMemo(() => {
-    return transactions.map((item, index) => (
-      <React.Fragment key={`transaction-${index}`}>
-        {renderTransaction(item)}
-        <Divider/>
-      </React.Fragment>
-    ));
-  }, [transactions]);
+    if (type === "all") {
+      return transactions.map((item, index) => (
+        <React.Fragment key={`transaction-${index}`}>
+          {renderTransaction(item)}
+          <Divider/>
+        </React.Fragment>
+      ));
+    } else if (type === "income") {
+      return transactions.filter(item => item.type === "income").map((item, index) => (
+        <React.Fragment key={`transaction-${index}`}>
+          {renderTransaction(item)}
+          <Divider/>
+        </React.Fragment>
+      ));
+    } else {
+      return transactions.filter(item => item.type === "expense").map((item, index) => (
+        <React.Fragment key={`transaction-${index}`}>
+          {renderTransaction(item)}
+          <Divider/>
+        </React.Fragment>
+      ));
+    }
+  }, [ type, transactions ]);
 
   return (
     <div className="flex-v">
@@ -136,4 +171,27 @@ function UITransactions({ transactions }: UITransactionsProps) {
       </ScrollableDiv>
     </div>
   );
+}
+
+interface UIFooterProps {
+  observer: BeanObserver<FundInfo>;
+}
+function UIFooter({ observer }: UIFooterProps) {
+  const [ visible, setVisible ] = React.useState<boolean>(false);
+
+  const openQrCode = () => setVisible(true);
+  const closeQrCode = () => setVisible(false);
+
+  return (
+    <div className="flex-v" style={{ position: "fixed", bottom: 20, right: 10 }}>
+      <Button size="small" prefixIcon={<CommonIcon.QRCode/>} onClick={openQrCode}>
+        {t("mã QR")}
+      </Button>
+
+      <UIFundQR 
+        visible={visible} onClose={closeQrCode}
+        title={observer.getBean().name} fundQR={observer.getBean().qrCode}
+      />
+    </div>
+  )
 }

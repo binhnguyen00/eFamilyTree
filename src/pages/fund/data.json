@@ -1,0 +1,73 @@
+[
+  {
+    "id": 1,
+    "name": "Quỹ khuyến học",
+    "balance": 200000000,
+    "qrCode": {
+      "accountNumber": "1234567890",
+      "accountOwner": "Phạm Khắc Phú",
+      "bankName": "Vietcombank",
+      "imageQR": "web/image/family.fund/12312421/account_qr"
+    },
+    "incomes": [
+      {
+        "name": "Phạm Khắc Phú",
+        "amount": 5000000,
+        "date": "12/12/2024",
+        "note": ""
+      },
+      {
+        "name": "Phạm Khắc Phú",
+        "amount": 5000000,
+        "date": "12/12/2024",
+        "note": ""
+      },
+      {
+        "name": "Phạm Khắc Phú",
+        "amount": 5000000,
+        "date": "12/12/2024",
+        "note": ""
+      },
+      {
+        "name": "Phạm Khắc Phú",
+        "amount": 5000000,
+        "date": "12/12/2024",
+        "note": ""
+      },
+      {
+        "name": "Phạm Thị Đỏ",
+        "amount": 2000000,
+        "date": "12/12/2024",
+        "note": ""
+      }
+    ],
+    "expenses": [
+      {
+        "name": "Phạm Khắc Thành",
+        "amount": 2000000,
+        "date": "12/12/2024",
+        "note": "Chi cho mua le Chi cho mua le Chi cho mua le Chi cho mua le Chi cho mua le"
+      },
+      {
+        "name": "Phạm Khắc Thành",
+        "amount": 2000000,
+        "date": "12/12/2024",
+        "note": "Chi cho mua le"
+      },
+      {
+        "name": "Phạm Khắc Thành",
+        "amount": 2000000,
+        "date": "12/12/2024",
+        "note": "Chi cho mua le"
+      },
+      {
+        "name": "Phạm Khắc Thành",
+        "amount": 2000000,
+        "date": "12/12/2024",
+        "note": "Chi cho mua le"
+      }
+    ],
+    "totalIncomes": 5000000,
+    "totalExpenses": 2000000
+  }
+]

@@ -10,159 +10,19 @@ import { Header, Loading, ScrollableDiv, Info, CommonIcon } from "components";
 import { ServerResponse } from "types/server";
 import { FundInfo } from "./UIFundInfo";
 
-/**@deprecated */
-const funds = [
-  {
-    "id": 1,
-    "name": "Quỹ khuyến học",
-    "balance": "200.000.000",
-    "incomes": [
-      {
-        "name": "Phạm Khắc Phú",
-        "amount": "5.000.000",
-        "date": "12/12/2024",
-        "note": ""
-      },
-      {
-        "name": "Phạm Khắc Phú",
-        "amount": "5.000.000",
-        "date": "12/12/2024",
-        "note": ""
-      },
-      {
-        "name": "Phạm Khắc Phú",
-        "amount": "5.000.000",
-        "date": "12/12/2024",
-        "note": ""
-      },
-      {
-        "name": "Phạm Khắc Phú",
-        "amount": "5.000.000",
-        "date": "12/12/2024",
-        "note": ""
-      },
-      {
-        "name": "Phạm Thị Đỏ",
-        "amount": "2.000.000",
-        "date": "12/12/2024",
-        "note": ""
-      }
-    ],
-    "expenses": [
-      {
-        "name": "Phạm Khắc Thành",
-        "amount": "2.000.000",
-        "date": "12/12/2024",
-        "note": "Chi cho mua le Chi cho mua le Chi cho mua le Chi cho mua le Chi cho mua le"
-      },
-      {
-        "name": "Phạm Khắc Thành",
-        "amount": "2.000.000",
-        "date": "12/12/2024",
-        "note": "Chi cho mua le"
-      },
-      {
-        "name": "Phạm Khắc Thành",
-        "amount": "2.000.000",
-        "date": "12/12/2024",
-        "note": "Chi cho mua le"
-      },
-      {
-        "name": "Phạm Khắc Thành",
-        "amount": "2.000.000",
-        "date": "12/12/2024",
-        "note": "Chi cho mua le"
-      },
-    ],
-    "totalIncomes": "5.000.000",
-    "totalExpenses": "2.000.000"
-  },
-  {
-    "id": 1,
-    "name": "Quỹ khuyến học",
-    "balance": "200.000.000",
-    "incomes": [
-      {
-        "name": "Phạm Khắc Phú",
-        "amount": "5.000.000",
-        "date": "12/12/2024",
-        "note": ""
-      },
-      {
-        "name": "Phạm Khắc Phú",
-        "amount": "5.000.000",
-        "date": "12/12/2024",
-        "note": ""
-      },
-      {
-        "name": "Phạm Khắc Phú",
-        "amount": "5.000.000",
-        "date": "12/12/2024",
-        "note": ""
-      },
-      {
-        "name": "Phạm Khắc Phú",
-        "amount": "5.000.000",
-        "date": "12/12/2024",
-        "note": ""
-      },
-      {
-        "name": "Phạm Thị Đỏ",
-        "amount": "2.000.000",
-        "date": "12/12/2024",
-        "note": ""
-      }
-    ],
-    "expenses": [
-      {
-        "name": "Phạm Khắc Thành",
-        "amount": "2.000.000",
-        "date": "12/12/2024",
-        "note": "Chi cho mua le Chi cho mua le Chi cho mua le Chi cho mua le Chi cho mua le"
-      },
-      {
-        "name": "Phạm Khắc Thành",
-        "amount": "2.000.000",
-        "date": "12/12/2024",
-        "note": "Chi cho mua le"
-      },
-      {
-        "name": "Phạm Khắc Thành",
-        "amount": "2.000.000",
-        "date": "12/12/2024",
-        "note": "Chi cho mua le"
-      },
-      {
-        "name": "Phạm Khắc Thành",
-        "amount": "2.000.000",
-        "date": "12/12/2024",
-        "note": "Chi cho mua le"
-      },
-    ],
-    "totalIncomes": "5.000.000",
-    "totalExpenses": "2.000.000"
-  },
-]
+import funds from "./data.json";
 
 export interface FundLine {
   name: string,
-  amount: string,
+  amount: number,
   date: string,
   note: string,
-}
-
-export interface Fund {
-  id: number,
-  name: string,
-  balance: string,
-  incomes: FundLine[],
-  expenses: FundLine[],
 }
 
 function useFunds() {
   const { userInfo } = useAppContext();
 
-  const [ funds, setFunds ] = React.useState<Fund[]>([]);
+  const [ funds, setFunds ] = React.useState<FundInfo[]>([]);
   const [ loading, setLoading ] = React.useState(true);
   const [ error, setError ] = React.useState(false);
   const [ reload, setReload ] = React.useState(false);
@@ -170,13 +30,21 @@ function useFunds() {
   const refresh = () => setReload(!reload);
 
   const map = (data: any[]) => {
-    const results: Fund[] = data.map((result: any) => {
+    const results: FundInfo[] = data.map((result: any) => {
       return {
-        id:       result.id,
-        name:     result.name,
-        balance:  result.balance,
-        incomes:  result.incomes,
-        expenses: result.expenses
+        id:             result.id,
+        name:           result.name,
+        balance:        result.balance,
+        incomes:        result.incomes,
+        expenses:       result.expenses,
+        totalIncomes:   result.total_incomes,
+        totalExpenses:  result.total_expenses,
+        qrCode: {
+          accountOwner:   result.account_holder,
+          accountNumber:  result.account_number,
+          bankName:       result.bank_name,
+          imageQR:        result.account_qr,
+        },
       }
     })
     return results;
@@ -211,7 +79,7 @@ function useFunds() {
 }
 
 export function UIFund() {
-  const { funds, loading, error, refresh } = useFunds();
+  const { loading, error, refresh } = useFunds();
   
   const renderErrorContainer = () => {
     return (
@@ -227,6 +95,10 @@ export function UIFund() {
   }
 
   const renderContainer = () => {
+    return (
+      <UIFundList funds={funds}/>
+    )
+
     if (loading) {
       return (
         <Loading/>
@@ -254,7 +126,7 @@ export function UIFund() {
 }
 
 interface UIFundListProps {
-  funds: Fund[];
+  funds: FundInfo[];
 }
 function UIFundList(props: UIFundListProps) {
   const { funds } = props;
@@ -274,8 +146,14 @@ function UIFundList(props: UIFundListProps) {
           balance:        data.balance,
           incomes:        data.incomes,
           expenses:       data.expenses,
-          totalIncomes:   "55.000.000",
-          totalExpenses:  "22.123.53",
+          qrCode: {
+            accountOwner:   data.qrCode.accountOwner,
+            accountNumber:  data.qrCode.accountNumber,
+            bankName:       data.qrCode.bankName,
+            imageQR:        data.qrCode.imageQR,
+          },
+          totalIncomes:   55000000,
+          totalExpenses:  2212353,
         } as FundInfo
       }
     });
@@ -319,13 +197,11 @@ function UIFundList(props: UIFundListProps) {
 
   const lines: React.ReactNode[] = React.useMemo(() => {
     return funds.map((item, index) => {
-      const totalIncomes = item.incomes.reduce((sum, current) => 
-        sum + parseInt(current.amount.replace(/\./g, '')), 0).toLocaleString('vi-VN');
-      const totalExpenses = item.expenses.reduce((sum, current) => 
-        sum + parseInt(current.amount.replace(/\./g, '')), 0).toLocaleString('vi-VN');
-
+      const totalIncomes = item.incomes.reduce((sum, current) => sum + current.amount, 0);
+      const totalExpenses = item.expenses.reduce((sum, current) => sum + current.amount, 0);
+      
       return (
-        <div key={`fund-${index}`} className="my-2 button" onClick={() => onSelect(item.id)}>
+        <div key={`fund-${index}`} className="my-2 button" onClick={() => onSelectDummy(item.id)}>
           {/* header */}
           <div className="p-3 bg-primary text-white rounded-top"> 
             <div className="flex-h justify-between">
