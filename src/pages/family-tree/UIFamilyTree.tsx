@@ -17,6 +17,30 @@ import { UICreateSibling } from "./UICreateSibling";
 import { CreateMode, Member, UITreeMemberDetails } from "./UIFamilyTreeDetails";
 import { ServerNodeFormat } from "utils/TreeDataProcessor";
 
+export function useGetActiveMembers(userId: number, clanId: number) {
+  const [ activeMembers, setActiveMembers ] = React.useState<{ value: number, label: string }[]>([]);
+
+  React.useEffect(() => {
+    FamilyTreeApi.getActiveMemberIds({
+      userId: userId,
+      clanId: clanId,
+      success: (result: ServerResponse) => {
+        if (result.status === "success") {
+          const data: any[] = result.data;
+          const members = data.map((member, idx) => {
+            return { value: member.id, label: member.name }
+          })
+          setActiveMembers(members);
+        }
+      }
+    })
+  }, [ userId, clanId ])
+
+  const memoizedActiveMembers = React.useMemo(() => activeMembers, [activeMembers]);
+
+  return { activeMembers: memoizedActiveMembers };
+}
+
 export function useFamilyTree() {
   const { userInfo } = useAppContext();
 

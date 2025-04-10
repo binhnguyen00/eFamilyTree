@@ -5,37 +5,48 @@
     "balance": 200000000,
     "qrCode": {
       "accountNumber": "1234567890",
+      "accountOwnerId": 1,
       "accountOwner": "Phạm Khắc Phú",
       "bankName": "Vietcombank",
       "imageQR": "web/image/family.fund/12312421/account_qr"
     },
     "incomes": [
       {
+        "id": 1,
         "name": "Phạm Khắc Phú",
+        "picId": 1,
         "amount": 5000000,
         "date": "12/12/2024",
         "note": ""
       },
       {
+        "id": 1,
         "name": "Phạm Khắc Phú",
+        "picId": 1,
         "amount": 5000000,
         "date": "12/12/2024",
         "note": ""
       },
       {
+        "id": 1,
         "name": "Phạm Khắc Phú",
+        "picId": 1,
         "amount": 5000000,
         "date": "12/12/2024",
         "note": ""
       },
       {
+        "id": 1,
         "name": "Phạm Khắc Phú",
+        "picId": 1,
         "amount": 5000000,
         "date": "12/12/2024",
         "note": ""
       },
       {
+        "id": 1,
         "name": "Phạm Thị Đỏ",
+        "picId": 1,
         "amount": 2000000,
         "date": "12/12/2024",
         "note": ""
@@ -43,25 +54,33 @@
     ],
     "expenses": [
       {
+        "id": 2,
         "name": "Phạm Khắc Thành",
+        "picId": 2,
         "amount": 2000000,
         "date": "12/12/2024",
         "note": "Chi cho mua le Chi cho mua le Chi cho mua le Chi cho mua le Chi cho mua le"
       },
       {
+        "id": 2,
         "name": "Phạm Khắc Thành",
+        "picId": 2,
         "amount": 2000000,
         "date": "12/12/2024",
         "note": "Chi cho mua le"
       },
       {
+        "id": 2,
         "name": "Phạm Khắc Thành",
+        "picId": 2,
         "amount": 2000000,
         "date": "12/12/2024",
         "note": "Chi cho mua le"
       },
       {
+        "id": 2,
         "name": "Phạm Khắc Thành",
+        "picId": 2,
         "amount": 2000000,
         "date": "12/12/2024",
         "note": "Chi cho mua le"

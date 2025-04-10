@@ -9,11 +9,14 @@ import { Header, Loading, ScrollableDiv, Info, CommonIcon } from "components";
 
 import { ServerResponse } from "types/server";
 import { FundInfo } from "./UIFundInfo";
+import { UICreateFund } from "./UICreateFund";
 
 import funds from "./data.json";
 
 export interface FundLine {
+  id: number,
   name: string,
+  picId: number,
   amount: number,
   date: string,
   note: string,
@@ -33,17 +36,18 @@ function useFunds() {
     const results: FundInfo[] = data.map((result: any) => {
       return {
         id:             result.id,
-        name:           result.name,
-        balance:        result.balance,
-        incomes:        result.incomes,
-        expenses:       result.expenses,
-        totalIncomes:   result.total_incomes,
-        totalExpenses:  result.total_expenses,
+        name:           result.name || "",
+        balance:        result.balance || 0,
+        incomes:        result.incomes || [],
+        expenses:       result.expenses || [],
+        totalIncomes:   result.total_incomes || 0,
+        totalExpenses:  result.total_expenses || 0,
         qrCode: {
-          accountOwner:   result.account_holder,
-          accountNumber:  result.account_number,
-          bankName:       result.bank_name,
-          imageQR:        result.account_qr,
+          accountOwner:   result.account_holder || "",
+          accountOwnerId: result.account_holder_id || 0,
+          accountNumber:  result.account_number || "",
+          bankName:       result.bank_name || "",
+          imageQR:        result.account_qr || "",
         },
       }
     })
@@ -79,7 +83,9 @@ function useFunds() {
 }
 
 export function UIFund() {
-  const { loading, error, refresh } = useFunds();
+  const { funds, loading, error, refresh } = useFunds();
+
+  const [ create, setCreate ] = React.useState(false);
   
   const renderErrorContainer = () => {
     return (
@@ -95,9 +101,17 @@ export function UIFund() {
   }
 
   const renderContainer = () => {
-    return (
-      <UIFundList funds={funds}/>
-    )
+    // return (
+    //   <div>
+    //     <UIFundList funds={funds}/>
+    //     <div className="flex-h" style={{ position: "fixed", bottom: 20, right: 10 }}>
+    //       <Button size="small" prefixIcon={<CommonIcon.Plus size={"1rem"}/>} onClick={() => setCreate(true)}>
+    //         {t("tạo quỹ")}
+    //       </Button>
+    //     </div>
+    //     <UICreateFund visible={create} onClose={() => setCreate(false)}/>
+    //   </div>
+    // )
 
     if (loading) {
       return (
@@ -109,7 +123,15 @@ export function UIFund() {
       return renderErrorContainer()
     } else {
       return (
-        <UIFundList funds={funds}/>
+        <div>
+          <UIFundList funds={funds}/>
+          <div className="flex-h" style={{ position: "fixed", bottom: 20, right: 10 }}>
+            <Button size="small" prefixIcon={<CommonIcon.Plus size={"1rem"}/>} onClick={() => setCreate(true)}>
+              {t("tạo quỹ")}
+            </Button>
+          </div>
+          <UICreateFund visible={create} onClose={() => setCreate(false)}/>
+        </div>
       )
     }
   }
@@ -183,6 +205,13 @@ function UIFundList(props: UIFundListProps) {
                     expenses:       data.expenses,
                     totalIncomes:   data.total_incomes,
                     totalExpenses:  data.total_expenses,
+                    qrCode: {
+                      accountOwnerId: data.account_holder_id || 0,
+                      accountOwner:   data.account_holder || "",
+                      accountNumber:  data.account_number || "",
+                      bankName:       data.bank_name || "",
+                      imageQR:        data.account_qr || "",
+                    }
                   } as FundInfo
                 }
               });
@@ -197,11 +226,9 @@ function UIFundList(props: UIFundListProps) {
 
   const lines: React.ReactNode[] = React.useMemo(() => {
     return funds.map((item, index) => {
-      const totalIncomes = item.incomes.reduce((sum, current) => sum + current.amount, 0);
-      const totalExpenses = item.expenses.reduce((sum, current) => sum + current.amount, 0);
       
       return (
-        <div key={`fund-${index}`} className="my-2 button" onClick={() => onSelectDummy(item.id)}>
+        <div key={`fund-${index}`} className="my-2 button" onClick={() => onSelect(item.id)}>
           {/* header */}
           <div className="p-3 bg-primary text-white rounded-top"> 
             <div className="flex-h justify-between">
@@ -219,11 +246,11 @@ function UIFundList(props: UIFundListProps) {
               <div className="flex-h">
                 <div className="text-right">
                   <div className="text-gray-500 text-sm">{t("incomes")}</div>
-                  <div className="text-success text-xs">{`+${totalIncomes} đ`}</div>
+                  <div className="text-success text-xs">{`+${item.totalIncomes} đ`}</div>
                 </div>
                 <div className="text-right">
                   <div className="text-gray-500 text-sm">{t("expenses")}</div>
-                  <div className="text-danger text-xs">{`-${totalExpenses} đ`}</div>
+                  <div className="text-danger text-xs">{`-${item.totalExpenses} đ`}</div>
                 </div>
               </div>
             </div>
@@ -241,6 +268,7 @@ function UIFundList(props: UIFundListProps) {
       height={StyleUtils.calComponentRemainingHeight(10)}
     >
       {lines}
+      <br />
     </ScrollableDiv>
   )
 }

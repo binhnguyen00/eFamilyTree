@@ -10,6 +10,7 @@ import { CommonIcon, ScrollableDiv, WeekCalendar } from "components";
 import { ServerResponse } from "types/server";
 import { UIEventList } from "./UIEventList";
 import { UICreate } from "./UICreate";
+import { useGetActiveMembers } from "pages/family-tree/UIFamilyTree";
 
 // import events from "../../dummy/sample/events.json"
 
@@ -38,30 +39,6 @@ function useWeekEvents(userId: number, clanId: number, navigateDay: Date) {
   }, [ navigateDay ]);
 
   return { events, setEvents, daysWithEvent, setDaysWithEvent };
-}
-
-function useGetActiveMembers(userId: number, clanId: number) {
-  const [ activeMembers, setActiveMembers ] = React.useState<{ value: number, label: string }[]>([]);
-
-  React.useEffect(() => {
-    FamilyTreeApi.getActiveMemberIds({
-      userId: userId,
-      clanId: clanId,
-      success: (result: ServerResponse) => {
-        if (result.status === "success") {
-          const data: any[] = result.data;
-          const members = data.map((member, idx) => {
-            return { value: member.id, label: member.name }
-          })
-          setActiveMembers(members);
-        }
-      }
-    })
-  }, [ userId, clanId ])
-
-  const memoizedActiveMembers = React.useMemo(() => activeMembers, [activeMembers]);
-
-  return { activeMembers: memoizedActiveMembers };
 }
 
 export function UIWeekCalendar() {

@@ -1,13 +1,16 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Text } from "zmp-ui";
+import { Button, Modal, Text } from "zmp-ui";
 
+import { FundApi } from "api";
+import { ServerResponse } from "types/server";
 import { DateTimeUtils, StyleUtils } from "utils";
-import { useBeanObserver, useRouteNavigate } from "hooks";
+import { useAppContext, useBeanObserver, useNotification, useRouteNavigate } from "hooks";
 import { BeanObserver, CommonIcon, Divider, Header, ScrollableDiv, SizedBox } from "components";
 
 import { FundLine } from "./UIFunds";
 import { FundQR, UIFundQR } from "./UIFundQR";
+import { UICreateTransaction } from "./UICreateTransaction";
 
 export interface FundInfo {
   id: number,
@@ -63,7 +66,7 @@ function UIFundContainer(props: UIFundContainerProps) {
     <div>
       <UIFundSummary className="mt-2" observer={observer} onSelect={onSelect}/>
       <Divider size={0}/>
-      <UITransactions type={type} transactions={transactions} /> {/* TODO: pass observer */}
+      <UITransactions fundId={observer.getBean().id} type={type} transactions={transactions} /> {/* TODO: pass observer */}
       <UIFooter observer={observer}/>
     </div>
   );
@@ -114,17 +117,26 @@ interface Transaction extends FundLine {
   type: "income" | "expense";
 }
 interface UITransactionsProps {
+  fundId: number;
   transactions: Transaction[];
   type: "income" | "expense" | "all";
 }
-function UITransactions({ transactions, type }: UITransactionsProps) {
+function UITransactions({ fundId, transactions, type }: UITransactionsProps) {
   if (transactions.length === 0) return null;
+
+  const { loadingToast } = useNotification();
+  const { userInfo } = useAppContext();
+  const [ deleteWarningVisible, setDeleteWarningVisible ] = React.useState(false);
+  const [ transactionToDelete, setTransactionToDelete ] = React.useState<Transaction | null>(null);
 
   const renderTransaction = (transaction: Transaction) => {
     const sign = transaction.type === "income" ? "+" : "-";
     const color = transaction.type === "income" ? "text-success" : "text-danger";
     return (
-      <div className="flex-h flex-grow-0 justify-between">
+      <div className="flex-h flex-grow-0 justify-between button" onClick={() => {
+        setDeleteWarningVisible(true);
+        setTransactionToDelete(transaction);
+      }}>
         <div className="flex-v">
           <Text className={`${color}`}> {`${sign} ${transaction.amount}`} </Text>
           <Text className="text-sm"> {transaction.name} </Text>
@@ -133,6 +145,47 @@ function UITransactions({ transactions, type }: UITransactionsProps) {
         <Text className="text-gray-500"> {transaction.date} </Text>
       </div>
     );
+  }
+
+  const renderDeleteTransaction = () => {
+    if (!transactionToDelete) return null;
+
+    return (
+      <Modal
+        visible={deleteWarningVisible} onClose={() => setDeleteWarningVisible(false)}
+        title={t("Xoá Giao Dịch")}
+        description={t("hành động không thể hoàn tác. bạn có chắc chắn muốn xóa giao dịch này?")}
+        actions={[
+          { text: t("close"), close: true },
+          { text: `🗑️ ${t("xóa")}`, onClick: () => {
+            loadingToast({
+              content: t("đang xóa..."),
+              operation(onSuccess, onDanger, onDismiss) {
+                FundApi.deleteTransaction({
+                  id:      transactionToDelete.id,
+                  userId:  userInfo.id,
+                  clanId:  userInfo.clanId,
+                  fundId:  fundId,
+                  type:    transactionToDelete.type,
+                  success: (response: ServerResponse) => {
+                    setDeleteWarningVisible(false);
+                    if (response.status === "success") {
+                      onSuccess(t("xoá thành công"));
+                    } else {
+                      onDanger(t("xoá thất bại"));
+                    }
+                  },
+                  fail: () => {
+                    setDeleteWarningVisible(false);
+                    onDanger(t("xoá thất bại"));
+                  }
+                })
+              },
+            });
+          } }
+        ]}
+      />
+    )
   }
 
   const lines = React.useMemo(() => {
@@ -168,6 +221,9 @@ function UITransactions({ transactions, type }: UITransactionsProps) {
         height={StyleUtils.calComponentRemainingHeight(120*2 + 50)}
       >
         {lines}
+        {renderDeleteTransaction()}
+        <br/>
+        <br/>
       </ScrollableDiv>
     </div>
   );
@@ -177,18 +233,98 @@ interface UIFooterProps {
   observer: BeanObserver<FundInfo>;
 }
 function UIFooter({ observer }: UIFooterProps) {
-  const [ visible, setVisible ] = React.useState<boolean>(false);
+  const { userInfo } = useAppContext();
+  const { loadingToast } = useNotification();
+  const { goBack } = useRouteNavigate();
 
-  const openQrCode = () => setVisible(true);
-  const closeQrCode = () => setVisible(false);
+  const [ qrVisible, setQrVisible ] = React.useState<boolean>(false);
+  const [ deleteWarningVisible, setDeleteWarningVisible ] = React.useState<boolean>(false);
+
+  const [ transaction, setTransaction ] = React.useState<boolean>(false);
+  const [ transactionType, setTransactionType ] = React.useState<"income" | "expense">("income");
+
+  const onOpenQrCode = () => setQrVisible(true);
+  const onCloseQrCode = () => setQrVisible(false);
+  const onOpenDeleteWarning = () => setDeleteWarningVisible(true);
+  const onCloseDeleteWarning = () => setDeleteWarningVisible(false);
+
+  const onOpenIncome = () => {
+    setTransaction(true);
+    setTransactionType("income");
+  };
+
+  const onOpenExpense = () => {
+    setTransaction(true);
+    setTransactionType("expense");
+  };
+
+  const renderConfirmDelete = () => {
+    return (
+      <Modal 
+        title={t("Xoá Quỹ")}
+        description={t("hành động không thể hoàn tác, bạn có chắc chắn muốn xóa quỹ này?")}
+        actions={[
+          { text: t("close"), close: true },
+          { text: `🗑️ ${t("xóa")}`, onClick: () => {
+            loadingToast({
+              content: t("đang xóa..."),
+              operation(onSuccess, onDanger, onDismiss) {
+                FundApi.deleteFund({
+                  id: observer.getBean().id,
+                  userId: userInfo.id,
+                  clanId: userInfo.clanId,
+                  success: (response: ServerResponse) => {
+                    onCloseDeleteWarning();
+                    if (response.status === "success") {
+                      onSuccess(t("xoá thành công"));
+                      goBack();
+                    } else {
+                      onDanger(t("xoá thất bại"));
+                    }
+                  }, 
+                  fail: () => {
+                    onCloseDeleteWarning();
+                    onDanger(t("xoá thất bại"));
+                  }
+                })
+              },
+            });
+          } }
+        ]}
+        visible={deleteWarningVisible} onClose={onCloseDeleteWarning}
+      />
+    )
+  }
 
   return (
-    <div className="flex-v" style={{ position: "fixed", bottom: 20, right: 10 }}>
-      <Button size="small" prefixIcon={<CommonIcon.QRCode/>} onClick={openQrCode}>
+    <div className="flex-h scroll-h px-3" style={{ position: "fixed", bottom: 20, right: 0 }}>
+      <Button style={{ minWidth: 120 }} size="small" prefixIcon={<CommonIcon.QRCode/>} onClick={onOpenQrCode}>
         {t("mã QR")}
       </Button>
+      <Button style={{ minWidth: 120 }} size="small" prefixIcon={<CommonIcon.Plus/>} onClick={onOpenIncome}>
+        {t("thu")}
+      </Button>
+      <Button style={{ minWidth: 120 }} size="small" prefixIcon={<CommonIcon.Plus/>} onClick={onOpenExpense}>
+        {t("chi")}
+      </Button>
+      <Button style={{ minWidth: 120 }} size="small" prefixIcon={<CommonIcon.Trash/>} onClick={onOpenDeleteWarning}>
+        {t("delete")}
+      </Button>
 
-      <UIFundQR visible={visible} onClose={closeQrCode} observer={observer}/>
+      {renderConfirmDelete()}
+
+      <UICreateTransaction 
+        visible={transaction} 
+        onClose={() => setTransaction(false)} 
+        transactionType={transactionType} 
+        fundId={observer.getBean().id}
+      />
+
+      <UIFundQR 
+        visible={qrVisible} 
+        onClose={onCloseQrCode} 
+        observer={observer}
+      />
     </div>
   )
 }

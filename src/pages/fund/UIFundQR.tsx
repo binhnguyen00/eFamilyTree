@@ -13,6 +13,7 @@ import { FundInfo } from "./UIFundInfo";
 export interface FundQR {
   accountNumber: string;
   accountOwner: string;
+  accountOwnerId: number;
   bankName: string;
   imageQR: string;
 }
@@ -87,7 +88,7 @@ export function UIFundQR(props: UIFundQRProps) {
           <div className="center flex-v flex-grow-0">
             {renderQrCode()}
             <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onChangeQrCode}>
-              {observer.getFieldValue("thumbnailPath") ? t("mã khác") : t("thêm")}
+              {qrObserver.getFieldValue("imageQR") ? t("mã khác") : t("thêm")}
             </Button>
           </div>
           <Input label={t("số tài khoản")} value={qrObserver.getBean().accountNumber} disabled/>
