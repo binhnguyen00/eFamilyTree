@@ -83,7 +83,7 @@ function useFunds() {
 }
 
 export function UIFund() {
-  const { funds, loading, error, refresh } = useFunds();
+  const { loading, error, refresh } = useFunds();
 
   const [ create, setCreate ] = React.useState(false);
   
@@ -101,17 +101,17 @@ export function UIFund() {
   }
 
   const renderContainer = () => {
-    // return (
-    //   <div>
-    //     <UIFundList funds={funds}/>
-    //     <div className="flex-h" style={{ position: "fixed", bottom: 20, right: 10 }}>
-    //       <Button size="small" prefixIcon={<CommonIcon.Plus size={"1rem"}/>} onClick={() => setCreate(true)}>
-    //         {t("tạo quỹ")}
-    //       </Button>
-    //     </div>
-    //     <UICreateFund visible={create} onClose={() => setCreate(false)}/>
-    //   </div>
-    // )
+    return (
+      <div>
+        <UIFundList funds={funds}/>
+        <div className="flex-h" style={{ position: "fixed", bottom: 20, right: 10 }}>
+          <Button size="small" prefixIcon={<CommonIcon.Plus size={"1rem"}/>} onClick={() => setCreate(true)}>
+            {t("tạo quỹ")}
+          </Button>
+        </div>
+        <UICreateFund visible={create} onClose={() => setCreate(false)}/>
+      </div>
+    )
 
     if (loading) {
       return (
@@ -228,7 +228,7 @@ function UIFundList(props: UIFundListProps) {
     return funds.map((item, index) => {
       
       return (
-        <div key={`fund-${index}`} className="my-2 button" onClick={() => onSelect(item.id)}>
+        <div key={`fund-${index}`} className="my-2 button" onClick={() => onSelectDummy(item.id)}>
           {/* header */}
           <div className="p-3 bg-primary text-white rounded-top"> 
             <div className="flex-h justify-between">

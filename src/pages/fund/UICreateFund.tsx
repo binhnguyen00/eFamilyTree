@@ -3,11 +3,12 @@ import { t } from "i18next";
 import { Button, Input, Sheet } from "zmp-ui";
 
 import { FundQR } from "./UIFundQR";;
-import { CommonIcon, ScrollableDiv } from "components";
+import { CommonIcon, ScrollableDiv, Selection, SelectionOption } from "components";
 import { ServerResponse } from "types/server";
 import { CommonUtils, ZmpSDK } from "utils";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 import { FundApi } from "api";
+import { useGetActiveMembers } from "pages/family-tree/UIFamilyTree";
 
 export interface CreateFundForm {
   name: string;
@@ -21,9 +22,11 @@ export function UICreateFund(props: UICreateFundProps) {
   const { visible, onClose } = props;
   const { userInfo } = useAppContext();
   const { loadingToast, dangerToast } = useNotification();
+  const { activeMembers } = useGetActiveMembers(userInfo.id, userInfo.clanId);
 
   const qrObserver = useBeanObserver({
     accountOwner:   userInfo.name,
+    accountOwnerId: userInfo.id,
     accountNumber:  "",
     bankName:       "",
     imageQR:        "",
@@ -101,7 +104,16 @@ export function UICreateFund(props: UICreateFundProps) {
         <Input label={t("tiêu đề quỹ")} name="name" value={observer.getBean().name} onChange={observer.watch}/>
         <Input label={t("ngân hàng")} name="bankName" value={qrObserver.getBean().bankName} onChange={qrObserver.watch}/>
         <Input label={t("số tài khoản")} type="number" name="accountNumber" value={qrObserver.getBean().accountNumber} onChange={qrObserver.watch}/>
-        <Input label={t("thủ quỹ")} value={qrObserver.getBean().accountOwner} disabled/>
+        <Selection
+          label={t("thủ quỹ")} 
+          options={activeMembers} 
+          defaultValue={{ value: userInfo.id, label: userInfo.name }}
+          field={"accountOwnerId"} observer={qrObserver}
+          onChange={(value: SelectionOption) => {
+            qrObserver.update("accountOwner", value.label);
+            qrObserver.update("accountOwnerId", value.value);
+          }}
+        />
         <div>
           <Button size="small" onClick={onSave} prefixIcon={<CommonIcon.Save/>}>
             {t("save")}

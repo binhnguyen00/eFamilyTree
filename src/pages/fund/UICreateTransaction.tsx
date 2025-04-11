@@ -1,7 +1,7 @@
 import React from "react";
 import { t } from "i18next";
 import { Button, DatePicker, Input, Sheet } from "zmp-ui";
-import { CommonIcon, ScrollableDiv, Selection, SelectionOption } from "components";
+import { CommonIcon, InputMonetary, ScrollableDiv, Selection, SelectionOption } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 import { useGetActiveMembers } from "pages/family-tree/UIFamilyTree";
 import { DateTimeUtils } from "utils";
@@ -26,7 +26,7 @@ export function UICreateTransaction(props: UICreateTransactionProps) {
     name: "",
     picId: 0,
     amount: 1000000,
-    date: DateTimeUtils.getNow(),
+    date: DateTimeUtils.formatToDate(new Date()),
     note: "",
   } as FundLine);
 
@@ -34,7 +34,7 @@ export function UICreateTransaction(props: UICreateTransactionProps) {
     if (
       !transactionObserver.getBean().amount
       || !transactionObserver.getBean().date
-      || !transactionObserver.getBean().picId
+      // || !transactionObserver.getBean().picId
     ) {
       warningToast(t("nhập đủ thông tin"))
       return;
@@ -75,14 +75,13 @@ export function UICreateTransaction(props: UICreateTransactionProps) {
           value={transactionObserver.getBean().note} 
           onChange={(e) => transactionObserver.update("note", e.target.value)}
         />
-        <Input 
-          label={`${t("số tiền")} *`} type="number" name="amount" 
-          value={transactionObserver.getBean().amount} 
-          onChange={transactionObserver.watch}
+        <InputMonetary
+          label={`${t("số tiền")} *`} field="amount" 
+          value={transactionObserver.getBean().amount} onChange={transactionObserver.watch}
         />
         <DatePicker
-          mask maskClosable 
-          label={`${t("ngày")} *`} title={t("ngày")} defaultValue={new Date()}
+          mask maskClosable
+          label={`${t("Thu/Chi ngày")} *`} title={t("ngày")} defaultValue={new Date()}
           onChange={(date: Date, calendarDate: any) => {
             transactionObserver.update("date", DateTimeUtils.formatToDate(date));
           }}
