@@ -7,3 +7,4 @@ export * from "./calendar";
 export * from "./skeleton-loading";
 export * from "./bean-observer";
 export * from "./map";
+export * from "./input";

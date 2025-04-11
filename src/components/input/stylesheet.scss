@@ -1,0 +1,22 @@
+.zaui-input-affix-wrapper {
+  position: relative;
+}
+
+.monetary-input {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+  color: transparent;
+}
+
+.formatted-display {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-right: 12px; /* match your input's padding */
+  pointer-events: none;
+  z-index: 1;
+}
