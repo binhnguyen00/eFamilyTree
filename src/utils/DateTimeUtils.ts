@@ -9,6 +9,10 @@ export class DateTimeUtils {
     return format(target, this.DATE_TIME);
   }
 
+  public static getToday() {
+    return moment().format(this.DATE);
+  }
+
   public static getNow() {
     return moment().format(this.DATE_TIME);
   }
