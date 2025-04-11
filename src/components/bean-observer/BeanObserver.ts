@@ -22,9 +22,7 @@ export class BeanObserver<T> {
     this.setBean(bean);
   }
 
-  /**
-   * @usage when your bean is an object
-   */
+  /**@usage when your bean is an object */
   update(field: keyof T, value: T[keyof T]) {
     this.setBean((prev) => ({ 
       ...(prev as Record<string, any>), 
@@ -33,6 +31,7 @@ export class BeanObserver<T> {
   }
 
   /**
+   * @deprecated
    * @usage when your bean is an array
    */
   push(index: number, value: any) {
@@ -41,6 +40,40 @@ export class BeanObserver<T> {
       newArray[index] = value;
       return newArray as T;
     });
+  }
+
+  /**@usage when updating (add) a field which is an array */
+  pushToList<K extends keyof T>(field: K, value: T[K] extends Array<infer U> ? U : never) {
+    this.setBean((prev) => ({
+      ...(prev as Record<string, any>),
+      [field]: [
+        ...(prev[field] as Array<any>),
+        value
+      ]
+    }) as T);
+  }
+
+  /**@usage when updating (remove) a field which is an array */
+  removeFromList<K extends keyof T>(field: K, index: number) {
+    this.setBean((prev) => ({
+      ...(prev as Record<string, any>),
+      [field]: (prev[field] as Array<any>).filter((_, i) => i !== index)
+    }) as T);
+  }
+  
+  /**@usage when updating a field which is an object */
+  updateObject<K extends keyof T>(
+    field: K, 
+    objectField: keyof T[K] extends string ? keyof T[K] : never, 
+    value: T[K] extends Record<string, any> ? T[K][typeof objectField] : never
+  ) {
+    this.setBean((prev) => ({
+      ...(prev as Record<string, any>),
+      [field]: {
+        ...(prev[field] as Record<string, any>),
+        [objectField]: value
+      }
+    }) as T);
   }
 
   watch = (e: React.ChangeEvent<HTMLInputElement>): void => {

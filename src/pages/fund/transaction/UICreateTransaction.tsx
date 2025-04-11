@@ -1,23 +1,27 @@
 import React from "react";
 import { t } from "i18next";
 import { Button, DatePicker, Input, Sheet } from "zmp-ui";
-import { CommonIcon, InputMonetary, ScrollableDiv, Selection, SelectionOption } from "components";
-import { useAppContext, useBeanObserver, useNotification } from "hooks";
-import { useGetActiveMembers } from "pages/family-tree/UIFamilyTree";
-import { DateTimeUtils } from "utils";
-import { FundLine } from "./UIFunds";
-import { ServerResponse } from "types/server";
+
 import { FundApi } from "api";
+import { DateTimeUtils } from "utils";
+import { ServerResponse } from "types/server";
+import { useGetActiveMembers } from "pages/family-tree/UIFamilyTree";
+import { useAppContext, useBeanObserver, useNotification } from "hooks";
+import { CommonIcon, InputMonetary, ScrollableDiv, Selection, SelectionOption } from "components";
+
+import { FundLine } from "../UIFunds";
+import { Transaction } from "./UITransactionList";
 
 interface UICreateTransactionProps {
   fundId: number;
   visible: boolean;
   onClose: () => void;
+  onCreateTransaction: (transaction: Transaction) => void;
   transactionType: "income" | "expense";
 }
 
 export function UICreateTransaction(props: UICreateTransactionProps) {
-  const { fundId, visible, transactionType, onClose } = props;
+  const { fundId, visible, transactionType, onClose, onCreateTransaction } = props;
   const { userInfo } = useAppContext();
   const { loadingToast, warningToast } = useNotification();
   const { activeMembers } = useGetActiveMembers(userInfo.id, userInfo.clanId);
@@ -34,7 +38,7 @@ export function UICreateTransaction(props: UICreateTransactionProps) {
     if (
       !transactionObserver.getBean().amount
       || !transactionObserver.getBean().date
-      // || !transactionObserver.getBean().picId
+      || !transactionObserver.getBean().picId
     ) {
       warningToast(t("nhập đủ thông tin"))
       return;
@@ -50,7 +54,13 @@ export function UICreateTransaction(props: UICreateTransactionProps) {
           transaction:  transactionObserver.getBean(),
           success: (response: ServerResponse) => {
             if (response.status === "success") {
+              const data: Transaction = response.data;
               onSuccess(t("lưu thành công"));
+              onCreateTransaction({
+                ...data,
+                type: transactionType,
+              })
+              onClose();
             } else {
               onFail(t("lưu thất bại"));
             }

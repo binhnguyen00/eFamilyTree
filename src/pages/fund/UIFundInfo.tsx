@@ -4,13 +4,14 @@ import { Button, Modal, Text } from "zmp-ui";
 
 import { FundApi } from "api";
 import { ServerResponse } from "types/server";
-import { CommonUtils, DateTimeUtils, StyleUtils } from "utils";
+import { CommonUtils, DateTimeUtils } from "utils";
 import { useAppContext, useBeanObserver, useNotification, useRouteNavigate } from "hooks";
-import { BeanObserver, CommonIcon, Divider, Header, ScrollableDiv, SizedBox } from "components";
+import { BeanObserver, CommonIcon, Divider, Header, SizedBox } from "components";
 
 import { FundLine } from "./UIFunds";
 import { FundQR, UIFundQR } from "./UIFundQR";
-import { UICreateTransaction } from "./UICreateTransaction";
+import { UICreateTransaction } from "./transaction/UICreateTransaction";
+import { Transaction, UITransactions } from "./transaction/UITransactionList";
 
 export interface FundInfo {
   id: number,
@@ -46,8 +47,11 @@ interface UIFundContainerProps {
 function UIFundContainer(props: UIFundContainerProps) {
   const { observer } = props;
 
-  const [ type, setType ] = React.useState<"income" | "expense" | "all">("all");
+  const [ filter, setFilter ] = React.useState<"income" | "expense" | "all">("all");
+  const [ qrVisible, setQrVisible ] = React.useState<boolean>(false);
   const [ transactions, setTransactions ] = React.useState<any[]>([]);
+  const [ transaction, setTransaction ] = React.useState<boolean>(false);
+  const [ transactionType, setTransactionType ] = React.useState<"income" | "expense">("income");
 
   React.useEffect(() => {
     if (observer.getBean().id) {
@@ -58,16 +62,54 @@ function UIFundContainer(props: UIFundContainerProps) {
     }
   }, [observer]);
 
-  const onSelect = (type: "income" | "expense" | "all") => {
-    setType(type);
+  const onFilterTransaction = (type: "income" | "expense" | "all") => setFilter(type);
+
+  const onCreateTransaction = (transaction: Transaction) => {
+    if (transaction.type === "income") {
+      observer.pushToList("incomes", transaction);
+    } else {
+      observer.pushToList("expenses", transaction);
+    }
+  }
+
+  const onOpenQrCode = () => setQrVisible(true);
+  const onCloseQrCode = () => setQrVisible(false);
+
+  const onOpenIncome = () => {
+    setTransactionType("income");
+    setTransaction(true);
+  }
+
+  const onOpenExpense = () => {
+    setTransactionType("expense");
+    setTransaction(true);
   }
 
   return (
     <div>
-      <UIFundSummary className="mt-2" observer={observer} onSelect={onSelect}/>
+      <UIFundSummary className="mt-2" observer={observer} onSelect={onFilterTransaction}/>
       <Divider size={0}/>
-      <UITransactions fundId={observer.getBean().id} type={type} transactions={transactions} /> {/* TODO: pass observer */}
-      <UIFooter observer={observer}/>
+      <UITransactions fundId={observer.getBean().id} type={filter} transactions={transactions} />
+
+      <UIFooter 
+        observer={observer} 
+        onOpenExpense={onOpenExpense} onOpenIncome={onOpenIncome}
+        onOpenQrCode={onOpenQrCode}
+      />
+
+      <UICreateTransaction 
+        visible={transaction} 
+        onClose={() => setTransaction(false)} 
+        transactionType={transactionType} 
+        fundId={observer.getBean().id}
+        onCreateTransaction={onCreateTransaction}
+      />
+
+      <UIFundQR 
+        visible={qrVisible} 
+        onClose={onCloseQrCode} 
+        observer={observer}
+      />
     </div>
   );
 }
@@ -88,7 +130,7 @@ function UIFundSummary(props: UIFundSummaryProps) {
         onClick={() => props.onSelect("all")}
       >
         <Text.Title size="large"> {t("balance")} </Text.Title>
-        <Text size="xLarge" className="bold"> {`${CommonUtils.numberToMonetary(observer.getBean().balance)} đ`} </Text>
+        <Text size="xLarge" className="bold"> {CommonUtils.numberToMonetary(observer.getBean().balance)} </Text>
       </SizedBox>
 
       <div className="flex-h">
@@ -98,7 +140,7 @@ function UIFundSummary(props: UIFundSummaryProps) {
           onClick={() => props.onSelect("income")}
         >
           <Text size="large"> {t("incomes")} </Text>
-          <Text size="large" className="text-success"> {`${CommonUtils.numberToMonetary(observer.getBean().totalIncomes)} đ`} </Text>
+          <Text size="large" className="text-success"> {CommonUtils.numberToMonetary(observer.getBean().totalIncomes)} </Text>
         </SizedBox>
         <SizedBox 
           width={"50%"} height={100} 
@@ -106,157 +148,27 @@ function UIFundSummary(props: UIFundSummaryProps) {
           onClick={() => props.onSelect("expense")}
         >
           <Text size="large"> {t("expenses")} </Text>
-          <Text size="large" className="text-danger"> {`${CommonUtils.numberToMonetary(observer.getBean().totalExpenses)} đ`} </Text>
+          <Text size="large" className="text-danger"> {CommonUtils.numberToMonetary(observer.getBean().totalExpenses)} </Text>
         </SizedBox>
       </div>
     </div>
   );
 }
 
-interface Transaction extends FundLine {
-  type: "income" | "expense";
-}
-interface UITransactionsProps {
-  fundId: number;
-  transactions: Transaction[];
-  type: "income" | "expense" | "all";
-}
-function UITransactions({ fundId, transactions, type }: UITransactionsProps) {
-  if (transactions.length === 0) return null;
-
-  const { loadingToast } = useNotification();
-  const { userInfo } = useAppContext();
-  const [ deleteWarningVisible, setDeleteWarningVisible ] = React.useState(false);
-  const [ transactionToDelete, setTransactionToDelete ] = React.useState<Transaction | null>(null);
-
-  const renderTransaction = (transaction: Transaction) => {
-    const sign = transaction.type === "income" ? "+" : "-";
-    const color = transaction.type === "income" ? "text-success" : "text-danger";
-    return (
-      <div className="flex-h flex-grow-0 justify-between button" onClick={() => {
-        setDeleteWarningVisible(true);
-        setTransactionToDelete(transaction);
-      }}>
-        <div className="flex-v">
-          <Text className={`${color}`}> {`${sign} ${CommonUtils.numberToMonetary(transaction.amount)}`} </Text>
-          <Text className="text-sm"> {transaction.name} </Text>
-          {transaction.note && <Text className="text-gray-500"> {transaction.note} </Text>}
-        </div>
-        <Text className="text-gray-500"> {transaction.date} </Text>
-      </div>
-    );
-  }
-
-  const renderDeleteTransaction = () => {
-    if (!transactionToDelete) return null;
-
-    return (
-      <Modal
-        visible={deleteWarningVisible} onClose={() => setDeleteWarningVisible(false)}
-        title={t("Xoá Giao Dịch")}
-        description={t("hành động không thể hoàn tác. bạn có chắc chắn muốn xóa giao dịch này?")}
-        actions={[
-          { text: t("close"), close: true },
-          { text: `🗑️ ${t("xóa")}`, onClick: () => {
-            loadingToast({
-              content: t("đang xóa..."),
-              operation(onSuccess, onDanger, onDismiss) {
-                FundApi.deleteTransaction({
-                  id:      transactionToDelete.id,
-                  userId:  userInfo.id,
-                  clanId:  userInfo.clanId,
-                  fundId:  fundId,
-                  type:    transactionToDelete.type,
-                  success: (response: ServerResponse) => {
-                    setDeleteWarningVisible(false);
-                    if (response.status === "success") {
-                      onSuccess(t("xoá thành công"));
-                    } else {
-                      onDanger(t("xoá thất bại"));
-                    }
-                  },
-                  fail: () => {
-                    setDeleteWarningVisible(false);
-                    onDanger(t("xoá thất bại"));
-                  }
-                })
-              },
-            });
-          } }
-        ]}
-      />
-    )
-  }
-
-  const lines = React.useMemo(() => {
-    if (type === "all") {
-      return transactions.map((item, index) => (
-        <React.Fragment key={`transaction-${index}`}>
-          {renderTransaction(item)}
-          <Divider/>
-        </React.Fragment>
-      ));
-    } else if (type === "income") {
-      return transactions.filter(item => item.type === "income").map((item, index) => (
-        <React.Fragment key={`transaction-${index}`}>
-          {renderTransaction(item)}
-          <Divider/>
-        </React.Fragment>
-      ));
-    } else {
-      return transactions.filter(item => item.type === "expense").map((item, index) => (
-        <React.Fragment key={`transaction-${index}`}>
-          {renderTransaction(item)}
-          <Divider/>
-        </React.Fragment>
-      ));
-    }
-  }, [ type, transactions ]);
-
-  return (
-    <div className="flex-v">
-      <Text size="large" className="text-center bold">{t("transaction_history")}</Text>
-      <ScrollableDiv 
-        className="flex-v" direction="vertical" 
-        height={StyleUtils.calComponentRemainingHeight(120*2 + 50)}
-      >
-        {lines}
-        {renderDeleteTransaction()}
-        <br/>
-        <br/>
-      </ScrollableDiv>
-    </div>
-  );
-}
-
 interface UIFooterProps {
   observer: BeanObserver<FundInfo>;
+  onOpenIncome: () => void;
+  onOpenExpense: () => void;
+  onOpenQrCode: () => void;
 }
-function UIFooter({ observer }: UIFooterProps) {
+function UIFooter({ observer, onOpenIncome, onOpenExpense, onOpenQrCode }: UIFooterProps) {
   const { userInfo } = useAppContext();
   const { loadingToast } = useNotification();
   const { goBack } = useRouteNavigate();
 
-  const [ qrVisible, setQrVisible ] = React.useState<boolean>(false);
   const [ deleteWarningVisible, setDeleteWarningVisible ] = React.useState<boolean>(false);
-
-  const [ transaction, setTransaction ] = React.useState<boolean>(false);
-  const [ transactionType, setTransactionType ] = React.useState<"income" | "expense">("income");
-
-  const onOpenQrCode = () => setQrVisible(true);
-  const onCloseQrCode = () => setQrVisible(false);
   const onOpenDeleteWarning = () => setDeleteWarningVisible(true);
   const onCloseDeleteWarning = () => setDeleteWarningVisible(false);
-
-  const onOpenIncome = () => {
-    setTransaction(true);
-    setTransactionType("income");
-  };
-
-  const onOpenExpense = () => {
-    setTransaction(true);
-    setTransactionType("expense");
-  };
 
   const renderConfirmDelete = () => {
     return (
@@ -312,19 +224,6 @@ function UIFooter({ observer }: UIFooterProps) {
       </Button>
 
       {renderConfirmDelete()}
-
-      <UICreateTransaction 
-        visible={transaction} 
-        onClose={() => setTransaction(false)} 
-        transactionType={transactionType} 
-        fundId={observer.getBean().id}
-      />
-
-      <UIFundQR 
-        visible={qrVisible} 
-        onClose={onCloseQrCode} 
-        observer={observer}
-      />
     </div>
   )
 }

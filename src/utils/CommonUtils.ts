@@ -71,7 +71,9 @@ export class CommonUtils {
       .catch((err: Error) => warningToast(t("sao chép thất bại")));
   }
 
-  static numberToMonetary = (num: number) => {
+  static numberToMonetary = (num: number): string => {
+    if (num === 0) return "0";
+    if (!num) return "0";
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 }

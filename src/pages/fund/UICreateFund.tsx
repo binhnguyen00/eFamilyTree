@@ -94,25 +94,29 @@ export function UICreateFund(props: UICreateFundProps) {
 
   return (
     <Sheet title={t("tạo quỹ")} visible={visible} onClose={onClose}>
-      <ScrollableDiv className="flex-v p-3" direction="vertical" height={"80vh"}>
+      <ScrollableDiv className="flex-v p-3" direction="vertical" height={"70vh"}>
         <div className="center flex-v flex-grow-0">
           {renderQrCode()}
           <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onChooseImage}>
             {t("thêm")}
           </Button>
         </div>
-        <Input label={t("tiêu đề quỹ")} name="name" value={observer.getBean().name} onChange={observer.watch}/>
-        <Input label={t("ngân hàng")} name="bankName" value={qrObserver.getBean().bankName} onChange={qrObserver.watch}/>
-        <Input label={t("số tài khoản")} type="number" name="accountNumber" value={qrObserver.getBean().accountNumber} onChange={qrObserver.watch}/>
         <Selection
           label={t("thủ quỹ")} 
-          options={activeMembers} 
+          options={activeMembers} isSearchable
           defaultValue={{ value: userInfo.id, label: userInfo.name }}
           field={"accountOwnerId"} observer={qrObserver}
           onChange={(value: SelectionOption) => {
             qrObserver.update("accountOwner", value.label);
             qrObserver.update("accountOwnerId", value.value);
           }}
+        />
+        <Input label={t("tiêu đề")} name="name" value={observer.getBean().name} onChange={observer.watch}/>
+        <Input label={t("ngân hàng")} name="bankName" value={qrObserver.getBean().bankName} onChange={qrObserver.watch}/>
+        <Input 
+          label={t("số tài khoản")} 
+          type="number" name="accountNumber" 
+          value={qrObserver.getBean().accountNumber} onChange={qrObserver.watch}
         />
         <div>
           <Button size="small" onClick={onSave} prefixIcon={<CommonIcon.Save/>}>
