@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { Button } from "zmp-ui";
 
 import { FundApi } from "api";
-import { StyleUtils } from "utils";
+import { CommonUtils, StyleUtils } from "utils";
 import { useAppContext, useNotification, useRouteNavigate } from "hooks";
 import { Header, Loading, ScrollableDiv, Info, CommonIcon } from "components";
 
@@ -226,7 +226,6 @@ function UIFundList(props: UIFundListProps) {
 
   const lines: React.ReactNode[] = React.useMemo(() => {
     return funds.map((item, index) => {
-      
       return (
         <div key={`fund-${index}`} className="my-2 button" onClick={() => onSelectDummy(item.id)}>
           {/* header */}
@@ -241,16 +240,16 @@ function UIFundList(props: UIFundListProps) {
             <div className="flex-h justify-between">
               <div>
                 <div>{t("balance")}</div>
-                <div className="bold text-primary">{`${item.balance} đ`}</div>
+                <div className="bold text-primary">{`${CommonUtils.numberToMonetary(item.balance)} đ`}</div>
               </div>
               <div className="flex-h">
                 <div className="text-right">
                   <div className="text-gray-500 text-sm">{t("incomes")}</div>
-                  <div className="text-success text-xs">{`+${item.totalIncomes} đ`}</div>
+                  <div className="text-success text-xs">{`${CommonUtils.numberToMonetary(item.balance)} đ`}</div>
                 </div>
                 <div className="text-right">
                   <div className="text-gray-500 text-sm">{t("expenses")}</div>
-                  <div className="text-danger text-xs">{`-${item.totalExpenses} đ`}</div>
+                  <div className="text-danger text-xs">{`${CommonUtils.numberToMonetary(item.totalExpenses)} đ`}</div>
                 </div>
               </div>
             </div>

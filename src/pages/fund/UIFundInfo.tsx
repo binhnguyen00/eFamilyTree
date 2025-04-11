@@ -4,7 +4,7 @@ import { Button, Modal, Text } from "zmp-ui";
 
 import { FundApi } from "api";
 import { ServerResponse } from "types/server";
-import { DateTimeUtils, StyleUtils } from "utils";
+import { CommonUtils, DateTimeUtils, StyleUtils } from "utils";
 import { useAppContext, useBeanObserver, useNotification, useRouteNavigate } from "hooks";
 import { BeanObserver, CommonIcon, Divider, Header, ScrollableDiv, SizedBox } from "components";
 
@@ -88,7 +88,7 @@ function UIFundSummary(props: UIFundSummaryProps) {
         onClick={() => props.onSelect("all")}
       >
         <Text.Title size="large"> {t("balance")} </Text.Title>
-        <Text size="xLarge" className="bold"> {`${observer.getBean().balance} đ`} </Text>
+        <Text size="xLarge" className="bold"> {`${CommonUtils.numberToMonetary(observer.getBean().balance)} đ`} </Text>
       </SizedBox>
 
       <div className="flex-h">
@@ -98,7 +98,7 @@ function UIFundSummary(props: UIFundSummaryProps) {
           onClick={() => props.onSelect("income")}
         >
           <Text size="large"> {t("incomes")} </Text>
-          <Text size="large" className="text-success"> {`+${observer.getBean().totalIncomes} đ`} </Text>
+          <Text size="large" className="text-success"> {`${CommonUtils.numberToMonetary(observer.getBean().totalIncomes)} đ`} </Text>
         </SizedBox>
         <SizedBox 
           width={"50%"} height={100} 
@@ -106,7 +106,7 @@ function UIFundSummary(props: UIFundSummaryProps) {
           onClick={() => props.onSelect("expense")}
         >
           <Text size="large"> {t("expenses")} </Text>
-          <Text size="large" className="text-danger"> {`-${observer.getBean().totalExpenses} đ`} </Text>
+          <Text size="large" className="text-danger"> {`${CommonUtils.numberToMonetary(observer.getBean().totalExpenses)} đ`} </Text>
         </SizedBox>
       </div>
     </div>
@@ -138,7 +138,7 @@ function UITransactions({ fundId, transactions, type }: UITransactionsProps) {
         setTransactionToDelete(transaction);
       }}>
         <div className="flex-v">
-          <Text className={`${color}`}> {`${sign} ${transaction.amount}`} </Text>
+          <Text className={`${color}`}> {`${sign} ${CommonUtils.numberToMonetary(transaction.amount)}`} </Text>
           <Text className="text-sm"> {transaction.name} </Text>
           {transaction.note && <Text className="text-gray-500"> {transaction.note} </Text>}
         </div>

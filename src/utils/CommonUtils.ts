@@ -70,4 +70,8 @@ export class CommonUtils {
       .then(() => successToast(t("sao chép thành công")))
       .catch((err: Error) => warningToast(t("sao chép thất bại")));
   }
+
+  static numberToMonetary = (num: number) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
 }

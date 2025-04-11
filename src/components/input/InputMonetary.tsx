@@ -4,11 +4,12 @@ interface InputMonetaryProps {
   label?: string;
   value: number;
   field: string;
+  disable?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function InputMonetary(props: InputMonetaryProps) {
-  const { label, value, field, onChange } = props;
+  const { label, value, field, disable, onChange } = props;
   const [displayValue, setDisplayValue] = React.useState("");
   const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -64,6 +65,7 @@ export function InputMonetary(props: InputMonetaryProps) {
             const numericValue = parseFloat(displayValue.replace(/\./g, "")) || 0;
             setDisplayValue(formatNumber(numericValue));
           }}
+          disabled={disable}
         />
       </span>
     </span>
