@@ -94,7 +94,10 @@ export function UIFund() {
           {t("tạo quỹ")}
         </Button>
       </div>
-      <UICreateFund visible={create} onClose={() => setCreate(false)}/>
+      <UICreateFund 
+        reloadParent={refresh}
+        visible={create} onClose={() => setCreate(false)}
+      />
     </>
   )
   

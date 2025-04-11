@@ -17,9 +17,10 @@ export interface CreateFundForm {
 interface UICreateFundProps {
   visible: boolean;
   onClose: () => void;
+  reloadParent: () => void;
 }
 export function UICreateFund(props: UICreateFundProps) {
-  const { visible, onClose } = props;
+  const { visible, onClose, reloadParent } = props;
   const { userInfo } = useAppContext();
   const { loadingToast, dangerToast } = useNotification();
   const { activeMembers } = useGetActiveMembers(userInfo.id, userInfo.clanId);
@@ -83,6 +84,8 @@ export function UICreateFund(props: UICreateFundProps) {
           clanId: userInfo.clanId,
           success: (res: ServerResponse) => {
             onSuccess(t("tạo thành công"));
+            onClose();
+            reloadParent();
           },
           fail: () => {
             onFail(t("tạo thất bại"));

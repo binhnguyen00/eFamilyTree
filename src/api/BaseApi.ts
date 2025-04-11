@@ -4,6 +4,7 @@ import { FailCB, SuccessCB } from "types/server";
 
 export class BaseApi {
   // public static server = new OdooRESTful("http://localhost:8069");
+  // public static server = new OdooRESTful("https://thanhnien.mobifone5.vn");
   public static server = new OdooRESTful("https://giapha.mobifone5.vn");
 
   public static getServerBaseUrl() {
