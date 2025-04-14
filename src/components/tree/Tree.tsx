@@ -1,8 +1,7 @@
 import React from 'react';
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-
-import calcTree from 'components/tree-relatives';
+import calculateTree from 'components/tree-relatives';
 import { ExtNode, Node, RelData } from 'components/tree-relatives/types';
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import { useAppContext } from 'hooks';
 import { CommonUtils } from 'utils';
@@ -27,7 +26,7 @@ interface TreeProps {
   searchDisplayField?: string;
 }
 
-export default React.memo<TreeProps>(function Tree(props) {
+export function Tree(props: TreeProps) {
   const { userInfo } = useAppContext();
   const { 
     rootId = "0", 
@@ -35,21 +34,21 @@ export default React.memo<TreeProps>(function Tree(props) {
     renderNode, onReset, zoomElement, searchDisplayField
   } = props;
 
-  let data: any;
-  if (nodes.length === 0) {
-    data = {
-      families: [],
-      canvas: [],
-      nodes: [],
-      connectors: [],
+  const calcTree: RelData = React.useMemo(() => {
+    if (nodes.length === 0) {
+      return {
+        families: [],
+        canvas: [],
+        nodes: [],
+        connectors: [],
+      }
     }
-  } else {
-    data = calcTree(nodes, { rootId: rootId });
-  } 
+    return calculateTree(nodes, { rootId: rootId });
+  }, [ nodes ]);
 
-  const treeWidth = data.canvas.width * (nodeWidth / 2);
-  const treeHeight = data.canvas.height * (nodeHeight / 2);
-  const treeRef = React.useRef<HTMLDivElement | null>(null);
+  const treeWidth   = calcTree.canvas.width * (nodeWidth / 2);
+  const treeHeight  = calcTree.canvas.height * (nodeHeight / 2);
+  const treeRef     = React.useRef<HTMLDivElement | null>(null);
   const { treeBackgroundPath } = useAppContext();
 
   return (
@@ -92,7 +91,7 @@ export default React.memo<TreeProps>(function Tree(props) {
                         treeRef={treeRef}
                         nodeWidth={nodeWidth}
                         nodeHeight={nodeHeight}
-                        calculatedData={data}
+                        calculatedData={calcTree}
                         renderNode={renderNode}
                         backgroundPath={treeBackgroundPath}
                       />
@@ -110,7 +109,7 @@ export default React.memo<TreeProps>(function Tree(props) {
                   treeRef={treeRef}
                   nodeWidth={nodeWidth}
                   nodeHeight={nodeHeight}
-                  calculatedData={data}
+                  calculatedData={calcTree}
                   renderNode={renderNode}
                   zoomToRoot={zoomToElement}
                   backgroundPath={treeBackgroundPath}
@@ -121,8 +120,8 @@ export default React.memo<TreeProps>(function Tree(props) {
         }}
       </TransformWrapper>
     </div>
-  );
-});
+  )
+}
 
 interface TreeContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string; // Clan Name

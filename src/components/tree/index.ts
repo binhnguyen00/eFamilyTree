@@ -1,4 +1,4 @@
-import FamilyTree from "./Tree";
+import { Tree as FamilyTree } from "./Tree";
 import TreeNode from "./TreeNode";
 import { TreeConfig } from "./TreeConfig";
 
