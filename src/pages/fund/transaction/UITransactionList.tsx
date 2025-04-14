@@ -17,8 +17,10 @@ interface UITransactionsProps {
   fundId: number;
   transactions: Transaction[];
   type: "income" | "expense" | "all";
+  onDelete: (transaction: Transaction) => void;
 }
-export function UITransactions({ fundId, transactions, type }: UITransactionsProps) {
+export function UITransactions(props: UITransactionsProps) {
+  const { fundId, transactions, type, onDelete } = props;
   if (transactions.length === 0) return null;
 
   const { loadingToast } = useNotification();
@@ -29,11 +31,14 @@ export function UITransactions({ fundId, transactions, type }: UITransactionsPro
   const renderTransaction = (transaction: Transaction) => {
     const sign = transaction.type === "income" ? "+" : "-";
     const color = transaction.type === "income" ? "text-success" : "text-danger";
+
+    const onDeleteTransaction = () => {
+      setTransactionToDelete(transaction);
+      setDeleteWarningVisible(true);
+    }
+
     return (
-      <div className="flex-h flex-grow-0 justify-between button" onClick={() => {
-        setDeleteWarningVisible(true);
-        setTransactionToDelete(transaction);
-      }}>
+      <div className="flex-h flex-grow-0 justify-between button" onClick={onDeleteTransaction}>
         <div className="flex-v">
           <Text className={`${color}`}> {`${sign} ${CommonUtils.numberToMonetary(transaction.amount)}`} </Text>
           <Text className="text-sm"> {transaction.name} </Text>
@@ -68,6 +73,7 @@ export function UITransactions({ fundId, transactions, type }: UITransactionsPro
                     setDeleteWarningVisible(false);
                     if (response.status === "success") {
                       onSuccess(t("xoá thành công"));
+                      onDelete(transactionToDelete);
                     } else {
                       onDanger(t("xoá thất bại"));
                     }

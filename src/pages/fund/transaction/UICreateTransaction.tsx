@@ -16,19 +16,29 @@ interface UICreateTransactionProps {
   fundId: number;
   visible: boolean;
   onClose: () => void;
-  onCreateTransaction: (transaction: Transaction) => void;
+  onCreate: (transaction: Transaction) => void;
   transactionType: "income" | "expense";
 }
 
 export function UICreateTransaction(props: UICreateTransactionProps) {
-  const { fundId, visible, transactionType, onClose, onCreateTransaction } = props;
+  const { fundId, visible, transactionType, onClose, onCreate } = props;
   const { userInfo } = useAppContext();
   const { loadingToast, warningToast } = useNotification();
   const { activeMembers } = useGetActiveMembers(userInfo.id, userInfo.clanId);
 
+  const isIncome = transactionType === "income";
+
+  const getSelectedMemberName = React.useMemo(() => {
+    return (id: number) => {
+      if (!activeMembers.length) return "";
+      const member = activeMembers.find(m => m.value === id);
+      return member ? member.label : "";
+    };
+  }, [ activeMembers ]);
+
   const transactionObserver = useBeanObserver({
-    name: "",
-    picId: 0,
+    name: getSelectedMemberName(userInfo.id),
+    picId: userInfo.id,
     amount: 1000000,
     date: DateTimeUtils.formatToDate(new Date()),
     note: "",
@@ -56,7 +66,7 @@ export function UICreateTransaction(props: UICreateTransactionProps) {
             if (response.status === "success") {
               const data: Transaction = response.data;
               onSuccess(t("lưu thành công"));
-              onCreateTransaction({
+              onCreate({
                 ...data,
                 type: transactionType,
               })
@@ -79,8 +89,8 @@ export function UICreateTransaction(props: UICreateTransactionProps) {
   }
 
   return (
-    <Sheet title={transactionType === "income" ? t("Thu") : t("Chi")} visible={visible} onClose={onClose}>
-      <ScrollableDiv className="flex-v p-3" direction="vertical" height={"80vh"}>
+    <Sheet title={isIncome ? t("Thu") : t("Chi")} visible={visible} onClose={onClose}>
+      <ScrollableDiv className="flex-v p-3" direction="vertical" height={"70vh"}>
         <Input.TextArea label={t("nội dung")}
           value={transactionObserver.getBean().note} 
           onChange={(e) => transactionObserver.update("note", e.target.value)}
@@ -91,15 +101,20 @@ export function UICreateTransaction(props: UICreateTransactionProps) {
         />
         <DatePicker
           mask maskClosable
-          label={`${t("Thu/Chi ngày")} *`} title={t("ngày")} defaultValue={new Date()}
+          label={isIncome ? `${t("đóng ngày")} *` : `${t("chi ngày")} *`} title={t("ngày")}
+          value={DateTimeUtils.toDate(transactionObserver.getBean().date)}
           onChange={(date: Date, calendarDate: any) => {
             transactionObserver.update("date", DateTimeUtils.formatToDate(date));
           }}
         />
         <Selection
-          label={`${t("Người Thu/Chi")} *`} field={"picId"} 
+          label={isIncome ? `${t("người đóng")} *` : `${t("người chi")} *`} field={"picId"} 
           options={activeMembers} observer={transactionObserver} isSearchable
           defaultValue={{ value: userInfo.id, label: userInfo.name }}
+          value={{ 
+            value: transactionObserver.getBean().picId, 
+            label: transactionObserver.getBean().name
+          }}
           onChange={(value: SelectionOption) => {
             transactionObserver.update("picId", value.value);
             transactionObserver.update("name", value.label);

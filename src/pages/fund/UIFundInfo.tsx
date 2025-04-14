@@ -28,7 +28,7 @@ export function UIFundInfo() {
   const { belongings } = useRouteNavigate();
   const { fund } = belongings;
 
-  const observer = useBeanObserver(fund as FundInfo); 
+  const observer = useBeanObserver(fund as FundInfo);
 
   return (
     <>
@@ -49,7 +49,7 @@ function UIFundContainer(props: UIFundContainerProps) {
   const { goBack } = useRouteNavigate();
   const { userInfo } = useAppContext();
   const { loadingToast } = useNotification();
-
+  
   const [ filter, setFilter ] = React.useState<"income" | "expense" | "all">("all");
   const [ qrVisible, setQrVisible ] = React.useState<boolean>(false);
   const [ transactions, setTransactions ] = React.useState<any[]>([]);
@@ -70,8 +70,26 @@ function UIFundContainer(props: UIFundContainerProps) {
   const onCreateTransaction = (transaction: Transaction) => {
     if (transaction.type === "income") {
       observer.pushToList("incomes", transaction);
+      observer.update("totalIncomes", observer.getBean().totalIncomes + transaction.amount);
+      observer.update("balance", observer.getBean().balance + transaction.amount);
+      setTransaction(false);
     } else {
       observer.pushToList("expenses", transaction);
+      observer.update("totalExpenses", observer.getBean().totalExpenses + transaction.amount);
+      observer.update("balance", observer.getBean().balance - transaction.amount);
+      setTransaction(false);
+    }
+  }
+
+  const onDeleteTransaction = (transaction: Transaction) => {
+    if (transaction.type === "income") {
+      observer.update("incomes", observer.getBean().incomes.filter(item => item.id !== transaction.id));
+      observer.update("totalIncomes", observer.getBean().totalIncomes - transaction.amount);
+      observer.update("balance", observer.getBean().balance - transaction.amount);
+    } else {
+      observer.update("expenses", observer.getBean().expenses.filter(item => item.id !== transaction.id));
+      observer.update("totalExpenses", observer.getBean().totalExpenses - transaction.amount);
+      observer.update("balance", observer.getBean().balance + transaction.amount);
     }
   }
 
@@ -80,7 +98,9 @@ function UIFundContainer(props: UIFundContainerProps) {
   const onCloseQrCode = () => setQrVisible(false);
   const onOpenIncome = () => { setTransactionType("income"); setTransaction(true); }
   const onOpenExpense = () => { setTransactionType("expense"); setTransaction(true); }
-  const onDelete = () => setDeleteWarningVisible(true);
+  const onDelete = () => {
+    setDeleteWarningVisible(true);
+  }
 
   // TODO: consider move to a separate component
   const renderConfirmDelete = () => {
@@ -127,7 +147,12 @@ function UIFundContainer(props: UIFundContainerProps) {
 
       <Divider size={0}/>
 
-      <UITransactions fundId={observer.getBean().id} type={filter} transactions={transactions} />
+      <UITransactions 
+        type={filter} 
+        transactions={transactions} 
+        fundId={observer.getBean().id} 
+        onDelete={onDeleteTransaction}
+      />
 
       <UIFooter 
         onOpenExpense={onOpenExpense} onOpenIncome={onOpenIncome}
@@ -139,7 +164,7 @@ function UIFundContainer(props: UIFundContainerProps) {
         onClose={() => setTransaction(false)} 
         transactionType={transactionType} 
         fundId={observer.getBean().id}
-        onCreateTransaction={onCreateTransaction}
+        onCreate={onCreateTransaction}
       />
 
       <UIFundQR visible={qrVisible} observer={observer} onClose={onCloseQrCode} />
@@ -200,15 +225,15 @@ function UIFooter(props: UIFooterProps) {
   const { onOpenIncome, onOpenExpense, onOpenQrCode, onDelete } = props;
 
   return (
-    <div className="flex-h scroll-h px-3" style={{ position: "fixed", bottom: 20, right: 0 }}>
-      <Button style={{ minWidth: 120 }} size="small" prefixIcon={<CommonIcon.QRCode/>} onClick={onOpenQrCode}>
-        {t("mã QR")}
-      </Button>
-      <Button style={{ minWidth: 120 }} size="small" prefixIcon={<CommonIcon.Plus/>} onClick={onOpenIncome}>
+    <div className="flex-h scroll-h px-3" style={{ position: "fixed", bottom: 30, right: 0 }}>
+      <Button className="button-success" style={{ minWidth: 100 }} size="small" prefixIcon={<CommonIcon.Plus/>} onClick={onOpenIncome}>
         {t("thu")}
       </Button>
-      <Button style={{ minWidth: 120 }} size="small" prefixIcon={<CommonIcon.Plus/>} onClick={onOpenExpense}>
+      <Button className="button-danger" style={{ minWidth: 100 }} size="small" prefixIcon={<CommonIcon.Plus/>} onClick={onOpenExpense}>
         {t("chi")}
+      </Button>
+      <Button style={{ minWidth: 120 }} size="small" prefixIcon={<CommonIcon.QRCode/>} onClick={onOpenQrCode}>
+        {t("mã QR")}
       </Button>
       <Button style={{ minWidth: 120 }} size="small" prefixIcon={<CommonIcon.Trash/>} onClick={onDelete}>
         {t("delete")}

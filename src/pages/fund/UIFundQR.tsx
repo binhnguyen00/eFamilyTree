@@ -9,6 +9,7 @@ import { BeanObserver, CommonIcon, ScrollableDiv } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 
 import { FundInfo } from "./UIFundInfo";
+import { useGetActiveMembers } from "pages/family-tree/UIFamilyTree";
 
 export interface FundQR {
   accountNumber: string;
@@ -28,11 +29,12 @@ export function UIFundQR(props: UIFundQRProps) {
 
   const { userInfo, serverBaseUrl } = useAppContext();
   const { loadingToast } = useNotification();
+
   const qrObserver = useBeanObserver(observer.getBean().qrCode);
 
   const onChangeQrCode = () => {
     loadingToast({
-      content: <p> {t("đang chuẩn bị dữ liệu...")} </p>,
+      content: t("đang chuẩn bị dữ liệu..."),
       operation: (successToastCB, dangerToastCB) => {
         
         const doUpdate = (base64: string) => {
@@ -81,17 +83,23 @@ export function UIFundQR(props: UIFundQRProps) {
     )
   }
 
+  const hasQrCode = () => {
+    if (!qrObserver.getBean().imageQR) return false;
+    if (!qrObserver.getBean().imageQR.length) return false;
+    return true;
+  }
+
   return (
     <Sheet title={observer.getBean().name} visible={visible} onClose={onClose} mask maskClosable>
-      <ScrollableDiv className="flex-v p-3" direction="vertical" height={"80vh"}>
+      <ScrollableDiv className="flex-v p-3" direction="vertical" height={"70vh"}>
         <div className="flex-v flex-grow-0">
           <div className="center flex-v flex-grow-0">
             {renderQrCode()}
             <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onChangeQrCode}>
-              {qrObserver.getFieldValue("imageQR") ? t("mã khác") : t("thêm")}
+              {hasQrCode() ? t("mã khác") : t("thêm")}
             </Button>
           </div>
-          <Input label={t("số tài khoản")} value={qrObserver.getBean().accountNumber} disabled/>
+          <Input label={t("số tài khoản")} type="number" value={qrObserver.getBean().accountNumber} disabled/>
           <Input label={t("chủ tài khoản")} value={qrObserver.getBean().accountOwner} disabled/>
           <Input label={t("ngân hàng")} value={qrObserver.getBean().bankName} disabled/>
         </div>
