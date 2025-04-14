@@ -168,6 +168,16 @@ button, .button {
   }
 }
 
+.button-success {
+  color: white !important;
+  background-color: var(--success-color) !important;
+}
+
+.button-danger {
+  color: white !important;
+  background-color: var(--danger-color) !important;
+}
+
 // zaui sheet
 .zaui-sheet-content {
   @extend .text-primary;

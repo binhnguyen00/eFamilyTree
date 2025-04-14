@@ -4,7 +4,9 @@
   $secondary-color: #EAD196;
   $tertiary-color: #BF3131;
   $quaternary-color: #F3EDC8;
-
+  $success-color: #198754;
+  $danger-color: #dc3545;
+  
   $header-color: $primary-color;
   $header-height: 65px;
 
@@ -23,6 +25,8 @@
   --secondary-color: #{$secondary-color};
   --tertiary-color: #{$tertiary-color};
   --quaternary-color: #{$quaternary-color};
+  --success-color: #{$success-color};
+  --danger-color: #{$danger-color};
 
   --header-color: #{$header-color};
   --header-height: #{$header-height};
