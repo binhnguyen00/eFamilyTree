@@ -5,11 +5,17 @@ import { Button, Text } from "zmp-ui";
 import { StyleUtils } from "utils";
 import { SocialPostApi } from "api";
 import { useAppContext, useRouteNavigate } from "hooks";
-import { Card, Header, Info, Loading, ScrollableDiv } from "components";
+import { Card, Header, Loading, ScrollableDiv, Selection, SelectionOption } from "components";
 
 import { ServerResponse } from "types/server";
 
-export function useSocialPosts() {
+export enum SocialPostType {
+  FUND = "fund",
+  NEWS = "news",
+  ALL  = "all"
+}
+
+export function useSocialPosts(type: SocialPostType = SocialPostType.NEWS) {
   const { logedIn, userInfo } = useAppContext();
 
   const [ posts, setPosts ] = React.useState<any[]>([]);
@@ -20,45 +26,56 @@ export function useSocialPosts() {
   const refresh = () => setReload(!reload);
 
   React.useEffect(() => {
+    console.log(type);
+
     setLoading(true);
     setError(false);
     setPosts([]);
 
     if (logedIn) {
-      const success = (result: ServerResponse) => {
-        setLoading(false);
-        if (result.status === "error") {
-          setPosts([]);
+      SocialPostApi.getSocialPosts({
+        userId: userInfo.id,
+        clanId: userInfo.clanId,
+        type  : type,
+        successCB: (result: ServerResponse) => {
+          setLoading(false);
+          if (result.status === "error") {
+            setPosts([]);
+            setError(true);
+          } else {
+            const data = result.data as any[];
+            setPosts(data);
+          }
+        },
+        failCB: () => {
+          setLoading(false);
           setError(true);
-        } else {
-          const data = result.data as any[];
-          setPosts(data);
         }
-      };
-      const fail = () => {
-        setLoading(false);
-        setError(true);
-      }
-      SocialPostApi.getSocialPosts(userInfo.id, userInfo.clanId, success, fail);
+      });
     } else {
       setLoading(false);
       setError(true);
     }
-  }, [ logedIn, userInfo, reload ]);
+  }, [ logedIn, userInfo, reload, type ]);
 
   return { posts, loading, error, refresh }
 }
 
 export function UISocialPost() {
-  const { posts, error, loading, refresh } = useSocialPosts();
+  const [ type, setType ] = React.useState<SocialPostType>(SocialPostType.NEWS);
+  const options: any[] = [
+    { value: SocialPostType.NEWS, label: t("Tin Đăng") },
+    { value: SocialPostType.FUND, label: t("Quỹ") },
+    { value: SocialPostType.ALL, label: t("Tất Cả") },
+  ]
+  const { posts, error, loading, refresh } = useSocialPosts(type);
 
   const renderContainer = () => {
-
     const renderNoPost = () => {
       return (
-        <div className="flex-v center">
-          <Info title={t("no_blogs")}/>
-          <Button size="small" onClick={refresh}> {t("retry")} </Button>
+        <div className="flex-v">
+          <Text.Title size="small" className="text-primary text-center text-capitalize py-1"> {t("no_blogs")} </Text.Title>
+          <div className="center"> <Button size="small" onClick={refresh}> {t("retry")} </Button> </div>
         </div>
       )
     }
@@ -80,7 +97,18 @@ export function UISocialPost() {
     <>
       <Header title={t("blogs")}/>
 
-      <div className="container bg-white text-base">
+      <div className="container bg-white text-base flex-v">
+        <div>
+          <Text.Title size="small" className="text-primary text-capitalize py-1"> {t("lọc bài đăng")} </Text.Title>
+          <Selection
+            options={options}
+            defaultValue={options[0]}
+            onChange={(selected: SelectionOption, action) => setType(selected.value)} 
+            isClearable={false} isSearchable={false}
+            label={""} field={""} observer={null as any}
+          />
+        </div>
+
         {renderContainer()}
       </div>
     </>
@@ -139,7 +167,6 @@ function UISocialPosts(props: UISocialPostsProps) {
       className="flex-v" 
       height={StyleUtils.calComponentRemainingHeight(10)}
     >
-      <br/>
       {renderPosts()}
       <br/><br/>
     </ScrollableDiv>
