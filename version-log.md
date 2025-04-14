@@ -1,3 +1,10 @@
+# Version 1.6.2 (Thứ 2, 14/04/2025)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=65)
+### Thay đổi
+#### Quỹ
+  - Người dùng có thể thêm/xoá các khoản thu/chi.
+  - Người dùng có thể cập nhật mã QR tài khoản ngân hàng của quỹ.
+
 # Version 1.6.1 (Thứ 3, 08/04/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=64)
 ### Thay đổi
