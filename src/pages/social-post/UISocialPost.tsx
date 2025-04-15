@@ -163,8 +163,8 @@ function UISocialPosts(props: UISocialPostsProps) {
 
   return (
     <ScrollableDiv 
-      direction="vertical" 
-      className="flex-v" 
+      id="ui-social-post"
+      direction="vertical" className="flex-v" 
       height={StyleUtils.calComponentRemainingHeight(10)}
     >
       {renderPosts()}

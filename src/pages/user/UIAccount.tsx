@@ -28,6 +28,7 @@ function UIAccountContainer() {
 
   return (
     <ScrollableDiv 
+      id="ui-account"
       direction="vertical" className="flex-v padding-footer"
       style={{ height: StyleUtils.calComponentRemainingHeight(10) }}
     >

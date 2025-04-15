@@ -31,9 +31,9 @@ export function UISocialPostDetail() {
       <Header title={t("detail_blog")}/>
 
       <ScrollableDiv 
-        direction="vertical"
+        id="ui-social-post-detail"
+        direction="vertical" height={"100%"}
         className="container bg-white text-base flex-v"
-        height={"100%"}
       >
         <Text.Title className="py-2" size="xLarge"> 
           {post["title"]} 

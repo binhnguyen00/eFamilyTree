@@ -31,9 +31,10 @@ export function ChatBotProvider({ children }: { children: React.ReactNode }) {
   const [ type, setType ] = React.useState<ChatBotType>("anonymous");
   const [ disable, setDisable ] = React.useState<boolean>(true);
 
+  /* TODO: Debug these path on Android */
   const routesAllowChatBot = [ 
     rootPath, 
-    `/zapps/${appId}/account` 
+    `/zapps/${appId}/account`
   ]
 
   React.useEffect(() => {
@@ -67,9 +68,12 @@ export function ChatBotProvider({ children }: { children: React.ReactNode }) {
   )
 }
 
-function useChatHistory({ sessionId, type, dependencies }: { 
-  sessionId: string, type: ChatBotType, dependencies: any[] 
-}) {
+interface UseChatHistoryProps {
+  sessionId: string;
+  type: ChatBotType;
+  dependencies: any[]
+} 
+function useChatHistory({ sessionId, type, dependencies }: UseChatHistoryProps) {
   const [ chatHistory, setChatHistory ] = React.useState<ChatHistoryMessage[]>([]);
   const [ loading, setLoading ]         = React.useState<boolean>(false);
   const [ error, setError ]             = React.useState<boolean>(false);
@@ -131,13 +135,13 @@ function UIChatBox(props: UIChatBoxProps) {
   });
   const [ visible, setVisible ]   = React.useState(false);
   const [ deleteWarning, setDeleteWarning ] = React.useState(false);
-  const [ isTyping, setIsTyping ] = React.useState(false);
+  const [ isThinking, setIsThinking ] = React.useState(false);
 
   const onOpen = () => { setVisible(true); refresh() };
   const onClose = () => setVisible(false);
 
   const talkToBot = (message: string) => {
-    setIsTyping(true);
+    setIsThinking(true);
 
     const _buildBotMessage = (message: string) => {
       const botMessage: ChatHistoryMessage = {
@@ -161,7 +165,7 @@ function UIChatBox(props: UIChatBoxProps) {
       prompt: message,
       zaloId: zaloUserInfo.id,
       success: (response: ServerResponse) => {
-        setIsTyping(false);
+        setIsThinking(false);
         if (response.status === "success") {
           const data = response.data as ChatHistoryMessage; 
           _buildBotMessage(data.content);
@@ -170,7 +174,7 @@ function UIChatBox(props: UIChatBoxProps) {
         }
       },
       fail: (error: FailResponse) => {
-        setIsTyping(false);
+        setIsThinking(false);
         _buildBotMessage(t("retry"));
       }
     });
@@ -212,7 +216,7 @@ function UIChatBox(props: UIChatBoxProps) {
             sender: message.sender,
             direction: direction,
             position: "single",
-            type: "html", // Render html content from chatbot
+            type: "html", /* Render html content from chatbot */
           }}
         >
           {renderAvatar(message.role)}
@@ -226,7 +230,7 @@ function UIChatBox(props: UIChatBoxProps) {
       <MainContainer style={{ height: "55vh" }}>
         <ChatContainer>
           <MessageList
-            typingIndicator={isTyping ? <TypingIndicator content={t("🧠 đang suy nghĩ")} /> : undefined}
+            typingIndicator={isThinking ? <TypingIndicator content={t("🧠 đang suy nghĩ")} /> : undefined}
             scrollBehavior="smooth" autoScrollToBottom={true} autoScrollToBottomOnMount={true}
           > 
             {messageStore} 
@@ -278,7 +282,7 @@ interface UIChatBoxButtonProps {
   onClick: () => void;
 }
 function UIChatBoxButton(props: UIChatBoxButtonProps) {
-  // initial position
+  /* initial position */
   const margin: number = 75;
   const initialX: number = window.innerWidth - margin;
   const initialY: number = window.innerHeight - 180;
@@ -302,7 +306,7 @@ function UIChatBoxButton(props: UIChatBoxButtonProps) {
     const newX = clientX - dragOffset.x;
     const newY = clientY - dragOffset.y;
     
-    // Ensure the button stays within viewport
+    /* Ensure the button stays within viewport */
     const maxX = window.innerWidth - margin;
     const maxY = window.innerHeight - margin;
     
@@ -366,10 +370,7 @@ function UIChatBoxButton(props: UIChatBoxButtonProps) {
       }} 
       onClick={onClick}
     >
-      <Avatar
-        src={AVATAR} style={{ width: "100%", height: "100%" }}
-      />
-
+      <Avatar src={AVATAR} style={{ width: "100%", height: "100%" }}/>
     </div>
   )
 }

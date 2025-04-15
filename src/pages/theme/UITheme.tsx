@@ -3,9 +3,10 @@ import { t } from "i18next";
 
 import { Grid, Text } from "zmp-ui";
 
+import { StyleUtils } from "utils";
 import { UserSettingApi } from "api";
-import { useAccountContext, useAppContext, useNotification, useRequestPhoneContext, useSettings } from "hooks";
-import { Header, SizedBox } from "components";
+import { Divider, Header, ScrollableDiv, SizedBox } from "components";
+import { useAccountContext, useAppContext, useNotification, useRequestPhoneContext } from "hooks";
 
 import { Theme } from "types/user-settings";
 import { ServerResponse } from "types/server";
@@ -25,10 +26,15 @@ export function UITheme(props: UIThemeProps) {
       <Header title={t("theme")}/>
 
       <div className={`container bg-white ${className}`.trim()}>
-        <br/>
-        <Grid columnSpace="0.5rem" rowSpace="1rem" columnCount={2}>
-          <UIThemeList className="text-primary"/>
-        </Grid>
+        <ScrollableDiv
+          id="ui-theme"
+          height={StyleUtils.calComponentRemainingHeight(0)}
+          className="flex-v" direction="vertical"
+        >
+          <Grid className="my-3" columnSpace="0.5rem" rowSpace="1rem" columnCount={2}>
+            <UIThemeList className="text-primary"/>
+          </Grid>
+        </ScrollableDiv>
       </div>
     </>
   )

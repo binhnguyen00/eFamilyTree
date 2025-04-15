@@ -16,8 +16,11 @@ export function UIHome() {
     <>
       <HeaderUser/>
 
-      <ScrollableDiv className='container flex-v' direction="vertical" style={{ height: StyleUtils.calComponentRemainingHeight(10) }}>
-        <div/>
+      <ScrollableDiv 
+        id='ui-home'
+        className='container flex-v' direction="vertical" 
+        style={{ height: StyleUtils.calComponentRemainingHeight(10) }}
+      >
 
         <AppTitle/>
 

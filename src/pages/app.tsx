@@ -5,7 +5,7 @@ import "zmp-ui/zaui.min.css";
 
 import { AppRoutes } from "./routes";
 import { 
-  Navigation, PagePositionSaver,
+  Navigation,
   ThemeProvider, ApplicationProvider, NotificationProvider,
   RequestPhoneProvider, RequestLocationProvider, OverlayProvider, AccountProvider,
   ChatBotProvider,
@@ -13,7 +13,7 @@ import {
 
 import "../i18n";
 
-function Application() {
+export function Application() {
   return (
     <ZaloApp>
       <Router>
@@ -27,7 +27,6 @@ function Application() {
                       <ChatBotProvider>
                         <AppRoutes/>
                         <Navigation/>
-                        <PagePositionSaver />
                       </ChatBotProvider>
                     </AccountProvider>
                   </RequestLocationProvider>
@@ -40,5 +39,3 @@ function Application() {
     </ZaloApp>
   );
 };
-
-export default Application;
