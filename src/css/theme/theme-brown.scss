@@ -1,11 +1,11 @@
 @mixin theme {
   // Define SCSS variables
-  $primary-color: #FFB7C5;    // Soft cherry blossom pink
-  $secondary-color: #FFF0F5;  // Very pale pink (almost white)
-  $tertiary-color: #E75480;   // Deeper pink for contrast
-  $quaternary-color: #FFFAFA;  // Warm white
-  $success-color: #88C9A1;     // Soft sage green
-  $danger-color: #C93756;      // Raspberry pink-red
+  $primary-color: #481E14;
+  $secondary-color: #FFEBC9;
+  $tertiary-color: #B05B3B;
+  $quaternary-color: #F9E0BB;
+  $success-color: #198754;
+  $danger-color: #dc3545;
 
   $header-color: $primary-color;
   $header-height: 65px;

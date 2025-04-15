@@ -2,10 +2,10 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Text, Stack, Grid } from "zmp-ui";
 
-import { ZmpSDK } from "utils";
+import { StyleUtils, ZmpSDK } from "utils";
 import { TestApi } from "api";
 import { useNotification, useAppContext, usePageContext, useOverlayContext } from "hooks";
-import { Header, Loading, SizedBox, NewsPaperSkeleton } from "components";
+import { Header, Loading, SizedBox, NewsPaperSkeleton, ScrollableDiv } from "components";
 
 import { Theme } from "types/user-settings";
 import { Module } from "types/app-context";
@@ -19,35 +19,37 @@ export function UIPlayground() {
     <>
       <Header title={t("playground")}/>
 
-      <div className="container flex-v">
+      <div className="container my-3">
+        <ScrollableDiv direction="vertical" className="flex-v" height={StyleUtils.calComponentRemainingHeight(0)}>
 
-        <UIOverlay/>
+          <UIOverlay/>
 
-        <UILocationPermission/>
+          <UILocationPermission/>
 
-        <UISkeletonLoading/>
+          <UISkeletonLoading/>
 
-        <UIToastButtons/>
+          <UIToastButtons/>
 
-        <Stack space="1rem">
-          <Text.Title size="large"> {"Mock CORS"} </Text.Title>
-          <Button variant="secondary" onClick={() => {
-            const success = (result: ServerResponse) => {
-              console.log(result);
-            } 
-            const fail = (error: FailResponse) => {
-              console.error(error);
-            }
-            TestApi.mockHTTP(success, fail);
-          }}>
-            {"HTTP"}
-          </Button>
-        </Stack>
+          <Stack space="1rem">
+            <Text.Title size="large"> {"Mock CORS"} </Text.Title>
+            <Button variant="secondary" onClick={() => {
+              const success = (result: ServerResponse) => {
+                console.log(result);
+              } 
+              const fail = (error: FailResponse) => {
+                console.error(error);
+              }
+              TestApi.mockHTTP(success, fail);
+            }}>
+              {"HTTP"}
+            </Button>
+          </Stack>
 
-        <UITheme/>
+          <UITheme/>
 
-        <Loading/>
+          <Loading/>
 
+        </ScrollableDiv>
       </div>
     </>
   )
@@ -59,19 +61,11 @@ function UITheme() {
   const render = () => {
     const html = Object.values(Theme).map((theme) => {
       return (
-        <Stack space="0.5rem" className="center text-capitalize">
-          <SizedBox 
-            className="button"
-            width={150} 
-            height={100} 
-            border
-            onClick={() => {
-              updateTheme(theme);
-            }}
-          >
-          </SizedBox>
-          <Text> {t(theme)} </Text>
-        </Stack>
+        <div>
+          <Button size="small" variant="secondary" onClick={() => updateTheme(theme)}>
+            {theme}
+          </Button>
+        </div>
       )
     })
     return (
@@ -86,16 +80,16 @@ function UIToastButtons() {
   const { successToast, dangerToast, warningToast, infoToast } = useNotification();
   return (
     <Grid columnCount={2} columnSpace="1rem" rowSpace="1rem">
-      <Button variant="secondary" onClick={() => successToast("success")}> 
+      <Button size="small" variant="secondary" onClick={() => successToast("success")}> 
         Success Toast
       </Button>
-      <Button variant="secondary" onClick={() => dangerToast("danger")}> 
+      <Button size="small" variant="secondary" onClick={() => dangerToast("danger")}> 
         Danger Toast
       </Button>
-      <Button variant="secondary" onClick={() => warningToast("warning")}>  
+      <Button size="small" variant="secondary" onClick={() => warningToast("warning")}>  
         Warning Toast
       </Button>
-      <Button variant="secondary" onClick={() => infoToast("warning")}>  
+      <Button size="small" variant="secondary" onClick={() => infoToast("warning")}>  
         Info Toast
       </Button>
     </Grid>

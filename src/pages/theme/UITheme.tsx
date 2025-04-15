@@ -5,7 +5,7 @@ import { Grid, Text } from "zmp-ui";
 
 import { StyleUtils } from "utils";
 import { UserSettingApi } from "api";
-import { Divider, Header, ScrollableDiv, SizedBox } from "components";
+import { Header, ScrollableDiv, SizedBox } from "components";
 import { useAccountContext, useAppContext, useNotification, useRequestPhoneContext } from "hooks";
 
 import { Theme } from "types/user-settings";
@@ -14,6 +14,7 @@ import { ServerResponse } from "types/server";
 import themeRed from "assets/img/theme/theme-red.jpeg";
 import themeGreen from "assets/img/theme/theme-green.jpeg";
 import themeBlue from "assets/img/theme/theme-blue.jpeg";
+import themeBrown from "assets/img/theme/theme-brown.jpeg";
 
 interface UIThemeProps {
   className?: string;
@@ -47,6 +48,7 @@ export function UIThemeList(props: UIThemeProps) {
       <ThemeCard theme={Theme.DEFAULT} src={themeRed} className={className}/>
       <ThemeCard theme={Theme.BLUE} src={themeBlue} className={className}/>
       <ThemeCard theme={Theme.EMERALD} src={themeGreen} className={className}/>
+      <ThemeCard theme={Theme.BROWN} src={themeBrown} className={className}/>
     </>
   )
 }
@@ -97,6 +99,8 @@ function ThemeCard(props: ThemeCardProps) {
         return t("theme_blue");
       case Theme.EMERALD:
         return t("ngọc lục bảo");
+      case Theme.BROWN:
+        return t("brown")
       default:
         return t("");
     }

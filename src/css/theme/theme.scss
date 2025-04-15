@@ -2,6 +2,7 @@
 @use './theme-blue.scss' as blue;
 @use './theme-sakura.scss' as sakura;
 @use './theme-emerald.scss' as emerald;
+@use './theme-brown.scss' as brown;
 
 [data-theme="default"] {
   @include default.theme();
@@ -17,4 +18,8 @@
 
 [data-theme="emerald"] {
   @include emerald.theme();
+}
+
+[data-theme="brown"] {
+  @include brown.theme();
 }
