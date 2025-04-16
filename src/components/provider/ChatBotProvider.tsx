@@ -149,6 +149,7 @@ function UIChatBox(props: UIChatBoxProps) {
     ChatBotCommunicationApi.anonymousChat({
       prompt: message,
       zaloId: zaloUserInfo.id,
+      chatHistory: chatHistory,
       success: (response: ServerResponse) => {
         setIsThinking(false);
         if (response.status === "success") {

@@ -2,14 +2,15 @@ import { SuccessCB, FailCB } from "types/server"
 import { BaseApi } from "./BaseApi";
 
 export class ChatBotCommunicationApi extends BaseApi {
-  
-  public static anonymousChat({ prompt, zaloId, success, fail }: {
-    prompt: any, zaloId: string, success: SuccessCB, fail?: FailCB
+
+  public static anonymousChat({ prompt, zaloId, chatHistory, success, fail }: {
+    prompt: any, zaloId: string, chatHistory: any[], success: SuccessCB, fail?: FailCB
   }) {
     const header = this.initHeader();
     const body = this.initBody({
-      prompt:      prompt,
-      session_id:  zaloId
+      prompt:           prompt,
+      messages_history: chatHistory,
+      session_id:       zaloId
     })
     return this.server.POST("family-tree/chatbot/anonymous/chat", header, body, success, fail);
   }
