@@ -13,18 +13,16 @@ interface HeaderProps {
 }
 
 export function Header(props: HeaderProps) {
+  const { title, subtitle, showBackIcon = true, logo, customRender } = props;
   const { goBack } = useRouteNavigate();
-  let { title, subtitle, showBackIcon, logo, customRender } = props;
-  if (showBackIcon === undefined || showBackIcon === null) showBackIcon = true;
+
+  const styles = { 
+    zIndex: 999,
+    height: `var(--header-height)`
+  } as React.CSSProperties;
 
   return (
-    <div 
-      className="zaui-header flex-h justify-start"
-      style={{ 
-        zIndex: 999,
-        height: `var(--header-height)`
-      }}
-    >
+    <div className="zaui-header flex-h justify-start" style={styles}>
       {showBackIcon && (
         <CommonIcon.ChevonLeft
           className="button-bounce" size={"1.5rem"} 

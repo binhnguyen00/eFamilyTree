@@ -15,9 +15,7 @@ export function useAppContext() {
 }
 
 export function ApplicationProvider({ children }: { children: React.ReactNode }) {
-  const ZALO_APP_ID = getAppConfig((config) => {
-    return config.app.id;
-  });
+  const ZALO_APP_ID = getAppConfig((config) => config.app.id);
 
   // use hooks
   const { 
@@ -38,14 +36,14 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
   
   const ctxInfo = React.useMemo(() => {
     let ctxInfo = {
-      appId: ZALO_APP_ID,
-      logedIn: logedIn,
-      phoneNumber: phoneNumber,
-      zaloUserInfo: zaloUserInfo,
-      userInfo: userInfo,
-      modules: modules,
-      settings: settings,
-      serverBaseUrl: BaseApi.getServerBaseUrl(),
+      appId:              ZALO_APP_ID,
+      logedIn:            logedIn,
+      phoneNumber:        phoneNumber,
+      zaloUserInfo:       zaloUserInfo,
+      userInfo:           userInfo,
+      modules:            modules,
+      settings:           settings,
+      serverBaseUrl:      BaseApi.getServerBaseUrl(),
       treeBackgroundPath: getTreeBackgroundPath(settings, BaseApi.getServerBaseUrl()),
     } as any;
     console.log("App Context:\n", ctxInfo); 
@@ -67,12 +65,12 @@ export function ApplicationProvider({ children }: { children: React.ReactNode })
 
   const appCtx: AppCtx = {
     ...ctxInfo,
-    updatePhoneNumber: updatePhoneNumber,
+    updatePhoneNumber:  updatePhoneNumber,
     updateZaloUserInfo: updateZaloUserInfo,
-    updateSettings: updateSettings,
-    updateTheme: updateTheme,
-    updateLanguage: updateLanguage,
-    doLogin: refresh,
+    updateSettings:     updateSettings,
+    updateTheme:        updateTheme,
+    updateLanguage:     updateLanguage,
+    doLogin:            refresh,
   };
 
   return (

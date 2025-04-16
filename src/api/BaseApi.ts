@@ -38,18 +38,18 @@ export class BaseApi {
    * @usage Get user context inside of a Module
    * @return module code, user's permission in that module 
    */
-  public static getUserPageContext(
+  public static getUserPageContext({ userId, clanId, moduleCode, successCB, failCB }: {
     userId: number, 
     clanId: number, 
     moduleCode: string, 
     successCB: SuccessCB, 
     failCB?: FailCB
-  ) {
+  }) {
     const header = this.initHeader();
     const body = this.initBody({
-      user_id: userId,
-      clan_id: clanId,
-      module_code: moduleCode
+      user_id     : userId,
+      clan_id     : clanId,
+      module_code : moduleCode
     })
     this.server.POST("page/context", header, body, successCB, failCB);
   }

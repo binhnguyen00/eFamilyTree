@@ -9,48 +9,41 @@ import { PageContext, Capability } from "types/page-context";
 
 export function usePageContext(module: Module) {
   const { userInfo }  = useAppContext();
-  const context       = useGetContext(userInfo.id, userInfo.clanId, module);
 
-  return {
-    module: context.module,
-    accessRight: context.accessRight,
-    canRead: canRead(context),
-    canWrite: canWrite(context),
-    canModerate: canModerate(context),
-    canAdmin: canAdmin(context)
-  } as PageContext;
-}
-
-function useGetContext(userId: number, clanId: number, module: Module) {
   const [ context, setContext ] = React.useState<any>({
     module: "",
-    accessRight: Capability.READ
+    capability: Capability.READ
   });
 
   React.useEffect(() => {
-    const success = (result: ServerResponse) => {
-      if (result.status === "success") {
-        const ctx: {
-          module: string,
-          access_right: Capability
-        } = result.data;
-        setContext({
-          module: ctx.module,
-          accessRight: ctx.access_right
-        });
+    BaseApi.getUserPageContext({
+      userId: userInfo.id,
+      clanId: userInfo.clanId,
+      moduleCode: module,
+      successCB: (result: ServerResponse) => {
+        if (result.status === "success") {
+          const permission = result.data.permission;
+          setContext({
+            module:     permission.module,
+            capability: permission.capability
+          });
+        }
       }
-    }
-    BaseApi.getUserPageContext(userId, clanId, module, success);
+    });
   }, [ module ])
 
-  return context;
+  return {
+    module:       context.module,
+    capability:   context.capability,
+    canRead:      canRead(context),
+    canWrite:     canWrite(context),
+    canModerate:  canModerate(context),
+    canAdmin:     canAdmin(context)
+  } as PageContext;
 }
 
-// ====================================
-// utilities
-// ====================================
 function analyzePerms(ctx: PageContext): Capability[] {
-  switch (ctx.accessRight) {
+  switch (ctx.capability) {
     case Capability.READ:
       return [ Capability.READ ]
     case Capability.WRITE:

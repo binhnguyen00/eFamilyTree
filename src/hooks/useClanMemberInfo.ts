@@ -7,29 +7,30 @@ import { ServerResponse } from "types/server";
 import { UserInfo } from "types/app-context";
 
 export function useClanMemberInfo(phoneNumber: string) {
-  let [ info, setInfo ] = React.useState<UserInfo>({
+  const [ modules, setModules ] = React.useState<Record<string, string>[]>([]);
+  const [ userInfo, setUserInfo ] = React.useState<UserInfo>({
     id: 0,
     name: "unknown",
     clanId: 0,
     clanName: "",
     generation: 0,
   })
-  let [ modules, setModules ] = React.useState<string[]>([]);
 
   React.useEffect(() => {
     if (phoneNumber && !CommonUtils.isStringEmpty(phoneNumber)) {
       const success = (result: ServerResponse) => {
         if (result.status === "success") {
           const data = result.data;
-          const info = data.info;
-          setInfo({
-            id: info["id"],
-            name: info["name"],
-            clanId: info["clan_id"],
-            clanName: info["clan_name"],
-            generation: info["generation"]
-          } as UserInfo);
-          setModules(data.modules);
+          const info: UserInfo = data.info;
+          const modules: Record<string, string>[] = data.modules;
+          setUserInfo({
+            id:         info.id,
+            name:       info.name,
+            clanId:     info.clanId,
+            clanName:   info.clanName,
+            generation: info.generation
+          });
+          setModules(modules);
         } else {
           console.warn(result.message);
         }
@@ -38,8 +39,5 @@ export function useClanMemberInfo(phoneNumber: string) {
     }
   }, [phoneNumber])
 
-  return {
-    userInfo: info,
-    modules: modules
-  };
+  return { userInfo, modules };
 }

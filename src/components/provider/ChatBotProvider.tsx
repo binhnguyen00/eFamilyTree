@@ -10,7 +10,7 @@ import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 
 import { DateTimeUtils } from "utils";
 import { ChatBotCommunicationApi } from "api";
-import { useAccountContext, useAppContext, useNotification, useRouteNavigate } from "hooks";
+import { useAccountContext, useAppContext, useNotification } from "hooks";
 
 import { FailResponse, ServerResponse } from "types/server";
 
@@ -24,26 +24,11 @@ export const ChatBotContext = React.createContext({} as ChatBotCtx);
 export function useChatBot() { return React.useContext(ChatBotContext) }
 
 export function ChatBotProvider({ children }: { children: React.ReactNode }) {
-  const { appId, logedIn } = useAppContext();
+  const { logedIn } = useAppContext();
   const { needRegisterClan, needRegisterAccount } = useAccountContext();
-  const { currentPath, rootPath } = useRouteNavigate();
 
   const [ type, setType ] = React.useState<ChatBotType>("anonymous");
-  const [ disable, setDisable ] = React.useState<boolean>(true);
-
-  /* TODO: Debug these path on Android */
-  const routesAllowChatBot = [ 
-    rootPath, 
-    `/zapps/${appId}/account`
-  ]
-
-  React.useEffect(() => {
-    if (routesAllowChatBot.includes(currentPath)) {
-      setDisable(false);
-    } else {
-      setDisable(true);
-    }
-  }, [ currentPath ])
+  const [ disable, setDisable ] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     if (logedIn) {
@@ -353,6 +338,8 @@ function UIChatBoxButton(props: UIChatBoxButtonProps) {
     } else return;
   }, [ isDragging, dragOffset ]);
 
+  const boxSize = { width: "4rem", height: "4rem" }
+
   return (
     <div
       id={"efamilytree-chatbot"}
@@ -361,7 +348,7 @@ function UIChatBoxButton(props: UIChatBoxButtonProps) {
       onTouchStart={handleTouchStart}
       style={{
         position: "absolute", zIndex: 999,
-        width: "4.5rem", height: "4.5rem",
+        width: boxSize.width, height: boxSize.height,
         left: position.x, top: position.y,
         opacity: isDragging ? 1 : 0.8,
         display: disable ? "none" : "block",

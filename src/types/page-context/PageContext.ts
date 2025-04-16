@@ -7,7 +7,7 @@ import { Module } from "types/app-context";
  */
 export type PageContext = {
   module: Module;
-  accessRight: Capability;
+  capability: Capability;
   canRead: boolean;
   canWrite: boolean;
   canModerate: boolean;

@@ -49,4 +49,5 @@ export enum Module {
   CERTIFICATE = "module-certificate",
   FAMILY_TREE = "module-family-tree",
   SOCIAL_POST = "module-social-post",
+  RITUAL_SCRIPT = "module-ritual-script",
 }
