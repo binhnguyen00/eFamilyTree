@@ -21,15 +21,15 @@ export function useClanMemberInfo(phoneNumber: string) {
       const success = (result: ServerResponse) => {
         if (result.status === "success") {
           const data = result.data;
-          const info: UserInfo = data.info;
+          const info = data.info;
           const modules: Record<string, string>[] = data.modules;
           setUserInfo({
             id:         info.id,
             name:       info.name,
-            clanId:     info.clanId,
-            clanName:   info.clanName,
+            clanId:     info.clan_id,
+            clanName:   info.clan_name,
             generation: info.generation
-          });
+          } as UserInfo);
           setModules(modules);
         } else {
           console.warn(result.message);
