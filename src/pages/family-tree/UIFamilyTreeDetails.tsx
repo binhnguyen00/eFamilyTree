@@ -22,6 +22,7 @@ export type Member = {
   gender: "0" | "1";
   phone: string;
   birthday: string;
+  lunarDeathDay: string;
   generation: number;
   spouses: {
     id: number;
@@ -113,11 +114,12 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
               dangerToastCB(`${t("save")} ${t("fail")}`)
             } else {
               successToastCB(`${t("save")} ${t("success")}`)
-              const bean = result.data as Member;
+              const bean = result.data;
               observer.update("name", bean.name);
               observer.update("phone", bean.phone);
               observer.update("gender", bean.gender);
               observer.update("birthday", bean.birthday);
+              observer.update("lunarDeathDay", bean.lunar_death_day)
               if (onReloadParent) onReloadParent();
             }
             onClose();
@@ -246,7 +248,7 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
 
   return (
     <Sheet
-      height={StyleUtils.calComponentRemainingHeight(-60)}
+      height={"80vh"}
       visible={visible} onClose={onClose} swipeToClose
     >
       <div className="p-3 scroll-v flex-v">
@@ -291,6 +293,18 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
             value={
               observer.getBean().birthday 
               ? DateTimeUtils.toDate(observer.getBean().birthday)
+              : undefined
+            }
+          />
+          <DatePicker 
+            mask maskClosable 
+            label={t("Ngày Mất (Âm lịch)")} title={t("Ngày Mất (Âm lịch)")}
+            onChange={(date: Date, calendarDate: any) => {
+              observer.update("lunarDeathDay", DateTimeUtils.formatToDate(date));
+            }}
+            value={
+              observer.getBean().lunarDeathDay 
+              ? DateTimeUtils.toDate(observer.getBean().lunarDeathDay)
               : undefined
             }
           />

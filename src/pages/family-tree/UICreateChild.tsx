@@ -10,7 +10,6 @@ import { CommonIcon, Selection, SelectionOption, Label } from "components";
 import { FailResponse, ServerResponse } from "types/server";
 
 import { Member } from "./UIFamilyTreeDetails";
-import { content } from "html2canvas/dist/types/css/property-descriptors/content";
 
 interface UICreateChildProps {
   visible: boolean;
@@ -81,7 +80,7 @@ export function UICreateChild(props: UICreateChildProps) {
   return (
     <Sheet
       visible={visible} onClose={onClose}
-      title={t("Tạo Con")} height={StyleUtils.calComponentRemainingHeight(0)}
+      title={t("Tạo Con")} height={"70vh"}
     >
       <div className="scroll-v flex-v p-3">
         {/* form */}
@@ -115,6 +114,18 @@ export function UICreateChild(props: UICreateChildProps) {
           value={
             observer.getBean().birthday 
             ? DateTimeUtils.toDate(observer.getBean().birthday)
+            : new Date(new Date().setFullYear(new Date().getFullYear() - 20))
+          }
+        />
+        <DatePicker 
+          mask maskClosable 
+          label={t("Ngày Mất (Âm lịch)")} title={t("Ngày Mất (Âm lịch)")}
+          onChange={(date: Date, calendarDate: any) => {
+            observer.update("lunarDeathDay", DateTimeUtils.formatToDate(date));
+          }}
+          value={
+            observer.getBean().lunarDeathDay 
+            ? DateTimeUtils.toDate(observer.getBean().lunarDeathDay)
             : new Date(new Date().setFullYear(new Date().getFullYear() - 20))
           }
         />

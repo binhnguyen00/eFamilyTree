@@ -202,21 +202,22 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
             } else {
               const data = result.data as any;
               setNode({
-                id:           data.id,
-                code:         data.code,
-                name:         data.name,
-                phone:        data.phone,
-                birthday:     data.birthday,
-                gender:       data.gender,
-                generation:   data.generation,
-                father:       data.father,
-                fatherId:     data.father_id,
-                mother:       data.mother,
-                motherId:     data.mother_id,
-                children:     data.children,
-                spouses:      data.spouses,
-                avatar:       data.avatar,
-                achievements: data.achievements,
+                id:             data.id,
+                code:           data.code,
+                name:           data.name,
+                phone:          data.phone,
+                birthday:       data.birthday,
+                lunarDeathDay:  data.lunar_death_day,
+                gender:         data.gender,
+                generation:     data.generation,
+                father:         data.father,
+                fatherId:       data.father_id,
+                mother:         data.mother,
+                motherId:       data.mother_id,
+                children:       data.children,
+                spouses:        data.spouses,
+                avatar:         data.avatar,
+                achievements:   data.achievements,
               });
               dismissToast();
             }

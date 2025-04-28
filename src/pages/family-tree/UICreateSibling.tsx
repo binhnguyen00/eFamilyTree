@@ -66,7 +66,7 @@ export function UICreateSibling(props: UICreateSiblingProps) {
   return (
     <Sheet
       visible={visible} onClose={onClose}
-      title={t("Tạo Anh/Chị/Em")} height={StyleUtils.calComponentRemainingHeight(0)}
+      title={t("Tạo Anh/Chị/Em")} height={"70vh"}
     >
       <div className="scroll-v flex-v p-3">
         {/* form */}
@@ -100,6 +100,18 @@ export function UICreateSibling(props: UICreateSiblingProps) {
           value={
             observer.getBean().birthday 
             ? DateTimeUtils.toDate(observer.getBean().birthday)
+            : new Date(new Date().setFullYear(new Date().getFullYear() - 20))
+          }
+        />
+        <DatePicker 
+          mask maskClosable 
+          label={t("Ngày Mất (Âm lịch)")} title={t("Ngày Mất (Âm lịch)")}
+          onChange={(date: Date, calendarDate: any) => {
+            observer.update("lunarDeathDay", DateTimeUtils.formatToDate(date));
+          }}
+          value={
+            observer.getBean().lunarDeathDay 
+            ? DateTimeUtils.toDate(observer.getBean().lunarDeathDay)
             : new Date(new Date().setFullYear(new Date().getFullYear() - 20))
           }
         />

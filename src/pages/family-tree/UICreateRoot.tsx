@@ -58,7 +58,7 @@ export function UICreateRoot(props: UICreateRootProps) {
   return (
     <Sheet
       visible={visible} onClose={onClose}
-      height={StyleUtils.calComponentRemainingHeight(0)}
+      height={"70vh"}
       title={t("Tạo Thành Viên Đầu Tiên")}
       mask maskClosable={false}
       swipeToClose={false} 
@@ -87,6 +87,18 @@ export function UICreateRoot(props: UICreateRootProps) {
             observer.update("birthday", DateTimeUtils.formatToDate(date));
           }}
           value={new Date(new Date().setFullYear(new Date().getFullYear() - 20))}
+        />
+        <DatePicker 
+          mask maskClosable 
+          label={t("Ngày Mất (Âm lịch)")} title={t("Ngày Mất (Âm lịch)")}
+          onChange={(date: Date, calendarDate: any) => {
+            observer.update("lunarDeathDay", DateTimeUtils.formatToDate(date));
+          }}
+          value={
+            observer.getBean().lunarDeathDay 
+            ? DateTimeUtils.toDate(observer.getBean().lunarDeathDay)
+            : new Date(new Date().setFullYear(new Date().getFullYear() - 20))
+          }
         />
         {/* footer */}
         <div>

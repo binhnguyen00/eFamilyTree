@@ -51,7 +51,19 @@ export class FamilyTreeApi extends BaseApi {
     const body = this.initBody({
       user_id: userId,
       clan_id: clanId,
-      member: member
+      member: {
+        id:               member.id,
+        name:             member.name,
+        phone:            member.phone,
+        gender:           member.gender,
+        birthday:         member.birthday,
+        lunar_death_day:  member.lunarDeathDay,
+        spouses:          member.spouses,
+        father:           member.father!,
+        father_id:        member.fatherId!,
+        mother:           member.mother!,
+        mother_id:        member.motherId!
+      }
     });
     this.server.POST("tree/member/save", header, body, success, fail);
   }
@@ -74,15 +86,16 @@ export class FamilyTreeApi extends BaseApi {
       user_id: userId,
       clan_id: clanId,
       member: {
-        name: member.name,
-        phone: member.phone,
-        gender: member.gender,
-        birthday: member.birthday,
-        spouses: member.spouses,
-        father: member.father!,
-        father_id: member.fatherId!,
-        mother: member.mother!,
-        mother_id: member.motherId!
+        name:             member.name,
+        phone:            member.phone,
+        gender:           member.gender,
+        birthday:         member.birthday,
+        lunar_death_day:  member.lunarDeathDay,
+        spouses:          member.spouses,
+        father:           member.father!,
+        father_id:        member.fatherId!,
+        mother:           member.mother!,
+        mother_id:        member.motherId!
       }
     });
     this.server.POST("tree/member/create", header, body, success, fail);

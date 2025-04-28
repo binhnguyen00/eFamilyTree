@@ -66,7 +66,7 @@ export function UICreateSpouse(props: UICreateSpouseProps) {
   return (
     <Sheet 
       visible={visible} onClose={onClose} swipeToClose
-      height={StyleUtils.calComponentRemainingHeight(0)}
+      height={"70vh"}
       title={t("Tạo Vợ/Chồng")}
     >
       <div className="scroll-v flex-v p-3">
@@ -101,6 +101,18 @@ export function UICreateSpouse(props: UICreateSpouseProps) {
           value={
             observer.getBean().birthday 
             ? DateTimeUtils.toDate(observer.getBean().birthday)
+            : new Date(new Date().setFullYear(new Date().getFullYear() - 20))
+          }
+        />
+        <DatePicker 
+          mask maskClosable 
+          label={t("Ngày Mất (Âm lịch)")} title={t("Ngày Mất (Âm lịch)")}
+          onChange={(date: Date, calendarDate: any) => {
+            observer.update("lunarDeathDay", DateTimeUtils.formatToDate(date));
+          }}
+          value={
+            observer.getBean().lunarDeathDay 
+            ? DateTimeUtils.toDate(observer.getBean().lunarDeathDay)
             : new Date(new Date().setFullYear(new Date().getFullYear() - 20))
           }
         />
