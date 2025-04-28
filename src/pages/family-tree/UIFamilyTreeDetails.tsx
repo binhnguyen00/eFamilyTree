@@ -301,6 +301,7 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
           <Selection
             options={momOpts}
             observer={observer} field="" label={t("mẹ")}
+            defaultValue={{ value: observer.getBean().motherId, label: observer.getBean().mother }}
             onChange={(selected: SelectionOption, action) => {
               observer.update("mother", selected.label)
               observer.update("motherId", selected.value)
