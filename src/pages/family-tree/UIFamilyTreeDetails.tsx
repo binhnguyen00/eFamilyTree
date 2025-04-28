@@ -71,7 +71,7 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
   const moms = processor.getSpouses(info.fatherId || 0);
   const momOpts = moms.map((mom) => {
     return {
-      value: mom.id, 
+      value: parseInt(mom.id), 
       label: mom.name
     }
   }) as SelectionOption[];
@@ -79,7 +79,12 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
   const isOwner = (): boolean => observer.getBean().id === userInfo.id;
   const isFemale = (): boolean => observer.getBean().gender === "0";
   const isMale = (): boolean => observer.getBean().gender === "1";
-  const hasParents = (): boolean => !!observer.getBean().fatherId || !!observer.getBean().motherId;
+  const hasParents = (): boolean => {
+    const fatherName = observer.getBean().father;
+    const motherName = observer.getBean().mother;
+    if (fatherName || motherName) return true;
+    return false;
+  };
   const hasChildren = (): boolean => observer.getBean().children.length > 0;
   const hasAvatar = (): boolean => !!observer.getBean().avatar;
   const isRoot = (): boolean => {
@@ -336,7 +341,7 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
                   {t("Con")}
                 </Button>
               )}
-              {hasParents() || isRoot() && (
+              {(isRoot() || hasParents()) && (
                 <Button size="small" prefixIcon={<CommonIcon.MaleFemale size={"1rem"}/>} style={{ minWidth: 120 }} onClick={onCreateSpouse}>
                   {isMale() ? t("Vợ") : t("Chồng")}
                 </Button>
