@@ -149,8 +149,7 @@ function UIChatBox(props: UIChatBoxProps) {
     }
     updateHistory(prev => [...prev, userMessage]);
 
-    // TODO: chat by type
-    ChatBotCommunicationApi.anonymousChat({
+    ChatBotCommunicationApi.chat({
       prompt: message,
       zaloId: zaloUserInfo.id,
       chatHistory: chatHistory,

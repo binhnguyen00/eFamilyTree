@@ -3,7 +3,7 @@ import { BaseApi } from "./BaseApi";
 
 export class ChatBotCommunicationApi extends BaseApi {
 
-  public static anonymousChat({ prompt, zaloId, chatHistory, success, fail }: {
+  public static chat({ prompt, zaloId, chatHistory, success, fail }: {
     prompt: any, zaloId: string, chatHistory: any[], success: SuccessCB, fail?: FailCB
   }) {
     const header = this.initHeader();
@@ -12,21 +12,7 @@ export class ChatBotCommunicationApi extends BaseApi {
       messages_history: chatHistory,
       session_id:       zaloId
     })
-    return this.server.POST("family-tree/chatbot/anonymous/chat", header, body, success, fail);
-  }
-
-  public static chat({ prompt, userId, clanId, chatHistory, success, fail }: {
-    prompt: any, userId: number, clanId: number, chatHistory: any[],
-    success: SuccessCB, fail?: FailCB
-  }) {
-    const header = this.initHeader();
-    const body = this.initBody({
-      user_id:          userId, 
-      clan_id:          clanId,
-      prompt:           prompt, 
-      messages_history: chatHistory,
-    })
-    return this.server.POST("family-tree/chatbot/public/chat", header, body, success, fail);
+    return this.server.POST("family-tree/chatbot/talk", header, body, success, fail);
   }
 
   public static getChatHistory({ sessionId, success, fail }: {
