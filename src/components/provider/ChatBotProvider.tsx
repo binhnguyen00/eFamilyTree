@@ -10,7 +10,7 @@ import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 
 import { DateTimeUtils } from "utils";
 import { ChatBotCommunicationApi } from "api";
-import { useAccountContext, useAppContext, useNotification } from "hooks";
+import { useAccountContext, useAppContext, useNotification, useRequestPhoneContext } from "hooks";
 
 import { FailResponse, ServerResponse } from "types/server";
 
@@ -113,9 +113,10 @@ function UIChatBox(props: UIChatBoxProps) {
   const { type, disable } = props;
   const { zaloUserInfo } = useAppContext();
   const { dangerToast } = useNotification();
+  const { needPhone, requestPhone } = useRequestPhoneContext();
   const { chatHistory, loading, error, refresh, updateHistory } = useChatHistory({ 
-    sessionId: zaloUserInfo.id, 
     type: type, 
+    sessionId: zaloUserInfo.id, 
     dependencies: [ zaloUserInfo.id ] 
   });
   const [ visible, setVisible ]   = React.useState(false);
@@ -126,9 +127,12 @@ function UIChatBox(props: UIChatBoxProps) {
   const onClose = () => setVisible(false);
 
   const talkToBot = (message: string) => {
+    /* request phone */
+    if (needPhone) { requestPhone(); return; }
+
     setIsThinking(true);
 
-    const _buildBotMessage = (message: string) => {
+    const buildBotMessage = (message: string) => {
       const botMessage: ChatHistoryMessage = {
         role: "assistant",
         content: message,
@@ -154,14 +158,14 @@ function UIChatBox(props: UIChatBoxProps) {
         setIsThinking(false);
         if (response.status === "success") {
           const data = response.data as ChatHistoryMessage; 
-          _buildBotMessage(data.content);
+          buildBotMessage(data.content);
         } else {
-          _buildBotMessage(t("retry"));
+          buildBotMessage(t("retry"));
         }
       },
       fail: (error: FailResponse) => {
         setIsThinking(false);
-        _buildBotMessage(t("retry"));
+        buildBotMessage(t("retry"));
       }
     });
   }
