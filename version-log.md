@@ -3,6 +3,9 @@
 ### Thay đổi
 #### 1. Di tích
   - Chọn người đã khuất khi tạo di tích.
+#### 2. Quỹ
+  - Sửa tên nút Thu -> Thêm thu.
+  - Sửa tên nút Chi -> Thêm chi.
 
 # Version 1.6.3 (Thứ 2, 28/04/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=69)
