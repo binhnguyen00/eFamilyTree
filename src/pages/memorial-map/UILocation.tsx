@@ -123,7 +123,7 @@ interface UIMemorialLocationFormProps {
 }
 function UIMemorialLocationForm(props: UIMemorialLocationFormProps) {
   const { onDelete, onSave, observer } = props;
-  const { members, error, loading, refresh } = useDeadMembers();
+  const { members } = useDeadMembers();
 
   return (
     <div className="scroll-v p-3">
@@ -234,7 +234,7 @@ function ImageSelector(props: ImageSelectorProps) {
   )
 }
 
-function useDeadMembers() {
+export function useDeadMembers() {
   const { userInfo } = useAppContext();
 
   const [ members, setDeadMembers ] = React.useState<SelectionOption[]>([]);

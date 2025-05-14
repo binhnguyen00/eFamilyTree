@@ -21,14 +21,14 @@ export class MemorialMapApi extends BaseApi {
     const header = this.initHeader();
     const body = this.initBody({
       location: {
-        id: record.id,
-        name: record.name,
-        description: record.description,
-        lat: record.coordinate.lat.toString(),
-        lng: record.coordinate.lng.toString(),
-        images: record.images,
-        clan_id: record.clanId,
-        member_id: record.memberId!,
+        id:           record.id,
+        name:         record.name,
+        description:  record.description,
+        lat:          record.coordinate.lat.toString(),
+        lng:          record.coordinate.lng.toString(),
+        images:       record.images,
+        clan_id:      record.clanId,
+        member_id:    record.memberId!,
       }
     });
     this.server.POST("memorial/location/create", header, body, success, fail);

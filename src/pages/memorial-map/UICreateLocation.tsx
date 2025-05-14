@@ -5,11 +5,12 @@ import { Button, Grid, Input, Text } from "zmp-ui";
 import { MemorialMapApi } from "api";
 import { CommonUtils, ZmpSDK } from "utils";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
-import { MapCoordinate, CommonIcon, Label, SizedBox, BeanObserver } from "components";
+import { MapCoordinate, CommonIcon, Label, SizedBox, BeanObserver, Selection, SelectionOption } from "components";
 
 import { ServerResponse } from "types/server";
 
 import { MemorialLocation } from "./UIMap";
+import { useDeadMembers } from "./UILocation";
 
 interface UICreateLocationFormProps {
   coordinate: MapCoordinate;
@@ -20,6 +21,7 @@ export function UICreateLocationForm(props: UICreateLocationFormProps) {
   const { coordinate, onSuccess } = props;
   const { userInfo } = useAppContext();
   const { dangerToast, loadingToast } = useNotification();
+  const { members } = useDeadMembers();
 
   const observer = useBeanObserver({
     id:           0,
@@ -55,12 +57,12 @@ export function UICreateLocationForm(props: UICreateLocationFormProps) {
       operation: (successToastCB, dangerToastCB) => {
         MemorialMapApi.create({
           record: {
-            id: observer.getBean().id,
-            clanId: userInfo.clanId,
-            name: observer.getBean().name,
-            description: observer.getBean().description,
-            coordinate: observer.getBean().coordinate,
-            images: imgBase64s,
+            id:           observer.getBean().id,
+            clanId:       userInfo.clanId,
+            name:         observer.getBean().name,
+            description:  observer.getBean().description,
+            coordinate:   observer.getBean().coordinate,
+            images:       imgBase64s,
           },
           success: (result: ServerResponse) => {
             if (result.status === "error") {
@@ -69,17 +71,17 @@ export function UICreateLocationForm(props: UICreateLocationFormProps) {
               successToastCB(t("tạo thành công"));
               const record = result.data;
               if (onSuccess) onSuccess({
-                id: record.id,
-                name: record.name,
-                description: record.description,
-                images: record.images,
-                coordinate: {
+                id:           record.id,
+                name:         record.name,
+                description:  record.description,
+                images:       record.images,
+                clanId:       record["clan_id"],
+                memberId:     record["member_id"],
+                memberName:   record["member_name"],
+                coordinate: { 
                   lat: parseFloat(record.lat),
                   lng: parseFloat(record.lng)
                 },
-                clanId: record["clan_id"],
-                memberId: record["member_id"],
-                memberName: record["member_name"],
               } as MemorialLocation);
             }
           },
@@ -97,6 +99,20 @@ export function UICreateLocationForm(props: UICreateLocationFormProps) {
         label={<Label text="Tên Di Tích" required/>}
         value={observer.getBean().name} name="name"
         onChange={observer.watch}
+      />
+
+      <Selection
+        label={t("Người đã khuất")}
+        observer={observer} field={"memberId"}
+        defaultValue={{ 
+          value: observer.getBean().memberId || 0, 
+          label: observer.getBean().memberName || ""  
+        }}
+        options={members}
+        onChange={(value: SelectionOption) => {
+          observer.update("memberId", value.value);
+          observer.update("memberName", value.label);
+        }}
       />
 
       <Input.TextArea
