@@ -77,7 +77,7 @@ function useSearchAlbumPhotos(albumId: number) {
 }
 
 export function UIAlbumPhotos({ albumId }: { albumId: number }) {
-  const { photos, loading, error, refresh } = useSearchAlbumPhotos(albumId);
+  const { loading, error, refresh } = useSearchAlbumPhotos(albumId);
   const { userInfo, serverBaseUrl } = useAppContext();
   const { dangerToast, loadingToast } = useNotification();
 
@@ -123,27 +123,25 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
   };
 
   const renderPhotos = (): React.ReactNode[] => {
-    const html: React.ReactNode[] = [];
-    photos.map((photo: Photo) => {
+    return photos.map((photo: Photo) => {
       const isSelected: boolean = selectedPhotos.includes(photo.id);
-      html.push(
+      return (
         <div key={photo.id} className="relative" onClick={() => togglePhotoSelection(photo)}>
           {isSelecting ? (
             <>
-              <img loading="lazy" src={`${serverBaseUrl}/${photo.url}`} className="w-full h-full object-cover rounded"/>
+              <img src={`${serverBaseUrl}/${photo.url}`}/>
               <div className={`absolute bottom-2 left-2 w-7 h-7 rounded-full ${withEase} ${isSelected ? 'bg-primary' : 'bg-white/50'}`}>
                 {isSelected && <CommonIcon.CheckCircle className="text-white w-7 h-7"/>}
               </div>
             </>
           ): (
             <PhotoView src={`${serverBaseUrl}/${photo.url}`} key={photo.id}>
-              <img loading="lazy" src={`${serverBaseUrl}/${photo.url}`} className="w-full h-full object-cover rounded"/>
+              <img src={`${serverBaseUrl}/${photo.url}`}/>
             </PhotoView>
           )}
         </div>
       )
     })
-    return html;
   }
 
   const onSelectPhotos = () => {
@@ -252,7 +250,7 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
         <div ref={imageSectionRef} className="h-0"/>
   
         <div style={{ zIndex: 999 }} className={`scroll-h sticky justify-between top-0 py-3 ${withEase}`}>
-          <Text size={"small"} style={minWidth} className="bold flex-h content-center align-start" onClick={onSelectAllPhotos}>
+          <Text size={"small"} style={{ minWidth: 120 }} className="bold flex-h content-center align-start" onClick={onSelectAllPhotos}>
             {isSelecting ? (
               <p className={`${withEase} ${bgColor}`}> {`${t("Chọn")} (${selectedPhotos.length})`} </p>
             ) : (

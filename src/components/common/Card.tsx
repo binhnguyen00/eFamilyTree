@@ -1,10 +1,10 @@
 import React from "react";
-
-import { ImageWithText } from "components";
+import { TailSpin } from "./TailSpin";
 
 interface CardProps {
   title: string | React.ReactNode;
   src?: string;
+  imgStyle?: React.CSSProperties;
   content?: string | React.ReactNode;
   onClick?: () => void;
   width?: number | string;
@@ -12,7 +12,7 @@ interface CardProps {
   className?: string;
 }
 export function Card(props: CardProps) {
-  const { src, title, content, onClick, width, height, className } = props;
+  const { src, title, content, onClick, width, height, className, imgStyle } = props;
 
   return (
     <div 
@@ -23,30 +23,51 @@ export function Card(props: CardProps) {
         height: height
       }}
     >
-      <CardImage src={src}/>
+      <CardImage src={src} imgStyle={imgStyle} onClick={onClick}/>
       <CardContent title={title} content={content} />
     </div>
   )
 }
 
-// ==========================
-// CardImage
-// ==========================
 interface CardImageProps {
   src?: string;
+  imgStyle?: React.CSSProperties;
   onClick?: () => void;
 }
 function CardImage(props: CardImageProps) {
-  const { src, onClick } = props;
+  const { src, imgStyle, onClick } = props;
+  const [loading, setLoading] = React.useState(true);
+  const [imageLoaded, setImageLoaded] = React.useState<boolean>(false);
+
   if (!src) return <></>;
+
   return (
-    <ImageWithText className="rounded" src={src} height={"60%"} text="" onClick={onClick}/>
+    <>
+      {loading && (
+        <div className="center" style={imgStyle}>
+          <TailSpin visible width={25} height={25}/>
+        </div>
+      )}
+      {imageLoaded && (
+        <img
+          src={src} onClick={onClick}
+          className="rounded object-cover"
+          style={imgStyle}
+        />
+      )}
+      <img
+        src={src} onClick={onClick}
+        className="rounded object-cover"
+        style={{ display: 'none' }}
+        onLoad={() => {
+          setLoading(false);
+          setImageLoaded(true);
+        }}
+      />
+    </>
   )
 }
 
-// ==========================
-// CardContent
-// ==========================
 interface CardContentProps {
   title: string | React.ReactNode;
   content?: string | React.ReactNode;

@@ -74,7 +74,7 @@ export function UICreateAlbum(props: UICreateAlbumProps) {
   }
 
   const onCreate = () => {
-    if (!observer.getFieldValue("name")) {
+    if (!observer.getFieldValue("description")) {
       warningToast(t("nhập đủ thông tin"));
       return;
     }

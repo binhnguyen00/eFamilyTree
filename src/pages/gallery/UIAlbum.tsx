@@ -66,8 +66,26 @@ export function UIAlbum() {
 
   const onUpdateThumbnail = () => {
     const update = (base64: string) => {
-      observer.update("thumbnailBase64", base64);
-      onSave();
+      GalleryApi.saveAlbum({
+        userId: userInfo.id,
+        clanId: userInfo.clanId,
+        album: {
+          ...observer.getBean(),
+          thumbnailBase64: base64,
+        },
+        success: (result: ServerResponse) => {
+          if (result.status === "success") {
+            const album = result.data;
+            observer.update("thumbnailPath", album.thumbnail);
+            successToast(t("lưu thành công"));
+          } else {
+            dangerToast(t("lưu thất bại"));
+          }
+        },
+        fail: () => {
+          dangerToast(t("lưu thất bại"));
+        }
+      })
     }
 
     ZmpSDK.chooseImage({
@@ -107,7 +125,7 @@ export function UIAlbum() {
       <>
         <div className="center flex-v flex-grow-0 pt-3">
           <img
-            className="rounded"
+            className="rounded object-cover" loading="lazy"
             style={{ width: "85vw", height: "12rem" }}
             src={hasThumbnail ? `${serverBaseUrl}/${observer.getBean().thumbnailPath}` : fallbackThumbnail}
             onError={(e) => {
@@ -115,7 +133,6 @@ export function UIAlbum() {
                 e.currentTarget.src = fallbackThumbnail;
               }
             }}
-            loading="lazy"
           />
           <Button size="small" variant="tertiary" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onUpdateThumbnail}>
             {hasThumbnail ? t("Sửa") : t("Thêm")}

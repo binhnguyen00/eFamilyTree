@@ -7,9 +7,10 @@ import { PhotoProvider, PhotoView } from 'react-photo-view';
 import { GalleryApi } from "api";
 import { useAppContext } from "hooks";
 import { ServerResponse } from "types/server";
-import { Loading, Header, Retry } from "components";
+import { Loading, Header, Retry, ScrollableDiv, Divider } from "components";
 
 import { convertToPhoto, Photo } from "./UIAlbumPhotos";
+import { StyleUtils } from "utils";
 
 interface UIPhotosProps {}
 export function UIPhotos(props: UIPhotosProps) {
@@ -34,7 +35,10 @@ export function UIPhotos(props: UIPhotosProps) {
       <Header title={`${size} ${t("ảnh")}`}/>
 
       <div className="container bg-white text-base">
-        {renderContainer()}
+        <Divider size={0}/>
+        <ScrollableDiv className="flex-v" direction="vertical" height={StyleUtils.calComponentRemainingHeight(0)}>
+          {renderContainer()}
+        </ScrollableDiv>
       </div>
     </>
   )
@@ -42,24 +46,23 @@ export function UIPhotos(props: UIPhotosProps) {
 
 function UIPhotosContainer({ photos }: { photos: Photo[] }) {
   const { serverBaseUrl } = useAppContext();
+  const hasOnePhoto: boolean = photos.length === 1;
 
   const renderPhotos = (): React.ReactNode[] => {
-    const html: React.ReactNode[] = [];
-    if (!photos.length) return html;
+    if (!photos.length) return [];
     
-    photos.map((photo: Photo) => {
-      html.push(
+    return photos.map((photo: Photo) => {
+      return (
         <PhotoView src={`${serverBaseUrl}/${photo.url}`} key={photo.id}>
-          <img src={`${serverBaseUrl}/${photo.url}`} className="w-full h-full object-cover"/>
+          <img loading="lazy" src={`${serverBaseUrl}/${photo.url}`} className="w-full h-full object-cover"/>
         </PhotoView>
       )
     })
-    return html;
   }
 
   return (
     <PhotoProvider maskOpacity={0.5} maskClosable pullClosable>
-      <Grid columnCount={2} rowSpace="1rem" columnSpace="1rem">
+      <Grid columnCount={hasOnePhoto ? 1 : 3} rowSpace="1rem" columnSpace="1rem">
         {renderPhotos()}
       </Grid>
       <br/>

@@ -5,7 +5,7 @@ import { Button, Grid, Sheet } from "zmp-ui";
 import { GalleryApi } from "api";
 import { ServerResponse } from "types/server";
 import { useAppContext, useRouteNavigate } from "hooks";
-import { Card, CommonIcon, Header, Info, Loading, Retry } from "components";
+import { Card, CommonIcon, Header, Loading, Retry } from "components";
 
 import { AlbumForm, UICreateAlbum } from "./UICreateAlbum";
 
@@ -108,6 +108,7 @@ function UIAlbumsGrid(props: UIAlbumsGridProps) {
           goTo({ path: "gallery/album", belongings: { album: album } })
         }}
         title={album.description}
+        imgStyle={{ width: "100%", minHeight: 180, maxHeight: 400 }}
         src={`${serverBaseUrl}/${album.thumbnailPath}`}
         className="button box-shadow rounded p-2" height={"auto"}
       />
