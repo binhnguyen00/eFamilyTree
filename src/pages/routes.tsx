@@ -20,13 +20,12 @@ import { UIAccount } from "pages/user/UIAccount";
 import { UIRegister } from "pages/user/UIRegister";
 import { UIRegisterClan } from "pages/user/UIRegisterClan";
 import { UIGallery } from 'pages/gallery/UIGallery';
-import { UIDummyGallery } from "./dummy/UIDummyGallery";
+import { UIPhotos } from "./gallery/UIPhotos";
+import { UIAlbum } from "./gallery/UIAlbum";
 import { UIRitualScript } from "pages/ritual-script/UIRitualScript";
 import { UIMap } from "pages/memorial-map/UIMap"; 
 
 import { useRouteNavigate } from "hooks";
-import { UIGalleryImages } from "./gallery/UIGalleryImages";
-import { UIGalleryAlbum } from "./gallery/UIGalleryAlbum";
 
 // Demo components (React.lazy loaded)
 const UIDummyFund = React.lazy(() => import("./dummy/UIDummyFund"));
@@ -51,8 +50,8 @@ export function AppRoutes() {
 
       {/* APP */}
       <Route path={createPath("gallery")} element={<UIGallery />}/>
-      <Route path={createPath("gallery/images")} element={<UIGalleryImages />}/>
-      <Route path={createPath("gallery/album")} element={<UIGalleryAlbum />}/>
+      <Route path={createPath("gallery/images")} element={<UIPhotos />}/>
+      <Route path={createPath("gallery/album")} element={<UIAlbum />}/>
 
       <Route path={createPath("calendar")} element={<UICalendar />} />
       <Route path={createPath("calendar/month")} element={<UIMonthCalendar />} />
@@ -99,11 +98,6 @@ export function AppRoutes() {
       <Route path={createPath("/dev/blogs")} element={
         <React.Suspense fallback={<Loading />}>
           <UIDummyBlog />
-        </React.Suspense>
-      } />
-      <Route path={createPath("/dev/gallery")} element={
-        <React.Suspense fallback={<Loading />}>
-          <UIDummyGallery />
         </React.Suspense>
       } />
       <Route path={createPath("/dev/dummy-detail")} element={

@@ -25,10 +25,21 @@ const photos = [
   { "id": 11, "albumId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
 ]
 
-export type Photo = {
+export interface Photo {
   id: number;
   albumId: number;
   url: string;
+}
+
+export function convertToPhoto(raws: any[]): Photo[] {
+  if (!raws.length) return [];
+  return raws.map(raw => {
+    return {
+      id      : raw["id"],
+      url     : raw["url"],
+      albumId : raw["album_id"],
+    }
+  })
 }
 
 function useSearchAlbumPhotos(albumId: number) {
@@ -37,18 +48,8 @@ function useSearchAlbumPhotos(albumId: number) {
   const [ loading, setLoading ] = React.useState(true);
   const [ error, setError ] = React.useState(false);
   const [ reload, setReload ] = React.useState(false);
-  const refresh = () => setReload(!reload);
 
-  const convertToPhoto = (raws: any[]): Photo[] => {
-    if (!raws.length) return [];
-    return raws.map(raw => {
-      return {
-        id      : raw["id"],
-        albumId : raw["album_id"],
-        url     : raw["url"]
-      }
-    })
-  }
+  const refresh = () => setReload(!reload);
 
   React.useEffect(() => {
     GalleryApi.getImagesByAlbum({
@@ -72,24 +73,23 @@ function useSearchAlbumPhotos(albumId: number) {
     });
   }, [ reload ]);
 
-  // TODO: remove hard code
-  return { photos, loading: false, error: false, refresh }
+  return { photos, loading, error, refresh }
 }
 
 export function UIAlbumPhotos({ albumId }: { albumId: number }) {
-  const { loading, error, refresh } = useSearchAlbumPhotos(albumId);
-  const { userInfo } = useAppContext();
-  const { successToast, dangerToast, loadingToast } = useNotification();
+  const { photos, loading, error, refresh } = useSearchAlbumPhotos(albumId);
+  const { userInfo, serverBaseUrl } = useAppContext();
+  const { dangerToast, loadingToast } = useNotification();
 
   const [ isSelecting, setIsSelecting ] = React.useState(false);
   const [ selectedPhotos, setSelectedPhotos ] = React.useState<number[]>([]);
   const [ isTitleSticky, setIsTitleSticky ] = React.useState(false);
   const imageSectionRef = React.useRef<HTMLDivElement>(null);
 
-  const easeIn    = isTitleSticky ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4';
+  const easeIn    = isTitleSticky ? 'opacity-100 translate-x-0' : 'opacity-100 translate-x-4';
   const bgColor   = isTitleSticky && 'bg-secondary rounded text-primary px-3 py-2';
   const withEase  = "transition-all duration-300 ease-in-out"
-  const minWidth  = { minWidth: 100 } as React.CSSProperties;
+  const minWidth  = { minWidth: 80 } as React.CSSProperties;
 
   // check if the user has scroll to the photos section
   React.useEffect(() => {
@@ -124,20 +124,20 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
 
   const renderPhotos = (): React.ReactNode[] => {
     const html: React.ReactNode[] = [];
-    photos.map(photo => {
+    photos.map((photo: Photo) => {
       const isSelected: boolean = selectedPhotos.includes(photo.id);
       html.push(
         <div key={photo.id} className="relative" onClick={() => togglePhotoSelection(photo)}>
           {isSelecting ? (
             <>
-              <img src={photo.url} className="w-full h-full object-cover"/>
-              <div className={`absolute bottom-2 left-2 w-7 h-7 rounded-full flex items-center justify-center ${withEase} ${isSelected ? 'bg-primary' : 'bg-white/50'}`}>
+              <img loading="lazy" src={`${serverBaseUrl}/${photo.url}`} className="w-full h-full object-cover rounded"/>
+              <div className={`absolute bottom-2 left-2 w-7 h-7 rounded-full ${withEase} ${isSelected ? 'bg-primary' : 'bg-white/50'}`}>
                 {isSelected && <CommonIcon.CheckCircle className="text-white w-7 h-7"/>}
               </div>
             </>
           ): (
-            <PhotoView src={photo.url} triggers={!isSelecting ? ["onClick"] : []}>
-              <img src={photo.url} className="w-full h-full object-cover"/>
+            <PhotoView src={`${serverBaseUrl}/${photo.url}`} key={photo.id}>
+              <img loading="lazy" src={`${serverBaseUrl}/${photo.url}`} className="w-full h-full object-cover rounded"/>
             </PhotoView>
           )}
         </div>
@@ -240,13 +240,18 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
   if (loading) {
     return <Loading/>
   } else if (error) {
-    return <Retry title={t("Chưa có dữ liệu")} onClick={() => refresh()}/>
+    return (
+      <>
+        <Retry title="" message={t("Gặp Sự Cố!")} onClick={() => refresh()} buttonType="tertiary"/>
+        <br/>
+      </>
+    )
   } else {
     return (
-      <div>
+      <div className="min-h-[100vh]">
         <div ref={imageSectionRef} className="h-0"/>
   
-        <div style={{ zIndex: 999 }} className={`scroll-h sticky top-0 py-3 ${withEase}`}>
+        <div style={{ zIndex: 999 }} className={`scroll-h sticky justify-between top-0 py-3 ${withEase}`}>
           <Text size={"small"} style={minWidth} className="bold flex-h content-center align-start" onClick={onSelectAllPhotos}>
             {isSelecting ? (
               <p className={`${withEase} ${bgColor}`}> {`${t("Chọn")} (${selectedPhotos.length})`} </p>
@@ -255,20 +260,22 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
             )}
           </Text>
   
-          <div className={`flex-h ${withEase} ${easeIn}`}>
-            <Button className="box-shadow" size="small" variant="secondary" style={minWidth} prefixIcon={<CommonIcon.AddPhoto/>} onClick={onAddPhotos}>
+          <div className={`flex-h ${withEase}`}>
+            <Button size="small" className={`${easeIn} ${withEase} ${bgColor}`} variant={isTitleSticky ? "secondary" : "tertiary"} style={minWidth} prefixIcon={<CommonIcon.AddPhoto/>} onClick={onAddPhotos}>
               {t("add")}
             </Button>
   
             {isSelecting && selectedPhotos.length > 0 && (
-              <Button className="box-shadow" size="small" variant="secondary" style={minWidth} prefixIcon={<CommonIcon.RemovePhoto/>} onClick={onDeletePhotos}>
+              <Button size="small" className={`${easeIn} ${withEase} ${bgColor}`} variant={isTitleSticky ? "secondary" : "tertiary"} style={minWidth} prefixIcon={<CommonIcon.RemovePhoto/>} onClick={onDeletePhotos}>
                 {t("delete")}
               </Button>
             )}
   
-            <Button className="box-shadow" size="small" variant="secondary" style={minWidth} prefixIcon={isSelecting && <CommonIcon.Check/>} onClick={onSelectPhotos}>
-              {isSelecting ? t("xong") : t("select")}
-            </Button>
+            {photos.length > 0 && (
+              <Button size="small" className={`${easeIn} ${withEase} ${bgColor}`} variant={isTitleSticky ? "secondary" : "tertiary"} style={minWidth} prefixIcon={isSelecting && <CommonIcon.Check/>} onClick={onSelectPhotos}>
+                {isSelecting ? t("xong") : t("select")}
+              </Button>
+            )}
           </div>
         </div>
   

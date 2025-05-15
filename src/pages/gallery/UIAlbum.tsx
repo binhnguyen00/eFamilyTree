@@ -11,13 +11,13 @@ import { useAppContext, useBeanObserver, useNotification, useRouteNavigate } fro
 import { AlbumForm } from "./UICreateAlbum";
 import { UIAlbumPhotos } from "./UIAlbumPhotos";
 
-export function UIGalleryAlbum() {
+export function UIAlbum() {
   const { belongings, goBack } = useRouteNavigate();
   const { album } = belongings;
   const observer = useBeanObserver(album as AlbumForm);
 
-  const { userInfo } = useAppContext();
-  const { successToast, dangerToast, loadingToast } = useNotification();
+  const { userInfo, serverBaseUrl } = useAppContext();
+  const { successToast, dangerToast } = useNotification();
 
   const [ deleteWarning, setDeleteWarning ] = React.useState(false);
 
@@ -102,13 +102,14 @@ export function UIGalleryAlbum() {
 
   const renderAlbum = () => {
     const fallbackThumbnail = "https://fakeimg.pl/1920x1080?font=roboto";
+    const hasThumbnail: boolean = !!observer.getBean().thumbnailPath;
     return (
       <>
         <div className="center flex-v flex-grow-0 pt-3">
           <img
             className="rounded"
             style={{ width: "85vw", height: "12rem" }}
-            src={observer.getBean().thumbnailPath || fallbackThumbnail}
+            src={hasThumbnail ? `${serverBaseUrl}/${observer.getBean().thumbnailPath}` : fallbackThumbnail}
             onError={(e) => {
               if (e.currentTarget.src !== fallbackThumbnail) {
                 e.currentTarget.src = fallbackThumbnail;
@@ -116,16 +117,12 @@ export function UIGalleryAlbum() {
             }}
             loading="lazy"
           />
-          <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onUpdateThumbnail}>
-            {observer.getFieldValue("thumbnailPath") ? t("Sửa") : t("Thêm")}
+          <Button size="small" variant="tertiary" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onUpdateThumbnail}>
+            {hasThumbnail ? t("Sửa") : t("Thêm")}
           </Button>
         </div>
-        <Input 
-          name="name" label={t("Tiêu Đề")} 
-          value={observer.getBean().name} onChange={observer.watch}
-        />
         <Input.TextArea 
-          label={t("Mô Tả")} value={observer.getBean().description} 
+          label={t("Tiêu Đề")} value={observer.getBean().description} size="medium"
           onChange={(e) => observer.update("description", e.target.value)}
         />
         {renderFooter()}

@@ -5,37 +5,35 @@ import { Button, Grid, Sheet } from "zmp-ui";
 import { GalleryApi } from "api";
 import { ServerResponse } from "types/server";
 import { useAppContext, useRouteNavigate } from "hooks";
-import { Card, CommonIcon, Header, Info, Loading } from "components";
+import { Card, CommonIcon, Header, Info, Loading, Retry } from "components";
 
 import { AlbumForm, UICreateAlbum } from "./UICreateAlbum";
 
 const albums = [
   {
     "id": 10,
-    "name": "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum",
-    "thumbnail": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
-    "album_type": "clan",
+    "thumbnailPath": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+    "albumType": "clan",
     "date": "10/12/2024@03:00:00",
     "address": "Nhà thờ họ",
-    "event_id": 1,
+    "eventId": 1,
     "description": "giỗ tổ 2023",
-    "total_images": 11
+    "totalImages": 11
   },
   {
     "id": 11,
-    "name": "lorem ipsum",
-    "thumbnail": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
-    "album_type": "clan",
+    "thumbnailPath": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+    "albumType": "clan",
     "date": "10/12/2024@03:00:00",
     "address": "Nhà thờ họ",
-    "event_id": 1,
+    "eventId": 1,
     "description": "giỗ tổ 2023",
-    "total_images": 11
+    "totalImages": 11
   }
 ]
 
-export function UIGalleryAlbums() {
-  const { error, loading, refresh } = useGalleryAlbums();
+export function UIAlbums() {
+  const { albums, error, loading, refresh } = useSearchAlbums();
   const { goTo } = useRouteNavigate();
 
   const [ create, setCreate ] = React.useState<boolean>(false);
@@ -54,32 +52,15 @@ export function UIGalleryAlbums() {
   }
 
   const renderContainer = () => {
-    return (
-      <UIGalleryAlbumsGrid albums={albums} refresh={refresh}/>
-    )
-
-    const renderError = () => {
-      return (
-        <div className="flex-v">
-          <Info title={t("Chưa có dữ liệu")}/>
-          <div className="center">
-            <Button size="small" prefixIcon={<CommonIcon.Reload size={"1rem"}/>} onClick={() => refresh()}>
-              {t("retry")}
-            </Button>
-          </div>
-        </div>
-      )
-    }
-
     if (loading) {
       return <Loading/>
     } else if (!albums.length) {
-      return renderError()
+      return <Retry title={t("không tìm thấy album")} onClick={refresh}/>
     } else if (error) {
-      return renderError()
+      return <Retry title={t("không tìm thấy album")} onClick={refresh}/>
     } else {
       return (
-        <UIGalleryAlbumsGrid albums={albums} refresh={refresh}/>
+        <UIAlbumsGrid albums={albums} refresh={refresh}/>
       )
     }
   }
@@ -110,11 +91,11 @@ export function UIGalleryAlbums() {
   )
 }
 
-interface UIGalleryAlbumsGridProps {
+interface UIAlbumsGridProps {
   albums: any[];
   refresh: () => void;
 }
-function UIGalleryAlbumsGrid(props: UIGalleryAlbumsGridProps) {
+function UIAlbumsGrid(props: UIAlbumsGridProps) {
   const { albums, refresh } = props;
   const { serverBaseUrl } = useAppContext();
   const { goTo } = useRouteNavigate();
@@ -126,7 +107,7 @@ function UIGalleryAlbumsGrid(props: UIGalleryAlbumsGridProps) {
         onClick={() => {
           goTo({ path: "gallery/album", belongings: { album: album } })
         }}
-        title={album.name}
+        title={album.description}
         src={`${serverBaseUrl}/${album.thumbnailPath}`}
         className="button box-shadow rounded p-2" height={"auto"}
       />
@@ -140,7 +121,7 @@ function UIGalleryAlbumsGrid(props: UIGalleryAlbumsGridProps) {
   )
 }
 
-function useGalleryAlbums() {
+function useSearchAlbums() {
   const { userInfo } = useAppContext();
 
   const [ albums, setAlbums ] = React.useState<AlbumForm[]>([]);
@@ -155,7 +136,6 @@ function useGalleryAlbums() {
     for (const album of albums) {
       results.push({
         id:             album.id,
-        name:           album.name,
         thumbnailPath:  album.thumbnail,
         description:    album.description,
         albumType:      album.album_type,

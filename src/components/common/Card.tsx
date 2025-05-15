@@ -16,7 +16,7 @@ export function Card(props: CardProps) {
 
   return (
     <div 
-      className={`flex-v text-center ${className ? className : ""}`.trim()} 
+      className={`flex-v justify-between text-center ${className ? className : ""}`.trim()} 
       onClick={onClick} 
       style={{
         width: width, 
@@ -40,7 +40,7 @@ function CardImage(props: CardImageProps) {
   const { src, onClick } = props;
   if (!src) return <></>;
   return (
-    <ImageWithText className="rounded" src={src} height={"70%"} text="" onClick={onClick}/>
+    <ImageWithText className="rounded" src={src} height={"60%"} text="" onClick={onClick}/>
   )
 }
 
@@ -57,7 +57,7 @@ function CardContent(props: CardContentProps) {
   if (typeof content === "string") {
     return (
       <div className="text-wrap"> 
-        <p className="p-1"> {title} </p>
+        <p className="p-1 text-primary"> {title} </p>
         <p> {content} </p> 
       </div>
     );

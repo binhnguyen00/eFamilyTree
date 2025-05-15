@@ -10,7 +10,7 @@ import { ServerResponse } from "types/server";
 
 export interface AlbumForm {
   id: number;
-  name: string;
+  name?: string;
   albumType: string;
   date: string;
   description: string;
@@ -29,7 +29,6 @@ export function UICreateAlbum(props: UICreateAlbumProps) {
   const fallbackThumbnail = "https://fakeimg.pl/1920x1080?font=roboto";
   
   const observer = useBeanObserver({
-    name: "",
     description: "",
     eventId: 0,
     albumType: "",
@@ -117,13 +116,9 @@ export function UICreateAlbum(props: UICreateAlbumProps) {
         </Button>
       </div>
 
-      <Input
-        name="name" label={`${t("Tiêu đề")} *`} focused
-        value={observer.getBean().name} onChange={observer.watch}
-      />
       <Input.TextArea
-        name="description" label={t("Mô tả")}
-        value={observer.getBean().description} 
+        name="description" label={t("Tiêu đề")}
+        value={observer.getBean().description} size="medium"
         onChange={(e) => observer.update("description", e.target.value)}
       />
       <div className="center">

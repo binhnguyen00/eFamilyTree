@@ -46,7 +46,6 @@ export class GalleryApi extends BaseApi {
       user_id: userId,
       clan_id: clanId,
       album: {
-        name: album.name,
         description: album.description,
         event_id: album.eventId,
         thumbnail: album.thumbnailBase64,
@@ -76,7 +75,6 @@ export class GalleryApi extends BaseApi {
       clan_id: clanId,
       album: {
         id: album.id,
-        name: album.name,
         description: album.description,
         event_id: album.eventId,
         thumbnail: album.thumbnailBase64,

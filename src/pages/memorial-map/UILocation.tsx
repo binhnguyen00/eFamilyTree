@@ -13,7 +13,7 @@ import { useNotification, useAppContext, useBeanObserver } from "hooks";
 import { BeanObserver, CommonIcon, Label, Selection, SelectionOption } from "components";
 
 import { ServerResponse } from "types/server";
-import { GalleryImage } from "pages/gallery/UIGalleryImages";
+import { GalleryImage } from "pages/gallery/UIPhotos";
 
 import { MemorialLocation } from "./UIMap";
 
