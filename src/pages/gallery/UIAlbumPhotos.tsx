@@ -1,5 +1,5 @@
-
 import React from "react";
+
 import { t } from "i18next";
 import { Button, Grid, Text } from "zmp-ui";
 import { PhotoProvider, PhotoView } from 'react-photo-view';
@@ -123,18 +123,22 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
   };
 
   const renderPhotos = (): React.ReactNode[] => {
-    let html: React.ReactNode[] = [];
-    photos.forEach(photo => {
-      const isSelected = selectedPhotos.includes(photo.id);
+    const html: React.ReactNode[] = [];
+    photos.map(photo => {
+      const isSelected: boolean = selectedPhotos.includes(photo.id);
       html.push(
         <div key={photo.id} className="relative" onClick={() => togglePhotoSelection(photo)}>
-          <PhotoView src={photo.url} overlay>
-            <img src={photo.url} className="w-full h-full object-cover"/>
-          </PhotoView>
-          {isSelecting && (
-            <div className={`absolute bottom-2 left-2 w-6 h-6 rounded-full flex items-center justify-center ${withEase} ${isSelected ? 'bg-primary' : 'bg-white/50'}`}>
-              {isSelected && <CommonIcon.CheckCircle size="1rem" className="text-white"/>}
-            </div>
+          {isSelecting ? (
+            <>
+              <img src={photo.url} className="w-full h-full object-cover"/>
+              <div className={`absolute bottom-2 left-2 w-7 h-7 rounded-full flex items-center justify-center ${withEase} ${isSelected ? 'bg-primary' : 'bg-white/50'}`}>
+                {isSelected && <CommonIcon.CheckCircle className="text-white w-7 h-7"/>}
+              </div>
+            </>
+          ): (
+            <PhotoView src={photo.url} triggers={!isSelecting ? ["onClick"] : []}>
+              <img src={photo.url} className="w-full h-full object-cover"/>
+            </PhotoView>
           )}
         </div>
       )
@@ -243,7 +247,7 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
         <div ref={imageSectionRef} className="h-0"/>
   
         <div style={{ zIndex: 999 }} className={`scroll-h sticky top-0 py-3 ${withEase}`}>
-          <Text size={isTitleSticky ? "small" : "xLarge"} style={minWidth} className="bold flex-h content-center align-start" onClick={onSelectAllPhotos}>
+          <Text size={"small"} style={minWidth} className="bold flex-h content-center align-start" onClick={onSelectAllPhotos}>
             {isSelecting ? (
               <p className={`${withEase} ${bgColor}`}> {`${t("Chọn")} (${selectedPhotos.length})`} </p>
             ) : (
@@ -268,7 +272,7 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
           </div>
         </div>
   
-        <PhotoProvider maskOpacity={0.5} maskClosable>
+        <PhotoProvider maskOpacity={0.5} maskClosable pullClosable>
           <Grid columnCount={2} rowSpace="1rem" columnSpace="1rem">
             {renderPhotos()}
           </Grid>
