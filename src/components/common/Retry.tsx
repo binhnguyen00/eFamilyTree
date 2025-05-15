@@ -6,6 +6,7 @@ import { CommonIcon } from "components/icon";
 
 interface RetryProps {
   onClick: () => void;
+  buttonType?: "primary" | "secondary" | "tertiary";
   title: string;
   message?: string;
   className?: string;
@@ -21,12 +22,12 @@ interface RetryProps {
  * @returns 
  */
 export function Retry(props: RetryProps) {
-  const { title, message, className, onClick, extra } = props;
+  const { title, message, className, onClick, extra, buttonType = "primary" } = props;
   return (
-    <div className={`flex-v ${className ? className : ""}`.trim()}>
+    <div className={`${className ? className : ""}`.trim()}>
       <Info title={title} message={message}/>
       <div className="center">
-        <Button size="small" prefixIcon={<CommonIcon.Reload size={"1rem"}/>} onClick={() => onClick()}>
+        <Button variant={buttonType} size="small" prefixIcon={<CommonIcon.Reload size={"1rem"}/>} onClick={() => onClick()}>
           {t("retry")}
         </Button>
       </div>
