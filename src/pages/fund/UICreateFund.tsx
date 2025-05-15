@@ -58,7 +58,7 @@ export function UICreateFund(props: UICreateFundProps) {
       howMany: 1,
       success: async (files: any[]) => {
         const blobs: string[] = [ ...files.map(file => file.path) ];
-        const base64s = await CommonUtils.blobUrlsToBase64(blobs);
+        const base64s = await CommonUtils.blobUrlsToBase64s(blobs);
         if (base64s.length) {
           qrObserver.update("imageQR", base64s[0]);
         } else {

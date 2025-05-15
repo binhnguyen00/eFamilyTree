@@ -59,7 +59,7 @@ export function UIFundQR(props: UIFundQRProps) {
           howMany: 1,
           success: async (files: any[]) => {
             const blobs: string[] = [ ...files.map(file => file.path) ];
-            const base64s = await CommonUtils.blobUrlsToBase64(blobs);
+            const base64s = await CommonUtils.blobUrlsToBase64s(blobs);
             if (base64s.length) doUpdate(base64s[0]);
             else {
               dangerToastCB(t("lỗi ảnh"))

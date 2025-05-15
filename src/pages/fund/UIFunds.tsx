@@ -5,7 +5,7 @@ import { Button } from "zmp-ui";
 import { FundApi } from "api";
 import { CommonUtils, StyleUtils } from "utils";
 import { useAppContext, useNotification, useRouteNavigate } from "hooks";
-import { Header, Loading, ScrollableDiv, Info, CommonIcon } from "components";
+import { Header, Loading, ScrollableDiv, Info, CommonIcon, Retry } from "components";
 
 import { ServerResponse } from "types/server";
 import { FundInfo } from "./UIFundInfo";
@@ -100,40 +100,14 @@ export function UIFund() {
       />
     </>
   )
-  
-  const renderErrorContainer = () => {
-    return (
-      <div className="flex-v">
-        <Info title={t("Chưa có dữ liệu")}/>
-        <div className="center">
-          <Button size="small" prefixIcon={<CommonIcon.Reload size={"1rem"}/>} onClick={() => refresh()}>
-            {t("retry")}
-          </Button>
-        </div>
-        {renderCreateFund()}
-      </div>
-    )
-  }
 
   const renderContainer = () => {
-    // return (
-    //   <div>
-    //     <UIFundList funds={funds}/>
-    //     <div className="flex-h" style={{ position: "fixed", bottom: 20, right: 10 }}>
-    //       <Button size="small" prefixIcon={<CommonIcon.Plus size={"1rem"}/>} onClick={() => setCreate(true)}>
-    //         {t("tạo quỹ")}
-    //       </Button>
-    //     </div>
-    //     {renderCreateFund()}
-    //   </div>
-    // )
-
     if (loading) {
       return <Loading/>
     } else if (error) {
-      return renderErrorContainer()
+      return <Retry title={t("Chưa có dữ liệu")} onClick={() => refresh()} extra={renderCreateFund()}/>
     } else if (!funds.length) {
-      return renderErrorContainer()
+      return <Retry title={t("Chưa có dữ liệu")} onClick={() => refresh()} extra={renderCreateFund()}/>
     } else {
       return (
         <div>
