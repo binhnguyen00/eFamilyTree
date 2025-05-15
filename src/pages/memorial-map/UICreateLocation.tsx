@@ -62,6 +62,7 @@ export function UICreateLocationForm(props: UICreateLocationFormProps) {
             name:         observer.getBean().name,
             description:  observer.getBean().description,
             coordinate:   observer.getBean().coordinate,
+            memberId:     observer.getBean().memberId,
             images:       imgBase64s,
           },
           success: (result: ServerResponse) => {
