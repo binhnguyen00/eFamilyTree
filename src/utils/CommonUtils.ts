@@ -49,7 +49,7 @@ export class CommonUtils {
       .catch((error) => fail?.(error));
   }
 
-  static blobUrlsToBase64 = async (imagePaths: string[]) => {
+  static blobUrlsToBase64s = async (imagePaths: string[]) => {
     const base64Promises = imagePaths.map((blobUrl) => {
       return new Promise<string>((resolve) => {
         CommonUtils.blobUrlToBase64(blobUrl, (base64: string) => {
@@ -57,8 +57,8 @@ export class CommonUtils {
         });
       });
     });
-    const base64Array = await Promise.all(base64Promises);
-    return base64Array;
+    const base64s = await Promise.all(base64Promises);
+    return base64s;
   };
 
   static copyToClipboard({ value, successToast, warningToast }: { 
