@@ -28,6 +28,7 @@ export function Navigation() {
     `/zapps/${appId}/family-tree`, 
     `/zapps/${appId}/gallery`, 
     `/zapps/${appId}/gallery/images`, 
+    `/zapps/${appId}/gallery/album`, 
     `/zapps/${appId}/calendar`, 
     `/zapps/${appId}/calendar/month`, 
     `/zapps/${appId}/social-posts`, 

@@ -21,6 +21,8 @@ import { MdFamilyRestroom } from "react-icons/md";
 import { GiGraveFlowers } from "react-icons/gi";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { IoQrCodeOutline } from "react-icons/io5";
+import { FaCheckCircle, FaCheck } from "react-icons/fa";
+import { FaRegSquareCheck } from "react-icons/fa6";
 
 export const CommonIcon = {
   Home: GoHomeFill,
@@ -79,4 +81,7 @@ export const CommonIcon = {
   Grave: GiGraveFlowers,
   Gallery: FaRegCalendarAlt,
   QRCode: IoQrCodeOutline,
+  CheckCircle: FaCheckCircle,
+  CheckSquare: FaRegSquareCheck,
+  Check: FaCheck,
 };

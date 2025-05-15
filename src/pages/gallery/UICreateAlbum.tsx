@@ -11,10 +11,12 @@ import { ServerResponse } from "types/server";
 export interface AlbumForm {
   id: number;
   name: string;
+  albumType: string;
+  date: string;
   description: string;
   eventId?: number;
   thumbnailPath: string;
-  thumbnailBase64: string;
+  thumbnailBase64?: string;
 }
 interface UICreateAlbumProps {
   onClose: () => void;
@@ -29,6 +31,7 @@ export function UICreateAlbum(props: UICreateAlbumProps) {
     name: "",
     description: "",
     eventId: 0,
+    albumType: "",
     thumbnailPath: "",
     thumbnailBase64: ""
   } as AlbumForm);

@@ -3,13 +3,11 @@ import { t } from "i18next";
 import { Button, Grid, Sheet } from "zmp-ui";
 
 import { GalleryApi } from "api";
+import { ServerResponse } from "types/server";
 import { useAppContext, useRouteNavigate } from "hooks";
 import { Card, CommonIcon, Header, Info, Loading } from "components";
 
-import { ServerResponse } from "types/server";
-
 import { AlbumForm, UICreateAlbum } from "./UICreateAlbum";
-import { UIGalleryAlbumDetail } from "./UIGalleryAlbumDetails";
 
 const albums = [
   {
@@ -37,14 +35,10 @@ const albums = [
 ]
 
 export function UIGalleryAlbums() {
-  const { albums, error, loading, refresh } = useGalleryAlbums();
+  const { error, loading, refresh } = useGalleryAlbums();
   const { goTo } = useRouteNavigate();
 
   const [ create, setCreate ] = React.useState<boolean>(false);
-
-  const goToImages = () => {
-    goTo({ path: "gallery/images" });
-  }
 
   const renderFooter = () => {
     return (
@@ -52,7 +46,7 @@ export function UIGalleryAlbums() {
         <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={() => setCreate(true)}>
           {t("add")}
         </Button>
-        <Button size="small" prefixIcon={<CommonIcon.Photo/>} onClick={goToImages}>
+        <Button size="small" prefixIcon={<CommonIcon.Photo/>} onClick={() => goTo({ path: "gallery/images" })}>
           {t("tất cả ảnh")}
         </Button>
       </div>
@@ -60,8 +54,11 @@ export function UIGalleryAlbums() {
   }
 
   const renderContainer = () => {
+    return (
+      <UIGalleryAlbumsGrid albums={albums} refresh={refresh}/>
+    )
 
-    const renderErrorContainer = () => {
+    const renderError = () => {
       return (
         <div className="flex-v">
           <Info title={t("Chưa có dữ liệu")}/>
@@ -77,12 +74,12 @@ export function UIGalleryAlbums() {
     if (loading) {
       return <Loading/>
     } else if (!albums.length) {
-      return renderErrorContainer()
+      return renderError()
     } else if (error) {
-      return renderErrorContainer()
+      return renderError()
     } else {
       return (
-        <UIGalleryAlbumsContainer albums={albums} refresh={refresh}/>
+        <UIGalleryAlbumsGrid albums={albums} refresh={refresh}/>
       )
     }
   }
@@ -113,65 +110,61 @@ export function UIGalleryAlbums() {
   )
 }
 
-interface UIGalleryAlbumsContainerProps {
+interface UIGalleryAlbumsGridProps {
   albums: any[];
   refresh: () => void;
 }
-function UIGalleryAlbumsContainer(props: UIGalleryAlbumsContainerProps) {
+function UIGalleryAlbumsGrid(props: UIGalleryAlbumsGridProps) {
   const { albums, refresh } = props;
   const { serverBaseUrl } = useAppContext();
-
-  const [ select, setSelect ] = React.useState<AlbumForm | null>(null);
+  const { goTo } = useRouteNavigate();
 
   const albumCards = React.useMemo(() => {
-    return albums.map((album, index) => (
+    return albums.map((album: AlbumForm, index: number) => (
       <Card
         key={`album-${index}`}
-        onClick={() => setSelect({
-          id: album.id,
-          name: album.name,
-          thumbnailPath: album.thumbnail,
-          description: album.description,
-          eventId: album.event_id,
-        } as AlbumForm)}
-        title={album.name}  
-        src={`${serverBaseUrl}/${album.thumbnail}`}
+        onClick={() => {
+          goTo({ path: "gallery/album", belongings: { album: album } })
+        }}
+        title={album.name}
+        src={`${serverBaseUrl}/${album.thumbnailPath}`}
         className="button box-shadow rounded p-2" height={"auto"}
       />
     ))
   }, [albums]);
 
   return (
-    <>
-      <Grid className="p-2" columnCount={2} rowSpace="0.5rem" columnSpace="0.5rem">
-        {albumCards}
-      </Grid>
-
-      <Sheet
-        title={t("Chi Tiết Album")}
-        visible={select ? true : false}  
-        onClose={() => setSelect(null)}
-        height={"85vh"}
-      >
-        <UIGalleryAlbumDetail 
-          album={select} 
-          onClose={() => setSelect(null)}
-          onReloadParent={() => refresh()}
-        />
-      </Sheet>
-    </>
+    <Grid className="p-2" columnCount={2} rowSpace="0.5rem" columnSpace="0.5rem">
+      {albumCards}
+    </Grid>
   )
 }
 
 function useGalleryAlbums() {
   const { userInfo } = useAppContext();
 
-  const [ albums, setAlbums ] = React.useState<any[]>([]);
+  const [ albums, setAlbums ] = React.useState<AlbumForm[]>([]);
   const [ loading, setLoading ] = React.useState(true);
   const [ error, setError ] = React.useState(false);
   const [ reload, setReload ] = React.useState(false);
 
   const refresh = () => setReload(!reload);
+
+  const mapAlbums = (albums: any[]) => {
+    let results: AlbumForm[] = [];
+    for (const album of albums) {
+      results.push({
+        id:             album.id,
+        name:           album.name,
+        thumbnailPath:  album.thumbnail,
+        description:    album.description,
+        albumType:      album.album_type,
+        date:           album.date,
+      })
+    }
+    return results;
+  }
+    
 
   React.useEffect(() => {
     setLoading(true);
@@ -182,7 +175,8 @@ function useGalleryAlbums() {
       setLoading(false);
       if (result.status === "success") {
         setError(false);
-        setAlbums(result.data);
+        const remapAlbums: AlbumForm[] = mapAlbums(result.data);
+        setAlbums(remapAlbums);
       } else {
         setError(true);
         setAlbums([]);
@@ -192,7 +186,7 @@ function useGalleryAlbums() {
       setLoading(false);
       setError(true);
     }
-    GalleryApi.getAlbums(userInfo.id, userInfo.clanId, success, fail);
+    GalleryApi.searchAlbums(userInfo.id, userInfo.clanId, success, fail);
   }, [reload]);
 
   return { albums, loading, error, refresh };

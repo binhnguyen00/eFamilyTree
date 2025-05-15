@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { App as ZaloApp } from "zmp-ui";
 import "zmp-ui/zaui.min.css";
+import "react-photo-view/dist/react-photo-view.css";
 
 import { AppRoutes } from "./routes";
 import { 

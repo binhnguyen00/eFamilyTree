@@ -4,7 +4,7 @@ import { SuccessCB, FailCB } from "types/server"
 
 export class GalleryApi extends BaseApi {
 
-  public static getAlbums(userId: number, clanId: number, successCB: SuccessCB, failCB?: FailCB) {
+  public static searchAlbums(userId: number, clanId: number, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
     const body = this.initBody({
       user_id: userId,
@@ -13,7 +13,7 @@ export class GalleryApi extends BaseApi {
     this.server.POST("gallery/albums", header, body, successCB, failCB);
   } 
 
-  public static getImages({ userId, clanId, fromDate, toDate, success, fail }: {
+  public static getAllImages({ userId, clanId, fromDate, toDate, success, fail }: {
     userId: number, clanId: number, fromDate: string, toDate: string, success: SuccessCB, fail?: FailCB
   }) {
     const header = this.initHeader();
@@ -26,14 +26,16 @@ export class GalleryApi extends BaseApi {
     this.server.POST("gallery/images", header, body, success, fail);
   }
 
-  public static getImagesByAlbum(userId: number, clanId: number, albumId: number, successCB: SuccessCB, failCB?: FailCB) {
+  public static getImagesByAlbum({ userId, clanId, albumId, success, fail }: {
+    userId: number, clanId: number, albumId: number, success: SuccessCB, fail?: FailCB
+  }) {
     const header = this.initHeader();
     const body = this.initBody({
       user_id: userId,
       clan_id: clanId,
       album_id: albumId
     })
-    this.server.POST("gallery/images-by-album", header, body, successCB, failCB);
+    this.server.POST("gallery/images-by-album", header, body, success, fail);
   }
 
   public static createAlbum({ userId, clanId, album, success, fail }: {
@@ -83,7 +85,7 @@ export class GalleryApi extends BaseApi {
     this.server.POST("gallery/album/save", header, body, success, fail);
   }
 
-  public static addImagesToAlbum({ userId, clanId, albumId, base64s, success, fail }: {
+  public static addPhotosToAlbum({ userId, clanId, albumId, base64s, success, fail }: {
     userId: number, clanId: number, albumId: number, base64s: string[], success: SuccessCB, fail?: FailCB
   }) {
     const header = this.initHeader();
@@ -96,15 +98,15 @@ export class GalleryApi extends BaseApi {
     this.server.POST("gallery/album/images/add", header, body, success, fail);
   }
 
-  public static removeImagesFromAlbum({ userId, clanId, albumId, imagePaths, success, fail }: {
-    userId: number, clanId: number, albumId: number, imagePaths: string[], success: SuccessCB, fail?: FailCB
+  public static removeImagesFromAlbum({ userId, clanId, albumId, photoIds, success, fail }: {
+    userId: number, clanId: number, albumId: number, photoIds: number[], success: SuccessCB, fail?: FailCB
   }) {
     const header = this.initHeader();
     const body = this.initBody({
       user_id: userId,
       clan_id: clanId,
       album_id: albumId,
-      images: imagePaths
+      photo_ids: photoIds
     })
     this.server.POST("gallery/album/images/remove", header, body, success, fail);
   }

@@ -107,7 +107,7 @@ function useGalleryImages() {
     setError(false);
     setImages([])
     
-    GalleryApi.getImages({
+    GalleryApi.getAllImages({
       userId: userInfo.id,
       clanId: userInfo.clanId,
       fromDate: "",

@@ -26,6 +26,7 @@ import { UIMap } from "pages/memorial-map/UIMap";
 
 import { useRouteNavigate } from "hooks";
 import { UIGalleryImages } from "./gallery/UIGalleryImages";
+import { UIGalleryAlbum } from "./gallery/UIGalleryAlbum";
 
 // Demo components (React.lazy loaded)
 const UIDummyFund = React.lazy(() => import("./dummy/UIDummyFund"));
@@ -51,6 +52,7 @@ export function AppRoutes() {
       {/* APP */}
       <Route path={createPath("gallery")} element={<UIGallery />}/>
       <Route path={createPath("gallery/images")} element={<UIGalleryImages />}/>
+      <Route path={createPath("gallery/album")} element={<UIGalleryAlbum />}/>
 
       <Route path={createPath("calendar")} element={<UICalendar />} />
       <Route path={createPath("calendar/month")} element={<UIMonthCalendar />} />
