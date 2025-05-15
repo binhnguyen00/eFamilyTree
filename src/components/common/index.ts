@@ -5,6 +5,7 @@ import { SizedBox } from "./SizedBox";
 import { Navigation } from "./Navigation";
 import { RequestPhone } from "./RequestPhone";
 import { Info } from "./Info";
+import { Retry } from "./Retry";
 import { ScrollableDiv } from "./ScrollableDiv";
 import { Card } from "./Card";
 import { Popover } from "./Popover";
@@ -17,7 +18,7 @@ export {
   Loading, Info,
   Divider, ImageWithText, Navigation, RequestPhone,
   SizedBox, ScrollableDiv, Card, Popover, RequestLocation,
-  Selection, Label, TailSpin, Title
+  Selection, Label, TailSpin, Title, Retry
 };
 
 export type {
