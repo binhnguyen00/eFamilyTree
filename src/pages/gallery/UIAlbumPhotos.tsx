@@ -243,7 +243,7 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
         <div ref={imageSectionRef} className="h-0"/>
   
         <div style={{ zIndex: 999 }} className={`scroll-h sticky top-0 py-3 ${withEase}`}>
-          <Text size={isTitleSticky ? "small" : "xLarge"} style={minWidth} className="bold flex-h content-center align-start box-shadow" onClick={onSelectAllPhotos}>
+          <Text size={isTitleSticky ? "small" : "xLarge"} style={minWidth} className="bold flex-h content-center align-start" onClick={onSelectAllPhotos}>
             {isSelecting ? (
               <p className={`${withEase} ${bgColor}`}> {`${t("Chọn")} (${selectedPhotos.length})`} </p>
             ) : (

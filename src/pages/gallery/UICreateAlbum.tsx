@@ -24,8 +24,9 @@ interface UICreateAlbumProps {
 }
 export function UICreateAlbum(props: UICreateAlbumProps) {
   const { onClose, onReloadParent} = props; 
-  const { dangerToast, successToast } = useNotification();
+  const { dangerToast, successToast, warningToast } = useNotification();
   const { userInfo } = useAppContext();
+  const fallbackThumbnail = "https://fakeimg.pl/1920x1080?font=roboto";
   
   const observer = useBeanObserver({
     name: "",
@@ -53,7 +54,7 @@ export function UICreateAlbum(props: UICreateAlbumProps) {
     return base64Array;
   };
 
-  const onChooseAvatar = () => {
+  const onChooseThumbnail = () => {
     ZmpSDK.chooseImage({
       howMany: 1,
       success: async (files: any[]) => {
@@ -75,7 +76,7 @@ export function UICreateAlbum(props: UICreateAlbumProps) {
 
   const onCreate = () => {
     if (!observer.getFieldValue("name")) {
-      dangerToast(t("nhập đủ thông tin"));
+      warningToast(t("nhập đủ thông tin"));
       return;
     }
 
@@ -104,11 +105,15 @@ export function UICreateAlbum(props: UICreateAlbumProps) {
         <img
           className="rounded"
           style={{ width: "85vw", height: "12rem", objectFit: "cover" }}
-          src={observer.getBean().thumbnailPath}
-          onError={(e) => e.currentTarget.src = "https://fakeimg.pl/600x400?text=Avatar"}
+          src={observer.getBean().thumbnailPath || fallbackThumbnail}
+          onError={(e) => {
+            if (e.currentTarget.src !== fallbackThumbnail) {
+              e.currentTarget.src = fallbackThumbnail;
+            }
+          }}
         />
-        <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onChooseAvatar}>
-          {observer.getFieldValue("thumbnailPath") ? t("Ảnh Khác") : t("Thêm")}
+        <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onChooseThumbnail}>
+          {observer.getFieldValue("thumbnailPath") ? t("sửa") : t("add")}
         </Button>
       </div>
 
@@ -121,9 +126,8 @@ export function UICreateAlbum(props: UICreateAlbumProps) {
         value={observer.getBean().description} 
         onChange={(e) => observer.update("description", e.target.value)}
       />
-      <Text.Title> {t("Hành Động")} </Text.Title>
-      <div>
-        <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onCreate}>
+      <div className="center">
+        <Button size="small" style={{ width: 150 }} prefixIcon={<CommonIcon.Save/>} onClick={onCreate}>
           {t("Lưu")}
         </Button>
       </div>

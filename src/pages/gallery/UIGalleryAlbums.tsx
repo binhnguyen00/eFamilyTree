@@ -134,7 +134,7 @@ function UIGalleryAlbumsGrid(props: UIGalleryAlbumsGridProps) {
   }, [albums]);
 
   return (
-    <Grid className="p-2" columnCount={2} rowSpace="0.5rem" columnSpace="0.5rem">
+    <Grid className="p-2" columnCount={1} rowSpace="1rem">
       {albumCards}
     </Grid>
   )
