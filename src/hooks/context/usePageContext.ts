@@ -11,7 +11,7 @@ export function usePageContext(module: Module) {
   const { userInfo }  = useAppContext();
 
   const [ context, setContext ] = React.useState<any>({
-    module: "",
+    module: module,
     capability: Capability.READ
   });
 
