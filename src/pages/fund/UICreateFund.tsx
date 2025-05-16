@@ -2,13 +2,13 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Input, Sheet } from "zmp-ui";
 
-import { FundQR } from "./UIFundQR";;
-import { CommonIcon, ScrollableDiv, Selection, SelectionOption } from "components";
-import { ServerResponse } from "types/server";
-import { CommonUtils, ZmpSDK } from "utils";
-import { useAppContext, useBeanObserver, useNotification } from "hooks";
 import { FundApi } from "api";
-import { useGetActiveMembers } from "pages/family-tree/UIFamilyTree";
+import { CommonUtils, ZmpSDK } from "utils";
+import { ServerResponse } from "types/server";
+import { useAppContext, useBeanObserver, useNotification, useFamilyTree } from "hooks";
+import { CommonIcon, ScrollableDiv, Selection, SelectionOption } from "components";
+
+import { FundQR } from "./UIFundQR";;
 
 export interface CreateFundForm {
   name: string;
@@ -22,6 +22,7 @@ interface UICreateFundProps {
 export function UICreateFund(props: UICreateFundProps) {
   const { visible, onClose, reloadParent } = props;
   const { userInfo } = useAppContext();
+  const { useGetActiveMembers } = useFamilyTree();
   const { loadingToast, dangerToast } = useNotification();
   const { activeMembers } = useGetActiveMembers(userInfo.id, userInfo.clanId);
 

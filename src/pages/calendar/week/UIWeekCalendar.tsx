@@ -2,15 +2,14 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Sheet } from "zmp-ui";
 
-import { CalendarApi, FamilyTreeApi } from "api";
-import { useAppContext, useRouteNavigate } from "hooks";
+import { CalendarApi } from "api";
+import { useAppContext, useRouteNavigate, useFamilyTree } from "hooks";
 import { CalendarUtils, DateTimeUtils, StyleUtils } from "utils";
 import { CommonIcon, ScrollableDiv, WeekCalendar } from "components";
 
 import { ServerResponse } from "types/server";
 import { UIEventList } from "./UIEventList";
 import { UICreate } from "./UICreate";
-import { useGetActiveMembers } from "pages/family-tree/UIFamilyTree";
 
 // import events from "../../dummy/sample/events.json"
 
@@ -44,6 +43,8 @@ function useWeekEvents(userId: number, clanId: number, navigateDay: Date) {
 export function UIWeekCalendar() {
   const { userInfo } = useAppContext();
   const { goTo } = useRouteNavigate();
+  const { useGetActiveMembers } = useFamilyTree();
+
   const [ navigateDay, setNavigateDay ] = React.useState<Date>(new Date());
   const [ create, setCreate ] = React.useState<boolean>(false);
   const [ selectedDate, setSelectedDate ] = React.useState<string>("");

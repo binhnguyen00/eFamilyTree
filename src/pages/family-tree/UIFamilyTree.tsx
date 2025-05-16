@@ -3,84 +3,21 @@ import { t } from "i18next";
 import { Button } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
-import { useAppContext, useNotification } from "hooks";
-import { TreeUtils, TreeDataProcessor } from "utils";
-import { Header, TreeNode, FamilyTree, TreeConfig, Loading, Info, CommonIcon } from "components";
-
-import { ExtNode, Node } from "components/tree-relatives/types";
 import { ServerResponse } from "types/server";
+import { ExtNode, Node } from "components/tree-relatives/types";
+import { TreeUtils, TreeDataProcessor } from "utils";
+import { useAppContext, useFamilyTree, useNotification } from "hooks";
+import { Header, TreeNode, FamilyTree, TreeConfig, Loading, Info, CommonIcon } from "components";
 
 import { UICreateSpouse } from "./UICreateSpouse";
 import { UICreateChild } from "./UICreateChild";
 import { UICreateRoot } from "./UICreateRoot";
 import { UICreateSibling } from "./UICreateSibling";
 import { CreateMode, Member, UITreeMemberDetails } from "./UIFamilyTreeDetails";
-import { ServerNodeFormat } from "utils/TreeDataProcessor";
-
-export function useGetActiveMembers(userId: number, clanId: number) {
-  const [ activeMembers, setActiveMembers ] = React.useState<{ value: number, label: string }[]>([]);
-
-  React.useEffect(() => {
-    FamilyTreeApi.getActiveMemberIds({
-      userId: userId,
-      clanId: clanId,
-      success: (result: ServerResponse) => {
-        if (result.status === "success") {
-          const data: any[] = result.data;
-          const members = data.map((member, idx) => {
-            return { value: member.id, label: member.name }
-          })
-          setActiveMembers(members);
-        }
-      }
-    })
-  }, [ userId, clanId ])
-
-  const memoizedActiveMembers = React.useMemo(() => activeMembers, [activeMembers]);
-
-  return { activeMembers: memoizedActiveMembers };
-}
-
-export function useFamilyTree() {
-  const { userInfo } = useAppContext();
-
-  const [ processor, setProcessor ] = React.useState<TreeDataProcessor>(new TreeDataProcessor([]));
-  const [ loading, setLoading ] = React.useState(true);
-  const [ error, setError ] = React.useState(false);
-  const [ reload, setReload ] = React.useState(false);
-
-  const refresh = () => setReload(!reload);
-
-  React.useEffect(() => {
-    setLoading(true);
-    setError(false);
-    setProcessor(new TreeDataProcessor([]))
-    
-    FamilyTreeApi.searchMembers({
-      userId: userInfo.id,
-      clanId: userInfo.clanId,
-      success: (result: ServerResponse) => {
-        setLoading(false);
-        if (result.status === "error") {
-          setError(true);
-        } else {
-          const data = result.data as ServerNodeFormat[];
-          const treeProcessor = new TreeDataProcessor(data);
-          setProcessor(treeProcessor);
-        }
-      }, 
-      fail: () => {
-        setLoading(false);
-        setError(true);
-      }
-    });
-  }, [ reload ]);
-
-  return { processor, loading, error, refresh }
-}
 
 export function UIFamilyTree() {
-  const { processor, error, loading, refresh } = useFamilyTree();
+  const { useSearchFamilyTree } = useFamilyTree();
+  const { processor, error, loading, refresh } = useSearchFamilyTree();
 
   const renderContainer = () => {
     if (loading) {

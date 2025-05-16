@@ -9,7 +9,6 @@ import { BeanObserver, CommonIcon, ScrollableDiv } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 
 import { FundInfo } from "./UIFundInfo";
-import { useGetActiveMembers } from "pages/family-tree/UIFamilyTree";
 
 export interface FundQR {
   accountNumber: string;

@@ -26,7 +26,8 @@ export function UICreateHallOfFame(props: UICreateHallOfFameProps) {
   const { visible, onClose, onReloadParent, hallOfFameTypeId } = props;
   const { userInfo } = useAppContext();
   const { dangerToast, loadingToast } = useNotification();
-  const { processor, loading, error, refresh } = useFamilyTree();
+  const { useSearchFamilyTree } = useFamilyTree();
+  const { processor, loading, error, refresh } = useSearchFamilyTree();
 
   const observer = useBeanObserver({
     typeId: hallOfFameTypeId,

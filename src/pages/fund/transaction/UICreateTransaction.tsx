@@ -5,8 +5,7 @@ import { Button, DatePicker, Input, Sheet } from "zmp-ui";
 import { FundApi } from "api";
 import { DateTimeUtils } from "utils";
 import { ServerResponse } from "types/server";
-import { useGetActiveMembers } from "pages/family-tree/UIFamilyTree";
-import { useAppContext, useBeanObserver, useNotification } from "hooks";
+import { useAppContext, useBeanObserver, useNotification, useFamilyTree } from "hooks";
 import { CommonIcon, InputMonetary, ScrollableDiv, Selection, SelectionOption } from "components";
 
 import { FundLine } from "../UIFunds";
@@ -24,6 +23,7 @@ export function UICreateTransaction(props: UICreateTransactionProps) {
   const { fundId, visible, transactionType, onClose, onCreate } = props;
   const { userInfo } = useAppContext();
   const { loadingToast, warningToast } = useNotification();
+  const { useGetActiveMembers } = useFamilyTree();
   const { activeMembers } = useGetActiveMembers(userInfo.id, userInfo.clanId);
 
   const isIncome = transactionType === "income";

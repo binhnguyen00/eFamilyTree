@@ -10,10 +10,10 @@ import { useNotification } from "./useNotification";
 import { useBeanObserver } from "./useBeanObserver";
 import { useZaloSettings } from "./useZaloSettings";
 import { useClanMemberInfo } from "./useClanMemberInfo";
-import { useFamilyTree } from "../pages/family-tree/UIFamilyTree";
 import { useRequestPhoneContext } from "./context/useRequestPhoneContext";
 import { useRequestLocationContext } from "./context/useRequestLocationContext";
 import { useOverlayContext } from "./context/useOverlayContext";
+import { useFamilyTree } from "./useFamilyTree";
 
 export { 
   useTheme, 
@@ -25,7 +25,7 @@ export {
   useNotification,
   useBeanObserver,
   useZaloSettings,
-  useFamilyTree,
   useClanMemberInfo,
   useOverlayContext,
+  useFamilyTree,
 };
