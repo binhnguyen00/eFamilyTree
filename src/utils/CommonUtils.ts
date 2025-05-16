@@ -1,4 +1,5 @@
 import { t } from "i18next";
+import { Photo } from "pages/gallery/UIAlbumPhotos";
 
 export class CommonUtils {
 
@@ -76,4 +77,15 @@ export class CommonUtils {
     if (!num) return "0";
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
+
+  static convertToPhoto(raws: any[], parentField: string): Photo[] {
+    if (!raws.length) return [];
+    return raws.map(raw => {
+      return {
+        id       : raw["id"],
+        url      : raw["url"],
+        parentId : raw[parentField],
+      }
+    })
+  }
 }
