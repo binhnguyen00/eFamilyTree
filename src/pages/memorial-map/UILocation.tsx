@@ -1,19 +1,16 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Input, Modal, Sheet, Text } from "zmp-ui";
-import { Gallery } from "react-grid-gallery";
-import { Lightbox } from "yet-another-react-lightbox";
-import { Zoom, Thumbnails, Counter } from "yet-another-react-lightbox/plugins";
-import "yet-another-react-lightbox/styles.css";
-import "yet-another-react-lightbox/plugins/thumbnails.css";
+import { v4 as uuid } from "uuid";
+import { ToastContent } from "react-toastify";
+import { PhotoProvider, PhotoView } from "react-photo-view"
+import { Button, Grid, Input, Modal, Sheet, Text } from "zmp-ui";
 
-import { StyleUtils } from "utils";
-import { FamilyTreeApi, MemorialMapApi } from "api";
-import { useNotification, useAppContext, useBeanObserver } from "hooks";
-import { BeanObserver, CommonIcon, Label, Selection, SelectionOption } from "components";
-
+import { MemorialMapApi } from "api";
 import { ServerResponse } from "types/server";
-import { GalleryImage } from "pages/gallery/UIPhotos";
+import { Photo } from "pages/gallery/UIAlbumPhotos";
+import { CommonUtils, StyleUtils, ZmpSDK } from "utils";
+import { useNotification, useAppContext, useBeanObserver, useFamilyTree } from "hooks";
+import { BeanObserver, CommonIcon, Label, Selection, SelectionOption, SizedBox } from "components";
 
 import { MemorialLocation } from "./UIMap";
 
@@ -36,7 +33,7 @@ export function UILocation(props: UILocationProps) {
     description:  data.description,
     coordinate:   data.coordinate,
     clanId:       data.clanId,
-    images:       data.images,
+    photoUrl:     data.photoUrl,
     memberId:     data.memberId,
     memberName:   data.memberName,
   } as MemorialLocation);
@@ -60,7 +57,12 @@ export function UILocation(props: UILocationProps) {
           dangerToastCB(`${t("delete")} ${t("fail")}`);
           onClose();
         }
-        MemorialMapApi.delete({userId: userInfo.id, clanId: userInfo.clanId, targetId: observer.getBean().id}, success, fail);
+        MemorialMapApi.delete({
+          userId: userInfo.id, 
+          clanId: userInfo.clanId, 
+          targetId: observer.getBean().id}, 
+          success, fail
+        );
       }
     })
   }
@@ -80,7 +82,6 @@ export function UILocation(props: UILocationProps) {
               dangerToastCB(`${t("save")} ${t("fail")}`);
             } else {
               successToastCB(`${t("save")} ${t("success")}`);
-              onClose();
               if (onReloadParent) onReloadParent();
             }
           }, 
@@ -123,6 +124,7 @@ interface UIMemorialLocationFormProps {
 }
 function UIMemorialLocationForm(props: UIMemorialLocationFormProps) {
   const { onDelete, onSave, observer } = props;
+  const { useDeadMembers } = useFamilyTree();
   const { members } = useDeadMembers();
 
   return (
@@ -155,24 +157,21 @@ function UIMemorialLocationForm(props: UIMemorialLocationFormProps) {
         onChange={(e) => observer.update("description", e.target.value)}
       />
 
-      <ImageSelector observer={observer}/>
+      <UIPhotoSelector observer={observer}/>
 
-      <div className="flex-v">
-        <Text.Title className="text-capitalize text-primary py-2"> {t("hành động")} </Text.Title>
-        <div className="scroll-h">
-          <Button 
-            variant="primary" size="small" 
-            onClick={onSave} prefixIcon={<CommonIcon.Save/>}
-          >
-            {t("save")}
-          </Button>
-          <Button 
-            variant="primary" size="small" 
-            onClick={onDelete} prefixIcon={<CommonIcon.Trash/>}
-          >
-            {t("delete")}
-          </Button>
-        </div>
+      <div className="scroll-h">
+        <Button 
+          variant="primary" size="small" 
+          onClick={onSave} prefixIcon={<CommonIcon.Save/>}
+        >
+          {t("save")}
+        </Button>
+        <Button 
+          variant="primary" size="small" 
+          onClick={onDelete} prefixIcon={<CommonIcon.Trash/>}
+        >
+          {t("delete")}
+        </Button>
       </div>
     </div>
   )
@@ -181,99 +180,169 @@ function UIMemorialLocationForm(props: UIMemorialLocationFormProps) {
 interface ImageSelectorProps {
   observer: BeanObserver<MemorialLocation>;
 }
-function ImageSelector(props: ImageSelectorProps) {
+export function UIPhotoSelector(props: ImageSelectorProps) {
   const { observer } = props;
-  const { serverBaseUrl } = useAppContext();
+  const { userInfo, serverBaseUrl } = useAppContext();
+  const { warningToast, dangerToast, successToast } = useNotification();
+  const { photoWidth, photoHeight } = { photoWidth: 100, photoHeight: 100 }
 
-  const [ index, setIndex ] = React.useState(-1);
+  const [ isSelecting, setIsSelecting ] = React.useState<boolean>(false);
+  const [ selectedPhotos, setSelectedPhotos ] = React.useState<Photo[]>([]);
+  const [ photos, setPhotos ] = React.useState<Photo[]>(observer.getBean().photos || []);
 
-  const remapImgs = (images: string[] | any) => {
-    if (!images) return [];
-    return images.map((imgPath: string) => ({
-      src: `${serverBaseUrl}/${imgPath}`,
-      width: 100,
-      height: 100,
-      imageFit: "contain",
-    })) as GalleryImage[];
+  const withEase: string = "transition-all duration-300 ease-in-out hover:scale-105";
+
+  const onSavePhotos = (base64s: string[], successCB: (message: ToastContent) => void, dangerCB: (message: ToastContent) => void) => { 
+    MemorialMapApi.updatePhotos({
+      userId  : userInfo.id,
+      clanId  : userInfo.clanId,
+      id      : observer.getBean().id,
+      photos  : base64s,
+      success: (response: ServerResponse) => {
+        if (response.status === "success") {
+          const raws: any[] = response.data;
+          const photos: Photo[] = CommonUtils.convertToPhoto(raws, "location_id");
+          setPhotos(photos);
+          successCB(t("lưu thành công"));
+        } else {
+          dangerCB(t("lưu thất bại"));
+        }
+      },
+      fail: () => {
+        dangerCB(t("lưu thất bại"));
+      }
+    })
   }
 
-  const imgs = React.useMemo(() => {
-    return remapImgs(observer.getBean().images);
-  }, [ observer.getBean().images ]);
+  const onRemovePhotos = async (): Promise<void> => {
+    if (selectedPhotos.length === 0) {
+      warningToast(t("chọn ít nhất 1 ảnh"));
+      return;
+    }
+    try {
+      const remainingPhotos: Photo[] = photos.filter(
+        (photo) => !selectedPhotos.some((p) => p.id === photo.id)
+      );
+      setPhotos(remainingPhotos);
+      MemorialMapApi.removePhotos({
+        userId  : userInfo.id,
+        clanId  : userInfo.clanId,
+        id      : observer.getBean().id,
+        photoIds: selectedPhotos.map(photo => photo.id),
+        success: () => {
+          successToast(t("xóa ảnh thành công"));
+        },
+        fail: () => {
+          dangerToast(t("xóa ảnh thất bại, vui lòng thử lại"));
+        }
+      })
+      setSelectedPhotos([]);
+      setIsSelecting(false);
+    } catch (error) {
+      dangerToast(t("xóa ảnh thất bại, vui lòng thử lại"));
+    }
+  };
 
-  const renderImages = () => {
-    if (!imgs.length) return;
-    return (
-      <>
-        <Gallery 
-          images={imgs} 
-          onClick={(index) => setIndex(index)} 
-          enableImageSelection={false} 
-          rowHeight={100}
-        />
-        <Lightbox
-          slides={imgs}
-          open={index >= 0}
-          index={index}
-          close={() => setIndex(-1)}
-          plugins={[Zoom, Thumbnails, Counter]}
-          zoom={{
-            scrollToZoom: true,
-            maxZoomPixelRatio: 50,
-          }}
-        />
-      </>
-    )
+  const onAddPhotos = () => {
+    ZmpSDK.chooseImage({
+      howMany: 5, 
+      success: async (files: any[]) => {
+        if (photos.length + files.length > 5) {
+          dangerToast(t("chọn tối đa 5 ảnh"));
+          return;
+        }
+        const urls: string[] = [ 
+          ...photos.map(photo => photo.url), 
+          ...files.map(file => file.path) 
+        ];
+        const base64s = await CommonUtils.blobUrlsToBase64s(urls);
+        onSavePhotos(base64s, successToast, dangerToast);
+      },
+      fail: () => dangerToast(t("chọn tối đa 5 ảnh"))
+    });
   }
+
+  const onSelectionMode = (): void => {
+    setIsSelecting(!isSelecting);
+    if (!isSelecting) {
+      setSelectedPhotos([]);
+    }
+  };
+
+  const onSelectPhoto = (photo: Photo): void => {
+    if (!isSelecting) return;
+    setSelectedPhotos((prev) => {
+      if (prev.some((p) => p.id === photo.id)) {
+        return prev.filter((p) => p.id !== photo.id);
+      } else {
+        return [...prev, photo];
+      }
+    });
+  };
+
+  const renderPhotos = (): React.ReactNode => {
+    return photos.map((photo: Photo) => {
+      const isSelected: boolean = selectedPhotos.some((p) => p.id === photo.id);
+      return (
+        <div key={photo.id} className="relative" onClick={() => onSelectPhoto(photo)}>
+          {isSelecting ? (
+            <>
+              <img
+                src={`${serverBaseUrl}/${photo.url}`}
+                className="object-cover transition-opacity duration-300 ease-in-out hover:opacity-90"
+                style={{ width: photoWidth, height: photoHeight }}
+              />
+              <div
+                className={`absolute bottom-2 left-2 w-7 h-7 rounded-full ${
+                  isSelected ? 'bg-primary' : 'bg-white/50'
+                }`}
+              >
+                {isSelected && <CommonIcon.CheckCircle className="text-white w-7 h-7" />}
+              </div>
+            </>
+          ) : (
+            <PhotoView src={`${serverBaseUrl}/${photo.url}`} key={photo.id}>
+              <img
+                src={`${serverBaseUrl}/${photo.url}`}
+                className="object-cover transition-opacity duration-300 ease-in-out hover:opacity-90"
+                style={{ width: photoWidth, height: photoHeight }}
+              />
+            </PhotoView>
+          )}
+        </div>
+      );
+    });
+  };
+
 
   return (
     <div className="flex-v flex-grow-0">
-      <label> {t("Ảnh")} </label>
-      {renderImages()}
+      <div className="flex-h flex-grow-0 justify-between">
+        <Text size={"small"} className="bold flex-h content-center align-start" style={{ minWidth: 120 }}>{`${t("Ảnh")} (${photos.length})`}</Text>
+        <div className="flex-h">
+          <Button size="small" className={withEase} variant="tertiary" prefixIcon={isSelecting && <CommonIcon.Check />} onClick={onSelectionMode}>
+            {isSelecting ? t("xong") : t("select")}
+          </Button>
+          {isSelecting && selectedPhotos.length > 0 && (
+            <Button size="small" className={withEase} variant="tertiary" prefixIcon={<CommonIcon.RemovePhoto />} onClick={onRemovePhotos}>
+              {t("delete")}
+            </Button>
+          )}
+        </div>
+      </div>
+      <PhotoProvider maskOpacity={0.5} maskClosable pullClosable bannerVisible={false}>
+        <Grid columnCount={3} rowSpace="1rem" columnSpace="1rem">
+          {renderPhotos()}
+          {photos.length < 5 && (
+            <SizedBox
+              className={`${withEase} button flex-h text-underline`}
+              width={photoWidth} height={photoHeight} onClick={onAddPhotos}
+            >
+              <CommonIcon.AddPhoto /> {t("add")}
+            </SizedBox>
+          )}
+        </Grid>
+      </PhotoProvider>
     </div>
   )
-}
-
-export function useDeadMembers() {
-  const { userInfo } = useAppContext();
-
-  const [ members, setDeadMembers ] = React.useState<SelectionOption[]>([]);
-  const [ loading, setLoading ] = React.useState<boolean>(true);
-  const [ error, setError ] = React.useState<boolean>(false);
-  const [ reload, setReload ] = React.useState<boolean>(false);
-
-  const refresh = () => setReload(!reload);
-
-  React.useEffect(() => {
-    setLoading(true);
-    setError(false);
-    setDeadMembers([]);
-
-    FamilyTreeApi.searchDeadMember({
-      userId: userInfo.id, 
-      clanId: userInfo.clanId,
-      success: (result: ServerResponse) => {
-        setLoading(false)
-        if (result.status === "success") {
-          const data = result.data as any[];
-          const deadMembers = data.map((dead, idx) => {
-            return {
-              value: dead.id,
-              label: `${dead.name}`,
-            } as SelectionOption
-          })
-          setDeadMembers(deadMembers);
-        } else {
-          setLoading(false)
-          setError(true);
-        }
-      }, 
-      fail: () => {
-        setLoading(false)
-        setError(true);
-      }
-    });
-  }, [ reload ]);
-
-  return { members, loading, error, refresh }
 }

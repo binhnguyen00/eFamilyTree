@@ -68,7 +68,7 @@ function useSearchAlbumPhotos(albumId: number) {
 export function UIAlbumPhotos({ albumId }: { albumId: number }) {
   const { photos, loading, error, refresh } = useSearchAlbumPhotos(albumId);
   const { userInfo, serverBaseUrl } = useAppContext();
-  const { dangerToast, loadingToast } = useNotification();
+  const { dangerToast, loadingToast, warningToast } = useNotification();
 
   const [ isSelecting, setIsSelecting ] = React.useState(false);
   const [ selectedPhotos, setSelectedPhotos ] = React.useState<number[]>([]);
@@ -100,7 +100,7 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
     };
   }, []);
 
-  const togglePhotoSelection = (photo: Photo) => {
+  const onSelectPhoto = (photo: Photo) => {
     if (!isSelecting) return;
     setSelectedPhotos(prev => {
       if (prev.includes(photo.id)) {
@@ -115,17 +115,17 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
     return photos.map((photo: Photo) => {
       const isSelected: boolean = selectedPhotos.includes(photo.id);
       return (
-        <div key={photo.id} className="relative" onClick={() => togglePhotoSelection(photo)}>
+        <div key={photo.id} className="relative" onClick={() => onSelectPhoto(photo)}>
           {isSelecting ? (
             <>
-              <img src={`${serverBaseUrl}/${photo.url}`}/>
+              <img src={`${serverBaseUrl}/${photo.url}`} className="object-cover"/>
               <div className={`absolute bottom-2 left-2 w-7 h-7 rounded-full ${withEase} ${isSelected ? 'bg-primary' : 'bg-white/50'}`}>
                 {isSelected && <CommonIcon.CheckCircle className="text-white w-7 h-7"/>}
               </div>
             </>
           ): (
             <PhotoView src={`${serverBaseUrl}/${photo.url}`} key={photo.id}>
-              <img src={`${serverBaseUrl}/${photo.url}`}/>
+              <img src={`${serverBaseUrl}/${photo.url}`} className="object-cover"/>
             </PhotoView>
           )}
         </div>
@@ -133,7 +133,7 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
     })
   }
 
-  const onSelectPhotos = () => {
+  const onSelectionMode = () => {
     setIsSelecting(!isSelecting);
     if (!isSelecting) {
       setSelectedPhotos([]);
@@ -151,7 +151,7 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
 
   const onDeletePhotos = () => {
     if (selectedPhotos.length === 0) {
-      dangerToast(t("chọn ít nhất 1 ảnh"));
+      warningToast(t("chọn ít nhất 1 ảnh"));
       return;
     }
 
@@ -259,7 +259,7 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
             )}
   
             {photos.length > 0 && (
-              <Button size="small" className={`${easeIn} ${withEase} ${bgColor}`} variant={isTitleSticky ? "secondary" : "tertiary"} style={minWidth} prefixIcon={isSelecting && <CommonIcon.Check/>} onClick={onSelectPhotos}>
+              <Button size="small" className={`${easeIn} ${withEase} ${bgColor}`} variant={isTitleSticky ? "secondary" : "tertiary"} style={minWidth} prefixIcon={isSelecting && <CommonIcon.Check/>} onClick={onSelectionMode}>
                 {isSelecting ? t("xong") : t("select")}
               </Button>
             )}

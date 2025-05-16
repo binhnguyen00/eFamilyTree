@@ -15,7 +15,7 @@ export type MapMarker = {
   name: string;
   description?: string;
   coordinate: MapCoordinate;
-  images: string[];
+  photoUrl?: string[]; // TODO: use photos in MemorialLocation
 }
 
 export type MapCoordinate = {

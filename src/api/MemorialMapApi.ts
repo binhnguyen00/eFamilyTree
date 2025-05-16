@@ -26,7 +26,7 @@ export class MemorialMapApi extends BaseApi {
         description:  record.description,
         lat:          record.coordinate.lat.toString(),
         lng:          record.coordinate.lng.toString(),
-        images:       record.images, // TODO: send base64 instead of image url
+        images:       record.photoUrl,
         clan_id:      record.clanId,
         member_id:    record.memberId,
       }
@@ -74,5 +74,31 @@ export class MemorialMapApi extends BaseApi {
       id: params.targetId,
     })
     this.server.POST("memorial/location/delete", header, body, successCB, failCB);
+  }
+
+  public static updatePhotos({ userId, clanId, id, photos, success, fail }: {
+    userId: number, clanId: number, id: number, photos: string[], success: SuccessCB, fail?: FailCB
+  }) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      user_id: userId,
+      clan_id: clanId,
+      id: id,
+      images: photos,
+    })
+    this.server.POST("memorial/location/images/save", header, body, success, fail);
+  }
+
+  public static removePhotos({ userId, clanId, id, photoIds, success, fail }: {
+    userId: number, clanId: number, id: number, photoIds: number[], success: SuccessCB, fail?: FailCB
+  }) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      user_id: userId,
+      clan_id: clanId,
+      id: id,
+      photo_ids: photoIds,
+    })
+    this.server.POST("memorial/location/images/remove", header, body, success, fail);
   }
 }

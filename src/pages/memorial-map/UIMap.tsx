@@ -17,6 +17,7 @@ import { UILocation } from "./UILocation";
 import { UICreateLocationForm } from "./UICreateLocation";
 import { MapTerrainButtons } from "./buttons/UIMapTerrainButtons";
 import { QuickCreateLocationButton } from "./buttons/UIQuickCreateButton";
+import { Photo } from "pages/gallery/UIAlbumPhotos";
 
 // ==============================
 // Hooks
@@ -70,6 +71,7 @@ export interface MemorialLocation extends MapMarker {
   clanId: number;
   memberId?: number;
   memberName?: string;
+  photos?: Photo[];
 }
 
 function useMap() {
@@ -102,7 +104,7 @@ function useMap() {
                 lat: parseFloat(location.lat),
                 lng: parseFloat(location.lng)
               },
-              images:       location.images,
+              photoUrl:       location.images,
               memberId:     location.member_id,
               memberName:   location.member_name,
             } as MemorialLocation;
@@ -171,7 +173,7 @@ export function UIMap() {
                 clanId:       data.clan_id,
                 memberId:     data.member_id,
                 memberName:   data.member_name,
-                images:       data.images,
+                photos:       data.images,
                 coordinate: {
                   lat: parseFloat(data.lat),
                   lng: parseFloat(data.lng)
@@ -306,7 +308,7 @@ export function UICreateLocation(props: UICreateLocationProps) {
   if (coordinate === null) return null;
 
   return (
-    <Sheet visible={visible} onClose={onClose}>
+    <Sheet visible={visible} onClose={onClose} height={StyleUtils.calComponentRemainingHeight(0)}>
       <UICreateLocationForm onSuccess={onSuccess} coordinate={coordinate}/>
     </Sheet>
   )
