@@ -1,16 +1,15 @@
 import React from "react";
 import { t } from "i18next";
 import { Grid } from "zmp-ui";
-import { Image } from "react-grid-gallery"; // TODO: remove this
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 
 import { GalleryApi } from "api";
+import { CommonUtils, StyleUtils } from "utils";
 import { useAppContext } from "hooks";
 import { ServerResponse } from "types/server";
 import { Loading, Header, Retry, ScrollableDiv, Divider } from "components";
 
-import { convertToPhoto, Photo } from "./UIAlbumPhotos";
-import { StyleUtils } from "utils";
+import { Photo } from "./UIAlbumPhotos";
 
 interface UIPhotosProps {}
 export function UIPhotos(props: UIPhotosProps) {
@@ -70,9 +69,6 @@ function UIPhotosContainer({ photos }: { photos: Photo[] }) {
   )
 }
 
-/**@deprecated */
-export interface GalleryImage extends Image {}
-
 function useSearchAllPhotos() {
   const { userInfo } = useAppContext();
 
@@ -95,7 +91,7 @@ function useSearchAllPhotos() {
       toDate: "",
       success: (result: ServerResponse) => {
         if (result.status === "success") {
-          setPhotos(convertToPhoto(result.data));
+          setPhotos(CommonUtils.convertToPhoto(result.data, "album_id"));
         } else {
           setPhotos([]);
           setError(true);

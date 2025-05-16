@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Input, Text } from "zmp-ui";
+import { Button, Input } from "zmp-ui";
 
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 import { CommonUtils, ZmpSDK } from "utils";

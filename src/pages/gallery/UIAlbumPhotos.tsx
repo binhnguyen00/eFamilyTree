@@ -27,19 +27,8 @@ const photos = [
 
 export interface Photo {
   id: number;
-  albumId: number;
+  parentId: number;
   url: string;
-}
-
-export function convertToPhoto(raws: any[]): Photo[] {
-  if (!raws.length) return [];
-  return raws.map(raw => {
-    return {
-      id      : raw["id"],
-      url     : raw["url"],
-      albumId : raw["album_id"],
-    }
-  })
 }
 
 function useSearchAlbumPhotos(albumId: number) {
@@ -59,7 +48,7 @@ function useSearchAlbumPhotos(albumId: number) {
       success: (result: ServerResponse) => {
         setLoading(false);
         if (result.status === "success") {
-          setPhotos(convertToPhoto(result.data));
+          setPhotos(CommonUtils.convertToPhoto(result.data, "album_id"));
         } else {
           setError(true);
           setPhotos([]);
@@ -77,7 +66,7 @@ function useSearchAlbumPhotos(albumId: number) {
 }
 
 export function UIAlbumPhotos({ albumId }: { albumId: number }) {
-  const { loading, error, refresh } = useSearchAlbumPhotos(albumId);
+  const { photos, loading, error, refresh } = useSearchAlbumPhotos(albumId);
   const { userInfo, serverBaseUrl } = useAppContext();
   const { dangerToast, loadingToast } = useNotification();
 
