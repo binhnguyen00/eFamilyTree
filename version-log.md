@@ -6,6 +6,12 @@
 #### 2. Quỹ
   - Sửa tên nút Thu -> Thêm thu.
   - Sửa tên nút Chi -> Thêm chi.
+#### 3. Thư viện ảnh
+  - Giao diện xem ảnh giờ đã đẹp hơn, mượt hơn.
+  - Giao diện Album gọn hơn.
+#### 4. Di tích
+  - Cho phép chọn người đã khuất khi tạo di tích.
+  - Giao diện xem ảnh giờ đã đẹp hơn, mượt hơn.
 
 # Version 1.6.3 (Thứ 2, 28/04/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=69)
