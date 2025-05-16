@@ -1,17 +1,14 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Text, Stack, Grid } from "zmp-ui";
+import { Button, Text, Grid } from "zmp-ui";
 
 import { StyleUtils, ZmpSDK } from "utils";
-import { TestApi } from "api";
+import { Header, Loading, Retry, ScrollableDiv } from "components";
 import { useNotification, useAppContext, usePageContext, useOverlayContext } from "hooks";
-import { Header, Loading, SizedBox, NewsPaperSkeleton, ScrollableDiv } from "components";
 
 import { Theme } from "types/user-settings";
 import { Module } from "types/app-context";
-import { FailResponse, ServerResponse } from "types/server";
 
-import themeBlue from "assets/img/theme/theme-blue.jpeg";
 
 export function UIPlayground() {
 
@@ -19,38 +16,27 @@ export function UIPlayground() {
     <>
       <Header title={t("playground")}/>
 
-      <div className="container my-3">
-        <ScrollableDiv direction="vertical" className="flex-v" height={StyleUtils.calComponentRemainingHeight(0)}>
+      <ScrollableDiv direction="vertical" className="flex-v container bg-white min-h-[100vh]">
 
-          <UIOverlay/>
+        <UIOverlay/>
 
-          <UILocationPermission/>
+        <UILocationPermission/>
 
-          <UISkeletonLoading/>
+        <UIUserPermission/>
 
-          <UIToastButtons/>
+        <UIToastButtons/>
 
-          <Stack space="1rem">
-            <Text.Title size="large"> {"Mock CORS"} </Text.Title>
-            <Button variant="secondary" onClick={() => {
-              const success = (result: ServerResponse) => {
-                console.log(result);
-              } 
-              const fail = (error: FailResponse) => {
-                console.error(error);
-              }
-              TestApi.mockHTTP(success, fail);
-            }}>
-              {"HTTP"}
-            </Button>
-          </Stack>
+        <UITheme/>
 
-          <UITheme/>
+        <div className="flex-v flex-grow-0 text-base">
+          <Text.Title size="large"> {"Components"} </Text.Title>
+          <Grid columnCount={2} columnSpace="1rem" rowSpace="1rem">
+            <Loading/>
+            <Retry title="Retry" onClick={() => {}}/>
+          </Grid>
+        </div>
 
-          <Loading/>
-
-        </ScrollableDiv>
-      </div>
+      </ScrollableDiv>
     </>
   )
 }
@@ -69,7 +55,10 @@ function UITheme() {
       )
     })
     return (
-      <div className="scroll-h"> {html} </div>
+      <div className="flex-v flex-grow-0 text-base">
+        <Text.Title size="large"> {"Theme"} </Text.Title>
+        <div className="scroll-h"> {html} </div>
+      </div>
     );
   }
 
@@ -79,59 +68,60 @@ function UITheme() {
 function UIToastButtons() {
   const { successToast, dangerToast, warningToast, infoToast } = useNotification();
   return (
-    <Grid columnCount={2} columnSpace="1rem" rowSpace="1rem">
-      <Button size="small" variant="secondary" onClick={() => successToast("success")}> 
-        Success Toast
-      </Button>
-      <Button size="small" variant="secondary" onClick={() => dangerToast("danger")}> 
-        Danger Toast
-      </Button>
-      <Button size="small" variant="secondary" onClick={() => warningToast("warning")}>  
-        Warning Toast
-      </Button>
-      <Button size="small" variant="secondary" onClick={() => infoToast("warning")}>  
-        Info Toast
-      </Button>
-    </Grid>
+    <div className="flex-v flex-grow-0 text-base">
+      <Text.Title size="large"> {"Toast"} </Text.Title>
+      <Grid columnCount={2} columnSpace="1rem" rowSpace="1rem">
+        <Button size="small" variant="secondary" onClick={() => successToast("success")}> 
+          Success Toast
+        </Button>
+        <Button size="small" variant="secondary" onClick={() => dangerToast("danger")}> 
+          Danger Toast
+        </Button>
+        <Button size="small" variant="secondary" onClick={() => warningToast("warning")}>  
+          Warning Toast
+        </Button>
+        <Button size="small" variant="secondary" onClick={() => infoToast("warning")}>  
+          Info Toast
+        </Button>
+      </Grid>
+    </div>
   )
 }
 
-function UIPermissionButtons() {
-  const { canRead, canWrite, canModerate, canAdmin } = usePageContext(Module.THEME);
-  console.table({ canRead, canWrite, canModerate, canAdmin });
+function UIUserPermission() {
+  const module = Module.THEME;
+  const { canRead, canWrite, canModerate, canAdmin } = usePageContext(module);
   return (
-    <></>
-  )
-}
-
-function UISkeletonLoading() {
-  const [ loading, setLoading ] = React.useState(true);
-
-  return (
-    <div className="flex-v">
-      <Button size="small" variant="secondary" onClick={() => setLoading(!loading)}> {"Skeleton Loading"} </Button>
-      <NewsPaperSkeleton 
-        loading={loading} 
-        content={
-          <div className="flex-v"> 
-            <img className="rounded" src={themeBlue} style={{ height: 100, width: "100%" }}/>
-            <p className="bold"> Lorem ipsum dolor sit amet. </p>
-            <div>
-              <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
-              <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
-              <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
-            </div>
-          </div>
-        }
-      />
+    <div className="flex-v flex-grow-0 text-base">
+      <Text.Title size="large"> {`Permission: ${module}`} </Text.Title>
+      <table>
+        <tr>
+          <td>Can Read</td>
+          <td>{canRead ? "yes" : "no"}</td>
+        </tr>
+        <tr>
+          <td>Can Write</td>
+          <td>{canWrite ? "yes" : "no"}</td>
+        </tr>
+        <tr>
+          <td>Can Moderate</td>
+          <td>{canModerate ? "yes" : "no"}</td>
+        </tr>
+        <tr>
+          <td>Can Admin</td>
+          <td>{canAdmin ? "yes" : "no"}</td>
+        </tr>
+      </table>
     </div>
   )
 }
 
 function UILocationPermission() {
+  const [ location, setLocation ] = React.useState<any>(null);
+
   const getLocation = () => {
     const success = (location: any) => {
-      console.log(location);
+      setLocation(location);
     } 
     const fail = (error: any) => {
       console.log(error);
@@ -140,9 +130,13 @@ function UILocationPermission() {
   }
 
   return (
-    <Button variant="secondary" size="small" onClick={getLocation}>
-      Get Location
-    </Button>
+    <div className="flex-v flex-grow-0 text-base">
+      <Text.Title size="large"> {"Location"} </Text.Title>
+      <Text> {JSON.stringify(location)} </Text>
+      <Button variant="secondary" size="small" onClick={getLocation}>
+        Get Location
+      </Button>
+    </div>
   )
 }
 
@@ -161,8 +155,9 @@ function UIOverlay() {
   }
 
   return (
-    <>
+    <div className="flex-v flex-grow-0 text-base">
+      <Text.Title size="large"> {"Overlay"} </Text.Title>
       <Button variant="secondary" size="small" onClick={onOpen}> {"Overlay"} </Button>
-    </>
+    </div>
   )
 }

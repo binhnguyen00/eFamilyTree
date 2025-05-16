@@ -44,6 +44,7 @@ export function Navigation() {
     `/zapps/${appId}/memorial-location`, 
     // DEMO ROUTES
     `/zapps/${appId}/dev/tree`,
+    `/zapps/${appId}/dev/playground`,
   ];
 
   const noBottomNav = React.useMemo(() => {
