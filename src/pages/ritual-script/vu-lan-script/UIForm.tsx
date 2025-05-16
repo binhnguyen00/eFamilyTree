@@ -52,18 +52,18 @@ export function UIVuLanForm() {
   }
 
   const exportPNG = () => {
-    loadingToast(
-      t("preparing_data"),
-      (successToast, dangerToast, dismissToast) => {
+    loadingToast({
+      content: <p> {t("preparing_data")} </p>,
+      operation: (successToastCB, dangerToastCB) => {
         const element = document.getElementById('vu-lan-script');
         if (!element) { 
-          dangerToast(t("download_fail")); 
+          dangerToastCB(t("download_fail")); 
           return;
         }
 
         const transformComponent = document.querySelector('.react-transform-component') as HTMLElement;
         if (!transformComponent) { 
-          dangerToast(t("download_fail")); 
+          dangerToastCB(t("download_fail")); 
           return;
         }
 
@@ -91,19 +91,19 @@ export function UIVuLanForm() {
 
           ZmpSDK.saveImageToGallery(
             base64, 
-            () => successToast(
+            () => successToastCB(
               <div>
                 <p> {t("download_success")} </p>
                 <p> {t("check_your_gallery")} </p>
               </div>
             ), 
-            () => dangerToast(t("download_fail"))
+            () => dangerToastCB(t("download_fail"))
           );
         }).catch((err) => {
-          dangerToast(t("download_fail"));
+          dangerToastCB(t("download_fail"));
         });
       }
-    )
+    })
   }
 
   return (
