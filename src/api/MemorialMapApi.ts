@@ -26,7 +26,7 @@ export class MemorialMapApi extends BaseApi {
         description:  record.description,
         lat:          record.coordinate.lat.toString(),
         lng:          record.coordinate.lng.toString(),
-        images:       record.images,
+        images:       record.images, // TODO: send base64 instead of image url
         clan_id:      record.clanId,
         member_id:    record.memberId,
       }
@@ -45,7 +45,6 @@ export class MemorialMapApi extends BaseApi {
         description:  record.description,
         lat:          record.coordinate.lat.toString(),
         lng:          record.coordinate.lng.toString(),
-        images:       record.images,
         clan_id:      record.clanId,
         member_id:    record.memberId,
       }
