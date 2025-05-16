@@ -104,7 +104,7 @@ function useMap() {
                 lat: parseFloat(location.lat),
                 lng: parseFloat(location.lng)
               },
-              photoUrl:       location.images,
+              photoUrl:     location.images,
               memberId:     location.member_id,
               memberName:   location.member_name,
             } as MemorialLocation;

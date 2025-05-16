@@ -34,6 +34,7 @@ export function UILocation(props: UILocationProps) {
     coordinate:   data.coordinate,
     clanId:       data.clanId,
     photoUrl:     data.photoUrl,
+    photos:       data.photos,
     memberId:     data.memberId,
     memberName:   data.memberName,
   } as MemorialLocation);
@@ -157,8 +158,6 @@ function UIMemorialLocationForm(props: UIMemorialLocationFormProps) {
         onChange={(e) => observer.update("description", e.target.value)}
       />
 
-      <UIPhotoSelector observer={observer}/>
-
       <div className="scroll-h">
         <Button 
           variant="primary" size="small" 
@@ -173,6 +172,8 @@ function UIMemorialLocationForm(props: UIMemorialLocationFormProps) {
           {t("delete")}
         </Button>
       </div>
+
+      <UIPhotoSelector observer={observer}/>
     </div>
   )
 }
@@ -201,8 +202,8 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
       success: (response: ServerResponse) => {
         if (response.status === "success") {
           const raws: any[] = response.data;
-          const photos: Photo[] = CommonUtils.convertToPhoto(raws, "location_id");
-          setPhotos(photos);
+          const newPhotos: Photo[] = CommonUtils.convertToPhoto(raws, "location_id");
+          setPhotos(newPhotos);
           successCB(t("lưu thành công"));
         } else {
           dangerCB(t("lưu thất bại"));
