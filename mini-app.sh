@@ -55,22 +55,32 @@ function login() {
 }
 
 function deploy() {
-  typescript_check
-  if [ $? -eq 0 ]; then
+  if typescript_check; then
     pnpm run deploy
-  else
-    echo "Build failed. Deployment aborted."
-    exit 1
+  fi
+}
+
+function run() {
+  if typescript_check; then
+    pnpm run server
   fi
 }
 
 function typescript_check() {
-  echo "checking typescript..."
-  pnpm tsc -b
-}
+  local RED='\033[0;31m'
+  local GREEN='\033[0;32m'
+  local NO_COLOR='\033[0m'
 
-function run() {
-  pnpm run server
+  echo -e "Checking TypeScript..."
+  pnpm tsc -b
+  
+  if [ $? -eq 0 ]; then
+    echo -e "${GREEN}TypeScript check passed.${NO_COLOR}"
+    return 0
+  else
+    echo -e "${RED}TypeScript check failed.${NO_COLOR}"
+    return 1
+  fi
 }
 
 function show_help() {
