@@ -1,6 +1,7 @@
 import React from "react";
 import { t } from "i18next";
 import { Button, Input, Modal } from "zmp-ui";
+import { PhotoProvider, PhotoView } from "react-photo-view";
 
 import { GalleryApi } from "api";
 import { ServerResponse } from "types/server";
@@ -124,25 +125,31 @@ export function UIAlbum() {
     return (
       <>
         <div className="center flex-v flex-grow-0 pt-3">
-          <img
-            className="rounded object-cover" loading="lazy"
-            style={{ width: "85vw", height: "12rem" }}
-            src={hasThumbnail ? `${serverBaseUrl}/${observer.getBean().thumbnailPath}` : fallbackThumbnail}
-            onError={(e) => {
-              if (e.currentTarget.src !== fallbackThumbnail) {
-                e.currentTarget.src = fallbackThumbnail;
-              }
-            }}
-          />
+          <PhotoProvider maskOpacity={0.5} maskClosable pullClosable>
+            <PhotoView src={`${serverBaseUrl}/${observer.getBean().thumbnailPath}`}>
+              <img
+                className="rounded object-cover"
+                style={{ width: "85vw", height: "12rem" }}
+                src={hasThumbnail ? `${serverBaseUrl}/${observer.getBean().thumbnailPath}` : fallbackThumbnail}
+                onError={(e) => {
+                  if (e.currentTarget.src !== fallbackThumbnail) {
+                    e.currentTarget.src = fallbackThumbnail;
+                  }
+                }}
+              />
+            </PhotoView>
+          </PhotoProvider>
           <Button size="small" variant="tertiary" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onUpdateThumbnail}>
             {hasThumbnail ? t("Sửa") : t("Thêm")}
           </Button>
         </div>
-        <Input.TextArea 
-          label={t("Tiêu Đề")} value={observer.getBean().description} size="medium"
-          onChange={(e) => observer.update("description", e.target.value)}
-        />
-        {renderFooter()}
+        <div className="flex-v">
+          <Input.TextArea 
+            label={t("Tiêu Đề")} value={observer.getBean().description} size="medium"
+            onChange={(e) => observer.update("description", e.target.value)}
+          />
+          {renderFooter()}
+        </div>
       </>
     )
   }
@@ -152,7 +159,7 @@ export function UIAlbum() {
       <Header title={t("album")}/>
 
       <div className="container bg-white text-base">
-        <ScrollableDiv className="flex-v" direction="vertical" height={StyleUtils.calComponentRemainingHeight(0)}>
+        <ScrollableDiv direction="vertical" height={StyleUtils.calComponentRemainingHeight(0)}>
           {renderAlbum()}
           <UIAlbumPhotos albumId={observer.getBean().id}/>
         </ScrollableDiv>

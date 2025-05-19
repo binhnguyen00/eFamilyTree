@@ -32,8 +32,59 @@ const albums = [
   }
 ]
 
+function useSearchAlbums() {
+  const { userInfo } = useAppContext();
+
+  const [ albums, setAlbums ] = React.useState<AlbumForm[]>([]);
+  const [ loading, setLoading ] = React.useState(true);
+  const [ error, setError ] = React.useState(false);
+  const [ reload, setReload ] = React.useState(false);
+
+  const refresh = () => setReload(!reload);
+
+  const mapAlbums = (albums: any[]) => {
+    let results: AlbumForm[] = [];
+    for (const album of albums) {
+      results.push({
+        id:             album.id,
+        thumbnailPath:  album.thumbnail,
+        description:    album.description,
+        albumType:      album.album_type,
+        date:           album.date,
+      })
+    }
+    return results;
+  }
+    
+
+  React.useEffect(() => {
+    setLoading(true);
+    setError(false);
+    setAlbums([])
+
+    const success = (result: ServerResponse) => {
+      setLoading(false);
+      if (result.status === "success") {
+        setError(false);
+        const remapAlbums: AlbumForm[] = mapAlbums(result.data);
+        setAlbums(remapAlbums);
+      } else {
+        setError(true);
+        setAlbums([]);
+      }
+    };
+    const fail = () => {
+      setLoading(false);
+      setError(true);
+    }
+    GalleryApi.searchAlbums(userInfo.id, userInfo.clanId, success, fail);
+  }, [reload]);
+
+  return { albums, loading, error, refresh };
+}
+
 export function UIAlbums() {
-  const { albums, error, loading, refresh } = useSearchAlbums();
+  const { albums, loading, error, refresh } = useSearchAlbums();
   const { goTo } = useRouteNavigate();
 
   const [ create, setCreate ] = React.useState<boolean>(false);
@@ -120,55 +171,4 @@ function UIAlbumsGrid(props: UIAlbumsGridProps) {
       {albumCards}
     </Grid>
   )
-}
-
-function useSearchAlbums() {
-  const { userInfo } = useAppContext();
-
-  const [ albums, setAlbums ] = React.useState<AlbumForm[]>([]);
-  const [ loading, setLoading ] = React.useState(true);
-  const [ error, setError ] = React.useState(false);
-  const [ reload, setReload ] = React.useState(false);
-
-  const refresh = () => setReload(!reload);
-
-  const mapAlbums = (albums: any[]) => {
-    let results: AlbumForm[] = [];
-    for (const album of albums) {
-      results.push({
-        id:             album.id,
-        thumbnailPath:  album.thumbnail,
-        description:    album.description,
-        albumType:      album.album_type,
-        date:           album.date,
-      })
-    }
-    return results;
-  }
-    
-
-  React.useEffect(() => {
-    setLoading(true);
-    setError(false);
-    setAlbums([])
-
-    const success = (result: ServerResponse) => {
-      setLoading(false);
-      if (result.status === "success") {
-        setError(false);
-        const remapAlbums: AlbumForm[] = mapAlbums(result.data);
-        setAlbums(remapAlbums);
-      } else {
-        setError(true);
-        setAlbums([]);
-      }
-    };
-    const fail = () => {
-      setLoading(false);
-      setError(true);
-    }
-    GalleryApi.searchAlbums(userInfo.id, userInfo.clanId, success, fail);
-  }, [reload]);
-
-  return { albums, loading, error, refresh };
 }

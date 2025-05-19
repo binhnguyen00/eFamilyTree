@@ -157,8 +157,9 @@ button, .button {
 }
 
 .button-link {
-  @extend .button;
-  text-decoration: underline !important;
+  .zaui-btn-container {
+    text-decoration: underline !important;
+  }
 }
 
 .button-bounce {
@@ -263,15 +264,6 @@ button, .button {
 
 }
 
-// yet-another-light-box
-.yarl__root {
-  height: calc(100vh - var(--zaui-safe-area-inset-top, 0px) - (var(--header-height) - 5px)) !important;
-}
-
-.yarl__portal {
-  top: unset !important;
-}
-
 // modal
 .zaui-modal-content {
   max-height: 85% !important;
@@ -321,4 +313,19 @@ button, .button {
 
 .cs-message-input__content-editor {
   @extend .bg-quaternary;
+}
+
+// react-photo-viewer
+.PhotoView-Slider__BannerWrap {
+  background-color: unset !important;
+  @extend .container
+}
+
+.PhotoView-Slider__Counter {
+  color: var(--primary-color) !important;
+  background-color: var(--secondary-color) !important;
+  padding: 10px 20px !important;
+  font-size: 1rem !important;
+  font-weight: bold !important;
+  @extend .rounded;
 }

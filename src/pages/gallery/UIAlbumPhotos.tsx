@@ -11,18 +11,18 @@ import { CommonIcon, Loading, Retry } from "components";
 import { useAppContext, useNotification } from "hooks";
 
 // dummies
-const photos = [
-  { "id": 1, "albumId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
-  { "id": 2, "albumId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
-  { "id": 3, "albumId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
-  { "id": 4, "albumId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
-  { "id": 5, "albumId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
-  { "id": 6, "albumId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
-  { "id": 7, "albumId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
-  { "id": 8, "albumId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
-  { "id": 9, "albumId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
-  { "id": 10, "albumId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
-  { "id": 11, "albumId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
+const photoDummies = [
+  { "id": 1, "parentId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
+  { "id": 2, "parentId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
+  { "id": 3, "parentId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
+  { "id": 4, "parentId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
+  { "id": 5, "parentId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
+  { "id": 6, "parentId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
+  { "id": 7, "parentId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
+  { "id": 8, "parentId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
+  { "id": 9, "parentId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
+  { "id": 10, "parentId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
+  { "id": 11, "parentId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
 ]
 
 export interface Photo {
@@ -73,32 +73,31 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
   const [ isSelecting, setIsSelecting ] = React.useState(false);
   const [ selectedPhotos, setSelectedPhotos ] = React.useState<number[]>([]);
   const [ isTitleSticky, setIsTitleSticky ] = React.useState(false);
-  const imageSectionRef = React.useRef<HTMLDivElement>(null);
+  const [ photosSectionRef, setPhotosSectionRef ] = React.useState<HTMLDivElement | null>(null);
 
-  const easeIn    = isTitleSticky ? 'opacity-100 translate-x-0' : 'opacity-100 translate-x-4';
+  const easeIn    = isTitleSticky ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4';
   const bgColor   = isTitleSticky && 'bg-secondary rounded text-primary px-3 py-2';
   const withEase  = "transition-all duration-300 ease-in-out"
   const minWidth  = { minWidth: 80 } as React.CSSProperties;
 
   // check if the user has scroll to the photos section
   React.useEffect(() => {
+    if (!photosSectionRef) return;
+
+    const headerHeight = 65;
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsTitleSticky(!entry.isIntersecting);
       },
-      { threshold: 0.5 }
+      {
+        threshold: 1,
+        rootMargin: `-${headerHeight}px 0px 0px 0px`,
+      }
     );
 
-    if (imageSectionRef.current) {
-      observer.observe(imageSectionRef.current);
-    }
-
-    return () => {
-      if (imageSectionRef.current) {
-        observer.unobserve(imageSectionRef.current);
-      }
-    };
-  }, []);
+    observer.observe(photosSectionRef);
+    return () => observer.disconnect();
+  }, [photosSectionRef]);
 
   const onSelectPhoto = (photo: Photo) => {
     if (!isSelecting) return;
@@ -112,20 +111,35 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
   };
 
   const renderPhotos = (): React.ReactNode[] => {
+    const fallbackThumbnail = "https://fakeimg.pl/200x200/cccccc/909090?text=:(";
     return photos.map((photo: Photo) => {
       const isSelected: boolean = selectedPhotos.includes(photo.id);
       return (
         <div key={photo.id} className="relative" onClick={() => onSelectPhoto(photo)}>
           {isSelecting ? (
             <>
-              <img src={`${serverBaseUrl}/${photo.url}`} className="object-cover"/>
+              <img 
+                src={`${serverBaseUrl}/${photo.url}`} className="object-cover"
+                onError={(e) => {
+                  if (e.currentTarget.src !== fallbackThumbnail) {
+                    e.currentTarget.src = fallbackThumbnail;
+                  }
+                }}
+              />
               <div className={`absolute bottom-2 left-2 w-7 h-7 rounded-full ${withEase} ${isSelected ? 'bg-primary' : 'bg-white/50'}`}>
                 {isSelected && <CommonIcon.CheckCircle className="text-white w-7 h-7"/>}
               </div>
             </>
           ): (
             <PhotoView src={`${serverBaseUrl}/${photo.url}`} key={photo.id}>
-              <img src={`${serverBaseUrl}/${photo.url}`} className="object-cover"/>
+              <img 
+                src={`${serverBaseUrl}/${photo.url}`} className="object-cover"
+                onError={(e) => {
+                  if (e.currentTarget.src !== fallbackThumbnail) {
+                    e.currentTarget.src = fallbackThumbnail;
+                  }
+                }}
+              />
             </PhotoView>
           )}
         </div>
@@ -235,45 +249,52 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
     )
   } else {
     return (
-      <div className="min-h-[100vh]">
-        <div ref={imageSectionRef} className="h-0"/>
-  
-        <div style={{ zIndex: 999 }} className={`scroll-h sticky justify-between top-0 py-3 ${withEase}`}>
-          <Text size={"small"} style={{ minWidth: 120 }} className="bold flex-h content-center align-start" onClick={onSelectAllPhotos}>
-            {isSelecting ? (
-              <p className={`${withEase} ${bgColor}`}> {`${t("Chọn")} (${selectedPhotos.length})`} </p>
-            ) : (
-              <p className={`${withEase} ${bgColor}`}> {`${t("Ảnh")} (${photos.length})`} </p>
-            )}
-          </Text>
-  
-          <div className={`flex-h ${withEase}`}>
-            <Button size="small" className={`${easeIn} ${withEase} ${bgColor}`} variant={isTitleSticky ? "secondary" : "tertiary"} style={minWidth} prefixIcon={<CommonIcon.AddPhoto/>} onClick={onAddPhotos}>
-              {t("add")}
-            </Button>
-  
-            {isSelecting && selectedPhotos.length > 0 && (
-              <Button size="small" className={`${easeIn} ${withEase} ${bgColor}`} variant={isTitleSticky ? "secondary" : "tertiary"} style={minWidth} prefixIcon={<CommonIcon.RemovePhoto/>} onClick={onDeletePhotos}>
-                {t("delete")}
+      <>
+        <div ref={setPhotosSectionRef} className="h-3"/>
+
+        <div className="min-h-[100vh]">
+          <div style={{ zIndex: 999 }} className={`scroll-h sticky justify-between top-0 py-3 ${withEase}`}>
+            <Text size={"small"} style={{ minWidth: 120 }} className="bold flex-h content-center align-start" onClick={onSelectAllPhotos}>
+              {isSelecting ? (
+                <p className={`${withEase} ${bgColor}`}> {`${t("Chọn")} (${selectedPhotos.length})`} </p>
+              ) : (
+                <p className={`${withEase} ${bgColor}`}> {`${t("Ảnh")} (${photos.length})`} </p>
+              )}
+            </Text>
+
+            <div className="flex-h">
+              <Button 
+                size="small" className={`button-link ${easeIn} ${withEase} ${bgColor}`} variant={isTitleSticky ? "secondary" : "tertiary"} style={minWidth} 
+                prefixIcon={<CommonIcon.AddPhoto/>} onClick={onAddPhotos} disabled={!isTitleSticky}
+              >
+                {t("add")}
               </Button>
-            )}
-  
-            {photos.length > 0 && (
-              <Button size="small" className={`${easeIn} ${withEase} ${bgColor}`} variant={isTitleSticky ? "secondary" : "tertiary"} style={minWidth} prefixIcon={isSelecting && <CommonIcon.Check/>} onClick={onSelectionMode}>
+              {isSelecting && (
+                <Button 
+                  size="small" className={`button-link ${easeIn} ${withEase} ${bgColor}`} variant={isTitleSticky ? "secondary" : "tertiary"} style={minWidth} 
+                  prefixIcon={<CommonIcon.RemovePhoto/>} onClick={onDeletePhotos} disabled={!isTitleSticky}
+                >
+                  {t("delete")}
+                </Button>
+              )}
+              <Button 
+                size="small" className={`button-link ${easeIn} ${withEase} ${bgColor}`} variant={isTitleSticky ? "secondary" : "tertiary"} style={minWidth} 
+                prefixIcon={isSelecting && <CommonIcon.Check/>} onClick={onSelectionMode} disabled={!isTitleSticky}
+              >
                 {isSelecting ? t("xong") : t("select")}
               </Button>
-            )}
+            </div>
           </div>
+    
+          <PhotoProvider maskOpacity={0.5} maskClosable pullClosable bannerVisible={false}>
+            <Grid columnCount={2} rowSpace="1rem" columnSpace="1rem">
+              {renderPhotos()}
+            </Grid>
+            <br/>
+          </PhotoProvider>
+    
         </div>
-  
-        <PhotoProvider maskOpacity={0.5} maskClosable pullClosable>
-          <Grid columnCount={2} rowSpace="1rem" columnSpace="1rem">
-            {renderPhotos()}
-          </Grid>
-          <br/>
-        </PhotoProvider>
-  
-      </div>
+      </>
     )
   }
 }

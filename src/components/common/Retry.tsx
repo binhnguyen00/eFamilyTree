@@ -22,12 +22,12 @@ interface RetryProps {
  * @returns 
  */
 export function Retry(props: RetryProps) {
-  const { title, message, className, onClick, extra, buttonType = "primary" } = props;
+  const { title, message, className, onClick, extra, buttonType = "tertiary" } = props;
   return (
     <div className={`${className ? className : ""}`.trim()}>
       <Info title={title} message={message}/>
       <div className="center">
-        <Button variant={buttonType} size="small" prefixIcon={<CommonIcon.Reload size={"1rem"}/>} onClick={() => onClick()}>
+        <Button className="button-link" variant={buttonType} size="small" prefixIcon={<CommonIcon.Reload size={"1rem"}/>} onClick={() => onClick()}>
           {t("retry")}
         </Button>
       </div>

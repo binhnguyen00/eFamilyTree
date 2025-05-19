@@ -1,5 +1,5 @@
 # Version 1.6.4
-### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=70)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=76)
 ### Thay đổi
 #### 1. Di tích
   - Chọn người đã khuất khi tạo di tích.
@@ -12,6 +12,8 @@
 #### 4. Di tích
   - Cho phép chọn người đã khuất khi tạo di tích.
   - Giao diện xem ảnh giờ đã đẹp hơn, mượt hơn.
+#### 5. Khác
+  - Cập nhật ảnh đại diện Trợ lý Gia phả. Có sự thuần Việt hơn, thân thiện hơn.
 
 # Version 1.6.3 (Thứ 2, 28/04/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=69)

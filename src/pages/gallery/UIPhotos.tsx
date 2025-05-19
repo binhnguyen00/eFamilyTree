@@ -14,7 +14,7 @@ import { Photo } from "./UIAlbumPhotos";
 interface UIPhotosProps {}
 export function UIPhotos(props: UIPhotosProps) {
   const {  } = props;
-  const { photos, loading, error, refresh } = useSearchAllPhotos();
+  const { photos,loading, error, refresh } = useSearchAllPhotos();
 
   const renderContainer = () => {
     if (loading) {
@@ -31,11 +31,11 @@ export function UIPhotos(props: UIPhotosProps) {
   const size = photos.length || 0;
   return (
     <>
-      <Header title={`${size} ${t("ảnh")}`}/>
+      <Header title={`${t("ảnh")} (${size})`}/>
 
       <div className="container bg-white text-base">
         <Divider size={0}/>
-        <ScrollableDiv className="flex-v" direction="vertical" height={StyleUtils.calComponentRemainingHeight(0)}>
+        <ScrollableDiv className="flex-v" direction="vertical" height={StyleUtils.calComponentRemainingHeight(200)}>
           {renderContainer()}
         </ScrollableDiv>
       </div>
@@ -45,7 +45,7 @@ export function UIPhotos(props: UIPhotosProps) {
 
 function UIPhotosContainer({ photos }: { photos: Photo[] }) {
   const { serverBaseUrl } = useAppContext();
-  const hasOnePhoto: boolean = photos.length === 1;
+  const fallbackThumbnail = "https://fakeimg.pl/200x200/cccccc/909090?text=:(";
 
   const renderPhotos = (): React.ReactNode[] => {
     if (!photos.length) return [];
@@ -53,7 +53,14 @@ function UIPhotosContainer({ photos }: { photos: Photo[] }) {
     return photos.map((photo: Photo) => {
       return (
         <PhotoView src={`${serverBaseUrl}/${photo.url}`} key={photo.id}>
-          <img loading="lazy" src={`${serverBaseUrl}/${photo.url}`} className="w-full h-full object-cover"/>
+          <img 
+            loading="lazy" src={`${serverBaseUrl}/${photo.url}`} className="w-full h-full object-cover"
+            onError={(e) => {
+              if (e.currentTarget.src !== fallbackThumbnail) {
+                e.currentTarget.src = fallbackThumbnail;
+              }
+            }}
+          />
         </PhotoView>
       )
     })
@@ -61,7 +68,7 @@ function UIPhotosContainer({ photos }: { photos: Photo[] }) {
 
   return (
     <PhotoProvider maskOpacity={0.5} maskClosable pullClosable>
-      <Grid columnCount={hasOnePhoto ? 1 : 3} rowSpace="1rem" columnSpace="1rem">
+      <Grid columnCount={3} rowSpace="1rem" columnSpace="1rem">
         {renderPhotos()}
       </Grid>
       <br/>
