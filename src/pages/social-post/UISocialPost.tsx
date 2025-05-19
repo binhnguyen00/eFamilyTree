@@ -60,7 +60,6 @@ export function useSocialPosts(type: SocialPostType = SocialPostType.NEWS) {
 }
 
 export function UISocialPost() {
-  const { canWrite } = usePageContext();
   const [ type, setType ] = React.useState<SocialPostType>(SocialPostType.NEWS);
   const options: any[] = [
     { value: SocialPostType.NEWS, label: t("Tin Đăng") },

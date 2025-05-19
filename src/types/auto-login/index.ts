@@ -1,3 +1,3 @@
-import { AutoLoginContext } from "./AutoLoginContext";
+import type { AutoLoginContext } from "./AutoLoginContext";
 
 export { AutoLoginContext };

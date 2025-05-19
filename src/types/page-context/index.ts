@@ -1,6 +1,6 @@
-import { Capability } from "./Capability";
-import type { PageContext } from "./PageContext";
+import { Capability } from "./PageContext";
+import type { PageContext, PageContextProps } from "./PageContext";
 
 export { 
-  Capability, PageContext
+  Capability, PageContext, PageContextProps
 }

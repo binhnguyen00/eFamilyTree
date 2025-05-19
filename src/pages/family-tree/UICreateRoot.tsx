@@ -4,18 +4,17 @@ import { Button, Input, Sheet, Text, DatePicker } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
 import { DateTimeUtils } from "utils";
-import { Member } from "types/common";
-import { FailResponse, ServerResponse } from "types/server";
 import { CommonIcon, Selection, Label } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
+import { PageContextProps, Member, FailResponse, ServerResponse } from "types";
 
-interface UICreateRootProps {
+interface UICreateRootProps extends PageContextProps {
   visible: boolean;
   onClose: () => void;
   onReloadParent?: () => void;
 }
 export function UICreateRoot(props: UICreateRootProps) {
-  const { visible, onClose, onReloadParent } = props;
+  const { visible, onClose, onReloadParent, permissions } = props;
 
   const { userInfo } = useAppContext();
   const { dangerToast, loadingToast } = useNotification();
@@ -55,31 +54,28 @@ export function UICreateRoot(props: UICreateRootProps) {
 
   return (
     <Sheet
-      visible={visible} onClose={onClose}
-      height={"70vh"}
       title={t("Tạo Thành Viên Đầu Tiên")}
-      mask maskClosable={false}
-      swipeToClose={false} 
-      handler={false}
+      visible={visible} onClose={onClose} height={"70vh"}
+      mask maskClosable={false} swipeToClose={false} handler={false}
     >
       <div className="flex-v flex-grow-0 p-3">
         {/* form */}
         <Text.Title> {t("info")} </Text.Title>
         <Input 
           name="name" label={<Label text={`${t("họ tên")} *`}/>} 
-          value={observer.getBean().name} onChange={observer.watch}
+          value={observer.getBean().name} onChange={observer.watch} disabled={!permissions.canWrite}
         />
         <Input
           name="phone" type="number" label={<Label text={t("điện thoại")}/>} 
-          value={observer.getBean().phone} onChange={observer.watch}
+          value={observer.getBean().phone} onChange={observer.watch} disabled={!permissions.canWrite}
         />
         <Selection
           options={[ { value: "1", label: t("male") } ]}
           defaultValue={{ value: "1", label: t("male") }}
-          observer={observer} field="gender" label={t("giới tính")}
+          observer={observer} field="gender" label={t("giới tính")} isDisabled={!permissions.canWrite}
         />
         <DatePicker 
-          mask maskClosable 
+          mask maskClosable disabled={!permissions.canWrite}
           label={t("Ngày Sinh")} title={t("Ngày Sinh")}
           onChange={(date: Date, calendarDate: any) => {
             observer.update("birthday", DateTimeUtils.formatToDate(date));
@@ -87,7 +83,7 @@ export function UICreateRoot(props: UICreateRootProps) {
           value={new Date(new Date().setFullYear(new Date().getFullYear() - 20))}
         />
         <DatePicker 
-          mask maskClosable 
+          mask maskClosable disabled={!permissions.canWrite}
           label={t("Ngày Mất (Âm lịch)")} title={t("Ngày Mất (Âm lịch)")}
           onChange={(date: Date, calendarDate: any) => {
             observer.update("lunarDeathDay", DateTimeUtils.formatToDate(date));
@@ -101,7 +97,7 @@ export function UICreateRoot(props: UICreateRootProps) {
         {/* footer */}
         <div>
           <Text.Title className="py-2"> {t("Hành động")} </Text.Title>
-          <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onCreate}> 
+          <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onCreate} disabled={!permissions.canWrite}> 
             {t("save")}
           </Button>
         </div>

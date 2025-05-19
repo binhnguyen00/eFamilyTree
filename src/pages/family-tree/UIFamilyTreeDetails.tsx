@@ -3,49 +3,12 @@ import { t } from "i18next";
 import { Button, Input, Text, Sheet, Modal, DatePicker, Avatar } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
-import { CommonUtils, DateTimeUtils, TreeDataProcessor, ZmpSDK } from "utils";
-import { useBeanObserver, useNotification, useAppContext, usePageContext } from "hooks";
 import { CommonIcon, Selection, Label, SelectionOption } from "components";
-import { FailResponse, ServerResponse } from "types/server";
+import { CommonUtils, DateTimeUtils, TreeDataProcessor, ZmpSDK } from "utils";
+import { Member, PageContextProps, FailResponse, ServerResponse } from "types";
+import { useBeanObserver, useNotification, useAppContext } from "hooks";
 
-export enum CreateMode {
-  ROOT = "root",
-  CHILD = "child",
-  SPOUSE = "spouse",
-  SIBLING = "sibling",
-}
-
-export type Member = {
-  id: number;
-  code: string;
-  name: string;
-  gender: "0" | "1";
-  phone: string;
-  birthday: string;
-  lunarDeathDay: string;
-  generation: number;
-  spouses: {
-    id: number;
-    name: string;
-    gender: "0" | "1";
-  }[]
-  children: {
-    id: number;
-    name: string;
-  }[]
-  father: string;
-  fatherId: number;
-  mother: string;
-  motherId: number;
-  achievements: {
-    name: string,
-    date: string,
-    description: string
-  }[]
-  avatar?: string;
-}
-
-interface UITreeMemberDetailsProps {
+interface UITreeMemberDetailsProps extends PageContextProps {
   info: Member | null;
   visible: boolean;
   processor: TreeDataProcessor;
@@ -57,10 +20,8 @@ interface UITreeMemberDetailsProps {
   onReloadParent?: () => void;
 }
 export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
-  const { 
-    info, visible, onClose, toSubNodes, processor,
-    onCreateSpouse, onCreateChild, onCreateSibling, onReloadParent
-  } = props;
+  const { info, visible, processor, permissions, onCreateSpouse, onCreateChild, onCreateSibling, onReloadParent, onClose, toSubNodes } = props;
+  const { canWrite } = permissions;
 
   if (info === null) return;
 
@@ -159,18 +120,6 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
     })
   }
 
-  const blobUrlsToBase64 = async (imagePaths: string[]) => {
-    const base64Promises = imagePaths.map((blobUrl) => {
-      return new Promise<string>((resolve) => {
-        CommonUtils.blobUrlToBase64(blobUrl, (base64: string) => {
-          resolve(base64);
-        });
-      });
-    });
-    const base64Array = await Promise.all(base64Promises);
-    return base64Array;
-  };
-
   const onCopyFieldValue = (field: string) => {
     const value = observer.getFieldValue(field);
     navigator.clipboard.writeText(value)
@@ -216,7 +165,7 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
       howMany: 1,
       success: async (files: any[]) => {
         const blobs: string[] = [ ...files.map(file => file.path) ];
-        const base64s = await blobUrlsToBase64(blobs);
+        const base64s = await CommonUtils.blobUrlsToBase64s(blobs);
         if (base64s.length) doUpdate(base64s[0]);
         else {
           dangerToast(t("ảnh bị lỗi"))
@@ -231,8 +180,8 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
     const src = hasAvatar()
       ? `${serverBaseUrl}/${observer.getBean().avatar}`
       : isMale()
-        ? "https://avatar.iran.liara.run/public/47"
-        : "https://avatar.iran.liara.run/public/98";
+        ? "https://avatar.iran.liara.run/public/47"  // male avatar placeholder
+        : "https://avatar.iran.liara.run/public/98"; // female avatar placeholder
 
     return (
       <div className="flex-v center"> 
@@ -258,7 +207,7 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
           {/* information */}
           <Input 
             name="name" label={<Label text={t("họ tên")}/>} 
-            value={observer.getBean().name} onChange={observer.watch}
+            value={observer.getBean().name} onChange={observer.watch} disabled={!canWrite}
           />
           <Input 
             name="code" label={<Label text={t("mã")}/>} 
@@ -267,7 +216,7 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
           />
           <Input 
             name="phone" type="number" label={<Label text={t("điện thoại")}/>} 
-            value={observer.getBean().phone} onChange={observer.watch}
+            value={observer.getBean().phone} onChange={observer.watch} disabled={!canWrite}
             suffix={<CommonIcon.Copy size={24} onClick={() => onCopyFieldValue("phone")}/>}
           />
           <Selection
@@ -280,10 +229,10 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
               { value: "1", label: t("male") },
               { value: "0", label: t("female") }
             ]}
-            observer={observer} field="gender" label={t("giới tính")}
+            observer={observer} field="gender" label={t("giới tính")} isDisabled={!canWrite}
           />
           <DatePicker 
-            mask maskClosable 
+            mask maskClosable disabled={!canWrite}
             label={t("Ngày Sinh")} title={t("Ngày Sinh")}
             onChange={(date: Date, calendarDate: any) => {
               observer.update("birthday", DateTimeUtils.formatToDate(date));
@@ -295,7 +244,7 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
             }
           />
           <DatePicker 
-            mask maskClosable 
+            mask maskClosable disabled={!canWrite}
             label={t("Ngày Mất (Âm lịch)")} title={t("Ngày Mất (Âm lịch)")}
             onChange={(date: Date, calendarDate: any) => {
               observer.update("lunarDeathDay", DateTimeUtils.formatToDate(date));
@@ -311,8 +260,8 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
             value={observer.getBean().father} name="father" disabled
           />
           <Selection
-            options={momOpts}
-            observer={observer} field="" label={t("mẹ")}
+            options={momOpts} 
+            observer={observer} field="" label={t("mẹ")} isDisabled={!canWrite}
             defaultValue={{ value: observer.getBean().motherId, label: observer.getBean().mother }}
             onChange={(selected: SelectionOption, action) => {
               observer.update("mother", selected.label)
@@ -334,12 +283,12 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
                 {t("Chi Nhánh")}
               </Button>
 
-              <Button size="small" prefixIcon={<CommonIcon.Save size={"1rem"}/>} style={{ minWidth: 120 }} onClick={onSave}> 
+              <Button size="small" prefixIcon={<CommonIcon.Save size={"1rem"}/>} style={{ minWidth: 120 }} onClick={onSave} disabled={!canWrite}>
                 {t("save")}
               </Button>
 
               {!isRoot() && (
-                <Button size="small" prefixIcon={<CommonIcon.Trash size={"1rem"}/>} style={{ minWidth: 120 }} onClick={() => setDeleteWarning(true)}>
+                <Button size="small" prefixIcon={<CommonIcon.Trash size={"1rem"}/>} style={{ minWidth: 120 }} onClick={() => setDeleteWarning(true)} disabled={!canWrite}>
                   {t("delete")}
                 </Button>
               )}
@@ -350,17 +299,17 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
             <Text.Title> {t("Thêm Thành Viên")} </Text.Title>
             <div className="scroll-h">
               {!isFemale() && (
-                <Button size="small" prefixIcon={<CommonIcon.AddPerson size={"1rem"}/>} style={{ minWidth: 120 }} onClick={onCreateChild}>
+                <Button size="small" prefixIcon={<CommonIcon.AddPerson size={"1rem"}/>} style={{ minWidth: 120 }} onClick={onCreateChild} disabled={!canWrite}>
                   {t("Con")}
                 </Button>
               )}
               {(isRoot() || hasParents()) && (
-                <Button size="small" prefixIcon={<CommonIcon.MaleFemale size={"1rem"}/>} style={{ minWidth: 120 }} onClick={onCreateSpouse}>
+                <Button size="small" prefixIcon={<CommonIcon.MaleFemale size={"1rem"}/>} style={{ minWidth: 120 }} onClick={onCreateSpouse} disabled={!canWrite}>
                   {isMale() ? t("Vợ") : t("Chồng")}
                 </Button>
               )}
               {hasParents() && (
-                <Button size="small" prefixIcon={<CommonIcon.AddPerson size={"1rem"}/>} style={{ minWidth: 140 }} onClick={onCreateSibling}>
+                <Button size="small" prefixIcon={<CommonIcon.AddPerson size={"1rem"}/>} style={{ minWidth: 140 }} onClick={onCreateSibling} disabled={!canWrite}>
                   {t("Anh/Chị/Em")}
                 </Button>
               )}

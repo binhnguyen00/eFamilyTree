@@ -4,10 +4,9 @@ import { Button, Input, Sheet, Text, DatePicker } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
 import { DateTimeUtils } from "utils";
-import { Member } from "types/common";
-import { FailResponse, ServerResponse } from "types/server";
 import { CommonIcon, Selection, Label } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
+import { FailResponse, ServerResponse, Member } from "types";
 
 interface UICreateSpouseProps {
   spouse: Member | null;

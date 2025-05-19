@@ -86,26 +86,26 @@ function UIToastButtons() {
 }
 
 function UIUserPermission() {
-  const { canRead, canWrite, canModerate, canAdmin } = usePageContext();
+  const { module, permissions } = usePageContext();
   return (
     <div className="flex-v flex-grow-0 text-base">
       <Text.Title size="large"> {"Permission"} </Text.Title>
       <table>
         <tr>
           <td>Can Read</td>
-          <td>{canRead ? "yes" : "no"}</td>
+          <td>{permissions.canRead ? "yes" : "no"}</td>
         </tr>
         <tr>
           <td>Can Write</td>
-          <td>{canWrite ? "yes" : "no"}</td>
+          <td>{permissions.canWrite ? "yes" : "no"}</td>
         </tr>
         <tr>
           <td>Can Moderate</td>
-          <td>{canModerate ? "yes" : "no"}</td>
+          <td>{permissions.canModerate ? "yes" : "no"}</td>
         </tr>
         <tr>
           <td>Can Admin</td>
-          <td>{canAdmin ? "yes" : "no"}</td>
+          <td>{permissions.canAdmin ? "yes" : "no"}</td>
         </tr>
       </table>
     </div>

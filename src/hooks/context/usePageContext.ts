@@ -1,10 +1,8 @@
 import React from "react";
 
 import { BaseApi } from "api";
-import { Module } from "types/app-context";
-import { ServerResponse } from "types/server";
 import { useAppContext, useRouteNavigate } from "hooks";
-import { PageContext, Capability } from "types/page-context";
+import { ServerResponse, PageContext, Capability, Module } from "types";
 
 function useCurrentModule(): { module: Module } {
   const map: Record<string, Module> = {
@@ -54,11 +52,12 @@ export function usePageContext() {
 
   return {
     module      : context.module,
-    capability  : context.capability,
-    canRead     : canRead(context.capability),
-    canWrite    : canWrite(context.capability),
-    canModerate : canModerate(context.capability),
-    canAdmin    : canAdmin(context.capability)
+    permissions: {
+      canRead     : canRead(context.capability),
+      canWrite    : canWrite(context.capability),
+      canModerate : canModerate(context.capability),
+      canAdmin    : canAdmin(context.capability)
+    }
   } as PageContext;
 }
 

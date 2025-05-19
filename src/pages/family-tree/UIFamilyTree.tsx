@@ -1,20 +1,29 @@
 import React from "react";
 import { t } from "i18next";
-import { Button } from "zmp-ui";
+import { Text } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
 import { Member } from "types/common";
 import { ServerResponse } from "types/server";
 import { ExtNode, Node } from "components/tree-relatives/types";
 import { TreeUtils, TreeDataProcessor } from "utils";
-import { useAppContext, useFamilyTree, useNotification } from "hooks";
-import { Header, TreeNode, FamilyTree, TreeConfig, Loading, Info, CommonIcon } from "components";
+import { useAppContext, useFamilyTree, useNotification, usePageContext } from "hooks";
+import { Header, TreeNode, FamilyTree, TreeConfig, Loading, Retry } from "components";
 
 import { UICreateSpouse } from "./UICreateSpouse";
 import { UICreateChild } from "./UICreateChild";
 import { UICreateRoot } from "./UICreateRoot";
 import { UICreateSibling } from "./UICreateSibling";
-import { CreateMode, UITreeMemberDetails } from "./UIFamilyTreeDetails";
+import { UITreeMemberDetails } from "./UIFamilyTreeDetails";
+
+import { img_1 } from "assets/img/about/index";
+
+export enum CreateMode {
+  NONE = "none",
+  CHILD = "child",
+  SPOUSE = "spouse",
+  SIBLING = "sibling",
+}
 
 export function UIFamilyTree() {
   const { useSearchFamilyTree } = useFamilyTree();
@@ -22,29 +31,21 @@ export function UIFamilyTree() {
 
   const renderContainer = () => {
     if (loading) {
-      return (
-        <div className="max-h">
-          <Loading/>
-        </div>
-      )
+      return <div className="container"> <Loading/> </div>
     } else if (error) {
       return (
-        <div className="flex-v flex-grow-0 max-h container">
-          <Info title={t("Chưa có dữ liệu")}/>
-          <div className="center">
-            <Button size="small" prefixIcon={<CommonIcon.Reload size={"1rem"}/>} onClick={() => refresh()}>
-              {t("retry")}
-            </Button>
+        <div className="container">
+          <br />
+          <div className="flex-v center text-base">
+            <Text.Title size="xLarge"> {t("Phả đồ chưa có thành viên nào")} </Text.Title>
+            <Text size="large"> {t("Hãy liên hệ với vị Trưởng Họ để tạo thành viên đầu tiên")} </Text>
+            <Retry title={""} onClick={() => refresh()}/>
+            <img src={img_1} className="w-50 h-50"/>
           </div>
         </div>
       )
     } else {
-      return (
-        <UIFamilyTreeContainer 
-          processor={processor}
-          onReload={refresh}
-        />
-      )
+      return <UIFamilyTreeContainer processor={processor} onReload={refresh}/>
     }
   }
 
@@ -65,22 +66,30 @@ interface UIFamilyTreeContainerProps {
 }
 export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) { 
   const { processor, onReload } = props;
-  const [ createMode, setCreateMode ] = React.useState<CreateMode | null>(null);
+  const [ createMode, setCreateMode ] = React.useState<CreateMode>(CreateMode.NONE);
+
+  const { loadingToast } = useNotification();
+  const { userInfo } = useAppContext();
+  const { module, permissions } = usePageContext();
 
   if (processor.nodes.length === 0) {
+    if (!permissions.canWrite) return (
+      <div className="container flex-v center text-base">
+        <Text.Title size="xLarge"> {t("Phả đồ chưa có thành viên nào")} </Text.Title>
+        <Text size="large"> {t("Hãy liên hệ với vị Trưởng Họ để tạo thành viên đầu tiên")} </Text>
+        <img src={img_1} className="w-50 h-50"/>
+      </div>
+    );
     return (
-      <div id="tree-container">
+      <div className="container">
         <UICreateRoot
-          visible={true}
-          onClose={() => setCreateMode(null)} 
           onReloadParent={onReload}
+          onClose={() => setCreateMode(CreateMode.NONE)}
+          visible={permissions.canWrite} module={module} permissions={permissions}
         />
       </div>
     )
   }
-
-  const { userInfo } = useAppContext();
-  const { loadingToast } = useNotification();
 
   const [ reload,   setReload ] = React.useState(false);
   const [ resetBtn, setResetBtn ] = React.useState<boolean>(false);
@@ -191,37 +200,30 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
       </div>
 
       <UITreeMemberDetails
-        info={node}
-        processor={processor}
-        visible={node !== null ? true : false} 
-        onClose={() => setNode(null)}
-        toSubNodes={toBranch}
+        visible={node !== null}
+        info={node} permissions={permissions} module={module} processor={processor}
         onCreateChild={() => setCreateMode(CreateMode.CHILD)}
         onCreateSpouse={() => setCreateMode(CreateMode.SPOUSE)}
         onCreateSibling={() => setCreateMode(CreateMode.SIBLING)}
-        onReloadParent={onReload}
+        onClose={() => setNode(null)} toSubNodes={toBranch} onReloadParent={onReload}
       />
 
-      <UICreateSpouse 
-        spouse={node} 
-        visible={createMode && createMode === CreateMode.SPOUSE ? true : false}
-        onClose={() => setCreateMode(null)} 
-        onReloadParent={onReload}
+      <UICreateSpouse
+        spouse={node}
+        visible={CreateMode.SPOUSE === createMode}
+        onClose={() => setCreateMode(CreateMode.NONE)} onReloadParent={onReload}
       />
 
       <UICreateChild
-        dad={node}
-        visible={createMode && createMode === CreateMode.CHILD ? true : false}
-        onClose={() => setCreateMode(null)} 
-        processor={processor}
-        onReloadParent={onReload}
+        dad={node} processor={processor}
+        visible={CreateMode.CHILD === createMode}
+        onClose={() => setCreateMode(CreateMode.NONE)} onReloadParent={onReload}
       />
 
       <UICreateSibling
         sibling={node}
-        visible={createMode && createMode === CreateMode.SIBLING ? true : false}
-        onClose={() => setCreateMode(null)} 
-        onReloadParent={onReload}
+        visible={CreateMode.SIBLING === createMode}
+        onClose={() => setCreateMode(CreateMode.NONE)} onReloadParent={onReload}
       />
     </>
   )
