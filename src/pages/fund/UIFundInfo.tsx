@@ -227,10 +227,10 @@ function UIFooter(props: UIFooterProps) {
   return (
     <div className="flex-h scroll-h px-3" style={{ position: "fixed", bottom: 30, right: 0 }}>
       <Button className="button-success" style={{ minWidth: 100 }} size="small" prefixIcon={<CommonIcon.Plus/>} onClick={onOpenIncome}>
-        {t("thêm thu")}
+        {t("thu")}
       </Button>
       <Button className="button-danger" style={{ minWidth: 100 }} size="small" prefixIcon={<CommonIcon.Plus/>} onClick={onOpenExpense}>
-        {t("thêm chi")}
+        {t("chi")}
       </Button>
       <Button style={{ minWidth: 120 }} size="small" prefixIcon={<CommonIcon.QRCode/>} onClick={onOpenQrCode}>
         {t("mã QR")}

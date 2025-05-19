@@ -55,15 +55,35 @@ export function usePageContext() {
   return {
     module      : context.module,
     capability  : context.capability,
-    canRead     : canRead(context),
-    canWrite    : canWrite(context),
-    canModerate : canModerate(context),
-    canAdmin    : canAdmin(context)
+    canRead     : canRead(context.capability),
+    canWrite    : canWrite(context.capability),
+    canModerate : canModerate(context.capability),
+    canAdmin    : canAdmin(context.capability)
   } as PageContext;
 }
 
-function analyzePermission(ctx: PageContext): Capability[] {
-  switch (ctx.capability) {
+function canRead(cap: Capability) {
+  const perms = analyzePermission(cap);
+  return perms.includes(Capability.READ);
+}
+
+function canWrite(cap: Capability) {
+  const perms = analyzePermission(cap);
+  return perms.includes(Capability.WRITE);
+}
+
+function canModerate(cap: Capability) {
+  const perms = analyzePermission(cap);
+  return perms.includes(Capability.MODERATOR);
+}
+
+function canAdmin(cap: Capability) {
+  const perms = analyzePermission(cap);
+  return perms.includes(Capability.ADMIN);
+}
+
+function analyzePermission(cap: Capability): Capability[] {
+  switch (cap) {
     case Capability.READ:
       return [ Capability.READ ]
     case Capability.WRITE:
@@ -73,24 +93,4 @@ function analyzePermission(ctx: PageContext): Capability[] {
     case Capability.ADMIN:
       return [ Capability.READ, Capability.WRITE, Capability.MODERATOR, Capability.ADMIN ]
   }
-}
-
-function canRead(ctx: PageContext) {
-  const perms = analyzePermission(ctx);
-  return perms.includes(Capability.READ);
-}
-
-function canWrite(ctx: PageContext) {
-  const perms = analyzePermission(ctx);
-  return perms.includes(Capability.WRITE);
-}
-
-function canModerate(ctx: PageContext) {
-  const perms = analyzePermission(ctx);
-  return perms.includes(Capability.MODERATOR);
-}
-
-function canAdmin(ctx: PageContext) {
-  const perms = analyzePermission(ctx);
-  return perms.includes(Capability.ADMIN);
 }

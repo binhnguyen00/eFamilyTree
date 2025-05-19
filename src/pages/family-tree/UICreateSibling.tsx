@@ -2,13 +2,12 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Input, Sheet, Text, DatePicker } from "zmp-ui";
 
-import { DateTimeUtils, StyleUtils } from "utils";
+import { DateTimeUtils } from "utils";
 import { FamilyTreeApi } from "api";
+import { Member } from "types/common";
+import { FailResponse, ServerResponse } from "types/server";
 import { CommonIcon, Selection, Label } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
-import { FailResponse, ServerResponse } from "types/server";
-
-import { Member } from "./UIFamilyTreeDetails";
 
 interface UICreateSiblingProps {
   sibling: Member | null;

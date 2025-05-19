@@ -3,6 +3,7 @@ import { t } from "i18next";
 import { Button } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
+import { Member } from "types/common";
 import { ServerResponse } from "types/server";
 import { ExtNode, Node } from "components/tree-relatives/types";
 import { TreeUtils, TreeDataProcessor } from "utils";
@@ -13,7 +14,7 @@ import { UICreateSpouse } from "./UICreateSpouse";
 import { UICreateChild } from "./UICreateChild";
 import { UICreateRoot } from "./UICreateRoot";
 import { UICreateSibling } from "./UICreateSibling";
-import { CreateMode, Member, UITreeMemberDetails } from "./UIFamilyTreeDetails";
+import { CreateMode, UITreeMemberDetails } from "./UIFamilyTreeDetails";
 
 export function UIFamilyTree() {
   const { useSearchFamilyTree } = useFamilyTree();

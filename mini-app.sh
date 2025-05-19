@@ -55,7 +55,18 @@ function login() {
 }
 
 function deploy() {
-  pnpm run deploy
+  typescript_check
+  if [ $? -eq 0 ]; then
+    pnpm run deploy
+  else
+    echo "Build failed. Deployment aborted."
+    exit 1
+  fi
+}
+
+function typescript_check() {
+  echo "checking typescript..."
+  pnpm tsc -b
 }
 
 function run() {

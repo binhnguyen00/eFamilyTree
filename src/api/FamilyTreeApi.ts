@@ -1,6 +1,6 @@
 import { BaseApi } from "./BaseApi";
+import { Member } from "types/common";
 import { SuccessCB, FailCB } from "types/server"
-import { Member } from "pages/family-tree/UIFamilyTreeDetails";
 
 export class FamilyTreeApi extends BaseApi {
 

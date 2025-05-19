@@ -3,13 +3,11 @@ import { t } from "i18next";
 import { Button, Input, Sheet, Text, DatePicker } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
-import { DateTimeUtils, StyleUtils } from "utils";
-import { useAppContext, useBeanObserver, useNotification } from "hooks";
-import { CommonIcon, Selection, Label } from "components";
-
+import { DateTimeUtils } from "utils";
+import { Member } from "types/common";
 import { FailResponse, ServerResponse } from "types/server";
-
-import { Member } from "./UIFamilyTreeDetails";
+import { CommonIcon, Selection, Label } from "components";
+import { useAppContext, useBeanObserver, useNotification } from "hooks";
 
 interface UICreateSpouseProps {
   spouse: Member | null;

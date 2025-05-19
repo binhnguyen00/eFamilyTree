@@ -2,13 +2,10 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Text, Grid } from "zmp-ui";
 
-import { StyleUtils, ZmpSDK } from "utils";
+import { ZmpSDK } from "utils";
+import { Theme } from "types/user-settings";
 import { Header, Loading, Retry, ScrollableDiv } from "components";
 import { useNotification, useAppContext, usePageContext, useOverlayContext } from "hooks";
-
-import { Theme } from "types/user-settings";
-import { Module } from "types/app-context";
-
 
 export function UIPlayground() {
 
@@ -89,11 +86,10 @@ function UIToastButtons() {
 }
 
 function UIUserPermission() {
-  const module = Module.FAMILY_TREE;
-  const { canRead, canWrite, canModerate, canAdmin } = usePageContext(module);
+  const { canRead, canWrite, canModerate, canAdmin } = usePageContext();
   return (
     <div className="flex-v flex-grow-0 text-base">
-      <Text.Title size="large"> {`Permission: ${module}`} </Text.Title>
+      <Text.Title size="large"> {"Permission"} </Text.Title>
       <table>
         <tr>
           <td>Can Read</td>

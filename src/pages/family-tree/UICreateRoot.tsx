@@ -2,14 +2,12 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Input, Sheet, Text, DatePicker } from "zmp-ui";
 
-import { DateTimeUtils, StyleUtils } from "utils";
 import { FamilyTreeApi } from "api";
+import { DateTimeUtils } from "utils";
+import { Member } from "types/common";
+import { FailResponse, ServerResponse } from "types/server";
 import { CommonIcon, Selection, Label } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
-import { FailResponse, ServerResponse } from "types/server";
-
-import { Member } from "./UIFamilyTreeDetails";
-import { content } from "html2canvas/dist/types/css/property-descriptors/content";
 
 interface UICreateRootProps {
   visible: boolean;
