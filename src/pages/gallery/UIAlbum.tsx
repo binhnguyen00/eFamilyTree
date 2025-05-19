@@ -125,7 +125,7 @@ export function UIAlbum() {
     return (
       <>
         <div className="center flex-v flex-grow-0 pt-3">
-          <PhotoProvider maskOpacity={0.5} maskClosable pullClosable>
+          <PhotoProvider maskOpacity={0.5} maskClosable pullClosable bannerVisible={false}>
             <PhotoView src={`${serverBaseUrl}/${observer.getBean().thumbnailPath}`}>
               <img
                 className="rounded object-cover"

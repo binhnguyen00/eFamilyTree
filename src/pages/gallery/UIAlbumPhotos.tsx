@@ -7,7 +7,7 @@ import { PhotoProvider, PhotoView } from 'react-photo-view';
 import { GalleryApi } from "api";
 import { ServerResponse } from "types/server";
 import { CommonUtils, ZmpSDK } from "utils";
-import { CommonIcon, Loading, Retry } from "components";
+import { CommonIcon, Loading, Retry, TailSpin } from "components";
 import { useAppContext, useNotification } from "hooks";
 
 // dummies
@@ -119,7 +119,7 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
           {isSelecting ? (
             <>
               <img 
-                src={`${serverBaseUrl}/${photo.url}`} className="object-cover"
+                src={`${serverBaseUrl}/${photo.url}`} className="object-cover" style={{ width: 200, height: 200 }}
                 onError={(e) => {
                   if (e.currentTarget.src !== fallbackThumbnail) {
                     e.currentTarget.src = fallbackThumbnail;
@@ -133,7 +133,7 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
           ): (
             <PhotoView src={`${serverBaseUrl}/${photo.url}`} key={photo.id}>
               <img 
-                src={`${serverBaseUrl}/${photo.url}`} className="object-cover"
+                src={`${serverBaseUrl}/${photo.url}`} className="object-cover" style={{ width: 200, height: 200 }}
                 onError={(e) => {
                   if (e.currentTarget.src !== fallbackThumbnail) {
                     e.currentTarget.src = fallbackThumbnail;
@@ -286,7 +286,7 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
             </div>
           </div>
     
-          <PhotoProvider maskOpacity={0.5} maskClosable pullClosable bannerVisible={false}>
+          <PhotoProvider maskOpacity={0.5} maskClosable pullClosable loadingElement={<TailSpin/>}>
             <Grid columnCount={2} rowSpace="1rem" columnSpace="1rem">
               {renderPhotos()}
             </Grid>

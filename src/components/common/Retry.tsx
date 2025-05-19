@@ -25,7 +25,7 @@ export function Retry(props: RetryProps) {
   const { title = "", message, className, onClick, extra, buttonType = "tertiary" } = props;
   return (
     <div className={`${className ? className : ""}`.trim()}>
-      {title.length > 0 && <Info title={title} message={message}/>}
+      <Info title={title} message={message}/>
       <div className="center">
         <Button className="button-link" variant={buttonType} size="small" prefixIcon={<CommonIcon.Reload size={"1rem"}/>} onClick={() => onClick()}>
           {t("retry")}

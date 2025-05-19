@@ -7,7 +7,7 @@ import { GalleryApi } from "api";
 import { CommonUtils, StyleUtils } from "utils";
 import { useAppContext } from "hooks";
 import { ServerResponse } from "types/server";
-import { Loading, Header, Retry, ScrollableDiv, Divider } from "components";
+import { Loading, Header, Retry, ScrollableDiv, Divider, TailSpin } from "components";
 
 import { Photo } from "./UIAlbumPhotos";
 
@@ -67,7 +67,7 @@ function UIPhotosContainer({ photos }: { photos: Photo[] }) {
   }
 
   return (
-    <PhotoProvider maskOpacity={0.5} maskClosable pullClosable>
+    <PhotoProvider maskOpacity={0.5} maskClosable pullClosable loadingElement={<TailSpin/>}>
       <Grid columnCount={3} rowSpace="1rem" columnSpace="1rem">
         {renderPhotos()}
       </Grid>
