@@ -7,7 +7,7 @@ import { CommonIcon } from "components/icon";
 interface RetryProps {
   onClick: () => void;
   buttonType?: "primary" | "secondary" | "tertiary";
-  title: string;
+  title?: string;
   message?: string;
   className?: string;
   extra?: React.ReactNode;
@@ -22,10 +22,10 @@ interface RetryProps {
  * @returns 
  */
 export function Retry(props: RetryProps) {
-  const { title, message, className, onClick, extra, buttonType = "tertiary" } = props;
+  const { title = "", message, className, onClick, extra, buttonType = "tertiary" } = props;
   return (
     <div className={`${className ? className : ""}`.trim()}>
-      <Info title={title} message={message}/>
+      {title.length > 0 && <Info title={title} message={message}/>}
       <div className="center">
         <Button className="button-link" variant={buttonType} size="small" prefixIcon={<CommonIcon.Reload size={"1rem"}/>} onClick={() => onClick()}>
           {t("retry")}
