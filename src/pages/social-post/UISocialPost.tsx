@@ -4,7 +4,7 @@ import { Button, Text } from "zmp-ui";
 
 import { StyleUtils } from "utils";
 import { SocialPostApi } from "api";
-import { useAppContext, useRouteNavigate } from "hooks";
+import { useAppContext, usePageContext, useRouteNavigate } from "hooks";
 import { Card, Header, Loading, ScrollableDiv, Selection, SelectionOption } from "components";
 
 import { ServerResponse } from "types/server";
@@ -26,8 +26,6 @@ export function useSocialPosts(type: SocialPostType = SocialPostType.NEWS) {
   const refresh = () => setReload(!reload);
 
   React.useEffect(() => {
-    console.log(type);
-
     setLoading(true);
     setError(false);
     setPosts([]);
@@ -62,6 +60,7 @@ export function useSocialPosts(type: SocialPostType = SocialPostType.NEWS) {
 }
 
 export function UISocialPost() {
+  const { canWrite } = usePageContext();
   const [ type, setType ] = React.useState<SocialPostType>(SocialPostType.NEWS);
   const options: any[] = [
     { value: SocialPostType.NEWS, label: t("Tin Đăng") },

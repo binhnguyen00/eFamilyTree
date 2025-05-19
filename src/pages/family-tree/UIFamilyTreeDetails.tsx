@@ -3,8 +3,8 @@ import { t } from "i18next";
 import { Button, Input, Text, Sheet, Modal, DatePicker, Avatar } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
-import { CommonUtils, DateTimeUtils, StyleUtils, TreeDataProcessor, ZmpSDK } from "utils";
-import { useBeanObserver, useNotification, useAppContext } from "hooks";
+import { CommonUtils, DateTimeUtils, TreeDataProcessor, ZmpSDK } from "utils";
+import { useBeanObserver, useNotification, useAppContext, usePageContext } from "hooks";
 import { CommonIcon, Selection, Label, SelectionOption } from "components";
 import { FailResponse, ServerResponse } from "types/server";
 
@@ -237,11 +237,9 @@ export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
     return (
       <div className="flex-v center"> 
         <Avatar src={src} size={140}/>
-        {userInfo.id === observer.getBean().id && ( 
-          <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onUpdateAvatar}>
-            {observer.getFieldValue("avatar") === "" ? t("cập nhật") : t("sửa")}
-          </Button>
-        )}
+        <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onUpdateAvatar}>
+          {observer.getFieldValue("avatar") === "" ? t("cập nhật") : t("sửa")}
+        </Button>
       </div>
     )
   }
