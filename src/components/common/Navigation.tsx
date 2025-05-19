@@ -20,7 +20,6 @@ function useDefaultPath() {
 export function Navigation() {
   const { appId } = useAppContext();
   const { currentPath, rootPath } = useRouteNavigate();
-  console.log("currentPath", currentPath);
   useDefaultPath();
 
   const REMOVE_NAVIGATION = [

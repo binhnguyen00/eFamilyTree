@@ -42,12 +42,13 @@ export type UserInfo = {
 }
 
 export enum Module {
-  FUND = "module-fund",
-  THEME = "module-theme",
-  GALLERY = "module-gallery",
-  CALENDAR = "module-calendar",
-  CERTIFICATE = "module-certificate",
-  FAMILY_TREE = "module-family-tree",
-  SOCIAL_POST = "module-social-post",
-  RITUAL_SCRIPT = "module-ritual-script",
+  FUND              = "module-fund",
+  CALENDAR          = "module-calendar",
+  HALL_OF_FAME      = "module-hall-of-fame",
+  SOCIAL_POST       = "module-social-post",
+  GALLERY           = "module-gallery",
+  FAMILY_TREE       = "module-family-tree",
+  RITUAL_SCRIPT     = "module-ritual-script",
+  MEMORIAL_LOCATION = "module-memorial-location",
+  PLAYGROUND        = "module-playground",
 }

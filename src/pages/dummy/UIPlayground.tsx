@@ -89,7 +89,7 @@ function UIToastButtons() {
 }
 
 function UIUserPermission() {
-  const module = Module.THEME;
+  const module = Module.FAMILY_TREE;
   const { canRead, canWrite, canModerate, canAdmin } = usePageContext(module);
   return (
     <div className="flex-v flex-grow-0 text-base">
