@@ -3,9 +3,10 @@ import { t } from "i18next";
 import { Button } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
-import { ServerResponse } from "types";
+import { PageContextProps, PagePermissions, ServerResponse } from "types";
 import { Header, Loading, Retry, RichTextEditor, ScrollableDiv } from "components";
 import { useBeanObserver, useRouteNavigate, useAppContext, useNotification } from "hooks";
+import classNames from "classnames";
 
 function useBiography(userId: number) {
   const { userInfo } = useAppContext();
@@ -48,7 +49,10 @@ export function UIBiography() {
   const { userInfo } = useAppContext();
   const { loadingToast } = useNotification();
   const { belongings } = useRouteNavigate();
-  const { id } = belongings;
+  const { id, permissions } = belongings as {
+    id: number;
+    permissions: PagePermissions;
+  };
   const { biography, loading, error, refresh } = useBiography(id)
   const observer = useBeanObserver({
     id: id,
@@ -86,9 +90,9 @@ export function UIBiography() {
     } else {
       return (
         <div className="flex-v">
-          <RichTextEditor field="biography" observer={observer}/>
+          <RichTextEditor field="biography" observer={observer} disabled={!permissions.canModerate}/>
           <div className="center">
-            <Button size="small" variant="primary" onClick={onSave}>
+            <Button size="small" variant="primary" onClick={onSave} className={classNames(!permissions.canModerate && "hide")}>
               {t("save")}
             </Button>
           </div>

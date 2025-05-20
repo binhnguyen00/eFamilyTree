@@ -329,3 +329,9 @@ button, .button {
   font-weight: bold !important;
   @extend .rounded;
 }
+
+// react-quill
+.ql-editor {
+  tab-size: 2 !important;
+  @extend .p-2;
+}

@@ -40,7 +40,7 @@ export function RichTextEditor<T extends Record<string, any>>(props: RichTextEdi
         placeholder={placeholder}
         className={classNames("text-base", "h-full", className)}
         modules={{
-          toolbar: [
+          toolbar: disabled ? [] : [
             [{ 'header': [1, 2, 3, false] }],
             ['bold', 'italic', 'underline'],
             [{ 'list': 'ordered' }, { 'list': 'bullet' }],
