@@ -1,17 +1,17 @@
 import { Node, Gender, RelType, Relation } from "components/tree-relatives/types";
 
-export interface ServerNodeFormat {
-  id: number;
-  code: string;
-  name: string;
-  gender: "1" | "0";  // 1: male, 0: female
-  fid: number | null;
-  mid: number | null;
-  avatar: string;
-  pids: number[];
-  phone: string;
-  is_alive: boolean;
-  generation: number;
+export interface OdooTreeMember {
+  id          : number;
+  code        : string;
+  name        : string;
+  avatar      : string;
+  gender      : "1" | "0";  // 1: male, 0: female
+  fid         : number;     // father id. could be 0 if has no father
+  mid         : number;     // mother id. could be 0 if has no mother
+  pids        : number[];   // spouse ids. could be [] if has no spouses
+  phone       : string;
+  is_alive    : boolean;
+  generation  : number;
 }
 
 /**
@@ -19,13 +19,17 @@ export interface ServerNodeFormat {
  * @return Family Tree Nodes (Node)
  */
 export class TreeDataProcessor {
-  private people: ServerNodeFormat[]
+  private odooMembers: OdooTreeMember[]
   public nodes: Node[];
   public rootId: string;
 
-  constructor(data: ServerNodeFormat[]) {
-    this.people = data;
-    if (!data.length) {
+  constructor(data: OdooTreeMember[]) {
+    if (!data.length) 
+      this.odooMembers = []
+    else 
+      this.odooMembers = data
+
+    if (!this.odooMembers.length) {
       this.nodes = [];
       this.rootId = "0";
     } else {
@@ -41,7 +45,7 @@ export class TreeDataProcessor {
 
   public peopleToNodes(): Node[] {
     let nodes: Node[] = [];
-    this.people.map((person: ServerNodeFormat) => {
+    this.odooMembers.map((person: OdooTreeMember) => {
       nodes.push(this.personToNode(person));
     })
     return nodes;
@@ -60,7 +64,7 @@ export class TreeDataProcessor {
   }
 
   public getNode(id: string): Node | null {
-    const target = this.people.find((person: ServerNodeFormat) => {
+    const target = this.odooMembers.find((person: OdooTreeMember) => {
       return person.id.toString() === id;
     })
     if (!target) return null;
@@ -69,31 +73,31 @@ export class TreeDataProcessor {
   }
 
   public getSpouses(id: number) {
-    const targetPerson = this.people.find((person: ServerNodeFormat) => person.id === id);
+    const targetPerson = this.odooMembers.find((person: OdooTreeMember) => person.id === id);
     if (!targetPerson) return [];
     const spouses = targetPerson.pids
-      .map((spouseId: number) => this.people.find((person: ServerNodeFormat) => person.id === spouseId))
-      .filter((spouse: ServerNodeFormat | undefined) => spouse !== undefined)
-      .map((spouse: ServerNodeFormat) => this.personToNode(spouse));
+      .map((spouseId: number) => this.odooMembers.find((person: OdooTreeMember) => person.id === spouseId))
+      .filter((spouse: OdooTreeMember | undefined) => spouse !== undefined)
+      .map((spouse: OdooTreeMember) => this.personToNode(spouse));
     return spouses || [];
   }
 
-  private personToNode(person: ServerNodeFormat): Node {
+  private personToNode(person: OdooTreeMember): Node {
     return {
-      id: person.id.toString(),
-      gender: person.gender === "1" ? Gender.male : Gender.female,
-      name: person.name,
-      avatar: person.avatar,
-      generation: person.generation,
-      isAlive: person.is_alive,
-      parents: this.getParentRelations(person),
-      children: this.getChildrenRelations(person),
-      siblings: this.getSiblingRelations(person),
-      spouses: this.getSpouseRelations(person),
+      id         : person.id.toString(),
+      gender     : person.gender === "1" ? Gender.male : Gender.female,
+      name       : person.name,
+      avatar     : person.avatar,
+      generation : person.generation,
+      isAlive    : person.is_alive,
+      parents    : this.getParentRelations(person),
+      children   : this.getChildrenRelations(person),
+      siblings   : this.getSiblingRelations(person),
+      spouses    : this.getSpouseRelations(person),
     }
   }
 
-  private getParentRelations(target: ServerNodeFormat): Relation[] {
+  private getParentRelations(target: OdooTreeMember): Relation[] {
     const relations: Relation[] = [];
     if (target.fid) {
       relations.push({
@@ -110,13 +114,13 @@ export class TreeDataProcessor {
     return relations;
   }
 
-  private getChildrenRelations(target: ServerNodeFormat): Relation[] {
+  private getChildrenRelations(target: OdooTreeMember): Relation[] {
     let childen: Relation[] = new Array();
-    this.people
-      .filter((person: ServerNodeFormat) => { // filter out children
+    this.odooMembers
+      .filter((person: OdooTreeMember) => { // filter out children
         return person.fid === target.id || person.mid === target.id;
       })
-      .map((child: ServerNodeFormat) => { // map children
+      .map((child: OdooTreeMember) => { // map children
         childen.push({
           id: child.id.toString(),
           type: RelType.blood
@@ -125,10 +129,10 @@ export class TreeDataProcessor {
     return childen;
   }
 
-  private getSiblingRelations(target: ServerNodeFormat): Relation[] {
+  private getSiblingRelations(target: OdooTreeMember): Relation[] {
     let siblings: Relation[] = new Array();
-    this.people
-      .filter((person: ServerNodeFormat) => { // filter out siblings
+    this.odooMembers
+      .filter((person: OdooTreeMember) => { // filter out siblings
         return (
           (person.id !== target.id) && 
           (
@@ -137,7 +141,7 @@ export class TreeDataProcessor {
           )
         )
       })
-      .map((sibling: ServerNodeFormat) => { // map siblings
+      .map((sibling: OdooTreeMember) => { // map siblings
         siblings.push({
           id: sibling.id.toString(),
           type: (target.fid === sibling.fid) && (target.mid === sibling.mid)
@@ -148,7 +152,7 @@ export class TreeDataProcessor {
     return siblings;
   }
 
-  private getSpouseRelations(person: ServerNodeFormat): Relation[] {
+  private getSpouseRelations(person: OdooTreeMember): Relation[] {
     let spouses: Relation[] = new Array();
     person.pids.map((spouseId: number) => {
       spouses.push({

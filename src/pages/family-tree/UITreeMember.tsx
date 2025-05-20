@@ -8,7 +8,7 @@ import { CommonUtils, DateTimeUtils, TreeDataProcessor, ZmpSDK } from "utils";
 import { Member, PageContextProps, FailResponse, ServerResponse } from "types";
 import { useBeanObserver, useNotification, useAppContext } from "hooks";
 
-interface UITreeMemberDetailsProps extends PageContextProps {
+interface UITreeMemberProps extends PageContextProps {
   info: Member | null;
   visible: boolean;
   processor: TreeDataProcessor;
@@ -19,7 +19,7 @@ interface UITreeMemberDetailsProps extends PageContextProps {
   onCreateSibling?: () => void;
   onReloadParent?: () => void;
 }
-export function UITreeMemberDetails(props: UITreeMemberDetailsProps) {
+export function UITreeMember(props: UITreeMemberProps) {
   const { info, visible, processor, permissions, onCreateSpouse, onCreateChild, onCreateSibling, onReloadParent, onClose, toSubNodes } = props;
   const { canWrite } = permissions;
 

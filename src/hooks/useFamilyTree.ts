@@ -5,7 +5,7 @@ import { useAppContext } from "hooks";
 import { SelectionOption } from "components";
 import { ServerResponse } from "types/server";
 import { TreeDataProcessor } from "utils";
-import { ServerNodeFormat } from "utils/TreeDataProcessor";
+import { OdooTreeMember } from "utils/TreeDataProcessor";
 
 function useDeadMembers() {
   const { userInfo } = useAppContext();
@@ -74,7 +74,7 @@ function useSearchFamilyTree() {
         if (result.status === "error") {
           setError(true);
         } else {
-          const data = result.data as ServerNodeFormat[];
+          const data = result.data as OdooTreeMember[];
           const treeProcessor = new TreeDataProcessor(data);
           setProcessor(treeProcessor);
         }

@@ -14,7 +14,7 @@ import { UICreateSpouse } from "./UICreateSpouse";
 import { UICreateChild } from "./UICreateChild";
 import { UICreateRoot } from "./UICreateRoot";
 import { UICreateSibling } from "./UICreateSibling";
-import { UITreeMemberDetails } from "./UIFamilyTreeDetails";
+import { UITreeMember } from "./UITreeMember";
 
 import { img_1 } from "assets/img/about/index";
 
@@ -199,7 +199,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
         />
       </div>
 
-      <UITreeMemberDetails
+      <UITreeMember
         visible={node !== null}
         info={node} permissions={permissions} module={module} processor={processor}
         onCreateChild={() => setCreateMode(CreateMode.CHILD)}
