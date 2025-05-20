@@ -8,7 +8,7 @@ import { FamilyTreeApi } from "api";
 import { CommonIcon, Selection, Label, SelectionOption } from "components";
 import { CommonUtils, DateTimeUtils, TreeDataProcessor, ZmpSDK } from "utils";
 import { TreeMember, PageContextProps, FailResponse, ServerResponse } from "types";
-import { useBeanObserver, useNotification, useAppContext } from "hooks";
+import { useBeanObserver, useNotification, useAppContext, useRouteNavigate } from "hooks";
 
 interface UITreeMemberProps extends PageContextProps {
   info: TreeMember | null;
@@ -28,6 +28,7 @@ export function UITreeMember(props: UITreeMemberProps) {
   if (info === null) return;
 
   const observer = useBeanObserver(info || {} as TreeMember);
+  const { goTo } = useRouteNavigate();
   const { userInfo, serverBaseUrl } = useAppContext();
   const { successToast, dangerToast, warningToast, loadingToast } = useNotification();
   const [ deleteWarning, setDeleteWarning ] = React.useState(false);
@@ -187,11 +188,27 @@ export function UITreeMember(props: UITreeMemberProps) {
             <Avatar src={src} size={140} className="object-cover"/>
           </PhotoView>
         </PhotoProvider>
-        <Button size="small" variant="tertiary" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onUpdateAvatar} className={classNames("button-link", !isOwner() && "hide")}>
-          {observer.getFieldValue("avatar") === "" ? t("cập nhật") : t("sửa")}
-        </Button>
+        <div className="flex-h">
+          <Button size="small" variant="tertiary" prefixIcon={<CommonIcon.Bookmark/>} onClick={goToBiography} className="button-link">
+            {t("tiểu sử")}
+          </Button>
+          <Button size="small" variant="tertiary" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onUpdateAvatar} className={classNames("button-link", !isOwner() && "hide")}>
+            {t("sửa ảnh")}
+          </Button>
+          <Button 
+            size="small" variant="tertiary" className="button-link"
+            prefixIcon={<CommonIcon.Tree size={"1rem"}/>} style={{ minWidth: 140 }} 
+            onClick={() => toSubNodes?.(observer.getBean().id.toString())}
+          >
+            {t("nhánh")}
+          </Button>
+        </div>
       </div>
     )
+  }
+
+  const goToBiography = () => {
+    goTo({ path: "family-tree/biography", belongings: { id: observer.getBean().id } })
   }
 
   return (
@@ -273,7 +290,7 @@ export function UITreeMember(props: UITreeMemberProps) {
           <Input.TextArea
             label={<Label text={t("Ngày Mất (Âm lịch)")}/>} disabled={!canWrite}
             value={observer.getBean().deathDateNote} name="deathDateNote"
-            onChange={(e) => observer.update("deathDateNote", e.target.value)}
+            onChange={(e) => observer.update("deathDateNote", e.target.value)} size="small"
           />
           <Input 
             label={<Label text={t("bố")}/>}
@@ -294,13 +311,6 @@ export function UITreeMember(props: UITreeMemberProps) {
         <div className="flex-v flex-grow-0">
 
           <div className="scroll-h">
-            <Button 
-              size="small" prefixIcon={<CommonIcon.Tree size={"1rem"}/>} style={{ minWidth: 140 }} 
-              onClick={() => toSubNodes?.(observer.getBean().id.toString())}
-            >
-              {t("Chi Nhánh")}
-            </Button>
-
             <Button size="small" prefixIcon={<CommonIcon.Save size={"1rem"}/>} style={{ minWidth: 120 }} onClick={onSave} className={classNames(!canWrite && "hide")}>
               {t("save")}
             </Button>

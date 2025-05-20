@@ -13,12 +13,13 @@ import { RequestLocation } from "./RequestLocation";
 import { Selection, SelectionOption } from "./Selection";
 import { Label, Title } from "./Label";
 import { TailSpin } from "./TailSpin";
+import { RichTextEditor } from "./RichTextEditor";
 
 export { 
   Loading, Info,
   Divider, ImageWithText, Navigation, RequestPhone,
   SizedBox, ScrollableDiv, Card, Popover, RequestLocation,
-  Selection, Label, TailSpin, Title, Retry
+  Selection, Label, TailSpin, Title, Retry, RichTextEditor,
 };
 
 export type {

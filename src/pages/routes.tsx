@@ -12,6 +12,7 @@ import { UIHallOfFame } from "pages/hall-of-fame/UIHallOfFame";
 import { UIDeveloper } from "pages/dummy/UIDeveloper";
 import { UIPlayground } from "pages/dummy/UIPlayground";
 import { UIFamilyTree } from "pages/family-tree/UIFamilyTree";
+import { UIBiography } from "pages/family-tree/UIBiography";
 import { UIFund } from "pages/fund/UIFunds";
 import { UIFundInfo } from "pages/fund/UIFundInfo";
 import { UIHome } from "pages/home/UIHome";
@@ -42,6 +43,7 @@ export function AppRoutes() {
       {/* HOME */}
       <Route path={rootPath} element={<UIHome />}/> 
       <Route path={createPath("family-tree")} element={<UIFamilyTree />} />
+      <Route path={createPath("family-tree/biography")} element={<UIBiography />} />
       <Route path={createPath("account")} element={
         <React.Suspense fallback={<Loading />}>
           <UIAccount />

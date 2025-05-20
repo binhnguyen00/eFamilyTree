@@ -25,6 +25,7 @@ export function Navigation() {
   const REMOVE_NAVIGATION = [
     // MAIN ROUTES
     `/zapps/${appId}/family-tree`, 
+    `/zapps/${appId}/family-tree/biography`, 
     `/zapps/${appId}/gallery`, 
     `/zapps/${appId}/gallery/images`, 
     `/zapps/${appId}/gallery/album`, 

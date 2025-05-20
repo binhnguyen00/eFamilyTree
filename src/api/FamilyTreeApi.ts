@@ -124,4 +124,29 @@ export class FamilyTreeApi extends BaseApi {
     });
     this.server.POST("tree/member/avatar/update", header, body, success, fail);
   }
+
+  public static updateBiography({ userId, clanId, memberId, biography, success, fail }: {
+    userId: number, clanId: number, memberId: number, biography: string, success: SuccessCB, fail?: FailCB 
+  }) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      user_id: userId,
+      clan_id: clanId,
+      id: memberId,
+      biography: biography
+    });
+    this.server.POST("tree/member/biography/update", header, body, success, fail);
+  }
+
+  public static getBiography({ userId, clanId, memberId, success, fail }: {
+    userId: number, clanId: number, memberId: number, success: SuccessCB, fail?: FailCB 
+  }) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      user_id: userId,
+      clan_id: clanId,
+      id: memberId
+    });
+    this.server.POST("tree/member/biography/get", header, body, success, fail);
+  }
 }

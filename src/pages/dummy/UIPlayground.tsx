@@ -4,16 +4,23 @@ import { Button, Text, Grid } from "zmp-ui";
 
 import { ZmpSDK } from "utils";
 import { Theme } from "types/user-settings";
-import { Header, Loading, Retry, ScrollableDiv } from "components";
-import { useNotification, useAppContext, usePageContext, useOverlayContext } from "hooks";
+import { Header, Loading, Retry, ScrollableDiv, RichTextEditor } from "components";
+import { useNotification, useAppContext, usePageContext, useOverlayContext, useBeanObserver } from "hooks";
 
 export function UIPlayground() {
+  const observer = useBeanObserver({
+    name: "Test",
+    biography: "",
+  })
 
   return (
     <>
       <Header title={t("playground")}/>
 
       <ScrollableDiv direction="vertical" className="flex-v container bg-white min-h-[100vh]">
+
+        <RichTextEditor field="biography" observer={observer}/>
+        <button onClick={() => console.log(observer.getBean())}> Content </button>
 
         <UIOverlay/>
 
