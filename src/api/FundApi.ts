@@ -1,11 +1,12 @@
-import { CreateFundForm } from "pages/fund/UICreateFund";
 import { BaseApi } from "./BaseApi";
-import { SuccessCB, FailCB } from "types/server"
+import { SuccessCB, FailCB } from "types"
 import { FundLine } from "pages/fund/UIFunds";
+import { FundInfo } from "pages/fund/UIFundInfo";
+import { CreateFundForm } from "pages/fund/UICreateFund";
 
 export class FundApi extends BaseApi {
   
-  public static getFunds({ clanId, userId, success, fail }: {
+  public static searchFunds({ clanId, userId, success, fail }: {
     userId: number, clanId: number, success: SuccessCB, fail?: FailCB
   }) {
     const header = this.initHeader();
@@ -56,6 +57,23 @@ export class FundApi extends BaseApi {
       }
     });
     return this.server.POST("/fund/create", header, body, success, fail);
+  }
+
+  public static saveFund({ fund, userId, clanId, success, fail }: {
+    fund: FundInfo, userId: number, clanId: number, success: SuccessCB, fail?: FailCB
+  }) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      user_id: userId,
+      clan_id: clanId,
+      fund: {
+        id              : fund.id,
+        account_holder  : fund.qrCode.accountOwner,
+        account_number  : fund.qrCode.accountNumber,
+        bank_name       : fund.qrCode.bankName,
+      }
+    });
+    return this.server.POST("/fund/save", header, body, success, fail);
   }
 
   public static deleteFund({ id, userId, clanId, success, fail }: {

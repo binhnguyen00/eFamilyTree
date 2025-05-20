@@ -1,10 +1,12 @@
 import React from "react";
+import classNames from "classnames";
 import { t } from "i18next";
 import { Button, Input, Sheet } from "zmp-ui";
+import { PhotoProvider, PhotoView } from "react-photo-view";
 
 import { FundApi } from "api";
-import { ServerResponse } from "types/server";
 import { CommonUtils, ZmpSDK } from "utils";
+import { ServerResponse, PagePermissions } from "types";
 import { BeanObserver, CommonIcon, ScrollableDiv } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 
@@ -21,13 +23,13 @@ export interface FundQR {
 interface UIFundQRProps {
   visible: boolean;
   observer: BeanObserver<FundInfo>;
+  permissions: PagePermissions;
   onClose: () => void;
 }
 export function UIFundQR(props: UIFundQRProps) {
-  const { visible, observer, onClose } = props;
-
   const { userInfo, serverBaseUrl } = useAppContext();
-  const { loadingToast } = useNotification();
+  const { loadingToast, successToast, dangerToast } = useNotification();
+  const { visible, observer, onClose, permissions } = props;
 
   const qrObserver = useBeanObserver(observer.getBean().qrCode);
 
@@ -71,38 +73,80 @@ export function UIFundQR(props: UIFundQRProps) {
     })
   } 
 
-  const renderQrCode = () => {
-    const { width, height } = { width: 400, height: 400 };
-    const src = `${serverBaseUrl}/${qrObserver.getBean().imageQR}`;
-    return (
-      <img
-        className="rounded" src={src}
-        onError={(e) => e.currentTarget.src = `https://fakeimg.pl/${width}x${height}?text=QR`}
-      />
-    )
-  }
-
   const hasQrCode = () => {
     if (!qrObserver.getBean().imageQR) return false;
     if (!qrObserver.getBean().imageQR.length) return false;
     return true;
   }
 
+  const renderQrCode = () => {
+    const { width, height } = { width: 300, height: 300 };
+    const src = React.useMemo(() => {
+      return hasQrCode()
+        ? `${serverBaseUrl}/${qrObserver.getBean().imageQR}`
+        : `https://fakeimg.pl/${width}x${height}/?text=:(`;
+    }, [ qrObserver.getBean().imageQR ]);
+    return (
+      <PhotoProvider maskClosable maskOpacity={0.5} pullClosable bannerVisible={false}>
+        <PhotoView src={src}>
+          <img
+            src={src}
+            style={{ width: width, height: height }} className="rounded object-cover"
+            onError={(e) => (e.currentTarget.src !== src) && (e.currentTarget.src = src)}
+          />
+        </PhotoView>
+      </PhotoProvider>
+    )
+  }
+
+  const onSave = () => {
+    FundApi.saveFund({
+      fund: {
+        ...observer.getBean(),
+        qrCode: qrObserver.getBean()
+      },
+      userId: userInfo.id,
+      clanId: userInfo.clanId,
+      success: (response: ServerResponse) => {
+        if (response.status === "success") {
+          successToast(t("cập nhật thành công"));
+        } else {
+          dangerToast(t("cập nhật không thành công"));
+        }
+      },
+      fail: () => dangerToast(t("cập nhật không thành công"))
+    })
+  }
+
   return (
     <Sheet title={observer.getBean().name} visible={visible} onClose={onClose} mask maskClosable>
-      <ScrollableDiv className="flex-v p-3" direction="vertical" height={"70vh"}>
-        <div className="flex-v flex-grow-0">
-          <div className="center flex-v flex-grow-0">
-            {renderQrCode()}
-            <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onChangeQrCode}>
-              {hasQrCode() ? t("mã khác") : t("thêm")}
-            </Button>
-          </div>
-          <Input label={t("số tài khoản")} type="number" value={qrObserver.getBean().accountNumber} disabled/>
-          <Input label={t("chủ tài khoản")} value={qrObserver.getBean().accountOwner} disabled/>
-          <Input label={t("ngân hàng")} value={qrObserver.getBean().bankName} disabled/>
+      <ScrollableDiv className="flex-v p-3" direction="vertical" height="70vh">
+        <div className="center flex-v flex-grow-0">
+          {renderQrCode()}
+          <Button className={classNames("button-link", !permissions.canModerate && "hide")} variant="tertiary" size="small" onClick={onChangeQrCode}>
+            {hasQrCode() ? t("đổi mã") : t("thêm mã")}
+          </Button>
         </div>
-
+        <Input 
+          label={t("chủ tài khoản")} name="accountOwner" disabled={!permissions.canModerate}
+          onChange={qrObserver.watch} value={qrObserver.getBean().accountOwner} 
+        />
+        <div className="flex-h">
+          <Input 
+            label={t("số tài khoản")} type="number" name="accountNumber" disabled={!permissions.canModerate}
+            onChange={qrObserver.watch} value={qrObserver.getBean().accountNumber}
+            suffix={<CommonIcon.Copy size={"1rem"} onClick={() => CommonUtils.copyToClipboard({ value: qrObserver.getBean().accountNumber })}/>}
+          />
+          <Input 
+            label={t("ngân hàng")} name="bankName" disabled={!permissions.canModerate} 
+            onChange={qrObserver.watch} value={qrObserver.getBean().bankName}
+          />
+        </div>
+        <div className="center">
+          <Button className={classNames(!permissions.canModerate && "hide")} size="small" onClick={onSave}>
+            {t("save")}
+          </Button>
+        </div>
         <br />
       </ScrollableDiv>
     </Sheet>

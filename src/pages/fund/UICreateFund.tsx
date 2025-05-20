@@ -14,11 +14,13 @@ export interface CreateFundForm {
   name: string;
   fundQR: FundQR;
 }
+
 interface UICreateFundProps {
   visible: boolean;
   onClose: () => void;
   reloadParent: () => void;
 }
+
 export function UICreateFund(props: UICreateFundProps) {
   const { visible, onClose, reloadParent } = props;
   const { userInfo } = useAppContext();

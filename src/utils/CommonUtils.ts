@@ -64,12 +64,12 @@ export class CommonUtils {
 
   static copyToClipboard({ value, successToast, warningToast }: { 
     value: string, 
-    successToast: (content: string) => void, 
-    warningToast: (content: string) => void 
+    successToast?: (content: string) => void, 
+    warningToast?: (content: string) => void 
   }) {
     navigator.clipboard.writeText(value)
-      .then(() => successToast(t("sao chép thành công")))
-      .catch((err: Error) => warningToast(t("sao chép thất bại")));
+      .then(() => successToast?.(t("sao chép thành công")))
+      .catch((err: Error) => warningToast?.(t("sao chép thất bại")));
   }
 
   static numberToMonetary = (num: number): string => {

@@ -1,6 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import { t } from "i18next";
+import { PhotoProvider, PhotoView } from "react-photo-view";
 import { Button, Input, Text, Sheet, Modal, DatePicker, Avatar } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
@@ -82,6 +83,7 @@ export function UITreeMember(props: UITreeMemberProps) {
               observer.update("gender", bean.gender);
               observer.update("birthday", bean.birthday);
               observer.update("lunarDeathDay", bean.lunar_death_day)
+              observer.update("deathDateNote", bean.death_date_note)
               if (onReloadParent) onReloadParent();
             }
             onClose();
@@ -121,19 +123,7 @@ export function UITreeMember(props: UITreeMemberProps) {
     })
   }
 
-  const onCopyFieldValue = (field: string) => {
-    const value = observer.getFieldValue(field);
-    navigator.clipboard.writeText(value)
-      .then(() => successToast(t("sao chép thành công")))
-      .catch((err: Error) => warningToast(t("sao chép thất bại")));
-  }
-
   const renderAvatar = () => {
-    const src = hasAvatar()
-      ? `${serverBaseUrl}/${observer.getBean().avatar}`
-      : isMale()
-        ? "https://avatar.iran.liara.run/public/47"  // male avatar placeholder
-        : "https://avatar.iran.liara.run/public/98"; // female avatar placeholder
 
     const onUpdateAvatar = () => {
       const doUpdate = (base64: string) => {
@@ -184,10 +174,20 @@ export function UITreeMember(props: UITreeMemberProps) {
       });
     }
 
+    const src: string = hasAvatar()
+    ? `${serverBaseUrl}/${observer.getBean().avatar}`
+    : isMale()
+      ? "https://avatar.iran.liara.run/public/47"  // male avatar placeholder
+      : "https://avatar.iran.liara.run/public/98"; // female avatar placeholder
+
     return (
       <div className="flex-v center"> 
-        <Avatar src={src} size={140}/>
-        <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onUpdateAvatar}>
+        <PhotoProvider maskClosable maskOpacity={0.5} pullClosable bannerVisible={false}>
+          <PhotoView src={src}>
+            <Avatar src={src} size={140} className="object-cover"/>
+          </PhotoView>
+        </PhotoProvider>
+        <Button size="small" variant="tertiary" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onUpdateAvatar} className={classNames("button-link", !isOwner() && "hide")}>
           {observer.getFieldValue("avatar") === "" ? t("cập nhật") : t("sửa")}
         </Button>
       </div>
@@ -207,19 +207,31 @@ export function UITreeMember(props: UITreeMemberProps) {
           {renderAvatar()}
           {/* information */}
           <Input 
-            name="name" label={<Label text={t("họ tên")}/>} 
+            name="name" label={<Label text={t("họ tên")}/>}
             value={observer.getBean().name} onChange={observer.watch} disabled={!canWrite}
           />
-          <Input 
-            name="code" label={<Label text={t("mã")}/>} 
-            value={observer.getBean().code} disabled
-            suffix={<CommonIcon.Copy size={24} onClick={() => onCopyFieldValue("code")}/>}
-          />
-          <Input 
-            name="phone" type="number" label={<Label text={t("điện thoại")}/>} 
-            value={observer.getBean().phone} onChange={observer.watch} disabled={!canWrite}
-            suffix={<CommonIcon.Copy size={24} onClick={() => onCopyFieldValue("phone")}/>}
-          />
+          <div className="flex-h">
+            <Input 
+              name="code" label={<Label text={t("mã")}/>}
+              value={observer.getBean().code} disabled
+              suffix={<CommonIcon.Copy size={24} 
+                onClick={() => CommonUtils.copyToClipboard({
+                  value: observer.getBean().code,
+                  successToast,
+                  warningToast
+                })}
+              />}
+            />
+            <Input 
+              name="phone" type="number" label={<Label text={t("điện thoại")}/>}
+              value={observer.getBean().phone} onChange={observer.watch} disabled={!canWrite}
+              suffix={<CommonIcon.Copy size={24} onClick={() => CommonUtils.copyToClipboard({
+                value: observer.getBean().phone,
+                successToast,
+                warningToast
+              })}/>}
+            />
+          </div>
           <Selection
             defaultValue={
               observer.getBean().gender === "1" 
@@ -232,32 +244,39 @@ export function UITreeMember(props: UITreeMemberProps) {
             ]}
             observer={observer} field="gender" label={t("giới tính")} isDisabled={!canWrite}
           />
-          <DatePicker 
-            mask maskClosable disabled={!canWrite}
-            label={t("Ngày Sinh")} title={t("Ngày Sinh")}
-            onChange={(date: Date, calendarDate: any) => {
-              observer.update("birthday", DateTimeUtils.formatToDate(date));
-            }}
-            value={
-              observer.getBean().birthday 
-              ? DateTimeUtils.toDate(observer.getBean().birthday)
-              : undefined
-            }
-          />
-          <DatePicker 
-            mask maskClosable disabled={!canWrite}
-            label={t("Ngày Mất (Âm lịch)")} title={t("Ngày Mất (Âm lịch)")}
-            onChange={(date: Date, calendarDate: any) => {
-              observer.update("lunarDeathDay", DateTimeUtils.formatToDate(date));
-            }}
-            value={
-              observer.getBean().lunarDeathDay 
-              ? DateTimeUtils.toDate(observer.getBean().lunarDeathDay)
-              : undefined
-            }
+          <div className="flex-h">
+            <DatePicker 
+              mask maskClosable disabled={!canWrite}
+              label={t("Ngày Sinh")} title={t("Ngày Sinh")}
+              onChange={(date: Date, calendarDate: any) => {
+                observer.update("birthday", DateTimeUtils.formatToDate(date));
+              }}
+              value={
+                observer.getBean().birthday 
+                ? DateTimeUtils.toDate(observer.getBean().birthday)
+                : undefined
+              }
+            />
+            <DatePicker 
+              mask maskClosable disabled={!canWrite}
+              label={t("Ngày Mất (Âm lịch)")} title={t("Ngày Mất (Âm lịch)")}
+              onChange={(date: Date, calendarDate: any) => {
+                observer.update("lunarDeathDay", DateTimeUtils.formatToDate(date));
+              }}
+              value={
+                observer.getBean().lunarDeathDay 
+                ? DateTimeUtils.toDate(observer.getBean().lunarDeathDay)
+                : undefined
+              }
+            />
+          </div>
+          <Input.TextArea
+            label={<Label text={t("Ngày Mất (Âm lịch)")}/>} disabled={!canWrite}
+            value={observer.getBean().deathDateNote} name="deathDateNote"
+            onChange={(e) => observer.update("deathDateNote", e.target.value)}
           />
           <Input 
-            label={<Label text={t("bố")}/>} 
+            label={<Label text={t("bố")}/>}
             value={observer.getBean().father} name="father" disabled
           />
           <Selection
@@ -274,43 +293,40 @@ export function UITreeMember(props: UITreeMemberProps) {
         {/* footer */}
         <div className="flex-v flex-grow-0">
 
-          <div className="flex-v">
-            <Text.Title> {t("Hành động")} </Text.Title>
-            <div className="scroll-h">
-              <Button 
-                size="small" prefixIcon={<CommonIcon.Tree size={"1rem"}/>} style={{ minWidth: 140 }} 
-                onClick={() => toSubNodes?.(observer.getBean().id.toString())}
-              >
-                {t("Chi Nhánh")}
-              </Button>
+          <div className="scroll-h">
+            <Button 
+              size="small" prefixIcon={<CommonIcon.Tree size={"1rem"}/>} style={{ minWidth: 140 }} 
+              onClick={() => toSubNodes?.(observer.getBean().id.toString())}
+            >
+              {t("Chi Nhánh")}
+            </Button>
 
-              <Button size="small" prefixIcon={<CommonIcon.Save size={"1rem"}/>} style={{ minWidth: 120 }} onClick={onSave} disabled={!canWrite}>
-                {t("save")}
-              </Button>
+            <Button size="small" prefixIcon={<CommonIcon.Save size={"1rem"}/>} style={{ minWidth: 120 }} onClick={onSave} className={classNames(!canWrite && "hide")}>
+              {t("save")}
+            </Button>
 
-              {!isRoot() && (
-                <Button size="small" prefixIcon={<CommonIcon.Trash size={"1rem"}/>} style={{ minWidth: 120 }} onClick={() => setDeleteWarning(true)} disabled={!canWrite}>
-                  {t("delete")}
-                </Button>
-              )}
-            </div>
+            {!isRoot() && (
+              <Button size="small" prefixIcon={<CommonIcon.Trash size={"1rem"}/>} style={{ minWidth: 120 }} onClick={() => setDeleteWarning(true)} className={classNames(!canWrite && "hide")}>
+                {t("delete")}
+              </Button>
+            )}
           </div>
 
-          <div className="flex-v">
+          <div className={classNames("flex-v", !canWrite && "hide")}>
             <Text.Title> {t("Thêm Thành Viên")} </Text.Title>
             <div className="scroll-h">
               {!isFemale() && (
-                <Button size="small" prefixIcon={<CommonIcon.AddPerson size={"1rem"}/>} style={{ minWidth: 120 }} onClick={onCreateChild} disabled={!canWrite}>
+                <Button size="small" prefixIcon={<CommonIcon.AddPerson size={"1rem"}/>} style={{ minWidth: 120 }} onClick={onCreateChild}>
                   {t("Con")}
                 </Button>
               )}
               {(isRoot() || hasParents()) && (
-                <Button size="small" prefixIcon={<CommonIcon.MaleFemale size={"1rem"}/>} style={{ minWidth: 120 }} onClick={onCreateSpouse} disabled={!canWrite}>
+                <Button size="small" prefixIcon={<CommonIcon.MaleFemale size={"1rem"}/>} style={{ minWidth: 120 }} onClick={onCreateSpouse}>
                   {isMale() ? t("Vợ") : t("Chồng")}
                 </Button>
               )}
               {hasParents() && (
-                <Button size="small" prefixIcon={<CommonIcon.AddPerson size={"1rem"}/>} style={{ minWidth: 140 }} onClick={onCreateSibling} disabled={!canWrite}>
+                <Button size="small" prefixIcon={<CommonIcon.AddPerson size={"1rem"}/>} style={{ minWidth: 140 }} onClick={onCreateSibling}>
                   {t("Anh/Chị/Em")}
                 </Button>
               )}

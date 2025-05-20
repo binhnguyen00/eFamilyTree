@@ -155,6 +155,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
                 phone:          data.phone,
                 birthday:       data.birthday,
                 lunarDeathDay:  data.lunar_death_day,
+                deathDateNote:  data.death_date_note,
                 gender:         data.gender,
                 generation:     data.generation,
                 father:         data.father,

@@ -6,6 +6,7 @@ export type TreeMember = {
   phone: string;
   birthday: string;
   lunarDeathDay: string;
+  deathDateNote: string;
   generation: number;
   spouses: {
     id: number;

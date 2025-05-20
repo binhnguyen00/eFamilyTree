@@ -4,14 +4,12 @@ import { Button } from "zmp-ui";
 
 import { FundApi } from "api";
 import { CommonUtils, StyleUtils } from "utils";
-import { useAppContext, useNotification, useRouteNavigate } from "hooks";
+import { useAppContext, useNotification, usePageContext, useRouteNavigate } from "hooks";
 import { Header, Loading, ScrollableDiv, Info, CommonIcon, Retry } from "components";
 
 import { ServerResponse } from "types/server";
 import { FundInfo } from "./UIFundInfo";
 import { UICreateFund } from "./UICreateFund";
-
-import funds from "./data.json";
 
 export interface FundLine {
   id: number,
@@ -35,19 +33,19 @@ function useFunds() {
   const map = (data: any[]) => {
     const results: FundInfo[] = data.map((result: any) => {
       return {
-        id:             result.id,
-        name:           result.name || "",
-        balance:        result.balance || 0,
-        incomes:        result.incomes || [],
-        expenses:       result.expenses || [],
-        totalIncomes:   result.total_incomes || 0,
-        totalExpenses:  result.total_expenses || 0,
+        id              : result.id,
+        name            : result.name || "",
+        balance         : result.balance || 0,
+        incomes         : result.incomes || [],
+        expenses        : result.expenses || [],
+        totalIncomes    : result.total_incomes || 0,
+        totalExpenses   : result.total_expenses || 0,
         qrCode: {
-          accountOwner:   result.account_holder || "",
-          accountOwnerId: result.account_holder_id || 0,
-          accountNumber:  result.account_number || "",
-          bankName:       result.bank_name || "",
-          imageQR:        result.account_qr || "",
+          accountOwner    : result.account_holder || "",
+          accountOwnerId  : result.account_holder_id || 0,
+          accountNumber   : result.account_number || "",
+          bankName        : result.bank_name || "",
+          imageQR         : result.account_qr || "",
         },
       }
     })
@@ -59,7 +57,7 @@ function useFunds() {
     setError(false);
     setFunds([] as any);
 
-    FundApi.getFunds({
+    FundApi.searchFunds({
       userId: userInfo.id,
       clanId: userInfo.clanId,
       success: (result: ServerResponse) => {
@@ -136,32 +134,8 @@ function UIFundList(props: UIFundListProps) {
   const { funds } = props;
   const { goTo } = useRouteNavigate();
   const { userInfo } = useAppContext();
+  const { permissions } = usePageContext();
   const { loadingToast } = useNotification();
-
-  /**@deprecated */
-  const onSelectDummy = (id: number) => {
-    const data = funds[0];
-    goTo({  
-      path: "fund/info", 
-      belongings: { 
-        fund: {
-          id:             data.id,
-          name:           data.name,
-          balance:        data.balance,
-          incomes:        data.incomes,
-          expenses:       data.expenses,
-          qrCode: {
-            accountOwner:   data.qrCode.accountOwner,
-            accountNumber:  data.qrCode.accountNumber,
-            bankName:       data.qrCode.bankName,
-            imageQR:        data.qrCode.imageQR,
-          },
-          totalIncomes:   55000000,
-          totalExpenses:  2212353,
-        } as FundInfo
-      }
-    });
-  }
 
   const onSelect = (id: number) => {
     loadingToast({
@@ -178,7 +152,8 @@ function UIFundList(props: UIFundListProps) {
               const data = result.data as any;
               goTo({  
                 path: "fund/info", 
-                belongings: { 
+                belongings: {
+                  permissions: permissions,
                   fund: {
                     id:             data.id,
                     name:           data.name,
