@@ -1,12 +1,13 @@
 import React from "react";
+import classNames from "classnames";
 import { t } from "i18next";
 import { Button, Modal, Text } from "zmp-ui";
 
 import { FundApi } from "api";
-import { ServerResponse } from "types/server";
 import { CommonUtils, DateTimeUtils } from "utils";
-import { useAppContext, useBeanObserver, useNotification, useRouteNavigate } from "hooks";
+import { Module, PageContextProps, ServerResponse } from "types";
 import { BeanObserver, CommonIcon, Divider, Header, SizedBox } from "components";
+import { useAppContext, useBeanObserver, useNotification, useRouteNavigate } from "hooks";
 
 import { FundLine } from "./UIFunds";
 import { FundQR, UIFundQR } from "./UIFundQR";
@@ -14,19 +15,19 @@ import { UICreateTransaction } from "./transaction/UICreateTransaction";
 import { Transaction, UITransactions } from "./transaction/UITransactionList";
 
 export interface FundInfo {
-  id: number,
-  name: string,
-  balance: number,
-  totalIncomes: number,
-  totalExpenses: number,
-  incomes: FundLine[],
-  expenses: FundLine[],
-  qrCode: FundQR,
+  id            : number,
+  name          : string,
+  balance       : number,
+  totalIncomes  : number,
+  totalExpenses : number,
+  incomes       : FundLine[],
+  expenses      : FundLine[],
+  qrCode        : FundQR,
 }
 
 export function UIFundInfo() {
   const { belongings } = useRouteNavigate();
-  const { fund } = belongings;
+  const { fund, permissions } = belongings;
 
   const observer = useBeanObserver(fund as FundInfo);
 
@@ -35,17 +36,17 @@ export function UIFundInfo() {
       <Header title={fund.name}/>
 
       <div className="container max-h bg-white text-base">
-        <UIFundContainer observer={observer}/>
+        <UIFundContainer observer={observer} module={Module.FUND} permissions={permissions}/>
       </div>
     </>
   )
 }
 
-interface UIFundContainerProps {
+interface UIFundContainerProps extends PageContextProps {
   observer: BeanObserver<FundInfo>;
 }
 function UIFundContainer(props: UIFundContainerProps) {
-  const { observer } = props;
+  const { observer, permissions } = props;
   const { goBack } = useRouteNavigate();
   const { userInfo } = useAppContext();
   const { loadingToast } = useNotification();
@@ -102,7 +103,6 @@ function UIFundContainer(props: UIFundContainerProps) {
     setDeleteWarningVisible(true);
   }
 
-  // TODO: consider move to a separate component
   const renderConfirmDelete = () => {
     return (
       <Modal 
@@ -143,21 +143,61 @@ function UIFundContainer(props: UIFundContainerProps) {
 
   return (
     <div>
-      <UIFundSummary className="mt-2" observer={observer} onSelect={onFilterTransaction}/>
+      {/* balance summary */}
+      <div className="flex-v">
+        <SizedBox 
+          width={"100%"} height={120} 
+          className="rounded flex-v center text-primary button bg-secondary mt-2"
+          onClick={() => onFilterTransaction("all")}
+        >
+          <Text.Title size="large"> {t("balance")} </Text.Title>
+          <Text size="xLarge" className="bold"> {CommonUtils.numberToMonetary(observer.getBean().balance)} </Text>
+        </SizedBox>
+
+        <div className="flex-h">
+          <SizedBox 
+            width={"50%"} height={100} 
+            className="rounded flex-v center bg-green-100 button"
+            onClick={() => onFilterTransaction("income")}
+          >
+            <Text size="large"> {t("incomes")} </Text>
+            <Text size="large" className="text-success"> {CommonUtils.numberToMonetary(observer.getBean().totalIncomes)} </Text>
+          </SizedBox>
+          <SizedBox 
+            width={"50%"} height={100} 
+            className="rounded flex-v center bg-red-100 button"
+            onClick={() => onFilterTransaction("expense")}
+          >
+            <Text size="large"> {t("expenses")} </Text>
+            <Text size="large" className="text-danger"> {CommonUtils.numberToMonetary(observer.getBean().totalExpenses)} </Text>
+          </SizedBox>
+        </div>
+      </div>
 
       <Divider size={0}/>
 
       <UITransactions 
-        type={filter} 
+        type={filter}
         transactions={transactions} 
         fundId={observer.getBean().id} 
         onDelete={onDeleteTransaction}
       />
 
-      <UIFooter 
-        onOpenExpense={onOpenExpense} onOpenIncome={onOpenIncome}
-        onOpenQrCode={onOpenQrCode} onDelete={onDelete}
-      />
+      {/* footer */}
+      <div className="flex-h scroll-h px-3" style={{ position: "fixed", bottom: 30, right: 0 }}>
+        <Button className={classNames("button-success", !permissions.canModerate && "hide")} style={{ minWidth: 100 }} size="small" prefixIcon={<CommonIcon.Plus/>} onClick={onOpenIncome}>
+          {t("thu")}
+        </Button>
+        <Button className={classNames("button-danger", !permissions.canModerate && "hide")} style={{ minWidth: 100 }} size="small" prefixIcon={<CommonIcon.Plus/>} onClick={onOpenExpense}>
+          {t("chi")}
+        </Button>
+        <Button style={{ minWidth: 120 }} size="small" prefixIcon={<CommonIcon.QRCode/>} onClick={onOpenQrCode}>
+          {t("mã QR")}
+        </Button>
+        <Button className={classNames(!permissions.canModerate && "hide")} style={{ minWidth: 120 }} size="small" prefixIcon={<CommonIcon.Trash/>} onClick={onDelete}>
+          {t("delete")}
+        </Button>
+      </div>
 
       <UICreateTransaction 
         visible={transaction} 
@@ -167,77 +207,9 @@ function UIFundContainer(props: UIFundContainerProps) {
         onCreate={onCreateTransaction}
       />
 
-      <UIFundQR visible={qrVisible} observer={observer} onClose={onCloseQrCode} />
+      <UIFundQR visible={qrVisible} observer={observer} onClose={onCloseQrCode} permissions={permissions}/>
 
       {renderConfirmDelete()}
     </div>
   );
-}
-
-interface UIFundSummaryProps {
-  observer: BeanObserver<FundInfo>;
-  onSelect: (type: "income" | "expense" | "all") => void;
-  className?: string;
-}
-function UIFundSummary(props: UIFundSummaryProps) {
-  const { observer, className } = props;
-
-  return (
-    <div className="flex-v">
-      <SizedBox 
-        width={"100%"} height={120} 
-        className={`rounded flex-v center text-primary button bg-secondary ${className}`.trim()}
-        onClick={() => props.onSelect("all")}
-      >
-        <Text.Title size="large"> {t("balance")} </Text.Title>
-        <Text size="xLarge" className="bold"> {CommonUtils.numberToMonetary(observer.getBean().balance)} </Text>
-      </SizedBox>
-
-      <div className="flex-h">
-        <SizedBox 
-          width={"50%"} height={100} 
-          className="rounded flex-v center bg-green-100 button"
-          onClick={() => props.onSelect("income")}
-        >
-          <Text size="large"> {t("incomes")} </Text>
-          <Text size="large" className="text-success"> {CommonUtils.numberToMonetary(observer.getBean().totalIncomes)} </Text>
-        </SizedBox>
-        <SizedBox 
-          width={"50%"} height={100} 
-          className="rounded flex-v center bg-red-100 button"
-          onClick={() => props.onSelect("expense")}
-        >
-          <Text size="large"> {t("expenses")} </Text>
-          <Text size="large" className="text-danger"> {CommonUtils.numberToMonetary(observer.getBean().totalExpenses)} </Text>
-        </SizedBox>
-      </div>
-    </div>
-  );
-}
-
-interface UIFooterProps {
-  onOpenIncome: () => void;
-  onOpenExpense: () => void;
-  onOpenQrCode: () => void;
-  onDelete: () => void;
-}
-function UIFooter(props: UIFooterProps) {
-  const { onOpenIncome, onOpenExpense, onOpenQrCode, onDelete } = props;
-
-  return (
-    <div className="flex-h scroll-h px-3" style={{ position: "fixed", bottom: 30, right: 0 }}>
-      <Button className="button-success" style={{ minWidth: 100 }} size="small" prefixIcon={<CommonIcon.Plus/>} onClick={onOpenIncome}>
-        {t("thu")}
-      </Button>
-      <Button className="button-danger" style={{ minWidth: 100 }} size="small" prefixIcon={<CommonIcon.Plus/>} onClick={onOpenExpense}>
-        {t("chi")}
-      </Button>
-      <Button style={{ minWidth: 120 }} size="small" prefixIcon={<CommonIcon.QRCode/>} onClick={onOpenQrCode}>
-        {t("mã QR")}
-      </Button>
-      <Button style={{ minWidth: 120 }} size="small" prefixIcon={<CommonIcon.Trash/>} onClick={onDelete}>
-        {t("delete")}
-      </Button>
-    </div>
-  )
 }
