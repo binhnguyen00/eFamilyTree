@@ -47,7 +47,10 @@ function build() {
   if has_opt "-clean" $@; then
     ./mini-app.sh install -clean
   fi
-  pnpm run build
+  typescript_check
+  if [ $? -eq 0 ]; then
+    pnpm vite build
+  fi
 }
 
 function login() {
@@ -69,9 +72,10 @@ function run() {
 function typescript_check() {
   local RED='\033[0;31m'
   local GREEN='\033[0;32m'
+  local BLUE='\033[0;34m'
   local NO_COLOR='\033[0m'
 
-  echo -e "Checking TypeScript..."
+  echo -e "${BLUE}Checking TypeScript...${NO_COLOR}"
   pnpm tsc -b
   
   if [ $? -eq 0 ]; then
