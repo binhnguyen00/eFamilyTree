@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { Text } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
-import { Member } from "types/common";
+import { TreeMember } from "types/common";
 import { ServerResponse } from "types/server";
 import { ExtNode, Node } from "components/tree-relatives/types";
 import { TreeUtils, TreeDataProcessor } from "utils";
@@ -94,7 +94,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
   const [ reload,   setReload ] = React.useState(false);
   const [ resetBtn, setResetBtn ] = React.useState<boolean>(false);
 
-  const [ node,   setNode ] = React.useState<Member | null>(null);
+  const [ node,   setNode ] = React.useState<TreeMember | null>(null);
   const [ nodes,  setNodes ] = React.useState<Node[]>(processor.nodes);
   const [ rootId, setRootId ] = React.useState<string>(processor.rootId);
   const firstRootId = React.useMemo(() => rootId, [nodes]);

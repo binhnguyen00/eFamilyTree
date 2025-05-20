@@ -4,14 +4,13 @@ import { Button, Input, Sheet, Text, DatePicker } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
 import { DateTimeUtils, TreeDataProcessor } from "utils";
-import { Member } from "types/common";
-import { FailResponse, ServerResponse } from "types/server";
+import { TreeMember, FailResponse, ServerResponse } from "types";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 import { CommonIcon, Selection, SelectionOption, Label } from "components";
 
 interface UICreateChildProps {
   visible: boolean;
-  dad: Member | null;
+  dad: TreeMember | null;
   processor: TreeDataProcessor;
   onClose: () => void;
   onReloadParent?: () => void;
@@ -36,7 +35,7 @@ export function UICreateChild(props: UICreateChildProps) {
     father: dad.name,
     fatherId: dad.id,
     gender: "1",
-  } as Member);
+  } as TreeMember);
 
   // Set default mother
   React.useEffect(() => {

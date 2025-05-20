@@ -1,5 +1,5 @@
 import { BaseApi } from "./BaseApi";
-import { Member } from "types/common";
+import { TreeMember } from "types/common";
 import { SuccessCB, FailCB } from "types/server"
 
 export class FamilyTreeApi extends BaseApi {
@@ -79,7 +79,7 @@ export class FamilyTreeApi extends BaseApi {
   }
 
   public static createMember({ userId, clanId, member, success, fail }: { 
-    userId: number, clanId: number, member: Member, success: SuccessCB, fail?: FailCB 
+    userId: number, clanId: number, member: TreeMember, success: SuccessCB, fail?: FailCB 
   }) {
     const header = this.initHeader();
     const body = this.initBody({

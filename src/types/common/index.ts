@@ -1,3 +1,3 @@
-import type { Member } from "./FamilyTree";
+import type { TreeMember } from "./FamilyTree";
 
-export { Member };
+export { TreeMember };

@@ -1,4 +1,4 @@
-export type Member = {
+export type TreeMember = {
   id: number;
   code: string;
   name: string;

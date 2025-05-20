@@ -6,10 +6,10 @@ import { FamilyTreeApi } from "api";
 import { DateTimeUtils } from "utils";
 import { CommonIcon, Selection, Label } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
-import { FailResponse, ServerResponse, Member } from "types";
+import { FailResponse, ServerResponse, TreeMember } from "types";
 
 interface UICreateSpouseProps {
-  spouse: Member | null;
+  spouse: TreeMember | null;
   visible: boolean;
   onClose: () => void;
   onReloadParent?: () => void;
@@ -58,7 +58,7 @@ export function UICreateSpouse(props: UICreateSpouseProps) {
       gender: spouse.gender,
       name: spouse.name,
     }],
-  } as Member);
+  } as TreeMember);
 
   return (
     <Sheet 

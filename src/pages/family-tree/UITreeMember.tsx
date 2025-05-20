@@ -1,15 +1,16 @@
 import React from "react";
+import classNames from "classnames";
 import { t } from "i18next";
 import { Button, Input, Text, Sheet, Modal, DatePicker, Avatar } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
 import { CommonIcon, Selection, Label, SelectionOption } from "components";
 import { CommonUtils, DateTimeUtils, TreeDataProcessor, ZmpSDK } from "utils";
-import { Member, PageContextProps, FailResponse, ServerResponse } from "types";
+import { TreeMember, PageContextProps, FailResponse, ServerResponse } from "types";
 import { useBeanObserver, useNotification, useAppContext } from "hooks";
 
 interface UITreeMemberProps extends PageContextProps {
-  info: Member | null;
+  info: TreeMember | null;
   visible: boolean;
   processor: TreeDataProcessor;
   onClose: () => void;
@@ -25,7 +26,7 @@ export function UITreeMember(props: UITreeMemberProps) {
 
   if (info === null) return;
 
-  const observer = useBeanObserver(info || {} as Member);
+  const observer = useBeanObserver(info || {} as TreeMember);
   const { userInfo, serverBaseUrl } = useAppContext();
   const { successToast, dangerToast, warningToast, loadingToast } = useNotification();
   const [ deleteWarning, setDeleteWarning ] = React.useState(false);
@@ -127,61 +128,61 @@ export function UITreeMember(props: UITreeMemberProps) {
       .catch((err: Error) => warningToast(t("sao chép thất bại")));
   }
 
-  const onUpdateAvatar = () => {
-    const doUpdate = (base64: string) => {
-      loadingToast({
-        content: (
-          <div className="flex-v">
-            <p> {t("đang cập nhật ảnh đại diện")} </p>
-            <p> {t("vui lòng chờ")} </p>
-          </div>
-        ),
-        operation: (successToastCB, dangerToastCB) => {
-          FamilyTreeApi.updateAvatar({
-            userId: userInfo.id,
-            clanId: userInfo.clanId,
-            memberId: observer.getBean().id,
-            base64: base64,
-            success: (result: ServerResponse) => {
-              if (result.status === "error") {
-                dangerToastCB(t("cập nhật không thành công"))
-              } else {
-                successToastCB(t("cập nhật thành công"))
-                const publicPath = result.data as string;
-                observer.update("avatar", publicPath);
-              }
-            },
-            fail: () => dangerToastCB(t("cập nhật không thành công"))
-          })
-        }
-      })
-    }
-
-    if (!isOwner()) {
-      warningToast(t("không thể cập nhật ảnh đại diện của thành viên khác"));
-      return;
-    }
-    ZmpSDK.chooseImage({
-      howMany: 1,
-      success: async (files: any[]) => {
-        const blobs: string[] = [ ...files.map(file => file.path) ];
-        const base64s = await CommonUtils.blobUrlsToBase64s(blobs);
-        if (base64s.length) doUpdate(base64s[0]);
-        else {
-          dangerToast(t("ảnh bị lỗi"))
-          return;
-        }
-      },
-      fail: () => dangerToast(t("cập nhật không thành công"))
-    });
-  }
-
   const renderAvatar = () => {
     const src = hasAvatar()
       ? `${serverBaseUrl}/${observer.getBean().avatar}`
       : isMale()
         ? "https://avatar.iran.liara.run/public/47"  // male avatar placeholder
         : "https://avatar.iran.liara.run/public/98"; // female avatar placeholder
+
+    const onUpdateAvatar = () => {
+      const doUpdate = (base64: string) => {
+        loadingToast({
+          content: (
+            <div className="flex-v">
+              <p> {t("đang cập nhật ảnh đại diện")} </p>
+              <p> {t("vui lòng chờ")} </p>
+            </div>
+          ),
+          operation: (successToastCB, dangerToastCB) => {
+            FamilyTreeApi.updateAvatar({
+              userId: userInfo.id,
+              clanId: userInfo.clanId,
+              memberId: observer.getBean().id,
+              base64: base64,
+              success: (result: ServerResponse) => {
+                if (result.status === "error") {
+                  dangerToastCB(t("cập nhật không thành công"))
+                } else {
+                  successToastCB(t("cập nhật thành công"))
+                  const publicPath = result.data as string;
+                  observer.update("avatar", publicPath);
+                }
+              },
+              fail: () => dangerToastCB(t("cập nhật không thành công"))
+            })
+          }
+        })
+      }
+  
+      if (!isOwner()) {
+        warningToast(t("không thể cập nhật ảnh đại diện của thành viên khác"));
+        return;
+      }
+      ZmpSDK.chooseImage({
+        howMany: 1,
+        success: async (files: any[]) => {
+          const blobs: string[] = [ ...files.map(file => file.path) ];
+          const base64s = await CommonUtils.blobUrlsToBase64s(blobs);
+          if (base64s.length) doUpdate(base64s[0]);
+          else {
+            dangerToast(t("ảnh bị lỗi"))
+            return;
+          }
+        },
+        fail: () => dangerToast(t("cập nhật không thành công"))
+      });
+    }
 
     return (
       <div className="flex-v center"> 

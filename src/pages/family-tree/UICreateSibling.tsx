@@ -4,13 +4,12 @@ import { Button, Input, Sheet, Text, DatePicker } from "zmp-ui";
 
 import { DateTimeUtils } from "utils";
 import { FamilyTreeApi } from "api";
-import { Member } from "types/common";
-import { FailResponse, ServerResponse } from "types/server";
 import { CommonIcon, Selection, Label } from "components";
+import { TreeMember, FailResponse, ServerResponse } from "types";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 
 interface UICreateSiblingProps {
-  sibling: Member | null;
+  sibling: TreeMember | null;
   visible: boolean;
   onClose: () => void;
   onReloadParent?: () => void;
@@ -33,7 +32,7 @@ export function UICreateSibling(props: UICreateSiblingProps) {
     motherId: sibling.motherId,
     father: sibling.father,
     fatherId: sibling.fatherId,
-  } as Member);
+  } as TreeMember);
 
   const onCreate = () => {
     if (!observer.getBean().name) {

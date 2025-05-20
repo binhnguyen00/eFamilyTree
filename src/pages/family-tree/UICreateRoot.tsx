@@ -6,7 +6,7 @@ import { FamilyTreeApi } from "api";
 import { DateTimeUtils } from "utils";
 import { CommonIcon, Selection, Label } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
-import { PageContextProps, Member, FailResponse, ServerResponse } from "types";
+import { PageContextProps, TreeMember, FailResponse, ServerResponse } from "types";
 
 interface UICreateRootProps extends PageContextProps {
   visible: boolean;
@@ -21,7 +21,7 @@ export function UICreateRoot(props: UICreateRootProps) {
 
   const observer = useBeanObserver({
     gender: "1",
-  } as Member)
+  } as TreeMember)
 
   const onCreate = () => {
     if (!observer.getBean().name) {
