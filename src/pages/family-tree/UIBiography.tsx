@@ -57,12 +57,12 @@ export function UIBiography() {
   };
   const { biography, loading, error, refresh } = useBiography(userId)
   const observer = useBeanObserver({
-    id: userId,
-    name: userName,
+    userId: userId,
+    userName: userName,
     biography: biography,
   } as {
-    id: number;
-    name: string;
+    userId: number;
+    userName: string;
     biography: string;
   })
 
@@ -73,10 +73,11 @@ export function UIBiography() {
         FamilyTreeApi.updateBiography({
           userId: userInfo.id,
           clanId: userInfo.clanId,
-          memberId: userId,
+          memberId: observer.getBean().userId,
           biography: observer.getBean().biography,
           success: () => {
             successToastCB(t("lưu thành công"));
+            refresh();
           },
           fail: () => {
             dangerToastCB(t("lưu không thành công"));
