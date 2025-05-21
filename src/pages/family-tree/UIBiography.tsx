@@ -50,15 +50,15 @@ export function UIBiography() {
   const { userInfo } = useAppContext();
   const { loadingToast } = useNotification();
   const { belongings } = useRouteNavigate();
-  const { id, name, permissions } = belongings as {
-    id: number;
-    name: string;
+  const { userId, userName, permissions } = belongings as {
+    userId: number;
+    userName: string;
     permissions: PagePermissions;
   };
-  const { biography, loading, error, refresh } = useBiography(id)
+  const { biography, loading, error, refresh } = useBiography(userId)
   const observer = useBeanObserver({
-    id: id,
-    name: name,
+    id: userId,
+    name: userName,
     biography: biography,
   } as {
     id: number;
@@ -73,7 +73,7 @@ export function UIBiography() {
         FamilyTreeApi.updateBiography({
           userId: userInfo.id,
           clanId: userInfo.clanId,
-          memberId: id,
+          memberId: userId,
           biography: observer.getBean().biography,
           success: () => {
             successToastCB(t("lưu thành công"));
