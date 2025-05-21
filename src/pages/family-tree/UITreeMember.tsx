@@ -208,7 +208,13 @@ export function UITreeMember(props: UITreeMemberProps) {
   }
 
   const goToBiography = () => {
-    goTo({ path: "family-tree/biography", belongings: { id: observer.getBean().id } })
+    goTo({ 
+      path: "family-tree/biography", 
+      belongings: { 
+        id : observer.getBean().id,
+        permissions : permissions,
+      }
+    })
   }
 
   return (

@@ -1,12 +1,13 @@
 import React from "react";
+import classNames from "classnames";
 import { t } from "i18next";
 import { Button } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
-import { PageContextProps, PagePermissions, ServerResponse } from "types";
-import { Header, Loading, Retry, RichTextEditor, ScrollableDiv } from "components";
+import { StyleUtils } from "utils";
+import { PagePermissions, ServerResponse } from "types";
+import { CommonIcon, Header, Loading, Retry, RichTextEditor } from "components";
 import { useBeanObserver, useRouteNavigate, useAppContext, useNotification } from "hooks";
-import classNames from "classnames";
 
 function useBiography(userId: number) {
   const { userInfo } = useAppContext();
@@ -49,16 +50,19 @@ export function UIBiography() {
   const { userInfo } = useAppContext();
   const { loadingToast } = useNotification();
   const { belongings } = useRouteNavigate();
-  const { id, permissions } = belongings as {
+  const { id, name, permissions } = belongings as {
     id: number;
+    name: string;
     permissions: PagePermissions;
   };
   const { biography, loading, error, refresh } = useBiography(id)
   const observer = useBeanObserver({
     id: id,
+    name: name,
     biography: biography,
   } as {
     id: number;
+    name: string;
     biography: string;
   })
 
@@ -83,6 +87,8 @@ export function UIBiography() {
   }
 
   const renderContainer = () => {
+    const hasBiography = !!observer.getBean().biography;
+
     if (loading) {
       return <Loading/>
     } else if (error) {
@@ -90,9 +96,12 @@ export function UIBiography() {
     } else {
       return (
         <div className="flex-v">
-          <RichTextEditor field="biography" observer={observer} disabled={!permissions.canModerate}/>
-          <div className="center">
-            <Button size="small" variant="primary" onClick={onSave} className={classNames(!permissions.canModerate && "hide")}>
+          <RichTextEditor 
+            className="mt-2" field="biography" observer={observer} placeholder={hasBiography ? `${t("Tiểu sử")} của ${name}` : t("Bắt đầu viết tiểu sử...")}
+            height={StyleUtils.calComponentRemainingHeight(60)} disabled={!permissions.canModerate}
+          />
+          <div className="p-2" style={{ position: "absolute", right: 0, bottom: 0 }}>
+            <Button size="small" variant="primary" prefixIcon={<CommonIcon.Save/>} onClick={onSave} className={classNames(!permissions.canModerate && "hide")}>
               {t("save")}
             </Button>
           </div>

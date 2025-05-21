@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Text, Grid } from "zmp-ui";
 
-import { ZmpSDK } from "utils";
+import { StyleUtils, ZmpSDK } from "utils";
 import { Theme } from "types/user-settings";
 import { Header, Loading, Retry, ScrollableDiv, RichTextEditor } from "components";
 import { useNotification, useAppContext, usePageContext, useOverlayContext, useBeanObserver } from "hooks";
@@ -19,8 +19,8 @@ export function UIPlayground() {
 
       <ScrollableDiv direction="vertical" className="flex-v container bg-white min-h-[100vh]">
 
-        <RichTextEditor field="biography" observer={observer} disabled/>
-        <button onClick={() => console.log(observer.getBean())}> Content </button>
+        <RichTextEditor field="biography" observer={observer}/>
+        <Button size="small" variant="secondary" onClick={() => console.log(observer.getBean())}> Content </Button>
 
         <UIOverlay/>
 
