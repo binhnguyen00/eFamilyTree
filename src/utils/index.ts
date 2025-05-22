@@ -2,7 +2,7 @@ import { ZmpSDK } from "./zmpsdk";
 import { DateTimeUtils } from "./DateTimeUtils";
 import { CalendarUtils } from "./CalendarUtils";
 import { CommonUtils } from "./CommonUtils";
-import { StyleUtils } from "./StyleUtils";
+import { DivUtils } from "./DivUtils";
 import { TreeUtils } from "./TreeUtils";
 import { TreeDataProcessor } from "./TreeDataProcessor"
 import { getAppConfig } from "./AppConfig";
@@ -12,7 +12,7 @@ export {
   DateTimeUtils, 
   CalendarUtils, 
   CommonUtils,
-  StyleUtils,
+  DivUtils,
   TreeUtils, TreeDataProcessor,
   getAppConfig
 };
