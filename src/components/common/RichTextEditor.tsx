@@ -3,7 +3,7 @@ import classNames from "classnames";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-import { BeanObserver } from "components";
+import { BeanObserver, Label } from "components";
 
 interface RichTextEditorProps<T extends Record<string, any>> {
   field: keyof T;
@@ -96,7 +96,7 @@ export function RichTextEditor<T extends Record<string, any>>(props: RichTextEdi
 
   return (
     <div ref={wrapperRef} className="scrollable-toolbar">
-      {label && <p className="text-capitalize text-primary pb-2"> {label} </p>}
+      {label && <Label text={label}/>}
       <ReactQuill 
         ref={quillRef}
         theme="snow"
