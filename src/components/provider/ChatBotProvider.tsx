@@ -14,7 +14,7 @@ import { useAccountContext, useAppContext, useNotification, useRequestPhoneConte
 
 import { FailResponse, ServerResponse } from "types/server";
 
-import AVATAR from "assets/img/chatbot/avatar.png";
+import AVATAR from "assets/img/chatbot/avatar.jpeg";
 
 export type ChatBotCtx = {}
 export type ChatBotType = "anonymous" | "public";

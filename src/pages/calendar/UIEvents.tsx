@@ -7,8 +7,41 @@ import { Button, DatePicker, Grid, Input, Modal, Sheet, Text } from "zmp-ui";
 import { CalendarApi } from "api";
 import { DateTimeUtils } from "utils";
 import { PageContextProps, PageMode, ServerResponse } from "types";
-import { CommonIcon, Label, Loading, Retry, Selection } from "components";
+import { CommonIcon, Info, Label, Loading, Retry, Selection, TailSpin } from "components";
 import { useAppContext, useBeanObserver, useFamilyTree, useNotification } from "hooks";
+
+const events: any[] = [
+  {
+    "id": 1,
+    "name": "Got a Date",
+    "fromDate": "17/05/2025",
+    "toDate": "17/05/2025"
+  },
+  {
+    "id": 2,
+    "name": "Got a Date",
+    "fromDate": "18/05/2025",
+    "toDate": "25/05/2025"
+  },
+  {
+    "id": 3,
+    "name": "Got a Date",
+    "fromDate": "19/05/2025",
+    "toDate": "19/05/2025"
+  },
+  {
+    "id": 4,
+    "name": "Got a Date",
+    "fromDate": "20/05/2025",
+    "toDate": "21/05/2025"
+  },
+  {
+    "id": 5,
+    "name": "Got a Date",
+    "fromDate": "21/05/2025",
+    "toDate": "30/05/2025"
+  },
+];
 
 function initiate(): Event {
   return {
@@ -23,7 +56,6 @@ function initiate(): Event {
     address   : "",
   }
 }
-
 export interface Event {
   id: number;
   name: string;
@@ -36,6 +68,59 @@ export interface Event {
   address: string;
 }
 
+function convert(raws: any[]): Event[] {
+  if (!raws.length) return [];
+  return raws.map(raw => ({
+    id        : raw.id,
+    name      : raw.name,
+    note      : raw.note,
+    pic       : raw.pic,
+    picId     : raw.pic_id,
+    fromDate  : raw.from_date,
+    toDate    : raw.to_date,
+    place     : raw.place,
+    address   : raw.address,
+  } as Event))
+}
+
+function useSearchUpcomingEvents(date: Date) {
+  const { userInfo }                      = useAppContext();
+  const [ upcomming, setUpcomming ]       = React.useState<Event[]>([]);
+  const [ loadingUpcomming, setLoading ]  = React.useState(true);
+  const [ errorUpcomming, setError ]      = React.useState(false);
+  const [ reloadUpcomming, setReload ]    = React.useState(false);
+
+  const refreshUpcomming = () => setReload(!reloadUpcomming);
+  const formated = DateTimeUtils.formatToDate(date); // DD/MM/YYYY
+
+  React.useEffect(() => {
+    setLoading(true);
+    setError(false);
+    CalendarApi.searchUpcomingEvents({
+      userId: userInfo.id,
+      clanId: userInfo.clanId,
+      date: formated,
+      successCB: (response: ServerResponse) => {
+        setLoading(false);
+        if (response.status === "success") {
+          const events: Event[] = convert(response.data);
+          setUpcomming(events);
+        } else {
+          setError(true);
+          setUpcomming([]);
+        }
+      },
+      failCB: () => {
+        setLoading(false);
+        setError(true);
+        setUpcomming([]);
+      }
+    })
+  }, [ reloadUpcomming, date ])
+
+  return { upcomming, loadingUpcomming, errorUpcomming, refreshUpcomming }
+}
+
 function useSearchEvents(date: Date) {
   const { userInfo }             = useAppContext();
   const [ events, setEvents ]    = React.useState<Event[]>([]);
@@ -44,22 +129,7 @@ function useSearchEvents(date: Date) {
   const [ reload, setReload ]   = React.useState(false);
 
   const refresh = () => setReload(!reload);
-  const formated = DateTimeUtils.formatDefault(date); // DD/MM/YYYY
-
-  const convert = (raws: any[]): Event[] => {
-    if (!raws.length) return [];
-    return raws.map(raw => ({
-      id        : raw.id,
-      name      : raw.name,
-      note      : raw.note,
-      pic       : raw.pic,
-      picId     : raw.pic_id,
-      fromDate  : raw.from_date,
-      toDate    : raw.to_date,
-      place     : raw.place,
-      address   : raw.address,
-    } as Event))
-  }
+  const formated = DateTimeUtils.formatToDate(date); // DD/MM/YYYY
 
   React.useEffect(() => {
     setLoading(true);
@@ -95,11 +165,11 @@ interface UIEventsProps extends PageContextProps {
   onLoading: (loading: boolean) => void;
 }
 export function UIEvents(props: UIEventsProps) {
-  const { date, permissions, className, onLoading } = props;
   const { userInfo } = useAppContext();
-  const { useGetActiveMembers } = useFamilyTree();
+  const { date, permissions, className, onLoading } = props;
   const { events, loading, error, refresh } = useSearchEvents(date);
-  const { activeMembers = [] } = useGetActiveMembers(userInfo.id, userInfo.clanId);
+  const { upcomming, loadingUpcomming, errorUpcomming } = useSearchUpcomingEvents(date);
+  const { activeMembers = [] } = useFamilyTree().useGetActiveMembers(userInfo.id, userInfo.clanId);
   
   const [ event, setEvent ] = React.useState<Event | null>(null);
   const [ viewMode, setViewMode ] = React.useState<PageMode>(PageMode.LIST);
@@ -108,37 +178,63 @@ export function UIEvents(props: UIEventsProps) {
     onLoading(loading);
   }, [ loading, onLoading ]);
 
-  const EventItem = React.memo(({ event }: { event: Event }) => (
+  const EventItem = React.memo(({ event, type, className }: { event: Event, type: "event" | "upcomming", className?: string }) => (
     <div key={event.id} onClick={() => {
       setEvent(event)
       setViewMode(PageMode.EDIT)
-    }}>
-      <Text.Title className="button"> {event["name"]} </Text.Title>
-      <Text> {`${event.fromDate} - ${event.toDate}`} </Text>
+    }} className={classNames("flex-h", className)}>
+      {/* Colored vertical bar at the start */}
+      <div className={classNames("w-1 rounded-full", type === "event" ? "bg-blue-500" : "bg-yellow-500")}/>
+      <div className="flex-1">
+        <Text.Title size="normal" className="button">{event.name}</Text.Title>
+        <div className="text-gray-500">
+          {`${event.fromDate} - ${event.toDate}`}
+        </div>
+      </div>
     </div>
   ));
 
-  const renderEvents = () => {
-    return (
-      <Grid columnCount={1} rowSpace="0.5rem">
-        {events.map(event => <EventItem event={event}/>)}
-      </Grid>
-    )
-  }
-
-  const renderContainer = () => {
-    if (loading) {
-      return <Loading/>
-    } else if (error) {
-      return <Retry title={t("Không tìm thấy sự kiện!")} onClick={refresh}/>
-    } else {
-      return renderEvents()
-    }
-  }
-
   return (
     <div className={classNames("min-h-[100vh]", className)}>
-      {renderContainer()}
+      <div className="flex-v">
+        {loading ? (
+          <div className="flex-v">
+            <Text.Title size="xLarge" className="text-blue-500">{t("Sự kiện hôm nay")}</Text.Title>
+            <TailSpin height={20}/>
+          </div>
+        ) : error ? (
+          <div className="flex-v">
+            <Text.Title size="xLarge" className="text-blue-500">{t("Sự kiện hôm nay")}</Text.Title>
+            <Text>{t("Không có sự kiện")}</Text>
+          </div>
+        ) : (
+          <div className="flex-v">
+            <Text.Title size="xLarge" className="text-blue-500">{t("Sự kiện hôm nay")}</Text.Title>
+            <Grid columnCount={1} rowSpace="1rem">
+              {events.map(event => <EventItem event={event} type="event" className="button"/>)}
+            </Grid>
+          </div>
+        )}
+
+        {loadingUpcomming ? (
+          <div className="flex-v">
+            <Text.Title size="xLarge" className="text-orange-500">{t("Sự kiện sắp tới")}</Text.Title>
+            <TailSpin height={20}/>
+          </div>
+        ) : errorUpcomming ? (
+          <div className="flex-v">
+            <Text.Title size="xLarge" className="text-orange-500">{t("Sự kiện sắp tới")}</Text.Title>
+            <Text>{t("Không có sự kiện sắp tới")}</Text>
+          </div>
+        ) : (
+          <div className="flex-v">
+            <Text.Title size="xLarge" className="text-orange-500">{t("Sự kiện sắp tới")}</Text.Title>
+            <Grid columnCount={1} rowSpace="0.5rem">
+              {upcomming.map(event => <EventItem event={event} type="upcomming" className="button"/>)}
+            </Grid>
+          </div>
+        )}
+      </div>
 
       <Sheet title={t("Sự kiện")} visible={PageMode.EDIT === viewMode} onClose={() => setViewMode(PageMode.LIST)} height={"70vh"}>
         <UIEvent 
@@ -284,7 +380,7 @@ function UIEvent(props: UIEventProps) {
   }
 
   return (
-    <div className="flex-v bg-white text-base p-3">
+    <div className="flex-v bg-white text-base p-3 scroll-h">
       <Text size="large" className="text-center text-primary">
         {getLunarLabel(date)}
       </Text>

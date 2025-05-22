@@ -14,39 +14,6 @@ import { useAppContext, usePageContext } from "hooks";
 
 import { UIEvents } from "./UIEvents";
 
-const events: any[] = [
-  {
-    "id": 1,
-    "name": "Got a Date",
-    "fromDate": "17/05/2025",
-    "toDate": "17/05/2025"
-  },
-  {
-    "id": 2,
-    "name": "Got a Date",
-    "fromDate": "18/05/2025",
-    "toDate": "25/05/2025"
-  },
-  {
-    "id": 3,
-    "name": "Got a Date",
-    "fromDate": "19/05/2025",
-    "toDate": "19/05/2025"
-  },
-  {
-    "id": 4,
-    "name": "Got a Date",
-    "fromDate": "20/05/2025",
-    "toDate": "21/05/2025"
-  },
-  {
-    "id": 5,
-    "name": "Got a Date",
-    "fromDate": "21/05/2025",
-    "toDate": "30/05/2025"
-  },
-];
-
 function useCalendar(date: Date) {
   const { userInfo }            = useAppContext();
   const [ events, setEvents ]   = React.useState<Event[]>([]);
@@ -55,7 +22,7 @@ function useCalendar(date: Date) {
   const [ reload, setReload ]   = React.useState(false);
 
   const refresh = () => setReload(!reload);
-  const formated = DateTimeUtils.formatDefault(date); // DD/MM/YYYY
+  const formated = DateTimeUtils.formatToDate(date); // DD/MM/YYYY
 
   const convert = (raws: any[]): Event[] => {
     if (!raws.length) return [];
@@ -95,7 +62,7 @@ function useCalendar(date: Date) {
         setEvents([]);
       }
     })
-  }, [ reload ])
+  }, [ reload, date ])
 
   return { events, loading, error: false, refresh }
 }
@@ -106,7 +73,8 @@ export function UICalendar() {
 
   const [ view, setView ] = React.useState<CalendarView>(CalendarView.MONTH);
   const [ activeDate, setActiveDate ] = React.useState<Date>(new Date());
-  const { loading, error, refresh } = useCalendar(activeDate);
+  const [ activeMonth, setActiveMonth ] = React.useState<Date>(new Date());
+  const { events, loading, error, refresh } = useCalendar(activeMonth);
 
   const [ isTitleSticky, setIsTitleSticky ] = React.useState(false);
   const [ eventsSectionRef, setEventsSectionRef ] = React.useState<HTMLDivElement | null>(null);
@@ -163,6 +131,7 @@ export function UICalendar() {
       setView(CalendarView.YEAR);
     } else if (action === "drillDown") {
       setView(CalendarView.MONTH);
+      if (activeStartDate) setActiveMonth(activeStartDate);
     }
     if (activeStartDate) {
       if (view === CalendarView.MONTH) {
@@ -268,15 +237,18 @@ export function UICalendar() {
           
           {/* controller */}
           <div ref={setEventsSectionRef} className="pt-3"/>
-          <div style={{ zIndex: 999 }} className={classNames("flex-h", "sticky", "top-0", isTitleSticky && "bg-white p-2", withEase)}>
+          <div style={{ zIndex: 999 }} className={classNames("flex-h", "sticky", "top-0", isTitleSticky && "p-2", withEase)}>
             <Button 
               size="small" variant={isTitleSticky ? "secondary" : "tertiary"} loading={loadingEvents}
               className={classNames("button-link", withEase)} onClick={onPrevious}
             >
               {t("trước")}
             </Button>
-            <Text size="large" className="center bold text-primary" onClick={onChangeView}>
-              {renderSolarHeader()}
+            <Text 
+              size={isTitleSticky ? "small" : "large"} onClick={onChangeView}
+              className={classNames("center", "bold", "text-primary", "rounded", withEase, isTitleSticky && "bg-primary text-secondary")}
+            >
+              {renderSolarHeader(activeDate)}
             </Text>
             <Button 
               size="small" variant={isTitleSticky ? "secondary" : "tertiary"} loading={loadingEvents}
@@ -286,17 +258,17 @@ export function UICalendar() {
             </Button>
           </div>
 
-          <UIEvents permissions={permissions} date={activeDate} className={classNames(isTitleSticky && "pt-3")} onLoading={onLoading}/>
+          <UIEvents permissions={permissions} date={activeDate} className={"pt-3"} onLoading={onLoading}/>
         </ScrollableDiv>
       )
     }
   }
 
-  const renderSolarHeader = () => {
-    const calendarDate = isTitleSticky ? DateTimeUtils.toCalendarDate(activeDate) : DateTimeUtils.toCalendarDate(new Date());
+  const renderSolarHeader = (date: Date) => {
+    const calendarDate = DateTimeUtils.toCalendarDate(date);
     const solar = new SolarDate(calendarDate);
     if (isTitleSticky) {
-      return `Ngày ${solar.get().day}, Tháng ${solar.get().month} ${solar.get().year}`;
+      return `Ngày ${solar.get().day}, ${solar.get().month} ${solar.get().year}`;
     }
     return `Tháng ${solar.get().month} ${solar.get().year}`;
   }

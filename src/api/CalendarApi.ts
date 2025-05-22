@@ -13,10 +13,10 @@ export class CalendarApi extends BaseApi {
       clan_id : clanId,
       date    : date // DD/MM/YYYY
     });
-    return this.server.POST("calendar/clan/events-by-month", header, body, successCB, failCB);
+    return this.server.POST("calendar/events/search/month", header, body, successCB, failCB);
   }
 
-  public static getClanEvents(userId: number, clanId: number, successCB: SuccessCB, failCB?: FailCB) {
+  public static searchClanEvents(userId: number, clanId: number, successCB: SuccessCB, failCB?: FailCB) {
     const header = this.initHeader();
     const body = this.initBody({
       user_id: userId,
@@ -25,24 +25,7 @@ export class CalendarApi extends BaseApi {
     return this.server.POST("get/list/event", header, body, successCB, failCB);
   }
 
-  /**
-   * @param startWeekDate: dd/MM/yyyy@HH:mm:ss
-   * @param endWeekDate: dd/MM/yyyy@HH:mm:ss
-   */
-  public static getClanEventInWeek(userId: number, clanId: number, startWeekDate: string, endWeekDate: string, successCB: SuccessCB, failCB?: FailCB) {
-    const header = this.initHeader();
-    const body = this.initBody({
-      user_id: userId,
-      clan_id: clanId,
-      from_date: startWeekDate,
-      to_date: endWeekDate,
-    });
-    return this.server.POST("calendar/clan/events-by-range", header, body, successCB, failCB);
-  }
-
-  /**
-   * @param date: dd/MM/yyyy@HH:mm:ss
-   */
+  /** @param date: dd/MM/yyyy */
   public static searchEventsByDate({ userId, clanId, date, successCB, failCB }: {
     userId: number, clanId: number, date: string, successCB: SuccessCB, failCB?: FailCB
   }) {
@@ -52,7 +35,31 @@ export class CalendarApi extends BaseApi {
       clan_id: clanId,
       date: date
     });
-    return this.server.POST("calendar/clan/events-by-date", header, body, successCB, failCB);
+    return this.server.POST("calendar/events/search/date", header, body, successCB, failCB);
+  }
+
+  public static searchUpcomingEvents({ userId, clanId, date, successCB, failCB }: {
+    userId: number, clanId: number, date: string, successCB: SuccessCB, failCB?: FailCB
+  }) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      user_id: userId,
+      clan_id: clanId,
+      date: date
+    });
+    return this.server.POST("calendar/events/search/upcoming", header, body, successCB, failCB);
+  }
+
+  /**@deprecated */
+  public static getClanEventInWeek(userId: number, clanId: number, startWeekDate: string, endWeekDate: string, successCB: SuccessCB, failCB?: FailCB) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      user_id: userId,
+      clan_id: clanId,
+      from_date: startWeekDate,
+      to_date: endWeekDate,
+    });
+    return this.server.POST("calendar/clan/events-by-range", header, body, successCB, failCB);
   }
 
   /**@deprecated */
