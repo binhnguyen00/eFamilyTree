@@ -1,12 +1,11 @@
-export class StyleUtils {
-  
+export class DivUtils {
   /**
    * Get device's screen height minus header, footer and other component's height
    * to get the result
    * @param otherComponentHeight: height of other component in pixel 
    * @return height in pixel
    */
-  public static calComponentRemainingHeight(otherComponentHeight: number) {
+  public static calculateHeight(otherComponentHeight: number) {
     const root = document.documentElement;
 
     const screenHeight = window.innerHeight;
@@ -35,5 +34,13 @@ export class StyleUtils {
       return null;
     }
     return div;
+  }
+
+  static getDivsByClassName(className: string): HTMLCollectionOf<HTMLElement> {
+    const divs = document.getElementsByClassName(className) as HTMLCollectionOf<HTMLElement>;
+    if (divs.length === 0) {
+      console.warn(`getDivsByClassName\n no divs with class ${className} found`);
+    }
+    return divs;
   }
 }

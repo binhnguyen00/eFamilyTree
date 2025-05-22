@@ -131,4 +131,12 @@ export class DateTimeUtils {
       year: momentDate.year()         // Full year
     };
   };
+
+  public static addDays(date: Date, days: number) {
+    return moment(date).add(days, 'days').toDate();
+  }
+
+  public static addMonths(date: Date, months: number) {
+    return moment(date).add(months, 'months').toDate();
+  }
 }

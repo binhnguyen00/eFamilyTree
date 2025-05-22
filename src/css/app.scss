@@ -339,3 +339,28 @@ button, .button {
 .ql-container {
   font-size: 1rem !important;
 }
+
+// calendar
+.react-calendar {
+  width: 100%;
+}
+
+.react-calendar__navigation {
+  margin-bottom: unset !important;
+}
+
+.react-calendar__tile--active {
+  background: var(--secondary-color) !important;
+  color: var(--primary-color) !important;
+  border-radius: 10px !important;
+}
+
+.react-calendar__tile--now {
+  background: var(--primary-color) !important;
+  color: var(--secondary-color) !important;
+  border-radius: 10px !important;
+}
+
+.react-calendar__month-view__days__day {
+  font-size: 1.4rem !important;
+}
