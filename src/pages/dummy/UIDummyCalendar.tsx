@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { Button, Sheet, Stack, Tabs, Text } from "zmp-ui";
 
 import { CalendarUtils } from "utils/CalendarUtils";
-import { DateTimeUtils, StyleUtils } from "utils";
+import { DateTimeUtils, DivUtils } from "utils";
 import { Divider, Header, MonthCalendar, ScrollableDiv, WeekCalendar } from "components";
 
 import data from "./sample/events.json";
@@ -88,7 +88,7 @@ function UIWeekCalendarContainer() {
           visible={selectedEvent ? true : false}
           className="bg-white text-base"
           onClose={() => setSelectedEvent(null)}
-          height={StyleUtils.calComponentRemainingHeight(0)}
+          height={DivUtils.calculateHeight(0)}
           title={t("event_details")}
         >
           <EventDetails event={selectedEvent}/>
@@ -141,7 +141,7 @@ function UIWeekCalendarContainer() {
     setDaysWithEvent(days)
   }, [])
 
-  const scrollDivHeight = StyleUtils.calComponentRemainingHeight(157 + 44 + 20);
+  const scrollDivHeight = DivUtils.calculateHeight(157 + 44 + 20);
   return (
     <div className="flex-v">
       <WeekCalendar
@@ -154,7 +154,7 @@ function UIWeekCalendarContainer() {
 
       <Sheet 
         visible={create}
-        height={StyleUtils.calComponentRemainingHeight(0)}
+        height={DivUtils.calculateHeight(0)}
         title={t("create_event")}
         onClose={() => setCreate(false)}
       > 

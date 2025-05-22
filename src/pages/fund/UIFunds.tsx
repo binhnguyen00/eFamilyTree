@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { Button } from "zmp-ui";
 
 import { FundApi } from "api";
-import { CommonUtils, StyleUtils } from "utils";
+import { CommonUtils, DivUtils } from "utils";
 import { useAppContext, useNotification, usePageContext, useRouteNavigate } from "hooks";
 import { Header, Loading, ScrollableDiv, Info, CommonIcon, Retry } from "components";
 
@@ -221,7 +221,7 @@ function UIFundList(props: UIFundListProps) {
     <ScrollableDiv 
       direction="vertical" 
       className="flex-v" 
-      height={StyleUtils.calComponentRemainingHeight(10)}
+      height={DivUtils.calculateHeight(10)}
     >
       {lines}
       <br />

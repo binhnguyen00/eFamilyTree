@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Grid } from "zmp-ui";
 
-import { StyleUtils } from "utils";
+import { DivUtils } from "utils";
 import { useRouteNavigate } from "hooks";
 import { Card, Header, Loading, ScrollableDiv } from "components";
 
@@ -85,7 +85,7 @@ function UIFundList(props: { funds: any[] }) {
           <Button variant="secondary"> Delete </Button>
         </div>
       </ScrollableDiv>
-      <ScrollableDiv direction="vertical" height={StyleUtils.calComponentRemainingHeight(85)} className="mt-2">
+      <ScrollableDiv direction="vertical" height={DivUtils.calculateHeight(85)} className="mt-2">
         <Grid columnCount={2} columnSpace="10px" rowSpace="10px" >
           {html}
         </Grid>

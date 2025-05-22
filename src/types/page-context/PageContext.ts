@@ -16,13 +16,19 @@ export type PagePermissions = {
 };
 
 export interface PageContextProps {
-  module: Module;
+  module?: Module;
   permissions: PagePermissions;
 }
 
 export enum Capability {
-  READ = "read",
-  WRITE = "write",
+  READ      = "read",
+  WRITE     = "write",
   MODERATOR = "moderator",
-  ADMIN = "admin",
+  ADMIN     = "admin",
+}
+
+export enum PageMode {
+  LIST    = "list",
+  EDIT    = "edit",
+  CREATE  = "create",
 }

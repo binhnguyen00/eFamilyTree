@@ -5,7 +5,7 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 
 import { GalleryApi } from "api";
 import { ServerResponse } from "types/server";
-import { CommonUtils, ZmpSDK, StyleUtils } from "utils";
+import { CommonUtils, ZmpSDK, DivUtils } from "utils";
 import { Header, ScrollableDiv, CommonIcon } from "components";
 import { useAppContext, useBeanObserver, useNotification, useRouteNavigate } from "hooks";
 
@@ -159,7 +159,7 @@ export function UIAlbum() {
       <Header title={t("album")}/>
 
       <div className="container bg-white text-base">
-        <ScrollableDiv direction="vertical" height={StyleUtils.calComponentRemainingHeight(0)}>
+        <ScrollableDiv direction="vertical" height={DivUtils.calculateHeight(0)}>
           {renderAlbum()}
           <UIAlbumPhotos albumId={observer.getBean().id}/>
         </ScrollableDiv>

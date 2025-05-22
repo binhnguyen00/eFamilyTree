@@ -6,7 +6,7 @@ import { useAppContext, useRouteNavigate } from "hooks";
 import { Divider, Header, ImageWithText, Info, Loading, ScrollableDiv } from "components";
 
 import { ServerResponse } from "types/server";
-import { StyleUtils } from "utils";
+import { DivUtils } from "utils";
 
 import { loadHallOfFameThumnails, getHallOfFameTextStyle } from "./thumnails";
 
@@ -84,7 +84,7 @@ export function UIHallOfFame() {
       return (
         <ScrollableDiv
           className="flex-v" direction="vertical"
-          height={StyleUtils.calComponentRemainingHeight(0)}
+          height={DivUtils.calculateHeight(0)}
         >
           <br/>
           {renderCards()}

@@ -4,7 +4,7 @@ import { Button, Sheet } from "zmp-ui";
 
 import { CalendarApi } from "api";
 import { useAppContext, useRouteNavigate, useFamilyTree } from "hooks";
-import { CalendarUtils, DateTimeUtils, StyleUtils } from "utils";
+import { CalendarUtils, DateTimeUtils, DivUtils } from "utils";
 import { CommonIcon, ScrollableDiv, WeekCalendar } from "components";
 
 import { ServerResponse } from "types/server";
@@ -105,7 +105,7 @@ export function UIWeekCalendar() {
         />
         <ScrollableDiv 
           direction="vertical"
-          height={StyleUtils.calComponentRemainingHeight(210)}
+          height={DivUtils.calculateHeight(210)}
         >
           <div className="flex-v align-end" style={{ position: "absolute", bottom: 20, right: 10 }}>
             <div>
@@ -132,7 +132,7 @@ export function UIWeekCalendar() {
 
       <Sheet
         visible={create}
-        height={StyleUtils.calComponentRemainingHeight(50)}
+        height={DivUtils.calculateHeight(50)}
         title={t("Tạo Sự Kiện")}
         onClose={() => setCreate(false)}
       > 

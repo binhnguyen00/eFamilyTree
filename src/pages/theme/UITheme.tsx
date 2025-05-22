@@ -3,7 +3,7 @@ import { t } from "i18next";
 
 import { Grid, Text } from "zmp-ui";
 
-import { StyleUtils } from "utils";
+import { DivUtils } from "utils";
 import { UserSettingApi } from "api";
 import { Header, ScrollableDiv, SizedBox } from "components";
 import { useAccountContext, useAppContext, useNotification, useRequestPhoneContext } from "hooks";
@@ -29,7 +29,7 @@ export function UITheme(props: UIThemeProps) {
       <div className={`container bg-white ${className}`.trim()}>
         <ScrollableDiv
           id="ui-theme"
-          height={StyleUtils.calComponentRemainingHeight(0)}
+          height={DivUtils.calculateHeight(0)}
           className="flex-v" direction="vertical"
         >
           <Grid className="my-3" columnSpace="0.5rem" rowSpace="1rem" columnCount={2}>

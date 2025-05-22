@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { Input, Sheet, DatePicker, Button, Text } from "zmp-ui";
 
 import { HallOfFameApi } from "api";
-import { DateTimeUtils, StyleUtils } from "utils";
+import { DateTimeUtils, DivUtils } from "utils";
 import { CommonIcon, Selection, SelectionOption, TailSpin } from "components";
 import { useAppContext, useBeanObserver, useNotification, useFamilyTree } from "hooks";
 
@@ -123,7 +123,7 @@ export function UICreateHallOfFame(props: UICreateHallOfFameProps) {
       title={t("Thêm Thành Viên")}
       visible={visible}
       onClose={onClose}
-      height={StyleUtils.calComponentRemainingHeight(0)}
+      height={DivUtils.calculateHeight(0)}
     >
       <div className="flex-v p-3 scroll-v">
         {renderSelection()}

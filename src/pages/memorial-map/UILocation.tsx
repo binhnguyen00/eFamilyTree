@@ -8,7 +8,7 @@ import { Button, Grid, Input, Modal, Sheet, Text } from "zmp-ui";
 import { MemorialMapApi } from "api";
 import { ServerResponse } from "types/server";
 import { Photo } from "pages/gallery/UIAlbumPhotos";
-import { CommonUtils, StyleUtils, ZmpSDK } from "utils";
+import { CommonUtils, DivUtils, ZmpSDK } from "utils";
 import { useNotification, useAppContext, useBeanObserver, useFamilyTree } from "hooks";
 import { BeanObserver, CommonIcon, Label, Selection, SelectionOption, SizedBox } from "components";
 
@@ -97,7 +97,7 @@ export function UILocation(props: UILocationProps) {
       visible={visible}
       title={t("info")}
       onClose={onClose}
-      height={StyleUtils.calComponentRemainingHeight(0)}
+      height={DivUtils.calculateHeight(0)}
     >
       <UIMemorialLocationForm
         observer={observer}

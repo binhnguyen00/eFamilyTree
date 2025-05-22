@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Text, Grid } from "zmp-ui";
 
-import { StyleUtils, ZmpSDK } from "utils";
+import { DivUtils, ZmpSDK } from "utils";
 import { Theme } from "types/user-settings";
 import { Header, Loading, Retry, ScrollableDiv, RichTextEditor } from "components";
 import { useNotification, useAppContext, usePageContext, useOverlayContext, useBeanObserver } from "hooks";

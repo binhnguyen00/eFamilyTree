@@ -4,7 +4,7 @@ import { t } from "i18next";
 import { Button } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
-import { StyleUtils } from "utils";
+import { DivUtils } from "utils";
 import { PagePermissions, ServerResponse } from "types";
 import { CommonIcon, Header, Loading, Retry, RichTextEditor } from "components";
 import { useBeanObserver, useRouteNavigate, useAppContext, useNotification } from "hooks";
@@ -99,7 +99,7 @@ export function UIBiography() {
         <div className="flex-v">
           <RichTextEditor 
             className="mt-2" field="biography" observer={observer} placeholder={hasBiography ? `${t("Tiểu sử")} của ${name}` : t("Bắt đầu viết tiểu sử...")}
-            height={StyleUtils.calComponentRemainingHeight(60)} disabled={!permissions.canModerate}
+            height={DivUtils.calculateHeight(60)} disabled={!permissions.canModerate}
           />
           <div className="p-2" style={{ position: "absolute", right: 0, bottom: 0 }}>
             <Button size="small" variant="primary" prefixIcon={<CommonIcon.Save/>} onClick={onSave} className={classNames(!permissions.canModerate && "hide")}>

@@ -6,7 +6,6 @@ import { Loading } from "components";
 import { UISocialPost } from "pages/social-post/UISocialPost";
 import { UISocialPostDetail } from "pages/social-post/UISocialPostDetail";
 import { UICalendar } from "pages/calendar/UICalendar";
-import { UIMonthCalendar } from "pages/calendar/UIMonthCalendar";
 import { UIHallOfFameUsers } from "pages/hall-of-fame/UIHallOfFameUsers";
 import { UIHallOfFame } from "pages/hall-of-fame/UIHallOfFame";
 import { UIDeveloper } from "pages/dummy/UIDeveloper";
@@ -56,7 +55,7 @@ export function AppRoutes() {
       <Route path={createPath("gallery/album")} element={<UIAlbum />}/>
 
       <Route path={createPath("calendar")} element={<UICalendar />} />
-      <Route path={createPath("calendar/month")} element={<UIMonthCalendar />} />
+      <Route path={createPath("calendar/month")} element={<UICalendar />} />
 
       <Route path={createPath("social-posts")} element={<UISocialPost />}/>
       <Route path={createPath("social-posts/detail")} element={<UISocialPostDetail />} />

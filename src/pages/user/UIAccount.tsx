@@ -4,7 +4,7 @@ import { Avatar, Button, Grid, Text } from "zmp-ui";
 
 import { CommonIcon, Header, ScrollableDiv } from "components";
 import { UserSettingApi } from "api";
-import { CommonUtils, StyleUtils } from "utils";
+import { CommonUtils, DivUtils } from "utils";
 import { useAccountContext, useAppContext, useNotification, useRequestPhoneContext, useRouteNavigate } from "hooks";
 
 import { ServerResponse } from "types/server";
@@ -30,7 +30,7 @@ function UIAccountContainer() {
     <ScrollableDiv 
       id="ui-account"
       direction="vertical" className="flex-v padding-footer"
-      style={{ height: StyleUtils.calComponentRemainingHeight(10) }}
+      style={{ height: DivUtils.calculateHeight(10) }}
     >
       <div className="flex-v flex-grow-0 center my-3">
         <Avatar

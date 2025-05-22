@@ -4,7 +4,7 @@ import { Modal, Text } from "zmp-ui";
 
 import { FundApi } from "api";
 import { ServerResponse } from "types/server";
-import { CommonUtils, StyleUtils } from "utils";
+import { CommonUtils, DivUtils } from "utils";
 import { useAppContext, useNotification } from "hooks";
 import { Divider, ScrollableDiv } from "components";
 
@@ -121,7 +121,7 @@ export function UITransactions(props: UITransactionsProps) {
       <Text size="large" className="text-center bold">{t("transaction_history")}</Text>
       <ScrollableDiv 
         className="flex-v" direction="vertical" 
-        height={StyleUtils.calComponentRemainingHeight(120*2 + 50)}
+        height={DivUtils.calculateHeight(120*2 + 50)}
       >
         {lines}
         {renderDeleteTransaction()}

@@ -2,7 +2,7 @@ import React from 'react';
 import { t } from 'i18next';
 import { Button, Text } from 'zmp-ui';
 
-import { StyleUtils } from 'utils';
+import { DivUtils } from 'utils';
 import { HeaderUser, Divider, ScrollableDiv, CommonIcon } from 'components';
 import { useAccountContext, useRequestPhoneContext, useRouteNavigate } from 'hooks';
 
@@ -16,11 +16,7 @@ export function UIHome() {
     <>
       <HeaderUser/>
 
-      <ScrollableDiv 
-        id='ui-home'
-        className='container flex-v' direction="vertical" 
-        style={{ height: StyleUtils.calComponentRemainingHeight(10) }}
-      >
+      <ScrollableDiv className='container flex-v' direction="vertical" style={{ height: DivUtils.calculateHeight(10) }}>
 
         <AppTitle/>
 
@@ -50,7 +46,7 @@ export function UIHome() {
 
 function AppTitle() {
   return (
-    <div className="mt-3 mb-3" style={{ position: 'relative' }}>
+    <div className="mt-7 mb-3" style={{ position: 'relative' }}>
       {/* White half-circle element */}
       <div
         style={{

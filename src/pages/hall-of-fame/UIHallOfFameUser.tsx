@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { Button, DatePicker, Input, Sheet, Text } from "zmp-ui";
 
 import { HallOfFameApi } from "api";
-import { DateTimeUtils, StyleUtils } from "utils";
+import { DateTimeUtils, DivUtils } from "utils";
 import { CommonIcon, Info, Loading } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 
@@ -173,7 +173,7 @@ export function UIHallOfFameUserDetails(props: UIHallOfFameUserProps) {
       visible={visible}
       onClose={onClose}
       title={title()}
-      height={StyleUtils.calComponentRemainingHeight(0)}
+      height={DivUtils.calculateHeight(0)}
     >
       <div className="scroll-v p-3">
         {renderContainer()}

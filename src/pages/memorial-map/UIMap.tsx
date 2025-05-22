@@ -3,7 +3,7 @@ import { t } from "i18next";
 import { Button, Sheet } from "zmp-ui";
 
 import { MemorialMapApi } from "api";
-import { StyleUtils, ZmpSDK } from "utils";
+import { DivUtils, ZmpSDK } from "utils";
 import { useAppContext, useNotification, useRequestLocationContext } from "hooks";
 import { 
   Header, Loading, CommonIcon,
@@ -228,7 +228,7 @@ export function UIMap() {
           />
           <WorldMap
             tileLayer={mapTile}
-            height={StyleUtils.calComponentRemainingHeight(48)}
+            height={DivUtils.calculateHeight(48)}
             markers={memoizedMarkers}
             currentMarker={currentLocation as MapCoordinate}
             onSelectMarker={onSelect}
@@ -308,7 +308,7 @@ export function UICreateLocation(props: UICreateLocationProps) {
   if (coordinate === null) return null;
 
   return (
-    <Sheet visible={visible} onClose={onClose} height={StyleUtils.calComponentRemainingHeight(0)}>
+    <Sheet visible={visible} onClose={onClose} height={DivUtils.calculateHeight(0)}>
       <UICreateLocationForm onSuccess={onSuccess} coordinate={coordinate}/>
     </Sheet>
   )

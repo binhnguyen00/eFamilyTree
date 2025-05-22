@@ -1,6 +1,6 @@
 import React from "react";
 import { t } from "i18next";
-import { StyleUtils } from "utils";
+import { DivUtils } from "utils";
 import { Header, ScrollableDiv } from "components";
 
 import { UIAlbums } from "./UIAlbums";
@@ -21,7 +21,7 @@ export function UIGallery() {
 function UIGalleryContainer() {
   return (
     <div className="flex-v">
-      <ScrollableDiv className="bg-white" direction="vertical" height={StyleUtils.calComponentRemainingHeight(0)}>
+      <ScrollableDiv className="bg-white" direction="vertical" height={DivUtils.calculateHeight(0)}>
         <UIAlbums/>
       </ScrollableDiv>
     </div>

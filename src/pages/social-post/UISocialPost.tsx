@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Text } from "zmp-ui";
 
-import { StyleUtils } from "utils";
+import { DivUtils } from "utils";
 import { SocialPostApi } from "api";
 import { useAppContext, usePageContext, useRouteNavigate } from "hooks";
 import { Card, Header, Loading, ScrollableDiv, Selection, SelectionOption } from "components";
@@ -163,7 +163,7 @@ function UISocialPosts(props: UISocialPostsProps) {
     <ScrollableDiv 
       id="ui-social-post"
       direction="vertical" className="flex-v" 
-      height={StyleUtils.calComponentRemainingHeight(10)}
+      height={DivUtils.calculateHeight(10)}
     >
       {renderPosts()}
       <br/><br/>

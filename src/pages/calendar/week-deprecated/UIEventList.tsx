@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "i18next";
 import { Sheet, Text } from "zmp-ui";
 
-import { DateTimeUtils, StyleUtils } from "utils";
+import { DateTimeUtils, DivUtils } from "utils";
 import { UIEventDetails } from "./UIEventDetails";
 
 interface UIEventListProps {
@@ -56,7 +56,7 @@ export function UIEventList(props: UIEventListProps) {
         visible={selectedEvent ? true : false}
         className="bg-white text-base"
         onClose={() => setSelectedEvent(null)}
-        height={StyleUtils.calComponentRemainingHeight(50)}
+        height={DivUtils.calculateHeight(50)}
         title={t("event_details")}
       >
         <UIEventDetails

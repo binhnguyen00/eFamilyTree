@@ -8,7 +8,7 @@ import { Header, CommonIcon, Loading, Info, ScrollableDiv, Divider } from "compo
 
 import { ServerResponse } from "types/server";
 import { HallOfFameUser, UIHallOfFameUserDetails } from "./UIHallOfFameUser";
-import { StyleUtils } from "utils";
+import { DivUtils } from "utils";
 import { UICreateHallOfFame } from "./UICreateHallOfFameUser";
 
 const data = [
@@ -66,7 +66,7 @@ export function UIHallOfFameUsers() {
       return <Info title={t("chưa có dữ liệu")}/>
     } else {
       return (
-        <ScrollableDiv height={StyleUtils.calComponentRemainingHeight(0)}>
+        <ScrollableDiv height={DivUtils.calculateHeight(0)}>
           {users}
           <br/><br/>
         </ScrollableDiv>

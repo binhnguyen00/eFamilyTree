@@ -4,7 +4,7 @@ import { Grid } from "zmp-ui";
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 
 import { GalleryApi } from "api";
-import { CommonUtils, StyleUtils } from "utils";
+import { CommonUtils, DivUtils } from "utils";
 import { useAppContext } from "hooks";
 import { ServerResponse } from "types/server";
 import { Loading, Header, Retry, ScrollableDiv, Divider, TailSpin } from "components";
@@ -35,7 +35,7 @@ export function UIPhotos(props: UIPhotosProps) {
 
       <div className="container bg-white text-base">
         <Divider size={0}/>
-        <ScrollableDiv className="flex-v" direction="vertical" height={StyleUtils.calComponentRemainingHeight(200)}>
+        <ScrollableDiv className="flex-v" direction="vertical" height={DivUtils.calculateHeight(200)}>
           {renderContainer()}
         </ScrollableDiv>
       </div>
