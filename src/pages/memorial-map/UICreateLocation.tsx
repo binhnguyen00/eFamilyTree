@@ -199,7 +199,7 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
       return (
         <div key={photo.id} className="relative" onClick={() => onSelectPhoto(photo)}>
           {isSelecting ? (
-            <>              
+            <>
               <img
                 src={photo.url}
                 className="object-cover transition-opacity duration-300 ease-in-out hover:opacity-90"

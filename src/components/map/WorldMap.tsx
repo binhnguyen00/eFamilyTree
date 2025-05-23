@@ -93,6 +93,11 @@ function useMap(props: UseMapProps) {
     if (attribution) attribution.remove();
   }
 
+  const removeLeafletController = () => {
+    const attribution = document.getElementsByClassName("leaflet-control-container")[0];
+    if (attribution) attribution.remove();
+  }
+
   // create intance map
   React.useEffect(() => {
     mapRef.current = Leaflet.map("map")
@@ -134,6 +139,7 @@ function useMap(props: UseMapProps) {
     });
 
     removeLeafletLogo();
+    removeLeafletController();
 
     // prevent memory leak
     return () => {

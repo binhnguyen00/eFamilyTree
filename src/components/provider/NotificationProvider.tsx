@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React from "react";
 import { ToastContainer, ToastOptions, Slide, toast } from "react-toastify";
 
@@ -53,7 +54,29 @@ export const NotificationContext = React.createContext({
 // ================================
 // Private
 // ================================
-function createToastConfig() {
+enum ConfigType {
+  SUCCESS = "success",
+  DANGER = "error",
+  WARNING = "warning",
+  INFO = "info",
+}
+
+function createToastConfig(type: ConfigType) {
+  let textColor: string;
+  switch (type) {
+    case ConfigType.SUCCESS:
+      textColor = "text-green-900";
+      break;
+    case ConfigType.DANGER:
+      textColor = "text-red-900";
+      break;
+    case ConfigType.WARNING:
+      textColor = "text-yellow-900";
+      break;
+    case ConfigType.INFO:
+      textColor = "text-base";
+      break;
+  }
   return {
     autoClose: 3000,
     hideProgressBar: true,
@@ -61,30 +84,31 @@ function createToastConfig() {
     position: "top-center",
     transition: Slide,
     draggable: true,
-    draggablePercent: 60,
+    draggablePercent: 80,
     draggableDirection: "x",
     style: {
       width: "95vw",
-      marginTop: 5
+      marginTop: 15,
+      fontSize: "1rem"
     },
-    className: "rounded"
+    className: classNames("rounded box-shadow py-3", textColor)
   } as ToastOptions;
 }
 
 function infoToast(content: ToastContent) {
-  toast.info(content, createToastConfig())
+  toast.info(content, createToastConfig(ConfigType.INFO))
 }
 
 function successToast(content: ToastContent) {
-  toast.success(content, createToastConfig());
+  toast.success(content, createToastConfig(ConfigType.SUCCESS));
 }
 
 function dangerToast(content: ToastContent) {
-  toast.error(content, createToastConfig());
+  toast.error(content, createToastConfig(ConfigType.DANGER));
 }
 
 function warningToast(content: ToastContent) {
-  toast.warning(content, createToastConfig());
+  toast.warning(content, createToastConfig(ConfigType.WARNING));
 }
 
 function loadingToast({
@@ -93,29 +117,29 @@ function loadingToast({
 }: {
   content: ToastContent,
   operation: (
-    onSuccess: (successMessage: ToastContent) => void, 
-    onFail: (errorMessage: ToastContent) => void,
+    onSuccess: (render: ToastContent) => void, 
+    onFail: (render: ToastContent) => void,
     onDismiss: () => void
   ) => void,
 }) {
-  const config = createToastConfig()
+  const config = createToastConfig(ConfigType.INFO)
   const toastId = toast.loading(content, config);
 
-  const success = (successMessage: ToastContent): void => {
+  const success = (render: ToastContent): void => {
     toast.update(toastId, {
-      render: successMessage,
-      type: "success",
+      render: render,
+      type: ConfigType.SUCCESS,
       isLoading: false,
-      ...config,
+      ...createToastConfig(ConfigType.SUCCESS),
     });
   };
 
-  const fail = (errorMessage: ToastContent): void => {
+  const fail = (render: ToastContent): void => {
     toast.update(toastId, {
-      render: errorMessage,
-      type: "error",
+      render: render,
+      type: ConfigType.DANGER,
       isLoading: false,
-      ...config,
+      ...createToastConfig(ConfigType.DANGER),
     });
   };
 

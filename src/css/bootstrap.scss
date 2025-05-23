@@ -137,15 +137,15 @@
 }
 
 .box-shadow {
-  box-shadow: 1px 5px 10px rgba(5, 15, 5, 0.08) !important;
+  box-shadow: 1px 5px 10px rgba(5, 15, 5, 0.3) !important;
 }
 
 .box-shadow-primary {
-  box-shadow: 1px 5px 10px var(--primary-color, rgba(5, 15, 2, 0.08)) !important;
+  box-shadow: 1px 5px 10px var(--primary-color, rgba(5, 15, 2, 0.3)) !important;
 }
 
 .box-shadow-secondary {
-  box-shadow: 1px 5px 10px var(--secondary-color, rgba(5, 15, 5, 0.08)) !important;
+  box-shadow: 1px 5px 10px var(--secondary-color, rgba(5, 15, 5, 0.3)) !important;
 }
 
 .text-shadow {
@@ -153,11 +153,11 @@
 }
 
 .text-shadow-primary {
-  text-shadow: 2px 2px 4px var(--primary-color, rgba(5, 15, 2, 0.08)) !important;
+  text-shadow: 2px 2px 4px var(--primary-color, rgba(5, 15, 2, 0.3)) !important;
 }
 
 .text-shadow-secondary {
-  text-shadow: 2px 2px 4px var(--secondary-color, rgba(5, 15, 5, 0.08)) !important;
+  text-shadow: 2px 2px 4px var(--secondary-color, rgba(5, 15, 5, 0.3)) !important;
 }
 
 .border {

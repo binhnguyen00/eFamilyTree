@@ -5,20 +5,15 @@ import { Button, Sheet } from "zmp-ui";
 import { MemorialMapApi } from "api";
 import { DivUtils, ZmpSDK } from "utils";
 import { ServerResponse, Photo } from "types";
-import { useAppContext, useNotification, useRequestLocationContext } from "hooks";
+import { useAppContext, useNotification, usePageContext, useRequestLocationContext } from "hooks";
 import { Header, Loading, CommonIcon, WorldMap, MapCoordinate, MapMarker, WorldMapConfig, MapTile } from "components";
 
 import { UILocation } from "./UILocation";
 import { UICreateLocationForm } from "./UICreateLocation";
-import { MapTerrainButtons } from "./buttons/UIMapTerrainButtons";
-import { QuickCreateLocationButton } from "./buttons/UIQuickCreateButton";
 
-// ==============================
-// Hooks
-// ==============================
 function useCurrentLocation() {
   const { needLocation, requestLocation } = useRequestLocationContext();
-  const { loadingToast } = useNotification();
+  const { loadingToast, warningToast } = useNotification();
 
   const [ currentLocation, setLocation ] = React.useState<MapCoordinate | null>(null);
   const [ loading, setLoading ] = React.useState<boolean>(true);
@@ -36,10 +31,18 @@ function useCurrentLocation() {
       requestLocation();
     } else {
       loadingToast({
-        content: <p> {t("đang lấy toạ độ hiện tại...")} </p>,
+        content: t("Tìm vị trí của bạn..."),
         operation: (successToastCB, dangerToastCB, dismissToast) => {
+          const timeout = setTimeout(() => {
+            warningToast(t("Không tìm thấy! Hãy thử lại"));
+            setLoading(false);
+            setError(true);
+            dismissToast();
+          }, 8000);
+
           ZmpSDK.getLocation({
             successCB: (location) => {
+              clearTimeout(timeout);
               setLoading(false);
               setLocation({
                 lat: parseFloat(location.latitude),
@@ -48,11 +51,15 @@ function useCurrentLocation() {
               dismissToast();
             },
             failCB: (error: any) => {
-              dangerToastCB(t("không thành công"));
+              clearTimeout(timeout);
+              dangerToastCB(t("Không thành công"));
               setLoading(false);
               setError(true);
             }
           });
+          return () => {
+            if (timeout) clearTimeout(timeout);
+          };
         }
       })
     }
@@ -69,7 +76,7 @@ export interface MemorialLocation extends MapMarker {
 }
 
 function useMap() {
-  const { userInfo } = useAppContext();  
+  const { userInfo } = useAppContext();
 
   const [ markers, setMarkers ] = React.useState<MemorialLocation[]>([]);
   const [ loading, setLoading ] = React.useState<boolean>(true);
@@ -118,12 +125,10 @@ function useMap() {
   return { markers, loading, error, refresh }
 }
 
-// ======================================
-// UIMap
-// ======================================
 export function UIMap() {
   const { userInfo } = useAppContext();
-  const { loadingToast } = useNotification();
+  const { permissions } = usePageContext();
+  const { loadingToast, warningToast } = useNotification();
   const { needLocation, requestLocation } = useRequestLocationContext();
   const { currentLocation, refresh: locateCurrentLocation } = useCurrentLocation();
   const { markers, loading, error, refresh: refreshMap } = useMap();
@@ -149,7 +154,7 @@ export function UIMap() {
       return;
     }
     loadingToast({
-      content: <p> {t("đang chuẩn bị dữ liệu...")} </p>,
+      content: <p> {t("Chuẩn bị dữ liệu...")} </p>,
       operation: (successToastCB, dangerToastCB, dismissToast) => {
         MemorialMapApi.get({
           userId: userInfo.id,
@@ -157,7 +162,7 @@ export function UIMap() {
           id: marker.id,
           success: (result: ServerResponse) => {
             if (result.status === "error") {
-              dangerToastCB(t("lấy dữ liệu không thành công"))
+              dangerToastCB(t("Lấy dữ liệu không thành công"))
             } else {
               const data = result.data as any;
               setSelected({
@@ -177,7 +182,7 @@ export function UIMap() {
               dismissToast();
             }
           },
-          fail: () => dangerToastCB(t("lấy dữ liệu không thành công"))
+          fail: () => dangerToastCB(t("Lấy dữ liệu không thành công"))
         })
       }
     })
@@ -189,14 +194,15 @@ export function UIMap() {
     locateCurrentLocation();
   }
 
-  const onQuickCreate = (coordinate: MapCoordinate) => {
-    if (needLocation) { requestLocation(); return; }
-    setCoordinate(coordinate)
-    setRequestCreate(true);
-  }
-
   const onSelectOnMap = (coordinate: MapCoordinate) => {
-    if (needLocation) { requestLocation(); return; }
+    if (needLocation) { 
+      requestLocation(); 
+      return; 
+    }
+    if (!permissions.canWrite) {
+      warningToast(t("Bạn không có quyền tạo Di tích"));
+      return;
+    }
     setCoordinate(coordinate)
     setRequestCreate(true);
   }
@@ -206,23 +212,44 @@ export function UIMap() {
   const renderContainer = () => {
     if (loading) {
       return (
-        <div className="bg-white">
+        <div className="container bg-white">
           <Loading/>
         </div>
       )
     } else {
       return (
-        <div>
-          <UIMapController 
-            className="p-2"
-            onReloadParent={refreshMap}
-            onQuickCreate={onQuickCreate}
-            onChangeMapTerrain={onChangeMapTerrain}
-            onCurrentPosition={onLocateCurrentLocation}
-          />
+        <div className="relative">
+          {/* controller */}
+          <div className="absolute center bottom-12 flex-h" style={{ zIndex: 999 }}>
+            <Button size="small" onClick={onLocateCurrentLocation} variant="secondary">
+              <CommonIcon.MapPin size={"1.5rem"}/>
+            </Button>
+            <Button 
+              size="small" variant="secondary"
+              onClick={() => onChangeMapTerrain({
+                url: WorldMapConfig.defaultTileLayer,
+                maxZoom: WorldMapConfig.defaultMaxZoom
+              })}
+            >
+              <CommonIcon.Map2 size={"1.5rem"}/>
+            </Button>
+            <Button 
+              size="small" variant="secondary"
+              onClick={() => onChangeMapTerrain({
+                url: WorldMapConfig.satelliteTileLayer,
+                maxZoom: WorldMapConfig.satelliteMaxZoom
+              })} 
+            >
+              <CommonIcon.Terrain size={"1.5rem"}/>
+            </Button>
+            <Button size="small" onClick={refreshMap} variant="secondary" loading={loading}>
+              <CommonIcon.Reload size={"1.5rem"}/>
+            </Button>
+          </div>
+          {/* map */}
           <WorldMap
             tileLayer={mapTile}
-            height={DivUtils.calculateHeight(48)}
+            height={"100vh"}
             markers={memoizedMarkers}
             currentMarker={currentLocation as MapCoordinate}
             onSelectMarker={onSelect}
@@ -237,73 +264,26 @@ export function UIMap() {
     <>
       <Header title={t("memorial_location")}/>
 
-      <div className="container-padding bg-white">
+      <div className="bg-white">
         {renderContainer()}
       </div>
 
       <UILocation
         key={selected ? selected.id : "location-details"}
-        data={selected}
-        visible={requestInfo}
-        onClose={() => setSelected(null)}
-        onReloadParent={refreshMap}
+        data={selected} visible={requestInfo} permissions={permissions}
+        onClose={() => setSelected(null)} onReloadParent={refreshMap}
       />
 
-      <UICreateLocation
-        key={coordinate ? coordinate.lat : "create-location"}
-        coordinate={coordinate}
-        visible={requestCreate}
-        onClose={() => setRequestCreate(false)}
-        onSuccess={(record: MemorialLocation) => {
-          refreshMap();
-          setRequestCreate(false);
-        }}
-      />
+      <Sheet visible={requestCreate} onClose={() => setRequestCreate(false)} height={DivUtils.calculateHeight(0)}>
+        <UICreateLocationForm 
+          key={coordinate ? coordinate.lat : "create-location"} 
+          coordinate={coordinate!}
+          onSuccess={(record: MemorialLocation) => {
+            refreshMap();
+            setRequestCreate(false);
+          }} 
+        />
+      </Sheet>
     </>
-  )
-}
-
-interface UIMemorialMapControllerProps {
-  onQuickCreate?: (coordinate: MapCoordinate) => void;
-  onChangeMapTerrain?: (terrain: MapTile) => void;
-  onCurrentPosition?: () => void;
-  onReloadParent?: () => void;
-  className?: string;
-}
-export function UIMapController(props: UIMemorialMapControllerProps) {
-  const { onQuickCreate, onChangeMapTerrain, onReloadParent, onCurrentPosition, className } = props;
-
-  return (
-    <div className={`scroll-h ${className}`.trim()}>
-      <div>
-        <Button size="small" prefixIcon={<CommonIcon.CurrentPosition/>} onClick={onCurrentPosition}>
-          {t("tôi")}
-        </Button>
-      </div>
-      <MapTerrainButtons onSelect={onChangeMapTerrain}/>
-      <QuickCreateLocationButton onCreate={onQuickCreate}/>
-      <div>
-        <Button size="small" onClick={onReloadParent} prefixIcon={<CommonIcon.Reload size={"1rem"}/>}>
-          {t("tải lại")}
-        </Button>
-      </div>
-    </div>
-  )
-}
-
-interface UICreateLocationProps {
-  visible: boolean;
-  coordinate: MapCoordinate | null;
-  onClose: () => void;
-  onSuccess?: (record: MemorialLocation) => void;
-}
-export function UICreateLocation(props: UICreateLocationProps) {
-  const { visible, coordinate, onClose, onSuccess } = props;
-  if (coordinate === null) return null;
-
-  return (
-    <Sheet visible={visible} onClose={onClose} height={DivUtils.calculateHeight(0)}>
-      <UICreateLocationForm onSuccess={onSuccess} coordinate={coordinate}/>
-    </Sheet>
   )
 }

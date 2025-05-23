@@ -80,7 +80,7 @@ export function RequestLocation(props: RequestLocationProps) {
             {t("allow")}
           </Button>
           <Button 
-            variant="tertiary" size="medium" 
+            variant="tertiary" size="medium" className="button-link"
             onClick={() => {
               onClose();
               setRequest(false);

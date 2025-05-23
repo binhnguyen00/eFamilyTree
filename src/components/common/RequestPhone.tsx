@@ -88,7 +88,7 @@ export function RequestPhone(props: RequestPhoneProps) {
           }}>
             {t("allow")}
           </Button>
-          <Button variant="tertiary" size="medium" onClick={closeSheet}>
+          <Button variant="tertiary" size="medium" className="button-link" onClick={closeSheet}>
             {t("decline")}
           </Button>
         </div>

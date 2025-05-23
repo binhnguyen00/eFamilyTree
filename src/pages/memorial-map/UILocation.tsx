@@ -1,25 +1,26 @@
 import React from "react";
+import classNames from "classnames";
 import { t } from "i18next";
 import { ToastContent } from "react-toastify";
 import { PhotoProvider, PhotoView } from "react-photo-view"
 import { Button, Grid, Input, Modal, Sheet, Text } from "zmp-ui";
 
 import { MemorialMapApi } from "api";
-import { ServerResponse, Photo } from "types";
+import { ServerResponse, Photo, PageContextProps } from "types";
 import { CommonUtils, DivUtils, ZmpSDK } from "utils";
 import { useNotification, useAppContext, useBeanObserver, useFamilyTree } from "hooks";
 import { BeanObserver, CommonIcon, Label, Selection, SelectionOption, SizedBox } from "components";
 
 import { MemorialLocation } from "./UIMap";
 
-interface UILocationProps {
+interface UILocationProps extends PageContextProps {
   data: MemorialLocation | null;
   visible: boolean;
   onClose: () => void;
   onReloadParent?: () => void;
 }
 export function UILocation(props: UILocationProps) {
-  const { data, visible, onClose, onReloadParent } = props;
+  const { data, visible, onClose, onReloadParent, permissions } = props;
   if (data === null) return null;
 
   const { userInfo } = useAppContext();
@@ -92,13 +93,13 @@ export function UILocation(props: UILocationProps) {
 
   return (
     <Sheet
+    title={t("info")}
       visible={visible}
-      title={t("info")}
       onClose={onClose}
       height={DivUtils.calculateHeight(0)}
     >
       <UIMemorialLocationForm
-        observer={observer}
+        observer={observer} permissions={permissions}
         onSave={onSave} onDelete={() => setDeleteWarning(true)}
       />
       <Modal
@@ -116,13 +117,13 @@ export function UILocation(props: UILocationProps) {
   )
 }
 
-interface UIMemorialLocationFormProps {
+interface UIMemorialLocationFormProps extends PageContextProps {
   observer: BeanObserver<MemorialLocation>;
   onDelete: () => void;
   onSave: () => void;
 }
 function UIMemorialLocationForm(props: UIMemorialLocationFormProps) {
-  const { onDelete, onSave, observer } = props;
+  const { onDelete, onSave, observer, permissions } = props;
   const { useDeadMembers } = useFamilyTree();
   const { members } = useDeadMembers();
 
@@ -133,7 +134,7 @@ function UIMemorialLocationForm(props: UIMemorialLocationFormProps) {
       <Input 
         label={<Label text="Tên Di Tích" required/>}
         value={observer.getBean().name} name="name"
-        onChange={observer.watch}
+        onChange={observer.watch} disabled={!permissions.canWrite}
       />
 
       <Selection
@@ -148,39 +149,41 @@ function UIMemorialLocationForm(props: UIMemorialLocationFormProps) {
           observer.update("memberId", value.value);
           observer.update("memberName", value.label);
         }}
+        isDisabled={!permissions.canWrite}
       />
 
       <Input.TextArea
         size="large" label={<Label text="Mô Tả"/>}
         value={observer.getBean().description} name="description"
         onChange={(e) => observer.update("description", e.target.value)}
+        disabled={!permissions.canWrite}
       />
 
       <div className="scroll-h">
         <Button 
-          variant="primary" size="small" 
+          variant="primary" size="small" className={classNames(!permissions.canWrite && "hide")}
           onClick={onSave} prefixIcon={<CommonIcon.Save/>}
         >
           {t("save")}
         </Button>
         <Button 
-          variant="primary" size="small" 
+          variant="primary" size="small" className={classNames(!permissions.canWrite && "hide")}
           onClick={onDelete} prefixIcon={<CommonIcon.Trash/>}
         >
           {t("delete")}
         </Button>
       </div>
 
-      <UIPhotoSelector observer={observer}/>
+      <UIPhotoSelector observer={observer} permissions={permissions}/>
     </div>
   )
 }
 
-interface ImageSelectorProps {
+interface ImageSelectorProps extends PageContextProps {
   observer: BeanObserver<MemorialLocation>;
 }
 export function UIPhotoSelector(props: ImageSelectorProps) {
-  const { observer } = props;
+  const { observer, permissions } = props;
   const { userInfo, serverBaseUrl } = useAppContext();
   const { warningToast, dangerToast, successToast } = useNotification();
   const { photoWidth, photoHeight } = { photoWidth: 100, photoHeight: 100 }
@@ -189,7 +192,7 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
   const [ selectedPhotos, setSelectedPhotos ] = React.useState<Photo[]>([]);
   const [ photos, setPhotos ] = React.useState<Photo[]>(observer.getBean().photos || []);
 
-  const withEase: string = "transition-all duration-300 ease-in-out hover:scale-105";
+  const withEase: string = "transition-all duration-300 ease-in-out";
 
   const onSavePhotos = (base64s: string[], successCB: (message: ToastContent) => void, dangerCB: (message: ToastContent) => void) => { 
     MemorialMapApi.updatePhotos({
@@ -319,22 +322,28 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
       <div className="flex-h flex-grow-0 justify-between">
         <Text size={"small"} className="bold flex-h content-center align-start" style={{ minWidth: 120 }}>{`${t("Ảnh")} (${photos.length})`}</Text>
         <div className="flex-h">
-          <Button size="small" className={withEase} variant="tertiary" prefixIcon={isSelecting && <CommonIcon.Check />} onClick={onSelectionMode}>
+          <Button 
+            size="small" className={classNames(withEase, !permissions.canWrite && "hide")} variant="tertiary" 
+            prefixIcon={isSelecting && <CommonIcon.Check />} onClick={onSelectionMode}
+          >
             {isSelecting ? t("xong") : t("select")}
           </Button>
           {isSelecting && selectedPhotos.length > 0 && (
-            <Button size="small" className={withEase} variant="tertiary" prefixIcon={<CommonIcon.RemovePhoto />} onClick={onRemovePhotos}>
+            <Button 
+              size="small" className={classNames(withEase, !permissions.canWrite && "hide")} variant="tertiary" 
+              prefixIcon={<CommonIcon.RemovePhoto />} onClick={onRemovePhotos}
+            >
               {t("delete")}
             </Button>
           )}
         </div>
       </div>
-      <PhotoProvider maskOpacity={0.5} maskClosable pullClosable bannerVisible={false}>
+      <PhotoProvider maskOpacity={0.5} maskClosable pullClosable>
         <Grid columnCount={3} rowSpace="1rem" columnSpace="1rem">
           {renderPhotos()}
           {photos.length < 5 && (
             <SizedBox
-              className={`${withEase} button flex-h text-underline`}
+              className={classNames("button", "flex-h", "text-underline", withEase, !permissions.canWrite && "hide")}
               width={photoWidth} height={photoHeight} onClick={onAddPhotos}
             >
               <CommonIcon.AddPhoto /> {t("add")}

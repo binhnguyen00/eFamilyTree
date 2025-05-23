@@ -1,7 +1,7 @@
 import { BiMaleFemale, BiSolidFileJpg, BiSolidFilePng } from "react-icons/bi";
 import { BsArchiveFill, BsFiletypeSvg, BsFillFilePersonFill, BsFillHouseAddFill, BsFillPeopleFill } from "react-icons/bs";
 import { FaArrowDown, FaArrowLeft, FaArrowRight, FaArrowUp, FaCheck, FaCheckCircle, FaChevronDown, FaChevronUp, FaChild, FaFileDownload, FaInfoCircle, FaPhoneAlt, FaRegCalendarAlt, FaRegCopy, FaRegSave } from "react-icons/fa";
-import { FaBookBookmark, FaFilePdf, FaMapLocationDot, FaRegSquareCheck } from "react-icons/fa6";
+import { FaBookBookmark, FaFilePdf, FaMapLocationDot, FaMountainSun, FaRegSquareCheck } from "react-icons/fa6";
 import { GiFamilyTree, GiGraveFlowers } from "react-icons/gi";
 import { GoHomeFill } from "react-icons/go";
 import { GrMap } from "react-icons/gr";
@@ -10,7 +10,7 @@ import { IoIosArrowBack, IoIosArrowForward, IoIosCloseCircle, IoIosCloudDownload
 import { IoNotifications, IoPersonAddSharp, IoPersonCircle, IoQrCodeOutline, IoTrash } from "react-icons/io5";
 import { LuCalendarPlus, LuMinus } from "react-icons/lu";
 import { MdAddLocationAlt, MdFamilyRestroom, MdOutlinePreview, MdPersonSearch } from "react-icons/md";
-import { PiTreeFill } from "react-icons/pi";
+import { PiMapPinFill, PiTreeFill } from "react-icons/pi";
 import { RiMailSendLine, RiResetRightLine } from "react-icons/ri";
 import { TbLogout, TbPhoto, TbPhotoMinus, TbPhotoPlus, TbReload } from "react-icons/tb";
 import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
@@ -46,6 +46,7 @@ export const CommonIcon = {
   VerticalDots: HiOutlineDotsVertical,
   Save: FaRegSave,
   Map: GrMap,
+  Map2: FaMapLocationDot,
   CurrentPosition: FaMapLocationDot,
   LightBulb: HiOutlineLightBulb,
   Trash: IoTrash,
@@ -76,4 +77,6 @@ export const CommonIcon = {
   CheckSquare: FaRegSquareCheck,
   Check: FaCheck,
   Bookmark: FaBookBookmark,
+  Terrain: FaMountainSun,
+  MapPin: PiMapPinFill,
 };
