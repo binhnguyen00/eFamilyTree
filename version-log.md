@@ -26,6 +26,9 @@
 
     - <img src="./static/v1.6.5/4.jpeg" width="200px"/>
 
+#### 5. Bài đăng
+  - Phân quyền người dùng (Read/Moderator)
+
 # Version 1.6.4
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=76)
 ### Thay đổi
