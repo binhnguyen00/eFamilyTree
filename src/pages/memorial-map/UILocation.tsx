@@ -6,8 +6,8 @@ import { PhotoProvider, PhotoView } from "react-photo-view"
 import { Button, Grid, Input, Modal, Sheet, Text } from "zmp-ui";
 
 import { MemorialMapApi } from "api";
-import { ServerResponse, Photo, PageContextProps } from "types";
 import { CommonUtils, DivUtils, ZmpSDK } from "utils";
+import { ServerResponse, Photo, PageContextProps } from "types";
 import { useNotification, useAppContext, useBeanObserver, useFamilyTree } from "hooks";
 import { BeanObserver, CommonIcon, Label, Selection, SelectionOption, SizedBox } from "components";
 
@@ -38,7 +38,7 @@ export function UILocation(props: UILocationProps) {
     memberName:   data.memberName,
   } as MemorialLocation);
 
-  const [ deleteWarning, setDeleteWarning ] = React.useState(false);
+  const [ warning, setWarning ] = React.useState(false);
 
   const onDelete = () => {
     loadingToast({
@@ -100,14 +100,14 @@ export function UILocation(props: UILocationProps) {
     >
       <UIMemorialLocationForm
         observer={observer} permissions={permissions}
-        onSave={onSave} onDelete={() => setDeleteWarning(true)}
+        onSave={onSave} onDelete={() => setWarning(true)}
       />
       <Modal
-        visible={deleteWarning}
+        visible={warning}
         mask maskClosable
         title={t("Hành động không thể thu hồi")}
         description={t("Bạn có chắc muốn xoá di tích này?")}
-        onClose={() => setDeleteWarning(false)}
+        onClose={() => setWarning(false)}
         actions={[
           { text: t("Xoá"), onClick: onDelete },
           { text: t("Đóng"), close: true },
@@ -129,12 +129,10 @@ function UIMemorialLocationForm(props: UIMemorialLocationFormProps) {
 
   return (
     <div className="scroll-v p-3">
-      <Text.Title className="text-capitalize text-primary py-2"> {t("info")} </Text.Title>
-
       <Input 
         label={<Label text="Tên Di Tích" required/>}
         value={observer.getBean().name} name="name"
-        onChange={observer.watch} disabled={!permissions.canWrite}
+        onChange={observer.watch} disabled={!permissions.canModerate}
       />
 
       <Selection
@@ -149,25 +147,25 @@ function UIMemorialLocationForm(props: UIMemorialLocationFormProps) {
           observer.update("memberId", value.value);
           observer.update("memberName", value.label);
         }}
-        isDisabled={!permissions.canWrite}
+        isDisabled={!permissions.canModerate}
       />
 
       <Input.TextArea
         size="large" label={<Label text="Mô Tả"/>}
         value={observer.getBean().description} name="description"
         onChange={(e) => observer.update("description", e.target.value)}
-        disabled={!permissions.canWrite}
+        disabled={!permissions.canModerate}
       />
 
       <div className="scroll-h">
         <Button 
-          variant="primary" size="small" className={classNames(!permissions.canWrite && "hide")}
+          variant="primary" size="small" className={classNames(!permissions.canModerate && "hide")}
           onClick={onSave} prefixIcon={<CommonIcon.Save/>}
         >
           {t("save")}
         </Button>
         <Button 
-          variant="primary" size="small" className={classNames(!permissions.canWrite && "hide")}
+          variant="primary" size="small" className={classNames(!permissions.canModerate && "hide")}
           onClick={onDelete} prefixIcon={<CommonIcon.Trash/>}
         >
           {t("delete")}
@@ -323,14 +321,14 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
         <Text size={"small"} className="bold flex-h content-center align-start" style={{ minWidth: 120 }}>{`${t("Ảnh")} (${photos.length})`}</Text>
         <div className="flex-h">
           <Button 
-            size="small" className={classNames(withEase, !permissions.canWrite && "hide")} variant="tertiary" 
+            size="small" className={classNames(withEase, !permissions.canModerate && "hide")} variant="tertiary" 
             prefixIcon={isSelecting && <CommonIcon.Check />} onClick={onSelectionMode}
           >
             {isSelecting ? t("xong") : t("select")}
           </Button>
           {isSelecting && selectedPhotos.length > 0 && (
             <Button 
-              size="small" className={classNames(withEase, !permissions.canWrite && "hide")} variant="tertiary" 
+              size="small" className={classNames(withEase, !permissions.canModerate && "hide")} variant="tertiary" 
               prefixIcon={<CommonIcon.RemovePhoto />} onClick={onRemovePhotos}
             >
               {t("delete")}
@@ -343,7 +341,7 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
           {renderPhotos()}
           {photos.length < 5 && (
             <SizedBox
-              className={classNames("button", "flex-h", "text-underline", withEase, !permissions.canWrite && "hide")}
+              className={classNames("button", "flex-h", "text-underline", withEase, !permissions.canModerate && "hide")}
               width={photoWidth} height={photoHeight} onClick={onAddPhotos}
             >
               <CommonIcon.AddPhoto /> {t("add")}
