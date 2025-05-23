@@ -1,3 +1,16 @@
+# Version 1.6.5
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=76)
+### Thay đổi
+#### 1. Thư viện Ảnh
+  - Phân quyền người dùng (Read/Moderator)
+#### 2. Di tích
+  - Cập nhật giao diện
+  - Phân quyền người dùng (Read/Moderator)
+#### 3. Phả đồ
+  - Thêm Tiểu sử của thành viên
+  - Cập nhật giao diện thẻ thành viên
+  - Phân quyền người dùng (Read/Write/Moderator)
+
 # Version 1.6.4
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=76)
 ### Thay đổi
