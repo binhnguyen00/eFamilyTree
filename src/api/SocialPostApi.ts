@@ -38,6 +38,22 @@ export class SocialPostApi extends BaseApi {
       clan_id: clanId,
       post: post
     });
-    return this.server.POST("post/save", header, body, successCB, failCB);
+    return this.server.POST("social/posts/save", header, body, successCB, failCB);
+  }
+
+  public static deletePost({ userId, clanId, postId, successCB, failCB }: {
+    userId: number,
+    clanId: number,
+    postId: number,
+    successCB: SuccessCB,
+    failCB?: FailCB
+  }) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      user_id: userId,
+      clan_id: clanId,
+      post_id: postId
+    });
+    return this.server.POST("social/posts/delete", header, body, successCB, failCB);
   }
 }

@@ -5,7 +5,7 @@ import { Button, Text } from "zmp-ui";
 
 import { DivUtils } from "utils";
 import { SocialPostApi } from "api";
-import { PageMode, ServerResponse } from "types";
+import { PageMode, ServerResponse, SocialPost } from "types";
 import { useAppContext, usePageContext, useRouteNavigate } from "hooks";
 import { Card, CommonIcon, Header, Loading, Retry, ScrollableDiv, Selection, SelectionOption } from "components";
 
@@ -18,12 +18,27 @@ export enum SocialPostType {
 export function useSocialPosts(type: SocialPostType = SocialPostType.NEWS) {
   const { logedIn, userInfo } = useAppContext();
 
-  const [ posts, setPosts ] = React.useState<any[]>([]);
+  const [ posts, setPosts ] = React.useState<SocialPost[]>([]);
   const [ loading, setLoading ] = React.useState<boolean>(true);
   const [ error, setError ] = React.useState<boolean>(false);
   const [ reload, setReload ] = React.useState<boolean>(false);
 
   const refresh = () => setReload(!reload);
+
+  const convert = (posts: any[]) => {
+    return posts.map((post: any) => {
+      return {
+        id            : post.id,
+        title         : post.title,
+        content       : post.content,
+        type          : post.type,
+        creatorId     : post.creator_id,
+        creatorName   : post.creator_name,
+        thumbnail     : post.thumbnail,
+        createDate    : post.create_date,
+      } as SocialPost;
+    })
+  }
 
   React.useEffect(() => {
     setLoading(true);
@@ -42,7 +57,8 @@ export function useSocialPosts(type: SocialPostType = SocialPostType.NEWS) {
             setError(true);
           } else {
             const data = result.data as any[];
-            setPosts(data);
+            const raws: SocialPost[] = convert(data);
+            setPosts(raws);
           }
         },
         failCB: () => {
@@ -70,15 +86,9 @@ export function UISocialPosts() {
   ]
   const { posts, error, loading, refresh } = useSocialPosts(type);
 
-  const goToPost = (
-    post: {
-      id: number;
-      title: string;
-      content: string;
-      type: SocialPostType;
-    },
-    pageMode: PageMode
-  ) => goTo({ path: "social-posts/detail", belongings: { post, permissions, pageMode } });
+  const goToPost = (post: SocialPost, pageMode: PageMode) => {
+    goTo({ path: "social-posts/detail", belongings: { post, permissions, pageMode } })
+  }
 
   const createPost = (
     post: {
@@ -93,10 +103,10 @@ export function UISocialPosts() {
     
     const result = [] as React.ReactNode[];
     for (let i = 0; i < posts.length; i++) {
-      const post: any         = posts[i];
-      const title: string     = post["title"] || "";
-      const content: string   = post["content"] || "";
-      const thumbnail: string = post["thumbnail"] || "";
+      const post: SocialPost  = posts[i];
+      const title: string     = post.title || "";
+      const content: string   = post.content || "";
+      const thumbnail: string = post.thumbnail || "";
       const imgSrc: string    = `${SocialPostApi.getServerBaseUrl()}${thumbnail}`;
 
       result.push(

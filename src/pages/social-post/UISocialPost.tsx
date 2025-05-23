@@ -6,24 +6,17 @@ import { Button, Input, Text } from "zmp-ui";
 
 import { DivUtils } from "utils";
 import { BaseApi, SocialPostApi } from "api";
-import { PageMode, PagePermissions, ServerResponse } from "types";
+import { PageMode, PagePermissions, ServerResponse, SocialPost } from "types";
 import { useAppContext, useBeanObserver, useNotification, useRouteNavigate } from "hooks";
 import { Header, ScrollableDiv, RichTextEditor, CommonIcon } from "components";
 
-import { SocialPostType } from "./UISocialPosts";
-
 export function UISocialPost() {
   const { userInfo } = useAppContext();
-  const { belongings } = useRouteNavigate();
+  const { belongings, goBack } = useRouteNavigate();
   const { loadingToast } = useNotification();
   const { post, permissions, pageMode } = belongings as {
     pageMode: PageMode,
-    post: {
-      id?: number;
-      title: string;
-      content: string;
-      type: SocialPostType;
-    },
+    post: SocialPost,
     permissions: PagePermissions
   }
   const observer = useBeanObserver(post);
@@ -52,22 +45,53 @@ export function UISocialPost() {
     });
   }
 
+  const onDelete = () => {
+    loadingToast({
+      content: t("Xóa bài đăng..."),
+      operation: (onSuccess, onFail) => {
+        SocialPostApi.deletePost({
+          userId: userInfo.id,
+          clanId: userInfo.clanId,
+          postId: observer.getBean().id!,
+          successCB: (result: ServerResponse) => {
+            goBack();
+            onSuccess(t("Thành công"));
+          },
+          failCB: () => {
+            onFail(t("Thất bại"));
+          }
+        });
+      }
+    });
+  }
+
   const renderContent = () => {
     if ([PageMode.EDIT, PageMode.CREATE].includes(pageMode)) {
       const hasContent = !!observer.getBean().content;
+      const isOwner = observer.getBean().creatorId === userInfo.id;
+      const disable: boolean = !permissions.canModerate || !isOwner;
       return (
         <div className="py-3">
           <Input 
             label={t("tiêu đề")} value={observer.getBean().title} name="title"
-            onChange={observer.watch} disabled={!permissions.canModerate}
+            onChange={observer.watch} disabled={disable}
           />
           <RichTextEditor
             field="content" observer={observer} placeholder={hasContent ? `${t("Bài viết")} của ${name}` : t("Bắt đầu viết bài...")}
-            height={DivUtils.calculateHeight(120)} disabled={!permissions.canModerate}
+            height={DivUtils.calculateHeight(120)} disabled={disable}
           />
-          <div className="p-2" style={{ position: "absolute", right: 0, bottom: 0 }}>
-            <Button size="small" variant="primary" prefixIcon={<CommonIcon.Save/>} onClick={onSave} className={classNames(!permissions.canModerate && "hide")}>
+          <div className="p-2 flex-h" style={{ position: "absolute", right: 0, bottom: 0 }}>
+            <Button 
+              size="small" variant="primary" prefixIcon={<CommonIcon.Save/>} onClick={onSave} 
+              className={classNames(disable && "hide")}
+            >
               {t("save")}
+            </Button>
+            <Button 
+              size="small" variant="primary" prefixIcon={<CommonIcon.Trash/>} onClick={onDelete} 
+              className={classNames(disable && "hide")}
+            >
+              {t("delete")}
             </Button>
           </div>
         </div>
@@ -77,7 +101,7 @@ export function UISocialPost() {
         return html.replace(/<img\s+([^>]*?)src="([^"]*?)"/g, (match, attrs, src) => {
           // Ensure the src doesn't already have a domain due to Odoo
           const newSrc = src.startsWith("http") ? src : `${BaseApi.getServerBaseUrl()}${src}`;
-          return `<img ${attrs}src="${newSrc}"`;
+          return `<img ${attrs} src="${newSrc}"`;
         });
       };
       const purifiedContent = DOMPurify.sanitize(post.content);
