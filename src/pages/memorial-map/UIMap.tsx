@@ -199,7 +199,7 @@ export function UIMap() {
       requestLocation(); 
       return; 
     }
-    if (!permissions.canWrite) {
+    if (!permissions.canModerate) {
       warningToast(t("Bạn không có quyền tạo Di tích"));
       return;
     }
