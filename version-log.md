@@ -3,13 +3,28 @@
 ### Thay đổi
 #### 1. Thư viện Ảnh
   - Phân quyền người dùng (Read/Moderator)
-#### 2. Di tích
-  - Cập nhật giao diện
-  - Phân quyền người dùng (Read/Moderator)
-#### 3. Phả đồ
-  - Thêm Tiểu sử của thành viên
-  - Cập nhật giao diện thẻ thành viên
+
+#### 2. Phả đồ
   - Phân quyền người dùng (Read/Write/Moderator)
+  - Thêm Tiểu sử của thành viên
+
+    <img src="./static/v1.6.5/1.png" width="200px"/>
+    <img src="./static/v1.6.5/2.png" width="200px"/>
+    <img src="./static/v1.6.5/3.png" width="200px"/>
+
+#### 3. Lịch
+  - Phân quyền người dùng (Read/Moderator)
+  - Cập nhật giao diện
+
+    <img src="./static/v1.6.5/5.png" width="200px"/>
+    <img src="./static/v1.6.5/6.png" width="200px"/>
+    <img src="./static/v1.6.5/7.png" width="200px"/>
+
+#### 4. Di tích
+  - Phân quyền người dùng (Read/Moderator)
+  - Cập nhật giao diện 
+
+    - <img src="./static/v1.6.5/4.jpeg" width="200px"/>
 
 # Version 1.6.4
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=76)
