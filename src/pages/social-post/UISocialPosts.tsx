@@ -33,7 +33,7 @@ export function useSocialPosts(type: SocialPostType = SocialPostType.NEWS) {
         content       : post.content,
         type          : post.type,
         creatorId     : post.creator_id,
-        creatorName   : post.creator_name,
+        creatorName   : post.creator,
         thumbnail     : post.thumbnail,
         createDate    : post.create_date,
       } as SocialPost;
@@ -77,6 +77,7 @@ export function useSocialPosts(type: SocialPostType = SocialPostType.NEWS) {
 
 export function UISocialPosts() {
   const { goTo } = useRouteNavigate();
+  const { userInfo } = useAppContext();
   const { permissions } = usePageContext();
   const [ type, setType ] = React.useState<SocialPostType>(SocialPostType.NEWS);
   const options: any[] = [
@@ -108,13 +109,13 @@ export function UISocialPosts() {
       const content: string   = post.content || "";
       const thumbnail: string = post.thumbnail || "";
       const imgSrc: string    = `${SocialPostApi.getServerBaseUrl()}${thumbnail}`;
-
+      const isOwner: boolean  = post.creatorId === userInfo.id;
       result.push(
         <Card
           key={`post-${i}`}
           src={imgSrc}
           className="button rounded border-secondary mb-3"
-          onClick={() => goToPost(post, permissions.canModerate ? PageMode.EDIT : PageMode.VIEW)}
+          onClick={() => goToPost(post, permissions.canModerate && isOwner ? PageMode.EDIT : PageMode.VIEW)}
           title={<Text.Title size="xLarge"> {title} </Text.Title>} 
           content={
             <Text size="small" className="text-gray-500 p-3">

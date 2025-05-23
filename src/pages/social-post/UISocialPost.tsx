@@ -68,29 +68,18 @@ export function UISocialPost() {
   const renderContent = () => {
     if ([PageMode.EDIT, PageMode.CREATE].includes(pageMode)) {
       const hasContent = !!observer.getBean().content;
-      const isOwner = observer.getBean().creatorId === userInfo.id;
-      const disable: boolean = !permissions.canModerate || !isOwner;
       return (
         <div className="py-3">
-          <Input 
-            label={t("tiêu đề")} value={observer.getBean().title} name="title"
-            onChange={observer.watch} disabled={disable}
-          />
+          <Input label={t("tiêu đề")} value={observer.getBean().title} name="title" onChange={observer.watch}/>
           <RichTextEditor
-            field="content" observer={observer} placeholder={hasContent ? `${t("Bài viết")} của ${name}` : t("Bắt đầu viết bài...")}
-            height={DivUtils.calculateHeight(120)} disabled={disable}
+            field="content" observer={observer} height={DivUtils.calculateHeight(120)}
+            placeholder={hasContent ? `${t("Bài viết")} của ${name}` : t("Bắt đầu viết bài...")}
           />
           <div className="p-2 flex-h" style={{ position: "absolute", right: 0, bottom: 0 }}>
-            <Button 
-              size="small" variant="primary" prefixIcon={<CommonIcon.Save/>} onClick={onSave} 
-              className={classNames(disable && "hide")}
-            >
+            <Button size="small" variant="primary" prefixIcon={<CommonIcon.Save/>} onClick={onSave}>
               {t("save")}
             </Button>
-            <Button 
-              size="small" variant="primary" prefixIcon={<CommonIcon.Trash/>} onClick={onDelete} 
-              className={classNames(disable && "hide")}
-            >
+            <Button size="small" variant="primary" prefixIcon={<CommonIcon.Trash/>} onClick={onDelete}>
               {t("delete")}
             </Button>
           </div>
@@ -111,6 +100,9 @@ export function UISocialPost() {
           <Text.Title className="py-2" size="xLarge"> 
             {post.title} 
           </Text.Title>
+          <Text size="small" className="text-gray-500 p-3">
+            {post.creatorName}
+          </Text>
           <div dangerouslySetInnerHTML={{ __html: updatedContent }} />
         </div>
       )
