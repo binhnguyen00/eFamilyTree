@@ -7,7 +7,7 @@ export interface Event {
   fromDate: string; // Format: "DD/MM/YYYY"
   toDate: string; // Format: "DD/MM/YYYY"
   place: string;
-  address: string;
+  location: string;
 }
 
 export enum CalendarView {

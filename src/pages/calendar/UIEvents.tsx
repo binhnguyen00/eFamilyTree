@@ -6,42 +6,47 @@ import { Button, DatePicker, Grid, Input, Modal, Sheet, Text } from "zmp-ui";
 
 import { CalendarApi } from "api";
 import { DateTimeUtils } from "utils";
-import { PageContextProps, PageMode, ServerResponse } from "types";
-import { CommonIcon, Info, Label, Loading, Retry, Selection, TailSpin } from "components";
+import { PageContextProps, PageMode, ServerResponse, Event } from "types";
+import { CommonIcon, Label, Selection, TailSpin } from "components";
 import { useAppContext, useBeanObserver, useFamilyTree, useNotification } from "hooks";
 
 const events: any[] = [
   {
     "id": 1,
-    "name": "Got a Date",
+    "name": "Giỗ cụ tổ đời thứ 3 - Nguyễn Văn Lập",
     "fromDate": "17/05/2025",
-    "toDate": "17/05/2025"
+    "toDate": "17/05/2025",
+    "location": "Nhà thờ họ Nguyễn - Thôn Đông, Hà Nam"
   },
   {
     "id": 2,
-    "name": "Got a Date",
+    "name": "Lễ tế Thanh Minh cuối mùa",
     "fromDate": "18/05/2025",
-    "toDate": "25/05/2025"
+    "toDate": "18/05/2025",
+    "location": "Nghĩa trang gia tộc - Xã Nam Sơn, Bắc Ninh"
   },
   {
     "id": 3,
-    "name": "Got a Date",
+    "name": "Họp chi họ nhánh II (Hà Nội)",
     "fromDate": "19/05/2025",
-    "toDate": "19/05/2025"
+    "toDate": "19/05/2025",
+    "location": "Nhà cụ Nguyễn Văn Tài - 45 phố Hàng Đào, HN"
   },
   {
     "id": 4,
-    "name": "Got a Date",
+    "name": "Lễ cầu siêu cho các cụ liệt sĩ họ Nguyễn",
     "fromDate": "20/05/2025",
-    "toDate": "21/05/2025"
+    "toDate": "21/05/2025",
+    "location": "Chùa Phúc Lâm - Bắc Ninh"
   },
   {
     "id": 5,
-    "name": "Got a Date",
+    "name": "Gặp mặt con cháu thành đạt hải ngoại",
     "fromDate": "21/05/2025",
-    "toDate": "30/05/2025"
-  },
-];
+    "toDate": "23/05/2025",
+    "location": "Khu nghỉ dưỡng Hồ Núi Cốc - Thái Nguyên"
+  }
+]
 
 function initiate(): Event {
   return {
@@ -53,21 +58,9 @@ function initiate(): Event {
     fromDate  : "",
     toDate    : "",
     place     : "",
-    address   : "",
+    location   : "",
   }
 }
-export interface Event {
-  id: number;
-  name: string;
-  note: string;
-  pic: string;
-  picId: number;
-  fromDate: string; // Format: "DD/MM/YYYY"
-  toDate: string; // Format: "DD/MM/YYYY"
-  place: string;
-  address: string;
-}
-
 function convert(raws: any[]): Event[] {
   if (!raws.length) return [];
   return raws.map(raw => ({
@@ -79,18 +72,18 @@ function convert(raws: any[]): Event[] {
     fromDate  : raw.from_date,
     toDate    : raw.to_date,
     place     : raw.place,
-    address   : raw.address,
+    location   : raw.address,
   } as Event))
 }
 
 function useSearchUpcomingEvents(date: Date) {
-  const { userInfo }                      = useAppContext();
-  const [ upcomming, setUpcomming ]       = React.useState<Event[]>([]);
-  const [ loadingUpcomming, setLoading ]  = React.useState(true);
-  const [ errorUpcomming, setError ]      = React.useState(false);
-  const [ reloadUpcomming, setReload ]    = React.useState(false);
+  const { userInfo }             = useAppContext();
+  const [ events, setEvents ]    = React.useState<Event[]>([]);
+  const [ loading, setLoading ]  = React.useState(true);
+  const [ error, setError ]      = React.useState(false);
+  const [ reload, setReload ]    = React.useState(false);
 
-  const refreshUpcomming = () => setReload(!reloadUpcomming);
+  const refresh = () => setReload(!reload);
   const formated = DateTimeUtils.formatToDate(date); // DD/MM/YYYY
 
   React.useEffect(() => {
@@ -104,21 +97,21 @@ function useSearchUpcomingEvents(date: Date) {
         setLoading(false);
         if (response.status === "success") {
           const events: Event[] = convert(response.data);
-          setUpcomming(events);
+          setEvents(events);
         } else {
           setError(true);
-          setUpcomming([]);
+          setEvents([]);
         }
       },
       failCB: () => {
         setLoading(false);
         setError(true);
-        setUpcomming([]);
+        setEvents([]);
       }
     })
-  }, [ reloadUpcomming, date ])
+  }, [ reload, date ])
 
-  return { upcomming, loadingUpcomming, errorUpcomming, refreshUpcomming }
+  return { upcoming: events, loadingUpcoming: loading, errorUpcoming: error, refreshUpcoming: refresh }
 }
 
 function useSearchEvents(date: Date) {
@@ -168,7 +161,7 @@ export function UIEvents(props: UIEventsProps) {
   const { userInfo } = useAppContext();
   const { date, permissions, className, onLoading } = props;
   const { events, loading, error, refresh } = useSearchEvents(date);
-  const { upcomming, loadingUpcomming, errorUpcomming } = useSearchUpcomingEvents(date);
+  const { upcoming, loadingUpcoming, errorUpcoming, refreshUpcoming } = useSearchUpcomingEvents(date);
   const { activeMembers = [] } = useFamilyTree().useGetActiveMembers(userInfo.id, userInfo.clanId);
   
   const [ event, setEvent ] = React.useState<Event | null>(null);
@@ -178,21 +171,27 @@ export function UIEvents(props: UIEventsProps) {
     onLoading(loading);
   }, [ loading, onLoading ]);
 
-  const EventItem = React.memo(({ event, type, className }: { event: Event, type: "event" | "upcomming", className?: string }) => (
-    <div key={event.id} onClick={() => {
-      setEvent(event)
-      setViewMode(PageMode.EDIT)
-    }} className={classNames("flex-h", className)}>
-      {/* Colored vertical bar at the start */}
-      <div className={classNames("w-1 rounded-full", type === "event" ? "bg-blue-500" : "bg-yellow-500")}/>
-      <div className="flex-1">
-        <Text.Title size="normal" className="button">{event.name}</Text.Title>
-        <div className="text-gray-500">
-          {`${event.fromDate} - ${event.toDate}`}
+  const EventItem = React.memo(({ event, type, className }: { event: Event, type: "event" | "upcoming", className?: string }) => {
+    const hasSameDay = event.fromDate === event.toDate;
+    return (
+      <div 
+        key={event.id} className={classNames("flex-h", className)}
+        onClick={() => {
+          setEvent(event)
+          setViewMode(PageMode.EDIT)
+        }} 
+      >
+        {/* Colored vertical bar */}
+        <div className={classNames("w-1 rounded-full", type === "event" ? "bg-blue-500" : "bg-yellow-500")}/>
+        <div className="flex-1">
+          <Text.Title size="normal" className="button">{event.name}</Text.Title>
+          <div className="text-gray-500">
+            {hasSameDay ? event.fromDate.replace(/\/\d+$/, '') : `${event.fromDate.replace(/\/\d+$/, '')} - ${event.toDate.replace(/\/\d+$/, '')}`}
+          </div>
         </div>
       </div>
-    </div>
-  ));
+    )
+  });
 
   return (
     <div className={classNames("min-h-[100vh]", className)}>
@@ -216,12 +215,12 @@ export function UIEvents(props: UIEventsProps) {
           </div>
         )}
 
-        {loadingUpcomming ? (
+        {loadingUpcoming ? (
           <div className="flex-v">
             <Text.Title size="xLarge" className="text-orange-500">{t("Sự kiện sắp tới")}</Text.Title>
             <TailSpin height={20}/>
           </div>
-        ) : errorUpcomming ? (
+        ) : errorUpcoming ? (
           <div className="flex-v">
             <Text.Title size="xLarge" className="text-orange-500">{t("Sự kiện sắp tới")}</Text.Title>
             <Text>{t("Không có sự kiện sắp tới")}</Text>
@@ -230,7 +229,7 @@ export function UIEvents(props: UIEventsProps) {
           <div className="flex-v">
             <Text.Title size="xLarge" className="text-orange-500">{t("Sự kiện sắp tới")}</Text.Title>
             <Grid columnCount={1} rowSpace="0.5rem">
-              {upcomming.map(event => <EventItem event={event} type="upcomming" className="button"/>)}
+              {upcoming.map(event => <EventItem event={event} type="upcoming" className="button"/>)}
             </Grid>
           </div>
         )}

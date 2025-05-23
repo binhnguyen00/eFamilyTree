@@ -5,7 +5,7 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 import { Button, Input, Text, Sheet, Modal, DatePicker, Avatar } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
-import { CommonIcon, Selection, Label, SelectionOption } from "components";
+import { CommonIcon, Selection, Label, SelectionOption, ScrollableDiv } from "components";
 import { CommonUtils, DateTimeUtils, TreeDataProcessor, ZmpSDK } from "utils";
 import { TreeMember, PageContextProps, FailResponse, ServerResponse } from "types";
 import { useBeanObserver, useNotification, useAppContext, useRouteNavigate } from "hooks";
@@ -129,12 +129,7 @@ export function UITreeMember(props: UITreeMemberProps) {
     const onUpdateAvatar = () => {
       const doUpdate = (base64: string) => {
         loadingToast({
-          content: (
-            <div className="flex-v">
-              <p> {t("đang cập nhật ảnh đại diện")} </p>
-              <p> {t("vui lòng chờ")} </p>
-            </div>
-          ),
+          content: t("Cập nhật Ảnh đại diện..."),
           operation: (successToastCB, dangerToastCB) => {
             FamilyTreeApi.updateAvatar({
               userId: userInfo.id,
@@ -222,10 +217,9 @@ export function UITreeMember(props: UITreeMemberProps) {
       height={"80vh"}
       visible={visible} onClose={onClose} swipeToClose
     >
-      <div className="p-3 scroll-v flex-v">
+      <ScrollableDiv direction="vertical" className="flex-v p-3">
         {/* form */}
         <div className="flex-v flex-grow-0">
-          <Text.Title> {t("info")} </Text.Title>
           {/* avatar */}
           {renderAvatar()}
           {/* information */}
@@ -351,7 +345,7 @@ export function UITreeMember(props: UITreeMemberProps) {
 
         </div>
 
-      </div>
+      </ScrollableDiv>
 
       <Modal
         visible={deleteWarning}

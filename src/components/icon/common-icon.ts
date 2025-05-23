@@ -1,6 +1,6 @@
-import { BiMaleFemale, BiSolidFileJpg, BiSolidFilePng } from "react-icons/bi";
+import { BiMaleFemale, BiSolidFileJpg, BiSolidFilePng, BiSolidSave } from "react-icons/bi";
 import { BsArchiveFill, BsFiletypeSvg, BsFillFilePersonFill, BsFillHouseAddFill, BsFillPeopleFill } from "react-icons/bs";
-import { FaArrowDown, FaArrowLeft, FaArrowRight, FaArrowUp, FaCheck, FaCheckCircle, FaChevronDown, FaChevronUp, FaChild, FaFileDownload, FaInfoCircle, FaPhoneAlt, FaRegCalendarAlt, FaRegCopy, FaRegSave } from "react-icons/fa";
+import { FaArrowDown, FaArrowLeft, FaArrowRight, FaArrowUp, FaCheck, FaCheckCircle, FaChevronDown, FaChevronUp, FaChild, FaFileDownload, FaInfoCircle, FaPhoneAlt, FaRegCalendarAlt, FaRegCopy } from "react-icons/fa";
 import { FaBookBookmark, FaFilePdf, FaMapLocationDot, FaMountainSun, FaRegSquareCheck } from "react-icons/fa6";
 import { GiFamilyTree, GiGraveFlowers } from "react-icons/gi";
 import { GoHomeFill } from "react-icons/go";
@@ -44,7 +44,7 @@ export const CommonIcon = {
   FileDownload: FaFileDownload,
   CloseCircle: IoIosCloseCircle,
   VerticalDots: HiOutlineDotsVertical,
-  Save: FaRegSave,
+  Save: BiSolidSave,
   Map: GrMap,
   Map2: FaMapLocationDot,
   CurrentPosition: FaMapLocationDot,

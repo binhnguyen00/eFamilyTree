@@ -8,9 +8,9 @@ import 'react-calendar/dist/Calendar.css';
 
 import { CalendarApi } from "api";
 import { DateTimeUtils, DivUtils } from "utils";
-import { ServerResponse, Event, CalendarView } from "types";
-import { Divider, Header, Loading, Retry, ScrollableDiv } from "components";
 import { useAppContext, usePageContext } from "hooks";
+import { ServerResponse, Event, CalendarView } from "types";
+import { Header, Loading, Retry, ScrollableDiv } from "components";
 
 import { UIEvents } from "./UIEvents";
 
@@ -35,7 +35,7 @@ function useCalendar(date: Date) {
       fromDate  : raw.from_date,
       toDate    : raw.to_date,
       place     : raw.place,
-      address   : raw.address,
+      location   : raw.address,
     } as Event))
   }
 
@@ -64,7 +64,7 @@ function useCalendar(date: Date) {
     })
   }, [ reload, date ])
 
-  return { events, loading, error: false, refresh }
+  return { events, loading, error, refresh }
 }
 
 export function UICalendar() {
@@ -216,8 +216,6 @@ export function UICalendar() {
 
     if (loading) {
       return <Loading/>
-    } else if (error) {
-      return <Retry title={t("Gặp sự cố!")} onClick={refresh}/>
     } else {
       return (
         <ScrollableDiv direction="vertical" height={DivUtils.calculateHeight(0)}>
