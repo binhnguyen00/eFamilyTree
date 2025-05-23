@@ -1,13 +1,11 @@
 import React from "react";
 import { t } from "i18next";
-import { v4 as uuid } from "uuid";
 import { ToastContent } from "react-toastify";
 import { PhotoProvider, PhotoView } from "react-photo-view"
 import { Button, Grid, Input, Modal, Sheet, Text } from "zmp-ui";
 
 import { MemorialMapApi } from "api";
-import { ServerResponse } from "types/server";
-import { Photo } from "pages/gallery/UIAlbumPhotos";
+import { ServerResponse, Photo } from "types";
 import { CommonUtils, DivUtils, ZmpSDK } from "utils";
 import { useNotification, useAppContext, useBeanObserver, useFamilyTree } from "hooks";
 import { BeanObserver, CommonIcon, Label, Selection, SelectionOption, SizedBox } from "components";

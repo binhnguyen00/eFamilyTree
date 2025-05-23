@@ -5,10 +5,10 @@ import { Button, Grid, Text } from "zmp-ui";
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 
 import { GalleryApi } from "api";
-import { ServerResponse } from "types/server";
 import { CommonUtils, ZmpSDK } from "utils";
-import { CommonIcon, Loading, Retry, TailSpin } from "components";
+import { ServerResponse, Photo } from "types";
 import { useAppContext, useNotification } from "hooks";
+import { CommonIcon, Loading, Retry, TailSpin } from "components";
 
 // dummies
 const photoDummies = [
@@ -24,12 +24,6 @@ const photoDummies = [
   { "id": 10, "parentId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
   { "id": 11, "parentId": 1, "url": "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU" },
 ]
-
-export interface Photo {
-  id: number;
-  parentId: number;
-  url: string;
-}
 
 function useSearchAlbumPhotos(albumId: number) {
   const { userInfo } = useAppContext();

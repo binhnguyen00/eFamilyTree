@@ -4,12 +4,10 @@ import { Grid } from "zmp-ui";
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 
 import { GalleryApi } from "api";
-import { CommonUtils, DivUtils } from "utils";
 import { useAppContext } from "hooks";
-import { ServerResponse } from "types/server";
+import { CommonUtils, DivUtils } from "utils";
+import { ServerResponse, Photo } from "types";
 import { Loading, Header, Retry, ScrollableDiv, Divider, TailSpin } from "components";
-
-import { Photo } from "./UIAlbumPhotos";
 
 interface UIPhotosProps {}
 export function UIPhotos(props: UIPhotosProps) {

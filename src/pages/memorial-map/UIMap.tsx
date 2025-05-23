@@ -4,20 +4,14 @@ import { Button, Sheet } from "zmp-ui";
 
 import { MemorialMapApi } from "api";
 import { DivUtils, ZmpSDK } from "utils";
+import { ServerResponse, Photo } from "types";
 import { useAppContext, useNotification, useRequestLocationContext } from "hooks";
-import { 
-  Header, Loading, CommonIcon,
-  WorldMap, MapCoordinate, MapMarker, WorldMapConfig,
-  MapTile, 
-} from "components";
-
-import { ServerResponse } from "types/server";
+import { Header, Loading, CommonIcon, WorldMap, MapCoordinate, MapMarker, WorldMapConfig, MapTile } from "components";
 
 import { UILocation } from "./UILocation";
 import { UICreateLocationForm } from "./UICreateLocation";
 import { MapTerrainButtons } from "./buttons/UIMapTerrainButtons";
 import { QuickCreateLocationButton } from "./buttons/UIQuickCreateButton";
-import { Photo } from "pages/gallery/UIAlbumPhotos";
 
 // ==============================
 // Hooks

@@ -1,5 +1,5 @@
 import { t } from "i18next";
-import { Photo } from "pages/gallery/UIAlbumPhotos";
+import { Photo } from "types";
 
 export class CommonUtils {
 
