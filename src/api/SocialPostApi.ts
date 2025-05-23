@@ -1,6 +1,6 @@
 import { BaseApi } from "./BaseApi";
 import { SuccessCB, FailCB } from "types/server"
-import { SocialPostType } from "pages/social-post/UISocialPost";
+import { SocialPostType } from "pages/social-post/UISocialPosts";
 
 export class SocialPostApi extends BaseApi {
 
@@ -17,7 +17,27 @@ export class SocialPostApi extends BaseApi {
       clan_id: clanId,
       post_type: type
     });
-    // TODO: change route to social/posts
-    return this.server.POST("post/list", header, body, successCB, failCB);
+    return this.server.POST("social/posts", header, body, successCB, failCB);
+  }
+
+  public static savePost({ userId, clanId, post, successCB, failCB }: {
+    userId: number, 
+    clanId: number,
+    post: {
+      id?: number,
+      title: string,
+      content: string,
+      type: SocialPostType,
+    },
+    successCB: SuccessCB,
+    failCB?: FailCB
+  }) {
+    const header = this.initHeader();
+    const body = this.initBody({
+      user_id: userId,
+      clan_id: clanId,
+      post: post
+    });
+    return this.server.POST("post/save", header, body, successCB, failCB);
   }
 }

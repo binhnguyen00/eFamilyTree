@@ -1,172 +1,111 @@
 import React from "react";
+import DOMPurify from "dompurify";
+import classNames from "classnames";
 import { t } from "i18next";
-import { Button, Text } from "zmp-ui";
+import { Button, Input, Text } from "zmp-ui";
 
 import { DivUtils } from "utils";
-import { SocialPostApi } from "api";
-import { useAppContext, usePageContext, useRouteNavigate } from "hooks";
-import { Card, Header, Loading, ScrollableDiv, Selection, SelectionOption } from "components";
+import { BaseApi, SocialPostApi } from "api";
+import { PageMode, PagePermissions, ServerResponse } from "types";
+import { useAppContext, useBeanObserver, useNotification, useRouteNavigate } from "hooks";
+import { Header, ScrollableDiv, RichTextEditor, CommonIcon } from "components";
 
-import { ServerResponse } from "types/server";
-
-export enum SocialPostType {
-  FUND = "fund",
-  NEWS = "news",
-  ALL  = "all"
-}
-
-export function useSocialPosts(type: SocialPostType = SocialPostType.NEWS) {
-  const { logedIn, userInfo } = useAppContext();
-
-  const [ posts, setPosts ] = React.useState<any[]>([]);
-  const [ loading, setLoading ] = React.useState<boolean>(true);
-  const [ error, setError ] = React.useState<boolean>(false);
-  const [ reload, setReload ] = React.useState<boolean>(false);
-
-  const refresh = () => setReload(!reload);
-
-  React.useEffect(() => {
-    setLoading(true);
-    setError(false);
-    setPosts([]);
-
-    if (logedIn) {
-      SocialPostApi.getSocialPosts({
-        userId: userInfo.id,
-        clanId: userInfo.clanId,
-        type  : type,
-        successCB: (result: ServerResponse) => {
-          setLoading(false);
-          if (result.status === "error") {
-            setPosts([]);
-            setError(true);
-          } else {
-            const data = result.data as any[];
-            setPosts(data);
-          }
-        },
-        failCB: () => {
-          setLoading(false);
-          setError(true);
-        }
-      });
-    } else {
-      setLoading(false);
-      setError(true);
-    }
-  }, [ logedIn, userInfo, reload, type ]);
-
-  return { posts, loading, error, refresh }
-}
+import { SocialPostType } from "./UISocialPosts";
 
 export function UISocialPost() {
-  const [ type, setType ] = React.useState<SocialPostType>(SocialPostType.NEWS);
-  const options: any[] = [
-    { value: SocialPostType.NEWS, label: t("Tin Đăng") },
-    { value: SocialPostType.FUND, label: t("Quỹ") },
-    { value: SocialPostType.ALL, label: t("Tất Cả") },
-  ]
-  const { posts, error, loading, refresh } = useSocialPosts(type);
+  const { userInfo } = useAppContext();
+  const { belongings } = useRouteNavigate();
+  const { loadingToast } = useNotification();
+  const { post, permissions, pageMode } = belongings as {
+    pageMode: PageMode,
+    post: {
+      id?: number;
+      title: string;
+      content: string;
+      type: SocialPostType;
+    },
+    permissions: PagePermissions
+  }
+  const observer = useBeanObserver(post);
 
-  const renderContainer = () => {
-    const renderNoPost = () => {
+  const onSave = () => {
+    loadingToast({
+      content: t("Lưu bài đăng..."),
+      operation: (onSuccess, onFail) => {
+        SocialPostApi.savePost({
+          userId: userInfo.id,
+          clanId: userInfo.clanId,
+          post: {
+            id      : observer.getBean().id,
+            title   : observer.getBean().title,
+            content : observer.getBean().content,
+            type    : observer.getBean().type,
+          },
+          successCB: (result: ServerResponse) => {
+            onSuccess(t("Thành công"));
+          },
+          failCB: () => {
+            onFail(t("Thất bại"));
+          }
+        });
+      }
+    });
+  }
+
+  const renderContent = () => {
+    if ([PageMode.EDIT, PageMode.CREATE].includes(pageMode)) {
+      const hasContent = !!observer.getBean().content;
       return (
-        <div className="flex-v">
-          <Text.Title size="small" className="text-primary text-center text-capitalize py-1"> {t("no_blogs")} </Text.Title>
-          <div className="center"> <Button size="small" onClick={refresh}> {t("retry")} </Button> </div>
+        <div className="py-3">
+          <Input 
+            label={t("tiêu đề")} value={observer.getBean().title} name="title"
+            onChange={observer.watch} disabled={!permissions.canModerate}
+          />
+          <RichTextEditor
+            field="content" observer={observer} placeholder={hasContent ? `${t("Bài viết")} của ${name}` : t("Bắt đầu viết bài...")}
+            height={DivUtils.calculateHeight(120)} disabled={!permissions.canModerate}
+          />
+          <div className="p-2" style={{ position: "absolute", right: 0, bottom: 0 }}>
+            <Button size="small" variant="primary" prefixIcon={<CommonIcon.Save/>} onClick={onSave} className={classNames(!permissions.canModerate && "hide")}>
+              {t("save")}
+            </Button>
+          </div>
         </div>
       )
-    }
-
-    if (loading) {
-      return <Loading/>
-    } else if (error) {
-      return renderNoPost();
-    } else if (!posts.length) {
-      return renderNoPost();
-    } else {
+    } else if (PageMode.VIEW === pageMode) { // return view mode
+      const addDomainToImageSrc = (html: string) => {
+        return html.replace(/<img\s+([^>]*?)src="([^"]*?)"/g, (match, attrs, src) => {
+          // Ensure the src doesn't already have a domain due to Odoo
+          const newSrc = src.startsWith("http") ? src : `${BaseApi.getServerBaseUrl()}${src}`;
+          return `<img ${attrs}src="${newSrc}"`;
+        });
+      };
+      const purifiedContent = DOMPurify.sanitize(post.content);
+      const updatedContent = addDomainToImageSrc(purifiedContent);
       return (
-        <UISocialPosts posts={posts}/>
+        <div className="py-3">
+          <Text.Title className="py-2" size="xLarge"> 
+            {post.title} 
+          </Text.Title>
+          <div dangerouslySetInnerHTML={{ __html: updatedContent }} />
+        </div>
       )
+    } else {
+      return <></>
     }
   }
 
   return (
     <>
-      <Header title={t("blogs")}/>
+      <Header title={t("detail_blog")}/>
 
-      <div className="container bg-white text-base flex-v">
-        <div>
-          <Text.Title size="small" className="text-primary text-capitalize py-1"> {t("lọc bài đăng")} </Text.Title>
-          <Selection
-            options={options}
-            defaultValue={options[0]}
-            onChange={(selected: SelectionOption, action) => setType(selected.value)} 
-            isClearable={false} isSearchable={false}
-            label={""} field={""} observer={null as any}
-          />
-        </div>
-
-        {renderContainer()}
-      </div>
+      <ScrollableDiv 
+        id="ui-social-post-detail"
+        direction="vertical" height={"100%"}
+        className="container bg-white text-base"
+      >
+        {renderContent()}
+      </ScrollableDiv>
     </>
   )
-}
-
-interface UISocialPostsProps {
-  posts: any[];
-}
-function UISocialPosts(props: UISocialPostsProps) {
-  const { posts } = props;
-  const { goTo } = useRouteNavigate();
-
-  const goToPostDetail = (title: string, content: string) => {
-    const post = { title, content };
-    goTo({ path: "social-posts/detail", belongings: { post } });
-  };
-
-  const renderPosts = () => {
-    const html: React.ReactNode[] = React.useMemo(() => {
-      if (!posts.length) return [];
-      
-      const result = [] as React.ReactNode[];
-      for (let i = 0; i < posts.length; i++) {
-        const post: any         = posts[i];
-        const title: string     = post["title"] || "";
-        const content: string   = post["content"] || "";
-        const thumbnail: string = post["thumbnail"] || "";
-        const imgSrc: string    = `${SocialPostApi.getServerBaseUrl()}${thumbnail}`;
-
-        result.push(
-          <Card
-            key={`post-${i}`}
-            src={imgSrc}
-            className="button rounded border-secondary mb-3"
-            onClick={() => goToPostDetail(title, content)}
-            title={<Text.Title size="xLarge"> {title} </Text.Title>} 
-            content={
-              <Text size="small" className="text-gray-500 p-3">
-                {`${content.replace(/<[^>]*>/g, ' ').substring(0, 120)}...`}
-              </Text>
-            }
-          />
-        );
-      }
-
-      return result;
-    }, [ posts ]) 
-
-    return html;
-  }
-
-  return (
-    <ScrollableDiv 
-      id="ui-social-post"
-      direction="vertical" className="flex-v" 
-      height={DivUtils.calculateHeight(10)}
-    >
-      {renderPosts()}
-      <br/><br/>
-    </ScrollableDiv>
-  );
 }

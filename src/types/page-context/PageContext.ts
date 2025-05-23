@@ -31,4 +31,5 @@ export enum PageMode {
   LIST    = "list",
   EDIT    = "edit",
   CREATE  = "create",
+  VIEW    = "view",
 }

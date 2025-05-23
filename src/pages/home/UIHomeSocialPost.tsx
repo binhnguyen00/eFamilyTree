@@ -6,7 +6,7 @@ import { SocialPostApi } from "api";
 import { TailSpin } from "components";
 import { useRouteNavigate } from "hooks";
 
-import { useSocialPosts } from "pages/social-post/UISocialPost";
+import { useSocialPosts } from "pages/social-post/UISocialPosts";
 
 export function UIHomeSocialPost() {
   const { posts, error, loading, refresh } = useSocialPosts();
