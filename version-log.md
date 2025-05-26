@@ -1,5 +1,5 @@
 # Version 1.6.5
-### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=76)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=77)
 ### Thay đổi
 #### 1. Thư viện Ảnh
   - Phân quyền người dùng (Read/Moderator)
