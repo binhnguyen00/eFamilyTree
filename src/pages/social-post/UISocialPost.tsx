@@ -1,6 +1,5 @@
 import React from "react";
 import DOMPurify from "dompurify";
-import classNames from "classnames";
 import { t } from "i18next";
 import { Button, Input, Text } from "zmp-ui";
 
@@ -72,7 +71,7 @@ export function UISocialPost() {
         <div className="py-3">
           <Input label={t("tiêu đề")} value={observer.getBean().title} name="title" onChange={observer.watch}/>
           <RichTextEditor
-            field="content" observer={observer} height={DivUtils.calculateHeight(120)}
+            field="content" observer={observer} height={DivUtils.calculateHeight(120)} value={observer.getBean().content}
             placeholder={hasContent ? `${t("Bài viết")} của ${name}` : t("Bắt đầu viết bài...")}
           />
           <div className="p-2 flex-h" style={{ position: "absolute", right: 0, bottom: 0 }}>

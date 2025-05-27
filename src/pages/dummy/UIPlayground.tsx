@@ -19,7 +19,7 @@ export function UIPlayground() {
 
       <ScrollableDiv direction="vertical" className="flex-v container bg-white min-h-[100vh]">
 
-        <RichTextEditor field="biography" observer={observer}/>
+        <RichTextEditor field="biography" observer={observer} value={observer.getBean().biography}/> 
         <Button size="small" variant="secondary" onClick={() => console.log(observer.getBean())}> Content </Button>
 
         <UIOverlay/>

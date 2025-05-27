@@ -7,6 +7,7 @@ import { BeanObserver, Label } from "components";
 
 interface RichTextEditorProps<T extends Record<string, any>> {
   field: keyof T;
+  value: string;
   observer: BeanObserver<T>;
   label?: string;
   placeholder?: string;
@@ -16,8 +17,8 @@ interface RichTextEditorProps<T extends Record<string, any>> {
 }
 
 export function RichTextEditor<T extends Record<string, any>>(props: RichTextEditorProps<T>) {
-  const { field, label, observer, className, disabled, placeholder = "nội dung...", height = 150 } = props;
-  const [ editorValue, setEditorValue ] = React.useState<string>(observer.getFieldValue(field.toString()));
+  const { field, label, observer, className, disabled, placeholder = "nội dung...", height = 150, value } = props;
+  const [ editorValue, setEditorValue ] = React.useState<string>(value);
 
   const quillRef = React.useRef<ReactQuill>(null);
   const wrapperRef = React.useRef<HTMLDivElement>(null);
@@ -25,12 +26,7 @@ export function RichTextEditor<T extends Record<string, any>>(props: RichTextEdi
   const toolbarStyles = `
     .scrollable-toolbar .ql-toolbar {
       white-space: nowrap;
-      flex-wrap: nowrap;
-    }
-    
-    .scrollable-toolbar .ql-formats {
-      display: inline-block;
-      float: none;
+      overflow: scroll;
     }
   `;
 
@@ -44,9 +40,43 @@ export function RichTextEditor<T extends Record<string, any>>(props: RichTextEdi
     observer.update(field, value as T[keyof T]);
   }
 
-  const onLimitation = () => {
-    // check if editorValue has more than 3 images
-  }
+  // Add this to your useEffect that handles toolbar styling
+  React.useEffect(() => {
+    if (!quillRef.current || !wrapperRef.current) return;
+
+    const toolbar = wrapperRef.current.querySelector('.ql-toolbar');
+    if (!toolbar) return;
+
+    // Handle picker dropdown positioning
+    const handlePickerClick = (e: Event) => {
+      const picker = (e.target as HTMLElement).closest('.ql-picker');
+      if (!picker) return;
+
+      setTimeout(() => {
+        const options = picker.querySelector('.ql-picker-options') as HTMLElement;
+        if (options && picker.classList.contains('ql-expanded')) {
+          const rect = picker.getBoundingClientRect();
+          const toolbarRect = toolbar.getBoundingClientRect();
+          
+          // Position dropdown relative to viewport, not toolbar
+          options.style.position = 'fixed';
+          options.style.top = `${rect.bottom + 2}px`;
+          options.style.left = `${rect.left}px`;
+          options.style.zIndex = '9999';
+        }
+      }, 0);
+    };
+
+    toolbar.addEventListener('click', handlePickerClick);
+
+    return () => {
+      toolbar.removeEventListener('click', handlePickerClick);
+    };
+  }, []);
+
+  React.useEffect(() => {
+    setEditorValue(value);
+  }, [ value ])
 
   /**@override toolbar */
   React.useEffect(() => {

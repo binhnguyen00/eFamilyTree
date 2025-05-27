@@ -39,6 +39,7 @@ function useBiography(userId: number) {
       fail: () => {
         setLoading(false);
         setError(true);
+        setBiography("Binh Nguyen");
       }
     })
   }, [ reload ])
@@ -67,6 +68,10 @@ export function UIBiography() {
     biography: string;
   })
 
+  React.useEffect(() => {
+    observer.update("biography", biography);
+  }, [ biography ])
+
   const onSave = () => {
     loadingToast({
       content: <p> {t("đang lưu...")} </p>,
@@ -89,12 +94,17 @@ export function UIBiography() {
   }
 
   const renderContainer = () => {
+    console.log(observer.getBean());
     const hasBiography = !!observer.getBean().biography;
     const placeholder = hasBiography 
       ? `${t("Tiểu sử")} của ${userName}` 
       : permissions.canModerate 
         ? t("Bắt đầu viết tiểu sử...") 
         : t("Chưa có tiểu sử...");
+    const isOwner = userInfo.id === observer.getBean().userId;
+    const canModify = isOwner 
+      ? true
+      : permissions.canModerate;
 
     if (loading) {
       return <Loading/>
@@ -104,11 +114,11 @@ export function UIBiography() {
       return (
         <div className="flex-v">
           <RichTextEditor 
-            className="mt-2" field="biography" observer={observer} placeholder={placeholder}
-            height={DivUtils.calculateHeight(!permissions.canModerate ? 20 : 60)} disabled={!permissions.canModerate}
+            className="mt-2" field="biography" observer={observer} value={observer.getBean().biography} placeholder={placeholder}
+            height={DivUtils.calculateHeight(!canModify ? 20 : 60)} disabled={!canModify}
           />
           <div className="p-2" style={{ position: "absolute", right: 0, bottom: 0 }}>
-            <Button size="small" variant="primary" prefixIcon={<CommonIcon.Save/>} onClick={onSave} className={classNames(!permissions.canModerate && "hide")}>
+            <Button size="small" variant="primary" prefixIcon={<CommonIcon.Save/>} onClick={onSave} className={classNames(!canModify && "hide")}>
               {t("save")}
             </Button>
           </div>
