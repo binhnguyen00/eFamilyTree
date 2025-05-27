@@ -333,6 +333,7 @@ button, .button {
 // react-quill
 .ql-editor {
   tab-size: 2 !important;
+  border-top: 1px solid var(--secondary-color) !important;
   @extend .p-2;
 }
 

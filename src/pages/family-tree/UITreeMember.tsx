@@ -206,7 +206,8 @@ export function UITreeMember(props: UITreeMemberProps) {
     goTo({ 
       path: "family-tree/biography", 
       belongings: { 
-        id : observer.getBean().id,
+        userId : observer.getBean().id,
+        userName : observer.getBean().name,
         permissions : permissions,
       }
     })

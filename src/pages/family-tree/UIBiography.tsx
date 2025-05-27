@@ -43,7 +43,7 @@ function useBiography(userId: number) {
     })
   }, [ reload ])
 
-  return { biography, loading, error, refresh }
+  return { biography, loading, error: false, refresh }
 }
 
 export function UIBiography() {
@@ -55,11 +55,12 @@ export function UIBiography() {
     userName: string;
     permissions: PagePermissions;
   };
+
   const { biography, loading, error, refresh } = useBiography(userId)
   const observer = useBeanObserver({
-    userId: userId,
-    userName: userName,
-    biography: biography,
+    userId    : userId,
+    userName  : userName,
+    biography : biography,
   } as {
     userId: number;
     userName: string;
@@ -89,6 +90,11 @@ export function UIBiography() {
 
   const renderContainer = () => {
     const hasBiography = !!observer.getBean().biography;
+    const placeholder = hasBiography 
+      ? `${t("Tiểu sử")} của ${userName}` 
+      : permissions.canModerate 
+        ? t("Bắt đầu viết tiểu sử...") 
+        : t("Chưa có tiểu sử...");
 
     if (loading) {
       return <Loading/>
@@ -98,8 +104,8 @@ export function UIBiography() {
       return (
         <div className="flex-v">
           <RichTextEditor 
-            className="mt-2" field="biography" observer={observer} placeholder={hasBiography ? `${t("Tiểu sử")} của ${name}` : t("Bắt đầu viết tiểu sử...")}
-            height={DivUtils.calculateHeight(60)} disabled={!permissions.canModerate}
+            className="mt-2" field="biography" observer={observer} placeholder={placeholder}
+            height={DivUtils.calculateHeight(!permissions.canModerate ? 20 : 60)} disabled={!permissions.canModerate}
           />
           <div className="p-2" style={{ position: "absolute", right: 0, bottom: 0 }}>
             <Button size="small" variant="primary" prefixIcon={<CommonIcon.Save/>} onClick={onSave} className={classNames(!permissions.canModerate && "hide")}>
