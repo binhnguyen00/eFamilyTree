@@ -202,7 +202,7 @@ function UIFundList(props: UIFundListProps) {
               <div className="flex-h">
                 <div className="text-right">
                   <div className="text-gray-500 text-sm">{t("incomes")}</div>
-                  <div className="text-success text-xs">{`${CommonUtils.numberToMonetary(item.balance)} đ`}</div>
+                  <div className="text-success text-xs">{`${CommonUtils.numberToMonetary(item.totalIncomes)} đ`}</div>
                 </div>
                 <div className="text-right">
                   <div className="text-gray-500 text-sm">{t("expenses")}</div>
@@ -211,7 +211,6 @@ function UIFundList(props: UIFundListProps) {
               </div>
             </div>
           </div>
-
         </div>
       )
     })

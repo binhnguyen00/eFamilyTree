@@ -41,16 +41,17 @@ export function UICreateFund(props: UICreateFundProps) {
   } as CreateFundForm);
 
   const renderQrCode = () => {
-    const { width, height } = { width: 400, height: 400 };
+    const { width, height } = { width: 300, height: 300 };
+    const fallbackSrc = `https://placehold.jp/30/ededed/000000/${width}x${height}.png?text=M%C3%A3%20QR`;
     const src: string = qrObserver.getBean().imageQR 
       ? `data:image/png;base64,${qrObserver.getBean().imageQR}` 
-      : `https://fakeimg.pl/${width}x${height}?text=QR`;
+      : fallbackSrc;
   
     return (
       <img
         className="rounded" src={src} width={width} height={height}
         onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-          e.currentTarget.src = `https://fakeimg.pl/${width}x${height}?text=QR`;
+          e.currentTarget.src = fallbackSrc;
         }}
       />
     );
@@ -65,18 +66,18 @@ export function UICreateFund(props: UICreateFundProps) {
         if (base64s.length) {
           qrObserver.update("imageQR", base64s[0]);
         } else {
-          dangerToast(t("chọn ảnh không thành công"));
+          dangerToast(t("Chọn ảnh không thành công"));
         }
       },
       fail: () => {
-        dangerToast(t("lỗi ảnh"));
+        dangerToast(t("Lỗi ảnh"));
       }
     });
   }
 
   const onSave = () => {
     loadingToast({
-      content: <p> {t("đang chuẩn bị dữ liệu...")} </p>,
+      content: <p> {t("Đang chuẩn bị dữ liệu...")} </p>,
       operation(onSuccess, onFail, onDismiss) {
         FundApi.createFund({
           fund: {
@@ -86,12 +87,12 @@ export function UICreateFund(props: UICreateFundProps) {
           userId: userInfo.id,
           clanId: userInfo.clanId,
           success: (res: ServerResponse) => {
-            onSuccess(t("tạo thành công"));
+            onSuccess(t("Tạo thành công"));
             onClose();
             reloadParent();
           },
           fail: () => {
-            onFail(t("tạo thất bại"));
+            onFail(t("Tạo thất bại"));
           }
         });
       },
@@ -99,16 +100,16 @@ export function UICreateFund(props: UICreateFundProps) {
   }
 
   return (
-    <Sheet title={t("tạo quỹ")} visible={visible} onClose={onClose}>
+    <Sheet title={t("Tạo quỹ")} visible={visible} onClose={onClose}>
       <ScrollableDiv className="flex-v p-3" direction="vertical" height={"70vh"}>
         <div className="center flex-v flex-grow-0">
           {renderQrCode()}
           <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onChooseImage}>
-            {t("thêm")}
+            {t("Thêm")}
           </Button>
         </div>
         <Selection
-          label={t("thủ quỹ")} 
+          label={t("Thủ quỹ")} 
           options={activeMembers} isSearchable
           defaultValue={{ value: userInfo.id, label: userInfo.name }}
           field={"accountOwnerId"} observer={qrObserver}
@@ -117,10 +118,10 @@ export function UICreateFund(props: UICreateFundProps) {
             qrObserver.update("accountOwnerId", value.value);
           }}
         />
-        <Input label={t("tiêu đề")} name="name" value={observer.getBean().name} onChange={observer.watch}/>
-        <Input label={t("ngân hàng")} name="bankName" value={qrObserver.getBean().bankName} onChange={qrObserver.watch}/>
+        <Input label={t("Tiêu đề")} name="name" value={observer.getBean().name} onChange={observer.watch}/>
+        <Input label={t("Ngân hàng")} name="bankName" value={qrObserver.getBean().bankName} onChange={qrObserver.watch}/>
         <Input 
-          label={t("số tài khoản")} 
+          label={t("Số tài khoản")} 
           type="number" name="accountNumber" 
           value={qrObserver.getBean().accountNumber} onChange={qrObserver.watch}
         />

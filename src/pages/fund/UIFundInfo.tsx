@@ -107,12 +107,12 @@ function UIFundContainer(props: UIFundContainerProps) {
     return (
       <Modal 
         title={t("Xoá Quỹ")}
-        description={t("hành động không thể hoàn tác, bạn có chắc chắn muốn xóa quỹ này?")}
+        description={t("Hành động không thể hoàn tác, bạn có chắc chắn muốn xóa quỹ này?")}
         actions={[
           { text: t("close"), close: true },
           { text: `🗑️ ${t("xóa")}`, onClick: () => {
             loadingToast({
-              content: t("đang xóa..."),
+              content: t("Đang xóa..."),
               operation(onSuccess, onDanger, onDismiss) {
                 FundApi.deleteFund({
                   id: observer.getBean().id,
@@ -121,15 +121,15 @@ function UIFundContainer(props: UIFundContainerProps) {
                   success: (response: ServerResponse) => {
                     setDeleteWarningVisible(false);
                     if (response.status === "success") {
-                      onSuccess(t("xoá thành công"));
+                      onSuccess(t("Xoá thành công"));
                       goBack();
                     } else {
-                      onDanger(t("xoá thất bại"));
+                      onDanger(t("Xoá thất bại"));
                     }
                   }, 
                   fail: () => {
                     setDeleteWarningVisible(false);
-                    onDanger(t("xoá thất bại"));
+                    onDanger(t("Xoá thất bại"));
                   }
                 })
               },
