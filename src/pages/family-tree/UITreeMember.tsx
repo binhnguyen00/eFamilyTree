@@ -5,9 +5,9 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 import { Button, Input, Text, Sheet, Modal, DatePicker, Avatar } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
-import { CommonIcon, Selection, Label, SelectionOption, ScrollableDiv } from "components";
 import { CommonUtils, DateTimeUtils, TreeDataProcessor, ZmpSDK } from "utils";
 import { TreeMember, PageContextProps, FailResponse, ServerResponse } from "types";
+import { CommonIcon, Selection, Label, SelectionOption, ScrollableDiv } from "components";
 import { useBeanObserver, useNotification, useAppContext, useRouteNavigate } from "hooks";
 
 interface UITreeMemberProps extends PageContextProps {
@@ -63,11 +63,11 @@ export function UITreeMember(props: UITreeMemberProps) {
 
   const onSave = () => {
     if (!observer.getBean().name) {
-      dangerToast(t("nhập đủ thông tin"))
+      dangerToast(t("Nhập đủ thông tin"))
       return;
     }
     loadingToast({
-      content: <p> {t("đang lưu...")} </p>,
+      content: <p> {t("Đang lưu...")} </p>,
       operation: (successToastCB, dangerToastCB) => {
         FamilyTreeApi.saveMember({
           userId: userInfo.id,
@@ -75,9 +75,9 @@ export function UITreeMember(props: UITreeMemberProps) {
           member: observer.getBean(),
           success: (result: ServerResponse) => {
             if (result.status === "error") {
-              dangerToastCB(`${t("save")} ${t("fail")}`)
+              dangerToastCB(`${t("Lưu thất bại")}`)
             } else {
-              successToastCB(`${t("save")} ${t("success")}`)
+              successToastCB(`${t("Lưu thành công")}`)
               const bean = result.data;
               observer.update("name", bean.name);
               observer.update("phone", bean.phone);
@@ -87,9 +87,8 @@ export function UITreeMember(props: UITreeMemberProps) {
               observer.update("deathDateNote", bean.death_date_note)
               if (onReloadParent) onReloadParent();
             }
-            onClose();
           },
-          fail: (error: FailResponse) => dangerToastCB(`${t("save")} ${t("fail")}`)
+          fail: (error: FailResponse) => dangerToastCB(`${t("Lưu thất bại")}`)
         })
       }
     })
@@ -99,7 +98,7 @@ export function UITreeMember(props: UITreeMemberProps) {
     if (isRoot()) { dangerToast(t("Không thể xoá Thành viên Thuỷ Tổ")); return; }
     if (hasChildren()) { dangerToast(t("Thành viên có con, không thể xoá")); return; }
     loadingToast({
-      content: <p> {t("đang xoá...")} </p>,
+      content: <p> {t("Đang xoá...")} </p>,
       operation: (successToastCB, dangerToastCB) => {
         FamilyTreeApi.archiveMember({
           userId: userInfo.id,
@@ -107,16 +106,16 @@ export function UITreeMember(props: UITreeMemberProps) {
           id: observer.getBean().id,
           success: (result: ServerResponse) => {
             if (result.status === "error") {
-              dangerToastCB(`${t("delete")} ${t("fail")}`)
+              dangerToastCB(`${t("Xóa thất bại")}`)
             } else {
-              successToastCB(`${t("delete")} ${t("success")}`)
+              successToastCB(`${t("Xóa thành công")}`)
             }
             setDeleteWarning(false);
             onClose();
             if (onReloadParent) onReloadParent();
           },
-          fail: (error: FailResponse) => {
-            dangerToastCB(`${t("delete")} ${t("fail")}`)
+          fail: () => {
+            dangerToastCB(`${t("Xóa thất bại")}`)
             setDeleteWarning(false);
           }
         })
@@ -138,21 +137,21 @@ export function UITreeMember(props: UITreeMemberProps) {
               base64: base64,
               success: (result: ServerResponse) => {
                 if (result.status === "error") {
-                  dangerToastCB(t("cập nhật không thành công"))
+                  dangerToastCB(t("Cập nhật không thành công"))
                 } else {
-                  successToastCB(t("cập nhật thành công"))
+                  successToastCB(t("Cập nhật thành công"))
                   const publicPath = result.data as string;
                   observer.update("avatar", publicPath);
                 }
               },
-              fail: () => dangerToastCB(t("cập nhật không thành công"))
+              fail: () => dangerToastCB(t("Cập nhật không thành công"))
             })
           }
         })
       }
   
       if (!isOwner()) {
-        warningToast(t("không thể cập nhật ảnh đại diện của thành viên khác"));
+        warningToast(t("Không thể cập nhật ảnh đại diện của thành viên khác"));
         return;
       }
       ZmpSDK.chooseImage({
@@ -162,11 +161,11 @@ export function UITreeMember(props: UITreeMemberProps) {
           const base64s = await CommonUtils.blobUrlsToBase64s(blobs);
           if (base64s.length) doUpdate(base64s[0]);
           else {
-            dangerToast(t("ảnh bị lỗi"))
+            dangerToast(t("Ảnh bị lỗi"))
             return;
           }
         },
-        fail: () => dangerToast(t("cập nhật không thành công"))
+        fail: () => dangerToast(t("Cập nhật không thành công"))
       });
     }
 

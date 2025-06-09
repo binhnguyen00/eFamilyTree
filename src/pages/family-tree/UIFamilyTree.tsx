@@ -38,7 +38,7 @@ export function UIFamilyTree() {
           <br />
           <div className="flex-v center text-base">
             <Text.Title size="xLarge"> {t("Phả đồ chưa có thành viên nào")} </Text.Title>
-            <Text size="large"> {t("Hãy liên hệ với vị Trưởng Họ để tạo thành viên đầu tiên")} </Text>
+            <Text size="large"> {t("Hãy liên hệ với Người quản lý để tạo thành viên đầu tiên")} </Text>
             <Retry title={""} onClick={() => refresh()}/>
             <img src={img_1} className="w-50 h-50"/>
           </div>
@@ -76,7 +76,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
     if (!permissions.canWrite) return (
       <div className="container flex-v center text-base">
         <Text.Title size="xLarge"> {t("Phả đồ chưa có thành viên nào")} </Text.Title>
-        <Text size="large"> {t("Hãy liên hệ với vị Trưởng Họ để tạo thành viên đầu tiên")} </Text>
+        <Text size="large"> {t("Hãy liên hệ với Người quản lý để tạo thành viên đầu tiên")} </Text>
         <img src={img_1} className="w-50 h-50"/>
       </div>
     );
@@ -137,7 +137,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
 
   const onSelect = (node: ExtNode) => {
     loadingToast({
-      content: <p> {t("đang tải dữ liệu...")} </p>,
+      content: <p> {t("Đang tải dữ liệu...")} </p>,
       operation: (successToastCB, dangerToastCB, dismissToast) => {
         FamilyTreeApi.getMemberInfo({
           userId: userInfo.id, 
@@ -145,7 +145,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
           id: parseInt(node.id),
           success: (result: ServerResponse) => {
             if (result.status === "error") {
-              dangerToastCB(t("vui lòng thử lại"));
+              dangerToastCB(t("Vui lòng thử lại"));
             } else {
               const data = result.data as any;
               setNode({
@@ -170,7 +170,7 @@ export function UIFamilyTreeContainer(props: UIFamilyTreeContainerProps) {
               dismissToast();
             }
           },
-          fail: () => dangerToastCB(t("vui lòng thử lại"))
+          fail: () => dangerToastCB(t("Vui lòng thử lại"))
         });
       }
     }) 

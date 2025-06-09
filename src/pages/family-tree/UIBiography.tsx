@@ -74,7 +74,7 @@ export function UIBiography() {
 
   const onSave = () => {
     loadingToast({
-      content: <p> {t("đang lưu...")} </p>,
+      content: <p> {t("Đang lưu...")} </p>,
       operation: (successToastCB, dangerToastCB, dismiss) => {
         FamilyTreeApi.updateBiography({
           userId: userInfo.id,
@@ -82,11 +82,11 @@ export function UIBiography() {
           memberId: observer.getBean().userId,
           biography: observer.getBean().biography,
           success: () => {
-            successToastCB(t("lưu thành công"));
+            successToastCB(t("Lưu thành công"));
             refresh();
           },
           fail: () => {
-            dangerToastCB(t("lưu không thành công"));
+            dangerToastCB(t("Lưu không thành công"));
           }
         })
       }

@@ -25,11 +25,11 @@ export function UICreateRoot(props: UICreateRootProps) {
 
   const onCreate = () => {
     if (!observer.getBean().name) {
-      dangerToast(t("nhập đủ thông tin"))
+      dangerToast(t("Nhập đủ thông tin"))
       return;
     }
     loadingToast({
-      content: <p> {t("đang tạo...")} </p>,
+      content: <p> {t("Đang tạo...")} </p>,
       operation: (successToastCB, dangerToastCB) => {
         FamilyTreeApi.saveMember({
           userId: userInfo.id,
@@ -37,15 +37,15 @@ export function UICreateRoot(props: UICreateRootProps) {
           member: observer.getBean(),
           success: (result: ServerResponse) => {
             if (result.status === "error") {
-              dangerToastCB(`${t("save")} ${t("fail")}`)
+              dangerToastCB(`${t("Lưu thất bại")}`)
             } else {
-              successToastCB(`${t("save")} ${t("success")}`)
+              successToastCB(`${t("Lưu thành công")}`)
               if (onReloadParent) onReloadParent();
             }
             onClose();
           },
           fail: (error: FailResponse) => {
-            dangerToastCB(`${t("save")} ${t("fail")}`)
+            dangerToastCB(`${t("Lưu thất bại")}`)
           }
         })
       }

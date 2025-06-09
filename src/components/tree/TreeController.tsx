@@ -122,12 +122,13 @@ export function TreeController(props: TreeControllerProps) {
         children={<CommonIcon.Minus size={28}/>}
       />
 
+      {/* TODO: fix export svg
       <SizedBox
         className='bg-white mb-1 p-1 button border-primary'
         width={"fit-content"} height={"fit-content"}
         onClick={exportSVG}
         children={<CommonIcon.CloudDownload size={28}/>}
-      />
+      /> */}
 
       {onReset && (
         <SizedBox 
