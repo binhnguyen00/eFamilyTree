@@ -13,7 +13,7 @@ import { AlbumForm } from "./UICreateAlbum";
 import { UIAlbumPhotos } from "./UIAlbumPhotos";
 
 export function UIAlbum() {
-  const { belongings, goBack } = useRouteNavigate();
+  const { belongings, goTo } = useRouteNavigate();
   const { album } = belongings;
   const observer = useBeanObserver(album as AlbumForm);
 
@@ -29,16 +29,17 @@ export function UIAlbum() {
       id: observer.getBean().id,
       success: (result: ServerResponse) => {
         if (result.status === "success") {
-          goBack();
-          successToast(t("xoá thành công"));
+          setDeleteWarning(false);
+          successToast(t("Xoá thành công"));
+          goTo({ path: "gallery", replace: true });
         } else {
           setDeleteWarning(false);
-          dangerToast(t("xoá thất bại"));
+          dangerToast(t("Xoá thất bại"));
         }
       },
       fail: () => {
         setDeleteWarning(false);
-        dangerToast(t("xoá thất bại"));
+        dangerToast(t("Xoá thất bại"));
       }
     })
   }
@@ -54,13 +55,13 @@ export function UIAlbum() {
           observer.update("name", album.name);
           observer.update("description", album.description);
           observer.update("thumbnailPath", album.thumbnail);
-          successToast(t("lưu thành công"));
+          successToast(t("Lưu thành công"));
         } else {
-          dangerToast(t("lưu thất bại"));
+          dangerToast(t("Lưu thất bại"));
         }
       },
       fail: () => {
-        dangerToast(t("lưu thất bại"));
+        dangerToast(t("Lưu thất bại"));
       }
     })
   }
@@ -78,13 +79,13 @@ export function UIAlbum() {
           if (result.status === "success") {
             const album = result.data;
             observer.update("thumbnailPath", album.thumbnail);
-            successToast(t("lưu thành công"));
+            successToast(t("Lưu thành công"));
           } else {
-            dangerToast(t("lưu thất bại"));
+            dangerToast(t("Lưu thất bại"));
           }
         },
         fail: () => {
-          dangerToast(t("lưu thất bại"));
+          dangerToast(t("Lưu thất bại"));
         }
       })
     }
@@ -101,7 +102,7 @@ export function UIAlbum() {
         update(base64s[0]);
       },
       fail: () => {
-        dangerToast(t("lưu ảnh không thành công"));
+        dangerToast(t("Lưu ảnh không thành công"));
       }
     });
   }
@@ -141,7 +142,7 @@ export function UIAlbum() {
               />
             </PhotoView>
           </PhotoProvider>
-          <Button size="small" variant="tertiary" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onUpdateThumbnail}>
+          <Button size="small" variant="tertiary" className="button-link" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onUpdateThumbnail}>
             {hasThumbnail ? t("Sửa") : t("Thêm")}
           </Button>
         </div>

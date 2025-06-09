@@ -12,9 +12,6 @@ import { UIHomeSocialPost } from './UIHomeSocialPost';
 import { UIThemeList } from 'pages/theme/UITheme';
 
 export function UIHome() {
-  const secretKey = import.meta.env.VITE_APP_SECRET_KEY as string;
-  console.log("secretKey:", secretKey);
-
   return (
     <>
       <HeaderUser/>

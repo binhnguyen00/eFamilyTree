@@ -51,8 +51,8 @@ export function AppRoutes() {
 
       {/* APP */}
       <Route path={createPath("gallery")} element={<UIGallery />}/>
-      <Route path={createPath("gallery/images")} element={<UIPhotos />}/>
       <Route path={createPath("gallery/album")} element={<UIAlbum />}/>
+      <Route path={createPath("gallery/images")} element={<UIPhotos />}/>
 
       <Route path={createPath("calendar")} element={<UICalendar />} />
       <Route path={createPath("calendar/month")} element={<UICalendar />} />

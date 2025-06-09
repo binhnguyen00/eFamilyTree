@@ -1,20 +1,14 @@
 import React from "react";
 import { t } from "i18next";
-import { Input, Sheet, DatePicker, Button, Text } from "zmp-ui";
+import { Input, Sheet, DatePicker, Button } from "zmp-ui";
 
 import { HallOfFameApi } from "api";
+import { ServerResponse } from "types";
 import { DateTimeUtils, DivUtils } from "utils";
 import { CommonIcon, Selection, SelectionOption, TailSpin } from "components";
 import { useAppContext, useBeanObserver, useNotification, useFamilyTree } from "hooks";
 
-import { ServerResponse } from "types/server";
-
-export interface CreateHallOfFameForm {
-  typeId: number; // hall of fame type id
-  memberId: number;
-  recognitionDate?: string;
-  achievement?: string;
-}
+import { CreateHallOfFameForm } from "./types";
 
 interface UICreateHallOfFameProps {
   visible: boolean;
@@ -32,7 +26,15 @@ export function UICreateHallOfFame(props: UICreateHallOfFameProps) {
   const observer = useBeanObserver({
     typeId: hallOfFameTypeId,
     memberId: 0,
+    recognitionDate: "",
+    achievement: "",
   } as CreateHallOfFameForm);
+
+  const resetObserver = () => {
+    observer.update("memberId", 0);
+    observer.update("recognitionDate", "");
+    observer.update("achievement", "");
+  }
 
   React.useEffect(() => {
     if (processor.nodes.length === 0) {
@@ -45,11 +47,11 @@ export function UICreateHallOfFame(props: UICreateHallOfFameProps) {
 
   const onCreate = () => {
     if (!observer.getBean().memberId || observer.getBean().memberId === 0) {
-      dangerToast(t("hãy chọn thành viên"));
+      dangerToast(t("Hãy chọn thành viên"));
       return;
     }
     loadingToast({
-      content: <p> {t("đang thêm thành viên")} </p>,
+      content: <p> {t("Đang thêm thành viên")} </p>,
       operation: (successToastCB, dangerToastCB) => {
         HallOfFameApi.addUserToHallOfFame({
           userId: userInfo.id,
@@ -57,15 +59,16 @@ export function UICreateHallOfFame(props: UICreateHallOfFameProps) {
           form: observer.getBean(),
           success: (result: ServerResponse) => {
             if (result.status === "error") {
-              dangerToastCB(t("thêm thành viên thất bại"))
+              dangerToastCB(t("Thêm thành viên thất bại"))
             } else {
-              successToastCB(t("thêm thành viên thành công"))
+              successToastCB(t("Thêm thành viên thành công"))
               if (onReloadParent) onReloadParent();
+              resetObserver();
               onClose();
             }
           },
           fail: () => {
-            dangerToastCB(t("thêm thành viên thất bại"))
+            dangerToastCB(t("Thêm thành viên thất bại"))
           }
         })
       }
@@ -78,8 +81,8 @@ export function UICreateHallOfFame(props: UICreateHallOfFameProps) {
       <div className="flex-h">
         <Selection
           options={[]} style={{ width: "100%" }}
-          placeHolder={t("không có thành viên nào")}
-          label={t("chọn thành viên")} field={""} observer={null as any}
+          placeHolder={t("Không có thành viên nào")}
+          label={t("Chọn thành viên")} field={""} observer={null as any}
         />
         <div className="flex-v justify-end">
           {loading ? (
@@ -140,13 +143,10 @@ export function UICreateHallOfFame(props: UICreateHallOfFameProps) {
           onChange={(e) => observer.update("achievement", e.target.value)}
         />
         
-        <div className="flex-v"> {/* footer */}
-          <Text.Title> {t("Hành Động")} </Text.Title>
-          <div>
-            <Button prefixIcon={<CommonIcon.Save/>} size="small" onClick={onCreate}>
-              {t("save")}
-            </Button>
-          </div>
+        <div>
+          <Button prefixIcon={<CommonIcon.Save/>} size="small" onClick={onCreate}>
+            {t("save")}
+          </Button>
         </div>
       </div>
     </Sheet>

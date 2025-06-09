@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from "classnames";
 
 import { t } from "i18next";
 import { Button, Grid, Text } from "zmp-ui";
@@ -74,6 +75,12 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
   const withEase  = "transition-all duration-300 ease-in-out"
   const minWidth  = { minWidth: 80 } as React.CSSProperties;
 
+  React.useEffect(() => {
+    if (!isTitleSticky) {
+      setIsSelecting(false);
+    }
+  }, [ isTitleSticky ])
+
   // check if the user has scroll to the photos section
   React.useEffect(() => {
     if (!photosSectionRef) return;
@@ -91,7 +98,7 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
 
     observer.observe(photosSectionRef);
     return () => observer.disconnect();
-  }, [photosSectionRef]);
+  }, [ photosSectionRef ]);
 
   const onSelectPhoto = (photo: Photo) => {
     if (!isSelecting) return;
@@ -104,7 +111,7 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
     });
   };
 
-  const renderPhotos = (): React.ReactNode[] => {
+  const renderPhotos = () => {
     const { width, height } = { width: 200, height: 200 }
     const fallbackImage = `https://placehold.jp/30/ededed/000000/${width}${height}.png?text=%3A(`;
 
@@ -153,12 +160,12 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
 
   const onDeletePhotos = () => {
     if (selectedPhotos.length === 0) {
-      warningToast(t("chọn ít nhất 1 ảnh"));
+      warningToast(t("Chọn ít nhất 1 ảnh"));
       return;
     }
 
     loadingToast({
-      content: <p> {t("đang xoá...")} </p>,
+      content: <p> {t("Đang xoá...")} </p>,
       operation: (successToastCB, dangerToastCB) => {
         GalleryApi.removeImagesFromAlbum({
           userId: userInfo.id,
@@ -167,16 +174,16 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
           photoIds: selectedPhotos,
           success: (result: ServerResponse) => {
             if (result.status === "success") {
-              successToastCB(`${t("xoá thành công")} ${selectedPhotos.length} ảnh`);
+              successToastCB(`${t("Xoá thành công")} ${selectedPhotos.length} ảnh`);
               setSelectedPhotos([]);
               setIsSelecting(false);
               refresh();
             } else {
-              dangerToastCB(t("xoá không thành công"));
+              dangerToastCB(t("Xoá không thành công"));
             }
           },
           fail: () => {
-            dangerToastCB(t("xoá không thành công"));
+            dangerToastCB(t("Xoá không thành công"));
           }
         })
       }
@@ -185,7 +192,7 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
 
   const onAddPhotoToAlbum = async (base64s: string[]) => {
     loadingToast({
-      content: <p> {t("đang chuẩn bị dữ liệu...")} </p>,
+      content: <p> {t("Đang chuẩn bị dữ liệu...")} </p>,
       operation: (successToastCB, dangerToastCB) => {
         GalleryApi.addPhotosToAlbum({
           userId: userInfo.id,
@@ -194,14 +201,14 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
           base64s: base64s,
           success: (result: ServerResponse) => {
             if (result.status === "success") {
-              successToastCB(t("lưu ảnh thành công"))
+              successToastCB(t("Lưu ảnh thành công"))
               refresh()
             } else {
-              dangerToastCB(t("lưu ảnh không thành công"))
+              dangerToastCB(t("Lưu ảnh không thành công"))
             }
           },
           fail: () => {
-            dangerToastCB(t("lưu ảnh không thành công"))
+            dangerToastCB(t("Lưu ảnh không thành công"))
           }
         })
       }
@@ -221,18 +228,39 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
         onAddPhotoToAlbum(base64s);
       },
       fail: () => {
-        dangerToast(t("lưu ảnh không thành công"));
+        dangerToast(t("Lưu ảnh không thành công"));
       }
     });
   }
 
   if (loading) {
-    return <Loading/>
+    return (
+      <>
+        <div ref={setPhotosSectionRef} className="h-3"/>
+
+        <div className="min-h-[100vh]">
+          <div style={{ zIndex: 999 }} className={`scroll-h sticky justify-between top-0 py-3 ${withEase}`}>
+            <Text size={"small"} style={{ minWidth: 120 }} className="bold flex-h content-center align-start">
+              <p className={classNames(withEase, bgColor, "px-1")}> {`${t("Ảnh")} (${photos.length})`} </p>
+            </Text>
+          </div>
+          <Loading/>
+        </div>
+      </>
+    )
   } else if (error) {
     return (
       <>
-        <Retry title="" message={t("Gặp Sự Cố!")} onClick={() => refresh()} buttonType="tertiary"/>
-        <br/>
+        <div ref={setPhotosSectionRef} className="h-3"/>
+
+        <div className="min-h-[100vh]">
+          <div style={{ zIndex: 999 }} className={`scroll-h sticky justify-between top-0 py-3 ${withEase}`}>
+            <Text size={"small"} style={{ minWidth: 120 }} className="bold flex-h content-center align-start">
+              <p className={classNames(withEase, bgColor, "px-1")}> {`${t("Ảnh")} (${photos.length})`} </p>
+            </Text>
+          </div>
+          <Retry message={t("Không tìm thấy ảnh")} onClick={() => refresh()} buttonType="tertiary" className="p-3"/>
+        </div>
       </>
     )
   } else {
@@ -244,33 +272,38 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
           <div style={{ zIndex: 999 }} className={`scroll-h sticky justify-between top-0 py-3 ${withEase}`}>
             <Text size={"small"} style={{ minWidth: 120 }} className="bold flex-h content-center align-start" onClick={onSelectAllPhotos}>
               {isSelecting ? (
-                <p className={`${withEase} ${bgColor}`}> {`${t("Chọn")} (${selectedPhotos.length})`} </p>
+                <p className={classNames(withEase, bgColor, "px-1")}> {`${t("Chọn")} (${selectedPhotos.length})`} </p>
               ) : (
-                <p className={`${withEase} ${bgColor}`}> {`${t("Ảnh")} (${photos.length})`} </p>
+                <p className={classNames(withEase, bgColor, "px-1")}> {`${t("Ảnh")} (${photos.length})`} </p>
               )}
             </Text>
 
             <div className="flex-h">
               <Button 
-                size="small" className={`button-link ${easeIn} ${withEase} ${bgColor}`} variant={isTitleSticky ? "secondary" : "tertiary"} style={minWidth} 
-                prefixIcon={<CommonIcon.AddPhoto/>} onClick={onAddPhotos} disabled={!isTitleSticky}
+                size="small" className={classNames(!isTitleSticky && "button-link", easeIn, withEase, bgColor)} 
+                variant={isTitleSticky ? "secondary" : "tertiary"} style={minWidth} 
+                prefixIcon={isSelecting && <CommonIcon.Check/>} onClick={onSelectionMode} disabled={!isTitleSticky}
               >
-                {t("add")}
+                {isSelecting ? t("xong") : t("select")}
               </Button>
+              {!isSelecting && (
+                <Button 
+                  size="small" className={classNames(!isTitleSticky && "button-link", withEase, bgColor)} 
+                  variant={isTitleSticky ? "secondary" : "tertiary"} style={minWidth} 
+                  prefixIcon={<CommonIcon.AddPhoto/>} onClick={onAddPhotos}
+                >
+                  {t("add")}
+                </Button>
+              )}
               {isSelecting && (
                 <Button 
-                  size="small" className={`button-link ${easeIn} ${withEase} ${bgColor}`} variant={isTitleSticky ? "secondary" : "tertiary"} style={minWidth} 
+                  size="small" className={classNames(!isTitleSticky && "button-link", easeIn, withEase, bgColor)} 
+                  variant={isTitleSticky ? "secondary" : "tertiary"} style={minWidth} 
                   prefixIcon={<CommonIcon.RemovePhoto/>} onClick={onDeletePhotos} disabled={!isTitleSticky}
                 >
                   {t("delete")}
                 </Button>
               )}
-              <Button 
-                size="small" className={`button-link ${easeIn} ${withEase} ${bgColor}`} variant={isTitleSticky ? "secondary" : "tertiary"} style={minWidth} 
-                prefixIcon={isSelecting && <CommonIcon.Check/>} onClick={onSelectionMode} disabled={!isTitleSticky}
-              >
-                {isSelecting ? t("xong") : t("select")}
-              </Button>
             </div>
           </div>
     

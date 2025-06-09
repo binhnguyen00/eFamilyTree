@@ -34,8 +34,14 @@ export function UIHallOfFameUsers() {
 
   const users = React.useMemo(() => {
     return data.map((user: HallOfFameUser, index: number) => {
+
+      const parts: string[] = user.memberName.trim().split(/\s+/);
+      const firstName: string = parts[0];
+      const lastName: string = parts[parts.length - 1];
+
       const avatar = user.avatar ? `${serverBaseUrl}/${user.avatar}` : "";
-      const avatarHolder = `https://avatar.iran.liara.run/username?username=${encodeURIComponent(user.memberName)}`;
+      const avatarHolder = `https://avatar.iran.liara.run/username?username=${encodeURIComponent(`${firstName} ${lastName}`)}`;
+
       return (
         <div key={`user-${index}`}>
           <div className="flex-h">

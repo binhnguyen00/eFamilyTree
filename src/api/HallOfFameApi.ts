@@ -1,7 +1,8 @@
-import { CreateHallOfFameForm } from "pages/hall-of-fame/UICreateHallOfFameUser";
 import { BaseApi } from "./BaseApi";
-import { SuccessCB, FailCB } from "types/server"
+import { SuccessCB, FailCB } from "types"
+
 import { HallOfFameUser } from "pages/hall-of-fame/UIHallOfFameUser";
+import { CreateHallOfFameForm } from "pages/hall-of-fame/types";
 
 export class HallOfFameApi extends BaseApi {
 

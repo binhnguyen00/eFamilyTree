@@ -106,9 +106,9 @@ export function UIAlbums() {
     if (loading) {
       return <Loading/>
     } else if (!albums.length) {
-      return <Retry title={t("không tìm thấy album")} onClick={refresh}/>
+      return <Retry title={t("Không tìm thấy album")} onClick={refresh}/>
     } else if (error) {
-      return <Retry title={t("không tìm thấy album")} onClick={refresh}/>
+      return <Retry title={t("Không tìm thấy album")} onClick={refresh}/>
     } else {
       return (
         <UIAlbumsGrid albums={albums} refresh={refresh}/>

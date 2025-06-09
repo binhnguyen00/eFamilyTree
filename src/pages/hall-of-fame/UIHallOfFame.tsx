@@ -1,12 +1,11 @@
 import React from "react";
 import { t } from "i18next";
 
-import { HallOfFameApi } from "api";
-import { useAppContext, useRouteNavigate } from "hooks";
-import { Divider, Header, ImageWithText, Info, Loading, ScrollableDiv } from "components";
-
-import { ServerResponse } from "types/server";
 import { DivUtils } from "utils";
+import { HallOfFameApi } from "api";
+import { ServerResponse } from "types";
+import { useAppContext, useRouteNavigate } from "hooks";
+import { Header, ImageWithText, Info, Loading, ScrollableDiv } from "components";
 
 import { loadHallOfFameThumnails, getHallOfFameTextStyle } from "./thumnails";
 
@@ -17,7 +16,10 @@ export function UIHallOfFame() {
   const onSelect = (id: number, name: string) => () => {
     goTo({ 
       path:"hall-of-fame/users", 
-      belongings: { hallOfFameId: id, hallOfFameName: name }
+      belongings: { 
+        hallOfFameId: id, 
+        hallOfFameName: name 
+      }
     });
   }
 
@@ -77,9 +79,9 @@ export function UIHallOfFame() {
     if (loading) {
       return <Loading />
     } else if (error) {
-      return <Info title={t("chưa có bảng vàng")}/>
+      return <Info title={t("Chưa có bảng vàng")}/>
     } else if (!data.length) {
-      return <Info title={t("chưa có bảng vàng")}/>
+      return <Info title={t("Chưa có bảng vàng")}/>
     } else {
       return (
         <ScrollableDiv
