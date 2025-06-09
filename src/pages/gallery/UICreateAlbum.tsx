@@ -1,6 +1,7 @@
 import React from "react";
 import { t } from "i18next";
 import { Button, Input } from "zmp-ui";
+import { PhotoProvider, PhotoView } from "react-photo-view";
 
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 import { CommonUtils, ZmpSDK } from "utils";
@@ -26,8 +27,7 @@ export function UICreateAlbum(props: UICreateAlbumProps) {
   const { onClose, onReloadParent} = props; 
   const { dangerToast, successToast, warningToast } = useNotification();
   const { userInfo } = useAppContext();
-  const fallbackThumbnail = "https://fakeimg.pl/1920x1080?font=roboto";
-  
+
   const observer = useBeanObserver({
     description: "",
     eventId: 0,
@@ -98,21 +98,28 @@ export function UICreateAlbum(props: UICreateAlbumProps) {
     })  
   }
 
+  const fallbackThumbnail = "https://placehold.jp/30/ededed/000000/480x270.png?text=%E1%BA%A2nh%20B%C3%ACa"; // text = Ảnh Bìa
+  const hasThumbnail: boolean = !!observer.getBean().thumbnailPath;
+  const src = React.useMemo(() => {
+    return hasThumbnail
+      ? observer.getBean().thumbnailPath
+      : fallbackThumbnail;
+  }, [ observer.getBean().thumbnailPath ])
+
   return (
     <div className="flex-v flex-grow-0 scroll-v p-3">
       <div className="center flex-v flex-grow-0">
-        <img
-          className="rounded"
-          style={{ width: "85vw", height: "12rem", objectFit: "cover" }}
-          src={observer.getBean().thumbnailPath || fallbackThumbnail}
-          onError={(e) => {
-            if (e.currentTarget.src !== fallbackThumbnail) {
-              e.currentTarget.src = fallbackThumbnail;
-            }
-          }}
-        />
+        <PhotoProvider maskOpacity={0.5} maskClosable pullClosable bannerVisible={false}>
+          <PhotoView src={src}>
+            <img
+              src={src}
+              style={{ width: "85vw", height: "12rem", objectFit: "cover" }} className="rounded"
+              onError={(e) => e.currentTarget.src !== fallbackThumbnail && (e.currentTarget.src = fallbackThumbnail)}
+            />
+          </PhotoView>
+        </PhotoProvider>
         <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onChooseThumbnail}>
-          {observer.getFieldValue("thumbnailPath") ? t("sửa") : t("add")}
+          {hasThumbnail ? t("sửa") : t("add")}
         </Button>
       </div>
 
@@ -122,7 +129,7 @@ export function UICreateAlbum(props: UICreateAlbumProps) {
         onChange={(e) => observer.update("description", e.target.value)}
       />
       <div className="center">
-        <Button size="small" style={{ width: 150 }} prefixIcon={<CommonIcon.Save/>} onClick={onCreate}>
+        <Button size="small" variant="tertiary" className="button-link" style={{ width: 150 }} prefixIcon={<CommonIcon.Save/>} onClick={onCreate}>
           {t("Lưu")}
         </Button>
       </div>

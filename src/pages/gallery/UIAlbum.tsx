@@ -120,17 +120,19 @@ export function UIAlbum() {
   }
 
   const renderAlbum = () => {
-    const fallbackThumbnail = "https://fakeimg.pl/1920x1080?font=roboto";
+    const fallbackThumbnail = "https://placehold.jp/30/ededed/000000/480x270.png?text=%E1%BA%A2nh%20B%C3%ACa"; // text = Ảnh Bìa
     const hasThumbnail: boolean = !!observer.getBean().thumbnailPath;
+    const src: string = hasThumbnail ? `${serverBaseUrl}/${observer.getBean().thumbnailPath}` : fallbackThumbnail;
+
     return (
       <>
         <div className="center flex-v flex-grow-0 pt-3">
           <PhotoProvider maskOpacity={0.5} maskClosable pullClosable bannerVisible={false}>
-            <PhotoView src={`${serverBaseUrl}/${observer.getBean().thumbnailPath}`}>
+            <PhotoView src={src}>
               <img
                 className="rounded object-cover"
                 style={{ width: "85vw", height: "12rem" }}
-                src={hasThumbnail ? `${serverBaseUrl}/${observer.getBean().thumbnailPath}` : fallbackThumbnail}
+                src={src}
                 onError={(e) => {
                   if (e.currentTarget.src !== fallbackThumbnail) {
                     e.currentTarget.src = fallbackThumbnail;

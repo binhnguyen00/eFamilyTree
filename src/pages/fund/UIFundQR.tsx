@@ -84,8 +84,9 @@ export function UIFundQR(props: UIFundQRProps) {
     const src = React.useMemo(() => {
       return hasQrCode()
         ? `${serverBaseUrl}/${qrObserver.getBean().imageQR}`
-        : `https://fakeimg.pl/${width}x${height}/?text=:(`;
+        : `https://placehold.jp/30/ededed/000000/${width}x${height}.png?text=M%C3%A3%20QR`;
     }, [ qrObserver.getBean().imageQR ]);
+
     return (
       <PhotoProvider maskClosable maskOpacity={0.5} pullClosable bannerVisible={false}>
         <PhotoView src={src}>

@@ -73,9 +73,9 @@ export class ZmpSDK {
 
     const success = (accessToken: string) => { 
       const zaloHeader = {
-        code: token,
-        access_token: accessToken,
-        secret_key: import.meta.env.VITE_APP_SECRET_KEY as string
+        code          : token,
+        access_token  : accessToken,
+        secret_key    : import.meta.env.VITE_APP_SECRET_KEY as string
       }
       const zalo = new ExternalRESTful("https://graph.zalo.me/v2.0");
       zalo.GET("me/info", zaloHeader, null, successCB, failCB);

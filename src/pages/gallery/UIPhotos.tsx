@@ -43,21 +43,21 @@ export function UIPhotos(props: UIPhotosProps) {
 
 function UIPhotosContainer({ photos }: { photos: Photo[] }) {
   const { serverBaseUrl } = useAppContext();
-  const fallbackThumbnail = "https://fakeimg.pl/200x200/cccccc/909090?text=:(";
 
   const renderPhotos = (): React.ReactNode[] => {
     if (!photos.length) return [];
-    
+
+    const { width, height } = { width: 200, height: 200 }
+    const fallbackImage = `https://placehold.jp/30/ededed/000000/${width}${height}.png?text=%3A(`;
+
     return photos.map((photo: Photo) => {
+      const src = `${serverBaseUrl}/${photo.url}`;
       return (
-        <PhotoView src={`${serverBaseUrl}/${photo.url}`} key={photo.id}>
-          <img 
-            loading="lazy" src={`${serverBaseUrl}/${photo.url}`} className="w-full h-full object-cover"
-            onError={(e) => {
-              if (e.currentTarget.src !== fallbackThumbnail) {
-                e.currentTarget.src = fallbackThumbnail;
-              }
-            }}
+        <PhotoView src={src} key={photo.id}>
+          <img
+            src={src}
+            className="w-full h-full object-cover" loading="lazy" style={{ width: width, height: height }}
+            onError={(e) => e.currentTarget.src !== fallbackImage && (e.currentTarget.src = fallbackImage)}
           />
         </PhotoView>
       )

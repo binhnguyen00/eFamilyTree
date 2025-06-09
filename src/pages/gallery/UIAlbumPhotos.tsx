@@ -105,7 +105,9 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
   };
 
   const renderPhotos = (): React.ReactNode[] => {
-    const fallbackThumbnail = "https://fakeimg.pl/200x200/cccccc/909090?text=:(";
+    const { width, height } = { width: 200, height: 200 }
+    const fallbackImage = `https://placehold.jp/30/ededed/000000/${width}${height}.png?text=%3A(`;
+
     return photos.map((photo: Photo) => {
       const isSelected: boolean = selectedPhotos.includes(photo.id);
       return (
@@ -113,12 +115,8 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
           {isSelecting ? (
             <>
               <img 
-                src={`${serverBaseUrl}/${photo.url}`} className="object-cover" style={{ width: 200, height: 200 }}
-                onError={(e) => {
-                  if (e.currentTarget.src !== fallbackThumbnail) {
-                    e.currentTarget.src = fallbackThumbnail;
-                  }
-                }}
+                src={`${serverBaseUrl}/${photo.url}`} className="object-cover" style={{ width: width, height: height }}
+                onError={(e) => e.currentTarget.src !== fallbackImage && (e.currentTarget.src = fallbackImage)}
               />
               <div className={`absolute bottom-2 left-2 w-7 h-7 rounded-full ${withEase} ${isSelected ? 'bg-primary' : 'bg-white/50'}`}>
                 {isSelected && <CommonIcon.CheckCircle className="text-white w-7 h-7"/>}
@@ -127,12 +125,8 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
           ): (
             <PhotoView src={`${serverBaseUrl}/${photo.url}`} key={photo.id}>
               <img 
-                src={`${serverBaseUrl}/${photo.url}`} className="object-cover" style={{ width: 200, height: 200 }}
-                onError={(e) => {
-                  if (e.currentTarget.src !== fallbackThumbnail) {
-                    e.currentTarget.src = fallbackThumbnail;
-                  }
-                }}
+                src={`${serverBaseUrl}/${photo.url}`} className="object-cover" style={{ width: width, height: height }}
+                onError={(e) => e.currentTarget.src !== fallbackImage && (e.currentTarget.src = fallbackImage)}
               />
             </PhotoView>
           )}

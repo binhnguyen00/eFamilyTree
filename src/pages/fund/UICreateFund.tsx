@@ -1,6 +1,7 @@
 import React from "react";
 import { t } from "i18next";
 import { Button, Input, Sheet } from "zmp-ui";
+import { PhotoProvider, PhotoView } from "react-photo-view";
 
 import { FundApi } from "api";
 import { CommonUtils, ZmpSDK } from "utils";
@@ -23,7 +24,7 @@ interface UICreateFundProps {
 
 export function UICreateFund(props: UICreateFundProps) {
   const { visible, onClose, reloadParent } = props;
-  const { userInfo } = useAppContext();
+  const { userInfo, serverBaseUrl } = useAppContext();
   const { useGetActiveMembers } = useFamilyTree();
   const { loadingToast, dangerToast } = useNotification();
   const { activeMembers } = useGetActiveMembers(userInfo.id, userInfo.clanId);
@@ -42,18 +43,23 @@ export function UICreateFund(props: UICreateFundProps) {
 
   const renderQrCode = () => {
     const { width, height } = { width: 300, height: 300 };
-    const fallbackSrc = `https://placehold.jp/30/ededed/000000/${width}x${height}.png?text=M%C3%A3%20QR`;
-    const src: string = qrObserver.getBean().imageQR 
-      ? `data:image/png;base64,${qrObserver.getBean().imageQR}` 
-      : fallbackSrc;
-  
+    const hasQrCode: boolean = !!qrObserver.getBean().imageQR;
+    const src = React.useMemo(() => {
+      return hasQrCode
+        ? `${serverBaseUrl}/${qrObserver.getBean().imageQR}`
+        : `https://placehold.jp/30/ededed/000000/${width}x${height}.png?text=M%C3%A3%20QR`;
+    }, [ qrObserver.getBean().imageQR ]);
+
     return (
-      <img
-        className="rounded" src={src} width={width} height={height}
-        onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-          e.currentTarget.src = fallbackSrc;
-        }}
-      />
+      <PhotoProvider maskOpacity={0.5} maskClosable pullClosable bannerVisible={false}>
+        <PhotoView src={src}>
+          <img
+            src={src}
+            style={{ width: width, height: height }} className="rounded object-cover"
+            onError={(e) => (e.currentTarget.src !== src) && (e.currentTarget.src = src)}
+          />
+        </PhotoView>
+      </PhotoProvider>
     );
   }
 
@@ -104,8 +110,8 @@ export function UICreateFund(props: UICreateFundProps) {
       <ScrollableDiv className="flex-v p-3" direction="vertical" height={"70vh"}>
         <div className="center flex-v flex-grow-0">
           {renderQrCode()}
-          <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onChooseImage}>
-            {t("Thêm")}
+          <Button size="small" variant="tertiary" className="button-link" prefixIcon={<CommonIcon.AddPhoto/>} onClick={onChooseImage}>
+            {!!qrObserver.getBean().imageQR ? t("sửa") : t("add")}
           </Button>
         </div>
         <Selection
