@@ -85,22 +85,9 @@ function useSearchAlbums() {
 
 export function UIAlbums() {
   const { albums, loading, error, refresh } = useSearchAlbums();
-  const { goTo } = useRouteNavigate();
+  const { goTo, goHome } = useRouteNavigate();
 
   const [ create, setCreate ] = React.useState<boolean>(false);
-
-  const renderFooter = () => {
-    return (
-      <div className="flex-v" style={{ position: "absolute", bottom: 20, right: 10 }}>
-        <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={() => setCreate(true)}>
-          {t("add")}
-        </Button>
-        <Button size="small" prefixIcon={<CommonIcon.Photo/>} onClick={() => goTo({ path: "gallery/images" })}>
-          {t("tất cả ảnh")}
-        </Button>
-      </div>
-    )
-  }
 
   const renderContainer = () => {
     if (loading) {
@@ -118,13 +105,20 @@ export function UIAlbums() {
 
   return (
     <>
-      <Header title={t("gallery")}/>
+      <Header title={t("gallery")} onBack={goHome}/>
 
       <div>
 
         {renderContainer()}
 
-        {renderFooter()}
+        <div className="flex-v" style={{ position: "absolute", bottom: 20, right: 10 }}>
+          <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={() => setCreate(true)}>
+            {t("add")}
+          </Button>
+          <Button size="small" prefixIcon={<CommonIcon.Photo/>} onClick={() => goTo({ path: "gallery/images" })}>
+            {t("tất cả ảnh")}
+          </Button>
+        </div>
 
         <Sheet
           title={t("Tạo Album")}
@@ -151,24 +145,27 @@ function UIAlbumsGrid(props: UIAlbumsGridProps) {
   const { serverBaseUrl } = useAppContext();
   const { goTo } = useRouteNavigate();
 
-  const albumCards = React.useMemo(() => {
-    return albums.map((album: AlbumForm, index: number) => (
+  const goToAlbum = (album: AlbumForm) => () => {
+    goTo({ path: "gallery/album", belongings: { album: album } })
+  }
+
+  const albumCards = () => {
+    const html: React.ReactNode[] = albums.map((album: AlbumForm, index: number) => (
       <Card
         key={`album-${index}`}
-        onClick={() => {
-          goTo({ path: "gallery/album", belongings: { album: album } })
-        }}
+        onClick={goToAlbum(album)}
         title={album.description}
-        imgStyle={{ width: "100%", minHeight: 180, maxHeight: 400 }}
+        imgStyle={{ width: "100%", minHeight: 180, maxHeight: 300 }}
         src={`${serverBaseUrl}/${album.thumbnailPath}`}
         className="button box-shadow rounded p-2" height={"auto"}
       />
     ))
-  }, [albums]);
+    return html;
+  }
 
   return (
     <Grid className="p-2" columnCount={1} rowSpace="1rem">
-      {albumCards}
+      {albumCards()}
     </Grid>
   )
 }

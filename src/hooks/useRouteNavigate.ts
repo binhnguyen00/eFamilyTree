@@ -1,5 +1,6 @@
 import { useNavigate, NavigateOptions, useLocation } from 'react-router-dom';
 import { useAppContext } from './context/useAppContext';
+import React from 'react';
 
 export function useRouteNavigate() {
   const { appId } = useAppContext();
@@ -66,6 +67,11 @@ export function useRouteNavigate() {
   }
 
   const belongings = location.state;
+
+  React.useEffect(() => {
+    console.log("location", history.length);
+    console.log("currentPath", currentPath);
+  }, [location]);
 
   return { 
     goTo, jumpTo, goHome, goBack, createPath, 

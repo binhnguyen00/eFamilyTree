@@ -87,8 +87,11 @@ export function UISocialPosts() {
   ]
   const { posts, error, loading, refresh } = useSocialPosts(type);
 
-  const goToPost = (post: SocialPost, pageMode: PageMode) => {
-    goTo({ path: "social-posts/detail", belongings: { post, permissions, pageMode } })
+  const goToPost = (post: SocialPost, pageMode: PageMode) => () => {
+    goTo({ 
+      path: "social-post/detail", 
+      belongings: { post, permissions, pageMode }, 
+    })
   }
 
   const createPost = (
@@ -97,25 +100,26 @@ export function UISocialPosts() {
       content: string;
       type: SocialPostType;
     },
-  ) => goTo({ path: "social-posts/detail", belongings: { post, permissions, pageMode: PageMode.CREATE } })
+  ) => goTo({ 
+    path: "social-posts/detail", 
+    belongings: { post, permissions, pageMode: PageMode.CREATE },
+  })
 
   const renderPosts = React.useMemo(() => {
     if (!posts.length) return [];
     
-    const result = [] as React.ReactNode[];
-    for (let i = 0; i < posts.length; i++) {
-      const post: SocialPost  = posts[i];
+    const html: React.ReactNode[] = posts.map((post: SocialPost, index: number) => {
       const title: string     = post.title || "";
       const content: string   = post.content || "";
       const thumbnail: string = post.thumbnail || "";
       const imgSrc: string    = `${SocialPostApi.getServerBaseUrl()}${thumbnail}`;
       const isOwner: boolean  = post.creatorId === userInfo.id;
-      result.push(
+      return (
         <Card
-          key={`post-${i}`}
+          key={`post-${index}`}
           src={imgSrc}
           className="button rounded border-secondary mb-3"
-          onClick={() => goToPost(post, permissions.canModerate && isOwner ? PageMode.EDIT : PageMode.VIEW)}
+          onClick={goToPost(post, permissions.canModerate && isOwner ? PageMode.EDIT : PageMode.VIEW)}
           title={<Text.Title size="xLarge"> {title} </Text.Title>} 
           content={
             <Text size="small" className="text-gray-500 p-3">
@@ -124,9 +128,9 @@ export function UISocialPosts() {
           }
         />
       );
-    }
+    })
 
-    return result;
+    return html;
   }, [ posts ])
 
   const renderContainer = () => {

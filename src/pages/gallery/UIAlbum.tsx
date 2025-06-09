@@ -159,7 +159,7 @@ export function UIAlbum() {
 
   return (
     <>
-      <Header title={t("album")}/>
+      <Header title={t("album")} onBack={() => goTo({ path: "gallery", replace: true })}/>
 
       <div className="container bg-white text-base">
         <ScrollableDiv direction="vertical" height={DivUtils.calculateHeight(0)}>

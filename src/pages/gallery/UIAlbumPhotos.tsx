@@ -121,7 +121,8 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
         <div key={photo.id} className="relative" onClick={() => onSelectPhoto(photo)}>
           {isSelecting ? (
             <>
-              <img 
+              <img
+                loading="lazy"
                 src={`${serverBaseUrl}/${photo.url}`} className="object-cover" style={{ width: width, height: height }}
                 onError={(e) => e.currentTarget.src !== fallbackImage && (e.currentTarget.src = fallbackImage)}
               />
@@ -131,7 +132,8 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
             </>
           ): (
             <PhotoView src={`${serverBaseUrl}/${photo.url}`} key={photo.id}>
-              <img 
+              <img
+                loading="lazy"
                 src={`${serverBaseUrl}/${photo.url}`} className="object-cover" style={{ width: width, height: height }}
                 onError={(e) => e.currentTarget.src !== fallbackImage && (e.currentTarget.src = fallbackImage)}
               />

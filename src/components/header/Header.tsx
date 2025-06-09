@@ -10,10 +10,11 @@ interface HeaderProps {
   logo?: React.ReactNode;
   showBackIcon?: boolean;
   customRender?: React.ReactNode;
+  onBack?: () => void;
 }
 
 export function Header(props: HeaderProps) {
-  const { title, subtitle, showBackIcon = true, logo, customRender } = props;
+  const { title, subtitle, showBackIcon = true, logo, customRender, onBack } = props;
   const { goBack } = useRouteNavigate();
 
   const styles = { 
@@ -26,7 +27,7 @@ export function Header(props: HeaderProps) {
       {showBackIcon && (
         <CommonIcon.ChevonLeft
           className="button-bounce" size={"1.5rem"} 
-          onClick={() => goBack()}
+          onClick={onBack ? onBack : () => goBack()}
         />
       )}
       {customRender ? customRender : (
