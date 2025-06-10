@@ -353,7 +353,8 @@ button, .button {
 
 // calendar
 .react-calendar {
-  width: 100%;
+  width: 100% !important;
+  border: unset !important;
 }
 
 .react-calendar__navigation {
@@ -374,4 +375,8 @@ button, .button {
 
 .react-calendar__month-view__days__day {
   font-size: 1.4rem !important;
+}
+
+.react-calendar__month-view__weekdays {
+  font-size: 1rem !important;
 }

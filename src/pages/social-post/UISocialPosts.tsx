@@ -144,11 +144,7 @@ export function UISocialPosts() {
       return <Retry title={t("Chưa có bài đăng")} onClick={refresh}/>
     } else {
       return (
-        <ScrollableDiv
-          id="ui-social-post"
-          direction="vertical" className="flex-v" 
-          height={DivUtils.calculateHeight(10)}
-        >
+        <ScrollableDiv direction="vertical" className="flex-v" height={DivUtils.calculateHeight(10)}>
           {renderPosts}
           <Divider size={0}/>
           <Divider size={0}/>

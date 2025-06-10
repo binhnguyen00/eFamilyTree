@@ -7,7 +7,7 @@ import { DivUtils } from "utils";
 import { BaseApi, SocialPostApi } from "api";
 import { PageMode, PagePermissions, ServerResponse, SocialPost } from "types";
 import { useAppContext, useBeanObserver, useNotification, useRouteNavigate } from "hooks";
-import { Header, ScrollableDiv, RichTextEditor, CommonIcon } from "components";
+import { Header, ScrollableDiv, RichTextEditor, CommonIcon, MarginToolbar, Toolbar } from "components";
 
 export function UISocialPost() {
   const { userInfo } = useAppContext();
@@ -54,10 +54,10 @@ export function UISocialPost() {
           postId: observer.getBean().id!,
           successCB: (result: ServerResponse) => {
             goBack();
-            onSuccess(t("Thành công"));
+            onSuccess(t("Xóa thành công"));
           },
           failCB: () => {
-            onFail(t("Thất bại"));
+            onFail(t("Xóa thất bại"));
           }
         });
       }
@@ -74,14 +74,15 @@ export function UISocialPost() {
             field="content" observer={observer} height={DivUtils.calculateHeight(120)} value={observer.getBean().content}
             placeholder={hasContent ? `${t("Bài viết")} của ${name}` : t("Bắt đầu viết bài...")}
           />
-          <div className="p-2 flex-h" style={{ position: "absolute", right: 0, bottom: 0 }}>
+          <MarginToolbar/>
+          <Toolbar hide={!permissions.canModerate}>
             <Button size="small" variant="primary" prefixIcon={<CommonIcon.Save/>} onClick={onSave}>
               {t("save")}
             </Button>
             <Button size="small" variant="primary" prefixIcon={<CommonIcon.Trash/>} onClick={onDelete}>
               {t("delete")}
             </Button>
-          </div>
+          </Toolbar>
         </div>
       )
     } else if (PageMode.VIEW === pageMode) { // return view mode
@@ -114,11 +115,7 @@ export function UISocialPost() {
     <>
       <Header title={t("detail_blog")}/>
 
-      <ScrollableDiv 
-        id="ui-social-post-detail"
-        direction="vertical" height={"100%"}
-        className="container bg-white text-base"
-      >
+      <ScrollableDiv direction="vertical" height={"100%"} className="container bg-white text-base">
         {renderContent()}
       </ScrollableDiv>
     </>
