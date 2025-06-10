@@ -1,17 +1,18 @@
 import React from "react";
+import classNames from "classnames";
 import { t } from "i18next";
 import { Button, Text, Avatar as ZaloAvatar } from "zmp-ui";
 
-import { HallOfFameApi } from "api";
-import { useRouteNavigate, useAppContext } from "hooks";
-import { Header, CommonIcon, Loading, Info, ScrollableDiv, Divider } from "components";
-
-import { ServerResponse } from "types/server";
-import { HallOfFameUser, UIHallOfFameUserDetails } from "./UIHallOfFameUser";
 import { DivUtils } from "utils";
-import { UICreateHallOfFame } from "./UICreateHallOfFameUser";
+import { HallOfFameApi } from "api";
+import { ServerResponse } from "types";
+import { useRouteNavigate, useAppContext, usePageContext } from "hooks";
+import { Header, CommonIcon, Loading, Info, ScrollableDiv, Divider, MarginToolbar, Toolbar, Retry } from "components";
 
-const data = [
+import { UICreateHallOfFame } from "./UICreateHallOfFameUser";
+import { HallOfFameUser, UIHallOfFameUserDetails } from "./UIHallOfFameUser";
+
+const users = [
   {
     id: 1,
     name: "Nhân Vật Lịch Sử",
@@ -22,8 +23,9 @@ const data = [
 export function UIHallOfFameUsers() {
   const { belongings } = useRouteNavigate();
   const { hallOfFameId, hallOfFameName } = belongings || { hallOfFameId: 0, hallOfFameName: "" };
-  const { data, error, loading, refresh } = useHallOfFameUsers(hallOfFameId);
+  const { users, error, loading, refresh } = useHallOfFameUsers(hallOfFameId);
   const { serverBaseUrl } = useAppContext();
+  const { permissions } = usePageContext();
 
   const [ selectId, setSelectId ] = React.useState<number | null>(null);
   const [ create, setCreate ] = React.useState<boolean>(false);
@@ -32,8 +34,8 @@ export function UIHallOfFameUsers() {
     return <ZaloAvatar backgroundColor="BLUE-BLUELIGHT" size={65} src={src === "" ? placeHolder : src}/>
   });
 
-  const users = React.useMemo(() => {
-    return data.map((user: HallOfFameUser, index: number) => {
+  const userList = React.useMemo(() => {
+    return users.map((user: HallOfFameUser, index: number) => {
 
       const parts: string[] = user.memberName.trim().split(/\s+/);
       const firstName: string = parts[0];
@@ -41,18 +43,15 @@ export function UIHallOfFameUsers() {
 
       const avatar = user.avatar ? `${serverBaseUrl}/${user.avatar}` : "";
       const avatarHolder = `https://avatar.iran.liara.run/username?username=${encodeURIComponent(`${firstName} ${lastName}`)}`;
+      const glass = "bg-gradient-to-br backdrop-blur-xl from-white/50 to-white/10 dark:from-black/5 dark:to-black/1"
 
       return (
-        <div key={`user-${index}`}>
+        <div key={`user-${index}`} className={classNames(glass, "rounded", "p-3", "button")}>
           <div className="flex-h">
             <div className="center" style={{ width: "5.5rem" }}>
               <Avatar src={avatar} placeHolder={avatarHolder}/>
             </div>
-            <div
-              className="flex-v p-3 rounded button"
-              style={{ width: "100%" }}
-              onClick={() => setSelectId(user.id)}
-            >
+            <div className="flex-v" style={{ width: "100%" }} onClick={() => setSelectId(user.id)}>
               <Text.Title className="content-center text-primary"> {user.memberName} </Text.Title>
               <Text className="content-center text-base"> {user.recognitionDate ? user.recognitionDate : ""} </Text>
             </div>
@@ -61,33 +60,49 @@ export function UIHallOfFameUsers() {
         </div>
       );
     });
-  }, [data]);
+  }, [users]);
+
+  const renderToolbar = () => {
+    if (!permissions.canModerate) {
+      return null;
+    }
+    return (
+      <>
+        <MarginToolbar/>
+        <Toolbar>
+          <Button size="small" prefixIcon={<CommonIcon.AddPerson size={"1.1rem"}/>} onClick={() => setCreate(true)}>
+            {t("add")}
+          </Button>
+        </Toolbar>
+      </>
+    )
+  }
 
   const renderContainer = () => {
     if (loading) {
-      return <Loading/>
+      return (
+        <>
+          <Loading/>
+          {renderToolbar()}
+        </>
+      )
     } else if (error) {
-      return <Info title={t("chưa có dữ liệu")}/>
-    } else if (!data.length) {
-      return <Info title={t("chưa có dữ liệu")}/>
+      return <Retry title={t("chưa có dữ liệu")} onClick={() => refresh()} extra={renderToolbar()}/>
+    } else if (!users.length) {
+      return (
+        <>
+          <Info title={t("chưa có dữ liệu")}/>
+          {renderToolbar()}
+        </>
+      )
     } else {
       return (
-        <ScrollableDiv height={DivUtils.calculateHeight(0)}>
-          {users}
+        <ScrollableDiv height={DivUtils.calculateHeight(0)} className="flex-v">
+          {userList}
           <br/><br/>
         </ScrollableDiv>
       );
     }
-  }
-
-  const renderFooter = () => {
-    return (
-      <div style={{ position: "absolute", bottom: 20, right: 10 }}>
-        <Button size="small" prefixIcon={<CommonIcon.AddPerson size={"1.1rem"}/>} onClick={() => setCreate(true)}>
-          {t("add")}
-        </Button>
-      </div>
-    )
   }
 
   return (
@@ -96,8 +111,6 @@ export function UIHallOfFameUsers() {
 
       <div className="container bg-white">
         {renderContainer()}
-
-        {renderFooter()}
       </div>
 
       <UIHallOfFameUserDetails
@@ -121,7 +134,7 @@ export function UIHallOfFameUsers() {
 function useHallOfFameUsers(typeId: number) {
   const { userInfo } = useAppContext();
 
-  const [ data, setData ] = React.useState<HallOfFameUser[]>([]);
+  const [ users, setUsers ] = React.useState<HallOfFameUser[]>([]);
   const [ loading, setLoading ] = React.useState(true);
   const [ error, setError ] = React.useState(false);
   const [ reload, setReload ] = React.useState(false);
@@ -131,7 +144,7 @@ function useHallOfFameUsers(typeId: number) {
   React.useEffect(() => {
     setLoading(true);
     setError(false);
-    setData([])
+    setUsers([])
 
     HallOfFameApi.searchMembers({
       userId: userInfo.id,
@@ -157,7 +170,7 @@ function useHallOfFameUsers(typeId: number) {
               achievement:      data["achievement"]
             }
           })
-          setData(data);
+          setUsers(data);
         }
       },
       fail: () => {
@@ -167,5 +180,5 @@ function useHallOfFameUsers(typeId: number) {
     });
   }, [ reload, typeId ]);
 
-  return { data, loading, error, refresh };
+  return { users, loading, error, refresh };
 }

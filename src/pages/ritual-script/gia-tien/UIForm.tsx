@@ -6,8 +6,8 @@ import { Button, Input, Sheet, DatePicker } from "zmp-ui";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import { DateTimeUtils, ZmpSDK } from "utils";
-import { BeanObserver, CommonIcon, Label, Title } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
+import { BeanObserver, CommonIcon, Label, MarginToolbar, Title, Toolbar } from "components";
 
 import { UIGiaTienTemplate } from "./UITemplate";
 
@@ -123,11 +123,11 @@ export function UIGiaTienForm() {
 
       <UIFamilyMembersForm observer={membersObserver}/>
 
-      <div style={{ position: "absolute", bottom: 20 }}>
+      <Toolbar>
         <Button size="small" prefixIcon={<CommonIcon.Preview size={18}/>} onClick={() => setPreview(true)}>
           {t("preview")}
         </Button>
-      </div>
+      </Toolbar>
 
       <Sheet
         visible={preview} 
@@ -160,7 +160,7 @@ export function UIGiaTienForm() {
         </Button>
       </Sheet>
 
-      <br/><br/>
+      <MarginToolbar/>
     </div>
   )
 }

@@ -5,7 +5,7 @@ import { DivUtils } from "utils";
 import { HallOfFameApi } from "api";
 import { ServerResponse } from "types";
 import { useAppContext, useRouteNavigate } from "hooks";
-import { Header, ImageWithText, Info, Loading, ScrollableDiv } from "components";
+import { Header, ImageWithText, Info, Loading, Retry, ScrollableDiv } from "components";
 
 import { loadHallOfFameThumnails, getHallOfFameTextStyle } from "./thumnails";
 
@@ -79,15 +79,12 @@ export function UIHallOfFame() {
     if (loading) {
       return <Loading />
     } else if (error) {
-      return <Info title={t("Chưa có bảng vàng")}/>
+      return <Retry title={t("Chưa có bảng vàng")} onClick={() => refresh()}/>
     } else if (!data.length) {
       return <Info title={t("Chưa có bảng vàng")}/>
     } else {
       return (
-        <ScrollableDiv
-          className="flex-v" direction="vertical"
-          height={DivUtils.calculateHeight(0)}
-        >
+        <ScrollableDiv className="flex-v" direction="vertical" height={DivUtils.calculateHeight(0)}>
           <br/>
           {renderCards()}
           <br/> <br/>

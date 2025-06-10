@@ -1,10 +1,11 @@
 import React from "react";
 import { t } from "i18next";
+import { PhotoProvider, PhotoView } from "react-photo-view";
 import { Button, DatePicker, Input, Sheet, Text } from "zmp-ui";
 
 import { HallOfFameApi } from "api";
 import { DateTimeUtils, DivUtils } from "utils";
-import { CommonIcon, Info, Loading } from "components";
+import { CommonIcon, Info, Loading, TailSpin } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
 
 import { FailResponse, ServerResponse } from "types/server";
@@ -106,15 +107,19 @@ export function UIHallOfFameUserDetails(props: UIHallOfFameUserProps) {
       return (
         <div className="flex-v">
           <div className="flex-v center">
-            <img
-              className="circle"
-              style={{ width: "8rem", height: "8rem", objectFit: "cover" }}
-              src={`${serverBaseUrl}/${observer.getBean().avatar}`}
-              onError={(e) => {
-                const fallbackUrl = `https://avatar.iran.liara.run/username?username=${encodeURIComponent(observer.getBean().memberName)}`;
-                e.currentTarget.src = fallbackUrl;
-              }}
-            />
+            <PhotoProvider maskOpacity={0.5} maskClosable pullClosable loadingElement={<TailSpin/>}>
+              <PhotoView src={`${serverBaseUrl}/${observer.getBean().avatar}`}>
+                <img
+                  className="circle"
+                  style={{ width: "8rem", height: "8rem", objectFit: "cover" }}
+                  src={`${serverBaseUrl}/${observer.getBean().avatar}`}
+                  onError={(e) => {
+                    const fallbackUrl = `https://avatar.iran.liara.run/username?username=${encodeURIComponent(observer.getBean().memberName)}`;
+                    e.currentTarget.src = fallbackUrl;
+                  }}
+                />
+              </PhotoView>
+            </PhotoProvider>
             <Text.Title> {observer.getBean().memberName} </Text.Title>
           </div>
           <DatePicker
@@ -154,16 +159,13 @@ export function UIHallOfFameUserDetails(props: UIHallOfFameUserProps) {
 
   const renderFooter = () => {
     return (
-      <div className="flex-v">
-        <Text.Title> {t("Hành Động")} </Text.Title>
-        <div className="flex-h flex-grow-0 justify-start">
-          <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onSave}>
-            {t("save")}
-          </Button>
-          <Button size="small" prefixIcon={<CommonIcon.Trash/>} onClick={onDelete}>
-            {t("delete")}
-          </Button>
-        </div>
+      <div className="flex-h flex-grow-0 justify-start">
+        <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onSave}>
+          {t("save")}
+        </Button>
+        <Button size="small" prefixIcon={<CommonIcon.Trash/>} onClick={onDelete}>
+          {t("delete")}
+        </Button>
       </div>
     )
   } 

@@ -7,12 +7,17 @@ import { GalleryApi } from "api";
 import { useAppContext } from "hooks";
 import { CommonUtils, DivUtils } from "utils";
 import { ServerResponse, Photo } from "types";
-import { Loading, Header, Retry, ScrollableDiv, Divider, TailSpin } from "components";
+import { Loading, Header, Retry, ScrollableDiv, TailSpin } from "components";
 
 interface UIPhotosProps {}
 export function UIPhotos(props: UIPhotosProps) {
-  const {  } = props;
-  const { photos,loading, error, refresh } = useSearchAllPhotos();
+  const { photos, loading, error, refresh } = useSearchAllPhotos();
+  const [ size, setSize ] = React.useState(0);
+
+  React.useEffect(() => {
+    setSize(photos.length);
+  }, [photos]);
+
 
   const renderContainer = () => {
     if (loading) {
@@ -26,16 +31,16 @@ export function UIPhotos(props: UIPhotosProps) {
     }
   }
 
-  const size = photos.length || 0;
   return (
     <>
       <Header title={`${t("ảnh")} (${size})`}/>
 
       <div className="container bg-white text-base">
-        <Divider size={0}/>
-        <ScrollableDiv className="flex-v" direction="vertical" height={DivUtils.calculateHeight(200)}>
+        <br/>
+        <ScrollableDiv className="flex-v" direction="vertical" height={DivUtils.calculateHeight(10)}>
           {renderContainer()}
         </ScrollableDiv>
+        <br/>
       </div>
     </>
   )
@@ -47,7 +52,7 @@ function UIPhotosContainer({ photos }: { photos: Photo[] }) {
   const renderPhotos = (): React.ReactNode[] => {
     if (!photos.length) return [];
 
-    const { width, height } = { width: 200, height: 200 }
+    const { width, height } = { width: 200, height: 150 }
     const fallbackImage = `https://placehold.jp/30/ededed/000000/${width}${height}.png?text=%3A(`;
 
     return photos.map((photo: Photo) => {
@@ -56,7 +61,7 @@ function UIPhotosContainer({ photos }: { photos: Photo[] }) {
         <PhotoView src={src} key={photo.id}>
           <img
             src={src}
-            className="w-full h-full object-cover" loading="lazy" style={{ width: width, height: height }}
+            className="object-cover" loading="lazy" style={{ width: width, height: height }}
             onError={(e) => e.currentTarget.src !== fallbackImage && (e.currentTarget.src = fallbackImage)}
           />
         </PhotoView>

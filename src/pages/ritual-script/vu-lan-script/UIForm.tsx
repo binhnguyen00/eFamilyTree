@@ -6,8 +6,9 @@ import { Button, Input, Sheet } from "zmp-ui";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import { DateTimeUtils, ZmpSDK } from "utils";
-import { BeanObserver, CommonIcon, Label, Title } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
+import { BeanObserver, CommonIcon, Label, MarginToolbar, Title, Toolbar } from "components";
+
 import { UIVuLanTemplate } from "./UITemplate";
 
 /** Sớ Vu Lan Báo Hiếu */
@@ -145,15 +146,15 @@ export function UIVuLanForm() {
         />
       </section>
 
-      <section style={{ position: "absolute", bottom: 20 }}>
+      <Toolbar>
         <Button size="small" prefixIcon={<CommonIcon.Preview size={18}/>} onClick={() => setPreview(true)}>
           {t("preview")}
         </Button>
-      </section>
+      </Toolbar>
 
       <UIPreview visible={preview} setVisible={setPreview} exportPNG={exportPNG} observer={observer}/>
 
-      <br/><br/>
+      <MarginToolbar/>
     </div>
   )
 }

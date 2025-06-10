@@ -9,6 +9,16 @@ interface ToolbarProps {
   fitContent?: boolean;
   hide?: boolean;
 }
+
+/**
+ * @param boxShadow add box shadow. default true
+ * @param glass add glass effect. default true
+ * @param justify justify content. default start
+ * @param fitContent fit content width. default false
+ * @param hide hide toolbar. default false
+ * 
+ * @default width: 92vw;
+ */
 export function Toolbar(props: ToolbarProps) {
   const { children, boxShadow = true, glass = true, justify = "start", fitContent = false, hide = false } = props;
 
@@ -22,7 +32,7 @@ export function Toolbar(props: ToolbarProps) {
         "rounded p-5 scroll-h flex-h",
         {
           "shadow-lg shadow-black/25": boxShadow,
-          "bg-gradient-to-br backdrop-blur-xl from-white/50 to-white/10 dark:from-black/5 dark:to-black/1": glass,
+          "bg-gradient-to-br backdrop-blur-sm from-white/50 to-white/10 dark:from-black/5 dark:to-black/1": glass,
           "absolute bottom-6 left-1/2 -translate-x-1/2": true, // centered bottom
           "transition duration-300 ease-in-out": true, // animation
           "justify-start": justify === "start",
@@ -33,7 +43,7 @@ export function Toolbar(props: ToolbarProps) {
       }
       style={{ 
         zIndex: 999,
-        width: fitContent ? "fit-content" : "95vw",
+        width: fitContent ? "fit-content" : "92vw",
         minHeight: "4rem"
       }}
     >

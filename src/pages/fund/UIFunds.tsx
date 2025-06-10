@@ -5,7 +5,7 @@ import { Button } from "zmp-ui";
 import { FundApi } from "api";
 import { CommonUtils, DivUtils } from "utils";
 import { useAppContext, useNotification, usePageContext, useRouteNavigate } from "hooks";
-import { Header, Loading, ScrollableDiv, Info, CommonIcon, Retry } from "components";
+import { Header, Loading, ScrollableDiv, Info, CommonIcon, Retry, MarginToolbar, Toolbar } from "components";
 
 import { ServerResponse } from "types/server";
 import { FundInfo } from "./UIFundInfo";
@@ -81,36 +81,43 @@ function useFunds() {
 }
 
 export function UIFund() {
+  const { permissions } = usePageContext();
   const { funds, loading, error, refresh } = useFunds();
 
   const [ create, setCreate ] = React.useState(false);
 
-  const renderCreateFund = () => (
-    <>
-      <div className="flex-h" style={{ position: "fixed", bottom: 20, right: 10 }}>
-        <Button size="small" prefixIcon={<CommonIcon.Plus size={"1rem"}/>} onClick={() => setCreate(true)}>
-          {t("tạo quỹ")}
-        </Button>
-      </div>
-      <UICreateFund 
-        reloadParent={refresh}
-        visible={create} onClose={() => setCreate(false)}
-      />
-    </>
-  )
+  const renderToolbar = () => {
+    if (!permissions.canModerate) {
+      return null;
+    }
+    return (
+      <>
+        <MarginToolbar/>
+        <Toolbar>
+          <Button size="small" prefixIcon={<CommonIcon.Plus size={"1rem"}/>} onClick={() => setCreate(true)}>
+            {t("tạo quỹ")}
+          </Button>
+        </Toolbar>
+        <UICreateFund 
+          reloadParent={refresh}
+          visible={create} onClose={() => setCreate(false)}
+        />
+      </>
+    )
+  }
 
   const renderContainer = () => {
     if (loading) {
       return <Loading/>
     } else if (error) {
-      return <Retry title={t("Chưa có dữ liệu")} onClick={() => refresh()} extra={renderCreateFund()}/>
+      return <Retry title={t("Chưa có dữ liệu")} onClick={() => refresh()} extra={renderToolbar()}/>
     } else if (!funds.length) {
-      return <Retry title={t("Chưa có dữ liệu")} onClick={() => refresh()} extra={renderCreateFund()}/>
+      return <Retry title={t("Chưa có dữ liệu")} onClick={() => refresh()} extra={renderToolbar()}/>
     } else {
       return (
         <div>
           <UIFundList funds={funds}/>
-          {renderCreateFund()}
+          {renderToolbar()}
         </div>
       )
     }

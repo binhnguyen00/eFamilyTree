@@ -9,6 +9,7 @@ import { useAppContext, useRouteNavigate } from "hooks";
 import { CommonIcon, Header, Loading, MarginToolbar, Retry, Toolbar } from "components";
 
 import { AlbumForm, UICreateAlbum } from "./UICreateAlbum";
+import { PageContextProps } from "types";
 
 const albums = [
   {
@@ -84,7 +85,9 @@ function useSearchAlbums() {
   return { albums, loading, error, refresh };
 }
 
-export function UIAlbums() {
+interface UIAlbumsProps extends PageContextProps {}
+export function UIAlbums(props: UIAlbumsProps) {
+  const { permissions } = props;
   const { albums, loading, error, refresh } = useSearchAlbums();
   const { goTo, goHome } = useRouteNavigate();
 
@@ -112,12 +115,14 @@ export function UIAlbums() {
         {renderContainer()}
 
         <MarginToolbar/>
-        <Toolbar justify="center" fitContent>
-          <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={() => setCreate(true)}>
-            {t("add")}
-          </Button>
-          <Button size="small" prefixIcon={<CommonIcon.Photo/>} onClick={() => goTo({ path: "gallery/images" })}>
-            {t("ảnh")}
+        <Toolbar justify="start">
+          {permissions.canModerate && (
+            <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={() => setCreate(true)}>
+              {t("add")}
+            </Button>
+          )}
+          <Button size="small" prefixIcon={<CommonIcon.Photos/>} onClick={() => goTo({ path: "gallery/images" })}>
+            {t("tất cả ảnh")}
           </Button>
         </Toolbar>
 

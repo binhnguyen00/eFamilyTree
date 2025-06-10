@@ -14,10 +14,12 @@ import { PiMapPinFill, PiTreeFill } from "react-icons/pi";
 import { RiMailSendLine, RiResetRightLine } from "react-icons/ri";
 import { TbLogout, TbPhoto, TbPhotoMinus, TbPhotoPlus, TbReload } from "react-icons/tb";
 import { TiZoomInOutline, TiZoomOutOutline } from "react-icons/ti";
+import { IoMdPhotos } from "react-icons/io";
 
 export const CommonIcon = {
   Home: GoHomeFill,
   Photo: TbPhoto,
+  Photos: IoMdPhotos,
   AddPhoto: TbPhotoPlus,
   User: IoPersonCircle,
   Notification: IoNotifications,

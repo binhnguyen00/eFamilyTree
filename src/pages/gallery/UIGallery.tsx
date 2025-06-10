@@ -4,6 +4,7 @@ import { DivUtils } from "utils";
 import { Header, ScrollableDiv } from "components";
 
 import { UIAlbums } from "./UIAlbums";
+import { usePageContext } from "hooks";
 
 
 export function UIGallery() {
@@ -19,10 +20,12 @@ export function UIGallery() {
 }
 
 function UIGalleryContainer() {
+  const { permissions } = usePageContext();
+
   return (
     <div className="flex-v">
       <ScrollableDiv className="bg-white" direction="vertical" height={DivUtils.calculateHeight(0)}>
-        <UIAlbums/>
+        <UIAlbums permissions={permissions}/>
       </ScrollableDiv>
     </div>
   )
