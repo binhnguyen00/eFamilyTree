@@ -1,3 +1,14 @@
+# Version 1.6.6 (Thứ 3, 10/06/2025)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=80)
+### Thay đổi
+#### 1. Thay đổi thiết thanh điều khiển thành nền trong suốt. Mỗi module đều có một thanh điều hướng.
+  <img src="./static/v1.6.6/1.png" width="200px"/>
+  <img src="./static/v1.6.6/2.png" width="200px"/>
+  <img src="./static/v1.6.6/3.png" width="200px"/>
+
+#### 2. Sửa các lỗi nhỏ và tối ưu hiệu năng.
+  - **[Xem các lỗi đã sửa](https://docs.google.com/spreadsheets/d/11vUHsbt7FQg9MpJ9vyzmPK2sa4oBlVdrWFlDWCxYNTk/edit?gid=2021921700#gid=2021921700)**
+
 # Version 1.6.5
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=79)
 ### Thay đổi
