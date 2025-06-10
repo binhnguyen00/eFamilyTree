@@ -7,7 +7,7 @@ import { Button, DatePicker, Grid, Input, Modal, Sheet, Text } from "zmp-ui";
 import { CalendarApi } from "api";
 import { DateTimeUtils } from "utils";
 import { PageContextProps, PageMode, ServerResponse, Event } from "types";
-import { CommonIcon, Label, Selection, TailSpin } from "components";
+import { CommonIcon, Label, MarginToolbar, Selection, TailSpin, Toolbar } from "components";
 import { useAppContext, useBeanObserver, useFamilyTree, useNotification } from "hooks";
 
 const events: any[] = [
@@ -249,12 +249,14 @@ export function UIEvents(props: UIEventsProps) {
         />
       </Sheet>
 
-
-      <div className={classNames("flex-h absolute bottom-5 right-5", !permissions.canModerate && "hide")}>
-        <Button size="small" prefixIcon={<CommonIcon.AddEvent size={"1rem"}/>} onClick={() => setViewMode(PageMode.CREATE)}>
+      <MarginToolbar/>
+      <Toolbar justify="start" hide={!permissions.canModerate}>
+        <Button size="small" prefixIcon={<CommonIcon.AddEvent size={"1rem"}/>}
+          onClick={() => setViewMode(PageMode.CREATE)}
+        >
           {t("tạo")}
         </Button>
-      </div>
+      </Toolbar>
     </div>
   )
 }

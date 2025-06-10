@@ -7,9 +7,14 @@ interface ToolbarProps {
   glass?: boolean;
   justify?: "start" | "center" | "end" | "between";
   fitContent?: boolean;
+  hide?: boolean;
 }
 export function Toolbar(props: ToolbarProps) {
-  const { children, boxShadow = true, glass = true, justify = "start", fitContent = false } = props;
+  const { children, boxShadow = true, glass = true, justify = "start", fitContent = false, hide = false } = props;
+
+  if (hide) {
+    return null;
+  }
 
   return (
     <div 
@@ -28,7 +33,8 @@ export function Toolbar(props: ToolbarProps) {
       }
       style={{ 
         zIndex: 999,
-        width: fitContent ? "fit-content" : "95vw"
+        width: fitContent ? "fit-content" : "95vw",
+        minHeight: "4rem"
       }}
     >
       {children}
