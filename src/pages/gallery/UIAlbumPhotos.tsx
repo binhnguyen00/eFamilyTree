@@ -9,7 +9,7 @@ import { GalleryApi } from "api";
 import { CommonUtils, ZmpSDK } from "utils";
 import { ServerResponse, Photo } from "types";
 import { useAppContext, useNotification } from "hooks";
-import { CommonIcon, Loading, Retry, TailSpin } from "components";
+import { CommonIcon, Loading, MarginToolbar, Retry, TailSpin } from "components";
 
 // dummies
 const photoDummies = [
@@ -313,9 +313,7 @@ export function UIAlbumPhotos({ albumId }: { albumId: number }) {
             <Grid columnCount={2} rowSpace="1rem" columnSpace="1rem">
               {renderPhotos()}
             </Grid>
-            <br/>
           </PhotoProvider>
-    
         </div>
       </>
     )

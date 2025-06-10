@@ -5,25 +5,40 @@ interface ToolbarProps {
   children: React.ReactNode;
   boxShadow?: boolean;
   glass?: boolean;
+  justify?: "start" | "center" | "end" | "between";
+  fitContent?: boolean;
 }
 export function Toolbar(props: ToolbarProps) {
-  const { children, boxShadow = true, glass = true } = props;
+  const { children, boxShadow = true, glass = true, justify = "start", fitContent = false } = props;
 
   return (
     <div 
       className={classNames(
-        "absolute bottom-6 left-1/2 -translate-x-1/2 rounded p-3 scroll-h", 
+        "rounded p-5 scroll-h flex-h",
         {
-          "shadow-lg": boxShadow,
-          "bg-white/10 backdrop-blur-md": glass,
+          "shadow-lg shadow-black/25": boxShadow,
+          "bg-gradient-to-br backdrop-blur-xl from-white/50 to-white/10 dark:from-black/5 dark:to-black/1": glass,
+          "absolute bottom-6 left-1/2 -translate-x-1/2": true, // centered bottom
+          "transition duration-300 ease-in-out": true, // animation
+          "justify-start": justify === "start",
+          "justify-center": justify === "center",
+          "justify-end": justify === "end",
+          "justify-between": justify === "between",
         })
       }
       style={{ 
         zIndex: 999,
-        width: "95vw"
+        width: fitContent ? "fit-content" : "95vw"
       }}
     >
       {children}
     </div>
+  )
+}
+
+export function MarginToolbar() {
+  const length = 5;
+  return (
+    Array.from({ length }, (_, i) => i).map((i) => <br key={i}/>)
   )
 }

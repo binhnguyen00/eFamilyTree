@@ -6,7 +6,7 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 import { GalleryApi } from "api";
 import { ServerResponse } from "types/server";
 import { CommonUtils, ZmpSDK, DivUtils } from "utils";
-import { Header, ScrollableDiv, CommonIcon, Toolbar } from "components";
+import { Header, ScrollableDiv, CommonIcon, Toolbar, MarginToolbar } from "components";
 import { useAppContext, useBeanObserver, useNotification, useRouteNavigate } from "hooks";
 
 import { AlbumForm } from "./UICreateAlbum";
@@ -151,11 +151,12 @@ export function UIAlbum() {
         <ScrollableDiv direction="vertical" height={DivUtils.calculateHeight(0)}>
           {renderAlbum()}
           <UIAlbumPhotos albumId={observer.getBean().id}/>
-          <Toolbar>
-            <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onSave} style={{ minWidth: 80 }}>
+          <MarginToolbar/>
+          <Toolbar justify="start">
+            <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onSave} style={{ minWidth: 100 }}>
               {t("save")}
             </Button>
-            <Button size="small" prefixIcon={<CommonIcon.Trash/>} onClick={() => setDeleteWarning(true)} style={{ minWidth: 80 }}>
+            <Button size="small" prefixIcon={<CommonIcon.Trash/>} onClick={() => setDeleteWarning(true)} style={{ minWidth: 100 }}>
               {t("delete")}
             </Button>
           </Toolbar>

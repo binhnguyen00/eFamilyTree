@@ -13,14 +13,14 @@ import { Selection, SelectionOption } from "./Selection";
 import { Label, Title } from "./Label";
 import { TailSpin } from "./TailSpin";
 import { RichTextEditor } from "./RichTextEditor";
-import { Toolbar } from "./Toolbar";
+import { Toolbar, MarginToolbar } from "./Toolbar";
 
 export { 
   Loading, Info,
   Divider, ImageWithText, Navigation, RequestPhone,
   SizedBox, ScrollableDiv, Popover, RequestLocation,
   Selection, Label, TailSpin, Title, Retry, RichTextEditor,
-  Toolbar,
+  Toolbar, MarginToolbar,
 };
 
 export type {

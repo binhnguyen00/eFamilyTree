@@ -6,7 +6,7 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 import { GalleryApi } from "api";
 import { ServerResponse } from "types/server";
 import { useAppContext, useRouteNavigate } from "hooks";
-import { CommonIcon, Header, Loading, Retry, Toolbar } from "components";
+import { CommonIcon, Header, Loading, MarginToolbar, Retry, Toolbar } from "components";
 
 import { AlbumForm, UICreateAlbum } from "./UICreateAlbum";
 
@@ -110,8 +110,9 @@ export function UIAlbums() {
 
       <div>
         {renderContainer()}
-          
-        <Toolbar>
+
+        <MarginToolbar/>
+        <Toolbar justify="center" fitContent>
           <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={() => setCreate(true)}>
             {t("add")}
           </Button>
@@ -146,16 +147,19 @@ function UIAlbumsGrid(props: UIAlbumsGridProps) {
 
   const albumCards = () => {
     const html: React.ReactNode[] = albums.map((album: AlbumForm, index: number) => (
-      <div key={`album-${index}`} className="flex-v box-shadow rounded p-2 button">
+      <div key={`album-${index}`} className="flex-v box-shadow rounded p-3 button">
         <PhotoProvider maskOpacity={0.5} maskClosable pullClosable bannerVisible={false}>
           <PhotoView src={`${serverBaseUrl}/${album.thumbnailPath}`}>
             <img src={`${serverBaseUrl}/${album.thumbnailPath}`} alt={album.description} className="rounded object-cover w-full h-80"/>
           </PhotoView>
-          <div onClick={() => goTo({
-            path: "gallery/album",
-            belongings: { album: album }
-          })}>
-            <Text.Title size="large"> {album.description} </Text.Title>
+          <div 
+            onClick={() => goTo({
+              path: "gallery/album",
+              belongings: { album: album }
+            })}
+            className="center flex-v"
+          >
+            <Text.Title size="normal"> {album.description} </Text.Title>
           </div>
         </PhotoProvider>
       </div>

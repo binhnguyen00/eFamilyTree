@@ -220,12 +220,12 @@ export function UIMap() {
       return (
         <div className="relative">
           {/* controller */}
-          <Toolbar>
-            <Button size="small" onClick={onLocateCurrentLocation} variant="secondary" className="box-shadow">
+          <Toolbar justify="between">
+            <Button size="small" onClick={onLocateCurrentLocation} variant="secondary">
               <CommonIcon.MapPin size={"1.5rem"}/>
             </Button>
             <Button 
-              size="small" variant="secondary" className="box-shadow"
+              size="small" variant="secondary"
               onClick={() => onChangeMapTerrain({
                 url: WorldMapConfig.defaultTileLayer,
                 maxZoom: WorldMapConfig.defaultMaxZoom
@@ -234,7 +234,7 @@ export function UIMap() {
               <CommonIcon.Map2 size={"1.5rem"}/>
             </Button>
             <Button 
-              size="small" variant="secondary" className="box-shadow"
+              size="small" variant="secondary"
               onClick={() => onChangeMapTerrain({
                 url: WorldMapConfig.satelliteTileLayer,
                 maxZoom: WorldMapConfig.satelliteMaxZoom
@@ -242,7 +242,7 @@ export function UIMap() {
             >
               <CommonIcon.Terrain size={"1.5rem"}/>
             </Button>
-            <Button size="small" onClick={refreshMap} variant="secondary" loading={loading} className="box-shadow">
+            <Button size="small" onClick={refreshMap} variant="secondary" loading={loading}>
               <CommonIcon.Reload size={"1.5rem"}/>
             </Button>
           </Toolbar>
