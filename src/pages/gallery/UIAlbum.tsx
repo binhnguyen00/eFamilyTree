@@ -6,7 +6,7 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 import { GalleryApi } from "api";
 import { ServerResponse } from "types/server";
 import { CommonUtils, ZmpSDK, DivUtils } from "utils";
-import { Header, ScrollableDiv, CommonIcon } from "components";
+import { Header, ScrollableDiv, CommonIcon, Toolbar } from "components";
 import { useAppContext, useBeanObserver, useNotification, useRouteNavigate } from "hooks";
 
 import { AlbumForm } from "./UICreateAlbum";
@@ -107,19 +107,6 @@ export function UIAlbum() {
     });
   }
 
-  const renderFooter = () => {
-    return (
-      <div className="flex-h">
-        <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onSave} style={{ minWidth: 80 }}>
-          {t("save")}
-        </Button>
-        <Button size="small" prefixIcon={<CommonIcon.Trash/>} onClick={() => setDeleteWarning(true)} style={{ minWidth: 80 }}>
-          {t("delete")}
-        </Button>
-      </div>
-    )
-  }
-
   const renderAlbum = () => {
     const fallbackThumbnail = "https://placehold.jp/30/ededed/000000/480x270.png?text=%E1%BA%A2nh%20B%C3%ACa"; // text = Ảnh Bìa
     const hasThumbnail: boolean = !!observer.getBean().thumbnailPath;
@@ -151,7 +138,6 @@ export function UIAlbum() {
             label={t("Tiêu Đề")} value={observer.getBean().description} size="medium"
             onChange={(e) => observer.update("description", e.target.value)}
           />
-          {renderFooter()}
         </div>
       </>
     )
@@ -165,6 +151,14 @@ export function UIAlbum() {
         <ScrollableDiv direction="vertical" height={DivUtils.calculateHeight(0)}>
           {renderAlbum()}
           <UIAlbumPhotos albumId={observer.getBean().id}/>
+          <Toolbar>
+            <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onSave} style={{ minWidth: 80 }}>
+              {t("save")}
+            </Button>
+            <Button size="small" prefixIcon={<CommonIcon.Trash/>} onClick={() => setDeleteWarning(true)} style={{ minWidth: 80 }}>
+              {t("delete")}
+            </Button>
+          </Toolbar>
         </ScrollableDiv>
       </div>
 

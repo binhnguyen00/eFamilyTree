@@ -6,7 +6,7 @@ import { MemorialMapApi } from "api";
 import { DivUtils, ZmpSDK } from "utils";
 import { ServerResponse, Photo } from "types";
 import { useAppContext, useNotification, usePageContext, useRequestLocationContext } from "hooks";
-import { Header, Loading, CommonIcon, WorldMap, MapCoordinate, MapMarker, WorldMapConfig, MapTile } from "components";
+import { Header, Loading, CommonIcon, WorldMap, MapCoordinate, MapMarker, WorldMapConfig, MapTile, Toolbar } from "components";
 
 import { UILocation } from "./UILocation";
 import { UICreateLocationForm } from "./UICreateLocation";
@@ -220,7 +220,7 @@ export function UIMap() {
       return (
         <div className="relative">
           {/* controller */}
-          <div className="absolute center bottom-12 flex-h" style={{ zIndex: 999 }}>
+          <Toolbar>
             <Button size="small" onClick={onLocateCurrentLocation} variant="secondary" className="box-shadow">
               <CommonIcon.MapPin size={"1.5rem"}/>
             </Button>
@@ -245,7 +245,7 @@ export function UIMap() {
             <Button size="small" onClick={refreshMap} variant="secondary" loading={loading} className="box-shadow">
               <CommonIcon.Reload size={"1.5rem"}/>
             </Button>
-          </div>
+          </Toolbar>
           {/* map */}
           <WorldMap
             tileLayer={mapTile}

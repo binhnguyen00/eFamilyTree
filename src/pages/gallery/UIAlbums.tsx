@@ -6,7 +6,7 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 import { GalleryApi } from "api";
 import { ServerResponse } from "types/server";
 import { useAppContext, useRouteNavigate } from "hooks";
-import { CommonIcon, Header, Loading, Retry } from "components";
+import { CommonIcon, Header, Loading, Retry, Toolbar } from "components";
 
 import { AlbumForm, UICreateAlbum } from "./UICreateAlbum";
 
@@ -109,17 +109,16 @@ export function UIAlbums() {
       <Header title={t("gallery")} onBack={goHome}/>
 
       <div>
-
         {renderContainer()}
-
-        <div className="flex-v" style={{ position: "absolute", bottom: 20, right: 10 }}>
+          
+        <Toolbar>
           <Button size="small" prefixIcon={<CommonIcon.AddPhoto/>} onClick={() => setCreate(true)}>
             {t("add")}
           </Button>
           <Button size="small" prefixIcon={<CommonIcon.Photo/>} onClick={() => goTo({ path: "gallery/images" })}>
-            {t("tất cả ảnh")}
+            {t("ảnh")}
           </Button>
-        </div>
+        </Toolbar>
 
         <Sheet
           title={t("Tạo Album")}
@@ -131,7 +130,6 @@ export function UIAlbums() {
             onReloadParent={() => refresh()}
           />
         </Sheet>
-
       </div>
     </>
   )
