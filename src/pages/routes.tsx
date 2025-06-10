@@ -28,7 +28,6 @@ import { UIMap } from "pages/memorial-map/UIMap";
 import { useRouteNavigate } from "hooks";
 
 // Demo components (React.lazy loaded)
-const UIDummyFund = React.lazy(() => import("./dummy/UIDummyFund"));
 const UIDummyTree = React.lazy(() => import("./dummy/UIDummyTree"));
 const UIDummyBlog = React.lazy(() => import("./dummy/UIDummyBlog"));
 const UIDummyNavigate = React.lazy(() => import("./dummy/UIDummyNavigate"));
@@ -80,11 +79,6 @@ export function AppRoutes() {
           <UIPlayground />
         </React.Suspense>
       } />
-      <Route path={createPath("/dev/funds")} element={
-        <React.Suspense fallback={<Loading />}>
-          <UIDummyFund />
-        </React.Suspense>
-      }/>
       <Route path={createPath("/dev/tree")} element={
         <React.Suspense fallback={<Loading />}>
           <UIDummyTree />

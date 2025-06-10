@@ -15,18 +15,20 @@ export function useRouteNavigate() {
    * @param belongings is your data object. Can be get and use in the target path. Ex { images, records }
    * @param replace is a boolean value. If true, the current path will be replaced with the new path.
    */
-  const goTo = ({path, belongings, replace}: {path: string, belongings?: any, replace?: boolean}) => {
-    let options = {
-      preventScrollReset: true,
-      viewTransition: true,
-      replace: replace,
-      state: belongings,
-    } as NavigateOptions;
+  const goTo = (props: {path: string, belongings?: any, replace?: boolean}) => {
+    const { path, belongings, replace = false } = props;
     if (!path) {
       console.warn('No path provided');
       return;
     }
-    navigate(createPath(path), options);
+    const destination = createPath(path);
+    const options = {
+      preventScrollReset  : true,
+      viewTransition      : true,
+      replace             : replace,
+      state               : belongings,
+    } as NavigateOptions;
+    navigate(destination, options);
   };
 
   /**
@@ -35,10 +37,10 @@ export function useRouteNavigate() {
    * @param belongings is your data object. Can be get and use in the target path. Ex { images, records }
    */
   const jumpTo = ({ path, belongings }: { path: string, belongings?: any }) => {
-    let options = {
-      preventScrollReset: true,
-      viewTransition: true,
-      state: belongings,
+    const options = {
+      preventScrollReset  : true,
+      viewTransition      : true,
+      state               : belongings,
     } as NavigateOptions;
     if (!path) {
       console.warn('No path provided');

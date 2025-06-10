@@ -1,11 +1,12 @@
 import React from "react";
 import { t } from "i18next";
-import { Button, Grid, Sheet } from "zmp-ui";
+import { Button, Grid, Sheet, Text } from "zmp-ui";
+import { PhotoProvider, PhotoView } from "react-photo-view";
 
 import { GalleryApi } from "api";
 import { ServerResponse } from "types/server";
 import { useAppContext, useRouteNavigate } from "hooks";
-import { Card, CommonIcon, Header, Loading, Retry } from "components";
+import { CommonIcon, Header, Loading, Retry } from "components";
 
 import { AlbumForm, UICreateAlbum } from "./UICreateAlbum";
 
@@ -145,20 +146,21 @@ function UIAlbumsGrid(props: UIAlbumsGridProps) {
   const { serverBaseUrl } = useAppContext();
   const { goTo } = useRouteNavigate();
 
-  const goToAlbum = (album: AlbumForm) => () => {
-    goTo({ path: "gallery/album", belongings: { album: album } })
-  }
-
   const albumCards = () => {
     const html: React.ReactNode[] = albums.map((album: AlbumForm, index: number) => (
-      <Card
-        key={`album-${index}`}
-        onClick={goToAlbum(album)}
-        title={album.description}
-        imgStyle={{ width: "100%", minHeight: 180, maxHeight: 300 }}
-        src={`${serverBaseUrl}/${album.thumbnailPath}`}
-        className="button box-shadow rounded p-2" height={"auto"}
-      />
+      <div key={`album-${index}`} className="flex-v box-shadow rounded p-2 button">
+        <PhotoProvider maskOpacity={0.5} maskClosable pullClosable bannerVisible={false}>
+          <PhotoView src={`${serverBaseUrl}/${album.thumbnailPath}`}>
+            <img src={`${serverBaseUrl}/${album.thumbnailPath}`} alt={album.description} className="rounded object-cover w-full h-80"/>
+          </PhotoView>
+          <div onClick={() => goTo({
+            path: "gallery/album",
+            belongings: { album: album }
+          })}>
+            <Text.Title size="large"> {album.description} </Text.Title>
+          </div>
+        </PhotoProvider>
+      </div>
     ))
     return html;
   }

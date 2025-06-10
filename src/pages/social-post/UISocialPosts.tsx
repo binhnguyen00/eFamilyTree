@@ -2,12 +2,13 @@ import React from "react";
 import classNames from "classnames";
 import { t } from "i18next";
 import { Button, Text } from "zmp-ui";
+import { PhotoProvider, PhotoView } from "react-photo-view";
 
 import { DivUtils } from "utils";
 import { SocialPostApi } from "api";
 import { PageMode, ServerResponse, SocialPost } from "types";
 import { useAppContext, usePageContext, useRouteNavigate } from "hooks";
-import { Card, CommonIcon, Header, Loading, Retry, ScrollableDiv, Selection, SelectionOption } from "components";
+import { CommonIcon, Divider, Header, Loading, Retry, ScrollableDiv, Selection, SelectionOption } from "components";
 
 export enum SocialPostType {
   FUND = "fund",
@@ -87,9 +88,9 @@ export function UISocialPosts() {
   ]
   const { posts, error, loading, refresh } = useSocialPosts(type);
 
-  const goToPost = (post: SocialPost, pageMode: PageMode) => () => {
+  const goToPost = (post: SocialPost, pageMode: PageMode) => {
     goTo({ 
-      path: "social-post/detail", 
+      path: "social-posts/detail", 
       belongings: { post, permissions, pageMode }, 
     })
   }
@@ -115,18 +116,19 @@ export function UISocialPosts() {
       const imgSrc: string    = `${SocialPostApi.getServerBaseUrl()}${thumbnail}`;
       const isOwner: boolean  = post.creatorId === userInfo.id;
       return (
-        <Card
-          key={`post-${index}`}
-          src={imgSrc}
-          className="button rounded border-secondary mb-3"
-          onClick={goToPost(post, permissions.canModerate && isOwner ? PageMode.EDIT : PageMode.VIEW)}
-          title={<Text.Title size="xLarge"> {title} </Text.Title>} 
-          content={
-            <Text size="small" className="text-gray-500 p-3">
+        <div key={`post-${index}`} className="flex-v box-shadow rounded p-2 button">
+          <PhotoProvider maskOpacity={0.5} maskClosable pullClosable bannerVisible={false}>
+            <PhotoView src={imgSrc}>
+              <img src={imgSrc} alt={title} className="rounded object-cover w-full h-60"/>
+            </PhotoView>
+          </PhotoProvider>
+          <div onClick={() => goToPost(post, permissions.canModerate && isOwner ? PageMode.EDIT : PageMode.VIEW)}>
+            <Text.Title size="xLarge"> {title} </Text.Title>
+            <Text size="small" className="text-gray-500">
               {`${content.replace(/<[^>]*>/g, ' ').substring(0, 120)}...`}
             </Text>
-          }
-        />
+          </div>
+        </div>
       );
     })
 
@@ -148,6 +150,8 @@ export function UISocialPosts() {
           height={DivUtils.calculateHeight(10)}
         >
           {renderPosts}
+          <Divider size={0}/>
+          <Divider size={0}/>
         </ScrollableDiv>
       )
     }

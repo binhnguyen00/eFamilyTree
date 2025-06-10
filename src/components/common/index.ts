@@ -7,7 +7,6 @@ import { RequestPhone } from "./RequestPhone";
 import { Info } from "./Info";
 import { Retry } from "./Retry";
 import { ScrollableDiv } from "./ScrollableDiv";
-import { Card } from "./Card";
 import { Popover } from "./Popover";
 import { RequestLocation } from "./RequestLocation";
 import { Selection, SelectionOption } from "./Selection";
@@ -18,7 +17,7 @@ import { RichTextEditor } from "./RichTextEditor";
 export { 
   Loading, Info,
   Divider, ImageWithText, Navigation, RequestPhone,
-  SizedBox, ScrollableDiv, Card, Popover, RequestLocation,
+  SizedBox, ScrollableDiv, Popover, RequestLocation,
   Selection, Label, TailSpin, Title, Retry, RichTextEditor,
 };
 
