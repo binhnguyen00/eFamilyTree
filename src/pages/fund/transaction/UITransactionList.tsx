@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from "classnames";
 import { t } from "i18next";
 import { Modal, Text } from "zmp-ui";
 
@@ -6,7 +7,7 @@ import { FundApi } from "api";
 import { ServerResponse } from "types/server";
 import { CommonUtils, DivUtils } from "utils";
 import { useAppContext, useNotification } from "hooks";
-import { Divider, ScrollableDiv } from "components";
+import { Divider, MarginToolbar, ScrollableDiv } from "components";
 
 import { FundLine } from "../UIFunds";
 
@@ -31,6 +32,8 @@ export function UITransactions(props: UITransactionsProps) {
   const renderTransaction = (transaction: Transaction) => {
     const sign = transaction.type === "income" ? "+" : "-";
     const color = transaction.type === "income" ? "text-success" : "text-danger";
+    const glass = "bg-gradient-to-br backdrop-blur-sm from-white/50 to-white/10";
+    const boxShadow = "shadow-sm shadow-black/10";
 
     const onDeleteTransaction = () => {
       setTransactionToDelete(transaction);
@@ -38,7 +41,7 @@ export function UITransactions(props: UITransactionsProps) {
     }
 
     return (
-      <div className="flex-h flex-grow-0 justify-between button" onClick={onDeleteTransaction}>
+      <div className={classNames("flex-h flex-grow-0 justify-between button", glass, boxShadow)} onClick={onDeleteTransaction}>
         <div className="flex-v">
           <Text className={`${color}`}> {`${sign} ${CommonUtils.numberToMonetary(transaction.amount)}`} </Text>
           <Text className="text-sm"> {transaction.name} </Text>
@@ -125,8 +128,7 @@ export function UITransactions(props: UITransactionsProps) {
       >
         {lines}
         {renderDeleteTransaction()}
-        <br/>
-        <br/>
+        <MarginToolbar/>
       </ScrollableDiv>
     </div>
   );

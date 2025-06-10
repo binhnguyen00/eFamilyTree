@@ -191,7 +191,7 @@ function UIFundList(props: UIFundListProps) {
   const lines: React.ReactNode[] = React.useMemo(() => {
     return funds.map((item, index) => {
       return (
-        <div key={`fund-${index}`} className="my-2 button" onClick={() => onSelect(item.id)}>
+        <div key={`fund-${index}`} className="my-2 button shadow-lg" onClick={() => onSelect(item.id)}>
           {/* header */}
           <div className="p-3 bg-primary text-white rounded-top"> 
             <div className="flex-h justify-between">

@@ -6,8 +6,8 @@ import { Button, Modal, Text } from "zmp-ui";
 import { FundApi } from "api";
 import { CommonUtils, DateTimeUtils } from "utils";
 import { Module, PageContextProps, ServerResponse } from "types";
-import { BeanObserver, CommonIcon, Divider, Header, SizedBox } from "components";
 import { useAppContext, useBeanObserver, useNotification, useRouteNavigate } from "hooks";
+import { BeanObserver, CommonIcon, Divider, Header, SizedBox, Toolbar } from "components";
 
 import { FundLine } from "./UIFunds";
 import { FundQR, UIFundQR } from "./UIFundQR";
@@ -183,8 +183,7 @@ function UIFundContainer(props: UIFundContainerProps) {
         onDelete={onDeleteTransaction}
       />
 
-      {/* footer */}
-      <div className="flex-h scroll-h px-3" style={{ position: "fixed", bottom: 30, right: 0 }}>
+      <Toolbar>
         <Button className={classNames("button-success", !permissions.canModerate && "hide")} style={{ minWidth: 100 }} size="small" prefixIcon={<CommonIcon.Plus/>} onClick={onOpenIncome}>
           {t("thu")}
         </Button>
@@ -197,7 +196,7 @@ function UIFundContainer(props: UIFundContainerProps) {
         <Button className={classNames(!permissions.canModerate && "hide")} style={{ minWidth: 120 }} size="small" prefixIcon={<CommonIcon.Trash/>} onClick={onDelete}>
           {t("delete")}
         </Button>
-      </div>
+      </Toolbar>
 
       <UICreateTransaction 
         visible={transaction} 

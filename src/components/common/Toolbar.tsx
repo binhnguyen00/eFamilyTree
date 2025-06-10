@@ -5,7 +5,7 @@ interface ToolbarProps {
   children: React.ReactNode;
   boxShadow?: boolean;
   glass?: boolean;
-  justify?: "start" | "center" | "end" | "between";
+  justify?: "start" | "center" | "end" | "between" | "around";
   fitContent?: boolean;
   hide?: boolean;
 }
@@ -39,6 +39,7 @@ export function Toolbar(props: ToolbarProps) {
           "justify-center": justify === "center",
           "justify-end": justify === "end",
           "justify-between": justify === "between",
+          "justify-around": justify === "around",
         })
       }
       style={{ 
