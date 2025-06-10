@@ -31,7 +31,6 @@ import { useRouteNavigate } from "hooks";
 const UIDummyTree = React.lazy(() => import("./dummy/UIDummyTree"));
 const UIDummyBlog = React.lazy(() => import("./dummy/UIDummyBlog"));
 const UIDummyNavigate = React.lazy(() => import("./dummy/UIDummyNavigate"));
-const UIDummyCalendar = React.lazy(() => import("./dummy/UIDummyCalendar"));
 
 export function AppRoutes() {
   const { createPath, rootPath } = useRouteNavigate();
@@ -82,11 +81,6 @@ export function AppRoutes() {
       <Route path={createPath("/dev/tree")} element={
         <React.Suspense fallback={<Loading />}>
           <UIDummyTree />
-        </React.Suspense>
-      } />
-      <Route path={createPath("/dev/calendar")} element={
-        <React.Suspense fallback={<Loading />}>
-          <UIDummyCalendar />
         </React.Suspense>
       } />
       <Route path={createPath("/dev/blogs")} element={
