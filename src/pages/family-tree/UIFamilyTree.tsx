@@ -3,10 +3,8 @@ import { t } from "i18next";
 import { Text } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
-import { TreeMember } from "types/common";
-import { ServerResponse } from "types/server";
-import { ExtNode, Node } from "components/tree-relatives/types";
 import { TreeUtils, TreeDataProcessor } from "utils";
+import { TreeMember, ServerResponse, ExtNode, Node } from "types";
 import { useAppContext, useFamilyTree, useNotification, usePageContext } from "hooks";
 import { Header, TreeNode, FamilyTree, TreeConfig, Loading, Retry } from "components";
 
