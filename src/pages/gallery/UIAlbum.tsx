@@ -14,7 +14,7 @@ import { UIAlbumPhotos } from "./UIAlbumPhotos";
 
 export function UIAlbum() {
   const { belongings, goTo } = useRouteNavigate();
-  const { album } = belongings;
+  const { album, permissions } = belongings;
   const observer = useBeanObserver(album as AlbumForm);
 
   const { userInfo, serverBaseUrl } = useAppContext();
@@ -152,7 +152,7 @@ export function UIAlbum() {
           {renderAlbum()}
           <UIAlbumPhotos albumId={observer.getBean().id}/>
           <MarginToolbar/>
-          <Toolbar justify="start">
+          <Toolbar justify="start" hide={!permissions.canModerate}>
             <Button size="small" prefixIcon={<CommonIcon.Save/>} onClick={onSave} style={{ minWidth: 100 }}>
               {t("save")}
             </Button>

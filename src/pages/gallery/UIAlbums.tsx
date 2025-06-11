@@ -4,12 +4,11 @@ import { Button, Grid, Sheet, Text } from "zmp-ui";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 
 import { GalleryApi } from "api";
-import { ServerResponse } from "types/server";
-import { useAppContext, useRouteNavigate } from "hooks";
+import { ServerResponse, PageContextProps } from "types";
+import { useAppContext, usePageContext, useRouteNavigate } from "hooks";
 import { CommonIcon, Header, Loading, MarginToolbar, Retry, Toolbar } from "components";
 
 import { AlbumForm, UICreateAlbum } from "./UICreateAlbum";
-import { PageContextProps } from "types";
 
 const albums = [
   {
@@ -31,7 +30,7 @@ const albums = [
     "eventId": 1,
     "description": "giỗ tổ 2023",
     "totalImages": 11
-  }
+  },
 ]
 
 function useSearchAlbums() {
@@ -88,7 +87,7 @@ function useSearchAlbums() {
 interface UIAlbumsProps extends PageContextProps {}
 export function UIAlbums(props: UIAlbumsProps) {
   const { permissions } = props;
-  const { albums, loading, error, refresh } = useSearchAlbums();
+  const { loading, error, refresh } = useSearchAlbums();
   const { goTo, goHome } = useRouteNavigate();
 
   const [ create, setCreate ] = React.useState<boolean>(false);
@@ -148,6 +147,7 @@ interface UIAlbumsGridProps {
 function UIAlbumsGrid(props: UIAlbumsGridProps) {
   const { albums, refresh } = props;
   const { serverBaseUrl } = useAppContext();
+  const { permissions } = usePageContext();
   const { goTo } = useRouteNavigate();
 
   const albumCards = () => {
@@ -155,12 +155,15 @@ function UIAlbumsGrid(props: UIAlbumsGridProps) {
       <div key={`album-${index}`} className="flex-v box-shadow rounded p-3 button">
         <PhotoProvider maskOpacity={0.5} maskClosable pullClosable bannerVisible={false}>
           <PhotoView src={`${serverBaseUrl}/${album.thumbnailPath}`}>
-            <img src={`${serverBaseUrl}/${album.thumbnailPath}`} alt={album.description} className="rounded object-cover w-full h-80"/>
+            <img src={`${serverBaseUrl}/${album.thumbnailPath}`} alt={album.description} className="rounded object-cover w-full h-40"/>
           </PhotoView>
           <div 
             onClick={() => goTo({
               path: "gallery/album",
-              belongings: { album: album }
+              belongings: {
+                album: album,
+                permissions: permissions
+              }
             })}
             className="center flex-v"
           >

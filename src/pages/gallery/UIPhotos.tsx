@@ -36,11 +36,9 @@ export function UIPhotos(props: UIPhotosProps) {
       <Header title={`${t("ảnh")} (${size})`}/>
 
       <div className="container bg-white text-base">
-        <br/>
-        <ScrollableDiv className="flex-v" direction="vertical" height={DivUtils.calculateHeight(10)}>
+        <ScrollableDiv className="flex-v py-2" direction="vertical" height={DivUtils.calculateHeight(10)}>
           {renderContainer()}
         </ScrollableDiv>
-        <br/>
       </div>
     </>
   )
@@ -50,7 +48,7 @@ function UIPhotosContainer({ photos }: { photos: Photo[] }) {
   const { serverBaseUrl } = useAppContext();
 
   const renderPhotos = (): React.ReactNode[] => {
-    if (!photos.length) return [];
+    if (!photos.length) return [null];
 
     const { width, height } = { width: 200, height: 150 }
     const fallbackImage = `https://placehold.jp/30/ededed/000000/${width}${height}.png?text=%3A(`;
@@ -74,7 +72,6 @@ function UIPhotosContainer({ photos }: { photos: Photo[] }) {
       <Grid columnCount={3} rowSpace="1rem" columnSpace="1rem">
         {renderPhotos()}
       </Grid>
-      <br/>
     </PhotoProvider>
   )
 }
