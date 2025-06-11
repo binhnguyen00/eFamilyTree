@@ -87,7 +87,7 @@ function useSearchAlbums() {
 interface UIAlbumsProps extends PageContextProps {}
 export function UIAlbums(props: UIAlbumsProps) {
   const { permissions } = props;
-  const { loading, error, refresh } = useSearchAlbums();
+  const { albums, loading, error, refresh } = useSearchAlbums();
   const { goTo, goHome } = useRouteNavigate();
 
   const [ create, setCreate ] = React.useState<boolean>(false);

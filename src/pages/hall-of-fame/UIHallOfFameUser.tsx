@@ -99,9 +99,9 @@ export function UIHallOfFameUserDetails(props: UIHallOfFameUserProps) {
     if (loading) {
       return <Loading/>
     } else if (error) {
-      return <Info title={t("chưa có dữ liệu")} message={t("hãy thử lại")}/>
+      return <Info title={t("Chưa có dữ liệu")} message={t("hãy thử lại")}/>
     } else if (data === null) {
-      return <Info title={t("chưa có dữ liệu")} message={t("hãy thử lại")}/>
+      return <Info title={t("Chưa có dữ liệu")} message={t("hãy thử lại")}/>
     } else {
 
       return (
@@ -151,7 +151,7 @@ export function UIHallOfFameUserDetails(props: UIHallOfFameUserProps) {
     } else if (error) {
       return t("error")
     } else if (data === null) {
-      return t("chưa có dữ liệu")
+      return t("Chưa có dữ liệu")
     } else {
       return data.typeName;
     }

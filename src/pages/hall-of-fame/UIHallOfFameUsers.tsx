@@ -87,11 +87,11 @@ export function UIHallOfFameUsers() {
         </>
       )
     } else if (error) {
-      return <Retry title={t("chưa có dữ liệu")} onClick={() => refresh()} extra={renderToolbar()}/>
+      return <Retry title={t("Chưa có dữ liệu")} onClick={() => refresh()} extra={renderToolbar()}/>
     } else if (!users.length) {
       return (
         <>
-          <Info title={t("chưa có dữ liệu")}/>
+          <Info title={t("Chưa có dữ liệu")}/>
           {renderToolbar()}
         </>
       )
