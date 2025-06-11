@@ -2,9 +2,7 @@ import React from "react";
 
 import { BaseApi } from "api";
 import { CommonUtils } from "utils";
-
-import { ServerResponse } from "types/server";
-import { UserInfo } from "types/app-context";
+import { ServerResponse, UserInfo } from "types";
 
 export function useClanMemberInfo(phoneNumber: string) {
   const [ modules, setModules ] = React.useState<Record<string, string>[]>([]);

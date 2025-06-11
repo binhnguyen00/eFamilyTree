@@ -1,6 +1,7 @@
-import { useNavigate, NavigateOptions, useLocation } from 'react-router-dom';
-import { useAppContext } from './context/useAppContext';
 import React from 'react';
+import { useNavigate, NavigateOptions, useLocation } from 'react-router-dom';
+
+import { useAppContext } from 'hooks';
 
 export function useRouteNavigate() {
   const { appId } = useAppContext();

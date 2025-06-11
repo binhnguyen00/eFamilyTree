@@ -2,9 +2,7 @@ import React from "react";
 
 import { ZmpSDK } from "utils";
 import { useZaloSettings } from "hooks";
-
-import { ZaloUserInfo } from "types/app-context";
-import { AutoLoginContext } from "types/auto-login";
+import { ZaloUserInfo, AutoLoginContext } from "types";
 
 export function useAutoLogin(): AutoLoginContext {
   const [ reload, setReload ]     = React.useState<boolean>(false);

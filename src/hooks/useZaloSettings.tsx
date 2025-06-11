@@ -1,9 +1,8 @@
 import React from "react";
-import { t } from "i18next";
 
 import { ZmpSDK } from "utils";
-import { ZaloSettings } from "types/app-context";
-import { useOverlayContext } from "components/provider/OverlayProvider";
+import { ZaloSettings } from "types";
+import { useOverlayContext } from "hooks";
 
 export function useZaloSettings() {
   const { greetings } = useOverlayContext();

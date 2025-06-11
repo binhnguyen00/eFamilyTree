@@ -3,9 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { UserSettingApi } from "api";
 import { useTheme, useOverlayContext } from "hooks";
-
-import { FailResponse, ServerResponse } from "types/server";
-import { UserSettings, UserSettingsContext, Language, Theme } from "types/user-settings";
+import { FailResponse, ServerResponse, UserSettings, UserSettingsContext, Language, Theme } from "types";
 
 export function useSettings(userId: number | any, clanId: number | any): UserSettingsContext {
   const { i18n } = useTranslation();

@@ -3,7 +3,7 @@ import React from "react";
 import { FamilyTreeApi } from "api";
 import { useAppContext } from "hooks";
 import { SelectionOption } from "components";
-import { ServerResponse } from "types/server";
+import { ServerResponse } from "types";
 import { TreeDataProcessor } from "utils";
 import { OdooTreeMember } from "utils/TreeDataProcessor";
 
