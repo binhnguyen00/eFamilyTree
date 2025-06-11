@@ -17,10 +17,32 @@ export default () => {
       emptyOutDir: true,
       rollupOptions: {
         output: {
-          manualChunks(id) {
-            // Split vendor code into a separate chunk
+          manualChunks(id) { // split into chunks
             if (id.includes('www')) {
               return 'vendor';
+            }
+            if (id.includes('node_modules')) {
+              if (id.includes('react-dom')) {
+                return 'react-dom';
+              }
+              if (id.includes('react-router-dom')) {
+                return 'react-router-dom';
+              }
+              if (id.includes('react')) {
+                return 'react';
+              }
+              if (id.includes('zmp')) {
+                return 'zmp';
+              }
+              if (id.includes('components')) {
+                return 'components';
+              }
+              if (id.includes('hooks')) {
+                return 'hooks';
+              }
+              if (id.includes('pages')) {
+                return 'pages';
+              }
             }
           },
         }
