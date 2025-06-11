@@ -111,78 +111,19 @@ body {
 
 // header
 .zaui-header {
+  background        : url("../assets/img/background/pattern-cloud-02.png") no-repeat 105% -20% !important;
+  background-size   : 160px !important;
   height            : calc(var(--zaui-safe-area-inset-top, 0px) + var(--header-height)) !important;
   background-color  : var(--header-color) !important;
-  color             : var(--primary-color) !important;
-  border-bottom     : var(--primary-color) solid 1.5px;
-
-  /* AI Generated */
-  // Glassmorphism base
-  background-color: rgba(255, 255, 255, 0.1) !important;
-  backdrop-filter: blur(10px) saturate(180%);
-  -webkit-backdrop-filter: blur(10px) saturate(180%);
-  
-  // Enhanced glass effect with multiple layers
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.25) 0%,
-      rgba(255, 255, 255, 0.1) 25%,
-      rgba(255, 255, 255, 0.05) 50%,
-      rgba(255, 255, 255, 0.15) 75%,
-      rgba(255, 255, 255, 0.08) 100%
-    );
-    pointer-events: none;
-    z-index: 1;
-  }
-  
-  // Subtle inner highlight
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.6) 50%,
-      transparent 100%
-    );
-    pointer-events: none;
-    z-index: 2;
-    height: 0 !important;
-    box-shadow: 10px 10px 40px 15px var(--secondary-color) !important;
-  }
-  
-  // Modern iOS border
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 
-    0 1px 3px rgba(0, 0, 0, 0.1),
-    0 1px 20px rgba(0, 0, 0, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  
-  // Ensure content stays above pseudo-elements
-  > * {
-    position: relative;
-    z-index: 3;
-  }
-  
-  // Optional: Enhanced effect on hover/active states
-  &:hover {
-    backdrop-filter: blur(25px) saturate(200%);
-    -webkit-backdrop-filter: blur(25px) saturate(200%);
-    background-color: rgba(255, 255, 255, 0.15) !important;
-  }
+  color             : var(--secondary-color) !important;
+  border-bottom     : var(--secondary-color) solid 1.5px;
 
   @extend .rounded-bottom;
+}
+
+.zaui-header::after {
+  height: 0 !important;
+  box-shadow: 10px 10px 40px 15px var(--secondary-color) !important;
 }
 
 // button

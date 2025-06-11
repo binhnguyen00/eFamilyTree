@@ -5,10 +5,9 @@ import { Button, DatePicker, Input, Sheet, Text } from "zmp-ui";
 
 import { HallOfFameApi } from "api";
 import { DateTimeUtils, DivUtils } from "utils";
+import { FailResponse, ServerResponse } from "types";
 import { CommonIcon, Info, Loading, TailSpin } from "components";
 import { useAppContext, useBeanObserver, useNotification } from "hooks";
-
-import { FailResponse, ServerResponse } from "types/server";
 
 export interface HallOfFameUser {
   id: number;
