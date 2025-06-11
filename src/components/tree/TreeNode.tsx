@@ -16,7 +16,7 @@ interface TreeNodeProps {
   onSelectSubNode?: (node: ExtNode) => void;
 }
 
-export default React.memo<TreeNodeProps>(function TreeNode(props: TreeNodeProps) {
+export default function TreeNode(props: TreeNodeProps) {
   let { onSelectNode, onSelectSubNode } = props;
   const { node, displayField, isRoot } = props;
   const isMale = node.gender === "male";
@@ -106,11 +106,11 @@ export default React.memo<TreeNodeProps>(function TreeNode(props: TreeNodeProps)
           <CommonIcon.Family size={24}/> 
         </div>
       )}
-      {!node.isAlive && (
+      {isDead && (
         <div style={nodeDeadCss}>
           <CommonIcon.Grave size={20}/>
         </div>
       )}
     </div>
   )
-})
+}
