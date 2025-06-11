@@ -1,3 +1,7 @@
-import { useRequestLocationContext } from "components/provider/RequestLocationProvider";
+import React from "react";
 
-export { useRequestLocationContext };
+import { RequestLocationContext } from "components";
+
+export function useRequestLocationContext() {
+  return React.useContext(RequestLocationContext);
+}

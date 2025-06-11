@@ -1,3 +1,7 @@
-import { useOverlayContext } from "components/provider/OverlayProvider";
+import React from "react";
 
-export { useOverlayContext };
+import { OverlayContext } from "components";
+
+export function useOverlayContext() {
+  return React.useContext(OverlayContext);
+}

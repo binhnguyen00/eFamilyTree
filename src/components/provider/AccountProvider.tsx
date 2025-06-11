@@ -8,7 +8,6 @@ import { useAppContext, useRouteNavigate } from "hooks";
 import { AccountCtx } from "types/account-context";
 
 export const AccountContext = React.createContext({} as AccountCtx);
-export function useAccountContext() { return React.useContext(AccountContext) }
 
 /**
  * @description Check if Zalo user exists in database and Request for register clan and account if not.

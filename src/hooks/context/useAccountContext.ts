@@ -1,3 +1,7 @@
-import { useAccountContext } from "components/provider/AccountProvider";
+import React from "react";
 
-export { useAccountContext }
+import { AccountContext } from "components";
+
+export function useAccountContext() {
+  return React.useContext(AccountContext);
+}

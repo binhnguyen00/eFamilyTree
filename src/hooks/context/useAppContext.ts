@@ -1,3 +1,7 @@
-import { useAppContext } from "components/provider/ApplicationProvider";
+import React from "react";
 
-export { useAppContext };
+import { AppContext } from "components";
+
+export function useAppContext() {
+  return React.useContext(AppContext);
+}

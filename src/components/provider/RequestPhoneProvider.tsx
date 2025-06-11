@@ -10,10 +10,6 @@ export type RequestPhoneCtx = {
 
 export const RequestPhoneContext = React.createContext({} as RequestPhoneCtx);
 
-export function useRequestPhoneContext() {
-  return React.useContext(RequestPhoneContext);
-}
-
 export function RequestPhoneProvider({ children }: { children: React.ReactNode }) {
   const { logedIn, doLogin } = useAppContext();
   const [ requestPhone, setRequestPhone ] = React.useState<boolean>(false);

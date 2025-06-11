@@ -10,10 +10,6 @@ export type RequestLocationCtx = {
 
 export const RequestLocationContext = React.createContext({} as RequestLocationCtx);
 
-export function useRequestLocationContext() {
-  return React.useContext(RequestLocationContext);
-}
-
 export function RequestLocationProvider({ children }: { children: React.ReactNode }) {
   const { logedIn, zaloUserInfo } = useAppContext();
   const { "scope.userLocation": locationPermission } = zaloUserInfo.authSettings;

@@ -1,3 +1,7 @@
-import { useRequestPhoneContext } from "components/provider/RequestPhoneProvider";
+import React from "react";
 
-export { useRequestPhoneContext };
+import { RequestPhoneContext } from "components";
+
+export function useRequestPhoneContext() {
+  return React.useContext(RequestPhoneContext);
+}

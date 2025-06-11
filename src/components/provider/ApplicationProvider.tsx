@@ -10,10 +10,6 @@ import { FailResponse, ServerResponse } from "types/server";
 
 export const AppContext = React.createContext({} as AppCtx);
 
-export function useAppContext() {
-  return React.useContext(AppContext);
-}
-
 export function ApplicationProvider({ children }: { children: React.ReactNode }) {
   const ZALO_APP_ID = getAppConfig((config) => config.app.id);
 
