@@ -34,32 +34,17 @@ export function Tree(props: TreeProps) {
     renderNode, onReset, zoomElement, searchDisplayField
   } = props;
 
-  const [ calcTree, setCalcTree ] = React.useState<RelData>({
-    families: [],
-    canvas: {
-      width: 0,
-      height: 0,
-    },
-    nodes: [],
-    connectors: [],
-  });
-
-  React.useEffect(() => {
+  const calcTree: RelData = React.useMemo(() => {
     if (nodes.length === 0) {
-      setCalcTree({
+      return {
         families: [],
-        canvas: {
-          width: 0,
-          height: 0,
-        },
+        canvas: [],
         nodes: [],
         connectors: [],
-      });
-    } else {
-      const tree = calculateTree(nodes, { rootId: rootId });
-      setCalcTree(tree);
+      }
     }
-  }, [nodes, rootId]);
+    return calculateTree(nodes, { rootId: rootId });
+  }, [ nodes, rootId ]);
 
   const treeWidth   = calcTree.canvas.width * (nodeWidth / 2);
   const treeHeight  = calcTree.canvas.height * (nodeHeight / 2);

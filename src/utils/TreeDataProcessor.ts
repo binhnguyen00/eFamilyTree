@@ -40,7 +40,9 @@ export class TreeDataProcessor {
 
   public setNodes(nodes: any[]) {
     this.nodes = nodes;
-    if (this.nodes.length) this.rootId = this.getAncestor().id;
+    if (this.nodes.length) {
+      this.rootId = this.getAncestor().id
+    }
   }
 
   public peopleToNodes(): Node[] {
@@ -54,7 +56,7 @@ export class TreeDataProcessor {
   public getAncestor(): Node {
     const target = this.nodes.find((node: Node) => {
       return (
-        node.parents.length === 0 
+        node.parents.length === 0
           && node.gender === Gender.male 
           && node.generation === 1
       )

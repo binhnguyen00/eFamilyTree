@@ -1,25 +1,25 @@
 import React from "react";
 import { t } from "i18next";
 
-import average from "./sample/average.json";
-
 import { TreeUtils } from "utils";
 import { Header, FamilyTree, TreeNode, TreeConfig } from "components";
+
+import odoo from "./sample/odoo-sample.json";
 
 export default function UIDummyTree() {
   const [ reload, setReload ] = React.useState(false);
   const [ resetBtn, setResetBtn ] = React.useState<boolean>(false);
 
   const [ node, setNode ] = React.useState<any>({});
-  const [ nodes, setNodes ] = React.useState<any[]>(average);
+  const [ nodes, setNodes ] = React.useState<any[]>(odoo);
   const firstNodeId = React.useMemo(() => nodes[0].id, [nodes]);
   const [ rootId, setRootId ] = React.useState(firstNodeId);
 
   const [ zoomElement, setZoomElement ] = React.useState<HTMLElement>();
 
   React.useEffect(() => {
-    setNodes(average);
-    setRootId(average[0].id);
+    setNodes(odoo);
+    setRootId(odoo[0].id);
   }, [ reload ])
 
   const zoomToNode = (nodeId: string) => {
@@ -60,11 +60,12 @@ export default function UIDummyTree() {
           nodeWidth={TreeConfig.nodeWidth}
           nodeHeight={TreeConfig.nodeHeight}
           onReset={onReset}
+          searchDisplayField="name"
           renderNode={(node) => (
             <TreeNode
               key={node.id}
               node={node}
-              displayField={"id"}
+              displayField={"name"}
               isRoot={node.id === rootId}
               onSelectNode={(node) => setNode(node)}
               onSelectSubNode={(node) => toSubNodes(node.id)}

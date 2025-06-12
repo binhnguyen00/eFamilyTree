@@ -2,24 +2,24 @@ import React from "react";
 import { t } from "i18next";
 import { Button, Text, Avatar as ZaloAvatar } from "zmp-ui";
 
+import { Node } from 'types';
 import { useAppContext } from "hooks";
 import { TreeDataProcessor } from "utils";
 import { CommonIcon, Popover, ScrollableDiv, Selection, SelectionOption } from "components";
 
-import { Node } from 'components/tree-relatives/types';
-
 interface TreeSearchBarProps {
   nodes: Node[];
   displayField?: string;
-  onSelect: (node: HTMLElement, scale?: number) => void;
   style?: React.CSSProperties; 
+  onSelect: (node: HTMLElement, scale?: number) => void;
 }
 
 export function TreeSearchBar(props: TreeSearchBarProps) {
   const { nodes, onSelect, style, displayField = "id" } = props;
 
   const processor = React.useMemo(() => {
-    const holder = new TreeDataProcessor([]); holder.setNodes(nodes);
+    const holder = new TreeDataProcessor([]);
+    holder.setNodes(nodes);
     return holder;
   }, [ nodes ]);
   

@@ -71,11 +71,6 @@ export function useRouteNavigate() {
 
   const belongings = location.state;
 
-  React.useEffect(() => {
-    console.log("location", history.length);
-    console.log("currentPath", currentPath);
-  }, [location]);
-
   return { 
     goTo, jumpTo, goHome, goBack, createPath, 
     rootPath, currentPath, belongings
