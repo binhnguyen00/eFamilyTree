@@ -1,3 +1,8 @@
+# Version 1.6.7 (Thứ 5, 12/06/2025)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=81)
+### Thay đổi
+#### 1. Sửa lỗi và tối ưu hiệu năng.
+
 # Version 1.6.6 (Thứ 3, 10/06/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=80)
 ### Thay đổi
