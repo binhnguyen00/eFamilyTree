@@ -3,7 +3,6 @@ export * from "./icon";
 export * from "./header";
 export * from "./tree";
 export * from "./provider";
-export * from "./skeleton-loading";
 export * from "./bean-observer";
 export * from "./map";
 export * from "./input";
