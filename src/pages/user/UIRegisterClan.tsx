@@ -3,10 +3,9 @@ import { t } from "i18next";
 import { Button, Input, Text } from "zmp-ui";
 
 import { AccountApi } from "api";
-import { useBeanObserver, useNotification, useRequestPhoneContext } from "hooks";
+import { ServerResponse } from "types";
 import { BeanObserver, CommonIcon, Header, Label } from "components";
-
-import { ServerResponse } from "types/server";
+import { useBeanObserver, useNotification, useRequestPhoneContext, useRouteNavigate } from "hooks";
 
 export type RegisterClanForm = {
   clanName: string;
@@ -25,11 +24,12 @@ export function UIRegisterClan() {
   const observer = useBeanObserver({} as RegisterClanForm);
   const { loadingToast } = useNotification();
   const { needPhone, requestPhone } = useRequestPhoneContext();
+  const { goHome } = useRouteNavigate();
 
   const submit = () => {
     if (needPhone) { requestPhone(); return; }
     else loadingToast({
-      content: <p> {t("đang gửi yêu cầu...")} </p>,
+      content: <p> {t("Đang gửi yêu cầu...")} </p>,
       operation: (successToastCB, dangerToastCB) => {
         AccountApi.registerClan({
           registerForm: observer.getBean(),
@@ -40,6 +40,7 @@ export function UIRegisterClan() {
                 <p> {t("register_pending")} </p>
               </div>
             );
+            goHome();
           }, 
           fail: () => {
             dangerToastCB(`${t("register")} ${t("fail")}`);

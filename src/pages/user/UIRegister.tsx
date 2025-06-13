@@ -3,10 +3,10 @@ import { t } from "i18next";
 import { Button, Input, Text } from "zmp-ui";
 
 import { AccountApi } from "api";
-import { useBeanObserver, useNotification, useRequestPhoneContext } from "hooks";
+import { ServerResponse } from "types";
 import { BeanObserver, CommonIcon, Header, Label, Selection } from "components";
+import { useBeanObserver, useNotification, useRequestPhoneContext, useRouteNavigate } from "hooks";
 
-import { ServerResponse } from "types/server";
 
 export type RegisterForm = {
   mobile: string;
@@ -21,11 +21,12 @@ export function UIRegister() {
   const observer = useBeanObserver({} as RegisterForm);
   const { loadingToast } = useNotification();
   const { needPhone, requestPhone } = useRequestPhoneContext();
+  const { goHome } = useRouteNavigate();
 
   const submit = () => {
     if (needPhone) { requestPhone(); return; }
     else loadingToast({
-      content: <p> {t("đang gửi yêu cầu...")} </p>,
+      content: <p> {t("Đang gửi yêu cầu...")} </p>,
       operation: (successToastCB, dangerToastCB) => {
         AccountApi.register({
           registerForm: observer.getBean(),
@@ -36,6 +37,7 @@ export function UIRegister() {
                 <p> {t("register_pending")} </p>
               </>
             );
+            goHome();
           },
           fail: () => {
             dangerToastCB(`${t("register")} ${t("fail")}`);

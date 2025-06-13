@@ -2,13 +2,13 @@ import React from "react";
 import { t } from "i18next";
 import { Avatar, Button, Grid, Text } from "zmp-ui";
 
-import { CommonIcon, Header, ScrollableDiv } from "components";
 import { UserSettingApi } from "api";
+import { ServerResponse } from "types";
 import { CommonUtils, DivUtils } from "utils";
+import { CommonIcon, Header, ScrollableDiv } from "components";
 import { useAccountContext, useAppContext, useNotification, useRequestPhoneContext, useRouteNavigate } from "hooks";
 
-import { ServerResponse } from "types/server";
-import { UIThemeList } from "pages/theme/UITheme";
+import { UIThemeList } from "../theme/UITheme";
 
 export function UIAccount() { 
   return (
