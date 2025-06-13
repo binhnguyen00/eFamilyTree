@@ -5,7 +5,7 @@
   "description": "A Zalo Mini App",
   "repository": "",
   "license": "MIT",
-  "type": "commonjs",
+  "type": "module",
   "browserslist": [
     "Android >= 5",
     "IOS >= 9.3",

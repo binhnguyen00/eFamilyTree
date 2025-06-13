@@ -80,9 +80,11 @@ function typescript_check() {
   
   if [ $? -eq 0 ]; then
     echo -e "${GREEN}TypeScript check passed.${NO_COLOR}"
+    echo ""
     return 0
   else
     echo -e "${RED}TypeScript check failed.${NO_COLOR}"
+    echo ""
     return 1
   fi
 }
