@@ -1,7 +1,7 @@
 import React from "react";
 import { t } from "i18next";
 
-import { TreeUtils } from "utils";
+import { TreeUtils } from "utils/TreeUtils";
 import { Header, FamilyTree, TreeNode, TreeConfig } from "components";
 
 import odoo from "./sample/odoo-sample.json";

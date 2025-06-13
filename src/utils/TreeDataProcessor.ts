@@ -1,4 +1,4 @@
-import { Node, Gender, RelType, Relation } from "components/tree-relatives/types";
+import { Node, Gender, RelType, Relation } from "types";
 
 export interface OdooTreeMember {
   id          : number;

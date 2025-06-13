@@ -10,7 +10,7 @@ import {
   chooseImage,
 } from 'zmp-sdk/apis';
 import { ExternalRESTful } from "server";
-import { CallBack } from "types/server";
+import { CallBack } from "types";
 
 export class ZmpSDK {
   

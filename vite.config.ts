@@ -13,6 +13,7 @@ export default () => {
       tsconfigPaths()
     ],
     build: {
+      chunkSizeWarningLimit: 1000,
       outDir: path.resolve(__dirname, './www'),
       emptyOutDir: true,
       rollupOptions: {

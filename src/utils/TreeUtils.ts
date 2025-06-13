@@ -1,5 +1,5 @@
 import { TreeConfig } from "components";
-import { RelType, Node, ExtNode } from "components/tree-relatives/types";
+import { RelType, Node, ExtNode } from "types";
 
 export class TreeUtils {
 
