@@ -39,3 +39,8 @@
   Deploy application (Develop/Test):
     ./mini-app.sh deploy
   ```
+
+# Author - Bình Nguyễn
+- **[Github](https://github.com/binhnguyen00)**
+- **[Outlook](mailto:binh.nguyennang@mobifone.vn)**
+- **[Gmail](mailto:jackjack2000.kahp@gmail.com)**
