@@ -19,8 +19,7 @@
     "deploy": "zmp deploy",
     "build": "tsc -b && vite build",
     "server": "vite",
-    "login": "zmp login",
-    "build:css": "postcss src/css/tailwind.css -o src/css/app.css"
+    "login": "zmp login"
   },
   "dependencies": {
     "@nghiavuive/lunar_date_vi": "^2.0.1",
