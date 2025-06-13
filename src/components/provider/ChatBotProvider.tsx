@@ -10,9 +10,8 @@ import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 
 import { DateTimeUtils } from "utils";
 import { ChatBotCommunicationApi } from "api";
+import { FailResponse, ServerResponse } from "types";
 import { useAccountContext, useAppContext, useNotification, useRequestPhoneContext } from "hooks";
-
-import { FailResponse, ServerResponse } from "types/server";
 
 import AVATAR from "assets/img/chatbot/avatar.jpeg";
 

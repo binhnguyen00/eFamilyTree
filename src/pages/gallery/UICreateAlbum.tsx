@@ -3,11 +3,11 @@ import { t } from "i18next";
 import { Button, Input } from "zmp-ui";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 
-import { useAppContext, useBeanObserver, useNotification } from "hooks";
-import { CommonUtils, ZmpSDK } from "utils";
-import { CommonIcon } from "components";
 import { GalleryApi } from "api";
-import { ServerResponse } from "types/server";
+import { ServerResponse } from "types";
+import { CommonIcon } from "components";
+import { CommonUtils, ZmpSDK } from "utils";
+import { useAppContext, useBeanObserver, useNotification } from "hooks";
 
 export interface AlbumForm {
   id: number;

@@ -3,11 +3,11 @@ import { t } from "i18next";
 import { Button } from "zmp-ui";
 
 import { FundApi } from "api";
+import { ServerResponse } from "types";
 import { CommonUtils, DivUtils } from "utils";
 import { useAppContext, useNotification, usePageContext, useRouteNavigate } from "hooks";
-import { Header, Loading, ScrollableDiv, Info, CommonIcon, Retry, MarginToolbar, Toolbar } from "components";
+import { Header, Loading, ScrollableDiv, CommonIcon, Retry, MarginToolbar, Toolbar } from "components";
 
-import { ServerResponse } from "types/server";
 import { FundInfo } from "./UIFundInfo";
 import { UICreateFund } from "./UICreateFund";
 

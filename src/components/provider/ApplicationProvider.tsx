@@ -3,10 +3,7 @@ import React from "react";
 import { getAppConfig } from "utils";
 import { BaseApi, UserSettingApi } from "api";
 import { useAutoLogin, useClanMemberInfo, useSettings } from "hooks";
-
-import { UserSettings } from "types/user-settings";
-import { AppContext as AppCtx } from "types/app-context";
-import { FailResponse, ServerResponse } from "types/server";
+import { UserSettings, FailResponse, ServerResponse, AppContext as AppCtx } from "types";
 
 export const AppContext = React.createContext({} as AppCtx);
 

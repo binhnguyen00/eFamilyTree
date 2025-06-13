@@ -1,6 +1,7 @@
-import { BaseApi } from "./BaseApi";
 import { OdooRESTful } from "server";
-import { FailCB, SuccessCB } from "types/server";
+import { FailCB, SuccessCB } from "types";
+
+import { BaseApi } from "./BaseApi";
 
 export class TestApi extends BaseApi {
   public static server = new OdooRESTful("http://localhost:8069");

@@ -4,11 +4,11 @@ import { t } from "i18next";
 import { Box } from "zmp-ui";
 
 import { FamilyTreeApi } from "api";
+import { ServerResponse } from "types";
 import { CommonUtils, ZmpSDK } from "utils";
 import { SizedBox, CommonIcon } from "components";
 import { useAppContext, useNotification } from "hooks";
 
-import { ServerResponse } from "types/server";
 
 interface TreeControllerProps {
   rootId: string;

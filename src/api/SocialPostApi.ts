@@ -1,5 +1,6 @@
+import { SuccessCB, FailCB } from "types"
+
 import { BaseApi } from "./BaseApi";
-import { SuccessCB, FailCB } from "types/server"
 import { SocialPostType } from "pages/social-post/UISocialPosts";
 
 export class SocialPostApi extends BaseApi {

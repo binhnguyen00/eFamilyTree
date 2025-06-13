@@ -1,6 +1,7 @@
-import { AlbumForm } from "pages/gallery/UICreateAlbum";
+import { SuccessCB, FailCB } from "types"
+
 import { BaseApi } from "./BaseApi";
-import { SuccessCB, FailCB } from "types/server"
+import { AlbumForm } from "pages/gallery/UICreateAlbum";
 
 export class GalleryApi extends BaseApi {
 

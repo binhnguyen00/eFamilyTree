@@ -5,11 +5,9 @@ import { Grid, Text } from "zmp-ui";
 
 import { DivUtils } from "utils";
 import { UserSettingApi } from "api";
+import { Theme, ServerResponse } from "types";
 import { Header, ScrollableDiv, SizedBox } from "components";
 import { useAccountContext, useAppContext, useNotification, useRequestPhoneContext } from "hooks";
-
-import { Theme } from "types/user-settings";
-import { ServerResponse } from "types/server";
 
 import themeRed from "assets/img/theme/theme-red.jpeg";
 import themeGreen from "assets/img/theme/theme-green.jpeg";

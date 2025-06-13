@@ -1,6 +1,6 @@
 import { BaseApi } from "./BaseApi";
-import { TreeMember } from "types/common";
-import { SuccessCB, FailCB } from "types/server"
+
+import { TreeMember, SuccessCB, FailCB } from "types";
 
 export class FamilyTreeApi extends BaseApi {
 

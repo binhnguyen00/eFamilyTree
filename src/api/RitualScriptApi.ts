@@ -1,5 +1,5 @@
 import { BaseApi } from "./BaseApi";
-import { SuccessCB, FailCB } from "types/server"
+import { SuccessCB, FailCB } from "types"
 
 export class RitualScriptApi extends BaseApi {
 

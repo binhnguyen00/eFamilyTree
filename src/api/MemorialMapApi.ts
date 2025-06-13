@@ -1,4 +1,4 @@
-import { SuccessCB, FailCB } from "types/server"
+import { SuccessCB, FailCB } from "types"
 
 import { BaseApi } from "./BaseApi";
 import { MemorialLocation } from "pages/memorial-map/UIMap";

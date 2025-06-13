@@ -4,7 +4,7 @@ import { t } from "i18next";
 import { Modal, Text } from "zmp-ui";
 
 import { FundApi } from "api";
-import { ServerResponse } from "types/server";
+import { ServerResponse } from "types";
 import { CommonUtils, DivUtils } from "utils";
 import { useAppContext, useNotification } from "hooks";
 import { Divider, MarginToolbar, ScrollableDiv } from "components";

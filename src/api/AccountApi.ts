@@ -1,7 +1,7 @@
 import { RegisterForm } from 'pages/user/UIRegister';
 import { RegisterClanForm } from "pages/user/UIRegisterClan";
 
-import { SuccessCB, FailCB } from "types/server"
+import { SuccessCB, FailCB } from "types"
 
 import { BaseApi } from "./BaseApi";
 

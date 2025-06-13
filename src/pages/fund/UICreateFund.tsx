@@ -4,12 +4,12 @@ import { Button, Input, Sheet } from "zmp-ui";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 
 import { FundApi } from "api";
+import { ServerResponse } from "types";
 import { CommonUtils, ZmpSDK } from "utils";
-import { ServerResponse } from "types/server";
 import { useAppContext, useBeanObserver, useNotification, useFamilyTree } from "hooks";
 import { CommonIcon, ScrollableDiv, Selection, SelectionOption } from "components";
 
-import { FundQR } from "./UIFundQR";;
+import { FundQR } from "./UIFundQR";
 
 export interface CreateFundForm {
   name: string;

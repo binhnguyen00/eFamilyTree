@@ -4,7 +4,7 @@ import { Button, DatePicker, Input, Sheet } from "zmp-ui";
 
 import { FundApi } from "api";
 import { DateTimeUtils } from "utils";
-import { ServerResponse } from "types/server";
+import { ServerResponse } from "types";
 import { useAppContext, useBeanObserver, useNotification, useFamilyTree } from "hooks";
 import { CommonIcon, InputMonetary, ScrollableDiv, Selection, SelectionOption } from "components";
 

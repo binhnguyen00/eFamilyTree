@@ -4,7 +4,7 @@ import { Button, Input, Modal } from "zmp-ui";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 
 import { GalleryApi } from "api";
-import { ServerResponse } from "types/server";
+import { ServerResponse } from "types";
 import { CommonUtils, ZmpSDK, DivUtils } from "utils";
 import { Header, ScrollableDiv, CommonIcon, Toolbar, MarginToolbar } from "components";
 import { useAppContext, useBeanObserver, useNotification, useRouteNavigate } from "hooks";
