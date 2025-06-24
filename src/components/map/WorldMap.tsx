@@ -63,14 +63,16 @@ function useMap(props: UseMapProps) {
 
   const mapRef = React.useRef<Leaflet.Map | null>(null);
   const markersRef = React.useRef<Leaflet.Marker[]>([]);
-  const icon = Leaflet.icon({
-    iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+  const icon = Leaflet.divIcon({
+    className: "leaflet-custom-icon",
+    html: `<div style="font-size: 2.5rem;"> 📍 </div>`,
     iconSize: [25, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
   })
   const deadIcon = Leaflet.divIcon({
-    html: `<div style="font-size: 1.2rem;"> 🪦 </div>`,
+    className: "leaflet-custom-icon",
+    html: `<div style="font-size: 2rem;"> 🪦 </div>`,
     iconSize: [25, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
