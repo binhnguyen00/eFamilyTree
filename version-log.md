@@ -4,6 +4,7 @@
 #### 1. Sửa lỗi và tối ưu hiệu năng.
 
 #### 2. Thêm nút đi tới website [Giả phả Lạc Hồng](https://giapha.mobifone5.vn)
+
   <img src="./static/v1.6.8/1.png" width="200px"/>
   <img src="./static/v1.6.8/2.png" width="200px"/>
 
@@ -22,6 +23,7 @@
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=80)
 ### Thay đổi
 #### 1. Thay đổi thiết thanh điều khiển thành nền trong suốt. Mỗi module đều có một thanh điều hướng.
+
   <img src="./static/v1.6.6/1.png" width="200px"/>
   <img src="./static/v1.6.6/2.png" width="200px"/>
   <img src="./static/v1.6.6/3.png" width="200px"/>
