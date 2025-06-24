@@ -7,4 +7,5 @@ export * from "./server";
 export * from "./auto-login";
 export * from "./skeleton-loading";
 export * from "./user-settings";
+export * from "./map/map";
 export * from "components/tree-relatives/types";

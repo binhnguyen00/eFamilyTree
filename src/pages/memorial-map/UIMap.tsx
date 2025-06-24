@@ -4,7 +4,7 @@ import { Button, Sheet } from "zmp-ui";
 
 import { MemorialMapApi } from "api";
 import { DivUtils, ZmpSDK } from "utils";
-import { ServerResponse, Photo } from "types";
+import { ServerResponse, MemorialLocation } from "types";
 import { useAppContext, useNotification, usePageContext, useRequestLocationContext } from "hooks";
 import { Header, Loading, CommonIcon, WorldMap, MapCoordinate, MapMarker, WorldMapConfig, MapTile, Toolbar } from "components";
 
@@ -66,13 +66,6 @@ function useCurrentLocation() {
   }, [ needLocation, reload ])
 
   return { currentLocation, error, loading, refresh }
-}
-
-export interface MemorialLocation extends MapMarker {
-  clanId: number;
-  memberId?: number;
-  memberName?: string;
-  photos?: Photo[];
 }
 
 function useMap() {
@@ -195,14 +188,14 @@ export function UIMap() {
   }
 
   const onSelectOnMap = (coordinate: MapCoordinate) => {
-    if (needLocation) { 
-      requestLocation(); 
-      return; 
-    }
-    if (!permissions.canModerate) {
-      warningToast(t("Bạn không có quyền tạo Di tích"));
+    if (needLocation) {
+      requestLocation();
       return;
     }
+    // if (!permissions.canModerate) {
+    //   warningToast(t("Bạn không có quyền tạo Di tích"));
+    //   return;
+    // }
     setCoordinate(coordinate)
     setRequestCreate(true);
   }

@@ -5,26 +5,10 @@ import "./css/leaflet.scss"
 
 import config from "./config";
 
-export type MapTile = {
-  url: string;
-  maxZoom: number;
-}
-
-export type MapMarker = {
-  id: number;
-  name: string;
-  description?: string;
-  coordinate: MapCoordinate;
-  photoUrl?: string[]; // TODO: use photos in MemorialLocation
-}
-
-export type MapCoordinate = {
-  lat: number;
-  lng: number;
-}
+import { MapCoordinate, MapMarker, MemorialLocation } from "types";
 
 interface WorldMapProps {
-  markers: MapMarker[];
+  markers: MemorialLocation[];
   height?: string | number;
   tileLayer: {
     url: string;
@@ -63,7 +47,7 @@ export function WorldMap(props: WorldMapProps) {
 }
 
 interface UseMapProps {
-  markers: MapMarker[];
+  markers: MemorialLocation[];
   currentMarker: MapCoordinate | null;
   tileLayer: {
     url: string;
@@ -80,12 +64,16 @@ function useMap(props: UseMapProps) {
   const mapRef = React.useRef<Leaflet.Map | null>(null);
   const markersRef = React.useRef<Leaflet.Marker[]>([]);
   const icon = Leaflet.icon({
-    iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
-    shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+    iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
     iconSize: [25, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
-    shadowSize: [41, 41]
+  })
+  const deadIcon = Leaflet.divIcon({
+    html: `<div style="font-size: 1.2rem;"> 🪦 </div>`,
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
   })
 
   const removeLeafletLogo = () => {
@@ -121,9 +109,11 @@ function useMap(props: UseMapProps) {
     // render markers
     markers.map((record, index) => {
       const marker = Leaflet.marker([record.coordinate.lat, record.coordinate.lng])
-      marker
-        .addTo(mapRef.current!)
-        .setIcon(icon)
+      marker.addTo(mapRef.current!)
+      if (record.memberId) {
+        marker.setIcon(deadIcon)
+      } else marker.setIcon(icon)
+
       markersRef.current.push(marker);
       if (onSelectMarker) {
         marker.on('click', () => {

@@ -5,12 +5,10 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 import { Button, Grid, Input, Text } from "zmp-ui";
 
 import { MemorialMapApi } from "api";
-import { ServerResponse } from "types";
 import { CommonUtils, ZmpSDK } from "utils";
+import { MemorialLocation, ServerResponse } from "types";
 import { useAppContext, useBeanObserver, useNotification, useFamilyTree } from "hooks";
 import { MapCoordinate, CommonIcon, Label, Selection, SelectionOption, BeanObserver, SizedBox, ScrollableDiv } from "components";
-
-import { MemorialLocation } from "./UIMap";
 
 interface UICreateLocationFormProps {
   coordinate: MapCoordinate;

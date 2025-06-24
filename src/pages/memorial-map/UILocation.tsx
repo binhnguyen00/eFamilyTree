@@ -7,11 +7,9 @@ import { Button, Grid, Input, Modal, Sheet, Text } from "zmp-ui";
 
 import { MemorialMapApi } from "api";
 import { CommonUtils, DivUtils, ZmpSDK } from "utils";
-import { ServerResponse, Photo, PageContextProps } from "types";
+import { ServerResponse, Photo, PageContextProps, MemorialLocation } from "types";
 import { useNotification, useAppContext, useBeanObserver, useFamilyTree } from "hooks";
 import { BeanObserver, CommonIcon, Label, Selection, SelectionOption, SizedBox } from "components";
-
-import { MemorialLocation } from "./UIMap";
 
 interface UILocationProps extends PageContextProps {
   data: MemorialLocation | null;

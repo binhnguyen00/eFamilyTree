@@ -1,7 +1,6 @@
-import { SuccessCB, FailCB } from "types"
+import { SuccessCB, FailCB, MemorialLocation } from "types"
 
 import { BaseApi } from "./BaseApi";
-import { MemorialLocation } from "pages/memorial-map/UIMap";
 
 export class MemorialMapApi extends BaseApi {
 
