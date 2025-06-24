@@ -1,11 +1,17 @@
 # Version 1.6.8 (Thứ 3, 24/06/2025)
-### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=81)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=82)
 ### Thay đổi
 #### 1. Sửa lỗi và tối ưu hiệu năng.
+
 #### 2. Thêm nút đi tới website [Giả phả Lạc Hồng](https://giapha.mobifone5.vn)
   <img src="./static/v1.6.8/1.png" width="200px"/>
   <img src="./static/v1.6.8/2.png" width="200px"/>
 
+#### 3. Di tích
+  <img src="./static/v1.6.8/3.png" width="200px"/>
+  
+  - Người dùng có thể tìm kiếm di tích.
+  - Thay đổi icon trên bản đồ, phân biệt di tích và mộ người đã khuất trong dòng họ
 
 # Version 1.6.7 (Thứ 5, 12/06/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=81)
