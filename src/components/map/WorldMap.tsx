@@ -14,15 +14,16 @@ interface WorldMapProps {
     url: string;
     maxZoom: number;
   };
-  currentMarker: MapCoordinate | null  
+  currentMarker: MapCoordinate | null;
   markerContent?: string | React.ReactNode;
+  zoomToMarker?: MemorialLocation | null;
   onSelectOnMap?: (coordinate: MapCoordinate) => void;
   onSelectMarker?: (marker: MapMarker) => void;
 }
 
 export function WorldMap(props: WorldMapProps) {
   const {  
-    tileLayer, height, markers, currentMarker, markerContent,
+    tileLayer, height, markers, currentMarker, markerContent, zoomToMarker,
     onSelectMarker, onSelectOnMap 
   } = props;
 
@@ -31,6 +32,7 @@ export function WorldMap(props: WorldMapProps) {
     markers, 
     currentMarker, 
     markerContent,
+    zoomToMarker,
     onSelectMarker, 
     onSelectOnMap,
   });
@@ -54,12 +56,13 @@ interface UseMapProps {
     maxZoom: number;
   };
   markerContent?: string | React.ReactNode;
+  zoomToMarker?: MemorialLocation | null;
   onCurrentLocation?: () => void;
   onSelectMarker?: (marker: MapMarker) => void;
   onSelectOnMap?: (coordinate: MapCoordinate) => void;
 }
 function useMap(props: UseMapProps) {
-  const { markers, currentMarker, tileLayer, onSelectMarker, onSelectOnMap } = props;
+  const { markers, currentMarker, tileLayer, onSelectMarker, onSelectOnMap, zoomToMarker } = props;
 
   const mapRef = React.useRef<Leaflet.Map | null>(null);
   const markersRef = React.useRef<Leaflet.Marker[]>([]);
@@ -87,6 +90,20 @@ function useMap(props: UseMapProps) {
     const attribution = document.getElementsByClassName("leaflet-control-container")[0];
     if (attribution) attribution.remove();
   }
+
+  const zoomTo = (markerId: number) => {
+    const marker = markers.find(marker => marker.id === markerId);
+    if (marker && mapRef.current) {
+      mapRef.current.setView([
+        marker.coordinate.lat, 
+        marker.coordinate.lng
+      ], 19, {
+        animate: true,
+        duration: 0.8,
+        easeLinearity: 1,
+      });
+    }
+  };
 
   // create intance map
   React.useEffect(() => {
@@ -142,6 +159,10 @@ function useMap(props: UseMapProps) {
       }
     };
   }, [ markers ]);
+
+  React.useEffect(() => {
+    if (zoomToMarker) zoomTo(zoomToMarker.id);
+  }, [ zoomToMarker ])
 
   // change map tile layer
   React.useEffect(() => {

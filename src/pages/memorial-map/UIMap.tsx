@@ -6,10 +6,11 @@ import { MemorialMapApi } from "api";
 import { DivUtils, ZmpSDK } from "utils";
 import { ServerResponse, MemorialLocation } from "types";
 import { useAppContext, useNotification, usePageContext, useRequestLocationContext } from "hooks";
-import { Header, Loading, CommonIcon, WorldMap, MapCoordinate, MapMarker, WorldMapConfig, MapTile, Toolbar } from "components";
+import { Header, Loading, CommonIcon, WorldMap, MapCoordinate, MapMarker, WorldMapConfig, MapTile, Toolbar, Selection, BeanObserver, SelectionOption } from "components";
 
 import { UILocation } from "./UILocation";
 import { UICreateLocationForm } from "./UICreateLocation";
+import classNames from "classnames";
 
 function useCurrentLocation() {
   const { needLocation, requestLocation } = useRequestLocationContext();
@@ -128,14 +129,15 @@ export function UIMap() {
 
   const memoizedMarkers = React.useMemo(() => {
     return markers;
-  }, [markers]);
+  }, [ markers ]);
 
-  const [ mapTile, setMapTile ]         = React.useState<MapTile>({
+  const [ mapTile, setMapTile ] = React.useState<MapTile>({
     url: WorldMapConfig.defaultTileLayer,
     maxZoom: WorldMapConfig.defaultMaxZoom
   });
 
   const [ selected, setSelected ]       = React.useState<MemorialLocation | null>(null);
+  const [ zoomTo, setZoomTo ]           = React.useState<MemorialLocation | null>(null);
   const [ coordinate, setCoordinate ]   = React.useState<MapCoordinate | null>(null);
 
   const [ requestInfo, setRequestInfo ]     = React.useState<boolean>(false);
@@ -192,15 +194,19 @@ export function UIMap() {
       requestLocation();
       return;
     }
-    // if (!permissions.canModerate) {
-    //   warningToast(t("Bạn không có quyền tạo Di tích"));
-    //   return;
-    // }
+    if (!permissions.canModerate) {
+      warningToast(t("Bạn không có quyền tạo Di tích"));
+      return;
+    }
     setCoordinate(coordinate)
     setRequestCreate(true);
   }
 
   const onChangeMapTerrain = (terrain: MapTile) => setMapTile(terrain);
+
+  const onChooseLocation = (marker: MemorialLocation) => {
+    setZoomTo(marker);
+  }
 
   const renderContainer = () => {
     if (loading) {
@@ -212,6 +218,19 @@ export function UIMap() {
     } else {
       return (
         <div className="relative">
+          {/* search bar */}
+          <Selection
+            label={""} field="" observer={new BeanObserver({}, () => {})}
+            options={markers.map(marker => ({
+              label: marker.name,
+              value: marker
+            }))}
+            onChange={(selection: SelectionOption) => {
+              onChooseLocation(selection.value as MemorialLocation);
+            }}
+            className="absolute top-2 px-2 w-[100vw]"
+            style={{ zIndex: 999, marginTop: `calc(var(--zaui-safe-area-inset-top, 0px) + calc(var(--header-height)))` }}
+          />
           {/* controller */}
           <Toolbar justify="between">
             <Button size="small" onClick={onLocateCurrentLocation} variant="secondary">
@@ -241,12 +260,12 @@ export function UIMap() {
           </Toolbar>
           {/* map */}
           <WorldMap
-            tileLayer={mapTile}
             height={"100vh"}
+            tileLayer={mapTile}
             markers={memoizedMarkers}
+            zoomToMarker={zoomTo}
             currentMarker={currentLocation as MapCoordinate}
-            onSelectMarker={onSelect}
-            onSelectOnMap={onSelectOnMap}
+            onSelectMarker={onSelect} onSelectOnMap={onSelectOnMap}
           />
         </div>
       )
