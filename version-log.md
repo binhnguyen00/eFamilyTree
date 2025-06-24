@@ -13,6 +13,7 @@
 #### 3. Di tích
   - Người dùng có thể tìm kiếm di tích.
   - Thay đổi icon trên bản đồ, phân biệt di tích và mộ người đã khuất trong dòng họ
+
     <div style="display: flex; gap: 1rem; flex-direction: row">
       <img src="./static/v1.6.8/3.png" width="200px"/>
     </div>
