@@ -35,6 +35,7 @@ export function UISocialPost() {
           },
           successCB: (result: ServerResponse) => {
             onSuccess(t("Thành công"));
+            goBack();
           },
           failCB: () => {
             onFail(t("Thất bại"));
@@ -72,7 +73,7 @@ export function UISocialPost() {
           <Input label={t("tiêu đề")} value={observer.getBean().title} name="title" onChange={observer.watch}/>
           <RichTextEditor
             field="content" observer={observer} height={DivUtils.calculateHeight(120)} value={observer.getBean().content}
-            placeholder={hasContent ? `${t("Bài viết")} của ${name}` : t("Bắt đầu viết bài...")}
+            placeholder={hasContent ? `${t("Bài viết")} của ${observer.getBean().creatorName}` : t("Bắt đầu viết bài...")}
           />
           <MarginToolbar/>
           <Toolbar hide={!permissions.canModerate}>

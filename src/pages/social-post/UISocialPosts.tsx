@@ -109,17 +109,22 @@ export function UISocialPosts() {
   const renderPosts = React.useMemo(() => {
     if (!posts.length) return [];
     
+    const fallbackThumbnail = "https://placehold.jp/30/ededed/000000/480x270.png?text=%E1%BA%A2nh%20B%C3%ACa";
     const html: React.ReactNode[] = posts.map((post: SocialPost, index: number) => {
       const title: string     = post.title || "";
       const content: string   = post.content || "";
       const thumbnail: string = post.thumbnail || "";
-      const imgSrc: string    = `${SocialPostApi.getServerBaseUrl()}${thumbnail}`;
+      const hasThumbnail      = !!thumbnail;
+      const imgSrc: string    = hasThumbnail ? `${SocialPostApi.getServerBaseUrl()}${thumbnail}` : fallbackThumbnail;
       const isOwner: boolean  = post.creatorId === userInfo.id;
       return (
         <div key={`post-${index}`} className="flex-v box-shadow rounded p-2 button">
           <PhotoProvider maskOpacity={0.5} maskClosable pullClosable bannerVisible={false}>
             <PhotoView src={imgSrc}>
-              <img src={imgSrc} alt={title} className="rounded object-cover w-full h-60"/>
+              <img 
+                src={imgSrc} alt={title} className="rounded object-cover w-full h-60"
+                onError={(e) => e.currentTarget.src = fallbackThumbnail}
+              />
             </PhotoView>
           </PhotoProvider>
           <div onClick={() => goToPost(post, permissions.canModerate && isOwner ? PageMode.EDIT : PageMode.VIEW)}>
@@ -173,13 +178,15 @@ export function UISocialPosts() {
 
         <div className="absolute bottom-4 right-3 flex-v">
           <Button
-            size="small" variant="primary" prefixIcon={<CommonIcon.Plus/>} className={classNames(!permissions.canModerate && "hide")}
+            size="small" variant="primary" prefixIcon={<CommonIcon.Plus/>} 
+            className={classNames(!permissions.canModerate && "hide")}
             onClick={() => createPost({ title: "Kêu gọi đóng quỹ", content: "", type: SocialPostType.FUND })}
           >
             {t("quỹ")}
           </Button>
           <Button
-            size="small" variant="primary" prefixIcon={<CommonIcon.Plus/>} className={classNames(!permissions.canModerate && "hide")}
+            size="small" variant="primary" prefixIcon={<CommonIcon.Plus/>} 
+            className={classNames(!permissions.canModerate && "hide")}
             onClick={() => createPost({ title: "Bài đăng mới", content: "", type: SocialPostType.NEWS })}
           >
             {t("bài đăng")}
