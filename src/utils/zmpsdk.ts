@@ -101,7 +101,7 @@ export class ZmpSDK {
     })
   }
 
-  public static openWebview(url: string, successCB?: CallBack, failCB?: CallBack) {
+  public static openWebview({ url, successCB, failCB }: { url: string, successCB?: CallBack, failCB?: CallBack }) {
     openWebview({
       url: url,
       config: {

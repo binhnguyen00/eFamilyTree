@@ -4,7 +4,7 @@ import { Avatar, Button, Grid, Text } from "zmp-ui";
 
 import { UserSettingApi } from "api";
 import { ServerResponse } from "types";
-import { CommonUtils, DivUtils } from "utils";
+import { CommonUtils, DivUtils, ZmpSDK } from "utils";
 import { CommonIcon, Header, ScrollableDiv } from "components";
 import { useAccountContext, useAppContext, useNotification, useRequestPhoneContext, useRouteNavigate } from "hooks";
 
@@ -25,6 +25,18 @@ export function UIAccount() {
 function UIAccountContainer() {
   const { zaloUserInfo } = useAppContext();
   const { goTo } = useRouteNavigate();
+
+  const openWebView = () => {
+    ZmpSDK.openWebview({
+      url: "https://giapha.mobifone5.vn/",
+      successCB: (res: any) => {
+        console.log(res);
+      },
+      failCB: (err: any) => {
+        console.log(err);
+      },
+    })
+  }
 
   return (
     <ScrollableDiv 
@@ -50,6 +62,13 @@ function UIAccountContainer() {
 
       <Button variant="secondary" onClick={() => goTo({ path: "register/clan" })}>
         {t("register_clan")}
+      </Button>
+
+      <Button variant="secondary" onClick={openWebView}>
+        <div className="flex-h">
+          <p> {t("tới trang chủ")} </p> 
+          <CommonIcon.ArrowRight size={18}/>
+        </div>
       </Button>
 
       <div className="p-3 rounded bg-secondary">
