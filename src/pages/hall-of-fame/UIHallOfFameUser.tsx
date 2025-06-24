@@ -45,7 +45,7 @@ export function UIHallOfFameUserDetails(props: UIHallOfFameUserProps) {
 
   const onSave = () => {
     loadingToast({
-      content: <p> {t("đang lưu...")} </p>,
+      content: <p> {t("Đang lưu...")} </p>,
       operation: (successToast, dangerToast) => {
         HallOfFameApi.saveUserToHallOfFame({
           userId: userInfo.id,
@@ -55,13 +55,13 @@ export function UIHallOfFameUserDetails(props: UIHallOfFameUserProps) {
             if (result.status === "error") {
               dangerToast(t("lưu thất bại"))
             } else {
-              successToast(t("lưu thành công"))
+              successToast(t("Lưu thành công"))
               if (onReloadParent) onReloadParent();
               onClose();
             }
           }, 
           fail: () => {
-            dangerToast(t("lưu thất bại"))
+            dangerToast(t("Lưu thất bại"))
           }
         })
       }
@@ -70,7 +70,7 @@ export function UIHallOfFameUserDetails(props: UIHallOfFameUserProps) {
 
   const onDelete = () => {
     loadingToast({
-      content: <p> {t("đang xoá...")} </p>,
+      content: <p> {t("Đang xoá...")} </p>,
       operation: (successToast, dangerToast) => {
         HallOfFameApi.removeUserFromHallOfFame({
           userId: userInfo.id,
@@ -79,15 +79,15 @@ export function UIHallOfFameUserDetails(props: UIHallOfFameUserProps) {
           typeId: observer.getBean().typeId,
           success: (result: ServerResponse) => {
             if (result.status === "error") {
-              dangerToast(t("xoá thất bại"))
+              dangerToast(t("Xoá thất bại"))
             } else {
-              successToast(t("xoá thành công"))
+              successToast(t("Xoá thành công"))
               if (onReloadParent) onReloadParent();
               onClose();
             }
           }, 
           fail: () => {
-            dangerToast(t("xoá thất bại"))
+            dangerToast(t("Xoá thất bại"))
           }
         })
       }
@@ -98,9 +98,9 @@ export function UIHallOfFameUserDetails(props: UIHallOfFameUserProps) {
     if (loading) {
       return <Loading/>
     } else if (error) {
-      return <Info title={t("Chưa có dữ liệu")} message={t("hãy thử lại")}/>
+      return <Info title={t("Chưa có dữ liệu")} message={t("Hãy thử lại")}/>
     } else if (data === null) {
-      return <Info title={t("Chưa có dữ liệu")} message={t("hãy thử lại")}/>
+      return <Info title={t("Chưa có dữ liệu")} message={t("Hãy thử lại")}/>
     } else {
 
       return (

@@ -42,7 +42,7 @@ export function UILocation(props: UILocationProps) {
 
   const onDelete = () => {
     loadingToast({
-      content: <p> {t("đang xử lý...")} </p>,
+      content: <p> {t("Đang xử lý...")} </p>,
       operation: (successToastCB, dangerToastCB) => {
         const success = (result: ServerResponse) => {
           if (result.status === "error") {
@@ -69,11 +69,11 @@ export function UILocation(props: UILocationProps) {
 
   const onSave = () => {
     if (!observer.getBean().name) {
-      dangerToast(t("nhập đủ dữ liệu"));
+      dangerToast(t("Nhập đủ dữ liệu"));
       return;
     }
     loadingToast({
-      content: <p> {t("đang xử lý...")} </p>,
+      content: <p> {t("Đang xử lý...")} </p>,
       operation: (successToastCB, dangerToastCB) => {
         MemorialMapApi.save({
           record: observer.getBean(), 
@@ -203,20 +203,20 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
           const raws: any[] = response.data;
           const newPhotos: Photo[] = CommonUtils.convertToPhoto(raws, "location_id");
           setPhotos(newPhotos);
-          successCB(t("lưu thành công"));
+          successCB(t("Lưu thành công"));
         } else {
-          dangerCB(t("lưu thất bại"));
+          dangerCB(t("Lưu thất bại"));
         }
       },
       fail: () => {
-        dangerCB(t("lưu thất bại"));
+        dangerCB(t("Lưu thất bại"));
       }
     })
   }
 
   const onRemovePhotos = async (): Promise<void> => {
     if (selectedPhotos.length === 0) {
-      warningToast(t("chọn ít nhất 1 ảnh"));
+      warningToast(t("Chọn ít nhất 1 ảnh"));
       return;
     }
     try {
@@ -230,16 +230,16 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
         id      : observer.getBean().id,
         photoIds: selectedPhotos.map(photo => photo.id),
         success: () => {
-          successToast(t("xóa ảnh thành công"));
+          successToast(t("Xóa ảnh thành công"));
         },
         fail: () => {
-          dangerToast(t("xóa ảnh thất bại, vui lòng thử lại"));
+          dangerToast(t("Xóa ảnh thất bại, vui lòng thử lại"));
         }
       })
       setSelectedPhotos([]);
       setIsSelecting(false);
     } catch (error) {
-      dangerToast(t("xóa ảnh thất bại, vui lòng thử lại"));
+      dangerToast(t("Xóa ảnh thất bại, vui lòng thử lại"));
     }
   };
 
@@ -248,7 +248,7 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
       howMany: 5, 
       success: async (files: any[]) => {
         if (photos.length + files.length > 5) {
-          dangerToast(t("chọn tối đa 5 ảnh"));
+          dangerToast(t("Chọn tối đa 5 ảnh"));
           return;
         }
         const urls: string[] = [ 
@@ -258,7 +258,7 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
         const base64s = await CommonUtils.blobUrlsToBase64s(urls);
         onSavePhotos(base64s, successToast, dangerToast);
       },
-      fail: () => dangerToast(t("chọn tối đa 5 ảnh"))
+      fail: () => dangerToast(t("Chọn tối đa 5 ảnh"))
     });
   }
 

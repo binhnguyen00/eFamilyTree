@@ -65,7 +65,7 @@ export function UICreateTransaction(props: UICreateTransactionProps) {
           success: (response: ServerResponse) => {
             if (response.status === "success") {
               const data: Transaction = response.data;
-              onSuccess(t("lưu thành công"));
+              onSuccess(t("Lưu thành công"));
               onCreate({
                 ...data,
                 type: transactionType,

@@ -48,14 +48,16 @@ function UISocialPosts(props: UISocialPostsProps) {
   const renderPosts = () => {
     const html: React.ReactNode[] = React.useMemo(() => {
       if (!posts.length) return [];
-
+      
+      const fallbackThumbnail = "https://placehold.jp/30/ededed/000000/480x270.png?text=%E1%BA%A2nh%20B%C3%ACa";
       const result = [] as React.ReactNode[];
       for (let i = 1; i <= posts.length; i++) {
         if (i === 4) break; // Only render the first 3 posts
         const post = posts[i - 1];
         const title = post["title"] as string;
         const thumbnail = post["thumbnail"] as string;
-        const imgSrc = `${SocialPostApi.getServerBaseUrl()}${thumbnail}`;
+        const hasThumbnail = !!thumbnail;
+        const imgSrc = hasThumbnail ? `${SocialPostApi.getServerBaseUrl()}${thumbnail}` : fallbackThumbnail;
         const imgStyle = { width: 300, height: 180, objectFit: 'cover', maxWidth: "unset" } as React.CSSProperties;
         const content = post["content"];
 
@@ -70,8 +72,8 @@ function UISocialPosts(props: UISocialPostsProps) {
             </Text.Title>
             <img 
               className="button border-secondary"
-              src={imgSrc || undefined} 
-              style={imgStyle}
+              src={imgSrc} style={imgStyle}
+              onError={(e) => e.currentTarget.src = fallbackThumbnail}
               onClick={() => goToPostDetail(title, content)}
             />
           </div>
