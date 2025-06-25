@@ -317,10 +317,15 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
   return (
     <div className="flex-v flex-grow-0">
       <div className="flex-h flex-grow-0 justify-between">
-        <Text size={"small"} className="bold flex-h content-center align-start" style={{ minWidth: 120 }}>{`${t("Ảnh")} (${photos.length})`}</Text>
+        <Text
+          size={"small"} style={{ minWidth: 120 }}
+          className="bold flex-h content-center align-start"
+        >
+          {`${t("Ảnh")} (${photos.length})`}
+        </Text>
         <div className="flex-h">
           <Button
-            size="small" variant="tertiary"
+            size="small" variant="secondary"
             className={classNames(withEase, !permissions.canModerate && "hide")}
             prefixIcon={isSelecting && <CommonIcon.Check />} onClick={onSelectionMode}
           >
@@ -328,7 +333,7 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
           </Button>
           {isSelecting && selectedPhotos.length > 0 && (
             <Button
-              size="small" variant="tertiary"
+              size="small" variant="secondary"
               className={classNames(withEase, !permissions.canModerate && "hide")}
               prefixIcon={<CommonIcon.RemovePhoto />} onClick={onRemovePhotos}
             >

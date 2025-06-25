@@ -35,13 +35,13 @@ export function UICreateLocationForm(props: UICreateLocationFormProps) {
 
   const onCreate = async () => {
     if (!observer.getBean().name) {
-      dangerToast(t("nhập đủ thông tin"))
+      dangerToast(t("Nhập đủ thông tin"))
       return;
     }
     
     const imgBase64s: string[] = observer.getBean().photoUrl || [];
     loadingToast({
-      content: <p> {t("đang xử lý...")} </p>,
+      content: <p> {t("Đang lưu")} </p>,
       operation: (successToastCB, dangerToastCB) => {
         MemorialMapApi.create({
           record: {
@@ -55,9 +55,9 @@ export function UICreateLocationForm(props: UICreateLocationFormProps) {
           },
           success: (result: ServerResponse) => {
             if (result.status === "error") {
-              dangerToastCB(t("tạo không thành công"));
+              dangerToastCB(t("Tạo không thành công"));
             } else {
-              successToastCB(t("tạo thành công"));
+              successToastCB(t("Tạo thành công"));
               const record = result.data;
               if (onSuccess) onSuccess({
                 id:           record.id,
@@ -74,7 +74,7 @@ export function UICreateLocationForm(props: UICreateLocationFormProps) {
               } as MemorialLocation);
             }
           },
-          fail: () => dangerToastCB(t("tạo không thành công"))
+          fail: () => dangerToastCB(t("Tạo không thành công"))
         });
       }
     })
@@ -156,7 +156,7 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
 
   const onRemovePhotos = async (): Promise<void> => {
     if (selectedPhotos.length === 0) {
-      warningToast(t("chọn ít nhất 1 ảnh"));
+      warningToast(t("Chọn ít nhất 1 ảnh"));
       return;
     }
     try {
@@ -169,7 +169,7 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
       setSelectedPhotos([]);
       setIsSelecting(false);
     } catch (error) {
-      dangerToast(t("xóa ảnh thất bại, vui lòng thử lại"));
+      dangerToast(t("Xóa ảnh thất bại, vui lòng thử lại"));
     }
   };
 
@@ -178,7 +178,7 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
       howMany: 5,
       success: async (files: any[]) => {
         if (photoUrls.length + files.length > 5) {
-          warningToast(t("chọn tối đa 5 ảnh"));
+          warningToast(t("Chọn tối đa 5 ảnh"));
           return;
         }
         const urls: string[] = [...photoUrls, ...files.map((file) => file.path)];
@@ -186,7 +186,7 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
         setPhotoUrls(urls);
         observer.update("photoUrl", base64s);
       },
-      fail: () => warningToast(t("chọn tối đa 5 ảnh")),
+      fail: () => warningToast(t("Chọn tối đa 5 ảnh")),
     });
   };
 
@@ -230,11 +230,11 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
       <div className="flex-h flex-grow-0 justify-between">
         <Text size={"small"} className="bold flex-h content-center align-start" style={{ minWidth: 120 }}>{`${t("Ảnh")} (${photoUrls.length})`}</Text>
         <div className="flex-h">
-          <Button size="small" className={withEase} variant="tertiary" prefixIcon={isSelecting && <CommonIcon.Check />} onClick={onSelectionMode}>
+          <Button size="small" className={withEase} variant="secondary" prefixIcon={isSelecting && <CommonIcon.Check />} onClick={onSelectionMode}>
             {isSelecting ? t("xong") : t("select")}
           </Button>
           {isSelecting && selectedPhotos.length > 0 && (
-            <Button size="small" className={withEase} variant="tertiary" prefixIcon={<CommonIcon.RemovePhoto />} onClick={onRemovePhotos}>
+            <Button size="small" className={withEase} variant="secondary" prefixIcon={<CommonIcon.RemovePhoto />} onClick={onRemovePhotos}>
               {t("delete")}
             </Button>
           )}
@@ -246,7 +246,7 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
           {photoUrls.length < 5 && (
             <SizedBox
               className={`${withEase} button flex-h text-underline`}
-              width={photoWidth} height={photoHeight} onClick={onAddPhotos}
+              width={photoWidth} height={photoHeight} onClick={onAddPhotos} border borderRadius={0}
             >
               <CommonIcon.AddPhoto /> {t("add")}
             </SizedBox>

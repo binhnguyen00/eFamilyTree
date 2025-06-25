@@ -26,7 +26,6 @@ export function SizedBox(props: SizedBoxProps) {
     onClick, 
   } = props;
 
-  const requireBorder = borderRadius || border;
   if (center === null || center === undefined) center = true;
   if (center) {
     style = {
@@ -49,7 +48,7 @@ export function SizedBox(props: SizedBoxProps) {
         height: height,
         borderTop: (borderTop) ? "0.5px solid" : undefined,
         borderBottom: (borderBottom) ? "0.5px solid" : undefined,
-        borderRadius: (requireBorder) ? (borderRadius || 10) : "none",
+        borderRadius: (border) ? (borderRadius !== undefined ? borderRadius : 10) : undefined,
         padding: `${padding}px`,
         paddingTop: `${paddingTop}px`,
         paddingBottom: `${paddingBottom}px`,
