@@ -10,16 +10,15 @@ import { Header, Loading, CommonIcon, WorldMap, MapCoordinate, MapMarker, WorldM
 
 import { UILocation } from "./UILocation";
 import { UICreateLocationForm } from "./UICreateLocation";
-import classNames from "classnames";
 
 function useCurrentLocation() {
   const { needLocation, requestLocation } = useRequestLocationContext();
   const { loadingToast, warningToast } = useNotification();
 
-  const [ currentLocation, setLocation ] = React.useState<MapCoordinate | null>(null);
-  const [ loading, setLoading ] = React.useState<boolean>(true);
-  const [ error, setError ] = React.useState<boolean>(false);
-  const [ reload, setReload ] = React.useState<boolean>(false);
+  const [currentLocation, setLocation] = React.useState<MapCoordinate | null>(null);
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [error, setError] = React.useState<boolean>(false);
+  const [reload, setReload] = React.useState<boolean>(false);
 
   const refresh = () => setReload(!reload);
 
@@ -64,7 +63,7 @@ function useCurrentLocation() {
         }
       })
     }
-  }, [ needLocation, reload ])
+  }, [needLocation, reload])
 
   return { currentLocation, error, loading, refresh }
 }
@@ -72,10 +71,10 @@ function useCurrentLocation() {
 function useMap() {
   const { userInfo } = useAppContext();
 
-  const [ markers, setMarkers ] = React.useState<MemorialLocation[]>([]);
-  const [ loading, setLoading ] = React.useState<boolean>(true);
-  const [ error, setError ] = React.useState<boolean>(false);
-  const [ reload, setReload ] = React.useState<boolean>(false);
+  const [markers, setMarkers] = React.useState<MemorialLocation[]>([]);
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [error, setError] = React.useState<boolean>(false);
+  const [reload, setReload] = React.useState<boolean>(false);
 
   const refresh = () => setReload(!reload);
 
@@ -92,29 +91,29 @@ function useMap() {
           const data = result.data as any[];
           const locations = data.map((location) => {
             return {
-              id:           location.id,
-              name:         location.name,
-              description:  location.description,
+              id: location.id,
+              name: location.name,
+              description: location.description,
               coordinate: {
                 lat: parseFloat(location.lat),
                 lng: parseFloat(location.lng)
               },
-              photoUrl:     location.images,
-              memberId:     location.member_id,
-              memberName:   location.member_name,
+              photoUrl: location.images,
+              memberId: location.member_id,
+              memberName: location.member_name,
             } as MemorialLocation;
           })
           setMarkers(locations);
         } else {
           setError(true);
         }
-      }, 
+      },
       fail: () => {
         setLoading(false);
         setError(true);
       }
     });
-  }, [ reload ]);
+  }, [reload]);
 
   return { markers, loading, error, refresh }
 }
@@ -125,23 +124,23 @@ export function UIMap() {
   const { loadingToast, warningToast } = useNotification();
   const { needLocation, requestLocation } = useRequestLocationContext();
   const { currentLocation, refresh: locateCurrentLocation } = useCurrentLocation();
-  const { markers, loading, error, refresh: refreshMap } = useMap();
+  const { markers, loading, refresh: refreshMap } = useMap();
 
   const memoizedMarkers = React.useMemo(() => {
     return markers;
-  }, [ markers ]);
+  }, [markers]);
 
-  const [ mapTile, setMapTile ] = React.useState<MapTile>({
+  const [mapTile, setMapTile] = React.useState<MapTile>({
     url: WorldMapConfig.defaultTileLayer,
     maxZoom: WorldMapConfig.defaultMaxZoom
   });
 
-  const [ selected, setSelected ]       = React.useState<MemorialLocation | null>(null);
-  const [ zoomTo, setZoomTo ]           = React.useState<MemorialLocation | null>(null);
-  const [ coordinate, setCoordinate ]   = React.useState<MapCoordinate | null>(null);
+  const [selected, setSelected] = React.useState<MemorialLocation | null>(null);
+  const [zoomTo, setZoomTo] = React.useState<MemorialLocation | null>(null);
+  const [coordinate, setCoordinate] = React.useState<MapCoordinate | null>(null);
 
-  const [ requestInfo, setRequestInfo ]     = React.useState<boolean>(false);
-  const [ requestCreate, setRequestCreate ] = React.useState<boolean>(false);
+  const [requestInfo, setRequestInfo] = React.useState<boolean>(false);
+  const [requestCreate, setRequestCreate] = React.useState<boolean>(false);
 
   const onSelect = (marker: MapMarker) => {
     if (needLocation) {
@@ -161,13 +160,13 @@ export function UIMap() {
             } else {
               const data = result.data as any;
               setSelected({
-                id:           data.id,
-                name:         data.name,
-                description:  data.description,
-                clanId:       data.clan_id,
-                memberId:     data.member_id,
-                memberName:   data.member_name,
-                photos:       data.images,
+                id: data.id,
+                name: data.name,
+                description: data.description,
+                clanId: data.clan_id,
+                memberId: data.member_id,
+                memberName: data.member_name,
+                photos: data.images,
                 coordinate: {
                   lat: parseFloat(data.lat),
                   lng: parseFloat(data.lng)
@@ -212,7 +211,7 @@ export function UIMap() {
     if (loading) {
       return (
         <div className="container bg-white">
-          <Loading/>
+          <Loading />
         </div>
       )
     } else {
@@ -220,11 +219,12 @@ export function UIMap() {
         <div className="relative">
           {/* search bar */}
           <Selection
-            label={""} field="" observer={new BeanObserver({}, () => {})}
+            label={""} field="" observer={new BeanObserver({}, () => { })}
             options={markers.map(marker => ({
               label: marker.name,
               value: marker
             }))}
+            isSearchable
             onChange={(selection: SelectionOption) => {
               onChooseLocation(selection.value as MemorialLocation);
             }}
@@ -234,28 +234,28 @@ export function UIMap() {
           {/* controller */}
           <Toolbar justify="between">
             <Button size="small" onClick={onLocateCurrentLocation} variant="secondary">
-              <CommonIcon.MapPin size={"1.5rem"}/>
+              <CommonIcon.MapPin size={"1.5rem"} />
             </Button>
-            <Button 
+            <Button
               size="small" variant="secondary"
               onClick={() => onChangeMapTerrain({
                 url: WorldMapConfig.defaultTileLayer,
                 maxZoom: WorldMapConfig.defaultMaxZoom
               })}
             >
-              <CommonIcon.Map2 size={"1.5rem"}/>
+              <CommonIcon.Map2 size={"1.5rem"} />
             </Button>
-            <Button 
+            <Button
               size="small" variant="secondary"
               onClick={() => onChangeMapTerrain({
                 url: WorldMapConfig.satelliteTileLayer,
                 maxZoom: WorldMapConfig.satelliteMaxZoom
-              })} 
+              })}
             >
-              <CommonIcon.Terrain size={"1.5rem"}/>
+              <CommonIcon.Terrain size={"1.5rem"} />
             </Button>
             <Button size="small" onClick={refreshMap} variant="secondary" loading={loading}>
-              <CommonIcon.Reload size={"1.5rem"}/>
+              <CommonIcon.Reload size={"1.5rem"} />
             </Button>
           </Toolbar>
           {/* map */}
@@ -274,7 +274,7 @@ export function UIMap() {
 
   return (
     <>
-      <Header title={t("memorial_location")}/>
+      <Header title={t("memorial_location")} />
 
       <div className="bg-white">
         {renderContainer()}
@@ -287,13 +287,13 @@ export function UIMap() {
       />
 
       <Sheet visible={requestCreate} onClose={() => setRequestCreate(false)} height={DivUtils.calculateHeight(0)}>
-        <UICreateLocationForm 
-          key={coordinate ? coordinate.lat : "create-location"} 
+        <UICreateLocationForm
+          key={coordinate ? coordinate.lat : "create-location"}
           coordinate={coordinate!}
           onSuccess={(record: MemorialLocation) => {
             refreshMap();
             setRequestCreate(false);
-          }} 
+          }}
         />
       </Sheet>
     </>

@@ -1,7 +1,6 @@
 import React from "react";
 import classNames from "classnames";
 import { t } from "i18next";
-import { ToastContent } from "react-toastify";
 import { PhotoProvider, PhotoView } from "react-photo-view"
 import { Button, Grid, Input, Modal, Sheet, Text } from "zmp-ui";
 
@@ -9,7 +8,7 @@ import { MemorialMapApi } from "api";
 import { CommonUtils, DivUtils, ZmpSDK } from "utils";
 import { ServerResponse, Photo, PageContextProps, MemorialLocation } from "types";
 import { useNotification, useAppContext, useBeanObserver, useFamilyTree } from "hooks";
-import { BeanObserver, CommonIcon, Label, Selection, SelectionOption, SizedBox } from "components";
+import { BeanObserver, CommonIcon, Label, MarginToolbar, ScrollableDiv, Selection, SelectionOption, SizedBox, Toolbar } from "components";
 
 interface UILocationProps extends PageContextProps {
   data: MemorialLocation | null;
@@ -25,18 +24,18 @@ export function UILocation(props: UILocationProps) {
   const { dangerToast, loadingToast } = useNotification();
 
   const observer = useBeanObserver({
-    id:           data.id,
-    name:         data.name,
-    description:  data.description,
-    coordinate:   data.coordinate,
-    clanId:       data.clanId,
-    photoUrl:     data.photoUrl,
-    photos:       data.photos,
-    memberId:     data.memberId,
-    memberName:   data.memberName,
+    id: data.id,
+    name: data.name,
+    description: data.description,
+    coordinate: data.coordinate,
+    clanId: data.clanId,
+    photoUrl: data.photoUrl,
+    photos: data.photos,
+    memberId: data.memberId,
+    memberName: data.memberName,
   } as MemorialLocation);
 
-  const [ warning, setWarning ] = React.useState(false);
+  const [warning, setWarning] = React.useState(false);
 
   const onDelete = () => {
     loadingToast({
@@ -56,9 +55,10 @@ export function UILocation(props: UILocationProps) {
           onClose();
         }
         MemorialMapApi.delete({
-          userId: userInfo.id, 
-          clanId: userInfo.clanId, 
-          targetId: observer.getBean().id}, 
+          userId: userInfo.id,
+          clanId: userInfo.clanId,
+          targetId: observer.getBean().id
+        },
           success, fail
         );
       }
@@ -74,7 +74,7 @@ export function UILocation(props: UILocationProps) {
       content: <p> {t("Đang xử lý...")} </p>,
       operation: (successToastCB, dangerToastCB) => {
         MemorialMapApi.save({
-          record: observer.getBean(), 
+          record: observer.getBean(),
           success: (result: ServerResponse) => {
             if (result.status === "error") {
               dangerToastCB(`${t("save")} ${t("fail")}`);
@@ -82,7 +82,7 @@ export function UILocation(props: UILocationProps) {
               successToastCB(`${t("save")} ${t("success")}`);
               if (onReloadParent) onReloadParent();
             }
-          }, 
+          },
           fail: () => dangerToastCB(`${t("save")} ${t("fail")}`)
         });
       }
@@ -91,7 +91,7 @@ export function UILocation(props: UILocationProps) {
 
   return (
     <Sheet
-    title={t("info")}
+      title={t("info")}
       visible={visible}
       onClose={onClose}
       height={DivUtils.calculateHeight(0)}
@@ -126,9 +126,9 @@ function UIMemorialLocationForm(props: UIMemorialLocationFormProps) {
   const { members } = useDeadMembers();
 
   return (
-    <div className="scroll-v p-3">
-      <Input 
-        label={<Label text="Tên Di Tích" required/>}
+    <ScrollableDiv className="flex-v p-3" direction="vertical" height={DivUtils.calculateHeight(0)}>
+      <Input
+        label={<Label text="Tên Di Tích" required />}
         value={observer.getBean().name} name="name"
         onChange={observer.watch} disabled={!permissions.canModerate}
       />
@@ -136,9 +136,9 @@ function UIMemorialLocationForm(props: UIMemorialLocationFormProps) {
       <Selection
         label={t("Người đã khuất")}
         observer={observer} field={"memberId"}
-        defaultValue={{ 
-          value: observer.getBean().memberId || 0, 
-          label: observer.getBean().memberName || ""  
+        defaultValue={{
+          value: observer.getBean().memberId || 0,
+          label: observer.getBean().memberName || ""
         }}
         options={members}
         onChange={(value: SelectionOption) => {
@@ -149,29 +149,31 @@ function UIMemorialLocationForm(props: UIMemorialLocationFormProps) {
       />
 
       <Input.TextArea
-        size="large" label={<Label text="Mô Tả"/>}
+        size="large" label={<Label text="Mô Tả" />}
         value={observer.getBean().description} name="description"
         onChange={(e) => observer.update("description", e.target.value)}
         disabled={!permissions.canModerate}
       />
 
-      <div className="scroll-h">
-        <Button 
-          variant="primary" size="small" className={classNames(!permissions.canModerate && "hide")}
-          onClick={onSave} prefixIcon={<CommonIcon.Save/>}
+      <Toolbar justify="start" glass={false} hide={!permissions.canModerate}>
+        <Button
+          variant="primary" size="small"
+          onClick={onSave} prefixIcon={<CommonIcon.Save />}
         >
           {t("save")}
         </Button>
-        <Button 
-          variant="primary" size="small" className={classNames(!permissions.canModerate && "hide")}
-          onClick={onDelete} prefixIcon={<CommonIcon.Trash/>}
+        <Button
+          variant="primary" size="small"
+          onClick={onDelete} prefixIcon={<CommonIcon.Trash />}
         >
           {t("delete")}
         </Button>
-      </div>
+      </Toolbar>
 
-      <UIPhotoSelector observer={observer} permissions={permissions}/>
-    </div>
+      <UIPhotoSelector observer={observer} permissions={permissions} />
+
+      <MarginToolbar />
+    </ScrollableDiv>
   )
 }
 
@@ -181,33 +183,38 @@ interface ImageSelectorProps extends PageContextProps {
 export function UIPhotoSelector(props: ImageSelectorProps) {
   const { observer, permissions } = props;
   const { userInfo, serverBaseUrl } = useAppContext();
-  const { warningToast, dangerToast, successToast } = useNotification();
+  const { warningToast, dangerToast, successToast, loadingToast } = useNotification();
   const { photoWidth, photoHeight } = { photoWidth: 100, photoHeight: 100 }
 
-  const [ isSelecting, setIsSelecting ] = React.useState<boolean>(false);
-  const [ selectedPhotos, setSelectedPhotos ] = React.useState<Photo[]>([]);
-  const [ photos, setPhotos ] = React.useState<Photo[]>(observer.getBean().photos || []);
+  const [isSelecting, setIsSelecting] = React.useState<boolean>(false);
+  const [selectedPhotos, setSelectedPhotos] = React.useState<Photo[]>([]);
+  const [photos, setPhotos] = React.useState<Photo[]>(observer.getBean().photos || []);
 
   const withEase: string = "transition-all duration-300 ease-in-out";
 
-  const onSavePhotos = (base64s: string[], successCB: (message: ToastContent) => void, dangerCB: (message: ToastContent) => void) => { 
-    MemorialMapApi.updatePhotos({
-      userId  : userInfo.id,
-      clanId  : userInfo.clanId,
-      id      : observer.getBean().id,
-      photos  : base64s,
-      success: (response: ServerResponse) => {
-        if (response.status === "success") {
-          const raws: any[] = response.data;
-          const newPhotos: Photo[] = CommonUtils.convertToPhoto(raws, "location_id");
-          setPhotos(newPhotos);
-          successCB(t("Lưu thành công"));
-        } else {
-          dangerCB(t("Lưu thất bại"));
-        }
-      },
-      fail: () => {
-        dangerCB(t("Lưu thất bại"));
+  const onSavePhotos = async (base64s: string[]) => {
+    loadingToast({
+      content: t(`Đang lưu ${base64s.length} ảnh...`),
+      operation: (successToastCB, dangerToastCB) => {
+        MemorialMapApi.updatePhotos({
+          userId: userInfo.id,
+          clanId: userInfo.clanId,
+          id: observer.getBean().id,
+          photos: base64s,
+          success: (response: ServerResponse) => {
+            if (response.status === "success") {
+              const raws: any[] = response.data;
+              const allPhotos: Photo[] = CommonUtils.convertToPhoto(raws, "location_id");
+              setPhotos(allPhotos);
+              successToastCB(t("Lưu thành công"));
+            } else {
+              dangerToastCB(t("Lưu thất bại"));
+            }
+          },
+          fail: () => {
+            dangerToastCB(t("Lưu thất bại"));
+          }
+        })
       }
     })
   }
@@ -223,9 +230,9 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
       );
       setPhotos(remainingPhotos);
       MemorialMapApi.removePhotos({
-        userId  : userInfo.id,
-        clanId  : userInfo.clanId,
-        id      : observer.getBean().id,
+        userId: userInfo.id,
+        clanId: userInfo.clanId,
+        id: observer.getBean().id,
         photoIds: selectedPhotos.map(photo => photo.id),
         success: () => {
           successToast(t("Xóa ảnh thành công"));
@@ -243,18 +250,15 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
 
   const onAddPhotos = () => {
     ZmpSDK.chooseImage({
-      howMany: 5, 
+      howMany: 5,
       success: async (files: any[]) => {
         if (photos.length + files.length > 5) {
           dangerToast(t("Chọn tối đa 5 ảnh"));
           return;
         }
-        const urls: string[] = [ 
-          ...photos.map(photo => photo.url), 
-          ...files.map(file => file.path) 
-        ];
+        const urls: string[] = [...files.map(file => file.path)];
         const base64s = await CommonUtils.blobUrlsToBase64s(urls);
-        onSavePhotos(base64s, successToast, dangerToast);
+        onSavePhotos(base64s);
       },
       fail: () => dangerToast(t("Chọn tối đa 5 ảnh"))
     });
@@ -278,30 +282,28 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
     });
   };
 
-  const renderPhotos = (): React.ReactNode => {
+  const renderPhotos = () => {
     return photos.map((photo: Photo) => {
-      const isSelected: boolean = selectedPhotos.some((p) => p.id === photo.id);
+      const photoUrl: string = `${serverBaseUrl}/${photo.url}`;
+      const isSelected: boolean = selectedPhotos.some((p: Photo) => p.id === photo.id);
+
       return (
         <div key={photo.id} className="relative" onClick={() => onSelectPhoto(photo)}>
           {isSelecting ? (
             <>
               <img
-                src={`${serverBaseUrl}/${photo.url}`}
+                src={photoUrl}
                 className="object-cover transition-opacity duration-300 ease-in-out hover:opacity-90"
                 style={{ width: photoWidth, height: photoHeight }}
               />
-              <div
-                className={`absolute bottom-2 left-2 w-7 h-7 rounded-full ${
-                  isSelected ? 'bg-primary' : 'bg-white/50'
-                }`}
-              >
+              <div className={`absolute bottom-2 left-2 w-7 h-7 rounded-full ${isSelected ? 'bg-primary' : 'bg-white/50'}`}>
                 {isSelected && <CommonIcon.CheckCircle className="text-white w-7 h-7" />}
               </div>
             </>
           ) : (
-            <PhotoView src={`${serverBaseUrl}/${photo.url}`} key={photo.id}>
+            <PhotoView src={photoUrl} key={photo.id}>
               <img
-                src={`${serverBaseUrl}/${photo.url}`}
+                src={photoUrl}
                 className="object-cover transition-opacity duration-300 ease-in-out hover:opacity-90"
                 style={{ width: photoWidth, height: photoHeight }}
               />
@@ -310,23 +312,24 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
         </div>
       );
     });
-  };
-
+  }
 
   return (
     <div className="flex-v flex-grow-0">
       <div className="flex-h flex-grow-0 justify-between">
         <Text size={"small"} className="bold flex-h content-center align-start" style={{ minWidth: 120 }}>{`${t("Ảnh")} (${photos.length})`}</Text>
         <div className="flex-h">
-          <Button 
-            size="small" className={classNames(withEase, !permissions.canModerate && "hide")} variant="tertiary" 
+          <Button
+            size="small" variant="tertiary"
+            className={classNames(withEase, !permissions.canModerate && "hide")}
             prefixIcon={isSelecting && <CommonIcon.Check />} onClick={onSelectionMode}
           >
             {isSelecting ? t("xong") : t("select")}
           </Button>
           {isSelecting && selectedPhotos.length > 0 && (
-            <Button 
-              size="small" className={classNames(withEase, !permissions.canModerate && "hide")} variant="tertiary" 
+            <Button
+              size="small" variant="tertiary"
+              className={classNames(withEase, !permissions.canModerate && "hide")}
               prefixIcon={<CommonIcon.RemovePhoto />} onClick={onRemovePhotos}
             >
               {t("delete")}
@@ -339,8 +342,8 @@ export function UIPhotoSelector(props: ImageSelectorProps) {
           {renderPhotos()}
           {photos.length < 5 && (
             <SizedBox
-              className={classNames("button", "flex-h", "text-underline", withEase, !permissions.canModerate && "hide")}
-              width={photoWidth} height={photoHeight} onClick={onAddPhotos}
+              className={classNames("button", "flex-h", "text-underline", withEase)}
+              width={photoWidth} height={photoHeight} onClick={onAddPhotos} border borderRadius={0}
             >
               <CommonIcon.AddPhoto /> {t("add")}
             </SizedBox>

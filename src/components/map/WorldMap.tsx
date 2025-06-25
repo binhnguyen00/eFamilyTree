@@ -22,18 +22,18 @@ interface WorldMapProps {
 }
 
 export function WorldMap(props: WorldMapProps) {
-  const {  
+  const {
     tileLayer, height, markers, currentMarker, markerContent, zoomToMarker,
-    onSelectMarker, onSelectOnMap 
+    onSelectMarker, onSelectOnMap
   } = props;
 
-  const { mapRef, markersRef, icon } = useMap({ 
-    tileLayer, 
-    markers, 
-    currentMarker, 
+  const { mapRef, markersRef, icon } = useMap({
+    tileLayer,
+    markers,
+    currentMarker,
     markerContent,
     zoomToMarker,
-    onSelectMarker, 
+    onSelectMarker,
     onSelectOnMap,
   });
 
@@ -68,14 +68,14 @@ function useMap(props: UseMapProps) {
   const markersRef = React.useRef<Leaflet.Marker[]>([]);
   const icon = Leaflet.divIcon({
     className: "leaflet-custom-icon",
-    html: `<div style="font-size: 2.5rem;"> 📍 </div>`,
+    html: `<div style="font-size: 2rem;"> 📍 </div>`,
     iconSize: [25, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
   })
   const deadIcon = Leaflet.divIcon({
     className: "leaflet-custom-icon",
-    html: `<div style="font-size: 2rem;"> 🪦 </div>`,
+    html: `<div style="font-size: 1.6rem;"> 🪦 </div>`,
     iconSize: [25, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
@@ -95,7 +95,7 @@ function useMap(props: UseMapProps) {
     const marker = markers.find(marker => marker.id === markerId);
     if (marker && mapRef.current) {
       mapRef.current.setView([
-        marker.coordinate.lat, 
+        marker.coordinate.lat,
         marker.coordinate.lng
       ], 19, {
         animate: true,
@@ -116,7 +116,7 @@ function useMap(props: UseMapProps) {
         duration: 3,
         easeLinearity: 1,
       });
-      
+
     Leaflet
       .tileLayer(tileLayer.url, {
         detectRetina: true,
@@ -140,7 +140,7 @@ function useMap(props: UseMapProps) {
         });
       }
     })
-    
+
     // on select on map
     mapRef.current.on('click', (e: Leaflet.LeafletMouseEvent) => {
       const { lat, lng } = e.latlng;
@@ -158,11 +158,11 @@ function useMap(props: UseMapProps) {
         markersRef.current = [];
       }
     };
-  }, [ markers ]);
+  }, [markers]);
 
   React.useEffect(() => {
     if (zoomToMarker) zoomTo(zoomToMarker.id);
-  }, [ zoomToMarker ])
+  }, [zoomToMarker])
 
   // change map tile layer
   React.useEffect(() => {
@@ -174,7 +174,7 @@ function useMap(props: UseMapProps) {
         tileSize: 256,
       })
       .addTo(mapRef.current!)
-  }, [ tileLayer ])
+  }, [tileLayer])
 
   // go to current location
   React.useEffect(() => {
@@ -186,12 +186,12 @@ function useMap(props: UseMapProps) {
       mapRef.current!.setView([
         currentMarker.lat,
         currentMarker.lng
-      ], 17.5, { 
+      ], 17.5, {
         animate: true,
         duration: 3
       });
     }
-  }, [ currentMarker ])
+  }, [currentMarker])
 
   return { mapRef, markersRef, icon }
 }
