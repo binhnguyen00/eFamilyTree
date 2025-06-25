@@ -20,7 +20,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   return (
     <NotificationContext.Provider value={ctx}>
       {children}
-      <ToastContainer/>
+      <ToastContainer />
     </NotificationContext.Provider>
   )
 }
@@ -34,9 +34,9 @@ export type NotificationCtx = {
     content,
     operation
   }: {
-    content: ToastContent, 
+    content: ToastContent,
     operation: (
-      onSuccess: (successMessage: ToastContent) => void, 
+      onSuccess: (successMessage: ToastContent) => void,
       onFail: (errorMessage: ToastContent) => void,
       onDismiss: () => void
     ) => void
@@ -84,7 +84,7 @@ function createToastConfig(type: ConfigType) {
     position: "top-center",
     transition: Slide,
     draggable: true,
-    draggablePercent: 80,
+    draggablePercent: 50,
     draggableDirection: "x",
     style: {
       width: "95vw",
@@ -117,7 +117,7 @@ function loadingToast({
 }: {
   content: ToastContent,
   operation: (
-    onSuccess: (render: ToastContent) => void, 
+    onSuccess: (render: ToastContent) => void,
     onFail: (render: ToastContent) => void,
     onDismiss: () => void
   ) => void,

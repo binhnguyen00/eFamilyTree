@@ -1,3 +1,12 @@
+# Version 1.6.9 (Thứ 4, 25/06/2025)
+### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=84)
+### Thay đổi
+- Hot fix lỗi hiển thị ảnh trong giao diện di tích
+  <div style="display: flex; gap: 1rem; flex-direction: row">
+    <img src="./static/v1.6.9/1.png" width="200px"/>
+    <img src="./static/v1.6.9/2.png" width="200px"/>
+  </div>
+
 # Version 1.6.8 (Thứ 3, 24/06/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=82)
 ### Thay đổi
@@ -14,7 +23,7 @@
   - Người dùng có thể tìm kiếm di tích.
   - Thay đổi icon trên bản đồ, phân biệt di tích và mộ người đã khuất trong dòng họ
 
-    <div style="display: flex; gap: 1rem; flex-direction: row">
+    <div style="display: flex; gap: 1rem; flex-direction: rơow">
       <img src="./static/v1.6.8/3.png" width="200px"/>
     </div>
 
