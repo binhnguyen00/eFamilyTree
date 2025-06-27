@@ -35,7 +35,7 @@
 # Version 1.6.6 (Thứ 3, 10/06/2025)
 ### [Version Demo](https://zalo.me/s/3044106383419412609/?env=TESTING&version=80)
 ### Thay đổi
-#### 1. Thay đổi thiết thanh điều khiển thành nền trong suốt. Mỗi module đều có một thanh điều hướng.
+#### 1. Thay đổi thiết kế thanh điều khiển thành nền trong suốt. Mỗi module đều có một thanh điều hướng.
 
   <div style="display: flex; gap: 1rem; flex-direction: row">
     <img src="./static/v1.6.6/1.png" width="200px"/>
